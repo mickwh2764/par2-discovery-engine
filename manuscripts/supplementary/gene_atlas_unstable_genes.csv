@@ -1,0 +1,8 @@
+Gene,Category,MYC_ON_Eigenvalue,MYC_OFF_Eigenvalue,Recovers_When_MYC_Off,Data_Source
+CCNB1,target,1.120400,0.646800,YES,GSE221103 (Neuroblastoma)
+SIRT1,target,1.279900,0.358300,YES,GSE221103 (Neuroblastoma)
+HDAC2,chromatin,1.057800,0.114200,YES,GSE221103 (Neuroblastoma)
+DNMT1,chromatin,1.001100,0.509200,YES,GSE221103 (Neuroblastoma)
+RAD51,dna_repair,1.053600,0.170800,YES,GSE221103 (Neuroblastoma)
+EGFR,signaling,1.001200,0.696800,YES,GSE221103 (Neuroblastoma)
+KLF4,stem,1.307900,0.465700,YES,GSE221103 (Neuroblastoma)

@@ -1,0 +1,85 @@
+{
+  "timestamp": "2026-01-13T07:34:15.716Z",
+  "WT-WT": {
+    "modelComparison": {
+      "ar1": 17,
+      "ar2": 1511,
+      "arx": 47,
+      "cosine": 425
+    },
+    "cvScores": {
+      "ar1": 1.3586584170969527,
+      "ar2": 1.205382350940173,
+      "arx": 1.4862608841055311,
+      "cosine": 1.0678079810327867
+    },
+    "arxVsAr2": {
+      "ar2MeanLambda": 0.9875245820946729,
+      "arxMeanLambda": 0.9889444547016573,
+      "deltaLambda": 0.0014198726069843959
+    },
+    "surrogates": {
+      "original": {
+        "meanLambda": 0.9878196077310848,
+        "stablePct": 0.33333333333333337
+      },
+      "shuffle": {
+        "meanLambda": 0.9860147579360863,
+        "stablePct": 0.33333333333333337
+      },
+      "block": {
+        "meanLambda": 0.9862379248500526,
+        "stablePct": 0
+      },
+      "phase": {
+        "meanLambda": 0.9876397962721387,
+        "stablePct": 0
+      },
+      "circular": {
+        "meanLambda": 0.9894043062210107,
+        "stablePct": 0.33333333333333337
+      }
+    }
+  },
+  "ApcKO-WT": {
+    "modelComparison": {
+      "ar1": 7,
+      "ar2": 1807,
+      "arx": 18,
+      "cosine": 168
+    },
+    "cvScores": {
+      "ar1": 1.576156603668316,
+      "ar2": 1.0647381967013974,
+      "arx": 1.1793796051169427,
+      "cosine": 1.081303536665296
+    },
+    "arxVsAr2": {
+      "ar2MeanLambda": 0.9807716202977566,
+      "arxMeanLambda": 0.9825751932118021,
+      "deltaLambda": 0.001803572914045537
+    },
+    "surrogates": {
+      "original": {
+        "meanLambda": 0.9744770829803798,
+        "stablePct": 2.666666666666667
+      },
+      "shuffle": {
+        "meanLambda": 0.9635176967963288,
+        "stablePct": 4.333333333333334
+      },
+      "block": {
+        "meanLambda": 0.9708628015056043,
+        "stablePct": 2.666666666666667
+      },
+      "phase": {
+        "meanLambda": 0.9771102683318736,
+        "stablePct": 1.6666666666666667
+      },
+      "circular": {
+        "meanLambda": 0.9767605908946551,
+        "stablePct": 2
+      }
+    }
+  }
+}

@@ -1,0 +1,376 @@
+{
+  "dataset": "GSE98965 (Baboon)",
+  "species": "Papio anubis",
+  "tissuesAnalyzed": 60,
+  "positiveTissues": 3,
+  "signTestP": 0.9999999999999982,
+  "meanDelta": -0.13722429838568376,
+  "bootstrapCI": {
+    "lower": -0.15781533927311361,
+    "upper": -0.11581928802171389
+  },
+  "ciExcludes0": true,
+  "replicationStatus": "FAILED",
+  "tissueResults": [
+    {
+      "tissue": "ADC",
+      "oncoLambda": 0.686273953132792,
+      "clockLambda": 0.9309453998374683,
+      "delta": -0.24467144670467622
+    },
+    {
+      "tissue": "ADM",
+      "oncoLambda": 0.7846588120919957,
+      "clockLambda": 0.9392695954179292,
+      "delta": -0.15461078332593348
+    },
+    {
+      "tissue": "AMY",
+      "oncoLambda": 0.8171538073641548,
+      "clockLambda": 0.969017466166901,
+      "delta": -0.15186365880274622
+    },
+    {
+      "tissue": "ANT",
+      "oncoLambda": 0.8101814698589725,
+      "clockLambda": 0.8953466474192596,
+      "delta": -0.08516517756028708
+    },
+    {
+      "tissue": "AOR",
+      "oncoLambda": 0.8905752328753804,
+      "clockLambda": 0.9554298910753997,
+      "delta": -0.06485465820001923
+    },
+    {
+      "tissue": "ARC",
+      "oncoLambda": 0.8891849636491503,
+      "clockLambda": 1.000680643134962,
+      "delta": -0.11149567948581163
+    },
+    {
+      "tissue": "ASC",
+      "oncoLambda": 0.7236353144064417,
+      "clockLambda": 0.8983351406921608,
+      "delta": -0.17469982628571912
+    },
+    {
+      "tissue": "AXL",
+      "oncoLambda": 0.623012234155022,
+      "clockLambda": 0.9322626361815244,
+      "delta": -0.30925040202650234
+    },
+    {
+      "tissue": "BLA",
+      "oncoLambda": 0.7792620982114453,
+      "clockLambda": 0.9805042866480971,
+      "delta": -0.20124218843665176
+    },
+    {
+      "tissue": "BOM",
+      "oncoLambda": 0.8614247213685592,
+      "clockLambda": 0.9320102625417667,
+      "delta": -0.07058554117320748
+    },
+    {
+      "tissue": "CEC",
+      "oncoLambda": 0.7518430518323457,
+      "clockLambda": 0.9808181709071379,
+      "delta": -0.22897511907479218
+    },
+    {
+      "tissue": "CER",
+      "oncoLambda": 0.9049889014564416,
+      "clockLambda": 0.9934574636820926,
+      "delta": -0.08846856222565103
+    },
+    {
+      "tissue": "DEC",
+      "oncoLambda": 0.6815093482863285,
+      "clockLambda": 0.9195099214941006,
+      "delta": -0.23800057320777213
+    },
+    {
+      "tissue": "DMH",
+      "oncoLambda": 0.8317461298085207,
+      "clockLambda": 0.9674629183134954,
+      "delta": -0.1357167885049747
+    },
+    {
+      "tissue": "DUO",
+      "oncoLambda": 0.6709281249955578,
+      "clockLambda": 0.864861030068015,
+      "delta": -0.1939329050724572
+    },
+    {
+      "tissue": "HAB",
+      "oncoLambda": 0.9206263128313699,
+      "clockLambda": 0.9879608601450199,
+      "delta": -0.06733454731365007
+    },
+    {
+      "tissue": "HEA",
+      "oncoLambda": 0.9546691112536282,
+      "clockLambda": 0.875635614550793,
+      "delta": 0.07903349670283522
+    },
+    {
+      "tissue": "HIP",
+      "oncoLambda": 0.739024872666371,
+      "clockLambda": 0.9497129685692451,
+      "delta": -0.21068809590287418
+    },
+    {
+      "tissue": "ILE",
+      "oncoLambda": 0.7829584487453843,
+      "clockLambda": 0.9213110296258256,
+      "delta": -0.13835258088044122
+    },
+    {
+      "tissue": "KIC",
+      "oncoLambda": 0.8455471743383198,
+      "clockLambda": 0.9079226311619996,
+      "delta": -0.06237545682367973
+    },
+    {
+      "tissue": "KIM",
+      "oncoLambda": 0.748601962852623,
+      "clockLambda": 0.9542869745502292,
+      "delta": -0.2056850116976061
+    },
+    {
+      "tissue": "LGP",
+      "oncoLambda": 0.7778916339843864,
+      "clockLambda": 0.9904935735792426,
+      "delta": -0.21260193959485618
+    },
+    {
+      "tissue": "LH",
+      "oncoLambda": 0.8470598004133936,
+      "clockLambda": 0.9787794464226004,
+      "delta": -0.13171964600920683
+    },
+    {
+      "tissue": "LIV",
+      "oncoLambda": 0.7759372053787866,
+      "clockLambda": 0.9183161688039072,
+      "delta": -0.14237896342512057
+    },
+    {
+      "tissue": "LUN",
+      "oncoLambda": 0.8107447245872554,
+      "clockLambda": 0.875691946718661,
+      "delta": -0.06494722213140558
+    },
+    {
+      "tissue": "MEL",
+      "oncoLambda": 0.7096022090072663,
+      "clockLambda": 0.9519778939885889,
+      "delta": -0.24237568498132256
+    },
+    {
+      "tissue": "MGP",
+      "oncoLambda": 0.7081405993333869,
+      "clockLambda": 0.9791864248679817,
+      "delta": -0.2710458255345948
+    },
+    {
+      "tissue": "MMB",
+      "oncoLambda": 0.9076719982451724,
+      "clockLambda": 0.9760711628161168,
+      "delta": -0.06839916457094442
+    },
+    {
+      "tissue": "MUA",
+      "oncoLambda": 0.738168763853687,
+      "clockLambda": 0.9149212920442222,
+      "delta": -0.17675252819053522
+    },
+    {
+      "tissue": "MUG",
+      "oncoLambda": 0.8850359154024129,
+      "clockLambda": 0.9794185803799133,
+      "delta": -0.09438266497750036
+    },
+    {
+      "tissue": "OES",
+      "oncoLambda": 1.0018086121216614,
+      "clockLambda": 0.9751186918023169,
+      "delta": 0.026689920319344473
+    },
+    {
+      "tissue": "OLB",
+      "oncoLambda": 0.8573578096199251,
+      "clockLambda": 0.9761077481799187,
+      "delta": -0.1187499385599936
+    },
+    {
+      "tissue": "OMF",
+      "oncoLambda": 0.8002064620099846,
+      "clockLambda": 0.9311288320243466,
+      "delta": -0.13092237001436202
+    },
+    {
+      "tissue": "ONH",
+      "oncoLambda": 0.7362379328111108,
+      "clockLambda": 0.9564227841900186,
+      "delta": -0.22018485137890775
+    },
+    {
+      "tissue": "PAN",
+      "oncoLambda": 0.8581549181739273,
+      "clockLambda": 0.9014378379776514,
+      "delta": -0.04328291980372412
+    },
+    {
+      "tissue": "PIN",
+      "oncoLambda": 0.8013102472816934,
+      "clockLambda": 0.972133990912171,
+      "delta": -0.1708237436304776
+    },
+    {
+      "tissue": "PIT",
+      "oncoLambda": 0.8118753753795825,
+      "clockLambda": 0.9852318211110173,
+      "delta": -0.17335644573143472
+    },
+    {
+      "tissue": "PON",
+      "oncoLambda": 0.7462383393880899,
+      "clockLambda": 0.9758382810512419,
+      "delta": -0.229599941663152
+    },
+    {
+      "tissue": "PRA",
+      "oncoLambda": 0.7047812938289105,
+      "clockLambda": 0.9540926269880199,
+      "delta": -0.24931133315910936
+    },
+    {
+      "tissue": "PRC",
+      "oncoLambda": 0.9783089694449993,
+      "clockLambda": 0.9803442039409522,
+      "delta": -0.0020352344959528867
+    },
+    {
+      "tissue": "PRO",
+      "oncoLambda": 0.8103082466421236,
+      "clockLambda": 0.9474102522134545,
+      "delta": -0.1371020055713309
+    },
+    {
+      "tissue": "PUT",
+      "oncoLambda": 0.7784743959727423,
+      "clockLambda": 0.9696480101186581,
+      "delta": -0.19117361414591583
+    },
+    {
+      "tissue": "PVN",
+      "oncoLambda": 0.7443892462678598,
+      "clockLambda": 0.9248790703355737,
+      "delta": -0.18048982406771386
+    },
+    {
+      "tissue": "RET",
+      "oncoLambda": 0.7104636002148769,
+      "clockLambda": 0.9786524506713437,
+      "delta": -0.2681888504564668
+    },
+    {
+      "tissue": "SCN",
+      "oncoLambda": 0.9462535586132379,
+      "clockLambda": 0.950843672694483,
+      "delta": -0.0045901140812451
+    },
+    {
+      "tissue": "SMM",
+      "oncoLambda": 0.7805633548022353,
+      "clockLambda": 0.8506497778206619,
+      "delta": -0.0700864230184266
+    },
+    {
+      "tissue": "SON",
+      "oncoLambda": 0.9462404808014295,
+      "clockLambda": 0.9488009485302934,
+      "delta": -0.002560467728863869
+    },
+    {
+      "tissue": "SPL",
+      "oncoLambda": 0.7148565205633474,
+      "clockLambda": 0.9283865144567559,
+      "delta": -0.21352999389340854
+    },
+    {
+      "tissue": "STF",
+      "oncoLambda": 0.722330141486278,
+      "clockLambda": 0.931206530477375,
+      "delta": -0.20887638899109695
+    },
+    {
+      "tissue": "SUN",
+      "oncoLambda": 0.6783443817210818,
+      "clockLambda": 0.9911658235893229,
+      "delta": -0.3128214418682411
+    },
+    {
+      "tissue": "TES",
+      "oncoLambda": 0.7800345967106296,
+      "clockLambda": 0.9625040534003726,
+      "delta": -0.18246945668974301
+    },
+    {
+      "tissue": "THA",
+      "oncoLambda": 0.831090646103707,
+      "clockLambda": 0.9829688422604702,
+      "delta": -0.15187819615676323
+    },
+    {
+      "tissue": "THR",
+      "oncoLambda": 0.9105485398194063,
+      "clockLambda": 0.8697231623857178,
+      "delta": 0.040825377433688526
+    },
+    {
+      "tissue": "VIC",
+      "oncoLambda": 0.9415077967585105,
+      "clockLambda": 0.9657520335322242,
+      "delta": -0.02424423677371368
+    },
+    {
+      "tissue": "VMH",
+      "oncoLambda": 0.8848690006044901,
+      "clockLambda": 0.9795568417957624,
+      "delta": -0.09468784119127227
+    },
+    {
+      "tissue": "WAM",
+      "oncoLambda": 0.8309142984348042,
+      "clockLambda": 0.9263758242752802,
+      "delta": -0.09546152584047596
+    },
+    {
+      "tissue": "WAP",
+      "oncoLambda": 0.8421160794258841,
+      "clockLambda": 0.9640032261024928,
+      "delta": -0.12188714667660872
+    },
+    {
+      "tissue": "WAR",
+      "oncoLambda": 0.782495816150997,
+      "clockLambda": 0.9241623275481112,
+      "delta": -0.14166651139711428
+    },
+    {
+      "tissue": "WAS",
+      "oncoLambda": 0.8467292636128131,
+      "clockLambda": 0.9157536561734099,
+      "delta": -0.06902439256059678
+    },
+    {
+      "tissue": "WAT",
+      "oncoLambda": 0.9026279406886503,
+      "clockLambda": 0.9310567866184911,
+      "delta": -0.02842884592984085
+    }
+  ]
+}

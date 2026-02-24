@@ -1,0 +1,2164 @@
+{
+  "summary": {
+    "nTissues": 12,
+    "globalOncoLambda": 0.9949915278417427,
+    "globalClockLambda": 0.944203915308037,
+    "deltaLambda": 0.05078761253370567,
+    "welch_t": 7.445559080842992,
+    "welch_df": 77.92585528279002,
+    "welch_p": 1.1115863784993962e-10,
+    "permutation_p": 0
+  },
+  "tissueResults": [
+    {
+      "tissue": "Liver",
+      "oncoMean": 0.9958344346188625,
+      "clockMean": 0.8990811639774031,
+      "deltaLambda": 0.09675327064145933,
+      "welch_t": 3.0990467360876934,
+      "welch_df": 5.037345574942521,
+      "welch_p": 0.02661737937870523,
+      "nOnco": 10,
+      "nClock": 6
+    },
+    {
+      "tissue": "Lung",
+      "oncoMean": 0.9980611949342355,
+      "clockMean": 0.9202525750654673,
+      "deltaLambda": 0.07780861986876819,
+      "welch_t": 2.743553591199982,
+      "welch_df": 5.006252674821991,
+      "welch_p": 0.040566143490872175,
+      "nOnco": 10,
+      "nClock": 6
+    },
+    {
+      "tissue": "Aorta",
+      "oncoMean": 0.9936786747011463,
+      "clockMean": 0.9218738280065217,
+      "deltaLambda": 0.07180484669462461,
+      "welch_t": 2.6741350862865456,
+      "welch_df": 5.0989549970677155,
+      "welch_p": 0.04326341986791893,
+      "nOnco": 10,
+      "nClock": 6
+    },
+    {
+      "tissue": "Kidney",
+      "oncoMean": 0.9979684440404819,
+      "clockMean": 0.9282129879907481,
+      "deltaLambda": 0.06975545604973377,
+      "welch_t": 2.866631669961751,
+      "welch_df": 5.004071474107467,
+      "welch_p": 0.03509973069140293,
+      "nOnco": 10,
+      "nClock": 6
+    },
+    {
+      "tissue": "Brown_Fat",
+      "oncoMean": 0.9909483682945958,
+      "clockMean": 0.9237178861823606,
+      "deltaLambda": 0.06723048211223515,
+      "welch_t": 2.7029191298849975,
+      "welch_df": 5.28480586342262,
+      "welch_p": 0.04027411143224513,
+      "nOnco": 10,
+      "nClock": 6
+    },
+    {
+      "tissue": "Heart",
+      "oncoMean": 0.9983868167506202,
+      "clockMean": 0.9344346796579721,
+      "deltaLambda": 0.06395213709264813,
+      "welch_t": 3.0733882743984067,
+      "welch_df": 5.001546329977183,
+      "welch_p": 0.027665685447971766,
+      "nOnco": 10,
+      "nClock": 6
+    },
+    {
+      "tissue": "Adrenal",
+      "oncoMean": 0.9980658278535731,
+      "clockMean": 0.9390987787781381,
+      "deltaLambda": 0.05896704907543504,
+      "welch_t": 2.746389082843692,
+      "welch_df": 5.0026640733425225,
+      "welch_p": 0.04046050059906592,
+      "nOnco": 10,
+      "nClock": 6
+    },
+    {
+      "tissue": "White_Fat",
+      "oncoMean": 0.9743439497985898,
+      "clockMean": 0.9301341538419644,
+      "deltaLambda": 0.04420979595662544,
+      "welch_t": 1.5317977783638594,
+      "welch_df": 9.30763509563249,
+      "welch_p": 0.1588256202467464,
+      "nOnco": 10,
+      "nClock": 6
+    },
+    {
+      "tissue": "Muscle",
+      "oncoMean": 0.9961473522202292,
+      "clockMean": 0.9587688295786312,
+      "deltaLambda": 0.03737852264159802,
+      "welch_t": 2.870155567925264,
+      "welch_df": 5.045913153407165,
+      "welch_p": 0.03462015903498328,
+      "nOnco": 10,
+      "nClock": 6
+    },
+    {
+      "tissue": "Cerebellum",
+      "oncoMean": 0.9990744870656727,
+      "clockMean": 0.9883613175525925,
+      "deltaLambda": 0.010713169513080212,
+      "welch_t": 3.197630587364824,
+      "welch_df": 5.057615209706798,
+      "welch_p": 0.023674401276124746,
+      "nOnco": 10,
+      "nClock": 6
+    },
+    {
+      "tissue": "Brainstem",
+      "oncoMean": 0.9985381203324213,
+      "clockMean": 0.9926265585061963,
+      "deltaLambda": 0.005911561826224987,
+      "welch_t": 2.7402601214972138,
+      "welch_df": 5.236875187585214,
+      "welch_p": 0.038832587644156424,
+      "nOnco": 10,
+      "nClock": 6
+    },
+    {
+      "tissue": "Hypothalamus",
+      "oncoMean": 0.9988506634904828,
+      "clockMean": 0.9938842245584487,
+      "deltaLambda": 0.0049664389320340785,
+      "welch_t": 2.1126833087253774,
+      "welch_df": 5.116827358158816,
+      "welch_p": 0.08705382738399914,
+      "nOnco": 10,
+      "nClock": 6
+    }
+  ],
+  "geneBootstrapResults": [
+    {
+      "tissue": "Adrenal",
+      "gene": "Clu",
+      "type": "oncofetal",
+      "role": "Revival Stem Cell Marker",
+      "lambda": 0.9958185451891481,
+      "ci_lower": 0.9810821435996597,
+      "ci_upper": 1.009366458481034,
+      "se": 0.0064980111537810996
+    },
+    {
+      "tissue": "Adrenal",
+      "gene": "Tacstd2",
+      "type": "oncofetal",
+      "role": "Trop2/Fetal Progenitor",
+      "lambda": 0.9989529203269428,
+      "ci_lower": 0.9936658377552092,
+      "ci_upper": 1.0038489629029137,
+      "se": 0.0026405899985390315
+    },
+    {
+      "tissue": "Adrenal",
+      "gene": "Ly6a",
+      "type": "oncofetal",
+      "role": "Sca-1/Stem Cell",
+      "lambda": 0.9980665717938507,
+      "ci_lower": 0.9903174662591864,
+      "ci_upper": 1.0047726294944581,
+      "se": 0.003630675541549321
+    },
+    {
+      "tissue": "Adrenal",
+      "gene": "Anxa1",
+      "type": "oncofetal",
+      "role": "Regenerative CSC",
+      "lambda": 0.9963832006430549,
+      "ci_lower": 0.984773976334173,
+      "ci_upper": 1.0069161902695174,
+      "se": 0.005508856040032942
+    },
+    {
+      "tissue": "Adrenal",
+      "gene": "Sox2",
+      "type": "oncofetal",
+      "role": "Pluripotency Factor",
+      "lambda": 0.9989992045857541,
+      "ci_lower": 0.9931411665508959,
+      "ci_upper": 1.004244156443781,
+      "se": 0.002653509148300418
+    },
+    {
+      "tissue": "Adrenal",
+      "gene": "Sox9",
+      "type": "oncofetal",
+      "role": "Progenitor/Metastasis",
+      "lambda": 0.997927124719154,
+      "ci_lower": 0.9893757709044042,
+      "ci_upper": 1.0066554321037688,
+      "se": 0.0042204000324273985
+    },
+    {
+      "tissue": "Adrenal",
+      "gene": "Yap1",
+      "type": "oncofetal",
+      "role": "Hippo Effector",
+      "lambda": 0.9988400008327316,
+      "ci_lower": 0.9933206175261234,
+      "ci_upper": 1.004400110871182,
+      "se": 0.0029002581358469133
+    },
+    {
+      "tissue": "Adrenal",
+      "gene": "Wwtr1",
+      "type": "oncofetal",
+      "role": "TAZ/YAP Paralog",
+      "lambda": 0.9983136301163787,
+      "ci_lower": 0.991034502772562,
+      "ci_upper": 1.0053411034381872,
+      "se": 0.0034860744805650023
+    },
+    {
+      "tissue": "Adrenal",
+      "gene": "Fosl1",
+      "type": "oncofetal",
+      "role": "Fra-1/AP-1",
+      "lambda": 0.9988773151890433,
+      "ci_lower": 0.9928808477969691,
+      "ci_upper": 1.0045174436689632,
+      "se": 0.0029183316227562065
+    },
+    {
+      "tissue": "Adrenal",
+      "gene": "Igf2bp1",
+      "type": "oncofetal",
+      "role": "IMP1/mRNA Stabilizer",
+      "lambda": 0.9984797651396713,
+      "ci_lower": 0.9916995543180198,
+      "ci_upper": 1.0051834867276614,
+      "se": 0.0033808403455049692
+    },
+    {
+      "tissue": "Adrenal",
+      "gene": "Per2",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.9636744391987104,
+      "ci_lower": 0.9241240403084436,
+      "ci_upper": 1.0005220405933009,
+      "se": 0.019525808512122503
+    },
+    {
+      "tissue": "Adrenal",
+      "gene": "Arntl",
+      "type": "clock",
+      "role": "BMAL1/Positive Limb",
+      "lambda": 0.87153775470571,
+      "ci_lower": 0.7330618173728336,
+      "ci_upper": 0.9640083675629737,
+      "se": 0.056309192773057445
+    },
+    {
+      "tissue": "Adrenal",
+      "gene": "Clock",
+      "type": "clock",
+      "role": "Core Activator",
+      "lambda": 0.9881719617153001,
+      "ci_lower": 0.9704082787310432,
+      "ci_upper": 1.0060818067832369,
+      "se": 0.009247528700417134
+    },
+    {
+      "tissue": "Adrenal",
+      "gene": "Per1",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.9560583917143685,
+      "ci_lower": 0.9060996576271323,
+      "ci_upper": 1.0005594032336123,
+      "se": 0.023256882690899254
+    },
+    {
+      "tissue": "Adrenal",
+      "gene": "Cry1",
+      "type": "clock",
+      "role": "Cryptochrome",
+      "lambda": 0.9809429578805894,
+      "ci_lower": 0.9553905654862379,
+      "ci_upper": 1.0063117741788474,
+      "se": 0.013155882323752031
+    },
+    {
+      "tissue": "Adrenal",
+      "gene": "Nr1d1",
+      "type": "clock",
+      "role": "Rev-Erb Alpha",
+      "lambda": 0.8742071674541507,
+      "ci_lower": 0.7499386214077828,
+      "ci_upper": 0.9611460194903702,
+      "se": 0.05461646363098791
+    },
+    {
+      "tissue": "Aorta",
+      "gene": "Clu",
+      "type": "oncofetal",
+      "role": "Revival Stem Cell Marker",
+      "lambda": 0.9933927012981616,
+      "ci_lower": 0.976630994501653,
+      "ci_upper": 1.0063202533075342,
+      "se": 0.007411886374177547
+    },
+    {
+      "tissue": "Aorta",
+      "gene": "Tacstd2",
+      "type": "oncofetal",
+      "role": "Trop2/Fetal Progenitor",
+      "lambda": 0.9714767818219258,
+      "ci_lower": 0.8903323792542385,
+      "ci_upper": 1.0599053745888736,
+      "se": 0.06322091580577445
+    },
+    {
+      "tissue": "Aorta",
+      "gene": "Ly6a",
+      "type": "oncofetal",
+      "role": "Sca-1/Stem Cell",
+      "lambda": 0.996944003422343,
+      "ci_lower": 0.9878319486568625,
+      "ci_upper": 1.0060170984049166,
+      "se": 0.00471478486364752
+    },
+    {
+      "tissue": "Aorta",
+      "gene": "Anxa1",
+      "type": "oncofetal",
+      "role": "Regenerative CSC",
+      "lambda": 0.9884460884589917,
+      "ci_lower": 0.9671583604614097,
+      "ci_upper": 1.008002804879888,
+      "se": 0.010481258195115573
+    },
+    {
+      "tissue": "Aorta",
+      "gene": "Sox2",
+      "type": "oncofetal",
+      "role": "Pluripotency Factor",
+      "lambda": 0.9977689433209858,
+      "ci_lower": 0.9867735403545078,
+      "ci_upper": 1.0079640494407776,
+      "se": 0.004631999048604579
+    },
+    {
+      "tissue": "Aorta",
+      "gene": "Sox9",
+      "type": "oncofetal",
+      "role": "Progenitor/Metastasis",
+      "lambda": 0.9967086999890374,
+      "ci_lower": 0.9859190991432671,
+      "ci_upper": 1.00649393605162,
+      "se": 0.005038244335563195
+    },
+    {
+      "tissue": "Aorta",
+      "gene": "Yap1",
+      "type": "oncofetal",
+      "role": "Hippo Effector",
+      "lambda": 0.9970257672616101,
+      "ci_lower": 0.9871516024387645,
+      "ci_upper": 1.0060668858913049,
+      "se": 0.004678254396017158
+    },
+    {
+      "tissue": "Aorta",
+      "gene": "Wwtr1",
+      "type": "oncofetal",
+      "role": "TAZ/YAP Paralog",
+      "lambda": 0.9983033238993553,
+      "ci_lower": 0.990833815867073,
+      "ci_upper": 1.00523399597081,
+      "se": 0.0036126618810714524
+    },
+    {
+      "tissue": "Aorta",
+      "gene": "Fosl1",
+      "type": "oncofetal",
+      "role": "Fra-1/AP-1",
+      "lambda": 0.9976161903504911,
+      "ci_lower": 0.9901062462052481,
+      "ci_upper": 1.0051681179030174,
+      "se": 0.00393424936921889
+    },
+    {
+      "tissue": "Aorta",
+      "gene": "Igf2bp1",
+      "type": "oncofetal",
+      "role": "IMP1/mRNA Stabilizer",
+      "lambda": 0.9991042471885627,
+      "ci_lower": 0.9940513925711358,
+      "ci_upper": 1.0039014863585616,
+      "se": 0.002532852308801175
+    },
+    {
+      "tissue": "Aorta",
+      "gene": "Per2",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.9399152363134968,
+      "ci_lower": 0.8738394236203005,
+      "ci_upper": 0.9881056875353849,
+      "se": 0.02984761232457281
+    },
+    {
+      "tissue": "Aorta",
+      "gene": "Arntl",
+      "type": "clock",
+      "role": "BMAL1/Positive Limb",
+      "lambda": 0.8638861671391683,
+      "ci_lower": 0.7324475518987614,
+      "ci_upper": 0.9585858724280036,
+      "se": 0.05733791110589022
+    },
+    {
+      "tissue": "Aorta",
+      "gene": "Clock",
+      "type": "clock",
+      "role": "Core Activator",
+      "lambda": 0.9816450898968125,
+      "ci_lower": 0.9544548674926532,
+      "ci_upper": 1.0054719265124272,
+      "se": 0.01317038104168368
+    },
+    {
+      "tissue": "Aorta",
+      "gene": "Per1",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.9379657068246009,
+      "ci_lower": 0.8758440757513908,
+      "ci_upper": 0.9888473880721407,
+      "se": 0.029972644402031994
+    },
+    {
+      "tissue": "Aorta",
+      "gene": "Cry1",
+      "type": "clock",
+      "role": "Cryptochrome",
+      "lambda": 0.9853222494034548,
+      "ci_lower": 0.9613722263381954,
+      "ci_upper": 1.0063103610614035,
+      "se": 0.011553479959532565
+    },
+    {
+      "tissue": "Aorta",
+      "gene": "Nr1d1",
+      "type": "clock",
+      "role": "Rev-Erb Alpha",
+      "lambda": 0.8225085184615976,
+      "ci_lower": 0.6600097825392379,
+      "ci_upper": 0.9396387126678942,
+      "se": 0.07633307189883405
+    },
+    {
+      "tissue": "Brainstem",
+      "gene": "Clu",
+      "type": "oncofetal",
+      "role": "Revival Stem Cell Marker",
+      "lambda": 0.9995263115410652,
+      "ci_lower": 0.9957669667626334,
+      "ci_upper": 1.0032577874653543,
+      "se": 0.001885264046962326
+    },
+    {
+      "tissue": "Brainstem",
+      "gene": "Tacstd2",
+      "type": "oncofetal",
+      "role": "Trop2/Fetal Progenitor",
+      "lambda": 0.9985440397932509,
+      "ci_lower": 0.9925070603748037,
+      "ci_upper": 1.0046252553860233,
+      "se": 0.0030532612632168683
+    },
+    {
+      "tissue": "Brainstem",
+      "gene": "Ly6a",
+      "type": "oncofetal",
+      "role": "Sca-1/Stem Cell",
+      "lambda": 0.9986079405367118,
+      "ci_lower": 0.9923423404992591,
+      "ci_upper": 1.0043679651287203,
+      "se": 0.003062789990982379
+    },
+    {
+      "tissue": "Brainstem",
+      "gene": "Anxa1",
+      "type": "oncofetal",
+      "role": "Regenerative CSC",
+      "lambda": 0.9961976937273862,
+      "ci_lower": 0.9856190669466716,
+      "ci_upper": 1.0067267657432597,
+      "se": 0.005433734568278165
+    },
+    {
+      "tissue": "Brainstem",
+      "gene": "Sox2",
+      "type": "oncofetal",
+      "role": "Pluripotency Factor",
+      "lambda": 0.9976966441374906,
+      "ci_lower": 0.9893182644755844,
+      "ci_upper": 1.005822524828922,
+      "se": 0.004097765779122294
+    },
+    {
+      "tissue": "Brainstem",
+      "gene": "Sox9",
+      "type": "oncofetal",
+      "role": "Progenitor/Metastasis",
+      "lambda": 0.9992007904052562,
+      "ci_lower": 0.9946643607707306,
+      "ci_upper": 1.0034017703691511,
+      "se": 0.002228466272187148
+    },
+    {
+      "tissue": "Brainstem",
+      "gene": "Yap1",
+      "type": "oncofetal",
+      "role": "Hippo Effector",
+      "lambda": 0.9994457869228226,
+      "ci_lower": 0.9955438450208614,
+      "ci_upper": 1.0034424038570564,
+      "se": 0.002041138744169025
+    },
+    {
+      "tissue": "Brainstem",
+      "gene": "Wwtr1",
+      "type": "oncofetal",
+      "role": "TAZ/YAP Paralog",
+      "lambda": 0.9988641981268421,
+      "ci_lower": 0.9932748960810507,
+      "ci_upper": 1.0043384862338296,
+      "se": 0.0027549931885014448
+    },
+    {
+      "tissue": "Brainstem",
+      "gene": "Fosl1",
+      "type": "oncofetal",
+      "role": "Fra-1/AP-1",
+      "lambda": 0.9979124739079414,
+      "ci_lower": 0.9898610733292672,
+      "ci_upper": 1.0056928581201925,
+      "se": 0.0039030672694019487
+    },
+    {
+      "tissue": "Brainstem",
+      "gene": "Igf2bp1",
+      "type": "oncofetal",
+      "role": "IMP1/mRNA Stabilizer",
+      "lambda": 0.9993853242254463,
+      "ci_lower": 0.995012846969645,
+      "ci_upper": 1.0035504954301109,
+      "se": 0.002159603365687074
+    },
+    {
+      "tissue": "Brainstem",
+      "gene": "Per2",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.9918777889710136,
+      "ci_lower": 0.9738063407769076,
+      "ci_upper": 1.0073218399697543,
+      "se": 0.008386352475245726
+    },
+    {
+      "tissue": "Brainstem",
+      "gene": "Arntl",
+      "type": "clock",
+      "role": "BMAL1/Positive Limb",
+      "lambda": 0.9911782178446938,
+      "ci_lower": 0.9746674385147086,
+      "ci_upper": 1.0071304523872142,
+      "se": 0.00835950963967383
+    },
+    {
+      "tissue": "Brainstem",
+      "gene": "Clock",
+      "type": "clock",
+      "role": "Core Activator",
+      "lambda": 0.9994558284052414,
+      "ci_lower": 0.9953798801749802,
+      "ci_upper": 1.003557131196486,
+      "se": 0.0020796258155789016
+    },
+    {
+      "tissue": "Brainstem",
+      "gene": "Per1",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.9899271666541145,
+      "ci_lower": 0.9721422217076476,
+      "ci_upper": 1.0068558373191234,
+      "se": 0.008962628470076237
+    },
+    {
+      "tissue": "Brainstem",
+      "gene": "Cry1",
+      "type": "clock",
+      "role": "Cryptochrome",
+      "lambda": 0.9979032204932515,
+      "ci_lower": 0.9896729155040895,
+      "ci_upper": 1.0051026931160993,
+      "se": 0.004036007751228191
+    },
+    {
+      "tissue": "Brainstem",
+      "gene": "Nr1d1",
+      "type": "clock",
+      "role": "Rev-Erb Alpha",
+      "lambda": 0.985417128668863,
+      "ci_lower": 0.9614846766352795,
+      "ci_upper": 1.0057360179158512,
+      "se": 0.011306857339865747
+    },
+    {
+      "tissue": "Brown_Fat",
+      "gene": "Clu",
+      "type": "oncofetal",
+      "role": "Revival Stem Cell Marker",
+      "lambda": 0.9631006622278445,
+      "ci_lower": 0.8867239474559849,
+      "ci_upper": 1.0213898811231705,
+      "se": 0.039490366748442744
+    },
+    {
+      "tissue": "Brown_Fat",
+      "gene": "Tacstd2",
+      "type": "oncofetal",
+      "role": "Trop2/Fetal Progenitor",
+      "lambda": 0.9961186805874004,
+      "ci_lower": 0.9841533026821858,
+      "ci_upper": 1.007415185560757,
+      "se": 0.005596502232348313
+    },
+    {
+      "tissue": "Brown_Fat",
+      "gene": "Ly6a",
+      "type": "oncofetal",
+      "role": "Sca-1/Stem Cell",
+      "lambda": 0.9976834565225134,
+      "ci_lower": 0.9893400567249696,
+      "ci_upper": 1.0056577994337608,
+      "se": 0.004133637525364789
+    },
+    {
+      "tissue": "Brown_Fat",
+      "gene": "Anxa1",
+      "type": "oncofetal",
+      "role": "Regenerative CSC",
+      "lambda": 0.9700824853058525,
+      "ci_lower": 0.9347020493476393,
+      "ci_upper": 1.0047344899635107,
+      "se": 0.018461969336123325
+    },
+    {
+      "tissue": "Brown_Fat",
+      "gene": "Sox2",
+      "type": "oncofetal",
+      "role": "Pluripotency Factor",
+      "lambda": 0.99847530714414,
+      "ci_lower": 0.991512534693778,
+      "ci_upper": 1.0050521546168913,
+      "se": 0.0032148345561187506
+    },
+    {
+      "tissue": "Brown_Fat",
+      "gene": "Sox9",
+      "type": "oncofetal",
+      "role": "Progenitor/Metastasis",
+      "lambda": 0.9948342076207685,
+      "ci_lower": 0.9812964797215991,
+      "ci_upper": 1.0074096015297405,
+      "se": 0.0065744814583342925
+    },
+    {
+      "tissue": "Brown_Fat",
+      "gene": "Yap1",
+      "type": "oncofetal",
+      "role": "Hippo Effector",
+      "lambda": 0.993804610452145,
+      "ci_lower": 0.9791812468026184,
+      "ci_upper": 1.0082123440877861,
+      "se": 0.007261588859299621
+    },
+    {
+      "tissue": "Brown_Fat",
+      "gene": "Wwtr1",
+      "type": "oncofetal",
+      "role": "TAZ/YAP Paralog",
+      "lambda": 0.9978375579246576,
+      "ci_lower": 0.989960519452908,
+      "ci_upper": 1.0053837976767992,
+      "se": 0.0038718062604774996
+    },
+    {
+      "tissue": "Brown_Fat",
+      "gene": "Fosl1",
+      "type": "oncofetal",
+      "role": "Fra-1/AP-1",
+      "lambda": 0.9983265426597318,
+      "ci_lower": 0.9910531655662644,
+      "ci_upper": 1.0059673306747168,
+      "se": 0.0035560527104236766
+    },
+    {
+      "tissue": "Brown_Fat",
+      "gene": "Igf2bp1",
+      "type": "oncofetal",
+      "role": "IMP1/mRNA Stabilizer",
+      "lambda": 0.999220172500906,
+      "ci_lower": 0.995001806646729,
+      "ci_upper": 1.0034746123778904,
+      "se": 0.002158347265469737
+    },
+    {
+      "tissue": "Brown_Fat",
+      "gene": "Per2",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.9298973125766993,
+      "ci_lower": 0.8577205512936816,
+      "ci_upper": 0.984468528735198,
+      "se": 0.03344352802626225
+    },
+    {
+      "tissue": "Brown_Fat",
+      "gene": "Arntl",
+      "type": "clock",
+      "role": "BMAL1/Positive Limb",
+      "lambda": 0.8520935977724803,
+      "ci_lower": 0.7243404217011996,
+      "ci_upper": 0.9554906170545028,
+      "se": 0.06111189278191638
+    },
+    {
+      "tissue": "Brown_Fat",
+      "gene": "Clock",
+      "type": "clock",
+      "role": "Core Activator",
+      "lambda": 0.9829702271483519,
+      "ci_lower": 0.958033207524479,
+      "ci_upper": 1.0055758451755652,
+      "se": 0.012459395779076086
+    },
+    {
+      "tissue": "Brown_Fat",
+      "gene": "Per1",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.940910962458225,
+      "ci_lower": 0.8790419215352245,
+      "ci_upper": 0.9936660844417118,
+      "se": 0.02943346656865516
+    },
+    {
+      "tissue": "Brown_Fat",
+      "gene": "Cry1",
+      "type": "clock",
+      "role": "Cryptochrome",
+      "lambda": 0.9853524378720364,
+      "ci_lower": 0.9624308955935234,
+      "ci_upper": 1.0059715327859111,
+      "se": 0.011218417434415167
+    },
+    {
+      "tissue": "Brown_Fat",
+      "gene": "Nr1d1",
+      "type": "clock",
+      "role": "Rev-Erb Alpha",
+      "lambda": 0.85108277926637,
+      "ci_lower": 0.6986262402297829,
+      "ci_upper": 0.9574809901434014,
+      "se": 0.06794297082539164
+    },
+    {
+      "tissue": "Cerebellum",
+      "gene": "Clu",
+      "type": "oncofetal",
+      "role": "Revival Stem Cell Marker",
+      "lambda": 0.9998252045581199,
+      "ci_lower": 0.9975481786327767,
+      "ci_upper": 1.0022075421283971,
+      "se": 0.0012207822338943808
+    },
+    {
+      "tissue": "Cerebellum",
+      "gene": "Tacstd2",
+      "type": "oncofetal",
+      "role": "Trop2/Fetal Progenitor",
+      "lambda": 0.9994640661153597,
+      "ci_lower": 0.9953361172152853,
+      "ci_upper": 1.0037748893964689,
+      "se": 0.0020576083699402263
+    },
+    {
+      "tissue": "Cerebellum",
+      "gene": "Ly6a",
+      "type": "oncofetal",
+      "role": "Sca-1/Stem Cell",
+      "lambda": 0.9973675951427725,
+      "ci_lower": 0.9875924138035914,
+      "ci_upper": 1.0063779553299914,
+      "se": 0.004552165847926493
+    },
+    {
+      "tissue": "Cerebellum",
+      "gene": "Anxa1",
+      "type": "oncofetal",
+      "role": "Regenerative CSC",
+      "lambda": 0.9991739255407815,
+      "ci_lower": 0.9946576394143105,
+      "ci_upper": 1.0035143298781937,
+      "se": 0.002196090843840792
+    },
+    {
+      "tissue": "Cerebellum",
+      "gene": "Sox2",
+      "type": "oncofetal",
+      "role": "Pluripotency Factor",
+      "lambda": 0.9980828340193891,
+      "ci_lower": 0.990610445372526,
+      "ci_upper": 1.0051282512440494,
+      "se": 0.0037462218915444183
+    },
+    {
+      "tissue": "Cerebellum",
+      "gene": "Sox9",
+      "type": "oncofetal",
+      "role": "Progenitor/Metastasis",
+      "lambda": 0.9987334339625442,
+      "ci_lower": 0.9928690044163491,
+      "ci_upper": 1.0046836813837898,
+      "se": 0.0029633922419840734
+    },
+    {
+      "tissue": "Cerebellum",
+      "gene": "Yap1",
+      "type": "oncofetal",
+      "role": "Hippo Effector",
+      "lambda": 0.9994081616524475,
+      "ci_lower": 0.9954405115416005,
+      "ci_upper": 1.0032368252273831,
+      "se": 0.001939106404025949
+    },
+    {
+      "tissue": "Cerebellum",
+      "gene": "Wwtr1",
+      "type": "oncofetal",
+      "role": "TAZ/YAP Paralog",
+      "lambda": 0.9998099854925269,
+      "ci_lower": 0.9972898894460066,
+      "ci_upper": 1.0025466701011057,
+      "se": 0.0013968396813684402
+    },
+    {
+      "tissue": "Cerebellum",
+      "gene": "Fosl1",
+      "type": "oncofetal",
+      "role": "Fra-1/AP-1",
+      "lambda": 0.9991926101517156,
+      "ci_lower": 0.9942128689354301,
+      "ci_upper": 1.003678083587884,
+      "se": 0.0023666262928727167
+    },
+    {
+      "tissue": "Cerebellum",
+      "gene": "Igf2bp1",
+      "type": "oncofetal",
+      "role": "IMP1/mRNA Stabilizer",
+      "lambda": 0.9996870540210693,
+      "ci_lower": 0.9967705741539417,
+      "ci_upper": 1.0023658413283918,
+      "se": 0.0014552316129203945
+    },
+    {
+      "tissue": "Cerebellum",
+      "gene": "Per2",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.9762505147832632,
+      "ci_lower": 0.9432417658703995,
+      "ci_upper": 1.004967605469063,
+      "se": 0.015767078567732504
+    },
+    {
+      "tissue": "Cerebellum",
+      "gene": "Arntl",
+      "type": "clock",
+      "role": "BMAL1/Positive Limb",
+      "lambda": 0.9908433019229849,
+      "ci_lower": 0.9740839171532797,
+      "ci_upper": 1.006206175683782,
+      "se": 0.008280085429124602
+    },
+    {
+      "tissue": "Cerebellum",
+      "gene": "Clock",
+      "type": "clock",
+      "role": "Core Activator",
+      "lambda": 0.9986039639985076,
+      "ci_lower": 0.9925940885741997,
+      "ci_upper": 1.0046048080604375,
+      "se": 0.0031960073167286575
+    },
+    {
+      "tissue": "Cerebellum",
+      "gene": "Per1",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.9838083436578567,
+      "ci_lower": 0.9595864973808697,
+      "ci_upper": 1.0053635446299505,
+      "se": 0.01219091718235634
+    },
+    {
+      "tissue": "Cerebellum",
+      "gene": "Cry1",
+      "type": "clock",
+      "role": "Cryptochrome",
+      "lambda": 0.9952597015009679,
+      "ci_lower": 0.983042988329304,
+      "ci_upper": 1.0078478900274952,
+      "se": 0.006212463950554827
+    },
+    {
+      "tissue": "Cerebellum",
+      "gene": "Nr1d1",
+      "type": "clock",
+      "role": "Rev-Erb Alpha",
+      "lambda": 0.985402079451974,
+      "ci_lower": 0.9625988611166527,
+      "ci_upper": 1.0053762199201395,
+      "se": 0.011019137899774817
+    },
+    {
+      "tissue": "Heart",
+      "gene": "Clu",
+      "type": "oncofetal",
+      "role": "Revival Stem Cell Marker",
+      "lambda": 0.9981837975788979,
+      "ci_lower": 0.990462025384109,
+      "ci_upper": 1.0061630505965171,
+      "se": 0.0038080783761306127
+    },
+    {
+      "tissue": "Heart",
+      "gene": "Tacstd2",
+      "type": "oncofetal",
+      "role": "Trop2/Fetal Progenitor",
+      "lambda": 0.9985708684652345,
+      "ci_lower": 0.9920045685047407,
+      "ci_upper": 1.0047131328947945,
+      "se": 0.0031651033393775225
+    },
+    {
+      "tissue": "Heart",
+      "gene": "Ly6a",
+      "type": "oncofetal",
+      "role": "Sca-1/Stem Cell",
+      "lambda": 0.9978591671601712,
+      "ci_lower": 0.9903575507582455,
+      "ci_upper": 1.0051957607453634,
+      "se": 0.003906661758045608
+    },
+    {
+      "tissue": "Heart",
+      "gene": "Anxa1",
+      "type": "oncofetal",
+      "role": "Regenerative CSC",
+      "lambda": 0.9972133693169267,
+      "ci_lower": 0.9875440634025237,
+      "ci_upper": 1.0056209772755236,
+      "se": 0.004908407690225805
+    },
+    {
+      "tissue": "Heart",
+      "gene": "Sox2",
+      "type": "oncofetal",
+      "role": "Pluripotency Factor",
+      "lambda": 0.9990417760155811,
+      "ci_lower": 0.9934009471704481,
+      "ci_upper": 1.004551610436014,
+      "se": 0.005784536734835679
+    },
+    {
+      "tissue": "Heart",
+      "gene": "Sox9",
+      "type": "oncofetal",
+      "role": "Progenitor/Metastasis",
+      "lambda": 0.9985370231404014,
+      "ci_lower": 0.9921823795889579,
+      "ci_upper": 1.0043307475908543,
+      "se": 0.003103014363455139
+    },
+    {
+      "tissue": "Heart",
+      "gene": "Yap1",
+      "type": "oncofetal",
+      "role": "Hippo Effector",
+      "lambda": 0.9970548308391347,
+      "ci_lower": 0.9869168593591914,
+      "ci_upper": 1.0063628458245726,
+      "se": 0.004735553150740484
+    },
+    {
+      "tissue": "Heart",
+      "gene": "Wwtr1",
+      "type": "oncofetal",
+      "role": "TAZ/YAP Paralog",
+      "lambda": 0.9992044295779637,
+      "ci_lower": 0.9941645070824912,
+      "ci_upper": 1.0040897147361503,
+      "se": 0.00250238646935376
+    },
+    {
+      "tissue": "Heart",
+      "gene": "Fosl1",
+      "type": "oncofetal",
+      "role": "Fra-1/AP-1",
+      "lambda": 0.9986663496201781,
+      "ci_lower": 0.9920063415689424,
+      "ci_upper": 1.005380898208567,
+      "se": 0.003176452134172176
+    },
+    {
+      "tissue": "Heart",
+      "gene": "Igf2bp1",
+      "type": "oncofetal",
+      "role": "IMP1/mRNA Stabilizer",
+      "lambda": 0.9995365557917113,
+      "ci_lower": 0.9954996695906209,
+      "ci_upper": 1.0033672892818322,
+      "se": 0.0019979521773983945
+    },
+    {
+      "tissue": "Heart",
+      "gene": "Per2",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.9408626612581208,
+      "ci_lower": 0.8798989255507271,
+      "ci_upper": 0.9906141668946765,
+      "se": 0.02789067706333071
+    },
+    {
+      "tissue": "Heart",
+      "gene": "Arntl",
+      "type": "clock",
+      "role": "BMAL1/Positive Limb",
+      "lambda": 0.8682706663504735,
+      "ci_lower": 0.7541311400026396,
+      "ci_upper": 0.9620992554568468,
+      "se": 0.05323183157487213
+    },
+    {
+      "tissue": "Heart",
+      "gene": "Clock",
+      "type": "clock",
+      "role": "Core Activator",
+      "lambda": 0.988720213950576,
+      "ci_lower": 0.9701209511259933,
+      "ci_upper": 1.004855212866033,
+      "se": 0.009513737407799388
+    },
+    {
+      "tissue": "Heart",
+      "gene": "Per1",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.9373937771187327,
+      "ci_lower": 0.8768894177098938,
+      "ci_upper": 0.9880433465991957,
+      "se": 0.02889989261889966
+    },
+    {
+      "tissue": "Heart",
+      "gene": "Cry1",
+      "type": "clock",
+      "role": "Cryptochrome",
+      "lambda": 0.9886418716856351,
+      "ci_lower": 0.9696431705434831,
+      "ci_upper": 1.0063819576791588,
+      "se": 0.009445116921575833
+    },
+    {
+      "tissue": "Heart",
+      "gene": "Nr1d1",
+      "type": "clock",
+      "role": "Rev-Erb Alpha",
+      "lambda": 0.8827188875842947,
+      "ci_lower": 0.7712753511568398,
+      "ci_upper": 0.9692533167513195,
+      "se": 0.05006922692978841
+    },
+    {
+      "tissue": "Hypothalamus",
+      "gene": "Clu",
+      "type": "oncofetal",
+      "role": "Revival Stem Cell Marker",
+      "lambda": 0.9993873365179652,
+      "ci_lower": 0.9948543784051227,
+      "ci_upper": 1.0041695661192387,
+      "se": 0.0022176801357518088
+    },
+    {
+      "tissue": "Hypothalamus",
+      "gene": "Tacstd2",
+      "type": "oncofetal",
+      "role": "Trop2/Fetal Progenitor",
+      "lambda": 0.9993897135503137,
+      "ci_lower": 0.9949394961018613,
+      "ci_upper": 1.003490433532104,
+      "se": 0.0021093081355347855
+    },
+    {
+      "tissue": "Hypothalamus",
+      "gene": "Ly6a",
+      "type": "oncofetal",
+      "role": "Sca-1/Stem Cell",
+      "lambda": 0.9978296780649538,
+      "ci_lower": 0.9899762044908567,
+      "ci_upper": 1.0050998683939105,
+      "se": 0.003880748013186934
+    },
+    {
+      "tissue": "Hypothalamus",
+      "gene": "Anxa1",
+      "type": "oncofetal",
+      "role": "Regenerative CSC",
+      "lambda": 0.9979621426970202,
+      "ci_lower": 0.9900388382998926,
+      "ci_upper": 1.0059633919496562,
+      "se": 0.004003872325333534
+    },
+    {
+      "tissue": "Hypothalamus",
+      "gene": "Sox2",
+      "type": "oncofetal",
+      "role": "Pluripotency Factor",
+      "lambda": 0.9975090147198548,
+      "ci_lower": 0.9878247569754438,
+      "ci_upper": 1.0063726382161335,
+      "se": 0.004526717471329975
+    },
+    {
+      "tissue": "Hypothalamus",
+      "gene": "Sox9",
+      "type": "oncofetal",
+      "role": "Progenitor/Metastasis",
+      "lambda": 0.998845518410709,
+      "ci_lower": 0.9932709191986603,
+      "ci_upper": 1.0041000931292867,
+      "se": 0.002865542724873967
+    },
+    {
+      "tissue": "Hypothalamus",
+      "gene": "Yap1",
+      "type": "oncofetal",
+      "role": "Hippo Effector",
+      "lambda": 0.9989769910576157,
+      "ci_lower": 0.9933747781393276,
+      "ci_upper": 1.0040406049958308,
+      "se": 0.0026584305472182874
+    },
+    {
+      "tissue": "Hypothalamus",
+      "gene": "Wwtr1",
+      "type": "oncofetal",
+      "role": "TAZ/YAP Paralog",
+      "lambda": 0.9994942712158674,
+      "ci_lower": 0.9957797746141459,
+      "ci_upper": 1.0033883456503165,
+      "se": 0.0019510328295010396
+    },
+    {
+      "tissue": "Hypothalamus",
+      "gene": "Fosl1",
+      "type": "oncofetal",
+      "role": "Fra-1/AP-1",
+      "lambda": 0.9993398453156411,
+      "ci_lower": 0.9950383736834832,
+      "ci_upper": 1.003708180962278,
+      "se": 0.002215363979281476
+    },
+    {
+      "tissue": "Hypothalamus",
+      "gene": "Igf2bp1",
+      "type": "oncofetal",
+      "role": "IMP1/mRNA Stabilizer",
+      "lambda": 0.9997721233548865,
+      "ci_lower": 0.9969082781957176,
+      "ci_upper": 1.0026556413287444,
+      "se": 0.001486514140176877
+    },
+    {
+      "tissue": "Hypothalamus",
+      "gene": "Per2",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.9951011307832662,
+      "ci_lower": 0.981632890244023,
+      "ci_upper": 1.0076965705838143,
+      "se": 0.006374884775324458
+    },
+    {
+      "tissue": "Hypothalamus",
+      "gene": "Arntl",
+      "type": "clock",
+      "role": "BMAL1/Positive Limb",
+      "lambda": 0.9971903010901276,
+      "ci_lower": 0.9877075758127498,
+      "ci_upper": 1.0063256727660153,
+      "se": 0.004650306840345586
+    },
+    {
+      "tissue": "Hypothalamus",
+      "gene": "Clock",
+      "type": "clock",
+      "role": "Core Activator",
+      "lambda": 0.9988046045724975,
+      "ci_lower": 0.9923676321391426,
+      "ci_upper": 1.005064257134846,
+      "se": 0.002921254220385924
+    },
+    {
+      "tissue": "Hypothalamus",
+      "gene": "Per1",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.9866177007269098,
+      "ci_lower": 0.9634827755049122,
+      "ci_upper": 1.0079958413736445,
+      "se": 0.010981563056500977
+    },
+    {
+      "tissue": "Hypothalamus",
+      "gene": "Cry1",
+      "type": "clock",
+      "role": "Cryptochrome",
+      "lambda": 0.9987991995601279,
+      "ci_lower": 0.9924919687254448,
+      "ci_upper": 1.0057964504890298,
+      "se": 0.0030934473265310965
+    },
+    {
+      "tissue": "Hypothalamus",
+      "gene": "Nr1d1",
+      "type": "clock",
+      "role": "Rev-Erb Alpha",
+      "lambda": 0.9867924106177633,
+      "ci_lower": 0.9671635988493246,
+      "ci_upper": 1.0058185168740474,
+      "se": 0.009995761837800212
+    },
+    {
+      "tissue": "Kidney",
+      "gene": "Clu",
+      "type": "oncofetal",
+      "role": "Revival Stem Cell Marker",
+      "lambda": 0.9990415252182014,
+      "ci_lower": 0.9940062114208961,
+      "ci_upper": 1.004164284145484,
+      "se": 0.0026464965730725433
+    },
+    {
+      "tissue": "Kidney",
+      "gene": "Tacstd2",
+      "type": "oncofetal",
+      "role": "Trop2/Fetal Progenitor",
+      "lambda": 0.9945160804424463,
+      "ci_lower": 0.982043763495159,
+      "ci_upper": 1.0068403372984083,
+      "se": 0.0063669870787012636
+    },
+    {
+      "tissue": "Kidney",
+      "gene": "Ly6a",
+      "type": "oncofetal",
+      "role": "Sca-1/Stem Cell",
+      "lambda": 0.9993422689593929,
+      "ci_lower": 0.9951453179697284,
+      "ci_upper": 1.0033532836118286,
+      "se": 0.002017591085519828
+    },
+    {
+      "tissue": "Kidney",
+      "gene": "Anxa1",
+      "type": "oncofetal",
+      "role": "Regenerative CSC",
+      "lambda": 0.9960388643829282,
+      "ci_lower": 0.9845052306500048,
+      "ci_upper": 1.006442822728933,
+      "se": 0.005558623757942416
+    },
+    {
+      "tissue": "Kidney",
+      "gene": "Sox2",
+      "type": "oncofetal",
+      "role": "Pluripotency Factor",
+      "lambda": 0.9984723548229838,
+      "ci_lower": 0.9923210560787965,
+      "ci_upper": 1.0046056466456126,
+      "se": 0.0032503438012890136
+    },
+    {
+      "tissue": "Kidney",
+      "gene": "Sox9",
+      "type": "oncofetal",
+      "role": "Progenitor/Metastasis",
+      "lambda": 0.9987901705212641,
+      "ci_lower": 0.9924257332651422,
+      "ci_upper": 1.0048315172323397,
+      "se": 0.003102404343941806
+    },
+    {
+      "tissue": "Kidney",
+      "gene": "Yap1",
+      "type": "oncofetal",
+      "role": "Hippo Effector",
+      "lambda": 0.9990104578972447,
+      "ci_lower": 0.9932418336790763,
+      "ci_upper": 1.0046877533018452,
+      "se": 0.002804322924736175
+    },
+    {
+      "tissue": "Kidney",
+      "gene": "Wwtr1",
+      "type": "oncofetal",
+      "role": "TAZ/YAP Paralog",
+      "lambda": 0.9989172411688416,
+      "ci_lower": 0.9926378234161216,
+      "ci_upper": 1.0044877274543502,
+      "se": 0.0029240464113433557
+    },
+    {
+      "tissue": "Kidney",
+      "gene": "Fosl1",
+      "type": "oncofetal",
+      "role": "Fra-1/AP-1",
+      "lambda": 0.9976837516973611,
+      "ci_lower": 0.9896838095900021,
+      "ci_upper": 1.0054347333466351,
+      "se": 0.003998336419335311
+    },
+    {
+      "tissue": "Kidney",
+      "gene": "Igf2bp1",
+      "type": "oncofetal",
+      "role": "IMP1/mRNA Stabilizer",
+      "lambda": 0.997871725294154,
+      "ci_lower": 0.9894358292533909,
+      "ci_upper": 1.0059038769774247,
+      "se": 0.0038865765126256525
+    },
+    {
+      "tissue": "Kidney",
+      "gene": "Per2",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.9330726940804617,
+      "ci_lower": 0.8631820321111117,
+      "ci_upper": 0.9867494905262963,
+      "se": 0.030503663319864135
+    },
+    {
+      "tissue": "Kidney",
+      "gene": "Arntl",
+      "type": "clock",
+      "role": "BMAL1/Positive Limb",
+      "lambda": 0.8545952592670054,
+      "ci_lower": 0.7237257317029795,
+      "ci_upper": 0.9556507958166164,
+      "se": 0.060704405670337906
+    },
+    {
+      "tissue": "Kidney",
+      "gene": "Clock",
+      "type": "clock",
+      "role": "Core Activator",
+      "lambda": 0.9934924871356529,
+      "ci_lower": 0.9794558657861904,
+      "ci_upper": 1.0062793029144859,
+      "se": 0.006968011859835333
+    },
+    {
+      "tissue": "Kidney",
+      "gene": "Per1",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.9595608510928931,
+      "ci_lower": 0.9170951650718333,
+      "ci_upper": 1.0012112222296263,
+      "se": 0.021684033744091922
+    },
+    {
+      "tissue": "Kidney",
+      "gene": "Cry1",
+      "type": "clock",
+      "role": "Cryptochrome",
+      "lambda": 0.9720747247389484,
+      "ci_lower": 0.9381154452392713,
+      "ci_upper": 1.0013875635131388,
+      "se": 0.016623166008617407
+    },
+    {
+      "tissue": "Kidney",
+      "gene": "Nr1d1",
+      "type": "clock",
+      "role": "Rev-Erb Alpha",
+      "lambda": 0.8564819116295268,
+      "ci_lower": 0.7291436510707872,
+      "ci_upper": 0.953689017383712,
+      "se": 0.05902682551389865
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Clu",
+      "type": "oncofetal",
+      "role": "Revival Stem Cell Marker",
+      "lambda": 0.9996465822317511,
+      "ci_lower": 0.9964750448534446,
+      "ci_upper": 1.0030839201784931,
+      "se": 0.0018137405504351253
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Tacstd2",
+      "type": "oncofetal",
+      "role": "Trop2/Fetal Progenitor",
+      "lambda": 0.9990150119805138,
+      "ci_lower": 0.9934359230889946,
+      "ci_upper": 1.004450893816077,
+      "se": 0.0026695371747703727
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Ly6a",
+      "type": "oncofetal",
+      "role": "Sca-1/Stem Cell",
+      "lambda": 0.9849754000875609,
+      "ci_lower": 0.9625071471921034,
+      "ci_upper": 1.0057921066682123,
+      "se": 0.01150411750984129
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Anxa1",
+      "type": "oncofetal",
+      "role": "Regenerative CSC",
+      "lambda": 0.9972039960271628,
+      "ci_lower": 0.9877553376410133,
+      "ci_upper": 1.0057864868138675,
+      "se": 0.004481363061346462
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Sox2",
+      "type": "oncofetal",
+      "role": "Pluripotency Factor",
+      "lambda": 0.9995159567422365,
+      "ci_lower": 0.9958884853390371,
+      "ci_upper": 1.0031003875501336,
+      "se": 0.0018260097473364108
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Sox9",
+      "type": "oncofetal",
+      "role": "Progenitor/Metastasis",
+      "lambda": 0.9842360140938896,
+      "ci_lower": 0.9596974168657244,
+      "ci_upper": 1.0071494424435792,
+      "se": 0.01220138145199185
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Yap1",
+      "type": "oncofetal",
+      "role": "Hippo Effector",
+      "lambda": 0.9984518676084075,
+      "ci_lower": 0.9915800958308909,
+      "ci_upper": 1.0049264644273814,
+      "se": 0.0033141786694398244
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Wwtr1",
+      "type": "oncofetal",
+      "role": "TAZ/YAP Paralog",
+      "lambda": 0.9964199185506014,
+      "ci_lower": 0.9861850021904466,
+      "ci_upper": 1.0058279314576815,
+      "se": 0.004951568197555974
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Fosl1",
+      "type": "oncofetal",
+      "role": "Fra-1/AP-1",
+      "lambda": 0.9989854047488159,
+      "ci_lower": 0.9939628958017375,
+      "ci_upper": 1.0041588543770514,
+      "se": 0.0026260729827840214
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Igf2bp1",
+      "type": "oncofetal",
+      "role": "IMP1/mRNA Stabilizer",
+      "lambda": 0.9998941941176845,
+      "ci_lower": 0.9976170367544808,
+      "ci_upper": 1.0024810163905924,
+      "se": 0.0012119274995627382
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Per2",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.9190734766142611,
+      "ci_lower": 0.8363042308070491,
+      "ci_upper": 0.9833427686936572,
+      "se": 0.03733516838647644
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Arntl",
+      "type": "clock",
+      "role": "BMAL1/Positive Limb",
+      "lambda": 0.8567700567586805,
+      "ci_lower": 0.7125119890663797,
+      "ci_upper": 0.9546541551154257,
+      "se": 0.06481637056735809
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Clock",
+      "type": "clock",
+      "role": "Core Activator",
+      "lambda": 0.9775393292833161,
+      "ci_lower": 0.9467374271376281,
+      "ci_upper": 1.0037518614688494,
+      "se": 0.014898886313301142
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Per1",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.9402577375715508,
+      "ci_lower": 0.8759190023991159,
+      "ci_upper": 0.9897629571742877,
+      "se": 0.028271306352534994
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Cry1",
+      "type": "clock",
+      "role": "Cryptochrome",
+      "lambda": 0.9351470219388381,
+      "ci_lower": 0.8647524441506179,
+      "ci_upper": 0.9864069336117014,
+      "se": 0.03141849946489728
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Nr1d1",
+      "type": "clock",
+      "role": "Rev-Erb Alpha",
+      "lambda": 0.7656993616977722,
+      "ci_lower": 0.5413865649534384,
+      "ci_upper": 0.9243435745230272,
+      "se": 0.09606090391368258
+    },
+    {
+      "tissue": "Lung",
+      "gene": "Clu",
+      "type": "oncofetal",
+      "role": "Revival Stem Cell Marker",
+      "lambda": 0.9988963879451427,
+      "ci_lower": 0.9932363413168377,
+      "ci_upper": 1.0046420079493672,
+      "se": 0.002848354389124102
+    },
+    {
+      "tissue": "Lung",
+      "gene": "Tacstd2",
+      "type": "oncofetal",
+      "role": "Trop2/Fetal Progenitor",
+      "lambda": 0.9933156556928554,
+      "ci_lower": 0.9796642971822815,
+      "ci_upper": 1.0068207501534403,
+      "se": 0.007102236109261588
+    },
+    {
+      "tissue": "Lung",
+      "gene": "Ly6a",
+      "type": "oncofetal",
+      "role": "Sca-1/Stem Cell",
+      "lambda": 0.9995631471380095,
+      "ci_lower": 0.994960959360691,
+      "ci_upper": 1.0037495935041116,
+      "se": 0.0022162068971326005
+    },
+    {
+      "tissue": "Lung",
+      "gene": "Anxa1",
+      "type": "oncofetal",
+      "role": "Regenerative CSC",
+      "lambda": 0.9982076531414056,
+      "ci_lower": 0.9908674563005819,
+      "ci_upper": 1.005295241954715,
+      "se": 0.003715154207028916
+    },
+    {
+      "tissue": "Lung",
+      "gene": "Sox2",
+      "type": "oncofetal",
+      "role": "Pluripotency Factor",
+      "lambda": 0.9945669586242096,
+      "ci_lower": 0.9801867551682322,
+      "ci_upper": 1.0079682094766405,
+      "se": 0.0071234415232692165
+    },
+    {
+      "tissue": "Lung",
+      "gene": "Sox9",
+      "type": "oncofetal",
+      "role": "Progenitor/Metastasis",
+      "lambda": 0.9985088980659921,
+      "ci_lower": 0.9914466155292274,
+      "ci_upper": 1.005018536018272,
+      "se": 0.003411886265652583
+    },
+    {
+      "tissue": "Lung",
+      "gene": "Yap1",
+      "type": "oncofetal",
+      "role": "Hippo Effector",
+      "lambda": 0.9992045825843716,
+      "ci_lower": 0.9944335285356914,
+      "ci_upper": 1.003582833722337,
+      "se": 0.002263356682317681
+    },
+    {
+      "tissue": "Lung",
+      "gene": "Wwtr1",
+      "type": "oncofetal",
+      "role": "TAZ/YAP Paralog",
+      "lambda": 0.9996047412674255,
+      "ci_lower": 0.9961909970025955,
+      "ci_upper": 1.003011417310451,
+      "se": 0.0016936971959878545
+    },
+    {
+      "tissue": "Lung",
+      "gene": "Fosl1",
+      "type": "oncofetal",
+      "role": "Fra-1/AP-1",
+      "lambda": 0.9990584702127052,
+      "ci_lower": 0.9937673848616382,
+      "ci_upper": 1.004374122505559,
+      "se": 0.0026221213331457795
+    },
+    {
+      "tissue": "Lung",
+      "gene": "Igf2bp1",
+      "type": "oncofetal",
+      "role": "IMP1/mRNA Stabilizer",
+      "lambda": 0.9996854546702376,
+      "ci_lower": 0.996876715351481,
+      "ci_upper": 1.0023757322380475,
+      "se": 0.0014297133837804373
+    },
+    {
+      "tissue": "Lung",
+      "gene": "Per2",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.9361556650776949,
+      "ci_lower": 0.8695515724373524,
+      "ci_upper": 0.9901488705450684,
+      "se": 0.03019940642732393
+    },
+    {
+      "tissue": "Lung",
+      "gene": "Arntl",
+      "type": "clock",
+      "role": "BMAL1/Positive Limb",
+      "lambda": 0.8625769751588555,
+      "ci_lower": 0.7266153411977319,
+      "ci_upper": 0.9644374505394568,
+      "se": 0.0600392577027076
+    },
+    {
+      "tissue": "Lung",
+      "gene": "Clock",
+      "type": "clock",
+      "role": "Core Activator",
+      "lambda": 0.9898134483641856,
+      "ci_lower": 0.9719029807855899,
+      "ci_upper": 1.0066946036241793,
+      "se": 0.009056979323307823
+    },
+    {
+      "tissue": "Lung",
+      "gene": "Per1",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.9451784303294829,
+      "ci_lower": 0.8888614081594999,
+      "ci_upper": 0.9922903177164399,
+      "se": 0.026099826730859952
+    },
+    {
+      "tissue": "Lung",
+      "gene": "Cry1",
+      "type": "clock",
+      "role": "Cryptochrome",
+      "lambda": 0.9766170298317207,
+      "ci_lower": 0.9434465244677563,
+      "ci_upper": 1.0021436545273148,
+      "se": 0.014737228014996924
+    },
+    {
+      "tissue": "Lung",
+      "gene": "Nr1d1",
+      "type": "clock",
+      "role": "Rev-Erb Alpha",
+      "lambda": 0.811173901630864,
+      "ci_lower": 0.6287785507064975,
+      "ci_upper": 0.9385374240129396,
+      "se": 0.08536218932946753
+    },
+    {
+      "tissue": "Muscle",
+      "gene": "Clu",
+      "type": "oncofetal",
+      "role": "Revival Stem Cell Marker",
+      "lambda": 0.9955530812563952,
+      "ci_lower": 0.9837833475477681,
+      "ci_upper": 1.006546981775326,
+      "se": 0.005754459266151069
+    },
+    {
+      "tissue": "Muscle",
+      "gene": "Tacstd2",
+      "type": "oncofetal",
+      "role": "Trop2/Fetal Progenitor",
+      "lambda": 0.9929758814608493,
+      "ci_lower": 0.9764069824447091,
+      "ci_upper": 1.0075440306377537,
+      "se": 0.007822948267447139
+    },
+    {
+      "tissue": "Muscle",
+      "gene": "Ly6a",
+      "type": "oncofetal",
+      "role": "Sca-1/Stem Cell",
+      "lambda": 0.9976336421792739,
+      "ci_lower": 0.9898638554536572,
+      "ci_upper": 1.005443564651647,
+      "se": 0.004001554147540867
+    },
+    {
+      "tissue": "Muscle",
+      "gene": "Anxa1",
+      "type": "oncofetal",
+      "role": "Regenerative CSC",
+      "lambda": 0.9898770926819436,
+      "ci_lower": 0.9680547330717769,
+      "ci_upper": 1.0085849362139105,
+      "se": 0.010156235694687842
+    },
+    {
+      "tissue": "Muscle",
+      "gene": "Sox2",
+      "type": "oncofetal",
+      "role": "Pluripotency Factor",
+      "lambda": 0.9980946132724776,
+      "ci_lower": 0.990309114071309,
+      "ci_upper": 1.0053139783522882,
+      "se": 0.003661334693404692
+    },
+    {
+      "tissue": "Muscle",
+      "gene": "Sox9",
+      "type": "oncofetal",
+      "role": "Progenitor/Metastasis",
+      "lambda": 0.9971670379173674,
+      "ci_lower": 0.9865297213866436,
+      "ci_upper": 1.0068299826225062,
+      "se": 0.004990647548847128
+    },
+    {
+      "tissue": "Muscle",
+      "gene": "Yap1",
+      "type": "oncofetal",
+      "role": "Hippo Effector",
+      "lambda": 0.9976191791046564,
+      "ci_lower": 0.9890137348722661,
+      "ci_upper": 1.005394185834139,
+      "se": 0.004257564390265537
+    },
+    {
+      "tissue": "Muscle",
+      "gene": "Wwtr1",
+      "type": "oncofetal",
+      "role": "TAZ/YAP Paralog",
+      "lambda": 0.9959323502321369,
+      "ci_lower": 0.984686511552418,
+      "ci_upper": 1.0057896226330565,
+      "se": 0.005483852714882516
+    },
+    {
+      "tissue": "Muscle",
+      "gene": "Fosl1",
+      "type": "oncofetal",
+      "role": "Fra-1/AP-1",
+      "lambda": 0.9974871290224879,
+      "ci_lower": 0.9889364878572291,
+      "ci_upper": 1.0051466891589054,
+      "se": 0.0041790341710284005
+    },
+    {
+      "tissue": "Muscle",
+      "gene": "Igf2bp1",
+      "type": "oncofetal",
+      "role": "IMP1/mRNA Stabilizer",
+      "lambda": 0.9991335150747037,
+      "ci_lower": 0.993788089894366,
+      "ci_upper": 1.0047785395116307,
+      "se": 0.0027684308809381754
+    },
+    {
+      "tissue": "Muscle",
+      "gene": "Per2",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.9630029600535458,
+      "ci_lower": 0.9233230092069142,
+      "ci_upper": 1.0005793837205237,
+      "se": 0.020172592286800833
+    },
+    {
+      "tissue": "Muscle",
+      "gene": "Arntl",
+      "type": "clock",
+      "role": "BMAL1/Positive Limb",
+      "lambda": 0.9350105006298621,
+      "ci_lower": 0.8680202377412923,
+      "ci_upper": 0.9882808685223754,
+      "se": 0.03134936552456908
+    },
+    {
+      "tissue": "Muscle",
+      "gene": "Clock",
+      "type": "clock",
+      "role": "Core Activator",
+      "lambda": 0.9917940817766594,
+      "ci_lower": 0.9746171504505414,
+      "ci_upper": 1.0071662597142022,
+      "se": 0.008250806278669011
+    },
+    {
+      "tissue": "Muscle",
+      "gene": "Per1",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.9476675719988866,
+      "ci_lower": 0.8911980138119878,
+      "ci_upper": 0.9934852492503341,
+      "se": 0.025940312149027374
+    },
+    {
+      "tissue": "Muscle",
+      "gene": "Cry1",
+      "type": "clock",
+      "role": "Cryptochrome",
+      "lambda": 0.9979773875939051,
+      "ci_lower": 0.9902057433563476,
+      "ci_upper": 1.0056745507760763,
+      "se": 0.004034210507014122
+    },
+    {
+      "tissue": "Muscle",
+      "gene": "Nr1d1",
+      "type": "clock",
+      "role": "Rev-Erb Alpha",
+      "lambda": 0.9171604754189279,
+      "ci_lower": 0.8272365797011879,
+      "ci_upper": 0.9837691046259027,
+      "se": 0.03909182795549212
+    },
+    {
+      "tissue": "White_Fat",
+      "gene": "Clu",
+      "type": "oncofetal",
+      "role": "Revival Stem Cell Marker",
+      "lambda": 0.8373960961348914,
+      "ci_lower": 0.7187200692846977,
+      "ci_upper": 0.9651809219128604,
+      "se": 0.06407067271508923
+    },
+    {
+      "tissue": "White_Fat",
+      "gene": "Tacstd2",
+      "type": "oncofetal",
+      "role": "Trop2/Fetal Progenitor",
+      "lambda": 0.9529277750984558,
+      "ci_lower": 0.8699327781335685,
+      "ci_upper": 1.031314327815056,
+      "se": 0.04284695589904973
+    },
+    {
+      "tissue": "White_Fat",
+      "gene": "Ly6a",
+      "type": "oncofetal",
+      "role": "Sca-1/Stem Cell",
+      "lambda": 0.9959314767969499,
+      "ci_lower": 0.9830784662802756,
+      "ci_upper": 1.007673504468692,
+      "se": 0.0058835030234773
+    },
+    {
+      "tissue": "White_Fat",
+      "gene": "Anxa1",
+      "type": "oncofetal",
+      "role": "Regenerative CSC",
+      "lambda": 0.9963486142035342,
+      "ci_lower": 0.9862340214962659,
+      "ci_upper": 1.0060878536942282,
+      "se": 0.004954577307997872
+    },
+    {
+      "tissue": "White_Fat",
+      "gene": "Sox2",
+      "type": "oncofetal",
+      "role": "Pluripotency Factor",
+      "lambda": 0.9948400731173812,
+      "ci_lower": 0.9737936235603802,
+      "ci_upper": 1.011998881101067,
+      "se": 0.011059990022296648
+    },
+    {
+      "tissue": "White_Fat",
+      "gene": "Sox9",
+      "type": "oncofetal",
+      "role": "Progenitor/Metastasis",
+      "lambda": 0.9771471890336645,
+      "ci_lower": 0.9468913963957946,
+      "ci_upper": 1.0036911430218933,
+      "se": 0.014721116626627114
+    },
+    {
+      "tissue": "White_Fat",
+      "gene": "Yap1",
+      "type": "oncofetal",
+      "role": "Hippo Effector",
+      "lambda": 0.9967353424405231,
+      "ci_lower": 0.9870420740053432,
+      "ci_upper": 1.0058996153163053,
+      "se": 0.004810181433707105
+    },
+    {
+      "tissue": "White_Fat",
+      "gene": "Wwtr1",
+      "type": "oncofetal",
+      "role": "TAZ/YAP Paralog",
+      "lambda": 0.9966830218771545,
+      "ci_lower": 0.9858046917044376,
+      "ci_upper": 1.0059897593316809,
+      "se": 0.0050554021457779605
+    },
+    {
+      "tissue": "White_Fat",
+      "gene": "Fosl1",
+      "type": "oncofetal",
+      "role": "Fra-1/AP-1",
+      "lambda": 0.9962835555333085,
+      "ci_lower": 0.9858414530348248,
+      "ci_upper": 1.0061902955905195,
+      "se": 0.005205060280668153
+    },
+    {
+      "tissue": "White_Fat",
+      "gene": "Igf2bp1",
+      "type": "oncofetal",
+      "role": "IMP1/mRNA Stabilizer",
+      "lambda": 0.9991463537500357,
+      "ci_lower": 0.9935301251733477,
+      "ci_upper": 1.0045066995712375,
+      "se": 0.0027188803180817098
+    },
+    {
+      "tissue": "White_Fat",
+      "gene": "Per2",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.9458354585019692,
+      "ci_lower": 0.8849276518076834,
+      "ci_upper": 0.9953968233903692,
+      "se": 0.028131328467178307
+    },
+    {
+      "tissue": "White_Fat",
+      "gene": "Arntl",
+      "type": "clock",
+      "role": "BMAL1/Positive Limb",
+      "lambda": 0.8778008147280751,
+      "ci_lower": 0.7562231886215676,
+      "ci_upper": 0.9628348134100908,
+      "se": 0.05386295357374666
+    },
+    {
+      "tissue": "White_Fat",
+      "gene": "Clock",
+      "type": "clock",
+      "role": "Core Activator",
+      "lambda": 0.9817663311440221,
+      "ci_lower": 0.9529136832516356,
+      "ci_upper": 1.0038530390167786,
+      "se": 0.013392799159275538
+    },
+    {
+      "tissue": "White_Fat",
+      "gene": "Per1",
+      "type": "clock",
+      "role": "Negative Limb",
+      "lambda": 0.9598992349630405,
+      "ci_lower": 0.9141188605423659,
+      "ci_upper": 1.0000755124435354,
+      "se": 0.021201822916024345
+    },
+    {
+      "tissue": "White_Fat",
+      "gene": "Cry1",
+      "type": "clock",
+      "role": "Cryptochrome",
+      "lambda": 0.9780631440609842,
+      "ci_lower": 0.947808463987357,
+      "ci_upper": 1.0058951607593307,
+      "se": 0.015320712562587534
+    },
+    {
+      "tissue": "White_Fat",
+      "gene": "Nr1d1",
+      "type": "clock",
+      "role": "Rev-Erb Alpha",
+      "lambda": 0.8374399396536948,
+      "ci_lower": 0.6859548066442774,
+      "ci_upper": 0.9426183708825899,
+      "se": 0.06726252405831296
+    }
+  ],
+  "robustness_tests": {
+    "paired_tissue_test": {
+      "paired_t": 5.806804882253473,
+      "paired_df": 11,
+      "paired_p": 0.0001181078270739988,
+      "sign_test_nPos": 12,
+      "sign_test_nNeg": 0,
+      "sign_test_p": 0.00048828125
+    },
+    "robustness_suite_summary": {
+      "total_analyses": 6,
+      "date": "2026-02-14",
+      "subsampling": {"status": "PASS", "detail": "Hierarchy robust to N=8 timepoints"},
+      "bootstrap_ci": {"status": "PASS", "detail": "Gap CI [0.058, 0.261] excludes zero"},
+      "first_difference": {"status": "LIMITATION", "detail": "2/12 tissues preserved (honest limitation)"},
+      "linear_detrending": {"status": "PASS", "detail": "12/12 tissues preserved (resolves first-difference weakness)"},
+      "gap_permutation": {"status": "PASS", "detail": "All 5 datasets p<0.001, z-scores 3.47-4.33, 10K shuffles seed=42"},
+      "population_cv": {"status": "PASS", "detail": "25/25 folds (100%), mean gap 0.216±0.051"}
+    },
+    "preprocessing_stability": {
+      "test_tissue": "Liver",
+      "conditions": [
+        {
+          "condition": "Raw",
+          "oncoMean": 0.9971255385517545,
+          "clockMean": 0.8494138146440781,
+          "delta": 0.1477117239076764
+        },
+        {
+          "condition": "Detrended",
+          "oncoMean": 0.9975577779907365,
+          "clockMean": 0.874041690490956,
+          "delta": 0.12351608749978049
+        },
+        {
+          "condition": "Normalized",
+          "oncoMean": 0.4035942382079267,
+          "clockMean": 0.7263387265508875,
+          "delta": -0.32274448834296077
+        },
+        {
+          "condition": "Phase+2",
+          "oncoMean": 0.9951366198584998,
+          "clockMean": 0.8633535313661893,
+          "delta": 0.13178308849231046
+        },
+        {
+          "condition": "Phase+4",
+          "oncoMean": 0.9977107992113693,
+          "clockMean": 0.8762762963640864,
+          "delta": 0.12143450284728285
+        },
+        {
+          "condition": "All preprocessing",
+          "oncoMean": 0.39819275972548374,
+          "clockMean": 0.7308373306630016,
+          "delta": -0.33264457093751787
+        }
+      ],
+      "all_positive_delta": false,
+      "delta_range": 0.48035629484519426
+    },
+    "independent_replication": {
+      "datasets_tested": 0,
+      "datasets_replicated": 0,
+      "results": []
+    }
+  },
+  "testable_predictions": {
+    "window_width_test": {
+      "viable_window": {
+        "lower": 59.89850607543083,
+        "upper": 299.4925303771542,
+        "unit": "time_units"
+      },
+      "decay_rate": 0.005008472158257282,
+      "characteristic_time": 199.6616869181028,
+      "half_life": 138.39493535312545
+    },
+    "memory_decay_test": {
+      "forward_transition": {
+        "from": 0.944203915308037,
+        "to": 0.9949915278417427,
+        "generations": "5-10"
+      },
+      "return_transition": {
+        "from": 0.9949915278417427,
+        "to": 0.944203915308037,
+        "generations": "15-25"
+      },
+      "asymmetry_ratio": "2-3x",
+      "memory_half_life_generations": 138.04807173536568,
+      "persistence_10gen": 0.9510291490908831,
+      "persistence_20gen": 0.9044564424205292
+    }
+  }
+}

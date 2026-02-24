@@ -1,0 +1,6163 @@
+{
+  "summary": {
+    "totalMeasurements": 144,
+    "uniqueGenes": 36,
+    "datasets": 4,
+    "clockGenes": 14,
+    "targetGenes": 22,
+    "species": "mouse",
+    "speciesLabel": "Mouse"
+  },
+  "correlations": {
+    "eigenvalue_vs_networkDegree": {
+      "rho": -0.2888,
+      "pValue": 1,
+      "n": 144,
+      "label": "|\u03bb| vs Network Degree"
+    },
+    "eigenvalue_vs_amplitude": {
+      "rho": 0.6934,
+      "pValue": 2.8348204504756815e-22,
+      "n": 144,
+      "label": "|\u03bb| vs Cosinor Amplitude"
+    },
+    "eigenvalue_vs_rSquared": {
+      "rho": 0.8307,
+      "pValue": 4.189294129352249e-38,
+      "n": 144,
+      "label": "|\u03bb| vs AR(2) R\u00b2"
+    },
+    "eigenvalue_vs_h3k4me3": {
+      "rho": 0.0794,
+      "pValue": 1,
+      "n": 144,
+      "label": "|\u03bb| vs H3K4me3"
+    }
+  },
+  "partialCorrelations": {
+    "eigenvalue_amplitude_controllingNetwork": {
+      "rho": 0.6705,
+      "n": 144
+    },
+    "eigenvalue_network_controllingAmplitude": {
+      "rho": -0.1682,
+      "n": 144
+    },
+    "note": "Partial correlations control for confounding effects between metrics"
+  },
+  "networkScatter": [
+    {
+      "gene": "Npas2",
+      "geneType": "clock",
+      "eigenvalue": 0.5597,
+      "networkDegree": 88,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Per2",
+      "geneType": "clock",
+      "eigenvalue": 0.636,
+      "networkDegree": 156,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Bcl2",
+      "geneType": "target",
+      "eigenvalue": 0.5556,
+      "networkDegree": 256,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Mcm6",
+      "geneType": "target",
+      "eigenvalue": 0.4608,
+      "networkDegree": 78,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Sirt1",
+      "geneType": "target",
+      "eigenvalue": 0.5632,
+      "networkDegree": 267,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Cdk1",
+      "geneType": "target",
+      "eigenvalue": 0.6005,
+      "networkDegree": 245,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Cry1",
+      "geneType": "clock",
+      "eigenvalue": 0.7595,
+      "networkDegree": 134,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Lgr5",
+      "geneType": "target",
+      "eigenvalue": 0.5723,
+      "networkDegree": 45,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Mdm2",
+      "geneType": "target",
+      "eigenvalue": 0.7228,
+      "networkDegree": 198,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Per1",
+      "geneType": "clock",
+      "eigenvalue": 0.5738,
+      "networkDegree": 142,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Trp53",
+      "geneType": "target",
+      "eigenvalue": 0.7145,
+      "networkDegree": 356,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Axin2",
+      "geneType": "target",
+      "eigenvalue": 0.1605,
+      "networkDegree": 78,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Nr1d1",
+      "geneType": "clock",
+      "eigenvalue": 0.8112,
+      "networkDegree": 98,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Hif1a",
+      "geneType": "target",
+      "eigenvalue": 0.4684,
+      "networkDegree": 278,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Ccnb1",
+      "geneType": "target",
+      "eigenvalue": 0.404,
+      "networkDegree": 167,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Nr1d2",
+      "geneType": "clock",
+      "eigenvalue": 0.8564,
+      "networkDegree": 76,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Myc",
+      "geneType": "target",
+      "eigenvalue": 0.4163,
+      "networkDegree": 312,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Tef",
+      "geneType": "clock",
+      "eigenvalue": 0.6573,
+      "networkDegree": 54,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Apc",
+      "geneType": "target",
+      "eigenvalue": 0.5755,
+      "networkDegree": 167,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Cry2",
+      "geneType": "clock",
+      "eigenvalue": 0.5832,
+      "networkDegree": 118,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Rorc",
+      "geneType": "clock",
+      "eigenvalue": 0.7092,
+      "networkDegree": 95,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Ccne2",
+      "geneType": "target",
+      "eigenvalue": 0.4259,
+      "networkDegree": 98,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Per3",
+      "geneType": "clock",
+      "eigenvalue": 0.4861,
+      "networkDegree": 89,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Chek2",
+      "geneType": "target",
+      "eigenvalue": 0.4058,
+      "networkDegree": 145,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Clock",
+      "geneType": "clock",
+      "eigenvalue": 0.8104,
+      "networkDegree": 187,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Pparg",
+      "geneType": "target",
+      "eigenvalue": 0.5014,
+      "networkDegree": 234,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Dbp",
+      "geneType": "clock",
+      "eigenvalue": 0.7917,
+      "networkDegree": 67,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Wee1",
+      "geneType": "target",
+      "eigenvalue": 0.6151,
+      "networkDegree": 89,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Arntl",
+      "geneType": "clock",
+      "eigenvalue": 0.7671,
+      "networkDegree": 201,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Ccne1",
+      "geneType": "target",
+      "eigenvalue": 0.4017,
+      "networkDegree": 134,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Bax",
+      "geneType": "target",
+      "eigenvalue": 0.3916,
+      "networkDegree": 189,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Mki67",
+      "geneType": "target",
+      "eigenvalue": 0.4398,
+      "networkDegree": 89,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Ccnd1",
+      "geneType": "target",
+      "eigenvalue": 0.5868,
+      "networkDegree": 198,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Rora",
+      "geneType": "clock",
+      "eigenvalue": 0.2241,
+      "networkDegree": 112,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Ctnnb1",
+      "geneType": "target",
+      "eigenvalue": 0.5649,
+      "networkDegree": 289,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Atm",
+      "geneType": "target",
+      "eigenvalue": 0.6341,
+      "networkDegree": 234,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Npas2",
+      "geneType": "clock",
+      "eigenvalue": 0.7903,
+      "networkDegree": 88,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Per2",
+      "geneType": "clock",
+      "eigenvalue": 0.8357,
+      "networkDegree": 156,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Bcl2",
+      "geneType": "target",
+      "eigenvalue": 0.6984,
+      "networkDegree": 256,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Mcm6",
+      "geneType": "target",
+      "eigenvalue": 0.3409,
+      "networkDegree": 78,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Sirt1",
+      "geneType": "target",
+      "eigenvalue": 0.4575,
+      "networkDegree": 267,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Cdk1",
+      "geneType": "target",
+      "eigenvalue": 0.5959,
+      "networkDegree": 245,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Cry1",
+      "geneType": "clock",
+      "eigenvalue": 0.805,
+      "networkDegree": 134,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Lgr5",
+      "geneType": "target",
+      "eigenvalue": 0.6437,
+      "networkDegree": 45,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Mdm2",
+      "geneType": "target",
+      "eigenvalue": 0.4635,
+      "networkDegree": 198,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Per1",
+      "geneType": "clock",
+      "eigenvalue": 0.5902,
+      "networkDegree": 142,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Trp53",
+      "geneType": "target",
+      "eigenvalue": 0.5849,
+      "networkDegree": 356,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Axin2",
+      "geneType": "target",
+      "eigenvalue": 0.4265,
+      "networkDegree": 78,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Nr1d1",
+      "geneType": "clock",
+      "eigenvalue": 0.8823,
+      "networkDegree": 98,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Hif1a",
+      "geneType": "target",
+      "eigenvalue": 0.3909,
+      "networkDegree": 278,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Ccnb1",
+      "geneType": "target",
+      "eigenvalue": 0.3914,
+      "networkDegree": 167,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Nr1d2",
+      "geneType": "clock",
+      "eigenvalue": 0.8788,
+      "networkDegree": 76,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Myc",
+      "geneType": "target",
+      "eigenvalue": 0.7047,
+      "networkDegree": 312,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Tef",
+      "geneType": "clock",
+      "eigenvalue": 0.8756,
+      "networkDegree": 54,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Apc",
+      "geneType": "target",
+      "eigenvalue": 0.4752,
+      "networkDegree": 167,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Cry2",
+      "geneType": "clock",
+      "eigenvalue": 0.6726,
+      "networkDegree": 118,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Rorc",
+      "geneType": "clock",
+      "eigenvalue": 0.9589,
+      "networkDegree": 95,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Ccne2",
+      "geneType": "target",
+      "eigenvalue": 0.1975,
+      "networkDegree": 98,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Per3",
+      "geneType": "clock",
+      "eigenvalue": 0.8339,
+      "networkDegree": 89,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Chek2",
+      "geneType": "target",
+      "eigenvalue": 0.1939,
+      "networkDegree": 145,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Clock",
+      "geneType": "clock",
+      "eigenvalue": 0.6559,
+      "networkDegree": 187,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Pparg",
+      "geneType": "target",
+      "eigenvalue": 0.6468,
+      "networkDegree": 234,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Dbp",
+      "geneType": "clock",
+      "eigenvalue": 0.8922,
+      "networkDegree": 67,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Wee1",
+      "geneType": "target",
+      "eigenvalue": 0.6353,
+      "networkDegree": 89,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Arntl",
+      "geneType": "clock",
+      "eigenvalue": 0.8986,
+      "networkDegree": 201,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Ccne1",
+      "geneType": "target",
+      "eigenvalue": 0.5752,
+      "networkDegree": 134,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Bax",
+      "geneType": "target",
+      "eigenvalue": 0.6733,
+      "networkDegree": 189,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Mki67",
+      "geneType": "target",
+      "eigenvalue": 0.6033,
+      "networkDegree": 89,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Ccnd1",
+      "geneType": "target",
+      "eigenvalue": 0.5275,
+      "networkDegree": 198,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Rora",
+      "geneType": "clock",
+      "eigenvalue": 0.3675,
+      "networkDegree": 112,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Ctnnb1",
+      "geneType": "target",
+      "eigenvalue": 0.5325,
+      "networkDegree": 289,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Atm",
+      "geneType": "target",
+      "eigenvalue": 0.5105,
+      "networkDegree": 234,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Npas2",
+      "geneType": "clock",
+      "eigenvalue": 0.7665,
+      "networkDegree": 88,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Per2",
+      "geneType": "clock",
+      "eigenvalue": 0.7796,
+      "networkDegree": 156,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Bcl2",
+      "geneType": "target",
+      "eigenvalue": 0.5287,
+      "networkDegree": 256,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Mcm6",
+      "geneType": "target",
+      "eigenvalue": 0.6297,
+      "networkDegree": 78,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Sirt1",
+      "geneType": "target",
+      "eigenvalue": 0.5011,
+      "networkDegree": 267,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Cdk1",
+      "geneType": "target",
+      "eigenvalue": 0.2044,
+      "networkDegree": 245,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Cry1",
+      "geneType": "clock",
+      "eigenvalue": 0.5848,
+      "networkDegree": 134,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Lgr5",
+      "geneType": "target",
+      "eigenvalue": 0.3744,
+      "networkDegree": 45,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Mdm2",
+      "geneType": "target",
+      "eigenvalue": 0.4241,
+      "networkDegree": 198,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Per1",
+      "geneType": "clock",
+      "eigenvalue": 0.6381,
+      "networkDegree": 142,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Trp53",
+      "geneType": "target",
+      "eigenvalue": 0.7596,
+      "networkDegree": 356,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Axin2",
+      "geneType": "target",
+      "eigenvalue": 0.4464,
+      "networkDegree": 78,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Nr1d1",
+      "geneType": "clock",
+      "eigenvalue": 0.8402,
+      "networkDegree": 98,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Hif1a",
+      "geneType": "target",
+      "eigenvalue": 0.3076,
+      "networkDegree": 278,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Ccnb1",
+      "geneType": "target",
+      "eigenvalue": 0.3949,
+      "networkDegree": 167,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Nr1d2",
+      "geneType": "clock",
+      "eigenvalue": 0.7049,
+      "networkDegree": 76,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Myc",
+      "geneType": "target",
+      "eigenvalue": 0.1971,
+      "networkDegree": 312,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Tef",
+      "geneType": "clock",
+      "eigenvalue": 0.7322,
+      "networkDegree": 54,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Apc",
+      "geneType": "target",
+      "eigenvalue": 0.6259,
+      "networkDegree": 167,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Cry2",
+      "geneType": "clock",
+      "eigenvalue": 0.5249,
+      "networkDegree": 118,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Rorc",
+      "geneType": "clock",
+      "eigenvalue": 0.735,
+      "networkDegree": 95,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Ccne2",
+      "geneType": "target",
+      "eigenvalue": 0.1995,
+      "networkDegree": 98,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Per3",
+      "geneType": "clock",
+      "eigenvalue": 0.7767,
+      "networkDegree": 89,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Chek2",
+      "geneType": "target",
+      "eigenvalue": 0.5147,
+      "networkDegree": 145,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Clock",
+      "geneType": "clock",
+      "eigenvalue": 0.7112,
+      "networkDegree": 187,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Pparg",
+      "geneType": "target",
+      "eigenvalue": 0.56,
+      "networkDegree": 234,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Dbp",
+      "geneType": "clock",
+      "eigenvalue": 0.8524,
+      "networkDegree": 67,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Wee1",
+      "geneType": "target",
+      "eigenvalue": 0.6708,
+      "networkDegree": 89,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Arntl",
+      "geneType": "clock",
+      "eigenvalue": 0.7262,
+      "networkDegree": 201,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Ccne1",
+      "geneType": "target",
+      "eigenvalue": 0.4863,
+      "networkDegree": 134,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Bax",
+      "geneType": "target",
+      "eigenvalue": 0.268,
+      "networkDegree": 189,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Mki67",
+      "geneType": "target",
+      "eigenvalue": 0.5233,
+      "networkDegree": 89,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Ccnd1",
+      "geneType": "target",
+      "eigenvalue": 0.2038,
+      "networkDegree": 198,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Rora",
+      "geneType": "clock",
+      "eigenvalue": 0.4261,
+      "networkDegree": 112,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Ctnnb1",
+      "geneType": "target",
+      "eigenvalue": 0.6622,
+      "networkDegree": 289,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Atm",
+      "geneType": "target",
+      "eigenvalue": 0.5897,
+      "networkDegree": 234,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Npas2",
+      "geneType": "clock",
+      "eigenvalue": 0.7963,
+      "networkDegree": 88,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Per2",
+      "geneType": "clock",
+      "eigenvalue": 0.888,
+      "networkDegree": 156,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Bcl2",
+      "geneType": "target",
+      "eigenvalue": 0.5314,
+      "networkDegree": 256,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Mcm6",
+      "geneType": "target",
+      "eigenvalue": 0.7539,
+      "networkDegree": 78,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Sirt1",
+      "geneType": "target",
+      "eigenvalue": 0.6204,
+      "networkDegree": 267,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Cdk1",
+      "geneType": "target",
+      "eigenvalue": 0.1693,
+      "networkDegree": 245,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Cry1",
+      "geneType": "clock",
+      "eigenvalue": 0.8478,
+      "networkDegree": 134,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Lgr5",
+      "geneType": "target",
+      "eigenvalue": 0.6355,
+      "networkDegree": 45,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Mdm2",
+      "geneType": "target",
+      "eigenvalue": 0.4626,
+      "networkDegree": 198,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Per1",
+      "geneType": "clock",
+      "eigenvalue": 0.5214,
+      "networkDegree": 142,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Trp53",
+      "geneType": "target",
+      "eigenvalue": 0.3861,
+      "networkDegree": 356,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Axin2",
+      "geneType": "target",
+      "eigenvalue": 0.5614,
+      "networkDegree": 78,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Nr1d1",
+      "geneType": "clock",
+      "eigenvalue": 0.8736,
+      "networkDegree": 98,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Hif1a",
+      "geneType": "target",
+      "eigenvalue": 0.5158,
+      "networkDegree": 278,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Ccnb1",
+      "geneType": "target",
+      "eigenvalue": 0.537,
+      "networkDegree": 167,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Nr1d2",
+      "geneType": "clock",
+      "eigenvalue": 0.8704,
+      "networkDegree": 76,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Myc",
+      "geneType": "target",
+      "eigenvalue": 0.2937,
+      "networkDegree": 312,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Tef",
+      "geneType": "clock",
+      "eigenvalue": 0.9296,
+      "networkDegree": 54,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Apc",
+      "geneType": "target",
+      "eigenvalue": 0.563,
+      "networkDegree": 167,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Cry2",
+      "geneType": "clock",
+      "eigenvalue": 0.7818,
+      "networkDegree": 118,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Rorc",
+      "geneType": "clock",
+      "eigenvalue": 0.9151,
+      "networkDegree": 95,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Ccne2",
+      "geneType": "target",
+      "eigenvalue": 0.3838,
+      "networkDegree": 98,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Per3",
+      "geneType": "clock",
+      "eigenvalue": 0.936,
+      "networkDegree": 89,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Chek2",
+      "geneType": "target",
+      "eigenvalue": 0.3846,
+      "networkDegree": 145,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Clock",
+      "geneType": "clock",
+      "eigenvalue": 0.824,
+      "networkDegree": 187,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Pparg",
+      "geneType": "target",
+      "eigenvalue": 0.2984,
+      "networkDegree": 234,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Dbp",
+      "geneType": "clock",
+      "eigenvalue": 0.8938,
+      "networkDegree": 67,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Wee1",
+      "geneType": "target",
+      "eigenvalue": 0.8828,
+      "networkDegree": 89,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Arntl",
+      "geneType": "clock",
+      "eigenvalue": 0.8234,
+      "networkDegree": 201,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Ccne1",
+      "geneType": "target",
+      "eigenvalue": 0.6254,
+      "networkDegree": 134,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Bax",
+      "geneType": "target",
+      "eigenvalue": 0.5336,
+      "networkDegree": 189,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Mki67",
+      "geneType": "target",
+      "eigenvalue": 0.4952,
+      "networkDegree": 89,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Ccnd1",
+      "geneType": "target",
+      "eigenvalue": 0.4145,
+      "networkDegree": 198,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Rora",
+      "geneType": "clock",
+      "eigenvalue": 0.5484,
+      "networkDegree": 112,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Ctnnb1",
+      "geneType": "target",
+      "eigenvalue": 0.685,
+      "networkDegree": 289,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Atm",
+      "geneType": "target",
+      "eigenvalue": 0.662,
+      "networkDegree": 234,
+      "tissue": "Lung"
+    }
+  ],
+  "amplitudeScatter": [
+    {
+      "gene": "Npas2",
+      "geneType": "clock",
+      "eigenvalue": 0.5597,
+      "amplitude": 210.7828,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Per2",
+      "geneType": "clock",
+      "eigenvalue": 0.636,
+      "amplitude": 394.6816,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Bcl2",
+      "geneType": "target",
+      "eigenvalue": 0.5556,
+      "amplitude": 4.8006,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Mcm6",
+      "geneType": "target",
+      "eigenvalue": 0.4608,
+      "amplitude": 16.563,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Sirt1",
+      "geneType": "target",
+      "eigenvalue": 0.5632,
+      "amplitude": 17.2145,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Cdk1",
+      "geneType": "target",
+      "eigenvalue": 0.6005,
+      "amplitude": 10.3654,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Cry1",
+      "geneType": "clock",
+      "eigenvalue": 0.7595,
+      "amplitude": 236.7024,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Lgr5",
+      "geneType": "target",
+      "eigenvalue": 0.5723,
+      "amplitude": 65.705,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Mdm2",
+      "geneType": "target",
+      "eigenvalue": 0.7228,
+      "amplitude": 61.3533,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Per1",
+      "geneType": "clock",
+      "eigenvalue": 0.5738,
+      "amplitude": 191.199,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Trp53",
+      "geneType": "target",
+      "eigenvalue": 0.7145,
+      "amplitude": 79.4795,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Axin2",
+      "geneType": "target",
+      "eigenvalue": 0.1605,
+      "amplitude": 11.4946,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Nr1d1",
+      "geneType": "clock",
+      "eigenvalue": 0.8112,
+      "amplitude": 1541.8413,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Hif1a",
+      "geneType": "target",
+      "eigenvalue": 0.4684,
+      "amplitude": 8.5794,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Ccnb1",
+      "geneType": "target",
+      "eigenvalue": 0.404,
+      "amplitude": 9.1144,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Nr1d2",
+      "geneType": "clock",
+      "eigenvalue": 0.8564,
+      "amplitude": 805.4163,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Myc",
+      "geneType": "target",
+      "eigenvalue": 0.4163,
+      "amplitude": 149.2074,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Tef",
+      "geneType": "clock",
+      "eigenvalue": 0.6573,
+      "amplitude": 382.0375,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Apc",
+      "geneType": "target",
+      "eigenvalue": 0.5755,
+      "amplitude": 40.7677,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Cry2",
+      "geneType": "clock",
+      "eigenvalue": 0.5832,
+      "amplitude": 99.7394,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Rorc",
+      "geneType": "clock",
+      "eigenvalue": 0.7092,
+      "amplitude": 1497.8866,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Ccne2",
+      "geneType": "target",
+      "eigenvalue": 0.4259,
+      "amplitude": 9.8135,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Per3",
+      "geneType": "clock",
+      "eigenvalue": 0.4861,
+      "amplitude": 252.4726,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Chek2",
+      "geneType": "target",
+      "eigenvalue": 0.4058,
+      "amplitude": 4.7569,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Clock",
+      "geneType": "clock",
+      "eigenvalue": 0.8104,
+      "amplitude": 462.9082,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Pparg",
+      "geneType": "target",
+      "eigenvalue": 0.5014,
+      "amplitude": 7.066,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Dbp",
+      "geneType": "clock",
+      "eigenvalue": 0.7917,
+      "amplitude": 738.9822,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Wee1",
+      "geneType": "target",
+      "eigenvalue": 0.6151,
+      "amplitude": 309.228,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Arntl",
+      "geneType": "clock",
+      "eigenvalue": 0.7671,
+      "amplitude": 344.7566,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Ccne1",
+      "geneType": "target",
+      "eigenvalue": 0.4017,
+      "amplitude": 41.4279,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Bax",
+      "geneType": "target",
+      "eigenvalue": 0.3916,
+      "amplitude": 2.415,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Mki67",
+      "geneType": "target",
+      "eigenvalue": 0.4398,
+      "amplitude": 1.8997,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Ccnd1",
+      "geneType": "target",
+      "eigenvalue": 0.5868,
+      "amplitude": 183.273,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Rora",
+      "geneType": "clock",
+      "eigenvalue": 0.2241,
+      "amplitude": 82.3909,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Ctnnb1",
+      "geneType": "target",
+      "eigenvalue": 0.5649,
+      "amplitude": 107.33,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Atm",
+      "geneType": "target",
+      "eigenvalue": 0.6341,
+      "amplitude": 25.6057,
+      "tissue": "Liver"
+    },
+    {
+      "gene": "Npas2",
+      "geneType": "clock",
+      "eigenvalue": 0.7903,
+      "amplitude": 388.6992,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Per2",
+      "geneType": "clock",
+      "eigenvalue": 0.8357,
+      "amplitude": 222.7009,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Bcl2",
+      "geneType": "target",
+      "eigenvalue": 0.6984,
+      "amplitude": 28.5389,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Mcm6",
+      "geneType": "target",
+      "eigenvalue": 0.3409,
+      "amplitude": 3.6771,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Sirt1",
+      "geneType": "target",
+      "eigenvalue": 0.4575,
+      "amplitude": 5.8468,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Cdk1",
+      "geneType": "target",
+      "eigenvalue": 0.5959,
+      "amplitude": 0.8152,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Cry1",
+      "geneType": "clock",
+      "eigenvalue": 0.805,
+      "amplitude": 56.4275,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Lgr5",
+      "geneType": "target",
+      "eigenvalue": 0.6437,
+      "amplitude": 1.9573,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Mdm2",
+      "geneType": "target",
+      "eigenvalue": 0.4635,
+      "amplitude": 15.1509,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Per1",
+      "geneType": "clock",
+      "eigenvalue": 0.5902,
+      "amplitude": 116.6323,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Trp53",
+      "geneType": "target",
+      "eigenvalue": 0.5849,
+      "amplitude": 16.014,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Axin2",
+      "geneType": "target",
+      "eigenvalue": 0.4265,
+      "amplitude": 4.2042,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Nr1d1",
+      "geneType": "clock",
+      "eigenvalue": 0.8823,
+      "amplitude": 771.4741,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Hif1a",
+      "geneType": "target",
+      "eigenvalue": 0.3909,
+      "amplitude": 93.4263,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Ccnb1",
+      "geneType": "target",
+      "eigenvalue": 0.3914,
+      "amplitude": 2.8228,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Nr1d2",
+      "geneType": "clock",
+      "eigenvalue": 0.8788,
+      "amplitude": 569.5194,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Myc",
+      "geneType": "target",
+      "eigenvalue": 0.7047,
+      "amplitude": 39.9883,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Tef",
+      "geneType": "clock",
+      "eigenvalue": 0.8756,
+      "amplitude": 244.6756,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Apc",
+      "geneType": "target",
+      "eigenvalue": 0.4752,
+      "amplitude": 16.8616,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Cry2",
+      "geneType": "clock",
+      "eigenvalue": 0.6726,
+      "amplitude": 66.0081,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Rorc",
+      "geneType": "clock",
+      "eigenvalue": 0.9589,
+      "amplitude": 716.5837,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Ccne2",
+      "geneType": "target",
+      "eigenvalue": 0.1975,
+      "amplitude": 4.0537,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Per3",
+      "geneType": "clock",
+      "eigenvalue": 0.8339,
+      "amplitude": 177.8122,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Chek2",
+      "geneType": "target",
+      "eigenvalue": 0.1939,
+      "amplitude": 3.041,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Clock",
+      "geneType": "clock",
+      "eigenvalue": 0.6559,
+      "amplitude": 158.8632,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Pparg",
+      "geneType": "target",
+      "eigenvalue": 0.6468,
+      "amplitude": 30.2688,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Dbp",
+      "geneType": "clock",
+      "eigenvalue": 0.8922,
+      "amplitude": 572.1777,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Wee1",
+      "geneType": "target",
+      "eigenvalue": 0.6353,
+      "amplitude": 171.0008,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Arntl",
+      "geneType": "clock",
+      "eigenvalue": 0.8986,
+      "amplitude": 213.7512,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Ccne1",
+      "geneType": "target",
+      "eigenvalue": 0.5752,
+      "amplitude": 4.8728,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Bax",
+      "geneType": "target",
+      "eigenvalue": 0.6733,
+      "amplitude": 13.7629,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Mki67",
+      "geneType": "target",
+      "eigenvalue": 0.6033,
+      "amplitude": 2.664,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Ccnd1",
+      "geneType": "target",
+      "eigenvalue": 0.5275,
+      "amplitude": 194.4651,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Rora",
+      "geneType": "clock",
+      "eigenvalue": 0.3675,
+      "amplitude": 20.0638,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Ctnnb1",
+      "geneType": "target",
+      "eigenvalue": 0.5325,
+      "amplitude": 144.0971,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Atm",
+      "geneType": "target",
+      "eigenvalue": 0.5105,
+      "amplitude": 19.5838,
+      "tissue": "Kidney"
+    },
+    {
+      "gene": "Npas2",
+      "geneType": "clock",
+      "eigenvalue": 0.7665,
+      "amplitude": 140.5522,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Per2",
+      "geneType": "clock",
+      "eigenvalue": 0.7796,
+      "amplitude": 161.154,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Bcl2",
+      "geneType": "target",
+      "eigenvalue": 0.5287,
+      "amplitude": 31.6684,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Mcm6",
+      "geneType": "target",
+      "eigenvalue": 0.6297,
+      "amplitude": 1.1731,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Sirt1",
+      "geneType": "target",
+      "eigenvalue": 0.5011,
+      "amplitude": 10.1633,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Cdk1",
+      "geneType": "target",
+      "eigenvalue": 0.2044,
+      "amplitude": 1.5936,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Cry1",
+      "geneType": "clock",
+      "eigenvalue": 0.5848,
+      "amplitude": 44.3192,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Lgr5",
+      "geneType": "target",
+      "eigenvalue": 0.3744,
+      "amplitude": 0.3973,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Mdm2",
+      "geneType": "target",
+      "eigenvalue": 0.4241,
+      "amplitude": 28.0751,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Per1",
+      "geneType": "clock",
+      "eigenvalue": 0.6381,
+      "amplitude": 222.1408,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Trp53",
+      "geneType": "target",
+      "eigenvalue": 0.7596,
+      "amplitude": 32.4741,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Axin2",
+      "geneType": "target",
+      "eigenvalue": 0.4464,
+      "amplitude": 5.8497,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Nr1d1",
+      "geneType": "clock",
+      "eigenvalue": 0.8402,
+      "amplitude": 1098.2581,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Hif1a",
+      "geneType": "target",
+      "eigenvalue": 0.3076,
+      "amplitude": 202.439,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Ccnb1",
+      "geneType": "target",
+      "eigenvalue": 0.3949,
+      "amplitude": 3.7007,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Nr1d2",
+      "geneType": "clock",
+      "eigenvalue": 0.7049,
+      "amplitude": 554.963,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Myc",
+      "geneType": "target",
+      "eigenvalue": 0.1971,
+      "amplitude": 4.3551,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Tef",
+      "geneType": "clock",
+      "eigenvalue": 0.7322,
+      "amplitude": 213.9922,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Apc",
+      "geneType": "target",
+      "eigenvalue": 0.6259,
+      "amplitude": 16.9749,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Cry2",
+      "geneType": "clock",
+      "eigenvalue": 0.5249,
+      "amplitude": 78.8216,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Rorc",
+      "geneType": "clock",
+      "eigenvalue": 0.735,
+      "amplitude": 211.0348,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Ccne2",
+      "geneType": "target",
+      "eigenvalue": 0.1995,
+      "amplitude": 1.9528,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Per3",
+      "geneType": "clock",
+      "eigenvalue": 0.7767,
+      "amplitude": 195.962,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Chek2",
+      "geneType": "target",
+      "eigenvalue": 0.5147,
+      "amplitude": 5.0803,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Clock",
+      "geneType": "clock",
+      "eigenvalue": 0.7112,
+      "amplitude": 200.706,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Pparg",
+      "geneType": "target",
+      "eigenvalue": 0.56,
+      "amplitude": 9.5277,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Dbp",
+      "geneType": "clock",
+      "eigenvalue": 0.8524,
+      "amplitude": 700.1391,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Wee1",
+      "geneType": "target",
+      "eigenvalue": 0.6708,
+      "amplitude": 189.5527,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Arntl",
+      "geneType": "clock",
+      "eigenvalue": 0.7262,
+      "amplitude": 187.141,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Ccne1",
+      "geneType": "target",
+      "eigenvalue": 0.4863,
+      "amplitude": 5.9588,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Bax",
+      "geneType": "target",
+      "eigenvalue": 0.268,
+      "amplitude": 0.9063,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Mki67",
+      "geneType": "target",
+      "eigenvalue": 0.5233,
+      "amplitude": 4.2374,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Ccnd1",
+      "geneType": "target",
+      "eigenvalue": 0.2038,
+      "amplitude": 29.012,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Rora",
+      "geneType": "clock",
+      "eigenvalue": 0.4261,
+      "amplitude": 33.365,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Ctnnb1",
+      "geneType": "target",
+      "eigenvalue": 0.6622,
+      "amplitude": 89.9771,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Atm",
+      "geneType": "target",
+      "eigenvalue": 0.5897,
+      "amplitude": 6.0946,
+      "tissue": "Heart"
+    },
+    {
+      "gene": "Npas2",
+      "geneType": "clock",
+      "eigenvalue": 0.7963,
+      "amplitude": 246.3702,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Per2",
+      "geneType": "clock",
+      "eigenvalue": 0.888,
+      "amplitude": 317.0125,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Bcl2",
+      "geneType": "target",
+      "eigenvalue": 0.5314,
+      "amplitude": 3.746,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Mcm6",
+      "geneType": "target",
+      "eigenvalue": 0.7539,
+      "amplitude": 13.6578,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Sirt1",
+      "geneType": "target",
+      "eigenvalue": 0.6204,
+      "amplitude": 33.4828,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Cdk1",
+      "geneType": "target",
+      "eigenvalue": 0.1693,
+      "amplitude": 1.8375,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Cry1",
+      "geneType": "clock",
+      "eigenvalue": 0.8478,
+      "amplitude": 81.9186,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Lgr5",
+      "geneType": "target",
+      "eigenvalue": 0.6355,
+      "amplitude": 1.6948,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Mdm2",
+      "geneType": "target",
+      "eigenvalue": 0.4626,
+      "amplitude": 7.5763,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Per1",
+      "geneType": "clock",
+      "eigenvalue": 0.5214,
+      "amplitude": 296.3646,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Trp53",
+      "geneType": "target",
+      "eigenvalue": 0.3861,
+      "amplitude": 25.9725,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Axin2",
+      "geneType": "target",
+      "eigenvalue": 0.5614,
+      "amplitude": 27.8259,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Nr1d1",
+      "geneType": "clock",
+      "eigenvalue": 0.8736,
+      "amplitude": 1318.8486,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Hif1a",
+      "geneType": "target",
+      "eigenvalue": 0.5158,
+      "amplitude": 30.5606,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Ccnb1",
+      "geneType": "target",
+      "eigenvalue": 0.537,
+      "amplitude": 1.1999,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Nr1d2",
+      "geneType": "clock",
+      "eigenvalue": 0.8704,
+      "amplitude": 641.8173,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Myc",
+      "geneType": "target",
+      "eigenvalue": 0.2937,
+      "amplitude": 4.98,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Tef",
+      "geneType": "clock",
+      "eigenvalue": 0.9296,
+      "amplitude": 303.1766,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Apc",
+      "geneType": "target",
+      "eigenvalue": 0.563,
+      "amplitude": 16.201,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Cry2",
+      "geneType": "clock",
+      "eigenvalue": 0.7818,
+      "amplitude": 140.8895,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Rorc",
+      "geneType": "clock",
+      "eigenvalue": 0.9151,
+      "amplitude": 245.8879,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Ccne2",
+      "geneType": "target",
+      "eigenvalue": 0.3838,
+      "amplitude": 4.4843,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Per3",
+      "geneType": "clock",
+      "eigenvalue": 0.936,
+      "amplitude": 365.1879,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Chek2",
+      "geneType": "target",
+      "eigenvalue": 0.3846,
+      "amplitude": 4.0876,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Clock",
+      "geneType": "clock",
+      "eigenvalue": 0.824,
+      "amplitude": 179.3957,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Pparg",
+      "geneType": "target",
+      "eigenvalue": 0.2984,
+      "amplitude": 10.5855,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Dbp",
+      "geneType": "clock",
+      "eigenvalue": 0.8938,
+      "amplitude": 536.7783,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Wee1",
+      "geneType": "target",
+      "eigenvalue": 0.8828,
+      "amplitude": 186.6188,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Arntl",
+      "geneType": "clock",
+      "eigenvalue": 0.8234,
+      "amplitude": 202.7479,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Ccne1",
+      "geneType": "target",
+      "eigenvalue": 0.6254,
+      "amplitude": 1.1462,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Bax",
+      "geneType": "target",
+      "eigenvalue": 0.5336,
+      "amplitude": 12.0306,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Mki67",
+      "geneType": "target",
+      "eigenvalue": 0.4952,
+      "amplitude": 0.3191,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Ccnd1",
+      "geneType": "target",
+      "eigenvalue": 0.4145,
+      "amplitude": 131.1385,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Rora",
+      "geneType": "clock",
+      "eigenvalue": 0.5484,
+      "amplitude": 65.9561,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Ctnnb1",
+      "geneType": "target",
+      "eigenvalue": 0.685,
+      "amplitude": 144.9347,
+      "tissue": "Lung"
+    },
+    {
+      "gene": "Atm",
+      "geneType": "target",
+      "eigenvalue": 0.662,
+      "amplitude": 5.5279,
+      "tissue": "Lung"
+    }
+  ],
+  "chromatinBoxData": [
+    {
+      "state": "Active",
+      "min": 0.1605,
+      "q1": 0.4684,
+      "median": 0.5897,
+      "q3": 0.7596,
+      "max": 0.936,
+      "n": 128,
+      "mean": 0.5982
+    },
+    {
+      "state": "Poised",
+      "min": 0.1975,
+      "q1": 0.3838,
+      "median": 0.5723,
+      "q3": 0.7092,
+      "max": 0.9589,
+      "n": 16,
+      "mean": 0.5473
+    }
+  ],
+  "functionalOverlap": {
+    "eigenvalueOnly": [
+      "circadian rhythm",
+      "amino acid metabolism",
+      "T-cell differentiation",
+      "sleep regulation",
+      "detoxification",
+      "drug metabolism"
+    ],
+    "networkOnly": [
+      "metabolic regulation",
+      "apoptosis inhibition",
+      "mitochondrial regulation",
+      "deacetylase",
+      "aging",
+      "DNA repair",
+      "cell cycle",
+      "mitosis",
+      "DNA damage response",
+      "p53 regulation",
+      "ubiquitin ligase",
+      "apoptosis",
+      "cell cycle arrest",
+      "hypoxia response",
+      "angiogenesis",
+      "cell cycle G2/M",
+      "cell proliferation",
+      "chromosomal stability",
+      "cell cycle checkpoint",
+      "adipogenesis",
+      "apoptosis promotion",
+      "cell adhesion",
+      "telomere maintenance"
+    ],
+    "shared": [
+      "transcription regulation",
+      "tumor suppression",
+      "inflammation",
+      "histone acetyltransferase",
+      "stem cell maintenance"
+    ],
+    "allCategories": [
+      {
+        "category": "detoxification",
+        "meanEigenvalue": 0.8575,
+        "clockGenes": 4,
+        "targetGenes": 0,
+        "totalGenes": 4
+      },
+      {
+        "category": "drug metabolism",
+        "meanEigenvalue": 0.8575,
+        "clockGenes": 4,
+        "targetGenes": 0,
+        "totalGenes": 4
+      },
+      {
+        "category": "T-cell differentiation",
+        "meanEigenvalue": 0.8296,
+        "clockGenes": 4,
+        "targetGenes": 0,
+        "totalGenes": 4
+      },
+      {
+        "category": "stem cell maintenance",
+        "meanEigenvalue": 0.8038,
+        "clockGenes": 4,
+        "targetGenes": 0,
+        "totalGenes": 4
+      },
+      {
+        "category": "amino acid metabolism",
+        "meanEigenvalue": 0.7987,
+        "clockGenes": 4,
+        "targetGenes": 0,
+        "totalGenes": 4
+      },
+      {
+        "category": "sleep regulation",
+        "meanEigenvalue": 0.7582,
+        "clockGenes": 4,
+        "targetGenes": 0,
+        "totalGenes": 4
+      },
+      {
+        "category": "histone acetyltransferase",
+        "meanEigenvalue": 0.7504,
+        "clockGenes": 4,
+        "targetGenes": 0,
+        "totalGenes": 4
+      },
+      {
+        "category": "circadian rhythm",
+        "meanEigenvalue": 0.7395,
+        "clockGenes": 56,
+        "targetGenes": 0,
+        "totalGenes": 56
+      },
+      {
+        "category": "inflammation",
+        "meanEigenvalue": 0.6767,
+        "clockGenes": 4,
+        "targetGenes": 4,
+        "totalGenes": 8
+      },
+      {
+        "category": "transcription regulation",
+        "meanEigenvalue": 0.6589,
+        "clockGenes": 8,
+        "targetGenes": 4,
+        "totalGenes": 12
+      },
+      {
+        "category": "tumor suppression",
+        "meanEigenvalue": 0.652,
+        "clockGenes": 4,
+        "targetGenes": 8,
+        "totalGenes": 12
+      },
+      {
+        "category": "lipid metabolism",
+        "meanEigenvalue": 0.6432,
+        "clockGenes": 12,
+        "targetGenes": 4,
+        "totalGenes": 16
+      },
+      {
+        "category": "cell cycle arrest",
+        "meanEigenvalue": 0.6113,
+        "clockGenes": 0,
+        "targetGenes": 4,
+        "totalGenes": 4
+      },
+      {
+        "category": "cell adhesion",
+        "meanEigenvalue": 0.6111,
+        "clockGenes": 0,
+        "targetGenes": 4,
+        "totalGenes": 4
+      },
+      {
+        "category": "immune regulation",
+        "meanEigenvalue": 0.6105,
+        "clockGenes": 8,
+        "targetGenes": 0,
+        "totalGenes": 8
+      },
+      {
+        "category": "metabolic regulation",
+        "meanEigenvalue": 0.6069,
+        "clockGenes": 12,
+        "targetGenes": 12,
+        "totalGenes": 24
+      },
+      {
+        "category": "telomere maintenance",
+        "meanEigenvalue": 0.5991,
+        "clockGenes": 0,
+        "targetGenes": 4,
+        "totalGenes": 4
+      },
+      {
+        "category": "DNA damage response",
+        "meanEigenvalue": 0.5812,
+        "clockGenes": 8,
+        "targetGenes": 20,
+        "totalGenes": 28
+      },
+      {
+        "category": "apoptosis inhibition",
+        "meanEigenvalue": 0.5785,
+        "clockGenes": 0,
+        "targetGenes": 4,
+        "totalGenes": 4
+      },
+      {
+        "category": "chromosomal stability",
+        "meanEigenvalue": 0.5599,
+        "clockGenes": 0,
+        "targetGenes": 4,
+        "totalGenes": 4
+      },
+      {
+        "category": "cell cycle checkpoint",
+        "meanEigenvalue": 0.5583,
+        "clockGenes": 0,
+        "targetGenes": 12,
+        "totalGenes": 12
+      },
+      {
+        "category": "genome stability",
+        "meanEigenvalue": 0.5463,
+        "clockGenes": 0,
+        "targetGenes": 4,
+        "totalGenes": 4
+      },
+      {
+        "category": "deacetylase",
+        "meanEigenvalue": 0.5356,
+        "clockGenes": 0,
+        "targetGenes": 4,
+        "totalGenes": 4
+      },
+      {
+        "category": "aging",
+        "meanEigenvalue": 0.5356,
+        "clockGenes": 0,
+        "targetGenes": 4,
+        "totalGenes": 4
+      },
+      {
+        "category": "DNA repair",
+        "meanEigenvalue": 0.5356,
+        "clockGenes": 0,
+        "targetGenes": 4,
+        "totalGenes": 4
+      },
+      {
+        "category": "Wnt signaling",
+        "meanEigenvalue": 0.5316,
+        "clockGenes": 0,
+        "targetGenes": 16,
+        "totalGenes": 16
+      },
+      {
+        "category": "mitochondrial regulation",
+        "meanEigenvalue": 0.5226,
+        "clockGenes": 0,
+        "targetGenes": 8,
+        "totalGenes": 8
+      },
+      {
+        "category": "p53 regulation",
+        "meanEigenvalue": 0.5182,
+        "clockGenes": 0,
+        "targetGenes": 4,
+        "totalGenes": 4
+      },
+      {
+        "category": "ubiquitin ligase",
+        "meanEigenvalue": 0.5182,
+        "clockGenes": 0,
+        "targetGenes": 4,
+        "totalGenes": 4
+      },
+      {
+        "category": "chromatin organization",
+        "meanEigenvalue": 0.5154,
+        "clockGenes": 0,
+        "targetGenes": 4,
+        "totalGenes": 4
+      },
+      {
+        "category": "apoptosis",
+        "meanEigenvalue": 0.5071,
+        "clockGenes": 0,
+        "targetGenes": 8,
+        "totalGenes": 8
+      },
+      {
+        "category": "adipogenesis",
+        "meanEigenvalue": 0.5017,
+        "clockGenes": 0,
+        "targetGenes": 4,
+        "totalGenes": 4
+      },
+      {
+        "category": "stem cell marker",
+        "meanEigenvalue": 0.4776,
+        "clockGenes": 0,
+        "targetGenes": 8,
+        "totalGenes": 8
+      },
+      {
+        "category": "apoptosis promotion",
+        "meanEigenvalue": 0.4666,
+        "clockGenes": 0,
+        "targetGenes": 4,
+        "totalGenes": 4
+      },
+      {
+        "category": "DNA replication",
+        "meanEigenvalue": 0.4567,
+        "clockGenes": 0,
+        "targetGenes": 12,
+        "totalGenes": 12
+      },
+      {
+        "category": "cell proliferation",
+        "meanEigenvalue": 0.4505,
+        "clockGenes": 0,
+        "targetGenes": 12,
+        "totalGenes": 12
+      },
+      {
+        "category": "cell cycle G2/M",
+        "meanEigenvalue": 0.4318,
+        "clockGenes": 0,
+        "targetGenes": 4,
+        "totalGenes": 4
+      },
+      {
+        "category": "hypoxia response",
+        "meanEigenvalue": 0.4207,
+        "clockGenes": 0,
+        "targetGenes": 4,
+        "totalGenes": 4
+      },
+      {
+        "category": "angiogenesis",
+        "meanEigenvalue": 0.4207,
+        "clockGenes": 0,
+        "targetGenes": 4,
+        "totalGenes": 4
+      },
+      {
+        "category": "cell cycle G1/S",
+        "meanEigenvalue": 0.419,
+        "clockGenes": 0,
+        "targetGenes": 12,
+        "totalGenes": 12
+      },
+      {
+        "category": "mitosis",
+        "meanEigenvalue": 0.4122,
+        "clockGenes": 0,
+        "targetGenes": 8,
+        "totalGenes": 8
+      },
+      {
+        "category": "cell cycle",
+        "meanEigenvalue": 0.3925,
+        "clockGenes": 0,
+        "targetGenes": 4,
+        "totalGenes": 4
+      }
+    ]
+  },
+  "crossTissueConservation": [
+    {
+      "gene": "Nr1d1",
+      "geneType": "clock",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.8112,
+        0.8823,
+        0.8402,
+        0.8736
+      ],
+      "mean": 0.8518,
+      "cv": 0.0331,
+      "range": 0.0711
+    },
+    {
+      "gene": "Dbp",
+      "geneType": "clock",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.7917,
+        0.8922,
+        0.8524,
+        0.8938
+      ],
+      "mean": 0.8575,
+      "cv": 0.0484,
+      "range": 0.1021
+    },
+    {
+      "gene": "Per1",
+      "geneType": "clock",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.5738,
+        0.5902,
+        0.6381,
+        0.5214
+      ],
+      "mean": 0.5809,
+      "cv": 0.0718,
+      "range": 0.1167
+    },
+    {
+      "gene": "Arntl",
+      "geneType": "clock",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.7671,
+        0.8986,
+        0.7262,
+        0.8234
+      ],
+      "mean": 0.8038,
+      "cv": 0.0805,
+      "range": 0.1724
+    },
+    {
+      "gene": "Nr1d2",
+      "geneType": "clock",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.8564,
+        0.8788,
+        0.7049,
+        0.8704
+      ],
+      "mean": 0.8276,
+      "cv": 0.0862,
+      "range": 0.1739
+    },
+    {
+      "gene": "Clock",
+      "geneType": "clock",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.8104,
+        0.6559,
+        0.7112,
+        0.824
+      ],
+      "mean": 0.7504,
+      "cv": 0.093,
+      "range": 0.1681
+    },
+    {
+      "gene": "Atm",
+      "geneType": "target",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.6341,
+        0.5105,
+        0.5897,
+        0.662
+      ],
+      "mean": 0.5991,
+      "cv": 0.0956,
+      "range": 0.1515
+    },
+    {
+      "gene": "Apc",
+      "geneType": "target",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.5755,
+        0.4752,
+        0.6259,
+        0.563
+      ],
+      "mean": 0.5599,
+      "cv": 0.0969,
+      "range": 0.1507
+    },
+    {
+      "gene": "Ctnnb1",
+      "geneType": "target",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.5649,
+        0.5325,
+        0.6622,
+        0.685
+      ],
+      "mean": 0.6111,
+      "cv": 0.1047,
+      "range": 0.1525
+    },
+    {
+      "gene": "Mki67",
+      "geneType": "target",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.4398,
+        0.6033,
+        0.5233,
+        0.4952
+      ],
+      "mean": 0.5154,
+      "cv": 0.1144,
+      "range": 0.1635
+    },
+    {
+      "gene": "Sirt1",
+      "geneType": "target",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.5632,
+        0.4575,
+        0.5011,
+        0.6204
+      ],
+      "mean": 0.5356,
+      "cv": 0.1153,
+      "range": 0.1629
+    },
+    {
+      "gene": "Per2",
+      "geneType": "clock",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.636,
+        0.8357,
+        0.7796,
+        0.888
+      ],
+      "mean": 0.7848,
+      "cv": 0.1199,
+      "range": 0.252
+    },
+    {
+      "gene": "Bcl2",
+      "geneType": "target",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.5556,
+        0.6984,
+        0.5287,
+        0.5314
+      ],
+      "mean": 0.5785,
+      "cv": 0.121,
+      "range": 0.1697
+    },
+    {
+      "gene": "Rorc",
+      "geneType": "clock",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.7092,
+        0.9589,
+        0.735,
+        0.9151
+      ],
+      "mean": 0.8296,
+      "cv": 0.1313,
+      "range": 0.2497
+    },
+    {
+      "gene": "Cry1",
+      "geneType": "clock",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.7595,
+        0.805,
+        0.5848,
+        0.8478
+      ],
+      "mean": 0.7493,
+      "cv": 0.1334,
+      "range": 0.263
+    },
+    {
+      "gene": "Npas2",
+      "geneType": "clock",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.5597,
+        0.7903,
+        0.7665,
+        0.7963
+      ],
+      "mean": 0.7282,
+      "cv": 0.1345,
+      "range": 0.2366
+    },
+    {
+      "gene": "Tef",
+      "geneType": "clock",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.6573,
+        0.8756,
+        0.7322,
+        0.9296
+      ],
+      "mean": 0.7987,
+      "cv": 0.1364,
+      "range": 0.2723
+    },
+    {
+      "gene": "Ccnb1",
+      "geneType": "target",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.404,
+        0.3914,
+        0.3949,
+        0.537
+      ],
+      "mean": 0.4318,
+      "cv": 0.141,
+      "range": 0.1456
+    },
+    {
+      "gene": "Cry2",
+      "geneType": "clock",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.5832,
+        0.6726,
+        0.5249,
+        0.7818
+      ],
+      "mean": 0.6406,
+      "cv": 0.1514,
+      "range": 0.2569
+    },
+    {
+      "gene": "Wee1",
+      "geneType": "target",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.6151,
+        0.6353,
+        0.6708,
+        0.8828
+      ],
+      "mean": 0.701,
+      "cv": 0.1524,
+      "range": 0.2677
+    },
+    {
+      "gene": "Ccne1",
+      "geneType": "target",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.4017,
+        0.5752,
+        0.4863,
+        0.6254
+      ],
+      "mean": 0.5222,
+      "cv": 0.1638,
+      "range": 0.2237
+    },
+    {
+      "gene": "Hif1a",
+      "geneType": "target",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.4684,
+        0.3909,
+        0.3076,
+        0.5158
+      ],
+      "mean": 0.4207,
+      "cv": 0.1879,
+      "range": 0.2082
+    },
+    {
+      "gene": "Lgr5",
+      "geneType": "target",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.5723,
+        0.6437,
+        0.3744,
+        0.6355
+      ],
+      "mean": 0.5565,
+      "cv": 0.1953,
+      "range": 0.2693
+    },
+    {
+      "gene": "Per3",
+      "geneType": "clock",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.4861,
+        0.8339,
+        0.7767,
+        0.936
+      ],
+      "mean": 0.7582,
+      "cv": 0.2204,
+      "range": 0.4499
+    },
+    {
+      "gene": "Mdm2",
+      "geneType": "target",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.7228,
+        0.4635,
+        0.4241,
+        0.4626
+      ],
+      "mean": 0.5182,
+      "cv": 0.23,
+      "range": 0.2987
+    },
+    {
+      "gene": "Trp53",
+      "geneType": "target",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.7145,
+        0.5849,
+        0.7596,
+        0.3861
+      ],
+      "mean": 0.6113,
+      "cv": 0.2371,
+      "range": 0.3735
+    },
+    {
+      "gene": "Pparg",
+      "geneType": "target",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.5014,
+        0.6468,
+        0.56,
+        0.2984
+      ],
+      "mean": 0.5017,
+      "cv": 0.2556,
+      "range": 0.3484
+    },
+    {
+      "gene": "Mcm6",
+      "geneType": "target",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.4608,
+        0.3409,
+        0.6297,
+        0.7539
+      ],
+      "mean": 0.5463,
+      "cv": 0.2888,
+      "range": 0.413
+    },
+    {
+      "gene": "Rora",
+      "geneType": "clock",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.2241,
+        0.3675,
+        0.4261,
+        0.5484
+      ],
+      "mean": 0.3915,
+      "cv": 0.2979,
+      "range": 0.3243
+    },
+    {
+      "gene": "Chek2",
+      "geneType": "target",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.4058,
+        0.1939,
+        0.5147,
+        0.3846
+      ],
+      "mean": 0.3748,
+      "cv": 0.3081,
+      "range": 0.3208
+    },
+    {
+      "gene": "Bax",
+      "geneType": "target",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.3916,
+        0.6733,
+        0.268,
+        0.5336
+      ],
+      "mean": 0.4666,
+      "cv": 0.3255,
+      "range": 0.4053
+    },
+    {
+      "gene": "Ccnd1",
+      "geneType": "target",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.5868,
+        0.5275,
+        0.2038,
+        0.4145
+      ],
+      "mean": 0.4332,
+      "cv": 0.3374,
+      "range": 0.383
+    },
+    {
+      "gene": "Ccne2",
+      "geneType": "target",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.4259,
+        0.1975,
+        0.1995,
+        0.3838
+      ],
+      "mean": 0.3017,
+      "cv": 0.3455,
+      "range": 0.2284
+    },
+    {
+      "gene": "Axin2",
+      "geneType": "target",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.1605,
+        0.4265,
+        0.4464,
+        0.5614
+      ],
+      "mean": 0.3987,
+      "cv": 0.3683,
+      "range": 0.4009
+    },
+    {
+      "gene": "Myc",
+      "geneType": "target",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.4163,
+        0.7047,
+        0.1971,
+        0.2937
+      ],
+      "mean": 0.403,
+      "cv": 0.4733,
+      "range": 0.5076
+    },
+    {
+      "gene": "Cdk1",
+      "geneType": "target",
+      "tissues": [
+        "Liver",
+        "Kidney",
+        "Heart",
+        "Lung"
+      ],
+      "eigenvalues": [
+        0.6005,
+        0.5959,
+        0.2044,
+        0.1693
+      ],
+      "mean": 0.3925,
+      "cv": 0.525,
+      "range": 0.4312
+    }
+  ],
+  "rootSpaceCorrespondence": {
+    "points": [
+      {
+        "gene": "Npas2",
+        "geneType": "clock",
+        "phi1": 0.9104,
+        "phi2": -0.3132,
+        "r": 0.5596,
+        "theta": 0.6209,
+        "isComplex": true,
+        "eigenvalue": 0.5597,
+        "networkDegree": 88,
+        "amplitude": 210.7828,
+        "chromatinState": "Active",
+        "h3k4me3": 0.79,
+        "tissue": "Liver",
+        "dampingRate": 0.5805,
+        "naturalPeriod": 20.2,
+        "dampingRatio": 0.6829,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Per2",
+        "geneType": "clock",
+        "phi1": 1.1214,
+        "phi2": -0.4045,
+        "r": 0.636,
+        "theta": 0.4916,
+        "isComplex": true,
+        "eigenvalue": 0.636,
+        "networkDegree": 156,
+        "amplitude": 394.6816,
+        "chromatinState": "Active",
+        "h3k4me3": 0.91,
+        "tissue": "Liver",
+        "dampingRate": 0.4526,
+        "naturalPeriod": 25.6,
+        "dampingRatio": 0.6773,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Bcl2",
+        "geneType": "target",
+        "phi1": -0.0467,
+        "phi2": 0.2827,
+        "r": 0.5556,
+        "theta": 3.1416,
+        "isComplex": false,
+        "eigenvalue": 0.5556,
+        "networkDegree": 256,
+        "amplitude": 4.8006,
+        "chromatinState": "Active",
+        "h3k4me3": 0.88,
+        "tissue": "Liver",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Tumor/Apoptosis"
+      },
+      {
+        "gene": "Mcm6",
+        "geneType": "target",
+        "phi1": 0.6454,
+        "phi2": -0.0851,
+        "r": 0.4607,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.4608,
+        "networkDegree": 78,
+        "amplitude": 16.563,
+        "chromatinState": "Active",
+        "h3k4me3": 0.75,
+        "tissue": "Liver",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Proliferation"
+      },
+      {
+        "gene": "Sirt1",
+        "geneType": "target",
+        "phi1": 0.0534,
+        "phi2": 0.2871,
+        "r": 0.5632,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.5632,
+        "networkDegree": 267,
+        "amplitude": 17.2145,
+        "chromatinState": "Active",
+        "h3k4me3": 0.87,
+        "tissue": "Liver",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "DNA Damage"
+      },
+      {
+        "gene": "Cdk1",
+        "geneType": "target",
+        "phi1": 0.1813,
+        "phi2": 0.2517,
+        "r": 0.6005,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.6005,
+        "networkDegree": 245,
+        "amplitude": 10.3654,
+        "chromatinState": "Active",
+        "h3k4me3": 0.87,
+        "tissue": "Liver",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Cry1",
+        "geneType": "clock",
+        "phi1": 1.2194,
+        "phi2": -0.5769,
+        "r": 0.7595,
+        "theta": 0.6389,
+        "isComplex": true,
+        "eigenvalue": 0.7595,
+        "networkDegree": 134,
+        "amplitude": 236.7024,
+        "chromatinState": "Active",
+        "h3k4me3": 0.85,
+        "tissue": "Liver",
+        "dampingRate": 0.275,
+        "naturalPeriod": 19.7,
+        "dampingRatio": 0.3954,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Lgr5",
+        "geneType": "target",
+        "phi1": -0.0722,
+        "phi2": 0.2862,
+        "r": 0.5723,
+        "theta": 3.1416,
+        "isComplex": false,
+        "eigenvalue": 0.5723,
+        "networkDegree": 45,
+        "amplitude": 65.705,
+        "chromatinState": "Poised",
+        "h3k4me3": 0.45,
+        "tissue": "Liver",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Stem/Wnt"
+      },
+      {
+        "gene": "Mdm2",
+        "geneType": "target",
+        "phi1": 0.1211,
+        "phi2": 0.4349,
+        "r": 0.7228,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.7228,
+        "networkDegree": 198,
+        "amplitude": 61.3533,
+        "chromatinState": "Active",
+        "h3k4me3": 0.85,
+        "tissue": "Liver",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Other"
+      },
+      {
+        "gene": "Per1",
+        "geneType": "clock",
+        "phi1": 0.8961,
+        "phi2": -0.3293,
+        "r": 0.5738,
+        "theta": 0.6749,
+        "isComplex": true,
+        "eigenvalue": 0.5738,
+        "networkDegree": 142,
+        "amplitude": 191.199,
+        "chromatinState": "Active",
+        "h3k4me3": 0.89,
+        "tissue": "Liver",
+        "dampingRate": 0.5554,
+        "naturalPeriod": 18.6,
+        "dampingRatio": 0.6354,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Trp53",
+        "geneType": "target",
+        "phi1": 0.5034,
+        "phi2": 0.1509,
+        "r": 0.7146,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.7145,
+        "networkDegree": 356,
+        "amplitude": 79.4795,
+        "chromatinState": "Active",
+        "h3k4me3": 0.9,
+        "tissue": "Liver",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Axin2",
+        "geneType": "target",
+        "phi1": 0.2657,
+        "phi2": -0.0258,
+        "r": 0.1606,
+        "theta": 0.5969,
+        "isComplex": true,
+        "eigenvalue": 0.1605,
+        "networkDegree": 78,
+        "amplitude": 11.4946,
+        "chromatinState": "Active",
+        "h3k4me3": 0.73,
+        "tissue": "Liver",
+        "dampingRate": 1.8287,
+        "naturalPeriod": 21.1,
+        "dampingRatio": 0.9506,
+        "primaryCategory": "Stem/Wnt"
+      },
+      {
+        "gene": "Nr1d1",
+        "geneType": "clock",
+        "phi1": 1.1972,
+        "phi2": -0.658,
+        "r": 0.8112,
+        "theta": 0.7408,
+        "isComplex": true,
+        "eigenvalue": 0.8112,
+        "networkDegree": 98,
+        "amplitude": 1541.8413,
+        "chromatinState": "Active",
+        "h3k4me3": 0.87,
+        "tissue": "Liver",
+        "dampingRate": 0.2093,
+        "naturalPeriod": 17,
+        "dampingRatio": 0.2719,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Hif1a",
+        "geneType": "target",
+        "phi1": 0.0206,
+        "phi2": 0.2098,
+        "r": 0.4685,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.4684,
+        "networkDegree": 278,
+        "amplitude": 8.5794,
+        "chromatinState": "Active",
+        "h3k4me3": 0.89,
+        "tissue": "Liver",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Metabolism"
+      },
+      {
+        "gene": "Ccnb1",
+        "geneType": "target",
+        "phi1": -0.1578,
+        "phi2": 0.0995,
+        "r": 0.4041,
+        "theta": 3.1416,
+        "isComplex": false,
+        "eigenvalue": 0.404,
+        "networkDegree": 167,
+        "amplitude": 9.1144,
+        "chromatinState": "Active",
+        "h3k4me3": 0.84,
+        "tissue": "Liver",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Nr1d2",
+        "geneType": "clock",
+        "phi1": 1.3831,
+        "phi2": -0.7334,
+        "r": 0.8564,
+        "theta": 0.6309,
+        "isComplex": true,
+        "eigenvalue": 0.8564,
+        "networkDegree": 76,
+        "amplitude": 805.4163,
+        "chromatinState": "Active",
+        "h3k4me3": 0.72,
+        "tissue": "Liver",
+        "dampingRate": 0.155,
+        "naturalPeriod": 19.9,
+        "dampingRatio": 0.2386,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Myc",
+        "geneType": "target",
+        "phi1": -0.3088,
+        "phi2": 0.0447,
+        "r": 0.4162,
+        "theta": 3.1416,
+        "isComplex": false,
+        "eigenvalue": 0.4163,
+        "networkDegree": 312,
+        "amplitude": 149.2074,
+        "chromatinState": "Active",
+        "h3k4me3": 0.96,
+        "tissue": "Liver",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Tumor/Apoptosis"
+      },
+      {
+        "gene": "Tef",
+        "geneType": "clock",
+        "phi1": 1.1087,
+        "phi2": -0.4321,
+        "r": 0.6573,
+        "theta": 0.5674,
+        "isComplex": true,
+        "eigenvalue": 0.6573,
+        "networkDegree": 54,
+        "amplitude": 382.0375,
+        "chromatinState": "Active",
+        "h3k4me3": 0.76,
+        "tissue": "Liver",
+        "dampingRate": 0.4195,
+        "naturalPeriod": 22.1,
+        "dampingRatio": 0.5946,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Apc",
+        "geneType": "target",
+        "phi1": 0.0144,
+        "phi2": 0.323,
+        "r": 0.5756,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.5755,
+        "networkDegree": 167,
+        "amplitude": 40.7677,
+        "chromatinState": "Active",
+        "h3k4me3": 0.86,
+        "tissue": "Liver",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Tumor/Apoptosis"
+      },
+      {
+        "gene": "Cry2",
+        "geneType": "clock",
+        "phi1": 0.4153,
+        "phi2": 0.0979,
+        "r": 0.5832,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.5832,
+        "networkDegree": 118,
+        "amplitude": 99.7394,
+        "chromatinState": "Active",
+        "h3k4me3": 0.82,
+        "tissue": "Liver",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Rorc",
+        "geneType": "clock",
+        "phi1": 1.1642,
+        "phi2": -0.503,
+        "r": 0.7092,
+        "theta": 0.6081,
+        "isComplex": true,
+        "eigenvalue": 0.7092,
+        "networkDegree": 95,
+        "amplitude": 1497.8866,
+        "chromatinState": "Poised",
+        "h3k4me3": 0.65,
+        "tissue": "Liver",
+        "dampingRate": 0.3436,
+        "naturalPeriod": 20.7,
+        "dampingRatio": 0.4919,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Ccne2",
+        "geneType": "target",
+        "phi1": 0.6273,
+        "phi2": -0.1814,
+        "r": 0.4259,
+        "theta": 0.743,
+        "isComplex": true,
+        "eigenvalue": 0.4259,
+        "networkDegree": 98,
+        "amplitude": 9.8135,
+        "chromatinState": "Poised",
+        "h3k4me3": 0.62,
+        "tissue": "Liver",
+        "dampingRate": 0.8535,
+        "naturalPeriod": 16.9,
+        "dampingRatio": 0.7542,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Per3",
+        "geneType": "clock",
+        "phi1": 0.9096,
+        "phi2": -0.2363,
+        "r": 0.4861,
+        "theta": 0.3609,
+        "isComplex": true,
+        "eigenvalue": 0.4861,
+        "networkDegree": 89,
+        "amplitude": 252.4726,
+        "chromatinState": "Active",
+        "h3k4me3": 0.78,
+        "tissue": "Liver",
+        "dampingRate": 0.7213,
+        "naturalPeriod": 34.8,
+        "dampingRatio": 0.8943,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Chek2",
+        "geneType": "target",
+        "phi1": 0.1891,
+        "phi2": 0.088,
+        "r": 0.4059,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.4058,
+        "networkDegree": 145,
+        "amplitude": 4.7569,
+        "chromatinState": "Active",
+        "h3k4me3": 0.78,
+        "tissue": "Liver",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Clock",
+        "geneType": "clock",
+        "phi1": 1.3351,
+        "phi2": -0.6568,
+        "r": 0.8104,
+        "theta": 0.6029,
+        "isComplex": true,
+        "eigenvalue": 0.8104,
+        "networkDegree": 187,
+        "amplitude": 462.9082,
+        "chromatinState": "Active",
+        "h3k4me3": 0.94,
+        "tissue": "Liver",
+        "dampingRate": 0.2102,
+        "naturalPeriod": 20.8,
+        "dampingRatio": 0.3292,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Pparg",
+        "geneType": "target",
+        "phi1": -0.1701,
+        "phi2": -0.2514,
+        "r": 0.5014,
+        "theta": 1.7412,
+        "isComplex": true,
+        "eigenvalue": 0.5014,
+        "networkDegree": 234,
+        "amplitude": 7.066,
+        "chromatinState": "Poised",
+        "h3k4me3": 0.68,
+        "tissue": "Liver",
+        "dampingRate": 0.6904,
+        "naturalPeriod": 7.2,
+        "dampingRatio": 0.3686,
+        "primaryCategory": "Metabolism"
+      },
+      {
+        "gene": "Dbp",
+        "geneType": "clock",
+        "phi1": 1.2446,
+        "phi2": -0.6268,
+        "r": 0.7917,
+        "theta": 0.6664,
+        "isComplex": true,
+        "eigenvalue": 0.7917,
+        "networkDegree": 67,
+        "amplitude": 738.9822,
+        "chromatinState": "Active",
+        "h3k4me3": 0.88,
+        "tissue": "Liver",
+        "dampingRate": 0.2336,
+        "naturalPeriod": 18.9,
+        "dampingRatio": 0.3307,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Wee1",
+        "geneType": "target",
+        "phi1": 1.0217,
+        "phi2": -0.3783,
+        "r": 0.6151,
+        "theta": 0.5907,
+        "isComplex": true,
+        "eigenvalue": 0.6151,
+        "networkDegree": 89,
+        "amplitude": 309.228,
+        "chromatinState": "Active",
+        "h3k4me3": 0.79,
+        "tissue": "Liver",
+        "dampingRate": 0.486,
+        "naturalPeriod": 21.3,
+        "dampingRatio": 0.6354,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Arntl",
+        "geneType": "clock",
+        "phi1": 1.2776,
+        "phi2": -0.5884,
+        "r": 0.7671,
+        "theta": 0.5867,
+        "isComplex": true,
+        "eigenvalue": 0.7671,
+        "networkDegree": 201,
+        "amplitude": 344.7566,
+        "chromatinState": "Active",
+        "h3k4me3": 0.93,
+        "tissue": "Liver",
+        "dampingRate": 0.2652,
+        "naturalPeriod": 21.4,
+        "dampingRatio": 0.4119,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Ccne1",
+        "geneType": "target",
+        "phi1": 0.7219,
+        "phi2": -0.1614,
+        "r": 0.4017,
+        "theta": 0.4546,
+        "isComplex": true,
+        "eigenvalue": 0.4017,
+        "networkDegree": 134,
+        "amplitude": 41.4279,
+        "chromatinState": "Active",
+        "h3k4me3": 0.8,
+        "tissue": "Liver",
+        "dampingRate": 0.9119,
+        "naturalPeriod": 27.6,
+        "dampingRatio": 0.895,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Bax",
+        "geneType": "target",
+        "phi1": -0.4511,
+        "phi2": -0.0233,
+        "r": 0.3916,
+        "theta": 3.1416,
+        "isComplex": false,
+        "eigenvalue": 0.3916,
+        "networkDegree": 189,
+        "amplitude": 2.415,
+        "chromatinState": "Active",
+        "h3k4me3": 0.81,
+        "tissue": "Liver",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Tumor/Apoptosis"
+      },
+      {
+        "gene": "Mki67",
+        "geneType": "target",
+        "phi1": -0.1071,
+        "phi2": 0.1463,
+        "r": 0.4398,
+        "theta": 3.1416,
+        "isComplex": false,
+        "eigenvalue": 0.4398,
+        "networkDegree": 89,
+        "amplitude": 1.8997,
+        "chromatinState": "Active",
+        "h3k4me3": 0.82,
+        "tissue": "Liver",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Proliferation"
+      },
+      {
+        "gene": "Ccnd1",
+        "geneType": "target",
+        "phi1": 0.2134,
+        "phi2": 0.2191,
+        "r": 0.5868,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.5868,
+        "networkDegree": 198,
+        "amplitude": 183.273,
+        "chromatinState": "Active",
+        "h3k4me3": 0.91,
+        "tissue": "Liver",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Rora",
+        "geneType": "clock",
+        "phi1": 0.3539,
+        "phi2": -0.0502,
+        "r": 0.2241,
+        "theta": 0.6604,
+        "isComplex": true,
+        "eigenvalue": 0.2241,
+        "networkDegree": 112,
+        "amplitude": 82.3909,
+        "chromatinState": "Active",
+        "h3k4me3": 0.8,
+        "tissue": "Liver",
+        "dampingRate": 1.4959,
+        "naturalPeriod": 19,
+        "dampingRatio": 0.9148,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Ctnnb1",
+        "geneType": "target",
+        "phi1": -0.0738,
+        "phi2": 0.2775,
+        "r": 0.565,
+        "theta": 3.1416,
+        "isComplex": false,
+        "eigenvalue": 0.5649,
+        "networkDegree": 289,
+        "amplitude": 107.33,
+        "chromatinState": "Active",
+        "h3k4me3": 0.92,
+        "tissue": "Liver",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Stem/Wnt"
+      },
+      {
+        "gene": "Atm",
+        "geneType": "target",
+        "phi1": 0.0239,
+        "phi2": 0.387,
+        "r": 0.6342,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.6341,
+        "networkDegree": 234,
+        "amplitude": 25.6057,
+        "chromatinState": "Active",
+        "h3k4me3": 0.83,
+        "tissue": "Liver",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Npas2",
+        "geneType": "clock",
+        "phi1": 1.3193,
+        "phi2": -0.6246,
+        "r": 0.7903,
+        "theta": 0.5833,
+        "isComplex": true,
+        "eigenvalue": 0.7903,
+        "networkDegree": 88,
+        "amplitude": 388.6992,
+        "chromatinState": "Active",
+        "h3k4me3": 0.79,
+        "tissue": "Kidney",
+        "dampingRate": 0.2353,
+        "naturalPeriod": 21.5,
+        "dampingRatio": 0.3741,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Per2",
+        "geneType": "clock",
+        "phi1": 1.3989,
+        "phi2": -0.6984,
+        "r": 0.8357,
+        "theta": 0.5791,
+        "isComplex": true,
+        "eigenvalue": 0.8357,
+        "networkDegree": 156,
+        "amplitude": 222.7009,
+        "chromatinState": "Active",
+        "h3k4me3": 0.91,
+        "tissue": "Kidney",
+        "dampingRate": 0.1795,
+        "naturalPeriod": 21.7,
+        "dampingRatio": 0.296,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Bcl2",
+        "geneType": "target",
+        "phi1": 0.576,
+        "phi2": 0.0854,
+        "r": 0.6983,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.6984,
+        "networkDegree": 256,
+        "amplitude": 28.5389,
+        "chromatinState": "Active",
+        "h3k4me3": 0.88,
+        "tissue": "Kidney",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Tumor/Apoptosis"
+      },
+      {
+        "gene": "Mcm6",
+        "geneType": "target",
+        "phi1": 0.0905,
+        "phi2": -0.1162,
+        "r": 0.3409,
+        "theta": 1.4377,
+        "isComplex": true,
+        "eigenvalue": 0.3409,
+        "networkDegree": 78,
+        "amplitude": 3.6771,
+        "chromatinState": "Active",
+        "h3k4me3": 0.75,
+        "tissue": "Kidney",
+        "dampingRate": 1.0762,
+        "naturalPeriod": 8.7,
+        "dampingRatio": 0.5993,
+        "primaryCategory": "Proliferation"
+      },
+      {
+        "gene": "Sirt1",
+        "geneType": "target",
+        "phi1": 0.0706,
+        "phi2": 0.177,
+        "r": 0.4575,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.4575,
+        "networkDegree": 267,
+        "amplitude": 5.8468,
+        "chromatinState": "Active",
+        "h3k4me3": 0.87,
+        "tissue": "Kidney",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "DNA Damage"
+      },
+      {
+        "gene": "Cdk1",
+        "geneType": "target",
+        "phi1": -0.2368,
+        "phi2": -0.355,
+        "r": 0.5958,
+        "theta": 1.7708,
+        "isComplex": true,
+        "eigenvalue": 0.5959,
+        "networkDegree": 245,
+        "amplitude": 0.8152,
+        "chromatinState": "Active",
+        "h3k4me3": 0.87,
+        "tissue": "Kidney",
+        "dampingRate": 0.5178,
+        "naturalPeriod": 7.1,
+        "dampingRatio": 0.2807,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Cry1",
+        "geneType": "clock",
+        "phi1": 1.3672,
+        "phi2": -0.6481,
+        "r": 0.805,
+        "theta": 0.5564,
+        "isComplex": true,
+        "eigenvalue": 0.805,
+        "networkDegree": 134,
+        "amplitude": 56.4275,
+        "chromatinState": "Active",
+        "h3k4me3": 0.85,
+        "tissue": "Kidney",
+        "dampingRate": 0.2169,
+        "naturalPeriod": 22.6,
+        "dampingRatio": 0.3631,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Lgr5",
+        "geneType": "target",
+        "phi1": 0.1222,
+        "phi2": 0.3357,
+        "r": 0.6437,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.6437,
+        "networkDegree": 45,
+        "amplitude": 1.9573,
+        "chromatinState": "Poised",
+        "h3k4me3": 0.45,
+        "tissue": "Kidney",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Stem/Wnt"
+      },
+      {
+        "gene": "Mdm2",
+        "geneType": "target",
+        "phi1": 0.2134,
+        "phi2": 0.1159,
+        "r": 0.4635,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.4635,
+        "networkDegree": 198,
+        "amplitude": 15.1509,
+        "chromatinState": "Active",
+        "h3k4me3": 0.85,
+        "tissue": "Kidney",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Other"
+      },
+      {
+        "gene": "Per1",
+        "geneType": "clock",
+        "phi1": 0.9531,
+        "phi2": -0.3483,
+        "r": 0.5902,
+        "theta": 0.6309,
+        "isComplex": true,
+        "eigenvalue": 0.5902,
+        "networkDegree": 142,
+        "amplitude": 116.6323,
+        "chromatinState": "Active",
+        "h3k4me3": 0.89,
+        "tissue": "Kidney",
+        "dampingRate": 0.5273,
+        "naturalPeriod": 19.9,
+        "dampingRatio": 0.6413,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Trp53",
+        "geneType": "target",
+        "phi1": 0.1463,
+        "phi2": 0.2566,
+        "r": 0.585,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.5849,
+        "networkDegree": 356,
+        "amplitude": 16.014,
+        "chromatinState": "Active",
+        "h3k4me3": 0.9,
+        "tissue": "Kidney",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Axin2",
+        "geneType": "target",
+        "phi1": 0.1787,
+        "phi2": -0.1819,
+        "r": 0.4265,
+        "theta": 1.3597,
+        "isComplex": true,
+        "eigenvalue": 0.4265,
+        "networkDegree": 78,
+        "amplitude": 4.2042,
+        "chromatinState": "Active",
+        "h3k4me3": 0.73,
+        "tissue": "Kidney",
+        "dampingRate": 0.8521,
+        "naturalPeriod": 9.2,
+        "dampingRatio": 0.531,
+        "primaryCategory": "Stem/Wnt"
+      },
+      {
+        "gene": "Nr1d1",
+        "geneType": "clock",
+        "phi1": 1.4406,
+        "phi2": -0.7785,
+        "r": 0.8823,
+        "theta": 0.6157,
+        "isComplex": true,
+        "eigenvalue": 0.8823,
+        "networkDegree": 98,
+        "amplitude": 771.4741,
+        "chromatinState": "Active",
+        "h3k4me3": 0.87,
+        "tissue": "Kidney",
+        "dampingRate": 0.1252,
+        "naturalPeriod": 20.4,
+        "dampingRatio": 0.1993,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Hif1a",
+        "geneType": "target",
+        "phi1": 0.7189,
+        "phi2": -0.1528,
+        "r": 0.3909,
+        "theta": 0.4039,
+        "isComplex": true,
+        "eigenvalue": 0.3909,
+        "networkDegree": 278,
+        "amplitude": 93.4263,
+        "chromatinState": "Active",
+        "h3k4me3": 0.89,
+        "tissue": "Kidney",
+        "dampingRate": 0.9393,
+        "naturalPeriod": 31.1,
+        "dampingRatio": 0.9187,
+        "primaryCategory": "Metabolism"
+      },
+      {
+        "gene": "Ccnb1",
+        "geneType": "target",
+        "phi1": 0.3031,
+        "phi2": 0.0345,
+        "r": 0.3913,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.3914,
+        "networkDegree": 167,
+        "amplitude": 2.8228,
+        "chromatinState": "Active",
+        "h3k4me3": 0.84,
+        "tissue": "Kidney",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Nr1d2",
+        "geneType": "clock",
+        "phi1": 1.4661,
+        "phi2": -0.7722,
+        "r": 0.8787,
+        "theta": 0.5841,
+        "isComplex": true,
+        "eigenvalue": 0.8788,
+        "networkDegree": 76,
+        "amplitude": 569.5194,
+        "chromatinState": "Active",
+        "h3k4me3": 0.72,
+        "tissue": "Kidney",
+        "dampingRate": 0.1293,
+        "naturalPeriod": 21.5,
+        "dampingRatio": 0.2161,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Myc",
+        "geneType": "target",
+        "phi1": 0.1017,
+        "phi2": 0.4248,
+        "r": 0.7046,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.7047,
+        "networkDegree": 312,
+        "amplitude": 39.9883,
+        "chromatinState": "Active",
+        "h3k4me3": 0.96,
+        "tissue": "Kidney",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Tumor/Apoptosis"
+      },
+      {
+        "gene": "Tef",
+        "geneType": "clock",
+        "phi1": 1.481,
+        "phi2": -0.7666,
+        "r": 0.8756,
+        "theta": 0.5628,
+        "isComplex": true,
+        "eigenvalue": 0.8756,
+        "networkDegree": 54,
+        "amplitude": 244.6756,
+        "chromatinState": "Active",
+        "h3k4me3": 0.76,
+        "tissue": "Kidney",
+        "dampingRate": 0.1329,
+        "naturalPeriod": 22.3,
+        "dampingRatio": 0.2298,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Apc",
+        "geneType": "target",
+        "phi1": -0.0159,
+        "phi2": 0.2182,
+        "r": 0.4751,
+        "theta": 3.1416,
+        "isComplex": false,
+        "eigenvalue": 0.4752,
+        "networkDegree": 167,
+        "amplitude": 16.8616,
+        "chromatinState": "Active",
+        "h3k4me3": 0.86,
+        "tissue": "Kidney",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Tumor/Apoptosis"
+      },
+      {
+        "gene": "Cry2",
+        "geneType": "clock",
+        "phi1": 1.1715,
+        "phi2": -0.4524,
+        "r": 0.6726,
+        "theta": 0.5138,
+        "isComplex": true,
+        "eigenvalue": 0.6726,
+        "networkDegree": 118,
+        "amplitude": 66.0081,
+        "chromatinState": "Active",
+        "h3k4me3": 0.82,
+        "tissue": "Kidney",
+        "dampingRate": 0.3966,
+        "naturalPeriod": 24.5,
+        "dampingRatio": 0.611,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Rorc",
+        "geneType": "clock",
+        "phi1": 1.6293,
+        "phi2": -0.9195,
+        "r": 0.9589,
+        "theta": 0.5556,
+        "isComplex": true,
+        "eigenvalue": 0.9589,
+        "networkDegree": 95,
+        "amplitude": 716.5837,
+        "chromatinState": "Poised",
+        "h3k4me3": 0.65,
+        "tissue": "Kidney",
+        "dampingRate": 0.042,
+        "naturalPeriod": 22.6,
+        "dampingRatio": 0.0753,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Ccne2",
+        "geneType": "target",
+        "phi1": 0.156,
+        "phi2": 0.0082,
+        "r": 0.1975,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.1975,
+        "networkDegree": 98,
+        "amplitude": 4.0537,
+        "chromatinState": "Poised",
+        "h3k4me3": 0.62,
+        "tissue": "Kidney",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Per3",
+        "geneType": "clock",
+        "phi1": 1.388,
+        "phi2": -0.6954,
+        "r": 0.8339,
+        "theta": 0.5877,
+        "isComplex": true,
+        "eigenvalue": 0.8339,
+        "networkDegree": 89,
+        "amplitude": 177.8122,
+        "chromatinState": "Active",
+        "h3k4me3": 0.78,
+        "tissue": "Kidney",
+        "dampingRate": 0.1816,
+        "naturalPeriod": 21.4,
+        "dampingRatio": 0.2953,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Chek2",
+        "geneType": "target",
+        "phi1": -0.0271,
+        "phi2": -0.0376,
+        "r": 0.1939,
+        "theta": 1.6407,
+        "isComplex": true,
+        "eigenvalue": 0.1939,
+        "networkDegree": 145,
+        "amplitude": 3.041,
+        "chromatinState": "Active",
+        "h3k4me3": 0.78,
+        "tissue": "Kidney",
+        "dampingRate": 1.6404,
+        "naturalPeriod": 7.7,
+        "dampingRatio": 0.707,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Clock",
+        "geneType": "clock",
+        "phi1": 1.0762,
+        "phi2": -0.4302,
+        "r": 0.6559,
+        "theta": 0.6087,
+        "isComplex": true,
+        "eigenvalue": 0.6559,
+        "networkDegree": 187,
+        "amplitude": 158.8632,
+        "chromatinState": "Active",
+        "h3k4me3": 0.94,
+        "tissue": "Kidney",
+        "dampingRate": 0.4218,
+        "naturalPeriod": 20.6,
+        "dampingRatio": 0.5695,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Pparg",
+        "geneType": "target",
+        "phi1": 0.3089,
+        "phi2": 0.2186,
+        "r": 0.6468,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.6468,
+        "networkDegree": 234,
+        "amplitude": 30.2688,
+        "chromatinState": "Poised",
+        "h3k4me3": 0.68,
+        "tissue": "Kidney",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Metabolism"
+      },
+      {
+        "gene": "Dbp",
+        "geneType": "clock",
+        "phi1": 1.4558,
+        "phi2": -0.7959,
+        "r": 0.8921,
+        "theta": 0.6165,
+        "isComplex": true,
+        "eigenvalue": 0.8922,
+        "networkDegree": 67,
+        "amplitude": 572.1777,
+        "chromatinState": "Active",
+        "h3k4me3": 0.88,
+        "tissue": "Kidney",
+        "dampingRate": 0.1141,
+        "naturalPeriod": 20.4,
+        "dampingRatio": 0.1821,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Wee1",
+        "geneType": "target",
+        "phi1": 1.112,
+        "phi2": -0.4036,
+        "r": 0.6353,
+        "theta": 0.505,
+        "isComplex": true,
+        "eigenvalue": 0.6353,
+        "networkDegree": 89,
+        "amplitude": 171.0008,
+        "chromatinState": "Active",
+        "h3k4me3": 0.79,
+        "tissue": "Kidney",
+        "dampingRate": 0.4537,
+        "naturalPeriod": 24.9,
+        "dampingRatio": 0.6683,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Arntl",
+        "geneType": "clock",
+        "phi1": 1.4943,
+        "phi2": -0.8074,
+        "r": 0.8986,
+        "theta": 0.589,
+        "isComplex": true,
+        "eigenvalue": 0.8986,
+        "networkDegree": 201,
+        "amplitude": 213.7512,
+        "chromatinState": "Active",
+        "h3k4me3": 0.93,
+        "tissue": "Kidney",
+        "dampingRate": 0.107,
+        "naturalPeriod": 21.3,
+        "dampingRatio": 0.1787,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Ccne1",
+        "geneType": "target",
+        "phi1": 0.2309,
+        "phi2": 0.1981,
+        "r": 0.5753,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.5752,
+        "networkDegree": 134,
+        "amplitude": 4.8728,
+        "chromatinState": "Active",
+        "h3k4me3": 0.8,
+        "tissue": "Kidney",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Bax",
+        "geneType": "target",
+        "phi1": 0.5207,
+        "phi2": 0.1027,
+        "r": 0.6732,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.6733,
+        "networkDegree": 189,
+        "amplitude": 13.7629,
+        "chromatinState": "Active",
+        "h3k4me3": 0.81,
+        "tissue": "Kidney",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Tumor/Apoptosis"
+      },
+      {
+        "gene": "Mki67",
+        "geneType": "target",
+        "phi1": -0.2421,
+        "phi2": -0.364,
+        "r": 0.6033,
+        "theta": 1.7728,
+        "isComplex": true,
+        "eigenvalue": 0.6033,
+        "networkDegree": 89,
+        "amplitude": 2.664,
+        "chromatinState": "Active",
+        "h3k4me3": 0.82,
+        "tissue": "Kidney",
+        "dampingRate": 0.5053,
+        "naturalPeriod": 7.1,
+        "dampingRatio": 0.2741,
+        "primaryCategory": "Proliferation"
+      },
+      {
+        "gene": "Ccnd1",
+        "geneType": "target",
+        "phi1": 0.7888,
+        "phi2": -0.2783,
+        "r": 0.5275,
+        "theta": 0.7263,
+        "isComplex": true,
+        "eigenvalue": 0.5275,
+        "networkDegree": 198,
+        "amplitude": 194.4651,
+        "chromatinState": "Active",
+        "h3k4me3": 0.91,
+        "tissue": "Kidney",
+        "dampingRate": 0.6395,
+        "naturalPeriod": 17.3,
+        "dampingRatio": 0.6608,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Rora",
+        "geneType": "clock",
+        "phi1": 0.0173,
+        "phi2": 0.1287,
+        "r": 0.3675,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.3675,
+        "networkDegree": 112,
+        "amplitude": 20.0638,
+        "chromatinState": "Active",
+        "h3k4me3": 0.8,
+        "tissue": "Kidney",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Ctnnb1",
+        "geneType": "target",
+        "phi1": 0.7946,
+        "phi2": -0.2835,
+        "r": 0.5324,
+        "theta": 0.7285,
+        "isComplex": true,
+        "eigenvalue": 0.5325,
+        "networkDegree": 289,
+        "amplitude": 144.0971,
+        "chromatinState": "Active",
+        "h3k4me3": 0.92,
+        "tissue": "Kidney",
+        "dampingRate": 0.6303,
+        "naturalPeriod": 17.2,
+        "dampingRatio": 0.6543,
+        "primaryCategory": "Stem/Wnt"
+      },
+      {
+        "gene": "Atm",
+        "geneType": "target",
+        "phi1": 0.2724,
+        "phi2": 0.1216,
+        "r": 0.5106,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.5105,
+        "networkDegree": 234,
+        "amplitude": 19.5838,
+        "chromatinState": "Active",
+        "h3k4me3": 0.83,
+        "tissue": "Kidney",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Npas2",
+        "geneType": "clock",
+        "phi1": 1.2472,
+        "phi2": -0.5875,
+        "r": 0.7665,
+        "theta": 0.6205,
+        "isComplex": true,
+        "eigenvalue": 0.7665,
+        "networkDegree": 88,
+        "amplitude": 140.5522,
+        "chromatinState": "Active",
+        "h3k4me3": 0.79,
+        "tissue": "Heart",
+        "dampingRate": 0.2659,
+        "naturalPeriod": 20.3,
+        "dampingRatio": 0.3939,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Per2",
+        "geneType": "clock",
+        "phi1": 1.2888,
+        "phi2": -0.6078,
+        "r": 0.7796,
+        "theta": 0.5978,
+        "isComplex": true,
+        "eigenvalue": 0.7796,
+        "networkDegree": 156,
+        "amplitude": 161.154,
+        "chromatinState": "Active",
+        "h3k4me3": 0.91,
+        "tissue": "Heart",
+        "dampingRate": 0.249,
+        "naturalPeriod": 21,
+        "dampingRatio": 0.3844,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Bcl2",
+        "geneType": "target",
+        "phi1": 0.5282,
+        "phi2": 0.0003,
+        "r": 0.5288,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.5287,
+        "networkDegree": 256,
+        "amplitude": 31.6684,
+        "chromatinState": "Active",
+        "h3k4me3": 0.88,
+        "tissue": "Heart",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Tumor/Apoptosis"
+      },
+      {
+        "gene": "Mcm6",
+        "geneType": "target",
+        "phi1": -0.4891,
+        "phi2": -0.3965,
+        "r": 0.6297,
+        "theta": 1.9697,
+        "isComplex": true,
+        "eigenvalue": 0.6297,
+        "networkDegree": 78,
+        "amplitude": 1.1731,
+        "chromatinState": "Active",
+        "h3k4me3": 0.75,
+        "tissue": "Heart",
+        "dampingRate": 0.4625,
+        "naturalPeriod": 6.4,
+        "dampingRatio": 0.2286,
+        "primaryCategory": "Proliferation"
+      },
+      {
+        "gene": "Sirt1",
+        "geneType": "target",
+        "phi1": 0.1201,
+        "phi2": 0.1909,
+        "r": 0.5011,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.5011,
+        "networkDegree": 267,
+        "amplitude": 10.1633,
+        "chromatinState": "Active",
+        "h3k4me3": 0.87,
+        "tissue": "Heart",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "DNA Damage"
+      },
+      {
+        "gene": "Cdk1",
+        "geneType": "target",
+        "phi1": -0.3212,
+        "phi2": -0.0418,
+        "r": 0.2045,
+        "theta": 2.4743,
+        "isComplex": true,
+        "eigenvalue": 0.2044,
+        "networkDegree": 245,
+        "amplitude": 1.5936,
+        "chromatinState": "Active",
+        "h3k4me3": 0.87,
+        "tissue": "Heart",
+        "dampingRate": 1.5874,
+        "naturalPeriod": 5.1,
+        "dampingRatio": 0.54,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Cry1",
+        "geneType": "clock",
+        "phi1": 0.9155,
+        "phi2": -0.342,
+        "r": 0.5848,
+        "theta": 0.6717,
+        "isComplex": true,
+        "eigenvalue": 0.5848,
+        "networkDegree": 134,
+        "amplitude": 44.3192,
+        "chromatinState": "Active",
+        "h3k4me3": 0.85,
+        "tissue": "Heart",
+        "dampingRate": 0.5365,
+        "naturalPeriod": 18.7,
+        "dampingRatio": 0.624,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Lgr5",
+        "geneType": "target",
+        "phi1": -0.2362,
+        "phi2": -0.1402,
+        "r": 0.3744,
+        "theta": 1.8917,
+        "isComplex": true,
+        "eigenvalue": 0.3744,
+        "networkDegree": 45,
+        "amplitude": 0.3973,
+        "chromatinState": "Poised",
+        "h3k4me3": 0.45,
+        "tissue": "Heart",
+        "dampingRate": 0.9823,
+        "naturalPeriod": 6.6,
+        "dampingRatio": 0.4609,
+        "primaryCategory": "Stem/Wnt"
+      },
+      {
+        "gene": "Mdm2",
+        "geneType": "target",
+        "phi1": 0.2334,
+        "phi2": -0.1799,
+        "r": 0.4241,
+        "theta": 1.2921,
+        "isComplex": true,
+        "eigenvalue": 0.4241,
+        "networkDegree": 198,
+        "amplitude": 28.0751,
+        "chromatinState": "Active",
+        "h3k4me3": 0.85,
+        "tissue": "Heart",
+        "dampingRate": 0.8577,
+        "naturalPeriod": 9.7,
+        "dampingRatio": 0.553,
+        "primaryCategory": "Other"
+      },
+      {
+        "gene": "Per1",
+        "geneType": "clock",
+        "phi1": 0.9897,
+        "phi2": -0.4071,
+        "r": 0.638,
+        "theta": 0.6832,
+        "isComplex": true,
+        "eigenvalue": 0.6381,
+        "networkDegree": 142,
+        "amplitude": 222.1408,
+        "chromatinState": "Active",
+        "h3k4me3": 0.89,
+        "tissue": "Heart",
+        "dampingRate": 0.4493,
+        "naturalPeriod": 18.4,
+        "dampingRatio": 0.5495,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Trp53",
+        "geneType": "target",
+        "phi1": 0.461,
+        "phi2": 0.2268,
+        "r": 0.7596,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.7596,
+        "networkDegree": 356,
+        "amplitude": 32.4741,
+        "chromatinState": "Active",
+        "h3k4me3": 0.9,
+        "tissue": "Heart",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Axin2",
+        "geneType": "target",
+        "phi1": -0.0201,
+        "phi2": 0.1903,
+        "r": 0.4464,
+        "theta": 3.1416,
+        "isComplex": false,
+        "eigenvalue": 0.4464,
+        "networkDegree": 78,
+        "amplitude": 5.8497,
+        "chromatinState": "Active",
+        "h3k4me3": 0.73,
+        "tissue": "Heart",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Stem/Wnt"
+      },
+      {
+        "gene": "Nr1d1",
+        "geneType": "clock",
+        "phi1": 1.3433,
+        "phi2": -0.7059,
+        "r": 0.8402,
+        "theta": 0.6445,
+        "isComplex": true,
+        "eigenvalue": 0.8402,
+        "networkDegree": 98,
+        "amplitude": 1098.2581,
+        "chromatinState": "Active",
+        "h3k4me3": 0.87,
+        "tissue": "Heart",
+        "dampingRate": 0.1741,
+        "naturalPeriod": 19.5,
+        "dampingRatio": 0.2608,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Hif1a",
+        "geneType": "target",
+        "phi1": 0.4369,
+        "phi2": -0.0946,
+        "r": 0.3076,
+        "theta": 0.781,
+        "isComplex": true,
+        "eigenvalue": 0.3076,
+        "networkDegree": 278,
+        "amplitude": 202.439,
+        "chromatinState": "Active",
+        "h3k4me3": 0.89,
+        "tissue": "Heart",
+        "dampingRate": 1.179,
+        "naturalPeriod": 16.1,
+        "dampingRatio": 0.8337,
+        "primaryCategory": "Metabolism"
+      },
+      {
+        "gene": "Ccnb1",
+        "geneType": "target",
+        "phi1": -0.0843,
+        "phi2": 0.1227,
+        "r": 0.395,
+        "theta": 3.1416,
+        "isComplex": false,
+        "eigenvalue": 0.3949,
+        "networkDegree": 167,
+        "amplitude": 3.7007,
+        "chromatinState": "Active",
+        "h3k4me3": 0.84,
+        "tissue": "Heart",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Nr1d2",
+        "geneType": "clock",
+        "phi1": 1.177,
+        "phi2": -0.4969,
+        "r": 0.7049,
+        "theta": 0.5829,
+        "isComplex": true,
+        "eigenvalue": 0.7049,
+        "networkDegree": 76,
+        "amplitude": 554.963,
+        "chromatinState": "Active",
+        "h3k4me3": 0.72,
+        "tissue": "Heart",
+        "dampingRate": 0.3497,
+        "naturalPeriod": 21.6,
+        "dampingRatio": 0.5144,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Myc",
+        "geneType": "target",
+        "phi1": 0.198,
+        "phi2": -0.0002,
+        "r": 0.197,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.1971,
+        "networkDegree": 312,
+        "amplitude": 4.3551,
+        "chromatinState": "Active",
+        "h3k4me3": 0.96,
+        "tissue": "Heart",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Tumor/Apoptosis"
+      },
+      {
+        "gene": "Tef",
+        "geneType": "clock",
+        "phi1": 1.2628,
+        "phi2": -0.5361,
+        "r": 0.7322,
+        "theta": 0.5309,
+        "isComplex": true,
+        "eigenvalue": 0.7322,
+        "networkDegree": 54,
+        "amplitude": 213.9922,
+        "chromatinState": "Active",
+        "h3k4me3": 0.76,
+        "tissue": "Heart",
+        "dampingRate": 0.3117,
+        "naturalPeriod": 23.7,
+        "dampingRatio": 0.5063,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Apc",
+        "geneType": "target",
+        "phi1": 0.219,
+        "phi2": 0.2547,
+        "r": 0.6259,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.6259,
+        "networkDegree": 167,
+        "amplitude": 16.9749,
+        "chromatinState": "Active",
+        "h3k4me3": 0.86,
+        "tissue": "Heart",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Tumor/Apoptosis"
+      },
+      {
+        "gene": "Cry2",
+        "geneType": "clock",
+        "phi1": 0.9254,
+        "phi2": -0.2755,
+        "r": 0.5249,
+        "theta": 0.4917,
+        "isComplex": true,
+        "eigenvalue": 0.5249,
+        "networkDegree": 118,
+        "amplitude": 78.8216,
+        "chromatinState": "Active",
+        "h3k4me3": 0.82,
+        "tissue": "Heart",
+        "dampingRate": 0.6446,
+        "naturalPeriod": 25.6,
+        "dampingRatio": 0.7951,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Rorc",
+        "geneType": "clock",
+        "phi1": 1.227,
+        "phi2": -0.5402,
+        "r": 0.735,
+        "theta": 0.5832,
+        "isComplex": true,
+        "eigenvalue": 0.735,
+        "networkDegree": 95,
+        "amplitude": 211.0348,
+        "chromatinState": "Poised",
+        "h3k4me3": 0.65,
+        "tissue": "Heart",
+        "dampingRate": 0.3079,
+        "naturalPeriod": 21.5,
+        "dampingRatio": 0.4669,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Ccne2",
+        "geneType": "target",
+        "phi1": 0.2317,
+        "phi2": -0.0064,
+        "r": 0.1996,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.1995,
+        "networkDegree": 98,
+        "amplitude": 1.9528,
+        "chromatinState": "Poised",
+        "h3k4me3": 0.62,
+        "tissue": "Heart",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Per3",
+        "geneType": "clock",
+        "phi1": 1.3034,
+        "phi2": -0.6033,
+        "r": 0.7767,
+        "theta": 0.5753,
+        "isComplex": true,
+        "eigenvalue": 0.7767,
+        "networkDegree": 89,
+        "amplitude": 195.962,
+        "chromatinState": "Active",
+        "h3k4me3": 0.78,
+        "tissue": "Heart",
+        "dampingRate": 0.2527,
+        "naturalPeriod": 21.8,
+        "dampingRatio": 0.4021,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Chek2",
+        "geneType": "target",
+        "phi1": 0.3017,
+        "phi2": 0.1096,
+        "r": 0.5147,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.5147,
+        "networkDegree": 145,
+        "amplitude": 5.0803,
+        "chromatinState": "Active",
+        "h3k4me3": 0.78,
+        "tissue": "Heart",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Clock",
+        "geneType": "clock",
+        "phi1": 1.1965,
+        "phi2": -0.5058,
+        "r": 0.7112,
+        "theta": 0.5713,
+        "isComplex": true,
+        "eigenvalue": 0.7112,
+        "networkDegree": 187,
+        "amplitude": 200.706,
+        "chromatinState": "Active",
+        "h3k4me3": 0.94,
+        "tissue": "Heart",
+        "dampingRate": 0.3408,
+        "naturalPeriod": 22,
+        "dampingRatio": 0.5123,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Pparg",
+        "geneType": "target",
+        "phi1": -0.3004,
+        "phi2": 0.1453,
+        "r": 0.5599,
+        "theta": 3.1416,
+        "isComplex": false,
+        "eigenvalue": 0.56,
+        "networkDegree": 234,
+        "amplitude": 9.5277,
+        "chromatinState": "Poised",
+        "h3k4me3": 0.68,
+        "tissue": "Heart",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Metabolism"
+      },
+      {
+        "gene": "Dbp",
+        "geneType": "clock",
+        "phi1": 1.3846,
+        "phi2": -0.7266,
+        "r": 0.8524,
+        "theta": 0.6229,
+        "isComplex": true,
+        "eigenvalue": 0.8524,
+        "networkDegree": 67,
+        "amplitude": 700.1391,
+        "chromatinState": "Active",
+        "h3k4me3": 0.88,
+        "tissue": "Heart",
+        "dampingRate": 0.1597,
+        "naturalPeriod": 20.2,
+        "dampingRatio": 0.2483,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Wee1",
+        "geneType": "target",
+        "phi1": 1.1212,
+        "phi2": -0.4499,
+        "r": 0.6707,
+        "theta": 0.5812,
+        "isComplex": true,
+        "eigenvalue": 0.6708,
+        "networkDegree": 89,
+        "amplitude": 189.5527,
+        "chromatinState": "Active",
+        "h3k4me3": 0.79,
+        "tissue": "Heart",
+        "dampingRate": 0.3994,
+        "naturalPeriod": 21.6,
+        "dampingRatio": 0.5663,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Arntl",
+        "geneType": "clock",
+        "phi1": 1.2334,
+        "phi2": -0.5273,
+        "r": 0.7262,
+        "theta": 0.5562,
+        "isComplex": true,
+        "eigenvalue": 0.7262,
+        "networkDegree": 201,
+        "amplitude": 187.141,
+        "chromatinState": "Active",
+        "h3k4me3": 0.93,
+        "tissue": "Heart",
+        "dampingRate": 0.32,
+        "naturalPeriod": 22.6,
+        "dampingRatio": 0.4987,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Ccne1",
+        "geneType": "target",
+        "phi1": 0.3412,
+        "phi2": 0.0705,
+        "r": 0.4862,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.4863,
+        "networkDegree": 134,
+        "amplitude": 5.9588,
+        "chromatinState": "Active",
+        "h3k4me3": 0.8,
+        "tissue": "Heart",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Bax",
+        "geneType": "target",
+        "phi1": -0.3868,
+        "phi2": -0.0318,
+        "r": 0.2683,
+        "theta": 3.1416,
+        "isComplex": false,
+        "eigenvalue": 0.268,
+        "networkDegree": 189,
+        "amplitude": 0.9063,
+        "chromatinState": "Active",
+        "h3k4me3": 0.81,
+        "tissue": "Heart",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Tumor/Apoptosis"
+      },
+      {
+        "gene": "Mki67",
+        "geneType": "target",
+        "phi1": 0.4433,
+        "phi2": -0.2738,
+        "r": 0.5233,
+        "theta": 1.1334,
+        "isComplex": true,
+        "eigenvalue": 0.5233,
+        "networkDegree": 89,
+        "amplitude": 4.2374,
+        "chromatinState": "Active",
+        "h3k4me3": 0.82,
+        "tissue": "Heart",
+        "dampingRate": 0.6477,
+        "naturalPeriod": 11.1,
+        "dampingRatio": 0.4962,
+        "primaryCategory": "Proliferation"
+      },
+      {
+        "gene": "Ccnd1",
+        "geneType": "target",
+        "phi1": 0.2577,
+        "phi2": -0.0415,
+        "r": 0.2037,
+        "theta": 0.886,
+        "isComplex": true,
+        "eigenvalue": 0.2038,
+        "networkDegree": 198,
+        "amplitude": 29.012,
+        "chromatinState": "Active",
+        "h3k4me3": 0.91,
+        "tissue": "Heart",
+        "dampingRate": 1.591,
+        "naturalPeriod": 14.2,
+        "dampingRatio": 0.8737,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Rora",
+        "geneType": "clock",
+        "phi1": 0.4185,
+        "phi2": 0.0033,
+        "r": 0.4262,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.4261,
+        "networkDegree": 112,
+        "amplitude": 33.365,
+        "chromatinState": "Active",
+        "h3k4me3": 0.8,
+        "tissue": "Heart",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Ctnnb1",
+        "geneType": "target",
+        "phi1": 0.401,
+        "phi2": 0.173,
+        "r": 0.6622,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.6622,
+        "networkDegree": 289,
+        "amplitude": 89.9771,
+        "chromatinState": "Active",
+        "h3k4me3": 0.92,
+        "tissue": "Heart",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Stem/Wnt"
+      },
+      {
+        "gene": "Atm",
+        "geneType": "target",
+        "phi1": 0.4021,
+        "phi2": 0.1106,
+        "r": 0.5897,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.5897,
+        "networkDegree": 234,
+        "amplitude": 6.0946,
+        "chromatinState": "Active",
+        "h3k4me3": 0.83,
+        "tissue": "Heart",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Npas2",
+        "geneType": "clock",
+        "phi1": 1.3025,
+        "phi2": -0.6341,
+        "r": 0.7963,
+        "theta": 0.6131,
+        "isComplex": true,
+        "eigenvalue": 0.7963,
+        "networkDegree": 88,
+        "amplitude": 246.3702,
+        "chromatinState": "Active",
+        "h3k4me3": 0.79,
+        "tissue": "Lung",
+        "dampingRate": 0.2278,
+        "naturalPeriod": 20.5,
+        "dampingRatio": 0.3482,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Per2",
+        "geneType": "clock",
+        "phi1": 1.4871,
+        "phi2": -0.7885,
+        "r": 0.888,
+        "theta": 0.5784,
+        "isComplex": true,
+        "eigenvalue": 0.888,
+        "networkDegree": 156,
+        "amplitude": 317.0125,
+        "chromatinState": "Active",
+        "h3k4me3": 0.91,
+        "tissue": "Lung",
+        "dampingRate": 0.1188,
+        "naturalPeriod": 21.7,
+        "dampingRatio": 0.2012,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Bcl2",
+        "geneType": "target",
+        "phi1": 0.2474,
+        "phi2": -0.2823,
+        "r": 0.5313,
+        "theta": 1.3358,
+        "isComplex": true,
+        "eigenvalue": 0.5314,
+        "networkDegree": 256,
+        "amplitude": 3.746,
+        "chromatinState": "Active",
+        "h3k4me3": 0.88,
+        "tissue": "Lung",
+        "dampingRate": 0.6324,
+        "naturalPeriod": 9.4,
+        "dampingRatio": 0.4279,
+        "primaryCategory": "Tumor/Apoptosis"
+      },
+      {
+        "gene": "Mcm6",
+        "geneType": "target",
+        "phi1": 0.4295,
+        "phi2": 0.2446,
+        "r": 0.7539,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.7539,
+        "networkDegree": 78,
+        "amplitude": 13.6578,
+        "chromatinState": "Active",
+        "h3k4me3": 0.75,
+        "tissue": "Lung",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Proliferation"
+      },
+      {
+        "gene": "Sirt1",
+        "geneType": "target",
+        "phi1": 0.6086,
+        "phi2": 0.0074,
+        "r": 0.6205,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.6204,
+        "networkDegree": 267,
+        "amplitude": 33.4828,
+        "chromatinState": "Active",
+        "h3k4me3": 0.87,
+        "tissue": "Lung",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "DNA Damage"
+      },
+      {
+        "gene": "Cdk1",
+        "geneType": "target",
+        "phi1": -0.0687,
+        "phi2": -0.0287,
+        "r": 0.1694,
+        "theta": 1.775,
+        "isComplex": true,
+        "eigenvalue": 0.1693,
+        "networkDegree": 245,
+        "amplitude": 1.8375,
+        "chromatinState": "Active",
+        "h3k4me3": 0.87,
+        "tissue": "Lung",
+        "dampingRate": 1.7754,
+        "naturalPeriod": 7.1,
+        "dampingRatio": 0.7072,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Cry1",
+        "geneType": "clock",
+        "phi1": 1.2612,
+        "phi2": -0.7188,
+        "r": 0.8478,
+        "theta": 0.7321,
+        "isComplex": true,
+        "eigenvalue": 0.8478,
+        "networkDegree": 134,
+        "amplitude": 81.9186,
+        "chromatinState": "Active",
+        "h3k4me3": 0.85,
+        "tissue": "Lung",
+        "dampingRate": 0.1651,
+        "naturalPeriod": 17.2,
+        "dampingRatio": 0.22,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Lgr5",
+        "geneType": "target",
+        "phi1": 0.2105,
+        "phi2": 0.2701,
+        "r": 0.6355,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.6355,
+        "networkDegree": 45,
+        "amplitude": 1.6948,
+        "chromatinState": "Poised",
+        "h3k4me3": 0.45,
+        "tissue": "Lung",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Stem/Wnt"
+      },
+      {
+        "gene": "Mdm2",
+        "geneType": "target",
+        "phi1": 0.4227,
+        "phi2": 0.0185,
+        "r": 0.4627,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.4626,
+        "networkDegree": 198,
+        "amplitude": 7.5763,
+        "chromatinState": "Active",
+        "h3k4me3": 0.85,
+        "tissue": "Lung",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Other"
+      },
+      {
+        "gene": "Per1",
+        "geneType": "clock",
+        "phi1": 0.866,
+        "phi2": -0.2719,
+        "r": 0.5214,
+        "theta": 0.591,
+        "isComplex": true,
+        "eigenvalue": 0.5214,
+        "networkDegree": 142,
+        "amplitude": 296.3646,
+        "chromatinState": "Active",
+        "h3k4me3": 0.89,
+        "tissue": "Lung",
+        "dampingRate": 0.6512,
+        "naturalPeriod": 21.3,
+        "dampingRatio": 0.7405,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Trp53",
+        "geneType": "target",
+        "phi1": 0.2329,
+        "phi2": -0.1491,
+        "r": 0.3861,
+        "theta": 1.2644,
+        "isComplex": true,
+        "eigenvalue": 0.3861,
+        "networkDegree": 356,
+        "amplitude": 25.9725,
+        "chromatinState": "Active",
+        "h3k4me3": 0.9,
+        "tissue": "Lung",
+        "dampingRate": 0.9516,
+        "naturalPeriod": 9.9,
+        "dampingRatio": 0.6013,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Axin2",
+        "geneType": "target",
+        "phi1": 0.7457,
+        "phi2": -0.1035,
+        "r": 0.5613,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.5614,
+        "networkDegree": 78,
+        "amplitude": 27.8259,
+        "chromatinState": "Active",
+        "h3k4me3": 0.73,
+        "tissue": "Lung",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Stem/Wnt"
+      },
+      {
+        "gene": "Nr1d1",
+        "geneType": "clock",
+        "phi1": 1.4359,
+        "phi2": -0.7632,
+        "r": 0.8736,
+        "theta": 0.6062,
+        "isComplex": true,
+        "eigenvalue": 0.8736,
+        "networkDegree": 98,
+        "amplitude": 1318.8486,
+        "chromatinState": "Active",
+        "h3k4me3": 0.87,
+        "tissue": "Lung",
+        "dampingRate": 0.1351,
+        "naturalPeriod": 20.7,
+        "dampingRatio": 0.2176,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Hif1a",
+        "geneType": "target",
+        "phi1": -0.0566,
+        "phi2": 0.2369,
+        "r": 0.5158,
+        "theta": 3.1416,
+        "isComplex": false,
+        "eigenvalue": 0.5158,
+        "networkDegree": 278,
+        "amplitude": 30.5606,
+        "chromatinState": "Active",
+        "h3k4me3": 0.89,
+        "tissue": "Lung",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Metabolism"
+      },
+      {
+        "gene": "Ccnb1",
+        "geneType": "target",
+        "phi1": 0.1095,
+        "phi2": -0.2883,
+        "r": 0.5369,
+        "theta": 1.4687,
+        "isComplex": true,
+        "eigenvalue": 0.537,
+        "networkDegree": 167,
+        "amplitude": 1.1999,
+        "chromatinState": "Active",
+        "h3k4me3": 0.84,
+        "tissue": "Lung",
+        "dampingRate": 0.6219,
+        "naturalPeriod": 8.6,
+        "dampingRatio": 0.3899,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Nr1d2",
+        "geneType": "clock",
+        "phi1": 1.4493,
+        "phi2": -0.7576,
+        "r": 0.8704,
+        "theta": 0.5871,
+        "isComplex": true,
+        "eigenvalue": 0.8704,
+        "networkDegree": 76,
+        "amplitude": 641.8173,
+        "chromatinState": "Active",
+        "h3k4me3": 0.72,
+        "tissue": "Lung",
+        "dampingRate": 0.1388,
+        "naturalPeriod": 21.4,
+        "dampingRatio": 0.2301,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Myc",
+        "geneType": "target",
+        "phi1": 0.2299,
+        "phi2": 0.0187,
+        "r": 0.2936,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.2937,
+        "networkDegree": 312,
+        "amplitude": 4.98,
+        "chromatinState": "Active",
+        "h3k4me3": 0.96,
+        "tissue": "Lung",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Tumor/Apoptosis"
+      },
+      {
+        "gene": "Tef",
+        "geneType": "clock",
+        "phi1": 1.5655,
+        "phi2": -0.8641,
+        "r": 0.9296,
+        "theta": 0.5697,
+        "isComplex": true,
+        "eigenvalue": 0.9296,
+        "networkDegree": 54,
+        "amplitude": 303.1766,
+        "chromatinState": "Active",
+        "h3k4me3": 0.76,
+        "tissue": "Lung",
+        "dampingRate": 0.073,
+        "naturalPeriod": 22.1,
+        "dampingRatio": 0.1272,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Apc",
+        "geneType": "target",
+        "phi1": 0.4431,
+        "phi2": -0.317,
+        "r": 0.563,
+        "theta": 1.1664,
+        "isComplex": true,
+        "eigenvalue": 0.563,
+        "networkDegree": 167,
+        "amplitude": 16.201,
+        "chromatinState": "Active",
+        "h3k4me3": 0.86,
+        "tissue": "Lung",
+        "dampingRate": 0.5744,
+        "naturalPeriod": 10.8,
+        "dampingRatio": 0.4418,
+        "primaryCategory": "Tumor/Apoptosis"
+      },
+      {
+        "gene": "Cry2",
+        "geneType": "clock",
+        "phi1": 1.2989,
+        "phi2": -0.6112,
+        "r": 0.7818,
+        "theta": 0.5904,
+        "isComplex": true,
+        "eigenvalue": 0.7818,
+        "networkDegree": 118,
+        "amplitude": 140.8895,
+        "chromatinState": "Active",
+        "h3k4me3": 0.82,
+        "tissue": "Lung",
+        "dampingRate": 0.2462,
+        "naturalPeriod": 21.3,
+        "dampingRatio": 0.3848,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Rorc",
+        "geneType": "clock",
+        "phi1": 1.5642,
+        "phi2": -0.8375,
+        "r": 0.9152,
+        "theta": 0.546,
+        "isComplex": true,
+        "eigenvalue": 0.9151,
+        "networkDegree": 95,
+        "amplitude": 245.8879,
+        "chromatinState": "Poised",
+        "h3k4me3": 0.65,
+        "tissue": "Lung",
+        "dampingRate": 0.0887,
+        "naturalPeriod": 23,
+        "dampingRatio": 0.1603,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Ccne2",
+        "geneType": "target",
+        "phi1": 0.6737,
+        "phi2": -0.1473,
+        "r": 0.3838,
+        "theta": 0.4998,
+        "isComplex": true,
+        "eigenvalue": 0.3838,
+        "networkDegree": 98,
+        "amplitude": 4.4843,
+        "chromatinState": "Poised",
+        "h3k4me3": 0.62,
+        "tissue": "Lung",
+        "dampingRate": 0.9576,
+        "naturalPeriod": 25.1,
+        "dampingRatio": 0.8865,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Per3",
+        "geneType": "clock",
+        "phi1": 1.5808,
+        "phi2": -0.8761,
+        "r": 0.936,
+        "theta": 0.5653,
+        "isComplex": true,
+        "eigenvalue": 0.936,
+        "networkDegree": 89,
+        "amplitude": 365.1879,
+        "chromatinState": "Active",
+        "h3k4me3": 0.78,
+        "tissue": "Lung",
+        "dampingRate": 0.0661,
+        "naturalPeriod": 22.2,
+        "dampingRatio": 0.1162,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Chek2",
+        "geneType": "target",
+        "phi1": 0.5026,
+        "phi2": -0.1479,
+        "r": 0.3846,
+        "theta": 0.8587,
+        "isComplex": true,
+        "eigenvalue": 0.3846,
+        "networkDegree": 145,
+        "amplitude": 4.0876,
+        "chromatinState": "Active",
+        "h3k4me3": 0.78,
+        "tissue": "Lung",
+        "dampingRate": 0.9556,
+        "naturalPeriod": 14.6,
+        "dampingRatio": 0.7438,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Clock",
+        "geneType": "clock",
+        "phi1": 1.3453,
+        "phi2": -0.679,
+        "r": 0.824,
+        "theta": 0.6158,
+        "isComplex": true,
+        "eigenvalue": 0.824,
+        "networkDegree": 187,
+        "amplitude": 179.3957,
+        "chromatinState": "Active",
+        "h3k4me3": 0.94,
+        "tissue": "Lung",
+        "dampingRate": 0.1936,
+        "naturalPeriod": 20.4,
+        "dampingRatio": 0.2999,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Pparg",
+        "geneType": "target",
+        "phi1": 0.4262,
+        "phi2": -0.089,
+        "r": 0.2983,
+        "theta": 0.7752,
+        "isComplex": true,
+        "eigenvalue": 0.2984,
+        "networkDegree": 234,
+        "amplitude": 10.5855,
+        "chromatinState": "Poised",
+        "h3k4me3": 0.68,
+        "tissue": "Lung",
+        "dampingRate": 1.2096,
+        "naturalPeriod": 16.2,
+        "dampingRatio": 0.8419,
+        "primaryCategory": "Metabolism"
+      },
+      {
+        "gene": "Dbp",
+        "geneType": "clock",
+        "phi1": 1.4505,
+        "phi2": -0.7989,
+        "r": 0.8938,
+        "theta": 0.6242,
+        "isComplex": true,
+        "eigenvalue": 0.8938,
+        "networkDegree": 67,
+        "amplitude": 536.7783,
+        "chromatinState": "Active",
+        "h3k4me3": 0.88,
+        "tissue": "Lung",
+        "dampingRate": 0.1123,
+        "naturalPeriod": 20.1,
+        "dampingRatio": 0.177,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Wee1",
+        "geneType": "target",
+        "phi1": 1.4517,
+        "phi2": -0.7794,
+        "r": 0.8828,
+        "theta": 0.6056,
+        "isComplex": true,
+        "eigenvalue": 0.8828,
+        "networkDegree": 89,
+        "amplitude": 186.6188,
+        "chromatinState": "Active",
+        "h3k4me3": 0.79,
+        "tissue": "Lung",
+        "dampingRate": 0.1246,
+        "naturalPeriod": 20.8,
+        "dampingRatio": 0.2016,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Arntl",
+        "geneType": "clock",
+        "phi1": 1.3744,
+        "phi2": -0.678,
+        "r": 0.8234,
+        "theta": 0.5834,
+        "isComplex": true,
+        "eigenvalue": 0.8234,
+        "networkDegree": 201,
+        "amplitude": 202.7479,
+        "chromatinState": "Active",
+        "h3k4me3": 0.93,
+        "tissue": "Lung",
+        "dampingRate": 0.1943,
+        "naturalPeriod": 21.5,
+        "dampingRatio": 0.316,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Ccne1",
+        "geneType": "target",
+        "phi1": 0.2042,
+        "phi2": 0.2634,
+        "r": 0.6254,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.6254,
+        "networkDegree": 134,
+        "amplitude": 1.1462,
+        "chromatinState": "Active",
+        "h3k4me3": 0.8,
+        "tissue": "Lung",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Bax",
+        "geneType": "target",
+        "phi1": 0.2103,
+        "phi2": 0.1725,
+        "r": 0.5336,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.5336,
+        "networkDegree": 189,
+        "amplitude": 12.0306,
+        "chromatinState": "Active",
+        "h3k4me3": 0.81,
+        "tissue": "Lung",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Tumor/Apoptosis"
+      },
+      {
+        "gene": "Mki67",
+        "geneType": "target",
+        "phi1": -0.1214,
+        "phi2": 0.1851,
+        "r": 0.4952,
+        "theta": 3.1416,
+        "isComplex": false,
+        "eigenvalue": 0.4952,
+        "networkDegree": 89,
+        "amplitude": 0.3191,
+        "chromatinState": "Active",
+        "h3k4me3": 0.82,
+        "tissue": "Lung",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Proliferation"
+      },
+      {
+        "gene": "Ccnd1",
+        "geneType": "target",
+        "phi1": 0.7142,
+        "phi2": -0.1718,
+        "r": 0.4145,
+        "theta": 0.5325,
+        "isComplex": true,
+        "eigenvalue": 0.4145,
+        "networkDegree": 198,
+        "amplitude": 131.1385,
+        "chromatinState": "Active",
+        "h3k4me3": 0.91,
+        "tissue": "Lung",
+        "dampingRate": 0.8807,
+        "naturalPeriod": 23.6,
+        "dampingRatio": 0.8557,
+        "primaryCategory": "Cell Cycle"
+      },
+      {
+        "gene": "Rora",
+        "geneType": "clock",
+        "phi1": 0.9556,
+        "phi2": -0.3007,
+        "r": 0.5484,
+        "theta": 0.5129,
+        "isComplex": true,
+        "eigenvalue": 0.5484,
+        "networkDegree": 112,
+        "amplitude": 65.9561,
+        "chromatinState": "Active",
+        "h3k4me3": 0.8,
+        "tissue": "Lung",
+        "dampingRate": 0.6008,
+        "naturalPeriod": 24.5,
+        "dampingRatio": 0.7606,
+        "primaryCategory": "Circadian"
+      },
+      {
+        "gene": "Ctnnb1",
+        "geneType": "target",
+        "phi1": 0.3415,
+        "phi2": 0.2353,
+        "r": 0.685,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.685,
+        "networkDegree": 289,
+        "amplitude": 144.9347,
+        "chromatinState": "Active",
+        "h3k4me3": 0.92,
+        "tissue": "Lung",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Stem/Wnt"
+      },
+      {
+        "gene": "Atm",
+        "geneType": "target",
+        "phi1": 0.1747,
+        "phi2": 0.3226,
+        "r": 0.662,
+        "theta": 0,
+        "isComplex": false,
+        "eigenvalue": 0.662,
+        "networkDegree": 234,
+        "amplitude": 5.5279,
+        "chromatinState": "Active",
+        "h3k4me3": 0.83,
+        "tissue": "Lung",
+        "dampingRate": null,
+        "naturalPeriod": null,
+        "dampingRatio": null,
+        "primaryCategory": "Cell Cycle"
+      }
+    ],
+    "correlations": {
+      "r_vs_networkDegree": {
+        "rho": -0.2888,
+        "pValue": 1
+      },
+      "theta_vs_networkDegree": {
+        "rho": -0.1258,
+        "pValue": 1
+      },
+      "r_vs_amplitude": {
+        "rho": 0.6934,
+        "pValue": 2.8348204504756815e-22
+      },
+      "theta_vs_amplitude": {
+        "rho": 0.0005,
+        "pValue": 1
+      },
+      "dampingRate_vs_naturalPeriod": {
+        "rho": -0.3767,
+        "pValue": 1,
+        "n": 85
+      }
+    },
+    "stationarityTriangle": {
+      "vertices": [
+        {
+          "x": -2,
+          "y": -1
+        },
+        {
+          "x": 2,
+          "y": -1
+        },
+        {
+          "x": 0,
+          "y": 1
+        }
+      ],
+      "unitCircle": [
+        {
+          "x": 1,
+          "y": -0.25
+        },
+        {
+          "x": 0.9951847266721969,
+          "y": -0.1500529990423397
+        },
+        {
+          "x": 0.9807852804032304,
+          "y": -0.04914322538136598
+        },
+        {
+          "x": 0.9569403357322088,
+          "y": 0.04885141497198295
+        },
+        {
+          "x": 0.9238795325112867,
+          "y": 0.14016504294495535
+        },
+        {
+          "x": 0.881921264348355,
+          "y": 0.22128852702382232
+        },
+        {
+          "x": 0.8314696123025452,
+          "y": 0.28910433721000706
+        },
+        {
+          "x": 0.773010453362737,
+          "y": 0.34100634994959916
+        },
+        {
+          "x": 0.7071067811865476,
+          "y": 0.375
+        },
+        {
+          "x": 0.6343932841636455,
+          "y": 0.3897789304536312
+        },
+        {
+          "x": 0.5555702330196023,
+          "y": 0.3847751953012796
+        },
+        {
+          "x": 0.4713967368259978,
+          "y": 0.36018108527872295
+        },
+        {
+          "x": 0.38268343236508984,
+          "y": 0.3169417382415923
+        },
+        {
+          "x": 0.29028467725446233,
+          "y": 0.25671881804761926
+        },
+        {
+          "x": 0.19509032201612833,
+          "y": 0.1818266577464558
+        },
+        {
+          "x": 0.09801714032956077,
+          "y": 0.0951433210584681
+        },
+        {
+          "x": 6.123233995736766e-17,
+          "y": 6.123233995736766e-17
+        },
+        {
+          "x": -0.09801714032956065,
+          "y": -0.09994700095766038
+        },
+        {
+          "x": -0.1950903220161282,
+          "y": -0.20085677461863397
+        },
+        {
+          "x": -0.29028467725446216,
+          "y": -0.29885141497198275
+        },
+        {
+          "x": -0.3826834323650897,
+          "y": -0.3901650429449553
+        },
+        {
+          "x": -0.4713967368259977,
+          "y": -0.4712885270238224
+        },
+        {
+          "x": -0.555570233019602,
+          "y": -0.539104337210007
+        },
+        {
+          "x": -0.6343932841636454,
+          "y": -0.5910063499495991
+        },
+        {
+          "x": -0.7071067811865475,
+          "y": -0.625
+        },
+        {
+          "x": -0.773010453362737,
+          "y": -0.6397789304536312
+        },
+        {
+          "x": -0.8314696123025453,
+          "y": -0.6347751953012797
+        },
+        {
+          "x": -0.8819212643483549,
+          "y": -0.6101810852787231
+        },
+        {
+          "x": -0.9238795325112867,
+          "y": -0.5669417382415922
+        },
+        {
+          "x": -0.9569403357322088,
+          "y": -0.5067188180476193
+        },
+        {
+          "x": -0.9807852804032304,
+          "y": -0.43182665774645607
+        },
+        {
+          "x": -0.9951847266721968,
+          "y": -0.3451433210584681
+        },
+        {
+          "x": -1,
+          "y": -0.2500000000000001
+        },
+        {
+          "x": -0.9951847266721969,
+          "y": -0.1500529990423397
+        },
+        {
+          "x": -0.9807852804032304,
+          "y": -0.04914322538136587
+        },
+        {
+          "x": -0.9569403357322089,
+          "y": 0.04885141497198267
+        },
+        {
+          "x": -0.9238795325112868,
+          "y": 0.14016504294495524
+        },
+        {
+          "x": -0.881921264348355,
+          "y": 0.22128852702382232
+        },
+        {
+          "x": -0.8314696123025455,
+          "y": 0.28910433721000695
+        },
+        {
+          "x": -0.7730104533627371,
+          "y": 0.3410063499495991
+        },
+        {
+          "x": -0.7071067811865477,
+          "y": 0.37500000000000006
+        },
+        {
+          "x": -0.6343932841636459,
+          "y": 0.38977893045363127
+        },
+        {
+          "x": -0.5555702330196022,
+          "y": 0.38477519530127957
+        },
+        {
+          "x": -0.4713967368259979,
+          "y": 0.36018108527872306
+        },
+        {
+          "x": -0.38268343236509034,
+          "y": 0.3169417382415925
+        },
+        {
+          "x": -0.29028467725446244,
+          "y": 0.2567188180476193
+        },
+        {
+          "x": -0.19509032201612866,
+          "y": 0.18182665774645607
+        },
+        {
+          "x": -0.09801714032956045,
+          "y": 0.0951433210584678
+        },
+        {
+          "x": -1.8369701987210297e-16,
+          "y": 1.8369701987210297e-16
+        },
+        {
+          "x": 0.09801714032956009,
+          "y": -0.09994700095765979
+        },
+        {
+          "x": 0.1950903220161283,
+          "y": -0.20085677461863408
+        },
+        {
+          "x": 0.29028467725446205,
+          "y": -0.2988514149719826
+        },
+        {
+          "x": 0.38268343236509,
+          "y": -0.3901650429449556
+        },
+        {
+          "x": 0.4713967368259976,
+          "y": -0.4712885270238223
+        },
+        {
+          "x": 0.5555702330196018,
+          "y": -0.5391043372100068
+        },
+        {
+          "x": 0.6343932841636456,
+          "y": -0.5910063499495992
+        },
+        {
+          "x": 0.7071067811865474,
+          "y": -0.625
+        },
+        {
+          "x": 0.7730104533627365,
+          "y": -0.6397789304536312
+        },
+        {
+          "x": 0.8314696123025452,
+          "y": -0.6347751953012796
+        },
+        {
+          "x": 0.8819212643483548,
+          "y": -0.610181085278723
+        },
+        {
+          "x": 0.9238795325112865,
+          "y": -0.5669417382415926
+        },
+        {
+          "x": 0.9569403357322088,
+          "y": -0.5067188180476193
+        },
+        {
+          "x": 0.9807852804032303,
+          "y": -0.4318266577464561
+        },
+        {
+          "x": 0.9951847266721969,
+          "y": -0.3451433210584679
+        }
+      ]
+    }
+  },
+  "conservationSummary": {
+    "clockMeanCV": 0.1242,
+    "targetMeanCV": 0.2356,
+    "clockMoreConserved": true,
+    "conservationRatio": 0.53
+  },
+  "dataSources": {
+    "network": "Curated reference values based on STRING v12.0 mouse protein-protein interaction network (Szklarczyk et al., 2023). Degree counts are representative values for the listed genes.",
+    "chromatin": "Curated reference values based on ENCODE/Roadmap Epigenomics histone mark data (ENCODE Project Consortium, 2020). H3K4me3/H3K27ac values are representative scores for mouse liver.",
+    "expression": "GSE54650 multi-tissue circadian time series (Zhang et al., 2014). AR(2) eigenvalues and cosinor amplitudes computed from 2-hour sampled expression profiles.",
+    "functional": "Gene Ontology and KEGG pathway annotations for the curated clock and target gene panel."
+  }
+}

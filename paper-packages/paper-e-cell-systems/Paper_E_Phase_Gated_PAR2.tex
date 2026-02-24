@@ -1,0 +1,231 @@
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{lineno}
+\linenumbers
+
+\title{\textbf{A Stability-Constrained Phase-Dependent AR(2) Framework for Discovering Cross-Tissue Circadian Gating Architectures}}
+
+\author{
+Michael Whiteside$^{1,*}$ \\
+\\
+$^1$Independent Researcher, United Kingdom \\
+\\
+$^*$Corresponding author: mickwh@msn.com \\
+ORCID: 0009-0000-0643-5791
+}
+
+\date{February 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\noindent Circadian clocks orchestrate tissue homeostasis by gating cell cycle, DNA repair, metabolism, and immune responses in time. However, in mammalian tissues, the precise form, strength, and timing of this gating---and how it fails in cancer---remain poorly resolved. Here, we introduce a stability-constrained, phase-dependent autoregressive model of order two (PAR(2)) that systematically interrogates temporal coupling between core clock genes and putative targets across diverse tissues and datasets. PAR(2) extends standard AR(2) models by allowing autoregressive coefficients to vary smoothly over circadian phase while enforcing dynamical stability.
+
+We apply PAR(2) to tens of thousands of clock--target expression time series from publicly available datasets spanning liver, heart, cerebellum, intestinal organoids, and other tissues. For each clock--target pair, we jointly estimate (i) phase-dependent linear coupling, (ii) the first two autoregressive (AR) coefficients as smooth functions of phase (approximated via sinusoidal terms), and (iii) eigenvalues that summarise the stability and oscillatory character of the inferred system. We use residual-based permutation tests and cross-tissue replication criteria to control false discoveries, and we quantify how often the fitted eigenvalue ratios fall in a constrained ``golden-ratio-like'' region of the AR(2) stability triangle, without attributing any special or mystical role to the golden ratio itself.
+
+Across tissues, PAR(2) recovers known circadian gating motifs (e.g.\ clock control of \textit{Wee1}) and reveals new candidate architectures. In liver, \textit{Wee1}-centred gating emerges as a robust hub linking core clock genes to G2/M checkpoint and DNA repair modules. In heart, PAR(2) identifies \textit{Tead1}/YAP1-linked gating patterns connecting circadian timing with Hippo pathway and cell-cycle regulation. Cerebellum shows a distinct architecture in which \textit{Cdk1} and related cell-cycle regulators form the primary circadian-coupled module. In intestinal organoids, Apc mutation strengthens gating signatures while combined Apc/Bmal1 disruption collapses them. Our results illustrate how a stability-constrained, phase-dependent AR(2) framework can serve as a discovery engine to map clock--target ``gating architectures'' across tissues and perturbations.
+
+\noindent\textbf{Keywords:} phase-gating, autoregressive models, circadian rhythms, cross-tissue gating, dynamical stability, eigenvalue analysis, intestinal organoids, chronotherapy
+\end{abstract}
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+
+\subsection{Circadian Gating, Tissue Defence, and Cancer Risk}
+
+Circadian clocks coordinate physiology and tissue homeostasis by aligning cellular processes such as cell cycle, DNA repair, metabolism, and immune function with predictable day--night cycles \citep{bass2010circadian, takahashi2017transcriptional, reppert2002coordination}. A key concept is ``gating'': clocks actively gate the timing and probability of discrete events---DNA replication, mitosis, apoptotic decisions---to preferred phases of the day \citep{matsuo2003control}. Such gating confers protection by synchronising risky processes with periods of optimal repair capacity.
+
+Despite much work on rhythmic gene expression, the precise ways in which clock genes gate specific targets in different tissues remain incompletely understood. Most methods treat each gene independently, focusing on rhythmicity rather than interrogating the dynamical coupling structure between core clocks and downstream targets \citep{hughes2017guidelines, hughes2010jtk}. There is growing evidence that circadian disruption is linked to increased cancer risk \citep{gery2007circadian, hansen2017night, masri2018emerging, sancar2021clocks}.
+
+Here, we explore whether a systematic, dynamical modelling approach can reveal cross-tissue circadian gating architectures from existing time-series data, modelling clock--target pairs as small dynamical systems with phase-dependent parameters constrained to remain stable.
+
+\subsection{Phase-Dependent AR(2) Models and Dynamical Stability}
+
+Autoregressive models of order two (AR(2)) are a natural minimal representation for oscillatory systems \citep{hamilton1994time, box2015time}. Two coefficients capture damped oscillations with eigenvalues determining frequency, damping, and stability. We extend this by introducing a phase-dependent AR(2) framework (PAR(2)) in which coefficients depend smoothly on circadian phase through sinusoidal basis functions, with stability constraints enforced across all observed phases.
+
+For each clock--target pair, the target is modelled as:
+\begin{equation}
+T_t = a_1(\theta_t) T_{t-1} + a_2(\theta_t) T_{t-2} + b(\theta_t) C_{t-1} + \varepsilon_t
+\label{eq:par2}
+\end{equation}
+where $\theta_t$ is the estimated circadian phase, $C_{t-1}$ is the clock gene expression, and the coefficients are parameterised as:
+\begin{align}
+a_1(\theta) &= \alpha_{10} + \alpha_{11}\cos(\theta) + \alpha_{12}\sin(\theta) \\
+a_2(\theta) &= \alpha_{20} + \alpha_{21}\cos(\theta) + \alpha_{22}\sin(\theta) \\
+b(\theta) &= \beta_0 + \beta_1\cos(\theta) + \beta_2\sin(\theta)
+\end{align}
+
+This yields a linear regression problem subject to the constraint that $(a_1(\theta), a_2(\theta))$ lies within the classical AR(2) stability triangle at all phases:
+\begin{equation}
+a_2 < 1, \quad a_2 > -1, \quad a_1 + a_2 < 1, \quad a_2 - a_1 < 1
+\end{equation}
+
+The eigenvalues $\lambda_{1,2}(\theta)$ of the companion matrix $\mathbf{A}(\theta)$ at each phase characterise the local dynamics:
+\begin{equation}
+\mathbf{A}(\theta) = \begin{pmatrix} a_1(\theta) & a_2(\theta) \\ 1 & 0 \end{pmatrix}
+\end{equation}
+
+\subsection{Discovery Engine and Cross-Tissue Replication}
+
+We use PAR(2) as a discovery engine for circadian gating architectures, controlling false discoveries through residual-based permutation tests ($B = 1000$) and Benjamini--Hochberg FDR control within each dataset. We classify hits into tiers:
+
+\begin{itemize}
+\item \textbf{Tier 0:} FDR-significant in $\geq 2$ independent datasets within the same tissue with consistent coupling and eigenstructure.
+\item \textbf{Tier 1:} FDR-significant in $\geq 1$ dataset in $\geq 2$ distinct tissues with consistent patterns.
+\item \textbf{Tier 2:} FDR-significant in a single tissue with robust geometric properties (golden-ratio-like eigenvalues, plausible eigenperiods).
+\end{itemize}
+
+\subsection{Scope and Limitations}
+
+Our analysis is entirely based on existing gene expression time-series datasets. All inferences are correlative and model-based, assuming linearity, Gaussian noise, and phase-dependence captured by first-order sinusoidal terms. Findings are hypothesis-generating rather than definitive---they suggest candidate circadian defence modules requiring experimental testing \citep{levine2020circadian}.
+
+\section{Methods}
+
+\subsection{Datasets and Preprocessing}
+
+We assembled a panel of publicly available mammalian gene expression datasets with circadian sampling (Table~S1). Inclusion criteria: $\geq 8$ time points with uniform spacing, coverage of core clock genes, and available normalised expression values.
+
+\begin{itemize}
+\item \textbf{Mouse multi-tissue (GSE54650):} 12 tissues, 48-hour time course, 2-hour sampling, $n = 24$ timepoints per tissue \citep{zhang2014circadian}
+\item \textbf{Mouse liver (GSE11923):} 48 hourly timepoints, high-resolution circadian dataset \citep{hughes2009harmonics}
+\item \textbf{Human blood (GSE48113):} Forced desynchrony protocol \citep{archer2014mistimed}
+\item \textbf{Baboon multi-tissue (GSE98965):} Multi-tissue circadian profiling \citep{mure2018diurnal}
+\item \textbf{Intestinal organoids (GSE157357):} WT, Apc-mutant, Bmal1-deficient, and Apc/Bmal1 double mutant genotypes
+\end{itemize}
+
+\subsection{Phase Estimation}
+
+For each dataset, we estimated clock gene phase via cosinor regression:
+\begin{equation}
+C(t) = \beta_0 + \beta_1 \cos(\omega t) + \beta_2 \sin(\omega t) + \epsilon(t)
+\end{equation}
+where $\omega = 2\pi/24$ h$^{-1}$, yielding phase $\phi_C = \arctan2(-\beta_2, \beta_1)$ and amplitude $\sqrt{\beta_1^2 + \beta_2^2}$.
+
+\subsection{Model Fitting and Significance Testing}
+
+Parameters $(\alpha_{ij}, \beta_k)$ are estimated by minimising the sum of squared residuals subject to stability constraints, using penalty-based regularisation and explicit checking on a dense grid of phases. We compare models with and without phase-dependent coupling to quantify the clock contribution.
+
+For significance testing, we use residual-based permutation ($B = 1000$) with the test statistic:
+\begin{equation}
+\Delta = \log\left(\frac{\text{RSS}_0}{\text{RSS}_1}\right)
+\end{equation}
+where RSS$_0$ and RSS$_1$ are residual sums of squares under null and full models. P-values are computed as:
+\begin{equation}
+p = \frac{1 + \#\{\Delta^{(b)} \geq \Delta_{\text{obs}}\}}{1 + B}
+\end{equation}
+
+Multiple testing correction uses Benjamini--Hochberg FDR at $q = 0.05$ and $q = 0.10$.
+
+\subsection{Eigenvalue Analysis and Golden-Ratio-Like Structures}
+
+For complex conjugate eigenvalues, we compute eigenperiods:
+\begin{equation}
+T_{\text{eig}}(\theta) = \frac{2\pi \Delta}{\arg(\lambda(\theta))}
+\end{equation}
+
+We define a ``golden neighbourhood'' in coefficient space where eigenvalue relationships approximate $\phi = (1+\sqrt{5})/2$ within 2--5\%, and compare the fraction of significant hits in this region against null models. We do not interpret such alignments as evidence for biological design around $\phi$; rather, we treat them as geometric descriptors of robust oscillatory dynamics.
+
+\section{Results}
+
+\subsection{Overview of Discovery Landscape}
+
+Applying PAR(2) across all datasets, we analysed $\sim$10$^4$--10$^5$ clock--target pairs spanning liver, heart, cerebellum, and intestinal organoids. Many pairs showed no evidence for phase-dependent coupling; a subset displayed robust, phase-structured coupling with consistent eigenstructures forming the core of inferred gating architectures.
+
+\subsection{Golden-Ratio-Like Eigenstructures}
+
+Among Tier 0 and Tier 1 hits, over 80\% exhibited eigenvalue ratios within 2--5\% of golden-ratio-related values. Under null models (phase-randomised or residual-permuted data), this fraction dropped to levels expected under roughly uniform sampling of the stability triangle. This concentration is not fully explained by geometry alone but arises preferentially in systems supported as genuine phase-dependent couplings.
+
+\subsection{Liver: \textit{Wee1}-Centred Gating and DNA Damage Control}
+
+In mouse liver datasets, \textit{Wee1} emerges as one of the most robustly gated targets---a Tier 0 hit with FDR-significant phase-dependent coupling to core clock genes and eigenstructures in the golden-ratio-like region. The inferred coupling functions suggest gating peaks when DNA synthesis is minimal and repair capacity maximal. Beyond \textit{Wee1}, hits among other G2/M regulators and DNA damage response genes form a circadianly gated checkpoint module.
+
+\subsection{Heart: \textit{Tead1}/YAP1-Linked Gating}
+
+Heart datasets highlight a module centred on \textit{Tead1} and YAP1-linked targets, connecting circadian timing with Hippo pathway and cell-cycle regulation. Eigenperiods fall in a compatible range with the 24-hour cycle. This suggests a distinct temporal architecture in which Hippo/YAP-linked signals are gated phase-dependently.
+
+\subsection{Cerebellum: \textit{Cdk1}-Linked Gating}
+
+Cerebellum reveals \textit{Cdk1} and related mitotic regulators as key targets with eigenstructures in or near the golden-ratio-like region, suggesting more direct gating of core mitotic machinery compared to the Wee1/Hippo modules in other tissues.
+
+\subsection{Intestinal Organoids: Apc, Bmal1, and Collapse of Gating}
+
+In intestinal organoids, Apc-mutant organoids show \textit{increased} PAR(2) gating signatures for selected stem-cell and proliferation targets, while the Apc/Bmal1 double mutant shows a \textit{collapse}---many targets that were gated in Apc-only organoids lose their signatures under identical thresholds. This is consistent with intact Bmal1-mediated clock enabling temporal gating of proliferative programs under Apc stress, with combined disruption compromising this control.
+
+\subsection{Cross-Tissue Gating Architecture Summary}
+
+\begin{table}[H]
+\centering
+\caption{Cross-tissue circadian gating architectures identified by PAR(2)}
+\label{tab:architectures}
+\begin{tabular}{llll}
+\toprule
+\textbf{Tissue} & \textbf{Central Module} & \textbf{Key Targets} & \textbf{Tier} \\
+\midrule
+Liver & Wee1-centred & G2/M checkpoint, DNA repair & 0 \\
+Heart & Tead1/YAP1-linked & Hippo pathway, cell cycle & 1 \\
+Cerebellum & Cdk1-centred & Core mitotic machinery & 1 \\
+Intestine (WT) & Stem cell markers & Lgr5, Wnt/Apc targets & 2 \\
+Intestine (Apc) & Enhanced gating & Proliferation genes & 1 \\
+Intestine (Apc/Bmal1) & Collapsed & Loss of gating signatures & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Discussion}
+
+\subsection{PAR(2) as a Discovery Engine}
+
+The stability-constrained, phase-dependent AR(2) framework complements standard rhythmicity analyses by explicitly modelling clock--target coupling structure and stability properties. The stability constraint encourages balanced eigenstructures summarised via golden-ratio-like descriptors---useful for classification but requiring caution against overinterpretation.
+
+\subsection{Biological Hypotheses}
+
+Our analyses generate testable hypotheses: (i) \textit{Wee1}-centred gating protects liver against genotoxic stress via temporal separation of DNA synthesis from repair capacity; (ii) heart uses Hippo/YAP gating to balance regenerative capacity against inappropriate proliferation; (iii) cerebellum directly gates mitotic machinery; (iv) combined Apc/Bmal1 disruption removes circadian temporal control of proliferative programs. These are consistent with established biology but require direct experimental validation \citep{matsuo2003control, sancar2021clocks, weisel2015targeting, ouyang2024circadian}.
+
+\subsection{Limitations}
+
+Key limitations include: reliance on observational expression data without causal perturbation; linearity and Gaussian noise assumptions; limited time resolution in some datasets; potential batch effects; and interpretational ambiguity (significant coupling does not imply direct physical interaction). Our tiered discovery scheme is pragmatic rather than a formal error rate guarantee.
+
+\subsection{Future Directions}
+
+Extensions include multivariate PAR(2) with sparsity-inducing penalties for network structure discovery, nonlinear extensions, systematic benchmarking against existing circadian coupling methods, integration with chronotherapy modelling, and experimental validation of predicted gating modules---particularly testing Bmal1 manipulation in Apc-mutant organoids against PAR(2)-derived predictions \citep{boman2025fibonacci, boman2025dynamic, nguyen2025colonic}.
+
+\subsection{Conclusion}
+
+PAR(2) maps candidate circadian gating architectures across tissues and perturbations, supporting a view in which clocks deploy tissue-specific modules---Wee1, Hippo/YAP/TEAD, CDK1, and stem-cell markers---to temporally organise cell-cycle, repair, and regenerative processes. All findings are hypothesis-generating and made available through the PAR(2) Discovery Engine for independent replication and extension.
+
+\section*{Data and Code Availability}
+
+All datasets are publicly available from NCBI GEO under accession numbers listed in Supplementary Materials. The PAR(2) Discovery Engine web platform provides interactive access to all analyses. Analysis code will be made available for non-commercial academic use.
+
+\section*{Declaration of Interests}
+
+The author declares no competing financial or non-financial interests, with the sole exception of a patent pending on the underlying mathematical framework (Application No.\ GB2518973.9).
+
+\section*{Acknowledgements}
+
+The author thanks the circadian and systems-biology community for publicly sharing datasets and for discussions around circadian clocks, cell-cycle regulation, and dynamical modelling. Special thanks to Dr Bruce M Boman for encouragement throughout this work. Conducted as independent research without dedicated external funding.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}

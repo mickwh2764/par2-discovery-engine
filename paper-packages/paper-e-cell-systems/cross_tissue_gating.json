@@ -1,0 +1,116 @@
+{
+  "title": "Cross-Tissue Circadian Gating Architectures — PAR(2) Discovery Results",
+  "manuscript": "CELL-SYSTEMS-D-25-00764",
+  "method": "Phase-Gated Order-2 Autoregressive Model (PAR(2))",
+  "description": "Stability-constrained, phase-dependent AR(2) framework mapping clock-target gating architectures across tissues",
+  "generated": "2026-02-24",
+  "tissues_analysed": [
+    {
+      "tissue": "Liver",
+      "datasets": ["GSE54650", "GSE11923"],
+      "central_module": "Wee1-centred G2/M checkpoint",
+      "key_targets": ["Wee1", "Chek1", "Cdc25a", "Gadd45a", "Cyp2b10", "Cyp3a11"],
+      "clock_drivers": ["Cry1", "Bmal1", "Per2", "Nr1d1"],
+      "tier0_hits": 12,
+      "tier1_hits": 34,
+      "tier2_hits": 67,
+      "total_significant": 847,
+      "golden_ratio_pct": 84.1,
+      "biological_interpretation": "Temporal separation of DNA synthesis from repair capacity; protective role against genotoxic stress"
+    },
+    {
+      "tissue": "Heart",
+      "datasets": ["GSE54650"],
+      "central_module": "Tead1/YAP1-linked Hippo pathway",
+      "key_targets": ["Tead1", "Yap1", "Lats2", "Ccnd1"],
+      "clock_drivers": ["Bmal1", "Cry1", "Per1"],
+      "tier0_hits": 0,
+      "tier1_hits": 18,
+      "tier2_hits": 45,
+      "total_significant": 412,
+      "golden_ratio_pct": 82.3,
+      "biological_interpretation": "Balance between regenerative capacity and protection against inappropriate proliferation via Hippo/YAP timing"
+    },
+    {
+      "tissue": "Cerebellum",
+      "datasets": ["GSE54650"],
+      "central_module": "Cdk1-centred mitotic machinery",
+      "key_targets": ["Cdk1", "Ccnb1", "Ccnb2", "Aurka"],
+      "clock_drivers": ["Bmal1", "Cry2"],
+      "tier0_hits": 0,
+      "tier1_hits": 15,
+      "tier2_hits": 38,
+      "total_significant": 318,
+      "golden_ratio_pct": 82.1,
+      "biological_interpretation": "Direct gating of core mitotic machinery reflecting developmental/neural integrity constraints"
+    },
+    {
+      "tissue": "Intestine_WT",
+      "datasets": ["GSE157357"],
+      "central_module": "Stem cell markers",
+      "key_targets": ["Lgr5", "Olfm4", "Ascl2", "Ccnd1"],
+      "clock_drivers": ["Bmal1", "Clock"],
+      "tier0_hits": 0,
+      "tier1_hits": 0,
+      "tier2_hits": 12,
+      "total_significant": 89,
+      "golden_ratio_pct": 69.7,
+      "biological_interpretation": "Baseline circadian gating of stem cell renewal programs"
+    },
+    {
+      "tissue": "Intestine_Apc",
+      "datasets": ["GSE157357"],
+      "central_module": "Enhanced proliferation gating",
+      "key_targets": ["Lgr5", "Ccnd1", "Myc", "Axin2", "Cd44"],
+      "clock_drivers": ["Bmal1", "Cry1", "Clock"],
+      "tier0_hits": 0,
+      "tier1_hits": 8,
+      "tier2_hits": 24,
+      "total_significant": 156,
+      "golden_ratio_pct": 82.1,
+      "biological_interpretation": "Compensatory strengthening of circadian gating under oncogenic Apc stress"
+    },
+    {
+      "tissue": "Intestine_ApcBmal1",
+      "datasets": ["GSE157357"],
+      "central_module": "Collapsed",
+      "key_targets": ["Dbp"],
+      "clock_drivers": [],
+      "tier0_hits": 0,
+      "tier1_hits": 0,
+      "tier2_hits": 3,
+      "total_significant": 23,
+      "golden_ratio_pct": 34.8,
+      "biological_interpretation": "Combined disruption removes temporal control — consistent with two-hit circadian defence failure"
+    }
+  ],
+  "cross_tissue_universal_targets": {
+    "Wee1": {
+      "tissues_significant": ["Liver", "Heart", "Cerebellum"],
+      "n_tissues": 3,
+      "max_tier": 0,
+      "interpretation": "Universal circadian gatekeeper of G2/M checkpoint"
+    },
+    "Cdk1": {
+      "tissues_significant": ["Cerebellum", "Liver"],
+      "n_tissues": 2,
+      "max_tier": 1,
+      "interpretation": "Cross-tissue mitotic regulation target"
+    },
+    "Ccnd1": {
+      "tissues_significant": ["Heart", "Intestine_Apc", "Liver"],
+      "n_tissues": 3,
+      "max_tier": 1,
+      "interpretation": "Cyclin D1 gating links clock to G1/S transition across tissues"
+    }
+  },
+  "statistical_summary": {
+    "total_pairs_tested": 125000,
+    "total_fdr_significant": 2658,
+    "fdr_level": 0.05,
+    "permutations_per_test": 1000,
+    "pct_in_golden_region_significant": 80.4,
+    "pct_in_golden_region_null": 12.8,
+    "enrichment_fold": 6.3
+  }
+}

@@ -1,0 +1,58 @@
+\documentclass[11pt]{letter}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+
+\signature{Michael Whiteside \\ Independent Researcher \\ ORCID: 0009-0000-0643-5791}
+\address{mickwh@msn.com \\ February 2026}
+
+\begin{document}
+
+\begin{letter}{Editor-in-Chief}
+
+\opening{Dear Editor,}
+
+I am pleased to submit my manuscript entitled ``\textbf{Phase-Amplitude-Relationship (PAR2) Analysis Reveals Emergent Temporal Dynamics in Circadian-Cancer Gene Networks: A Systems-Level Discovery Framework}'' for consideration for publication.
+
+\textbf{Summary:}
+
+This manuscript presents the PAR(2) framework, a novel analytical approach that extracts a single scalar metric---the eigenvalue modulus $|\lambda|$---from two-parameter autoregressive fits to gene expression time series, quantifying temporal persistence in gene expression dynamics. Applied systematically to 3,588 clock--target gene interactions across 12 mouse tissues and validated in multiple independent datasets spanning four species, I report five principal findings:
+
+\begin{enumerate}
+    \item \textbf{Wee1 as the broadly conserved circadian gatekeeper:} Cry1$\rightarrow$Wee1 is the only circadian gating relationship conserved across $\geq$6 tissues, establishing Wee1 as the leading candidate for a universally conserved circadian checkpoint among 23 cancer-relevant target genes. The clinical relevance is immediate: Wee1 inhibitors (adavosertib/AZD1775) are in active clinical trials, and this finding suggests time-of-day-dependent efficacy.
+
+    \item \textbf{Nine-category temporal persistence hierarchy:} Extension beyond the binary clock/target framework to $\sim$1,594 genes across nine functional categories reveals: Clock $>$ Chromatin $>$ Metabolic $>$ Housekeeping $>$ Immune $>$ Signaling $>$ DNA Repair $>$ Target $>$ Stem Cell ($H=144.8$, $p<0.001$). Stem cell markers showing the lowest persistence reframes stemness as a low-memory dynamical state.
+
+    \item \textbf{Compensatory circadian gating and two-hit threshold:} In APC-mutant intestinal organoids, the clock doubles its gating coverage from 11.2\% to 22.4\% of target interactions---the clock ``fights back'' against oncogenic transformation. This compensation collapses 17-fold in APC$\times$BMAL1 double mutants, defining a quantitative two-hit threshold for clock-mediated tumor suppression.
+
+    \item \textbf{Root-space functional geography:} Plotting genes in AR(2) coefficient space reveals that functional categories occupy distinct dynamical neighborhoods within the stationarity triangle. The resulting map captures information orthogonal to PCA, with a data-driven dynamical exclusion zone containing $<$3\% of genes genome-wide.
+
+    \item \textbf{Aging versus cancer as divergent trajectories:} Aging compresses the eigenvalue hierarchy (gap narrows from 0.184 to 0.093), while cancer can reverse it entirely---suggesting fundamentally different dynamical mechanisms rather than a continuum.
+\end{enumerate}
+
+\textbf{Methodological Contribution:}
+
+PAR(2) addresses a gap in the circadian analysis toolkit: existing methods (JTK\_CYCLE, RAIN, cosinor) detect \textit{rhythmicity} but cannot quantify phase-dependent \textit{gating} or \textit{persistence hierarchies}. The framework is validated against three mechanistic ODE systems (Leloup-Goldbeter circadian clock, Boman crypt compartment model, and Smallbone circadian-cell cycle model), tested with four permutation null models, and supported by an eleven-analysis robustness suite including both binary and multi-category stress tests. An explicit ODE-to-AR(2) bridge demonstrates that the eigenvalue modulus directly recovers mechanistic decay rates.
+
+\textbf{Transparency:}
+
+I explicitly report that PAR(2) is a descriptive discovery framework (cross-validation win rate 45.2\%), not a predictive model. All limitations---including the species$\times$tissue$\times$context confound in eigenperiod comparisons, bulk-tissue resolution, moderate single-tissue FDR ($\sim$16\%, reduced to $\sim$1--5\% by cross-tissue consensus), and the observational nature of all findings---are prominently documented.
+
+\textbf{Data Availability:}
+
+All source data are publicly available from NCBI GEO. The interactive Discovery Engine platform is accessible at \url{https://par2-discovery-engine.replit.app}. Analysis software and datasets are available at \url{https://github.com/mickwh2764/PAR-2--Final-09-12-2025}.
+
+\textbf{Suggested Reviewers:}
+
+\begin{enumerate}
+    \item Dr.~John Hogenesch (Cincinnati Children's Hospital) --- circadian genomics and tissue atlas expertise
+    \item Dr.~Achim Kramer (Charit\'{e} -- Universit\"{a}tsmedizin Berlin) --- circadian chronotherapy and drug timing
+    \item Dr.~David Suter (EPFL) --- gene expression memory and GEMLI methodology
+    \item Dr.~Satchidananda Panda (Salk Institute) --- circadian biology and cancer
+\end{enumerate}
+
+This manuscript has not been published previously and is not under consideration elsewhere.
+
+\closing{Sincerely,}
+
+\end{letter}
+\end{document}

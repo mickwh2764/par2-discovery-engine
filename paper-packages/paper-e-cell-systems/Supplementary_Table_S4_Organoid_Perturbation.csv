@@ -1,0 +1,5 @@
+Genotype,N_Clock_Target_Pairs_Tested,N_FDR_Significant,Pct_Significant,Mean_Eigenvalue_Significant,Pct_In_Golden_Region,Top_Gated_Targets,Gating_Signature_Status
+WT,2340,89,3.8,0.65,69.7,"Lgr5, Olfm4, Ascl2, Ccnd1",Baseline
+Apc_Mutant,2340,156,6.7,0.73,82.1,"Lgr5, Ccnd1, Myc, Axin2, Cd44",Enhanced
+Bmal1_Deficient,2340,34,1.5,0.58,41.2,"Dbp, Tef",Reduced
+Apc_Bmal1_Double,2340,23,1.0,0.54,34.8,"Dbp",Collapsed

@@ -1,0 +1,694 @@
+[
+  {
+    "name": "WT Organoid",
+    "scenario": "healthy",
+    "genes": [
+      {
+        "gene": "Wee1",
+        "beta1": 0.15977416572311398,
+        "beta2": -0.014593004862319958,
+        "ratio": -10.948681730084306,
+        "distanceToPhi": 9.330647741334412,
+        "fibonacciProximity": 0.008866478664437447,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Lgr5",
+        "beta1": 0.3381882423818148,
+        "beta2": 0.05464311670762356,
+        "ratio": 6.18903647446289,
+        "distanceToPhi": 4.571002485712995,
+        "fibonacciProximity": 1.034758121400099,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Myc",
+        "beta1": 0.27741430024113356,
+        "beta2": -0.17518576079817194,
+        "ratio": -1.5835436566145185,
+        "distanceToPhi": 0.034490332135376445,
+        "fibonacciProximity": 96.60976797429231,
+        "isPhiLike": true,
+        "classification": "Fibonacci-like"
+      },
+      {
+        "gene": "Tp53",
+        "beta1": -0.11185341633134982,
+        "beta2": 0.2765201406270421,
+        "ratio": -0.4045036867032867,
+        "distanceToPhi": 0.21353030204660822,
+        "fibonacciProximity": 80.7727683977799,
+        "isPhiLike": false,
+        "classification": "Near-Fibonacci"
+      },
+      {
+        "gene": "Ccnd1",
+        "beta1": -0.16608158545452412,
+        "beta2": 0.3561169053256208,
+        "ratio": -0.4663681588007313,
+        "distanceToPhi": 0.1516658299491636,
+        "fibonacciProximity": 85.92753768653581,
+        "isPhiLike": true,
+        "classification": "Fibonacci-like"
+      },
+      {
+        "gene": "Axin2",
+        "beta1": -0.16749658815274415,
+        "beta2": 0.15371502453060515,
+        "ratio": -1.0896565814839723,
+        "distanceToPhi": 0.47162259273407736,
+        "fibonacciProximity": 62.3988966453815,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Bax",
+        "beta1": -0.255041722344469,
+        "beta2": 0.1480000330251272,
+        "ratio": -1.7232544961741219,
+        "distanceToPhi": 0.10522050742422695,
+        "fibonacciProximity": 90.01260162316885,
+        "isPhiLike": true,
+        "classification": "Fibonacci-like"
+      },
+      {
+        "gene": "Hif1a",
+        "beta1": 0.4709925720512267,
+        "beta2": -0.16275458773004914,
+        "ratio": -2.893882001240006,
+        "distanceToPhi": 1.275848012490111,
+        "fibonacciProximity": 27.919410771476016,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      }
+    ],
+    "avgFibonacciProximity": 55.585575962337366,
+    "phiLikeCount": 3,
+    "nearFibonacciCount": 1
+  },
+  {
+    "name": "Mouse Liver",
+    "scenario": "healthy",
+    "genes": [
+      {
+        "gene": "Wee1",
+        "beta1": 1.0221035266590555,
+        "beta2": -0.3757892247822259,
+        "ratio": -2.7198851357469764,
+        "distanceToPhi": 1.1018511469970815,
+        "fibonacciProximity": 33.22554603715114,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Lgr5",
+        "beta1": -0.07362734044245967,
+        "beta2": 0.2842803315329725,
+        "ratio": -0.2589955486734753,
+        "distanceToPhi": 0.3590384400764196,
+        "fibonacciProximity": 69.83475063041043,
+        "isPhiLike": false,
+        "classification": "Near-Fibonacci"
+      },
+      {
+        "gene": "Myc",
+        "beta1": -0.3250129780507989,
+        "beta2": 0.040798539275097356,
+        "ratio": -7.966289573734335,
+        "distanceToPhi": 6.34825558498444,
+        "fibonacciProximity": 0.17497968474016,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Ccnd1",
+        "beta1": 0.2082274670245674,
+        "beta2": 0.2226053906467591,
+        "ratio": 0.9354107122903987,
+        "distanceToPhi": 0.31737672354050384,
+        "fibonacciProximity": 72.80564274610619,
+        "isPhiLike": false,
+        "classification": "Near-Fibonacci"
+      },
+      {
+        "gene": "Axin2",
+        "beta1": 0.26000429446792594,
+        "beta2": -0.02897035283609739,
+        "ratio": -8.974840449438974,
+        "distanceToPhi": 7.356806460689079,
+        "fibonacciProximity": 0.06382334319813308,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Bax",
+        "beta1": -0.4597765062945953,
+        "beta2": -0.027906099654899208,
+        "ratio": 16.475842628687694,
+        "distanceToPhi": 14.857808639937799,
+        "fibonacciProximity": 0.00003526433467402001,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Hif1a",
+        "beta1": 0.02043160421271395,
+        "beta2": 0.2136897744354087,
+        "ratio": 0.09561339220230092,
+        "distanceToPhi": 0.522420596547594,
+        "fibonacciProximity": 59.308319391326044,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      }
+    ],
+    "avgFibonacciProximity": 33.63044244246668,
+    "phiLikeCount": 0,
+    "nearFibonacciCount": 2
+  },
+  {
+    "name": "Mouse Kidney",
+    "scenario": "healthy",
+    "genes": [
+      {
+        "gene": "Wee1",
+        "beta1": 1.1119193228222422,
+        "beta2": -0.40196342806271446,
+        "ratio": -2.766220121520011,
+        "distanceToPhi": 1.1481861327701162,
+        "fibonacciProximity": 31.72116276394739,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Lgr5",
+        "beta1": 0.12192582233201676,
+        "beta2": 0.3500222857131803,
+        "ratio": 0.34833731253308475,
+        "distanceToPhi": 0.26969667621681015,
+        "fibonacciProximity": 76.36110806141222,
+        "isPhiLike": false,
+        "classification": "Near-Fibonacci"
+      },
+      {
+        "gene": "Myc",
+        "beta1": 0.09394687995764661,
+        "beta2": 0.4283305496308678,
+        "ratio": 0.21933266267981436,
+        "distanceToPhi": 0.3987013260700806,
+        "fibonacciProximity": 67.11911387143756,
+        "isPhiLike": false,
+        "classification": "Near-Fibonacci"
+      },
+      {
+        "gene": "Ccnd1",
+        "beta1": 0.7856639838402941,
+        "beta2": -0.2754835790276786,
+        "ratio": -2.851944884022856,
+        "distanceToPhi": 1.233910895272961,
+        "fibonacciProximity": 29.115168443166624,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Axin2",
+        "beta1": 0.17331045463011563,
+        "beta2": -0.182230934082952,
+        "ratio": -0.9510484896665473,
+        "distanceToPhi": 0.3330145009166524,
+        "fibonacciProximity": 71.67598004062141,
+        "isPhiLike": false,
+        "classification": "Near-Fibonacci"
+      },
+      {
+        "gene": "Bax",
+        "beta1": 0.5204098343868111,
+        "beta2": 0.10364162618770933,
+        "ratio": 5.021243428236805,
+        "distanceToPhi": 3.4032094394869103,
+        "fibonacciProximity": 3.326633216688927,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Hif1a",
+        "beta1": 0.7167646058947525,
+        "beta2": -0.15231963422309036,
+        "ratio": -4.7056612862197715,
+        "distanceToPhi": 3.0876272974698766,
+        "fibonacciProximity": 4.561004518989277,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      }
+    ],
+    "avgFibonacciProximity": 40.55431013089477,
+    "phiLikeCount": 0,
+    "nearFibonacciCount": 3
+  },
+  {
+    "name": "BMAL1-KO Organoid",
+    "scenario": "pre-malignant",
+    "genes": [
+      {
+        "gene": "Wee1",
+        "beta1": 0.157086147932894,
+        "beta2": 0.2770199648421112,
+        "ratio": 0.5670571361974793,
+        "distanceToPhi": 0.050976852552415575,
+        "fibonacciProximity": 95.03006673127274,
+        "isPhiLike": true,
+        "classification": "Fibonacci-like"
+      },
+      {
+        "gene": "Lgr5",
+        "beta1": 0.17904271973404784,
+        "beta2": 0.043865019864625765,
+        "ratio": 4.081674197039038,
+        "distanceToPhi": 2.463640208289143,
+        "fibonacciProximity": 8.512451531863974,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Myc",
+        "beta1": 0.06402907338724617,
+        "beta2": -0.32940803445063693,
+        "ratio": -0.19437617389639344,
+        "distanceToPhi": 0.42365781485350146,
+        "fibonacciProximity": 65.4647854358599,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Tp53",
+        "beta1": -0.0032202840210686645,
+        "beta2": -0.4207273698813765,
+        "ratio": 0.007654087305935479,
+        "distanceToPhi": 0.6103799014439594,
+        "fibonacciProximity": 54.31444884993832,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Ccnd1",
+        "beta1": -0.15336207977887817,
+        "beta2": -0.5261288598300524,
+        "ratio": 0.2914914795368124,
+        "distanceToPhi": 0.3265425092130825,
+        "fibonacciProximity": 72.14137076677743,
+        "isPhiLike": false,
+        "classification": "Near-Fibonacci"
+      },
+      {
+        "gene": "Axin2",
+        "beta1": 0.08859681967211674,
+        "beta2": -0.08735604771381134,
+        "ratio": -1.0142036183043712,
+        "distanceToPhi": 0.3961696295544763,
+        "fibonacciProximity": 67.28925437934575,
+        "isPhiLike": false,
+        "classification": "Near-Fibonacci"
+      },
+      {
+        "gene": "Bax",
+        "beta1": 0.14086103380027737,
+        "beta2": 0.059334679081104014,
+        "ratio": 2.374008522195523,
+        "distanceToPhi": 0.7559745334456283,
+        "fibonacciProximity": 46.95527967823671,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Hif1a",
+        "beta1": 0.05895640982900607,
+        "beta2": -0.06533475456068061,
+        "ratio": -0.9023743982117427,
+        "distanceToPhi": 0.2843404094618478,
+        "fibonacciProximity": 75.25104394275995,
+        "isPhiLike": false,
+        "classification": "Near-Fibonacci"
+      }
+    ],
+    "avgFibonacciProximity": 60.619837664506846,
+    "phiLikeCount": 1,
+    "nearFibonacciCount": 3
+  },
+  {
+    "name": "MYC-OFF Neuroblastoma",
+    "scenario": "pre-malignant",
+    "genes": [
+      {
+        "gene": "Wee1",
+        "beta1": 0.6282765223186004,
+        "beta2": 0.023083229623907187,
+        "ratio": 27.217877764725674,
+        "distanceToPhi": 25.599843775975778,
+        "fibonacciProximity": 7.623056005979925e-10,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Lgr5",
+        "beta1": -0.11469437533041871,
+        "beta2": -0.06162711667119036,
+        "ratio": 1.8611024095507682,
+        "distanceToPhi": 0.24306842080087332,
+        "fibonacciProximity": 78.42178551221869,
+        "isPhiLike": false,
+        "classification": "Near-Fibonacci"
+      },
+      {
+        "gene": "Myc",
+        "beta1": -0.01796128821648324,
+        "beta2": 0.03286046478348936,
+        "ratio": -0.5465926405735999,
+        "distanceToPhi": 0.071441348176295,
+        "fibonacciProximity": 93.10508838257672,
+        "isPhiLike": true,
+        "classification": "Fibonacci-like"
+      },
+      {
+        "gene": "Tp53",
+        "beta1": 0.4510069890126758,
+        "beta2": 0.1356512318228198,
+        "ratio": 3.3247540988183313,
+        "distanceToPhi": 1.7067201100684364,
+        "fibonacciProximity": 18.145998642175115,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Ccnd1",
+        "beta1": 0.207594392877958,
+        "beta2": -0.05919834534324764,
+        "ratio": -3.506760056793326,
+        "distanceToPhi": 1.888726068043431,
+        "fibonacciProximity": 15.126438668087472,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Axin2",
+        "beta1": 0.6205816150248245,
+        "beta2": 0.3861215700761207,
+        "ratio": 1.607218200481475,
+        "distanceToPhi": 0.01081578826841989,
+        "fibonacciProximity": 98.92424920643565,
+        "isPhiLike": true,
+        "classification": "Fibonacci-like"
+      },
+      {
+        "gene": "Bax",
+        "beta1": 0.10657457680868365,
+        "beta2": -0.06785015408212303,
+        "ratio": -1.5707344846953506,
+        "distanceToPhi": 0.047299504054544306,
+        "fibonacciProximity": 95.38016873342289,
+        "isPhiLike": true,
+        "classification": "Fibonacci-like"
+      },
+      {
+        "gene": "Hif1a",
+        "beta1": 0.4812520893936494,
+        "beta2": 0.32985158541896453,
+        "ratio": 1.4589958353008425,
+        "distanceToPhi": 0.15903815344905237,
+        "fibonacciProximity": 85.29638148368471,
+        "isPhiLike": true,
+        "classification": "Fibonacci-like"
+      }
+    ],
+    "avgFibonacciProximity": 60.550013828670444,
+    "phiLikeCount": 4,
+    "nearFibonacciCount": 1
+  },
+  {
+    "name": "APC-KO Organoid",
+    "scenario": "malignant",
+    "genes": [
+      {
+        "gene": "Wee1",
+        "beta1": -0.36513064116808636,
+        "beta2": 0.2875612244759793,
+        "ratio": -1.2697492223906794,
+        "distanceToPhi": 0.34828476635921546,
+        "fibonacciProximity": 70.58978316348838,
+        "isPhiLike": false,
+        "classification": "Near-Fibonacci"
+      },
+      {
+        "gene": "Lgr5",
+        "beta1": -0.20969272278820605,
+        "beta2": 0.7195571766263655,
+        "ratio": -0.2914191249837124,
+        "distanceToPhi": 0.3266148637661825,
+        "fibonacciProximity": 72.1361511989676,
+        "isPhiLike": false,
+        "classification": "Near-Fibonacci"
+      },
+      {
+        "gene": "Myc",
+        "beta1": -0.41187489891961704,
+        "beta2": 0.28855227246533843,
+        "ratio": -1.4273840070661457,
+        "distanceToPhi": 0.19064998168374925,
+        "fibonacciProximity": 82.64218003005205,
+        "isPhiLike": false,
+        "classification": "Near-Fibonacci"
+      },
+      {
+        "gene": "Tp53",
+        "beta1": -0.529349798996332,
+        "beta2": 0.278050598756316,
+        "ratio": -1.9037894590554545,
+        "distanceToPhi": 0.2857554703055596,
+        "fibonacciProximity": 75.14463444274271,
+        "isPhiLike": false,
+        "classification": "Near-Fibonacci"
+      },
+      {
+        "gene": "Ccnd1",
+        "beta1": 0.03258169032687608,
+        "beta2": 0.15043573255844223,
+        "ratio": 0.21658212296216617,
+        "distanceToPhi": 0.40145186578772873,
+        "fibonacciProximity": 66.93475374407804,
+        "isPhiLike": false,
+        "classification": "Near-Fibonacci"
+      },
+      {
+        "gene": "Axin2",
+        "beta1": 0.054945707772890984,
+        "beta2": 0.1932880730165678,
+        "ratio": 0.28426848545477135,
+        "distanceToPhi": 0.33376550329512356,
+        "fibonacciProximity": 71.6221714168629,
+        "isPhiLike": false,
+        "classification": "Near-Fibonacci"
+      },
+      {
+        "gene": "Bax",
+        "beta1": -0.3003242364967491,
+        "beta2": -0.04879550973896585,
+        "ratio": 6.154751494622137,
+        "distanceToPhi": 4.536717505872242,
+        "fibonacciProximity": 1.0708499512564158,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Hif1a",
+        "beta1": 0.12341191138000163,
+        "beta2": 0.0663581915770095,
+        "ratio": 1.8597841268290225,
+        "distanceToPhi": 0.2417501380791276,
+        "fibonacciProximity": 78.52523577042996,
+        "isPhiLike": false,
+        "classification": "Near-Fibonacci"
+      }
+    ],
+    "avgFibonacciProximity": 64.83321996473475,
+    "phiLikeCount": 0,
+    "nearFibonacciCount": 7
+  },
+  {
+    "name": "Double-KO Organoid",
+    "scenario": "malignant",
+    "genes": [
+      {
+        "gene": "Wee1",
+        "beta1": 0.015940029040197423,
+        "beta2": 0.035223612910925794,
+        "ratio": 0.45253816184350254,
+        "distanceToPhi": 0.16549582690639236,
+        "fibonacciProximity": 84.74733997833707,
+        "isPhiLike": false,
+        "classification": "Near-Fibonacci"
+      },
+      {
+        "gene": "Lgr5",
+        "beta1": 0.3959563437088718,
+        "beta2": 0.3651758997278538,
+        "ratio": 1.0842893630273986,
+        "distanceToPhi": 0.46625537427750374,
+        "fibonacciProximity": 62.73470552880715,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Myc",
+        "beta1": 0.21284981375005785,
+        "beta2": 0.20031140819332904,
+        "ratio": 1.0625945654809008,
+        "distanceToPhi": 0.4445605767310059,
+        "fibonacciProximity": 64.11059310088868,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Tp53",
+        "beta1": 0.17713447341327182,
+        "beta2": 0.30544667270889647,
+        "ratio": 0.579919472824274,
+        "distanceToPhi": 0.03811451592562087,
+        "fibonacciProximity": 96.26027012398846,
+        "isPhiLike": true,
+        "classification": "Fibonacci-like"
+      },
+      {
+        "gene": "Ccnd1",
+        "beta1": 0.13244867564209528,
+        "beta2": 0.20147704380161002,
+        "ratio": 0.6573884207498824,
+        "distanceToPhi": 0.03935443199998745,
+        "fibonacciProximity": 96.14098943204426,
+        "isPhiLike": true,
+        "classification": "Fibonacci-like"
+      },
+      {
+        "gene": "Axin2",
+        "beta1": -0.14665464677402085,
+        "beta2": 0.1914251976730874,
+        "ratio": -0.7661198659148054,
+        "distanceToPhi": 0.1480858771649105,
+        "fibonacciProximity": 86.23570549830389,
+        "isPhiLike": true,
+        "classification": "Fibonacci-like"
+      },
+      {
+        "gene": "Bax",
+        "beta1": -0.37838109115534735,
+        "beta2": 0.2664532579154866,
+        "ratio": -1.4200655458878344,
+        "distanceToPhi": 0.1979684428620605,
+        "fibonacciProximity": 82.03957420709361,
+        "isPhiLike": false,
+        "classification": "Near-Fibonacci"
+      },
+      {
+        "gene": "Hif1a",
+        "beta1": 0.006812219618749782,
+        "beta2": 0.3551222113199728,
+        "ratio": 0.019182747239123898,
+        "distanceToPhi": 0.598851241510771,
+        "fibonacciProximity": 54.94424503772376,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      }
+    ],
+    "avgFibonacciProximity": 78.40167786339836,
+    "phiLikeCount": 3,
+    "nearFibonacciCount": 2
+  },
+  {
+    "name": "MYC-ON Neuroblastoma",
+    "scenario": "malignant",
+    "genes": [
+      {
+        "gene": "Wee1",
+        "beta1": 0.7179640542614365,
+        "beta2": -0.1553538975752744,
+        "ratio": -4.621474359299919,
+        "distanceToPhi": 3.003440370550024,
+        "fibonacciProximity": 4.961607671006788,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Lgr5",
+        "beta1": 0.712942725185397,
+        "beta2": -0.19448650395231581,
+        "ratio": -3.665769658547599,
+        "distanceToPhi": 2.0477356697977043,
+        "fibonacciProximity": 12.902673219156,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Myc",
+        "beta1": 0.8507075434820606,
+        "beta2": 0.13857200099819078,
+        "ratio": 6.139101242343809,
+        "distanceToPhi": 4.521067253593914,
+        "fibonacciProximity": 1.0877408518167961,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Tp53",
+        "beta1": 0.25770089842365707,
+        "beta2": 0.09873830701661745,
+        "ratio": 2.60993839382203,
+        "distanceToPhi": 0.9919044050721353,
+        "fibonacciProximity": 37.08697318689387,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Ccnd1",
+        "beta1": 0.7024106434251962,
+        "beta2": -0.12321548520097281,
+        "ratio": -5.700668566775652,
+        "distanceToPhi": 4.082634578025757,
+        "fibonacciProximity": 1.6862980241100471,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      },
+      {
+        "gene": "Axin2",
+        "beta1": 0.11741543059792381,
+        "beta2": 0.31200777670259505,
+        "ratio": 0.376322128373883,
+        "distanceToPhi": 0.2417118603760119,
+        "fibonacciProximity": 78.52824159361951,
+        "isPhiLike": false,
+        "classification": "Near-Fibonacci"
+      },
+      {
+        "gene": "Bax",
+        "beta1": 0.14593506649805477,
+        "beta2": 0.38463743940531003,
+        "ratio": 0.3794094166279958,
+        "distanceToPhi": 0.23862457212189908,
+        "fibonacciProximity": 78.77105553696323,
+        "isPhiLike": false,
+        "classification": "Near-Fibonacci"
+      },
+      {
+        "gene": "Hif1a",
+        "beta1": 0.8991679427612098,
+        "beta2": 0.1388985377148515,
+        "ratio": 6.473559459690898,
+        "distanceToPhi": 4.855525470941003,
+        "fibonacciProximity": 0.7785241360190416,
+        "isPhiLike": false,
+        "classification": "Non-Fibonacci"
+      }
+    ],
+    "avgFibonacciProximity": 26.975389277448162,
+    "phiLikeCount": 0,
+    "nearFibonacciCount": 2
+  }
+]

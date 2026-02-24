@@ -1,0 +1,25 @@
+{
+  "dataset": "GSE56445",
+  "description": "TAZ/YAP & TEAD siRNA in MDA-MB-231-LM2 breast cancer",
+  "conditions": {
+    "control": {
+      "lambda": 0.9642113223261777
+    },
+    "taz_yap_knockdown": {
+      "lambda": 0.9656086681606142,
+      "delta": 0.0013973458344365142
+    },
+    "tead_knockdown": {
+      "lambda": 0.9677696642207452,
+      "delta": 0.003558341894567496
+    },
+    "sb431542": {
+      "lambda": 0.961059570173654,
+      "delta": -0.0031517521525237235
+    }
+  },
+  "validation": {
+    "tead_prediction_confirmed": false,
+    "yap_prediction_confirmed": false
+  }
+}

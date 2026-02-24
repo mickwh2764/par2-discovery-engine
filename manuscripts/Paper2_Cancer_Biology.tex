@@ -1,0 +1,556 @@
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{lineno}
+\usepackage{enumitem}
+\linenumbers
+
+\title{\textbf{Compensatory Circadian Gating Suggests a Two-Hit Threshold for Clock-Mediated Cancer Defense}}
+
+\author{
+Michael Whiteside$^{1,*}$ \\
+\\
+$^1$Independent Researcher, United Kingdom \\
+\\
+$^*$Corresponding author: mickwh@msn.com \\
+ORCID: 0009-0000-0643-5791
+}
+
+\date{February 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\noindent\textbf{Background:} Current paradigms focus on how circadian disruption \textit{enables} cancer progression. Whether the clock actively \textit{compensates} for oncogenic mutations---fighting back rather than merely failing---remains unaddressed.
+
+\noindent\textbf{Methods:} Using the PAR(2) Phase-Amplitude-Relationship framework \citep{whiteside2026paper1}, we analyzed 299 gene pairs (23 targets $\times$ 13 clocks) across 4 intestinal organoid genotypes (GSE157357: wild-type, APC-mutant, BMAL1-mutant, double-mutant) and 2 MYC-inducible neuroblastoma conditions (GSE221103: MYC-ON, MYC-OFF). Systems-level eigenperiod and dynamical stability were computed from AR(2) coefficients and compared between healthy mouse tissues (GSE54650, 12 tissues) and cancer models.
+
+\noindent\textbf{Results:} We discovered that APC mutation triggers a \textbf{compensatory amplification} of circadian gating, with discovery rates doubling from 11.2\% to 22.4\% ($p < 0.001$). This compensation collapses 17-fold when BMAL1 is co-deleted (22.4\% $\rightarrow$ 1.3\%), consistent with a ``two-hit'' threshold for clock-mediated protection. BMAL1 mutation alone rewired gating to the stem cell marker LGR5---to our knowledge the first report of circadian gating of this cancer stem cell marker. In MYC-ON neuroblastoma, the metabolic regulator Pparg emerged as the only FDR-significant target (all 8 core clock genes, f$^2 = 10.86$); the identical effect sizes across clock genes reflect column-space invariance from TTFL collinearity, representing one finding, not seven. The emergent eigenperiod showed apparent separation: healthy tissues exhibited 7--13 hour ultradian periods with 88--100\% stability, while cancer models showed $\sim$23 hour near-circadian periods with 42\% stability. \textbf{Critically, this comparison is subject to a species $\times$ tissue $\times$ context confound} (mouse in vivo vs.\ human neuroblastoma cell culture) and should be interpreted as hypothesis-generating. Aging and cancer showed divergent trajectories: aging weakens the clock-target hierarchy (gap narrows but remains positive), while cancer reverses it (gap inverts to negative).
+
+\noindent\textbf{Conclusions:} The circadian clock actively compensates for oncogenic mutations, revealing a previously underappreciated tumor suppression mechanism. Combined Wnt+circadian disruption exceeds the compensatory threshold, collapsing temporal gene regulation. Root-space analysis generates testable predictions for mutation-specific dynamical disruption. These findings inform chronotherapy strategies that account for mutation-specific clock rewiring.
+
+\noindent\textbf{Keywords:} circadian rhythm, APC, compensatory gating, cancer, two-hit threshold, eigenperiod, Pparg, LGR5, chronotherapy, root-space geometry, temporal persistence
+\end{abstract}
+
+\section*{Highlights}
+\begin{itemize}[noitemsep]
+    \item APC mutation triggers 2-fold amplification of circadian gating (11\% $\rightarrow$ 22\%)
+    \item Combined APC+BMAL1 mutation causes 17-fold collapse of protective gating
+    \item To our knowledge, first report of circadian gating of stem cell marker LGR5
+    \item LGR5 gating interpreted via nine-category hierarchy: stem cells show lowest temporal persistence
+    \item Root-space geography suggests APC as a candidate toggle switch, PTEN as a candidate rhythmic tumor suppressor
+    \item Pparg identified as top cancer-specific circadian target in MYC-ON neuroblastoma
+    \item Aging and cancer represent divergent---not continuous---deformations of circadian hierarchy
+    \item Eigenperiod cancer comparison is hypothesis-generating due to species $\times$ tissue confound
+\end{itemize}
+
+\section{Introduction}
+
+The circadian clock coordinates 24-hour rhythms in gene expression, metabolism, and cell division across virtually all mammalian tissues. Epidemiological evidence links circadian disruption to increased cancer risk, with the International Agency for Research on Cancer classifying shift work as a Group 2A carcinogen \citep{straif2007}. Mechanistic studies have established that core clock genes regulate cell cycle checkpoints, DNA repair, and apoptosis \citep{takahashi2017, fu2002}.
+
+Current paradigms emphasize how circadian disruption \textit{enables} cancer progression. Seminal work demonstrated that BMAL1 deletion accelerates APC loss-of-heterozygosity in colorectal cancer models \citep{chun2022}. Clock proteins CRY and PER participate directly in DNA damage signaling. These findings position the clock as a passive victim of cancer-promoting mutations.
+
+However, the reciprocal question---whether the circadian system \textit{actively defends} against oncogenic mutations---has not been systematically addressed. We hypothesized that residual clock machinery might compensate for early cancer mutations by increasing temporal control over oncogenic proliferative genes.
+
+To test this hypothesis, we applied the PAR(2) statistical framework, previously validated across 12 mouse tissues \citep{whiteside2026paper1}, to two cancer-relevant systems: mouse intestinal organoids with genetic perturbations of APC and BMAL1 (GSE157357), and human neuroblastoma cell lines with inducible MYC expression (GSE221103). The companion paper establishes a nine-category temporal persistence hierarchy across $\sim$1,594 genes---Clock $>$ Chromatin $>$ Metabolic $>$ Housekeeping $>$ Immune $>$ Signaling $>$ DNA Repair $>$ Target $>$ Stem Cell ($H=144.8$, $p<0.001$)---providing the baseline architecture against which cancer-specific disruptions can be measured. We additionally examined systems-level eigenperiod dynamics---the characteristic timescale derived from AR(2) coefficients---and dynamical stability across healthy and cancer contexts, with explicit attention to confounding factors in cross-system comparisons.
+
+\section{Methods}
+
+\subsection{PAR(2) Framework}
+
+The Phase-Amplitude-Relationship (PAR(2)) framework is described in detail in the companion paper \citep{whiteside2026paper1}. Briefly, PAR(2) tests whether clock gene phase modulates target gene expression dynamics through a second-order autoregressive model with phase-dependent coefficients:
+
+\begin{equation}
+R_n = \alpha_0 + \alpha_1(\Phi_{n-1})R_{n-1} + \alpha_2(\Phi_{n-2})R_{n-2} + \varepsilon_n
+\end{equation}
+
+Significance was assessed using F-tests comparing full (7-parameter) and reduced (3-parameter) models. Effect sizes are reported as Cohen's f$^2$. As in the companion paper, PAR(2) is used as a descriptive discovery framework rather than a predictive model. For full methodological details, validation against mechanistic ODE systems, and null model characterization, see \citet{whiteside2026paper1}.
+
+\subsection{Datasets}
+
+\textbf{GSE157357 (Intestinal Organoids):} Mouse intestinal organoid expression under 4 genotypes: wild-type (APC-WT/BMAL-WT), APC-mutant (APC-Mut/BMAL-WT), BMAL1-mutant (APC-WT/BMAL-Mut), and double-mutant (APC-Mut/BMAL-Mut). This dataset provides a controlled within-system comparison where all conditions share the same tissue background (mouse intestinal epithelium) and culture conditions, isolating the effects of oncogenic pathway activation from tissue context differences.
+
+\textbf{GSE221103 (MYC-Inducible Neuroblastoma):} Human neuroblastoma cell lines (SH-SY5Y-derived) with doxycycline-inducible MYCN expression, providing MYC-ON (active oncogene) and MYC-OFF (baseline) conditions.
+
+\textbf{GSE54650 (Hughes Circadian Atlas):} 12 mouse tissues (healthy reference), described in \citet{whiteside2026paper1}.
+
+\textbf{GSE201207, GSE93903, GSE245295 (Aging):} Multi-tissue aging datasets for trajectory analysis.
+
+\subsection{Gene Selection}
+
+\textbf{Target genes (23):} Cancer-relevant genes spanning cell cycle (Ccnd1, Ccnb1, Cdk1, Wee1, Cdkn1a, Ccne1, Ccne2), DNA repair (Atm, Chek2, Mdm2, Tp53), Wnt/stem cell (Myc, Lgr5, Axin2, Ctnnb1, Apc), apoptosis (Bcl2, Bax), metabolism (Pparg, Sirt1, Hif1a), and proliferation (Mcm6, Mki67).
+
+\textbf{Clock genes (13):} Per1, Per2, Per3, Cry1, Cry2, Clock, Arntl, Nr1d1, Nr1d2, Dbp, Tef, Npas2, Rorc.
+
+Gene panel rationale and validation are provided in \citet{whiteside2026paper1}.
+
+\subsection{Eigenperiod and Stability Analysis}
+
+The emergent eigenperiod was derived from AR(2) coefficients ($\beta_1$, $\beta_2$) by solving the characteristic equation $\lambda^2 - \beta_1\lambda - \beta_2 = 0$. Dynamical stability was classified as stable ($|\lambda_{\max}| < 1$) or unstable ($|\lambda_{\max}| \geq 1$).
+
+\textbf{Confound warning:} Comparisons between healthy mouse tissues (in vivo, GSE54650) and cancer cell lines (in vitro, GSE221103) are subject to species $\times$ tissue $\times$ culture context confounds. The organoid dataset (GSE157357) provides a partially controlled comparison where tissue background is matched but genotype differs. Inter-system eigenperiod comparisons (e.g., mouse tissues vs.\ human cancer lines) are interpreted as hypothesis-generating due to the multiple context differences.
+
+\section{Results}
+
+\subsection{APC Mutation Triggers Compensatory Amplification of Circadian Gating}
+
+To determine whether the circadian system responds to oncogenic mutations, we analyzed intestinal organoids across four genotypes (Table~\ref{tab:intestinal}).
+
+\begin{table}[H]
+\centering
+\caption{\textbf{Circadian Gating Rates in Intestinal Organoids by Genotype.}}
+\label{tab:intestinal}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Condition} & \textbf{Significant Pairs} & \textbf{Discovery Rate} & \textbf{Fold Change} \\
+\midrule
+Wild Type (APC-WT/BMAL-WT) & 17 & 11.2\% & 1.0$\times$ (reference) \\
+APC Mutant (APC-Mut/BMAL-WT) & 34 & \textbf{22.4\%} & \textbf{2.0$\times$} \\
+BMAL Mutant (APC-WT/BMAL-Mut) & 14 & 9.2\% & 0.8$\times$ \\
+Double Mutant (APC-Mut/BMAL-Mut) & 2 & \textbf{1.3\%} & \textbf{0.1$\times$} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Strikingly, APC mutation \textit{increased} circadian gating rather than disrupting it. The genes gaining circadian control were specifically cancer-relevant:
+\begin{itemize}[noitemsep]
+    \item \textbf{Wee1} (G2/M checkpoint): Gated by 4 clock genes ($p = 0.002$--$0.029$)
+    \item \textbf{Ccnb1} (Cyclin B1, mitosis entry): Gated by 7 clock genes ($p = 0.001$--$0.031$)
+    \item \textbf{Tp53} (tumor suppressor): Gated by 3 clock genes ($p = 0.016$--$0.042$)
+    \item \textbf{Sirt1} (metabolic sensor): Gated by 5 clock genes ($p = 0.002$--$0.044$)
+\end{itemize}
+
+This compensatory response suggests the remaining clock machinery actively increases temporal control over cell cycle and tumor suppressor genes when APC is lost.
+
+\begin{figure}[H]
+\centering
+\fbox{\parbox{0.85\textwidth}{\centering\vspace{2em}\textbf{Figure 1: Compensatory Circadian Gating in APC-Mutant Organoids}\\\vspace{1em}Bar chart showing discovery rates across four genotypes: WT (11.2\%), APC-Mut (22.4\%), BMAL-Mut (9.2\%), Double-Mut (1.3\%). Inset shows the specific cancer-relevant genes gaining circadian control in APC-mutants: Wee1, Ccnb1, Tp53, Sirt1.\vspace{2em}}}
+\caption{\textbf{APC mutation triggers compensatory amplification of circadian gating.} Discovery rates (percentage of significant clock--target pairs, FDR $q < 0.05$) across four intestinal organoid genotypes (GSE157357). APC mutation doubles circadian gating (11.2\% $\rightarrow$ 22.4\%), while combined APC+BMAL1 mutation causes 17-fold collapse (22.4\% $\rightarrow$ 1.3\%), consistent with a two-hit threshold for clock-mediated cancer defense.}
+\label{fig:compensatory}
+\end{figure}
+
+\subsection{Combined Mutations Cause Near-Complete Gating Collapse}
+
+When both APC and BMAL1 were mutated, circadian gating collapsed nearly completely. Only 2 of 299 gene pairs (0.7\%) showed significant gating---a 17-fold reduction compared to APC-only mutants (Table~\ref{tab:intestinal}).
+
+The two surviving gating relationships involved only the Clock gene:
+\begin{itemize}[noitemsep]
+    \item CDK1 (mitosis driver) $\times$ Clock ($p = 0.036$)
+    \item Sirt1 (NAD+ sensor) $\times$ Clock ($p = 0.040$)
+\end{itemize}
+
+These data are consistent with a functional two-hit threshold: APC loss triggers compensation, but BMAL1 loss abolishes the compensatory capacity. The organoid system, where all conditions share identical tissue background and culture conditions, provides controlled evidence that this collapse reflects genotype-specific effects rather than confounds.
+
+\subsection{BMAL1 Mutation Rewires Gating to Stem Cell Pathways}
+
+BMAL1-mutant organoids showed a qualitatively different gating pattern. Rather than gating cell cycle genes, the remaining clock components focused on the stem cell marker LGR5.
+
+LGR5 was gated by all 8 core clock genes tested ($p = 0.012$--$0.046$)---the most comprehensive gating relationship observed in any condition (Table~\ref{tab:lgr5}).
+
+\begin{table}[H]
+\centering
+\caption{\textbf{LGR5 Stem Cell Marker Gating in BMAL1-Mutant Organoids.}}
+\label{tab:lgr5}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Clock Gene} & \textbf{P-value} & \textbf{Significant Terms} \\
+\midrule
+Arntl (BMAL1) & 0.012 & R$_{n-1}$, R$_{n-2}$ \\
+Per2 & 0.013 & R$_{n-2}$ \\
+Cry1 & 0.014 & R$_{n-1}$ \\
+Per1 & 0.019 & R$_{n-2}$ \\
+Clock & 0.021 & R$_{n-1}$, R$_{n-2}$ \\
+Cry2 & 0.030 & R$_{n-1}$ \\
+Nr1d2 & 0.041 & R$_{n-2}$ \\
+Nr1d1 & 0.046 & R$_{n-1}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+To our knowledge, this is the first report of circadian gating of LGR5, which marks intestinal stem cells critical for tissue renewal and cancer stem cell formation \citep{barker2007}. This finding gains additional significance from the nine-category persistence hierarchy established in the companion paper \citep{whiteside2026paper1}: stem cell markers show the \textit{lowest} temporal persistence of all nine categories ($|\lambda| = 0.626$), suggesting stemness is a low-memory dynamical state. The clock's rewiring toward LGR5 in BMAL1-mutant organoids may represent an attempt to impose temporal structure on a gene category that is intrinsically temporally flexible---a compensatory mechanism to prevent uncontrolled stem cell activation when clock capacity is compromised. This observation is currently limited to a single organoid dataset and will require independent validation.
+
+\subsection{Pparg as the Top Cancer-Specific Target in MYC-ON Neuroblastoma}
+
+In MYC-ON neuroblastoma (GSE221103), Pparg (PPAR$\gamma$) emerged as the only FDR-significant target, reaching significance with all 8 core clock genes (Table~\ref{tab:pparg}).
+
+\begin{table}[H]
+\centering
+\caption{\textbf{Pparg gating in MYC-ON neuroblastoma} (all q $<$ 0.05, f$^2 = 10.86$).}
+\label{tab:pparg}
+\begin{tabular}{llccc}
+\toprule
+Target & Clock Gene & q-value & f$^2$ & Significant Terms \\
+\midrule
+Pparg & Nr1d2 & 0.045 & 10.86 & R$_{n-1}$cos, R$_{n-1}$sin, R$_{n-2}$cos, R$_{n-2}$sin \\
+Pparg & Per2 & 0.045 & 10.86 & R$_{n-1}$cos, R$_{n-1}$sin, R$_{n-2}$sin \\
+Pparg & Arntl & 0.045 & 10.86 & R$_{n-1}$cos, R$_{n-1}$sin, R$_{n-2}$cos, R$_{n-2}$sin \\
+Pparg & Cry1 & 0.045 & 10.86 & All 4 terms \\
+Pparg & Per1 & 0.045 & 10.86 & All 4 terms \\
+Pparg & Clock & 0.046 & 10.86 & R$_{n-1}$cos, R$_{n-2}$cos, R$_{n-2}$sin \\
+Pparg & Cry2 & 0.045 & 10.86 & All 4 terms \\
+Pparg & Nr1d1 & 0.045 & 10.86 & R$_{n-1}$cos, R$_{n-1}$sin, R$_{n-2}$cos \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Column-space invariance explains identical effect sizes:} All eight clock genes yield identical f$^2 = 10.86$. This is not an error but a mathematical consequence of the PAR(2) model structure: when clock gene phases are constant offsets of a shared TTFL oscillator, the cosine/sine interaction terms span identical column spaces under OLS regression. The projection matrix $\mathbf{H} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$ is identical regardless of which clock gene's phase is used; consequently R$^2$, F-statistics, and Cohen's f$^2$ are all algebraically invariant to constant phase shifts. \textbf{The eight tests reflect a single finding that circadian phase gates Pparg expression in MYC-ON cells.} The effective number of independent tests per target gene is one, not eight; the reported FDR is therefore conservative.
+
+We retain per-clock-gene reporting to demonstrate TTFL coherence: identical f$^2$ values confirm that all clock components share a common phase trajectory in MYC-ON neuroblastoma, whereas TTFL disruption would produce divergent effect sizes.
+
+\subsection{Eigenperiod Separation Between Healthy and Cancer Tissues}
+
+The emergent eigenperiod showed apparent separation between healthy and cancer contexts, although the separation may be largely driven by species, tissue, and culture context rather than cancer status per se (Table~\ref{tab:eigenperiod}).
+
+\begin{table}[H]
+\centering
+\caption{\textbf{Eigenperiod comparison across conditions.} \textit{Note: healthy--cancer comparison is subject to species $\times$ tissue $\times$ context confound.}}
+\label{tab:eigenperiod}
+\begin{tabular}{lcccl}
+\toprule
+Condition & Mean Eigenperiod & Range & Stability & Classification \\
+\midrule
+\multicolumn{5}{l}{\textbf{Healthy Mouse Tissues (GSE54650, in vivo)}} \\
+Brain tissues (3) & 7.2--8.4h & 5.9--10.2h & 100\% & Ultradian \\
+Adrenal & 9.6h & 4.6--22.8h & 100\% & Ultradian \\
+Metabolic tissues (3) & 9.8--12.4h & 5.2--28.9h & 100\% & Ultradian \\
+Heart & 13.3h & 6.2--32.5h & 100\% & Ultradian \\
+\midrule
+\multicolumn{5}{l}{\textbf{Cancer Models (GSE221103, human cell culture)}} \\
+Neuroblastoma MYC-ON & 22.7h & 12.2--34.8h & 42\% & Near-circadian \\
+Neuroblastoma MYC-OFF & 23.4h & 13.5--44.1h & 58\% & Near-circadian \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Critical confound:} The healthy data are from mouse tissues in vivo while cancer data are from human neuroblastoma cell lines in culture. Cultured cells lack systemic entrainment cues present in live animals. The eigenperiod separation may therefore reflect species, tissue, or culture context differences rather than (or in addition to) a cancer-specific effect. This comparison is hypothesis-generating and requires within-species, within-tissue validation---ideally using patient-matched tumor and adjacent normal tissue.
+
+\textbf{Partial control:} The organoid dataset (GSE157357) provides a partially controlled comparison where tissue background is matched. Wild-type organoids show 100\% stability, while APC-mutant organoids show 71\%---consistent with the cancer-associated stability loss pattern observed in the neuroblastoma comparison, though the organoids model pre-neoplastic hyperproliferation rather than established cancer.
+
+\textbf{Period sensitivity analysis:} The eigenperiod separation was robust across assumed periods T$\in$\{20--28\}h (all $p < 10^{-15}$; separation $\Delta = 9.8$--12.3h), providing evidence against circular inference from the 24h period assumption. Batch correction (z-score normalization) preserved the separation ($p = 3.3 \times 10^{-13}$).
+
+\subsection{Dynamical Stability Loss in Cancer}
+
+Beyond eigenperiod, dynamical stability---whether perturbations decay (stable) or amplify (unstable)---showed striking condition-dependent patterns (Table~\ref{tab:stability}).
+
+\begin{table}[H]
+\centering
+\caption{\textbf{Dynamical stability by condition.}}
+\label{tab:stability}
+\begin{tabular}{lccc}
+\toprule
+Condition & Stable & Unstable & Interpretation \\
+\midrule
+Healthy tissues (mean) & 94.2\% & 5.8\% & Robust homeostasis \\
+MYC-ON Neuroblastoma & 42\% & 58\% & Disrupted regulation \\
+MYC-OFF Neuroblastoma & 58\% & 42\% & Partial restoration \\
+APC$^{-/-}$ Organoids & 71\% & 29\% & Moderate disruption \\
+BMAL1$^{-/-}$ Organoids & 68\% & 32\% & Clock-dependent effect \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+``Unstable'' ($|\lambda| \geq 1$) does not imply unbounded expression growth---biological systems are bounded by resource limitations. Rather, unstable dynamics indicate self-sustaining perturbations without homeostatic correction, consistent with the sustained proliferative signaling characteristic of malignancy \citep{hanahan2011}.
+
+\begin{figure}[H]
+\centering
+\fbox{\parbox{0.85\textwidth}{\centering\vspace{2em}\textbf{Figure 2: Eigenperiod and Stability Across Conditions}\\\vspace{1em}Left: Violin plots of eigenperiod distributions for healthy tissues (ultradian, 7--13h) versus cancer models (near-circadian, $\sim$23h). Right: Stacked bar chart of dynamical stability percentages across conditions, from 100\% stable (healthy tissues) to 42\% stable (MYC-ON neuroblastoma).\vspace{2em}}}
+\caption{\textbf{Eigenperiod separation and stability loss in cancer models.} (a) Eigenperiod distributions across healthy mouse tissues (GSE54650, in vivo) and cancer models (GSE221103, human cell culture). Healthy tissues show ultradian periods (7--13h) while cancer models show near-circadian periods ($\sim$23h). \textit{Note:} this comparison is subject to species $\times$ tissue $\times$ context confound and is hypothesis-generating. (b) Dynamical stability (percentage of gene pairs with $|\lambda| < 1$) decreases from $\sim$94\% in healthy tissues to 42\% in MYC-ON neuroblastoma.}
+\label{fig:eigenperiod}
+\end{figure}
+
+\subsection{Disease Eigenvalue Convergence}
+
+In healthy tissues, clock genes show higher AR(2) eigenvalues than target genes (``clock $>$ target hierarchy''; see \citealt{whiteside2026paper1}). Disease conditions reverse this pattern:
+
+\begin{table}[H]
+\centering
+\caption{\textbf{Cross-tissue circadian gating architecture: healthy vs.\ disease.}}
+\begin{tabular}{lcccc}
+\toprule
+Condition & Clock $|\lambda|$ & Target $|\lambda|$ & Gap & Pattern \\
+\midrule
+Liver (healthy) & 0.717 & 0.614 & +0.103 & Clock $>$ Target \\
+Heart (healthy) & 0.689 & 0.356 & +0.333 & Clock $>$ Target \\
+Kidney (healthy) & 0.889 & 0.643 & +0.246 & Clock $>$ Target \\
+Neuroblastoma MYC-ON & 0.617 & 0.596 & +0.021 & Near-convergence \\
+Organoids APC/BMAL1-KO & 0.619 & 0.705 & $-$0.086 & \textbf{Target $>$ Clock} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The gap-threshold classifier (healthy if gap $> 0$, disrupted if gap $\leq 0$) achieves 82.9\% accuracy across 35 conditions (Cohen's $d = 1.56$) with zero free parameters \citep{whiteside2026paper1}.
+
+\subsection{Aging and Cancer as Divergent Trajectories}
+
+Extended validation revealed that aging and cancer represent \textit{distinct} deformations of the clock-target hierarchy:
+
+\textbf{Multi-tissue aging (GSE201207):} All peripheral tissues show gap \textit{decrease} with age---clock eigenvalues decline faster than target eigenvalues. This represents weakening of circadian hierarchy with age.
+
+\textbf{Pancreas exception (GSE245295):} Clock eigenvalues \textit{increased} with age ($0.704 \rightarrow 0.846$) while target eigenvalues decreased ($0.763 \rightarrow 0.511$). The clock-target gap changed from $-0.059$ to $+0.334$---an enhancement of circadian dominance. This may explain reduced $\beta$-cell regenerative capacity in aged pancreas.
+
+\textbf{Cancer trajectory:} APC-mutant organoids show gap $= -0.122$ (target exceeds clock); PDA organoids show gap $\approx 0$ (convergence).
+
+\textbf{Divergent pre-disease trajectories:}
+\begin{itemize}[noitemsep]
+    \item \textbf{Aging (pancreas)}: Clock $\uparrow\\uparrow$, Target $\downarrow\downarrow$, Gap $= +0.33$ $\rightarrow$ RIGIDITY
+    \item \textbf{Cancer}: Clock $\downarrow$, Target $\uparrow$, Gap $= -0.12$ $\rightarrow$ ESCAPE
+\end{itemize}
+
+\textbf{Caloric restriction rescue (GSE93903):} Old mice show gap narrowing ($+0.128 \rightarrow +0.083$, $-$35\%). Caloric restriction partially rescues this (Old+CR gap $= +0.116$, $\sim$73\% recovery toward young baseline). This is mechanistically consistent with CR effects on circadian amplitude via SIRT1-mediated deacetylation of BMAL1 \citep{sato2017}.
+
+These findings were subjected to falsification tests: permutation testing ($p = 0.049$), housekeeping gene controls (no batch effect), timepoint shuffle (3/100 exceeded observed gap), and Cohen's d ($= 0.50$, medium effect).
+
+\section{Discussion}
+
+\subsection{A New Paradigm: The Clock Fights Back}
+
+Our central finding---that APC mutation \textit{increases} circadian gating---challenges the prevailing paradigm that circadian disruption simply enables cancer. Instead, we propose that the clock actively compensates for oncogenic mutations by increasing temporal control over oncogenic genes. This compensatory response has not been previously reported and suggests that the circadian clock may function as an active tumor suppressor, not merely a passive victim. We interpret the two-hit threshold and eigenperiod shifts as conceptual models that should be tested in controlled perturbation experiments, for example by combining APC and BMAL1 modulation in matched in vivo or organoid systems.
+
+\subsection{The Two-Hit Model}
+
+The quantitative pattern across organoid genotypes suggests a two-hit model:
+
+\begin{enumerate}[noitemsep]
+    \item \textbf{First hit (APC loss):} Circadian system compensates by doubling gating of cell cycle and tumor suppressor genes, maintaining temporal control.
+    \item \textbf{Second hit (BMAL1 loss):} Compensatory capacity is abolished, gating collapses 17-fold, temporal control is lost.
+\end{enumerate}
+
+This framework explains why single clock gene mutations have modest cancer effects while combined circadian and Wnt pathway disruption dramatically accelerates tumorigenesis \citep{chun2022}. Recent optogenetic work provides independent mechanistic support: Rosen et al.\ demonstrated that the Wnt pathway exhibits anti-resonance, suppressing output at intermediate activation frequencies through a timescale mismatch between fast activation and slow destruction complex recovery \citep{rosen2026}. The anti-resonance condition ($k_{\text{off}} < (1 + k_a) k_{\text{on}}$) acts as a natural filter against spurious Wnt signaling. As derived in the companion paper \citep{whiteside2026method}, the Rosen hidden-variable ODE maps term-by-term to the PAR(2) characteristic equation: $\phi_1 = e^{-k_{\text{on}}\tau} + e^{-k_b\tau/(1+k_a)}$, $\phi_2 = -e^{-(k_{\text{on}} + k_b/(1+k_a))\tau}$, and $|\lambda| = \max(e^{-k_{\text{on}}\tau}, e^{-k_b\tau/(1+k_a)})$, establishing that PAR(2) directly recovers the slower mechanistic decay rate. Loss of APC disrupts destruction complex dynamics, altering the effective $k_{\text{off}}/k_{\text{on}}$ ratio and breaking the anti-resonant filter---precisely the ``gating loss'' detected by PAR(2) in APC-mutant organoids. The compensatory gating amplification we observe may represent the clock's attempt to restore temporal filtering through alternative mechanisms when the intrinsic pathway filter is compromised. Consistent empirical support comes from applying PAR(2) to the publicly available Rosen et al.\ optogenetic time-series data: $\beta$-catenin protein traces showed lower $|\lambda|$ than TopFlash transcriptional output across all conditions (mean $|\lambda|$: 0.974 vs.\ 0.998), and all 14 channels yielded positive $\hat{\phi}_2$ coefficients (0.07--0.38), consistent with the second-order autoregressive structure predicted by the hidden-variable model \citep{rosen2026}.
+
+\textbf{Convergence with crypt compartment models.} The Boman three-compartment crypt model \citep{boman2025} provides a complementary ODE perspective. Their system---cycling cells ($C$), proliferative cells ($P$), differentiated cells ($D$)---produces purely imaginary eigenvalues $\lambda_{1,2} = \pm i\sqrt{k_1 k_5}$ at equilibrium, yielding $|\lambda| = 1$ (neutrally stable oscillation). As derived in the companion paper \citep{whiteside2026method}, both the Rosen signaling model ($|\lambda| < 1$, damped decay) and the Boman crypt model ($|\lambda| = 1$, sustained oscillation) independently require AR(2) model order, but for structurally different reasons. This convergence strengthens the cancer biology interpretation: the Boman model shows that APC mutation alters crypt cell population dynamics by creating a rate-limiting step in tissue renewal that expands the proliferative compartment \citep{boman2025}---and PAR(2) detects this shift as altered eigenvalue dynamics. The ``gating loss'' measured by PAR(2) in APC-mutant organoids thus connects to both the Rosen anti-resonance mechanism (signaling timescale disruption) and the Boman tissue renewal mechanism (compartment expansion), providing independent mechanistic routes to the same phenotype.
+
+\subsection{LGR5 and Cancer Stem Cells}
+
+The observation that LGR5 is circadian-gated, if confirmed in independent datasets, has immediate implications for cancer stem cell biology. LGR5 marks intestinal stem cells that give rise to adenomas when APC is lost \citep{barker2007}. Circadian control of LGR5 may restrict when stem cells can activate, limiting opportunities for aberrant clonal expansion. The rewiring of gating toward LGR5 in BMAL1-mutant organoids suggests the clock prioritizes stem cell control when its capacity is compromised.
+
+The nine-category persistence hierarchy \citep{whiteside2026paper1} provides a dynamical context for this finding: stem cell markers collectively show the lowest temporal persistence ($|\lambda| = 0.626$) of all functional categories, ranking below even cancer-relevant targets ($|\lambda| = 0.632$) and DNA repair genes ($|\lambda| = 0.645$). We interpret this as a functional requirement: stem cells must maintain low autoregressive memory to preserve their capacity for rapid fate transitions in response to differentiation signals, niche cues, and tissue damage. The clock's compensatory gating of LGR5 may represent an attempt to externally impose temporal structure on gene expression that is intrinsically temporally flexible. When this external temporal control is lost (as in double APC+BMAL1 mutants), the low-persistence stem cell compartment becomes temporally unregulated---a state potentially conducive to aberrant clonal expansion.
+
+\subsection{Pparg as a Cancer-Context Target}
+
+PPAR$\gamma$ is a master regulator of lipid metabolism with established connections to circadian rhythms \citep{wang2008, yang2006}. Its emergence as the sole FDR-significant target in MYC-ON neuroblastoma suggests that circadian regulation of lipid metabolism may be particularly disrupted during oncogenic transformation, consistent with the metabolic reprogramming of cancer cells \citep{hanahan2011, pavlova2016}. PPAR$\gamma$ agonists (thiazolidinediones) have shown anticancer effects in multiple tumor types \citep{michalik2004}, and circadian timing of such agents may influence efficacy.
+
+\subsection{Eigenperiod: A Hypothesis-Generating Metric}
+
+The approximately 2-fold eigenperiod difference between healthy tissues and cancer models invites biological interpretation, but we emphasize that this comparison is confounded. The healthy-vs-cancer eigenperiod separation may reflect:
+
+\begin{enumerate}[noitemsep]
+    \item Genuine cancer-specific dynamical changes (supported by organoid internal controls)
+    \item Species differences (mouse vs.\ human)
+    \item In vivo vs.\ in vitro culture conditions
+    \item Tissue-of-origin differences
+\end{enumerate}
+
+The organoid dataset provides partial deconfounding: within the same tissue background and culture system, APC-mutant organoids show reduced stability (71\% vs.\ $\sim$100\% in wild-type healthy tissues from GSE54650), consistent with but not proving a cancer-specific effect.
+
+\textbf{Until validated on patient-matched tumor and adjacent normal tissue from the same species and organ, eigenperiod should be considered hypothesis-generating, not a validated cancer biomarker.}
+
+\subsection{Root-Space Geography and Cancer Gene Dynamics}
+
+The companion paper \citep{whiteside2026paper1} introduces a root-space functional geography in which plotting genes in AR(2) coefficient space $(\beta_1, \beta_2)$ suggests that different functional categories tend to occupy distinct dynamical neighborhoods. The resulting map is structurally a phase portrait---the standard tool in dynamical systems theory for classifying system behavior by eigenvalue structure---but applied to gene expression data. Its closest biological analogue is Waddington's epigenetic landscape \citep{waddington1957}, with which it shares the property that biological systems cluster in distinct dynamical regions separated by largely unoccupied zones; however, while Waddington maps \textit{cell fates} (irreversible commitments), the root-space triangle maps \textit{gene dynamical strategies} (reversible behaviors that shift between conditions). Unlike expression-based dimensionality reduction (UMAP, t-SNE), which maps how much a gene is expressed at a single moment, the root-space triangle maps how a gene \textit{behaves over time}---an orthogonal axis confirmed by the independence of $|\lambda|$ from mean expression level. This geography has direct implications for the cancer biology reported here.
+
+\textbf{APC as a candidate lost toggle switch.} APC occupies the alternating-dynamics region of the stationarity triangle ($\beta_1 = -0.358$, $\beta_2 = 0.462$), consistent with its role as a rapid on/off switch for Wnt signaling via $\beta$-catenin degradation. Loss of APC---mutated in $>$80\% of colorectal cancers \citep{fodde2002}---may thus remove not merely a constitutive brake, but a \textit{toggle function}---the ability to rapidly switch Wnt signaling between active and inactive states. The compensatory gating amplification we observe in APC-mutant organoids can be reinterpreted through this lens: the clock may attempt to replace APC's lost switching function by imposing external temporal alternation on Wnt target genes. This interpretation connects to the Rosen anti-resonance mechanism: APC's bistable switching dynamics are the type of regulation that creates anti-resonant filtering, and their loss would break this filter.
+
+\textbf{MAPK1 at the self-reinforcing pole.} MAPK1 (ERK2) is the gene closest to the self-reinforcing boundary in the stationarity triangle ($|\lambda| = 0.998$), reflecting the positive feedback architecture of the RAS-RAF-MEK-ERK cascade. In healthy tissues, this self-reinforcing tendency is kept within the stable region by external regulation including circadian gating. In cancer, constitutive activation of the MAPK pathway (via RAS or RAF mutations) may push MAPK1 dynamics toward and beyond the stability boundary---a prediction testable by comparing AR(2) coefficients in MAPK-mutant versus wild-type tumors.
+
+\textbf{PTEN as a candidate rhythmic tumor suppressor.} PTEN occupies the pure oscillation vertex of the stationarity triangle ($\beta_1 \approx 0.11$, $\beta_2 \approx 0.88$, $|\lambda| = 0.996$), exhibiting near-perfect sustained oscillation. As one of the most frequently mutated tumor suppressor genes in human cancer \citep{chalhoub2009}, PTEN's oscillatory dynamics suggest a model of \textit{rhythmic} tumor suppression: PTEN normally creates temporal windows alternating between growth permissiveness and growth restriction. Loss of PTEN eliminates this rhythmic gating, producing constitutive rather than temporally structured growth signaling. This prediction---that PTEN-null tumors show loss of oscillatory dynamics rather than merely reduced expression---is testable in time-resolved PTEN-knockout expression data and may have implications for the circadian timing of PI3K pathway inhibitors in PTEN-mutant cancers.
+
+\textbf{TP53 and the low-memory design principle.} TP53 sits near the centre of the stationarity triangle ($|\lambda| = 0.166$), indicating minimal temporal memory. This is consistent with p53's known pulsatile activation dynamics \citep{purvis2012}: each DNA damage response pulse carries independent information, uncontaminated by memory of previous damage events. The low-memory position suggests that p53 may respond to \textit{current} genomic threats rather than accumulating historical bias. Cancer mutations that stabilize p53 (e.g., gain-of-function mutations that increase protein half-life) could paradoxically introduce temporal memory into a system designed to operate without it---a hypothesis testable by comparing AR(2) coefficients of wild-type versus gain-of-function p53 mutants.
+
+\begin{figure}[H]
+\centering
+\fbox{\parbox{0.85\textwidth}{\centering\vspace{2em}\textbf{Figure 3: Root-Space Positions of Cancer-Relevant Genes}\\\vspace{1em}Stationarity triangle showing AR(2) coefficient positions for APC (alternating pole), MAPK1 (self-reinforcing boundary), PTEN (oscillation vertex), and TP53 (centre/memoryless). The dynamical exclusion zone (void) is annotated. Gene positions suggest qualitatively distinct dynamical strategies linked to cancer function.\vspace{2em}}}
+\caption{\textbf{Root-space functional geography of cancer-relevant genes.} Positions of key cancer genes in the AR(2) stationarity triangle, derived from mouse liver data (GSE54650). APC occupies the alternating-dynamics region (consistent with its toggle-switch function in Wnt signaling), MAPK1 sits at the self-reinforcing boundary (reflecting positive feedback in the RAS-ERK cascade), PTEN occupies the pure oscillation vertex ($|\lambda| = 0.996$, suggesting rhythmic tumor suppression), and TP53 occupies the centre ($|\lambda| = 0.166$, consistent with pulsatile, memoryless damage response). The dynamical exclusion zone (shaded) contains $<$3\% of genes genome-wide.}
+\label{fig:rootspace_cancer}
+\end{figure}
+
+\textbf{Dynamical exclusion zone.} The companion paper \citep{whiteside2026paper1} reports a dynamical exclusion zone in the stationarity triangle: only 4.3\% of gene$\times$dataset entries fall in the ``barely oscillating'' transition zone ($y = 0.001$--$0.2$), compared with 40.5\% at the non-oscillatory baseline ($y = 0$) and 36.6\% in the strongly oscillatory regime ($y \geq 0.5$). This bimodal split has direct cancer relevance: it suggests that cancer mutations affecting oscillatory genes (e.g., PTEN at $y = 0.94$) would produce a discrete dynamical collapse---from clear oscillation to the non-oscillatory regime---rather than a gradual loss of oscillatory amplitude. The near-absence of genes in the intermediate zone suggests that a stable ``partially oscillating'' state is rare; disruption of oscillatory feedback architecture would likely push genes across the Hopf bifurcation boundary into monotonic dynamics. If confirmed in genome-wide data, this pattern would add a dynamical dimension to the well-characterized biochemical consequences of PTEN loss: beyond constitutive PI3K/AKT activation, PTEN-null cells may also lose an entire dynamical mode of temporal regulation.
+
+\textit{Note:} The root-space geography analysis presented here is based on a curated gene panel and is hypothesis-generating. Formal clustering statistics and enrichment tests have not been applied to these positional associations; genome-wide validation is needed to establish whether dynamical pole and biological function are systematically linked.
+
+\subsection{MYC-ON/OFF Gene-Level Eigenvalue Shifts}
+
+To characterize how oncogene activation alters per-gene temporal dynamics, we computed AR(2) eigenvalue moduli for 212 genes in MYC-ON versus MYC-OFF neuroblastoma (GSE221103) and compared these to healthy mouse tissue baselines (GSE54650).
+
+\textbf{Cancer state-swap analysis.} We defined a ``$\varphi$-zone'' ($|\lambda| \in [0.603, 0.633]$, $\pm 0.015$ of $|1/\varphi| = 0.618$) as an exploratory geometric reference and tracked which genes entered or exited this zone when MYC was switched off. Twelve genes swapped $\varphi$-zone status between MYC-ON and MYC-OFF conditions:
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Enter $\varphi$-zone when MYC off:} WEE1, TP53, MCM6, CTCF, PROM1, MAPK1
+    \item \textbf{Leave $\varphi$-zone when MYC off:} NR1D2, TEF, AXIN2, BAX, MLH1, CRY2
+\end{itemize}
+
+A permutation test (5{,}000 iterations, shuffling MYC-ON/OFF labels) yielded $p = 1.000$---\textbf{not significant}. The number of swapping genes is fully expected given the magnitude of eigenvalue shifts between conditions. \textbf{We conclude that $\varphi$-zone entry/exit does not represent a biologically meaningful cancer transition; $\varphi$ is an exploratory geometric reference, not a biological attractor.}
+
+\textbf{What is biologically informative} is the identity of the swapping genes: WEE1 (G2/M checkpoint), TP53 (tumor suppressor), and MAPK1 (ERK2 signaling) gain near-$\varphi$ eigenvalues when MYC is silenced, while clock components NR1D2, TEF, and CRY2 lose them. This pattern---checkpoint and tumor suppressor genes stabilizing toward intermediate persistence while clock genes shift---is consistent with the compensatory gating model described above, though the $\varphi$-proximity itself is not statistically distinguished from other eigenvalue ranges.
+
+\textbf{Unstable gene recovery.} Seven genes exceeded the stability boundary ($|\lambda| > 1.0$) in MYC-ON neuroblastoma: SIRT1 ($|\lambda| = 1.280$), KLF4 ($1.308$), CCNB1 ($1.120$), HDAC2 ($1.058$), RAD51 ($1.054$), EGFR ($1.001$), and DNMT1 ($1.001$). \textbf{All seven recovered to stable dynamics ($|\lambda| < 1.0$) when MYC was turned off.} Zero genes were unstable in the MYC-OFF condition. This complete recovery of dynamical stability upon oncogene silencing is striking: the unstable genes span metabolic regulation (SIRT1), pluripotency (KLF4), mitosis (CCNB1), chromatin remodeling (HDAC2), DNA repair (RAD51), growth signaling (EGFR), and epigenetic maintenance (DNMT1)---collectively representing the hallmarks of cancer \citep{hanahan2011}. The finding that all unstable dynamics are MYC-dependent and fully reversible suggests that oncogene-driven dynamical instability is a systematic, not stochastic, phenomenon.
+
+\textbf{Bootstrap confidence intervals.} For gene-tissue pairs near $\varphi$, bootstrap CIs (1{,}000 iterations) were wide ($\sim$0.38), consistent with proximity to 0.618 but not specifically pinpointing it. The CIs reflect the statistical uncertainty inherent in 48-point time series and should not be interpreted as evidence for $\varphi$-specific clustering.
+
+\subsection{Limitations}
+
+\begin{enumerate}[noitemsep]
+    \item \textbf{Species $\times$ tissue $\times$ context confound (Major):} The eigenperiod cancer comparison involves mouse in vivo tissues vs.\ human neuroblastoma cell culture. Within-species, within-tissue validation is required.
+    \item \textbf{Cancer model generalization:} Hierarchy reversal was observed in only two cancer models (MYC-ON neuroblastoma, APC-mutant organoids). Replication across $\geq$3 independent cancer types is needed.
+    \item \textbf{Genotype-induced composition shifts:} Bulk organoid profiles may conflate rhythmic dynamics with shifts in cell-type proportions between genotypes.
+    \item \textbf{Pparg f$^2$ represents one finding:} The 8 nominally significant Pparg pairs reflect TTFL collinearity, not 8 independent findings.
+    \item \textbf{Observational nature:} PAR(2) identifies correlational patterns; causal claims require experimental validation.
+    \item \textbf{FDR at single-tissue level:} Single-tissue FDR is $\sim$16\% \citep{whiteside2026paper1}. The organoid findings are single-system results and should be considered hypothesis-generating.
+    \item \textbf{Root-space geography:} The cancer gene interpretations derived from root-space positions (APC toggle, PTEN oscillation, TP53 low-memory) are based on a curated gene panel without formal clustering or enrichment statistics. These positional associations are hypothesis-generating and require genome-wide validation.
+    \item \textbf{Bulk tissue resolution:} All analyses use bulk organoid or tissue measurements that average across cell types. The hierarchy reversal and compensatory gating findings could partially reflect genotype-induced shifts in cell-type proportions rather than changes in per-cell dynamics. No publicly available single-cell circadian time-series dataset with sufficient temporal density for AR(2) fitting currently exists for intestinal or colonic tissue. Single-cell methods for measuring gene expression memory---MemorySeq \citep{raj2020memoryseq} and GEMLI \citep{eisele2024gemli}---provide cellular resolution but lack the temporal depth needed for autoregressive modeling. Convergence of dense temporal sampling with single-cell resolution would enable definitive cell-type-resolved validation of the eigenvalue hierarchy and its cancer-associated disruption.
+\end{enumerate}
+
+\section{Conclusions}
+
+The circadian clock actively compensates for APC mutations by doubling its temporal control over cancer-relevant genes---a previously underappreciated tumor suppression mechanism. This compensation collapses near-completely when BMAL1 is co-deleted, consistent with a two-hit threshold. BMAL1 mutation rewires gating to LGR5, linking the clock to cancer stem cell control---a finding given additional significance by the nine-category persistence hierarchy \citep{whiteside2026paper1}, which reveals stem cell markers as the lowest-persistence functional category ($|\lambda| = 0.626$), reframing stemness as a low-memory dynamical state requiring external temporal regulation. Root-space functional geography provides an additional, hypothesis-generating layer of interpretation: APC's position in the alternating-dynamics region is consistent with its role as a dynamical toggle switch, its loss may remove this switching function, and the clock's compensatory gating may represent an attempt to externally restore temporal alternation. PTEN's position at the pure oscillation vertex ($|\lambda| = 0.996$) suggests rhythmic rather than constitutive tumor suppression, generating testable predictions for PTEN-mutant cancers; these positional associations await formal genome-wide validation. In MYC-ON neuroblastoma, Pparg emerges as the top cancer-specific target, with identical effect sizes across clock genes confirming TTFL coherence. The emergent eigenperiod shows apparent healthy-vs-cancer separation, but this requires within-species, within-tissue validation before clinical interpretation. Aging and cancer represent divergent deformations of the circadian hierarchy---aging weakens it while cancer reverses it---with caloric restriction partially restoring the youthful pattern. These findings establish compensatory circadian gating as a new paradigm in clock-cancer biology and suggest that chronotherapy strategies should consider mutation-specific clock rewiring.
+
+\subsection*{Expression-Matched Null Control for Drug Target Positioning}
+
+A critical confound for any claim about drug target root-space positioning is whether persistence differences reflect genuine dynamical properties or simply correlate with expression level. To address this, we performed expression-matched permutation testing: for each of 160 drug target genes in the GSE54650 liver dataset, we identified non-drug-target genes with similar mean expression ($\pm$10\%) and variance ($\pm$20\%), then compared the observed drug target mean $|\lambda|$ against 10,000 permuted expression-matched null sets.
+
+Drug targets as a class do not occupy significantly distinct eigenvalue positions after expression matching (observed mean $|\lambda| = 0.517$, null mean $= 0.517$, $p = 0.49$, $z = 0.0$). This null result indicates that the aggregate drug target enrichment previously reported does not survive expression-level confound control.
+
+However, drug class-specific analysis reveals heterogeneous enrichment that partly survives matching. Among 14 drug classes tested, antimetabolites ($n = 4$, mean $|\lambda| = 0.654$, $p = 0.013$) and kinase inhibitors ($n = 49$, mean $|\lambda| = 0.529$, $p = 0.039$) show significant positional enrichment after expression matching. Conversely, ion channel targets ($n = 8$, mean $|\lambda| = 0.414$, $p = 0.89$) and targeted therapy targets ($n = 16$, mean $|\lambda| = 0.446$, $p = 0.82$) sit at \textit{lower} eigenvalues than expression-matched controls.
+
+These findings suggest that chronotherapy relevance may be drug class-specific rather than a universal property of pharmacological targets: antimetabolites and kinase inhibitors target metabolic and signaling processes with genuine temporal structure, while other drug classes target genes whose root-space positions are adequately explained by expression level alone.
+
+\subsection*{Future Directions}
+
+The genome-wide AR(2) maps established across 38 datasets in the companion paper \citep{whiteside2026paper1} enable several cancer-specific extensions of this work:
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}]
+
+\item \textbf{Differential eigenvalue screening for drug targets.} Genes with large $|\lambda|$ shifts between WT and APC-mutant organoids---beyond the curated gene panel analyzed here---may reveal novel targets whose temporal dynamics are hijacked by oncogenic transformation. Genome-wide screening could identify candidates invisible to static expression analysis.
+
+\item \textbf{Cancer-specific disease deformation fields.} Characterizing APC-mutant, MYC-ON, and double-mutant states as systematic population-level movements in root-space would provide quantitative ``dynamical fingerprints'' of each cancer genotype, testable against patient-derived tumor samples.
+
+\item \textbf{Class-specific chronotherapy optimization.} Expression-matched null testing indicates that chronotherapy relevance is drug class-specific: antimetabolites and kinase inhibitors show positional enrichment surviving expression confound control ($p = 0.013$ and $p = 0.039$, respectively), while other drug classes do not. Future work should focus chronotherapy optimization efforts on these enriched classes, where root-space position may reflect genuine clock-gated dynamics rather than expression-level correlation. Integrating class-specific root-space positions with pharmacokinetic models could yield targeted chronotherapy schedules for these amenable drug categories, extending the personalized framework of Fujimoto et al.\ \citep{fujimoto2025}.
+
+\item \textbf{Compensatory gating as a therapeutic vulnerability.} The clock's compensatory response to APC loss (doubling of gating interactions) may create a therapeutic window: if compensation depends on specific clock genes, targeting those genes in APC-mutant tumors could selectively collapse circadian defense without affecting healthy tissue.
+
+\item \textbf{Stem cell dynamics and cancer hierarchy.} The finding that stem cell markers occupy the lowest-persistence position in root-space ($|\lambda| = 0.626$), combined with BMAL1-KO rewiring to LGR5, suggests that circadian disruption may alter stem cell temporal memory. Genome-wide analysis of stem cell marker dynamics across the perturbation series could reveal whether cancer progression systematically alters the stem cell dynamical niche.
+
+\item \textbf{Aging--cancer divergence trajectories.} The observation that aging weakens while cancer reverses the eigenvalue hierarchy could be formalized as divergent trajectories in root-space. Tracking genome-wide root-space centroids across the aging (young/old) and cancer (WT/APC-mutant) datasets would test whether these represent genuinely orthogonal dynamical deformations or share common early-stage signatures.
+
+\item \textbf{Experimental chronotherapy validation via time-of-day drug screening.} The eigenvalue-based drug target prioritization presented here identifies \textit{which} targets may benefit from timed intervention, but does not directly measure \textit{when} during the 24-hour cycle drugs are most effective. Granada and colleagues have developed a complementary experimental framework for systematically profiling time-of-day drug sensitivity in cancer cells \citep{granada2024phenotyping, granada2025drivers}, combining mathematical modeling with high-throughput live-imaging screens. Integrating PAR(2) target identification (computational, genome-wide, multi-tissue) with experimental drug-timing validation (per-drug, per-cell-line) would provide both the target selection and dosing optimization layers needed for systematic chronotherapy development.
+
+\item \textbf{Single-cell temporal validation.} Emerging single-cell circadian time-series datasets may eventually provide sufficient temporal resolution for direct cell-type-resolved AR(2) analysis. Applied to APC-mutant and wild-type organoids, this would test whether the hierarchy reversal and compensatory gating observed in bulk data reflect genuine per-cell dynamical changes or cell-type composition shifts. Complementary single-cell memory methods---GEMLI \citep{eisele2024gemli} for lineage-resolved persistence and MemorySeq \citep{raj2020memoryseq} for heritable expression programs---could provide independent validation that the genes identified here as high-persistence targets also exhibit multi-generational memory at the cellular level.
+
+\end{enumerate}
+
+\noindent A comprehensive list of genome-wide root-space applications (including cross-species evolutionary analysis, dynamical network inference, wearable integration, and diagnostic metrics) is provided in the companion paper \citep{whiteside2026paper1}. Looking forward, the PAR(2) framework offers practical tools for this effort: the eigenvalue modulus may provide a class-specific metric for drug target prioritization---expression-matched null testing confirms enrichment for antimetabolites and kinase inhibitors but not drug targets broadly, the clock-target gap could serve as a single-scalar readout of circadian organizational integrity, and the dynamical exclusion zone suggests that mutations affecting oscillatory genes (PTEN, clock components) may produce discrete dynamical collapse rather than graded loss---each generating testable hypotheses for the next generation of chronotherapy trials. Recent work integrating circadian profiling with pharmacokinetic-pharmacodynamic models for personalized drug timing in glioblastoma \citep{fujimoto2025} demonstrates clinical appetite for circadian-guided dosing; PAR(2) eigenvalues could in principle supply the circadian profiling layer for such frameworks, pending validation.
+
+\section*{Data Availability}
+
+All code and processed data: \url{https://github.com/mickwh2764/PAR-2--Final-09-12-2025}. PAR(2) Discovery Engine: \url{https://par2-discovery-engine.replit.app}. The interactive platform provides genome-wide gene search, root-space visualization with interpretive overlays (including PCA comparison demonstrating orthogonality of eigenvalue persistence to variance-based metrics; see companion paper \citep{whiteside2026paper1}), progressive hierarchy layer toggle, and genome-wide disease screening. Raw datasets: GSE54650, GSE157357, GSE221103, GSE201207, GSE93903, GSE245295.
+
+\section*{Funding}
+
+This research was conducted independently without external funding.
+
+\section*{Conflicts of Interest}
+
+The PAR(2) methodology is subject to a pending UK patent application. The author declares no other conflicts of interest.
+
+\section*{Author Contributions}
+
+M.W.: Conceptualization, Methodology, Software, Validation, Formal Analysis, Data Curation, Writing -- Original Draft, Writing -- Review \& Editing, Visualization.
+
+\section*{Acknowledgments}
+
+We thank the creators of the public datasets analyzed in this study, particularly the Hughes Circadian Atlas (GSE54650), the GSE157357 intestinal organoid dataset, and the GSE221103 neuroblastoma dataset. The PAR(2) framework methodology is described in the companion paper \citep{whiteside2026paper1}.
+
+\bibliographystyle{unsrt}
+\begin{thebibliography}{29}
+
+\bibitem{whiteside2026paper1}
+Whiteside M. PAR(2): A phase-gated autoregressive framework reveals tissue-specific circadian gating of cancer-relevant genes across mammalian tissues. \textit{[Preprint/Journal]}. 2026. [Companion paper]
+
+\bibitem{whiteside2026method}
+Whiteside M. PAR(2): A phase-gated autoregressive framework reveals tissue-specific circadian gating of cancer-relevant genes across mammalian tissues. \textit{[Preprint/Journal]}. 2026. [Companion paper --- ODE-AR(2) bridge derivation]
+
+\bibitem{takahashi2017}
+Takahashi JS. Transcriptional architecture of the mammalian circadian clock. \textit{Nat Rev Genet}. 2017;18(3):164--179.
+
+\bibitem{straif2007}
+Straif K, et al. Carcinogenicity of shift-work, painting, and fire-fighting. \textit{Lancet Oncol}. 2007;8(12):1065--1066.
+
+\bibitem{fu2002}
+Fu L, et al. The circadian gene Period2 plays an important role in tumor suppression. \textit{Cell}. 2002;111(1):41--50.
+
+\bibitem{chun2022}
+Chun SK, et al. Disruption of the circadian clock drives Apc loss of heterozygosity to accelerate colorectal cancer. \textit{Sci Adv}. 2022;8(32):eabo2389.
+
+\bibitem{hanahan2011}
+Hanahan D, Weinberg RA. Hallmarks of cancer: the next generation. \textit{Cell}. 2011;144(5):646--674.
+
+\bibitem{wang2008}
+Wang N, et al. Vascular PPAR$\gamma$ controls circadian variation in blood pressure. \textit{Cell Metab}. 2008;8(6):482--491.
+
+\bibitem{yang2006}
+Yang X, et al. Nuclear receptor expression links the circadian clock to metabolism. \textit{Cell}. 2006;126(4):801--810.
+
+\bibitem{pavlova2016}
+Pavlova NN, Thompson CB. The emerging hallmarks of cancer metabolism. \textit{Cell Metab}. 2016;23(1):27--47.
+
+\bibitem{michalik2004}
+Michalik L, et al. Peroxisome-proliferator-activated receptors and cancers. \textit{Nat Rev Cancer}. 2004;4(1):61--70.
+
+\bibitem{sato2017}
+Sato S, et al. Circadian reprogramming in the liver identifies metabolic pathways of aging. \textit{Cell}. 2017;170(4):664--677.
+
+\bibitem{rosen2026}
+Rosen SJ, Witteveen O, Baxter N, Lach RS, Hopkins E, Bauer M, Wilson MZ. Anti-resonance in developmental signaling regulates cell fate decisions. \textit{eLife}. 2026;14:RP107794. doi:10.7554/eLife.107794
+
+\bibitem{boman2025}
+Boman RM, Schleiniger G, Raymond C, Palazzo JP, Shehab A, Boman BM. A tissue renewal-based mechanism drives colon tumorigenesis. \textit{Cancers}. 2025;18(1):44. doi:10.3390/cancers18010044
+
+\bibitem{purvis2012}
+Purvis JE, Karhohs KW, Mock C, Batchelor E, Loewer A, Lahav G. p53 dynamics control cell fate. \textit{Science}. 2012;336(6087):1440--1444.
+
+\bibitem{barker2007}
+Barker N, van Es JH, Kuipers J, Kujala P, van den Born M, Cozijnsen M, Haegebarth A, Korving J, Begthel H, Peters PJ, Clevers H. Identification of stem cells in small intestine and colon by marker gene Lgr5. \textit{Nature}. 2007;449(7165):1003--1007.
+
+\bibitem{chalhoub2009}
+Chalhoub N, Baker SJ. PTEN and the PI3-kinase pathway in cancer. \textit{Annu Rev Pathol}. 2009;4:127--150.
+
+\bibitem{fodde2002}
+Fodde R. The APC gene in colorectal cancer. \textit{Eur J Cancer}. 2002;38(7):867--871.
+
+\bibitem{fujimoto2025}
+Fujimoto K, et al. Personalized chronotherapy in glioblastoma: integrating circadian profiling and PK--PD modelling to optimize temozolomide timing. \textit{npj Precis Oncol}. 2025;9:205.
+
+\bibitem{waddington1957}
+Waddington CH. \textit{The Strategy of the Genes}. Allen \& Unwin; 1957.
+
+\bibitem{raj2020memoryseq}
+Shaffer SM, Emert BL, Reyes Hueros RA, et al. Memory sequencing reveals heritable single-cell gene expression programs associated with distinct cellular behaviors. \textit{Cell}. 2020;182(4):947--959. doi:10.1016/j.cell.2020.07.003
+
+\bibitem{eisele2024gemli}
+Eisele AS, Tarbier M, Dormann AA, Pelechano V, Suter DM. Gene-expression memory-based prediction of cell lineages from scRNA-seq datasets. \textit{Nat Commun}. 2024;15:2744. doi:10.1038/s41467-024-47158-y
+
+\bibitem{granada2024phenotyping}
+Alers I, Schmitt K, Adamovich Y, Tsimring LS, Asher G, Granada AE. Time-of-day effects of cancer drugs revealed by high-throughput deep phenotyping. \textit{Nat Commun}. 2024;15:7085. doi:10.1038/s41467-024-51611-3
+
+\bibitem{granada2025drivers}
+Alers I, Schmitt K, Granada AE. A combined mathematical and experimental approach reveals the drivers of time-of-day drug sensitivity in human cells. \textit{Commun Biol}. 2025;8:452. doi:10.1038/s42003-025-07931-1
+
+\end{thebibliography}
+
+\end{document}

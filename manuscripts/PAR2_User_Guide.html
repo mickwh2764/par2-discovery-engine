@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PAR(2) Discovery Engine — Complete User Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0f172a;
+    --bg-card: #1e293b;
+    --bg-highlight: #334155;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --text-muted: #64748b;
+    --accent-cyan: #22d3ee;
+    --accent-teal: #2dd4bf;
+    --accent-amber: #fbbf24;
+    --accent-pink: #f472b6;
+    --accent-green: #4ade80;
+    --accent-purple: #a855f7;
+    --accent-blue: #60a5fa;
+    --accent-red: #f87171;
+    --border: #334155;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 14px;
+  }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 40px 30px; }
+
+  @media print {
+    body { background: white; color: #1e293b; font-size: 11pt; }
+    .container { max-width: 100%; padding: 20px; }
+    .page-break { page-break-before: always; }
+    .no-print { display: none !important; }
+    h1, h2, h3 { color: #0f172a !important; }
+    .card { border: 1px solid #cbd5e1 !important; background: #f8fafc !important; }
+    .toc a { color: #1e40af !important; }
+    code { background: #f1f5f9 !important; color: #1e293b !important; }
+    .tip-box { border-left: 3px solid #0ea5e9 !important; background: #f0f9ff !important; }
+    .warn-box { border-left: 3px solid #f59e0b !important; background: #fffbeb !important; }
+  }
+
+  h1 {
+    font-size: 2.2em;
+    font-weight: 700;
+    background: linear-gradient(135deg, #22d3ee, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-size: 1.5em;
+    font-weight: 600;
+    color: var(--accent-cyan);
+    margin-top: 48px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  h3 {
+    font-size: 1.15em;
+    font-weight: 600;
+    color: var(--accent-teal);
+    margin-top: 32px;
+    margin-bottom: 12px;
+  }
+
+  h4 {
+    font-size: 1em;
+    font-weight: 600;
+    color: var(--accent-amber);
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+
+  p { margin-bottom: 12px; }
+
+  a { color: var(--accent-cyan); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--bg-highlight);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+
+  .subtitle {
+    font-size: 1.1em;
+    color: var(--text-dim);
+    margin-bottom: 40px;
+  }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .card-title {
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 1.05em;
+  }
+
+  .tip-box {
+    border-left: 3px solid var(--accent-cyan);
+    background: rgba(34, 211, 238, 0.05);
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    margin: 16px 0;
+  }
+
+  .tip-box strong { color: var(--accent-cyan); }
+
+  .warn-box {
+    border-left: 3px solid var(--accent-amber);
+    background: rgba(251, 191, 36, 0.05);
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    margin: 16px 0;
+  }
+
+  .warn-box strong { color: var(--accent-amber); }
+
+  .key-box {
+    border-left: 3px solid var(--accent-green);
+    background: rgba(74, 222, 128, 0.05);
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    margin: 16px 0;
+  }
+
+  .key-box strong { color: var(--accent-green); }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 0.9em;
+  }
+
+  th, td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  th {
+    background: var(--bg-highlight);
+    font-weight: 600;
+    color: var(--accent-cyan);
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  td { color: var(--text-dim); }
+
+  ul, ol { margin: 12px 0; padding-left: 24px; }
+  li { margin-bottom: 6px; color: var(--text-dim); }
+  li strong { color: var(--text); }
+
+  .toc {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin: 30px 0;
+  }
+
+  .toc h3 { color: var(--accent-cyan); margin-top: 0; }
+
+  .toc ol { counter-reset: toc; list-style: none; padding-left: 0; }
+  .toc > ol > li { counter-increment: toc; margin-bottom: 4px; }
+  .toc > ol > li::before {
+    content: counter(toc) ". ";
+    color: var(--accent-cyan);
+    font-weight: 600;
+  }
+  .toc ol ol { padding-left: 20px; margin: 2px 0; }
+  .toc ol ol li { font-size: 0.9em; margin-bottom: 2px; }
+  .toc a { color: var(--text-dim); }
+  .toc a:hover { color: var(--accent-cyan); }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .badge-clock { background: rgba(34, 211, 238, 0.15); color: var(--accent-cyan); }
+  .badge-target { background: rgba(244, 114, 182, 0.15); color: var(--accent-pink); }
+  .badge-other { background: rgba(100, 116, 139, 0.15); color: var(--text-muted); }
+
+  .version-info {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.8em;
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  .cover {
+    text-align: center;
+    padding: 80px 0 60px;
+  }
+
+  .cover .logo {
+    font-size: 3em;
+    margin-bottom: 16px;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 16px 0;
+  }
+
+  @media (max-width: 600px) {
+    .feature-grid { grid-template-columns: 1fr; }
+  }
+
+  .feature-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+  }
+
+  .feature-item .name {
+    font-weight: 600;
+    font-size: 0.9em;
+    margin-bottom: 4px;
+  }
+
+  .feature-item .desc {
+    font-size: 0.8em;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  .nav-path {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--bg-highlight);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    color: var(--accent-teal);
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- COVER -->
+<div class="cover">
+  <div class="logo">&#x1F9EC;</div>
+  <h1>PAR(2) Discovery Engine</h1>
+  <p class="subtitle">Complete User Guide &amp; Handbook</p>
+  <p style="color: var(--text-muted); font-size: 0.9em;">
+    Quantifying Circadian Clock-Target Dynamics Through AR(2) Eigenvalue Analysis
+  </p>
+  <p style="color: var(--text-muted); font-size: 0.8em; margin-top: 20px;">
+    Version 2.0 &middot; February 2026
+  </p>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc">
+  <h3>Table of Contents</h3>
+  <ol>
+    <li><a href="#intro">Introduction &amp; Core Concepts</a></li>
+    <li><a href="#quickstart">Quick Start (5-Minute Tour)</a></li>
+    <li><a href="#dashboard">The Dashboard</a>
+      <ol>
+        <li><a href="#dashboard-datasets">Selecting Datasets</a></li>
+        <li><a href="#dashboard-analysis">Running an Analysis</a></li>
+        <li><a href="#dashboard-results">Reading Results</a></li>
+      </ol>
+    </li>
+    <li><a href="#discovery">Discovery Engine (Upload Your Data)</a></li>
+    <li><a href="#rootspace">Root-Space Geometry</a>
+      <ol>
+        <li><a href="#rootspace-triangle">The Stationarity Triangle</a></li>
+        <li><a href="#rootspace-overlays">Overlays (Waddington, Phase Portrait, Drug Targets)</a></li>
+        <li><a href="#rootspace-drugs">Drug Target Overlay</a></li>
+      </ol>
+    </li>
+    <li><a href="#validation">Validation Suite</a></li>
+    <li><a href="#modelzoo">ODE Model Zoo</a></li>
+    <li><a href="#genomewide">Genome-Wide Analysis</a></li>
+    <li><a href="#crosscontext">Cross-Context Validation</a></li>
+    <li><a href="#robustness">Robustness Suite</a></li>
+    <li><a href="#human">Human Circadian Disruption</a></li>
+    <li><a href="#celltype">Cell-Type Persistence Map</a></li>
+    <li><a href="#disease">Disease Screen</a></li>
+    <li><a href="#cancer">Cancer Browser</a></li>
+    <li><a href="#health">Circadian Health Score</a></li>
+    <li><a href="#volatile">Most Volatile Genes</a></li>
+    <li><a href="#geneset">Gene Set Hypothesis Tester</a></li>
+    <li><a href="#beforeafter">Before/After Trajectory Comparison</a></li>
+    <li><a href="#landscape">The Persistence Landscape</a>
+      <ol>
+        <li><a href="#landscape-proteomics">Proteomics Chapter</a></li>
+        <li><a href="#landscape-geneprotein">Gene-Protein Persistence Map</a></li>
+      </ol>
+    </li>
+    <li><a href="#drugdurability">Drug Durability Analysis</a></li>
+    <li><a href="#bacterial">Bacterial Persistence</a></li>
+    <li><a href="#yeast">Yeast Validation</a></li>
+    <li><a href="#cryptvillus">Crypt-Villus Spatial Analysis</a></li>
+    <li><a href="#convergence">Convergence Map</a></li>
+    <li><a href="#crossmetric">Cross-Metric Independence</a>
+      <ol>
+        <li><a href="#crossmetric-scatter">Scatter Plots &amp; Correlations</a></li>
+        <li><a href="#crossmetric-rootspace">Root-Space Mapping Tab</a></li>
+        <li><a href="#crossmetric-conservation">Cross-Tissue Conservation</a></li>
+      </ol>
+    </li>
+    <li><a href="#geneexplorer">Gene Explorer</a></li>
+    <li><a href="#sharing">Sharing Results</a></li>
+    <li><a href="#manuscripts">Manuscripts &amp; Downloads</a></li>
+    <li><a href="#glossary">Glossary of Key Terms</a></li>
+    <li><a href="#faq">Frequently Asked Questions</a></li>
+    <li><a href="#troubleshooting">Troubleshooting</a></li>
+  </ol>
+</div>
+
+<!-- 1. INTRODUCTION -->
+<h2 id="intro">1. Introduction &amp; Core Concepts</h2>
+
+<h3>What is the PAR(2) Discovery Engine?</h3>
+<p>
+  The PAR(2) Discovery Engine is a statistical platform for analyzing gene expression time-series data.
+  Its central idea: <strong>fit a second-order autoregressive model — AR(2) — to each gene's expression over time,
+  then extract the eigenvalue modulus |&lambda;|</strong> as a single number that captures how strongly
+  that gene's expression "persists" from one time point to the next.
+</p>
+
+<div class="key-box">
+  <strong>The core question:</strong> Instead of asking "Is this gene rhythmic?" (yes/no),
+  AR(2) asks "How persistent is this gene's temporal pattern?" — a continuous measurement
+  that captures both oscillation strength and memory.
+</div>
+
+<h3>What is AR(2)?</h3>
+<p>
+  An autoregressive model of order 2 means: the expression value at time <em>t</em> depends on
+  the values at times <em>t&minus;1</em> and <em>t&minus;2</em>, plus noise.
+  Mathematically: <code>x(t) = &beta;&#x2081; &middot; x(t&minus;1) + &beta;&#x2082; &middot; x(t&minus;2) + &epsilon;</code>
+</p>
+<p>
+  The two coefficients &beta;&#x2081; and &beta;&#x2082; define the gene's "dynamical signature."
+  From these, we compute the <strong>eigenvalue modulus |&lambda;|</strong>, which ranges from 0 to 1:
+</p>
+
+<table>
+  <tr><th>|&lambda;| Value</th><th>Interpretation</th><th>Biological Example</th></tr>
+  <tr><td><code>0.0 &ndash; 0.3</code></td><td>Weak persistence — expression decays quickly</td><td>Noise-driven, rapidly turning over genes</td></tr>
+  <tr><td><code>0.3 &ndash; 0.6</code></td><td>Moderate persistence — some temporal memory</td><td>Target genes responding to signals</td></tr>
+  <tr><td><code>0.6 &ndash; 0.8</code></td><td>Strong persistence — robust temporal pattern</td><td>Clock-controlled output genes</td></tr>
+  <tr><td><code>0.8 &ndash; 1.0</code></td><td>Very strong persistence — self-sustaining oscillation</td><td>Core clock genes (Per2, Arntl, Clock)</td></tr>
+</table>
+
+<h3>The Clock &gt; Target Hierarchy</h3>
+<p>
+  The central finding of the PAR(2) framework is the <strong>clock &gt; target eigenvalue hierarchy</strong>:
+  core circadian clock genes (Per2, Arntl, Clock, Cry1, etc.) consistently show higher |&lambda;| values
+  than their downstream target genes (Myc, Ccnd1, Wee1, etc.) across tissues, species, and conditions.
+</p>
+<p>
+  This is not just a statistical observation — it reflects biology. Clock genes form self-reinforcing
+  transcription-translation feedback loops, giving them stronger temporal memory. Target genes respond
+  to clock signals but lack their own sustaining loops.
+</p>
+
+<h3>Gene Categories</h3>
+<table>
+  <tr><th>Category</th><th>Color</th><th>Examples</th><th>Typical |&lambda;|</th></tr>
+  <tr><td><span class="badge badge-clock">Clock</span></td><td>Cyan/Blue</td><td>Per2, Arntl, Clock, Cry1, Nr1d1</td><td>0.65 &ndash; 0.85</td></tr>
+  <tr><td><span class="badge badge-target">Target</span></td><td>Pink/Amber</td><td>Myc, Ccnd1, Wee1, Cdkn1a</td><td>0.40 &ndash; 0.65</td></tr>
+  <tr><td><span class="badge badge-other">Other</span></td><td>Grey</td><td>All remaining genes</td><td>Varies widely</td></tr>
+</table>
+
+
+<!-- 2. QUICK START -->
+<div class="page-break"></div>
+<h2 id="quickstart">2. Quick Start (5-Minute Tour)</h2>
+
+<p>Follow these steps to get oriented in 5 minutes:</p>
+
+<div class="card">
+  <p class="card-title">Step 1: Open the Dashboard</p>
+  <p>The home page shows summary statistics and a list of pre-loaded datasets. You'll see 38+ datasets spanning mouse, human, baboon, and plant tissues.</p>
+</div>
+
+<div class="card">
+  <p class="card-title">Step 2: Select a Dataset &amp; Run Analysis</p>
+  <p>Pick any dataset (start with <strong>Mouse Liver (GSE11923)</strong> — it has the most time points). Click <strong>"Run Analysis"</strong>. The engine computes AR(2) eigenvalues for all clock and target genes in seconds.</p>
+</div>
+
+<div class="card">
+  <p class="card-title">Step 3: Read the Results</p>
+  <p>You'll see eigenvalue bar charts, time-series plots, and the clock-vs-target comparison. The <strong>gap</strong> between clock and target eigenvalues is the key metric — a larger gap means stronger circadian hierarchy.</p>
+</div>
+
+<div class="card">
+  <p class="card-title">Step 4: Explore Root-Space</p>
+  <p>Navigate to <span class="nav-path">/root-space</span> to see where every gene lands in coefficient space. Try the Waddington landscape and phase portrait overlays.</p>
+</div>
+
+<div class="card">
+  <p class="card-title">Step 5: Try Your Own Data</p>
+  <p>Go to <span class="nav-path">/discovery-engine</span> and upload a CSV file with time-series data. The engine will compute AR(2) eigenvalues with full diagnostics.</p>
+</div>
+
+<div class="tip-box">
+  <strong>Tip:</strong> Use the navigation menu (top-left hamburger icon) to jump between all pages. Each page has a "How To" helper that explains what it does.
+</div>
+
+
+<!-- 3. DASHBOARD -->
+<div class="page-break"></div>
+<h2 id="dashboard">3. The Dashboard</h2>
+
+<p>
+  The Dashboard (<span class="nav-path">/</span>) is the main hub. It shows pre-loaded gene expression datasets
+  and lets you run AR(2) analysis interactively.
+</p>
+
+<h3 id="dashboard-datasets">3.1 Selecting Datasets</h3>
+<p>
+  The platform includes 38+ datasets from public repositories (primarily NCBI GEO). Each dataset card shows:
+</p>
+<ul>
+  <li><strong>Species</strong> — Mouse, Human, Baboon, Arabidopsis</li>
+  <li><strong>Tissue</strong> — Liver, SCN, Lung, Blood, Skin, Colon, etc.</li>
+  <li><strong>GEO Accession</strong> — e.g., GSE11923 (clickable link to the source data)</li>
+  <li><strong>Time Points</strong> — Number and spacing of measurements</li>
+  <li><strong>Condition</strong> — Normal, disease, treatment, etc.</li>
+</ul>
+
+<h3 id="dashboard-analysis">3.2 Running an Analysis</h3>
+<p>
+  Select clock and target genes from the gene lists, then click <strong>"Run Analysis"</strong>.
+  The engine fits AR(2) models to every selected gene and returns eigenvalues within seconds.
+</p>
+<p>
+  You can customize which genes to analyze — the defaults include the core clock genes
+  (Per2, Arntl, Clock, Cry1, Cry2, Nr1d1, Nr1d2, Per1) and representative target genes
+  (Myc, Ccnd1, Wee1, Cdkn1a, etc.).
+</p>
+
+<h3 id="dashboard-results">3.3 Reading Results</h3>
+<p>The results panel shows several views:</p>
+<ul>
+  <li><strong>Eigenvalue Bar Chart</strong> — Each gene's |&lambda;| as a horizontal bar. Clock genes (cyan) should cluster higher than target genes (pink/amber).</li>
+  <li><strong>Time-Series Plot</strong> — Raw expression data over time for selected genes, showing the oscillatory patterns.</li>
+  <li><strong>AR(2) Coefficients</strong> — The raw &beta;&#x2081; and &beta;&#x2082; values and model fit (R&sup2;).</li>
+  <li><strong>Cross-Context Comparison</strong> — Run the same genes across multiple datasets to compare tissue-specific persistence.</li>
+  <li><strong>Edge Case Diagnostics</strong> — Reliability checks for trend contamination, sample size, nonlinearity, and boundary proximity.</li>
+</ul>
+
+<div class="tip-box">
+  <strong>Tip:</strong> You can download results as CSV, export charts as images, and generate a printable analysis report from the Dashboard.
+</div>
+
+
+<!-- 4. DISCOVERY ENGINE -->
+<div class="page-break"></div>
+<h2 id="discovery">4. Discovery Engine (Upload Your Data)</h2>
+
+<p>
+  The Discovery Engine (<span class="nav-path">/discovery-engine</span>) lets you upload your own CSV data
+  and run AR(2) analysis on it. This works with any time-series data — gene expression, wearable sensor data,
+  clinical measurements, etc.
+</p>
+
+<h3>CSV Format Requirements</h3>
+<p>Your file should have:</p>
+<ul>
+  <li><strong>Column 1:</strong> Gene/variable name (text)</li>
+  <li><strong>Columns 2+:</strong> Numeric measurements at sequential time points</li>
+  <li><strong>Header row:</strong> Optional but recommended</li>
+  <li><strong>Minimum:</strong> At least 8 time points for reliable AR(2) fitting</li>
+</ul>
+
+<h3>What You Get</h3>
+<ul>
+  <li>Eigenvalue modulus |&lambda;| for every row in your data</li>
+  <li>AR(2) coefficients (&beta;&#x2081;, &beta;&#x2082;) and R&sup2; goodness-of-fit</li>
+  <li>Edge case diagnostics (trend, sample size, stationarity)</li>
+  <li>Interactive charts with your data</li>
+  <li>Shareable link to your results</li>
+</ul>
+
+<div class="warn-box">
+  <strong>Note:</strong> More time points = more reliable results. With fewer than 8 time points,
+  the AR(2) model has limited degrees of freedom and results should be interpreted cautiously.
+  The diagnostics panel will flag this automatically.
+</div>
+
+
+<!-- 5. ROOT-SPACE -->
+<div class="page-break"></div>
+<h2 id="rootspace">5. Root-Space Geometry</h2>
+
+<p>
+  Root-Space (<span class="nav-path">/root-space</span>) is one of the most powerful features.
+  It maps every gene's AR(2) coefficients (&beta;&#x2081;, &beta;&#x2082;) onto a 2D plane,
+  creating a "dynamical landscape" where position encodes behavior.
+</p>
+
+<h3 id="rootspace-triangle">5.1 The Stationarity Triangle</h3>
+<p>
+  The stationarity triangle defines the mathematically allowed region for stable AR(2) processes.
+  Its boundaries are:
+</p>
+<ul>
+  <li><strong>Top edge</strong> (&beta;&#x2082; = 1 &minus; &beta;&#x2081;): Oscillatory boundary — genes near here show strong rhythms</li>
+  <li><strong>Bottom edge</strong> (&beta;&#x2082; = &minus;1): Alternating sign boundary</li>
+  <li><strong>Left/Right edges</strong>: Monotone decay/growth boundaries</li>
+</ul>
+<p>
+  Genes closer to the triangle's edges have stronger persistence (higher |&lambda;|).
+  Genes near the center have weaker persistence.
+</p>
+
+<h3 id="rootspace-overlays">5.2 Overlays</h3>
+<p>Root-Space offers several interpretive overlays:</p>
+
+<h4>Waddington Landscape</h4>
+<p>
+  Inspired by Waddington's epigenetic landscape metaphor. Valleys represent stable attractors
+  (gene expression states), ridges represent barriers between states.
+  Clock genes cluster in deep valleys; target genes on shallower slopes.
+</p>
+
+<h4>Phase Portrait</h4>
+<p>
+  Visualizes the dynamical behavior at each point in coefficient space — showing whether expression
+  at that position would oscillate, decay monotonically, or show alternating patterns.
+</p>
+
+<h4>Functional Geography</h4>
+<p>
+  Colors the space by biological function, showing how different gene categories
+  (immune, metabolic, structural, signaling) occupy different dynamical niches.
+</p>
+
+<h4>Void Annotation</h4>
+<p>
+  Highlights regions of coefficient space where no genes are found ("dynamical voids"),
+  suggesting these are biologically forbidden or selected against.
+</p>
+
+<h3 id="rootspace-drugs">5.3 Drug Target Overlay</h3>
+<p>
+  The Drug Target Overlay maps FDA-approved and investigational drug targets onto root-space positions.
+  This reveals which drug targets are <strong>clock-gated</strong> — meaning their expression is governed
+  by circadian rhythms and may respond differently depending on time of day.
+</p>
+
+<h4>What the Drug Target Chapter Tells Us</h4>
+<ul>
+  <li><strong>Position in root-space</strong> — Where each drug target gene sits in dynamical space. Genes near the oscillatory boundary are more clock-influenced.</li>
+  <li><strong>Clock-gated percentage</strong> — What fraction of drug targets show self-reinforcing and oscillatory poles (meaning they have strong circadian regulation).</li>
+  <li><strong>Chronotherapy candidates</strong> — Drug targets with high eigenvalue persistence are candidates for time-of-day dosing optimization. If a target gene's expression varies 2&ndash;5x over 24 hours, giving the drug at peak target expression could improve efficacy.</li>
+  <li><strong>Drug class clustering</strong> — Different drug classes (kinase inhibitors, nuclear receptors, etc.) cluster in different regions of root-space, revealing class-wide dynamical properties.</li>
+  <li><strong>Cross-tissue consistency</strong> — The same drug target may be clock-gated in liver but not in lung, informing tissue-specific dosing strategies.</li>
+</ul>
+
+<div class="key-box">
+  <strong>Key finding:</strong> A significant fraction of FDA-approved drug targets show clock-gated dynamics,
+  meaning their efficacy could potentially be improved through chronotherapy (timed dosing).
+  This is consistent with growing clinical evidence that drug timing affects outcomes.
+</div>
+
+
+<!-- 6. VALIDATION SUITE -->
+<div class="page-break"></div>
+<h2 id="validation">6. Validation Suite</h2>
+
+<p>
+  The Validation Suite (<span class="nav-path">/validation-suite</span>) aggregates multiple independent
+  lines of evidence confirming that AR(2) eigenvalues capture real biology, not statistical artifacts.
+</p>
+
+<h3>What's Validated</h3>
+<ul>
+  <li><strong>Multi-species hierarchy</strong> — Clock &gt; target preserved in mouse, human, baboon, and plant</li>
+  <li><strong>AR(1) vs AR(2) vs AR(3) comparison</strong> — Information criteria (AIC/BIC) confirm AR(2) is the preferred model order across datasets</li>
+  <li><strong>Eigenvalue independence</strong> — |&lambda;| is independent of mean expression level, ruling out abundance as a confound</li>
+  <li><strong>Downstream prediction</strong> — Eigenvalues predict functional categories beyond what expression level alone captures</li>
+</ul>
+
+
+<!-- 7. MODEL ZOO -->
+<h2 id="modelzoo">7. ODE Model Zoo</h2>
+
+<p>
+  The ODE Model Zoo (<span class="nav-path">/model-zoo</span>) validates AR(2) eigenvalue predictions
+  against five canonical ODE models from biology:
+</p>
+<ul>
+  <li><strong>Goodwin Oscillator</strong> — Classic negative feedback loop</li>
+  <li><strong>Van der Pol</strong> — Limit cycle oscillator</li>
+  <li><strong>Repressilator</strong> — Synthetic gene circuit</li>
+  <li><strong>Lotka-Volterra</strong> — Predator-prey dynamics</li>
+  <li><strong>Toggle Switch</strong> — Bistable gene circuit</li>
+</ul>
+<p>
+  For each model, synthetic time-series are generated, AR(2) is fitted, and eigenvalues are compared
+  to known analytical predictions. This demonstrates that AR(2) accurately recovers the dynamical
+  properties of systems with known ground truth.
+</p>
+
+
+<!-- 8. GENOME-WIDE -->
+<h2 id="genomewide">8. Genome-Wide Analysis</h2>
+
+<p>
+  The Genome-Wide page (<span class="nav-path">/genome-wide</span>) runs AR(2) on <strong>every gene</strong>
+  in a dataset (typically 10,000&ndash;20,000 genes), not just clock and target genes.
+</p>
+
+<h3>Key Features</h3>
+<ul>
+  <li><strong>Distribution histogram</strong> — Shows the genome-wide eigenvalue distribution. Clock genes sit in the right tail.</li>
+  <li><strong>Percentile ranking</strong> — Where clock and target genes rank among all genes</li>
+  <li><strong>Downloadable CSV</strong> — Per-gene eigenvalue table for all genes in the dataset</li>
+  <li><strong>Functional enrichment</strong> — What biological functions are enriched at high vs low eigenvalues</li>
+</ul>
+
+<div class="tip-box">
+  <strong>Tip:</strong> The genome-wide distribution typically shows that clock genes are in the top 5&ndash;15%
+  of all genes by eigenvalue, and the hierarchy emerges naturally without any prior labeling.
+</div>
+
+
+<!-- 9. CROSS-CONTEXT -->
+<div class="page-break"></div>
+<h2 id="crosscontext">9. Cross-Context Validation</h2>
+
+<p>
+  Cross-Context Validation (<span class="nav-path">/cross-context-validation</span>) combines
+  species comparison and cross-tissue analysis in one view.
+</p>
+
+<h3>What It Tests</h3>
+<ul>
+  <li><strong>Cross-species</strong> — Does the clock &gt; target hierarchy hold in mouse, human, baboon, and plant?</li>
+  <li><strong>Cross-tissue</strong> — Does the hierarchy hold across liver, lung, SCN, kidney, heart, and other tissues?</li>
+  <li><strong>Permutation tests</strong> — Statistical significance of the gap (p-values from 2,000+ permutations)</li>
+  <li><strong>Bootstrap confidence intervals</strong> — 95% CIs on eigenvalue means for each category</li>
+</ul>
+
+<div class="key-box">
+  <strong>Key result:</strong> The clock &gt; target hierarchy is preserved across all species and tissues tested,
+  with p &lt; 0.001 in most cases. This universality argues it reflects fundamental circadian architecture,
+  not tissue-specific artifacts.
+</div>
+
+
+<!-- 10. ROBUSTNESS SUITE -->
+<h2 id="robustness">10. Robustness Suite</h2>
+
+<p>
+  The Robustness Suite (<span class="nav-path">/robustness-suite</span>) runs a battery of tests
+  to ensure findings are not artifacts:
+</p>
+
+<ul>
+  <li><strong>Bootstrap confidence intervals</strong> — Resample time points 1,000 times to get CIs on eigenvalues</li>
+  <li><strong>Permutation tests</strong> — Shuffle clock/target labels to test if the gap is significant</li>
+  <li><strong>Sub-sampling recovery</strong> — Remove random time points and check if hierarchy survives</li>
+  <li><strong>Rolling window analysis</strong> — Test eigenvalue stability across sliding windows of time</li>
+  <li><strong>Stationarity checks</strong> — ADF tests to ensure time series are stationary (required for AR modeling)</li>
+  <li><strong>Population-level CV stability</strong> — Coefficient of variation across datasets</li>
+</ul>
+
+
+<!-- 11. HUMAN DISRUPTION -->
+<h2 id="human">11. Human Circadian Disruption</h2>
+
+<p>
+  The Human Disruption page (<span class="nav-path">/human-disruption</span>) analyzes human datasets
+  where circadian rhythms are disrupted — shift workers, sleep-deprived individuals, or disease states.
+</p>
+
+<h3>What It Shows</h3>
+<ul>
+  <li>Whether the clock &gt; target hierarchy is <strong>preserved or broken</strong> under disruption</li>
+  <li>Which genes shift most when circadian rhythms are disrupted</li>
+  <li>Comparison of healthy vs disrupted eigenvalue profiles</li>
+</ul>
+
+
+<!-- 12. CELL TYPE -->
+<h2 id="celltype">12. Cell-Type Persistence Map</h2>
+
+<p>
+  The Cell-Type Persistence Map (<span class="nav-path">/cell-type-persistence</span>) extends AR(2)
+  beyond clock/target genes to cell-type marker genes — stem cell markers, differentiated cell markers,
+  immune markers, etc.
+</p>
+
+<h3>Key Question</h3>
+<p>
+  Do stem cell genes show different temporal persistence from differentiated cell genes?
+  The answer is yes — stem cell markers tend to have higher eigenvalues, consistent with
+  the idea that stemness requires robust temporal regulation.
+</p>
+
+
+<!-- 13. DISEASE SCREEN -->
+<h2 id="disease">13. Disease Screen</h2>
+
+<p>
+  The Disease Screen (<span class="nav-path">/disease-screen</span>) compares eigenvalue profiles
+  between healthy and disease-matched datasets across 10+ condition pairs.
+</p>
+
+<h3>What It Reveals</h3>
+<ul>
+  <li>Which diseases disrupt the clock &gt; target hierarchy most severely</li>
+  <li>Which genes show the largest eigenvalue shifts in disease</li>
+  <li>Whether disruption is global or gene-specific</li>
+  <li>Statistical significance of each disease-associated shift</li>
+</ul>
+
+
+<!-- 14. CANCER BROWSER -->
+<h2 id="cancer">14. Cancer Browser</h2>
+
+<p>
+  The Cancer Browser (<span class="nav-path">/cancer-browser</span>) applies AR(2) analysis
+  to cancer gene expression datasets, comparing tumor vs. normal tissue eigenvalue profiles.
+</p>
+
+
+<!-- 15. HEALTH SCORE -->
+<div class="page-break"></div>
+<h2 id="health">15. Circadian Health Score</h2>
+
+<p>
+  The Circadian Health Score (<span class="nav-path">/health-score</span>) distills the full AR(2)
+  analysis into a single 0&ndash;100 score with A&ndash;F letter grades.
+</p>
+
+<h3>How It Works</h3>
+<p>
+  The score combines multiple metrics: clock gene eigenvalue means, target gene eigenvalue means,
+  the clock&ndash;target gap size, model fit quality, and consistency across genes.
+  A score of 80&ndash;100 (Grade A) indicates robust circadian function;
+  below 40 (Grade D/F) suggests significant disruption.
+</p>
+
+<div class="tip-box">
+  <strong>Tip:</strong> Compare health scores across datasets to see which tissues, species,
+  or conditions show the strongest circadian signatures.
+</div>
+
+
+<!-- 16. VOLATILE GENES -->
+<h2 id="volatile">16. Most Volatile Genes</h2>
+
+<p>
+  The Most Volatile Genes page (<span class="nav-path">/volatile-genes</span>) ranks genes
+  by how much their eigenvalue <strong>varies</strong> across datasets.
+</p>
+<p>
+  A gene with high volatility has very different persistence in different tissues or conditions.
+  This is biologically interesting — it suggests tissue-specific regulation of temporal dynamics.
+</p>
+
+
+<!-- 17. GENE SET TESTER -->
+<h2 id="geneset">17. Gene Set Hypothesis Tester</h2>
+
+<p>
+  The Gene Set Hypothesis Tester (<span class="nav-path">/gene-set-tester</span>) lets you
+  test any custom gene list against the genome-wide eigenvalue distribution.
+</p>
+
+<h3>How to Use It</h3>
+<ol>
+  <li>Enter a list of gene names (one per line or comma-separated)</li>
+  <li>Select a dataset to test against</li>
+  <li>The engine runs 5,000 permutations to test whether your gene set has significantly higher
+      or lower eigenvalues than expected by chance</li>
+  <li>Results include p-value, effect size (Cohen's d), and a distribution plot</li>
+</ol>
+
+<div class="tip-box">
+  <strong>Example:</strong> Paste a list of inflammation-related genes to test whether inflammatory
+  pathways show different temporal persistence than the genome background.
+</div>
+
+
+<!-- 18. BEFORE/AFTER -->
+<h2 id="beforeafter">18. Before/After Trajectory Comparison</h2>
+
+<p>
+  The Before/After page (<span class="nav-path">/before-after</span>) lets you upload
+  <strong>two CSV files</strong> — representing "before" and "after" conditions — and compare
+  how AR(2) eigenvalues shift.
+</p>
+
+<h3>What It Shows</h3>
+<ul>
+  <li>Root-space trajectory map showing where each gene moved</li>
+  <li>Per-gene eigenvalue shifts with direction and magnitude</li>
+  <li>Overall summary of whether persistence increased or decreased</li>
+</ul>
+
+
+<!-- 19. PERSISTENCE LANDSCAPE -->
+<div class="page-break"></div>
+<h2 id="landscape">19. The Persistence Landscape</h2>
+
+<p>
+  The Persistence Landscape (<span class="nav-path">/persistence-landscape</span>) is a multi-chapter
+  narrative that walks through the complete PAR(2) story across biological scales:
+</p>
+
+<ol>
+  <li><strong>The Clock</strong> — Core circadian machinery and eigenvalue signatures</li>
+  <li><strong>The Tissue</strong> — How persistence varies across tissues</li>
+  <li><strong>The Species</strong> — Cross-species conservation</li>
+  <li><strong>The Disease</strong> — How disease disrupts temporal patterns</li>
+  <li><strong>The Proteome</strong> — Extending to protein-level measurements</li>
+</ol>
+
+<h3 id="landscape-proteomics">19.1 Proteomics Chapter</h3>
+<p>
+  Chapter 5 extends AR(2) analysis to protein-level data from three peer-reviewed datasets:
+</p>
+<ul>
+  <li><strong>Wang 2018</strong> — Mouse liver nuclear proteome (442 proteins, 6 timepoints)</li>
+  <li><strong>Robles 2014</strong> — Mouse liver whole-cell proteome (3,072 proteins, 16 timepoints, SILAC quantification)</li>
+  <li><strong>Johonnuson 2025</strong> — SCN proteome (1,045 proteins, 6 timepoints)</li>
+</ul>
+<p>
+  Key finding: AR(2) eigenvalue analysis works at the protein level too — cycling proteins
+  show higher persistence (|&lambda;| 0.535) than non-cycling (0.519), validated against
+  Robles Table S2 cycling annotations (JTK_CYCLE method, 186 proteins).
+</p>
+
+<h3 id="landscape-geneprotein">19.2 Gene-Protein Persistence Map</h3>
+<p>
+  The Gene-Protein Persistence Map (<span class="nav-path">/gene-protein-map</span>) is a dedicated page
+  comparing mRNA and protein eigenvalues gene-by-gene across 2,718 matched genes.
+</p>
+
+<h4>Novel Finding</h4>
+<p>
+  The mRNA-protein eigenvalue correlation is essentially <strong>zero</strong> (Pearson r = &minus;0.006).
+  This means: a gene's temporal persistence at the mRNA level tells you almost nothing about its
+  temporal persistence at the protein level. They operate independently.
+</p>
+<p>
+  This is a novel measurement — previous studies examined mRNA-protein <em>abundance</em> correlation
+  (which is weak, r &asymp; 0.4&ndash;0.6). But <em>persistence</em> correlation is even weaker,
+  suggesting that temporal memory at each layer is controlled by different mechanisms
+  (transcriptional regulation for mRNA, post-translational modification for protein).
+</p>
+
+
+<!-- 20. DRUG DURABILITY -->
+<h2 id="drugdurability">20. Drug Durability Analysis</h2>
+
+<p>
+  Drug Durability (<span class="nav-path">/drug-durability</span>) analyzes how drug treatment
+  affects the temporal persistence of gene expression — specifically whether high-eigenvalue genes
+  maintain their expression patterns better during treatment than low-eigenvalue genes.
+</p>
+
+<div class="key-box">
+  <strong>Core question:</strong> Do genes with stronger temporal persistence (higher |&lambda;|)
+  resist drug-induced expression changes better than genes with weaker persistence?
+  If yes, eigenvalue predicts drug durability — a clinically relevant finding.
+</div>
+
+
+<!-- 21. BACTERIAL PERSISTENCE -->
+<h2 id="bacterial">21. Bacterial Persistence Analysis</h2>
+
+<p>
+  The Bacterial Persistence page (<span class="nav-path">/bacterial-persistence</span>) extends
+  AR(2) analysis beyond eukaryotes to bacterial time-series data, testing whether the eigenvalue
+  framework captures temporal dynamics in prokaryotic gene expression.
+</p>
+
+
+<!-- 22. YEAST VALIDATION -->
+<h2 id="yeast">22. Yeast Validation</h2>
+
+<p>
+  Yeast Validation (<span class="nav-path">/yeast-validation</span>) applies AR(2) to yeast
+  metabolic cycle data, providing an independent validation in a single-celled organism
+  with well-characterized oscillatory gene expression.
+</p>
+
+
+<!-- 23. CRYPT-VILLUS -->
+<h2 id="cryptvillus">23. Crypt-Villus Spatial Analysis</h2>
+
+<p>
+  The Crypt-Villus page (<span class="nav-path">/crypt-villus</span>) explores how temporal
+  persistence varies along the spatial axis of the intestinal crypt-villus, linking
+  stem cell position to dynamical properties.
+</p>
+
+
+<!-- 24. CONVERGENCE MAP -->
+<h2 id="convergence">24. Convergence Map</h2>
+
+<p>
+  The Convergence Map (<span class="nav-path">/convergence-map</span>) provides four interactive
+  3D visualizations mapping how independent research streams converge with PAR(2) findings:
+</p>
+
+<ol>
+  <li><strong>Boman Lab Connections</strong> — Literature connections to the lab's published work</li>
+  <li><strong>Five Biological Rules</strong> — How known biological principles translate to PAR(2) predictions</li>
+  <li><strong>Takahashi/Hogenesch Circadian Canon</strong> — Convergence with 6 key circadian biology principles, with confidence scoring</li>
+  <li><strong>Waddington Epigenetic Landscape</strong> — Mapping valleys/attractors to root-space clusters, ridges to voids</li>
+</ol>
+
+
+<!-- 25. CROSS-METRIC INDEPENDENCE -->
+<h2 id="crossmetric">25. Cross-Metric Independence</h2>
+
+<p>
+  The Cross-Metric Independence page (<span class="nav-path">/cross-metric-independence</span>) answers a fundamental
+  validation question: <strong>is the AR(2) eigenvalue |&lambda;| actually measuring something new, or is it just
+  repackaging existing metrics like network centrality, oscillation amplitude, or chromatin accessibility?</strong>
+</p>
+
+<p>
+  The page compares |&lambda;| against curated reference values from STRING v12.0 (network degree), cosinor analysis
+  (oscillation amplitude), and ENCODE/Roadmap (H3K4me3 chromatin marks) for the 53-gene clock and target panel
+  measured across multiple tissues.
+</p>
+
+<h3 id="crossmetric-scatter">Scatter Plots &amp; Correlations</h3>
+
+<p>The first four tabs show scatter plots of |&lambda;| vs each external metric:</p>
+
+<ul>
+  <li><strong>Network Centrality</strong> — |&lambda;| vs STRING protein interaction degree. Weak correlation (&rho; &asymp; &minus;0.29) confirms persistence is not a proxy for network connectivity.</li>
+  <li><strong>Cosinor Amplitude</strong> — |&lambda;| vs 24-hour oscillation amplitude. Moderate correlation (&rho; &asymp; 0.69) is expected since stronger oscillations require more persistence, but the relationship is far from 1.0.</li>
+  <li><strong>Chromatin State</strong> — |&lambda;| vs H3K4me3 active chromatin marks. Very weak correlation (&rho; &asymp; 0.08) confirms persistence is independent of epigenetic accessibility.</li>
+  <li><strong>Functional Categories</strong> — Breakdown by Gene Ontology and KEGG pathway annotations showing how different functional groups distribute across eigenvalue space.</li>
+</ul>
+
+<p>
+  <strong>Gene selection:</strong> Use the search box at the top of the page to select specific genes (e.g., Per2, Myc, Wee1).
+  Selected genes are highlighted as larger cyan dots across all scatter plots, and a side-by-side metric profile table
+  appears showing |&lambda;|, network degree, amplitude, and cross-tissue CV for each selected gene. This makes it easy
+  to compare a clock gene against a target gene across all metrics simultaneously.
+</p>
+
+<h3 id="crossmetric-rootspace">Root-Space Mapping Tab</h3>
+
+<p>
+  The <strong>Root-Space Mapping</strong> tab plots genes in AR(2) coefficient space (&phi;&#8321;, &phi;&#8322;) — the same
+  coordinate system used in the Root-Space Geometry and Waddington Landscape pages. Each dot represents a gene at its
+  fitted position. Four color-by options let you overlay external metrics on top of this landscape:
+</p>
+
+<ul>
+  <li><strong>Gene Type</strong> — Clock genes (blue) vs target genes (amber). Clock genes cluster in the high-persistence region.</li>
+  <li><strong>Network Degree</strong> — Green (&lt;100 connections), yellow (100&ndash;200), red (200+). If colors are
+  scattered rather than zoned, it confirms root-space position is independent of network topology.</li>
+  <li><strong>Amplitude</strong> — Gray (&lt;20), amber (20&ndash;100), red (100+). Some spatial structure is expected due
+  to the moderate |&lambda;|&ndash;amplitude correlation, but it should not form clean gradient bands.</li>
+  <li><strong>Chromatin</strong> — Purple (Active) vs cyan (Poised). Mixed distribution confirms independence from
+  epigenetic state.</li>
+</ul>
+
+<p>
+  Below the scatter plot, correlation statistics show Spearman &rho; between root-space polar coordinates (radius |r| and
+  angle &theta;) and external metrics. Key results: radius vs network degree &rho; &asymp; &minus;0.29 (weak), radius vs
+  amplitude &rho; &asymp; 0.69 (moderate), and angle vs all metrics &rho; &asymp; 0 (independent). This demonstrates that
+  the root-space landscape cannot be reconstructed from existing metrics — it captures a genuinely independent
+  biological property: temporal persistence dynamics.
+</p>
+
+<div class="tip-box">
+  <strong>Why this matters:</strong> If someone argues that |&lambda;| is redundant with network centrality or chromatin state,
+  this page provides the counter-evidence. The landscape topology is structurally different from what other metrics predict,
+  confirming AR(2) reveals an independent analytical dimension.
+</div>
+
+<h3 id="crossmetric-conservation">Cross-Tissue Conservation</h3>
+
+<p>
+  The <strong>Cross-Tissue Conservation</strong> tab compares how stable each gene's eigenvalue is across different tissues
+  (liver, kidney, heart, lung). Clock genes show lower coefficient of variation (CV &asymp; 0.12) than target genes
+  (CV &asymp; 0.24), consistent with clock genes being more tightly regulated across the body. The conservation ratio
+  (clock CV / target CV &asymp; 0.53) provides a quantitative measure of this hierarchy.
+</p>
+
+
+<!-- 26. GENE EXPLORER -->
+<h2 id="geneexplorer">26. Gene Explorer</h2>
+
+<p>
+  The Gene Explorer (<span class="nav-path">/gene-explorer</span>) lets you look up any individual
+  gene and see its eigenvalue profile across all available datasets — a quick way to investigate
+  specific genes of interest.
+</p>
+
+
+<!-- 27. SHARING -->
+<h2 id="sharing">27. Sharing Results</h2>
+
+<p>
+  When you run an analysis in the Discovery Engine, you can generate a <strong>shareable link</strong>
+  (<span class="nav-path">/shared/:id</span>). Anyone with the link can view the full analysis results
+  without needing to re-upload data.
+</p>
+
+
+<!-- 28. MANUSCRIPTS -->
+<h2 id="manuscripts">28. Manuscripts &amp; Downloads</h2>
+
+<p>
+  The Manuscripts page (<span class="nav-path">/manuscript</span>) provides downloadable
+  supplementary data, analysis reports, and manuscript drafts in LaTeX format.
+</p>
+
+
+<!-- GLOSSARY -->
+<div class="page-break"></div>
+<h2 id="glossary">29. Glossary of Key Terms</h2>
+
+<table>
+  <tr><th>Term</th><th>Definition</th></tr>
+  <tr><td><strong>AR(2)</strong></td><td>Second-order autoregressive model. Predicts current value from two previous values.</td></tr>
+  <tr><td><strong>|&lambda;| (Eigenvalue Modulus)</strong></td><td>A number between 0 and 1 measuring how strongly a gene's expression persists over time. Higher = more persistent.</td></tr>
+  <tr><td><strong>&beta;&#x2081;, &beta;&#x2082;</strong></td><td>The two AR(2) coefficients. Together they define a gene's "dynamical signature" and position in root-space.</td></tr>
+  <tr><td><strong>R&sup2;</strong></td><td>Goodness-of-fit. How well the AR(2) model explains the gene's expression pattern. Higher = better fit.</td></tr>
+  <tr><td><strong>Clock Gene</strong></td><td>A gene in the core circadian feedback loop (Per2, Arntl, Clock, Cry1, etc.). Self-reinforcing, high |&lambda;|.</td></tr>
+  <tr><td><strong>Target Gene</strong></td><td>A gene downstream of the clock — it responds to circadian signals but doesn't sustain its own rhythm. Lower |&lambda;|.</td></tr>
+  <tr><td><strong>Root-Space</strong></td><td>The 2D plane of (&beta;&#x2081;, &beta;&#x2082;) where each gene's dynamical type is visible from its position.</td></tr>
+  <tr><td><strong>Stationarity Triangle</strong></td><td>The mathematical boundary in root-space within which AR(2) processes are stable.</td></tr>
+  <tr><td><strong>Clock-Gated</strong></td><td>A gene whose dynamics are governed by circadian rhythms — its AR(2) coefficients place it in the oscillatory region of root-space.</td></tr>
+  <tr><td><strong>Chronotherapy</strong></td><td>Optimizing drug dosing timing based on circadian biology. Clock-gated drug targets are chronotherapy candidates.</td></tr>
+  <tr><td><strong>Permutation Test</strong></td><td>Statistical test that shuffles labels (e.g., clock vs target) many times to assess if the observed difference is significant.</td></tr>
+  <tr><td><strong>Bootstrap CI</strong></td><td>Confidence interval estimated by resampling the data with replacement, typically 1,000 times.</td></tr>
+  <tr><td><strong>ADF Test</strong></td><td>Augmented Dickey-Fuller test for stationarity — checks whether a time series has a stable mean and variance.</td></tr>
+  <tr><td><strong>AIC/BIC</strong></td><td>Information criteria for model selection. Lower = better. Used to compare AR(1), AR(2), AR(3) fits.</td></tr>
+  <tr><td><strong>Edge Case Diagnostics</strong></td><td>Automated checks for data quality issues: trends, short series, nonlinearity, boundary proximity.</td></tr>
+  <tr><td><strong>SILAC</strong></td><td>Stable Isotope Labeling with Amino acids in Cell culture — a proteomics quantification method used in Robles 2014.</td></tr>
+  <tr><td><strong>JTK_CYCLE</strong></td><td>A statistical method for detecting rhythmic patterns in time-series data, used to identify cycling proteins.</td></tr>
+  <tr><td><strong>GEO</strong></td><td>Gene Expression Omnibus — NCBI's public repository of gene expression datasets.</td></tr>
+  <tr><td><strong>Waddington Landscape</strong></td><td>A metaphor from developmental biology: a marble rolling down hills represents cell fate decisions. AR(2) root-space provides a quantitative version.</td></tr>
+</table>
+
+
+<!-- FAQ -->
+<div class="page-break"></div>
+<h2 id="faq">30. Frequently Asked Questions</h2>
+
+<div class="card">
+  <p class="card-title">Q: Do I need to understand the math to use this platform?</p>
+  <p>No. The platform handles all computation automatically. The key concept is simple: |&lambda;| near 1 means strong temporal persistence, near 0 means weak. Clock genes are consistently higher than target genes. Everything else is detail.</p>
+</div>
+
+<div class="card">
+  <p class="card-title">Q: What data format does the Discovery Engine accept?</p>
+  <p>Standard CSV files with gene names in the first column and numeric expression values in subsequent columns (one column per time point). At least 8 time points recommended.</p>
+</div>
+
+<div class="card">
+  <p class="card-title">Q: Why AR(2) and not AR(1) or AR(3)?</p>
+  <p>AR(1) can only capture monotone decay — it misses oscillations entirely. AR(3) adds a parameter without significantly improving model fit. AR(2) is the minimum model that captures both persistence and oscillation, and information criteria (AIC/BIC) confirm it's the preferred order across dozens of datasets.</p>
+</div>
+
+<div class="card">
+  <p class="card-title">Q: Can I use this with non-circadian data?</p>
+  <p>Yes. The AR(2) framework works on any time-series data. The eigenvalue captures temporal persistence regardless of whether the underlying process is circadian, metabolic, developmental, or something else. The clock/target labels are specific to circadian analysis, but the Discovery Engine accepts any data.</p>
+</div>
+
+<div class="card">
+  <p class="card-title">Q: How do I know if my results are reliable?</p>
+  <p>Check the Edge Case Diagnostics panel (visible on the Dashboard) and the Robustness Suite. Key indicators: R&sup2; &gt; 0.1 (model explains something), no trend warnings, at least 10 time points, and ADF stationarity check passes.</p>
+</div>
+
+<div class="card">
+  <p class="card-title">Q: What does "clock-gated" mean for drug targets?</p>
+  <p>A clock-gated drug target is a gene whose expression dynamics are significantly influenced by circadian rhythms. If the drug target's expression peaks at a specific time of day, the drug may be more effective when dosed at that time (chronotherapy).</p>
+</div>
+
+<div class="card">
+  <p class="card-title">Q: What does the Gene-Protein Map show that's new?</p>
+  <p>It shows that temporal persistence at the mRNA level is essentially uncorrelated (r &asymp; 0) with temporal persistence at the protein level. Previous studies showed weak abundance correlation, but persistence independence is a new finding — it means mRNA and protein dynamics are controlled by different mechanisms.</p>
+</div>
+
+<div class="card">
+  <p class="card-title">Q: Can I download my results?</p>
+  <p>Yes. Most pages offer CSV downloads of per-gene eigenvalue tables. The Dashboard also supports chart export as PNG/SVG and printable analysis reports.</p>
+</div>
+
+<div class="card">
+  <p class="card-title">Q: How many genes can I analyze at once?</p>
+  <p>The genome-wide analysis runs on 10,000&ndash;20,000 genes simultaneously. The Discovery Engine handles CSV files with thousands of rows. The platform is designed for large-scale analysis.</p>
+</div>
+
+<div class="card">
+  <p class="card-title">Q: What species are supported?</p>
+  <p>Pre-loaded datasets cover mouse, human, baboon, and Arabidopsis (plant). The Discovery Engine accepts data from any species as long as it's in CSV format.</p>
+</div>
+
+
+<!-- TROUBLESHOOTING -->
+<h2 id="troubleshooting">31. Troubleshooting</h2>
+
+<div class="card">
+  <p class="card-title">Problem: Analysis shows all eigenvalues near zero</p>
+  <p>This usually means the time series is too short or has no temporal structure. Check that you have at least 8 time points and that the data shows some variation over time. Flat or random data will produce low eigenvalues (which is correct — the data truly has no persistence).</p>
+</div>
+
+<div class="card">
+  <p class="card-title">Problem: Edge case diagnostic flags "trend"</p>
+  <p>A linear trend in the data can inflate eigenvalues. Consider detrending your data before upload, or interpret results cautiously. The platform flags this automatically so you're aware.</p>
+</div>
+
+<div class="card">
+  <p class="card-title">Problem: CSV upload fails</p>
+  <p>Ensure your CSV has: (1) gene names in column 1, (2) numeric values in all other columns, (3) no empty rows or extra formatting. Remove any header rows that contain non-numeric data beyond the first row.</p>
+</div>
+
+<div class="card">
+  <p class="card-title">Problem: No clock genes found in dataset</p>
+  <p>The platform searches for standard gene names (Per2, Arntl, Clock, etc.). If your dataset uses different naming (e.g., BMAL1 instead of Arntl), the genes may not be recognized automatically. You can manually select genes from the dropdown.</p>
+</div>
+
+<div class="card">
+  <p class="card-title">Problem: Page loads slowly</p>
+  <p>Large analyses (genome-wide, cross-tissue) compute thousands of AR(2) models. Allow 10&ndash;30 seconds for these pages to load. Results are cached after the first load.</p>
+</div>
+
+
+<!-- VERSION INFO -->
+<div class="version-info">
+  <p>PAR(2) Discovery Engine &mdash; Complete User Guide</p>
+  <p>Version 2.0 &middot; February 2026</p>
+  <p>All data from peer-reviewed, publicly available sources (NCBI GEO, published supplementary tables).</p>
+  <p style="margin-top: 8px;">For the latest version, visit the app and download from the Manuscripts page.</p>
+</div>
+
+</div>
+</body>
+</html>

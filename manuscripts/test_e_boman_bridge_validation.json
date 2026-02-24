@@ -1,0 +1,136 @@
+{
+  "date": "2026-02-20",
+  "test": "Test E: Boman Nonlinear ODE Bridge Validation",
+  "data_sources": {
+    "simulation": "Boman rate constants (Cancers 2026, Table 1) \u2192 RK4 nonlinear ODE \u2192 24h discrete sampling \u2192 AR(2) fit",
+    "organoid": "GSE157357 mouse intestinal organoids (Matsu-ura et al.) \u2192 AR(2) fit on all genes"
+  },
+  "simulation": {
+    "normal": {
+      "C": {
+        "phi1": -0.8894,
+        "phi1_sd": 0.0017,
+        "phi2": -0.9768,
+        "phi2_sd": 0.0016,
+        "lambda": 1.0838,
+        "lambda_sd": 0.0011,
+        "complex_pct": 100.0,
+        "ar2_pct": 100.0
+      },
+      "P": {
+        "phi1": -0.9047,
+        "phi1_sd": 0.0015,
+        "phi2": -0.9832,
+        "phi2_sd": 0.0013,
+        "lambda": 1.0899,
+        "lambda_sd": 0.0009,
+        "complex_pct": 100.0,
+        "ar2_pct": 100.0
+      },
+      "D": {
+        "phi1": -0.8777,
+        "phi1_sd": 0.0032,
+        "phi2": -0.97,
+        "phi2_sd": 0.0026,
+        "lambda": 1.0782,
+        "lambda_sd": 0.0018,
+        "complex_pct": 100.0,
+        "ar2_pct": 100.0
+      }
+    },
+    "fap": {
+      "C": {
+        "phi1": 1.7222,
+        "phi1_sd": 0.0037,
+        "phi2": -0.9466,
+        "phi2_sd": 0.0036,
+        "lambda": 1.2992,
+        "lambda_sd": 0.0026,
+        "complex_pct": 100.0,
+        "ar2_pct": 100.0
+      },
+      "P": {
+        "phi1": 1.6367,
+        "phi1_sd": 0.0102,
+        "phi2": -0.8649,
+        "phi2_sd": 0.01,
+        "lambda": 1.2388,
+        "lambda_sd": 0.0074,
+        "complex_pct": 100.0,
+        "ar2_pct": 100.0
+      },
+      "D": {
+        "phi1": 1.6207,
+        "phi1_sd": 0.0123,
+        "phi2": -0.8478,
+        "phi2_sd": 0.012,
+        "lambda": 1.2266,
+        "lambda_sd": 0.009,
+        "complex_pct": 100.0,
+        "ar2_pct": 100.0
+      }
+    },
+    "adenoma": {
+      "C": {
+        "phi1": -0.7332,
+        "phi1_sd": 0.0116,
+        "phi2": 0.2011,
+        "phi2_sd": 0.0114,
+        "lambda": 0.9458,
+        "lambda_sd": 0.0004,
+        "complex_pct": 0.0,
+        "ar2_pct": 18.0
+      },
+      "P": {
+        "phi1": -1.0598,
+        "phi1_sd": 0.0434,
+        "phi2": -0.1272,
+        "phi2_sd": 0.0432,
+        "lambda": 0.9215,
+        "lambda_sd": 0.0042,
+        "complex_pct": 0.0,
+        "ar2_pct": 8.0
+      },
+      "D": {
+        "phi1": -1.1135,
+        "phi1_sd": 0.038,
+        "phi2": -0.1841,
+        "phi2_sd": 0.0376,
+        "lambda": 0.9114,
+        "lambda_sd": 0.0044,
+        "complex_pct": 0.0,
+        "ar2_pct": 100.0
+      }
+    }
+  },
+  "k2_visibility": {
+    "spread": 0.0006,
+    "verdict": "INVISIBLE"
+  },
+  "organoid": {
+    "wt": {
+      "n_ok": 15772,
+      "n_ar2": 9655,
+      "mean_lambda": 0.4977,
+      "median_lambda": 0.5176,
+      "p25": 0.3831,
+      "p75": 0.6231,
+      "n_complex": 3579,
+      "n_unstable": 0,
+      "stable_pct": 100.0,
+      "ar2_pct": 61.2161
+    },
+    "apc_ko": {
+      "n_ok": 15559,
+      "n_ar2": 11286,
+      "mean_lambda": 0.6421,
+      "median_lambda": 0.6785,
+      "p25": 0.5474,
+      "p75": 0.7689,
+      "n_complex": 906,
+      "n_unstable": 0,
+      "stable_pct": 100.0,
+      "ar2_pct": 72.5368
+    }
+  }
+}

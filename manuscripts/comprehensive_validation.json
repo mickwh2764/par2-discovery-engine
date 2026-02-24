@@ -1,0 +1,110 @@
+{
+  "timestamp": "2026-01-12T10:25:10.191Z",
+  "datasets": {
+    "humanU2OS": {
+      "dataset": "Human U2OS (GSE13949)",
+      "probesAnalyzed": 33297,
+      "timepoints": 48,
+      "meanLambda": 0.9925779875814544,
+      "stdLambda": 0.013558579144603523,
+      "p25": 0.992147561615627,
+      "p50": 0.9957011296150505,
+      "p75": 0.9982922934898534,
+      "p90": 1.0003998335326096,
+      "nearCriticalN": 33206,
+      "nearCriticalPct": 99.72670210529478,
+      "stableBandN": 11,
+      "stableBandPct": 0.033036009250082585
+    },
+    "mouseNIH3T3": {
+      "dataset": "Mouse NIH3T3 (GSE11922)",
+      "probesAnalyzed": 45094,
+      "timepoints": 48,
+      "meanLambda": 0.9935931696676843,
+      "stdLambda": 0.019175533276213026,
+      "p25": 0.9930730755088739,
+      "p50": 1.0000362898170285,
+      "p75": 1.0001264377720949,
+      "p90": 1.0006557151483482,
+      "nearCriticalN": 44846,
+      "nearCriticalPct": 99.4500376990287,
+      "stableBandN": 50,
+      "stableBandPct": 0.11087949616356942
+    },
+    "mouseHepatocyte": {
+      "dataset": "Mouse Hepatocyte MMH-D3 (GSE31049)",
+      "probesAnalyzed": 34845,
+      "timepoints": 24,
+      "meanLambda": 0.9999644687891972,
+      "stdLambda": 0.006673332525397498,
+      "p25": 0.9990752767750787,
+      "p50": 0.9999718432791185,
+      "p75": 1.0004258775764054,
+      "p90": 1.0021137282760821,
+      "nearCriticalN": 34828,
+      "nearCriticalPct": 99.9512125125556,
+      "stableBandN": 0,
+      "stableBandPct": 0
+    },
+    "mouseLiverHourly": {
+      "dataset": "Mouse Liver Hourly (GSE11923)",
+      "probesAnalyzed": 45053,
+      "timepoints": 48,
+      "meanLambda": 0.9919075524268275,
+      "stdLambda": 0.02371576447099606,
+      "p25": 0.9889784694123703,
+      "p50": 0.9992143146833034,
+      "p75": 1.0014100511204276,
+      "p90": 1.0027928590788484,
+      "nearCriticalN": 44667,
+      "nearCriticalPct": 99.14323130535148,
+      "stableBandN": 66,
+      "stableBandPct": 0.14649412913679444
+    },
+    "clockWT": {
+      "dataset": "Clock WT Liver (GSE3748 WT)",
+      "probesAnalyzed": 31346,
+      "timepoints": 24,
+      "meanLambda": 0.9920436595773436,
+      "stdLambda": 0.02489855259175822,
+      "p25": 0.9921977775914907,
+      "p50": 1.0004091672022644,
+      "p75": 1.0012585536172358,
+      "p90": 1.0018855093221193,
+      "nearCriticalN": 31046,
+      "nearCriticalPct": 99.04294008804952,
+      "stableBandN": 46,
+      "stableBandPct": 0.14674918649907484
+    },
+    "clockKO": {
+      "dataset": "Clock/BMAL1 KO Liver (GSE3748 KO)",
+      "probesAnalyzed": 31321,
+      "timepoints": 14,
+      "meanLambda": 0.9920860666560083,
+      "stdLambda": 0.033061212556255715,
+      "p25": 0.993523362917377,
+      "p50": 0.9996827901751418,
+      "p75": 1.000166096855028,
+      "p90": 1.0027242344923597,
+      "nearCriticalN": 30697,
+      "nearCriticalPct": 98.00772644551579,
+      "stableBandN": 83,
+      "stableBandPct": 0.2649979247150474
+    }
+  },
+  "comparisons": {
+    "cellLineVsTissue": {
+      "cellLineMeanLambda": 0.9953785420127786,
+      "cellLineNearCriticalPct": 99.70931743895967,
+      "tissueMeanLambda": 0.9919075524268275,
+      "tissueNearCriticalPct": 99.14323130535148,
+      "verdict": "Cell lines more homogeneous than tissues"
+    },
+    "clockKnockout": {
+      "wtMeanLambda": 0.9920436595773436,
+      "koMeanLambda": 0.9920860666560083,
+      "deltaLambda": 0.00004240707866465243,
+      "verdict": "No effect detected"
+    }
+  }
+}

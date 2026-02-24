@@ -1,0 +1,544 @@
+{
+  "dataset": {
+    "id": "GSE54650_Liver_circadian",
+    "name": "Mouse Liver (Hughes Atlas)",
+    "species": "Mus musculus"
+  },
+  "totalGenes": 20955,
+  "query": null,
+  "searchResults": [],
+  "fibonacciNearest": [
+    {
+      "gene": "Tmem198b",
+      "geneType": "other",
+      "geneCategory": "other",
+      "beta1": -0.0316,
+      "beta2": 0.468,
+      "eigenvalue": 0.7001,
+      "r": 0.7001,
+      "theta": 3.1416,
+      "isComplex": false,
+      "dPhi": 0.7417,
+      "x": -0.7001,
+      "y": 0,
+      "r2": 0.2109,
+      "stable": true,
+      "confidence": "Moderate"
+    },
+    {
+      "gene": "Tmem256",
+      "geneType": "other",
+      "geneCategory": "other",
+      "beta1": -0.3667,
+      "beta2": 0.2333,
+      "eigenvalue": 0.7,
+      "r": 0.7,
+      "theta": 3.1416,
+      "isComplex": false,
+      "dPhi": 0.7417,
+      "x": -0.7,
+      "y": 0,
+      "r2": 0.2611,
+      "stable": true,
+      "confidence": "Low"
+    },
+    {
+      "gene": "Kif1c",
+      "geneType": "other",
+      "geneCategory": "other",
+      "beta1": -0.1491,
+      "beta2": 0.3857,
+      "eigenvalue": 0.7001,
+      "r": 0.7001,
+      "theta": 3.1416,
+      "isComplex": false,
+      "dPhi": 0.7417,
+      "x": -0.7001,
+      "y": 0,
+      "r2": 0.1953,
+      "stable": true,
+      "confidence": "Moderate"
+    },
+    {
+      "gene": "Cyp1a1",
+      "geneType": "other",
+      "geneCategory": "other",
+      "beta1": -0.0221,
+      "beta2": 0.4743,
+      "eigenvalue": 0.6999,
+      "r": 0.6999,
+      "theta": 3.1416,
+      "isComplex": false,
+      "dPhi": 0.7418,
+      "x": -0.6999,
+      "y": 0,
+      "r2": 0.2294,
+      "stable": true,
+      "confidence": "Moderate"
+    },
+    {
+      "gene": "Impg1",
+      "geneType": "other",
+      "geneCategory": "other",
+      "beta1": -0.2098,
+      "beta2": 0.3433,
+      "eigenvalue": 0.7001,
+      "r": 0.7001,
+      "theta": 3.1416,
+      "isComplex": false,
+      "dPhi": 0.7418,
+      "x": -0.7001,
+      "y": 0,
+      "r2": 0.2294,
+      "stable": true,
+      "confidence": "Moderate"
+    },
+    {
+      "gene": "Hsd3b2",
+      "geneType": "other",
+      "geneCategory": "other",
+      "beta1": -0.0882,
+      "beta2": 0.4286,
+      "eigenvalue": 0.7003,
+      "r": 0.7003,
+      "theta": 3.1416,
+      "isComplex": false,
+      "dPhi": 0.742,
+      "x": -0.7003,
+      "y": 0,
+      "r2": 0.1883,
+      "stable": true,
+      "confidence": "Moderate"
+    },
+    {
+      "gene": "Mylip",
+      "geneType": "other",
+      "geneCategory": "other",
+      "beta1": -0.0614,
+      "beta2": 0.4474,
+      "eigenvalue": 0.7003,
+      "r": 0.7003,
+      "theta": 3.1416,
+      "isComplex": false,
+      "dPhi": 0.7421,
+      "x": -0.7003,
+      "y": 0,
+      "r2": 0.2221,
+      "stable": true,
+      "confidence": "Moderate"
+    },
+    {
+      "gene": "Gm9916",
+      "geneType": "other",
+      "geneCategory": "other",
+      "beta1": -0.0974,
+      "beta2": 0.4214,
+      "eigenvalue": 0.6997,
+      "r": 0.6997,
+      "theta": 3.1416,
+      "isComplex": false,
+      "dPhi": 0.7421,
+      "x": -0.6997,
+      "y": 0,
+      "r2": 0.1586,
+      "stable": true,
+      "confidence": "Moderate"
+    },
+    {
+      "gene": "Syf2",
+      "geneType": "other",
+      "geneCategory": "other",
+      "beta1": -0.1032,
+      "beta2": 0.4182,
+      "eigenvalue": 0.7003,
+      "r": 0.7003,
+      "theta": 3.1416,
+      "isComplex": false,
+      "dPhi": 0.7421,
+      "x": -0.7003,
+      "y": 0,
+      "r2": 0.1944,
+      "stable": true,
+      "confidence": "Moderate"
+    },
+    {
+      "gene": "Snx9",
+      "geneType": "other",
+      "geneCategory": "other",
+      "beta1": -0.2513,
+      "beta2": 0.3146,
+      "eigenvalue": 0.7004,
+      "r": 0.7004,
+      "theta": 3.1416,
+      "isComplex": false,
+      "dPhi": 0.7422,
+      "x": -0.7004,
+      "y": 0,
+      "r2": 0.21,
+      "stable": true,
+      "confidence": "Moderate"
+    },
+    {
+      "gene": "Mrpl19",
+      "geneType": "other",
+      "geneCategory": "other",
+      "beta1": -0.0368,
+      "beta2": 0.4635,
+      "eigenvalue": 0.6995,
+      "r": 0.6995,
+      "theta": 3.1416,
+      "isComplex": false,
+      "dPhi": 0.7423,
+      "x": -0.6995,
+      "y": 0,
+      "r2": 0.2076,
+      "stable": true,
+      "confidence": "Moderate"
+    },
+    {
+      "gene": "Zc3h13",
+      "geneType": "other",
+      "geneCategory": "other",
+      "beta1": -0.4053,
+      "beta2": 0.2057,
+      "eigenvalue": 0.6994,
+      "r": 0.6994,
+      "theta": 3.1416,
+      "isComplex": false,
+      "dPhi": 0.7424,
+      "x": -0.6994,
+      "y": 0,
+      "r2": 0.3041,
+      "stable": true,
+      "confidence": "High"
+    },
+    {
+      "gene": "Nkain3",
+      "geneType": "other",
+      "geneCategory": "other",
+      "beta1": -0.1706,
+      "beta2": 0.3699,
+      "eigenvalue": 0.6994,
+      "r": 0.6994,
+      "theta": 3.1416,
+      "isComplex": false,
+      "dPhi": 0.7424,
+      "x": -0.6994,
+      "y": 0,
+      "r2": 0.2111,
+      "stable": true,
+      "confidence": "Moderate"
+    },
+    {
+      "gene": "Btg4",
+      "geneType": "other",
+      "geneCategory": "other",
+      "beta1": -0.3889,
+      "beta2": 0.2183,
+      "eigenvalue": 0.7005,
+      "r": 0.7005,
+      "theta": 3.1416,
+      "isComplex": false,
+      "dPhi": 0.7424,
+      "x": -0.7005,
+      "y": 0,
+      "r2": 0.273,
+      "stable": true,
+      "confidence": "Moderate"
+    },
+    {
+      "gene": "1700013F07Rik",
+      "geneType": "other",
+      "geneCategory": "other",
+      "beta1": -0.2861,
+      "beta2": 0.289,
+      "eigenvalue": 0.6994,
+      "r": 0.6994,
+      "theta": 3.1416,
+      "isComplex": false,
+      "dPhi": 0.7425,
+      "x": -0.6994,
+      "y": 0,
+      "r2": 0.1911,
+      "stable": true,
+      "confidence": "Low"
+    },
+    {
+      "gene": "Eed",
+      "geneType": "other",
+      "geneCategory": "other",
+      "beta1": -0.1426,
+      "beta2": 0.3893,
+      "eigenvalue": 0.6994,
+      "r": 0.6994,
+      "theta": 3.1416,
+      "isComplex": false,
+      "dPhi": 0.7425,
+      "x": -0.6994,
+      "y": 0,
+      "r2": 0.1982,
+      "stable": true,
+      "confidence": "Moderate"
+    },
+    {
+      "gene": "Krtap5-4",
+      "geneType": "other",
+      "geneCategory": "other",
+      "beta1": -0.1378,
+      "beta2": 0.3927,
+      "eigenvalue": 0.6993,
+      "r": 0.6993,
+      "theta": 3.1416,
+      "isComplex": false,
+      "dPhi": 0.7426,
+      "x": -0.6993,
+      "y": 0,
+      "r2": 0.193,
+      "stable": true,
+      "confidence": "Moderate"
+    },
+    {
+      "gene": "Sacm1l",
+      "geneType": "other",
+      "geneCategory": "other",
+      "beta1": -0.0952,
+      "beta2": 0.4225,
+      "eigenvalue": 0.6993,
+      "r": 0.6993,
+      "theta": 3.1416,
+      "isComplex": false,
+      "dPhi": 0.7426,
+      "x": -0.6993,
+      "y": 0,
+      "r2": 0.2015,
+      "stable": true,
+      "confidence": "Moderate"
+    },
+    {
+      "gene": "Idh3g",
+      "geneType": "other",
+      "geneCategory": "other",
+      "beta1": -0.1116,
+      "beta2": 0.411,
+      "eigenvalue": 0.6993,
+      "r": 0.6993,
+      "theta": 3.1416,
+      "isComplex": false,
+      "dPhi": 0.7426,
+      "x": -0.6993,
+      "y": 0,
+      "r2": 0.1869,
+      "stable": true,
+      "confidence": "Moderate"
+    },
+    {
+      "gene": "Nvl",
+      "geneType": "other",
+      "geneCategory": "other",
+      "beta1": -0.3788,
+      "beta2": 0.2241,
+      "eigenvalue": 0.6993,
+      "r": 0.6993,
+      "theta": 3.1416,
+      "isComplex": false,
+      "dPhi": 0.7427,
+      "x": -0.6993,
+      "y": 0,
+      "r2": 0.2788,
+      "stable": true,
+      "confidence": "Low"
+    }
+  ],
+  "availableDatasets": [
+    {
+      "id": "GSE54650_Liver_circadian",
+      "name": "Mouse Liver (Hughes Atlas)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE54650_Heart_circadian",
+      "name": "Mouse Heart (Hughes Atlas)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE54650_Kidney_circadian",
+      "name": "Mouse Kidney (Hughes Atlas)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE54650_Lung_circadian",
+      "name": "Mouse Lung (Hughes Atlas)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE54650_Cerebellum_circadian",
+      "name": "Mouse Cerebellum (Hughes Atlas)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE54650_Hypothalamus_circadian",
+      "name": "Mouse Hypothalamus (Hughes Atlas)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE54650_Brainstem_circadian",
+      "name": "Mouse Brainstem (Hughes Atlas)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE54650_Muscle_circadian",
+      "name": "Mouse Muscle (Hughes Atlas)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE54650_Adrenal_circadian",
+      "name": "Mouse Adrenal (Hughes Atlas)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE54650_Aorta_circadian",
+      "name": "Mouse Aorta (Hughes Atlas)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE54650_Brown_Fat_circadian",
+      "name": "Mouse Brown Fat (Hughes Atlas)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE54650_White_Fat_circadian",
+      "name": "Mouse White Fat (Hughes Atlas)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE11923_Liver_1h_48h_genes",
+      "name": "Mouse Liver (Hughes 2009)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE11923_Liver_1h_48h",
+      "name": "Mouse Liver Probes (Hughes 2009)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE221103_Neuroblastoma_MYC_ON",
+      "name": "Neuroblastoma MYC-ON (Cancer)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE221103_Neuroblastoma_MYC_OFF",
+      "name": "Neuroblastoma MYC-OFF (Recovery)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE157357_Organoid_WT-WT",
+      "name": "Organoid WT (Healthy)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE157357_Organoid_ApcKO-WT",
+      "name": "Organoid APC-Mutant (Cancer)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE157357_Organoid_WT-BmalKO",
+      "name": "Organoid BMAL-KO (Clock KO)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE157357_Organoid_ApcKO-BmalKO",
+      "name": "Organoid APC+BMAL KO (Double)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE113883_Human_WholeBlood",
+      "name": "Human Whole Blood (Ruben 2018)",
+      "species": "Homo sapiens"
+    },
+    {
+      "id": "GSE48113_Human_Blood_Circadian",
+      "name": "Human Blood (Archer 2014)",
+      "species": "Homo sapiens"
+    },
+    {
+      "id": "GSE107537_PBMC_Day",
+      "name": "Human PBMC Day Schedule (Kervezee 2018)",
+      "species": "Homo sapiens"
+    },
+    {
+      "id": "GSE107537_PBMC_Night",
+      "name": "Human PBMC Night Shift (Kervezee 2018)",
+      "species": "Homo sapiens"
+    },
+    {
+      "id": "GSE98965_baboon_FPKM",
+      "name": "Baboon Multi-tissue (Mure 2018)",
+      "species": "Papio anubis"
+    },
+    {
+      "id": "GSE242964_arabidopsis_circadian_averaged",
+      "name": "Arabidopsis (Redmond 2024)",
+      "species": "Arabidopsis thaliana"
+    },
+    {
+      "id": "GSE48113_ForcedDesync_Aligned",
+      "name": "Human Blood Aligned (Archer 2014)",
+      "species": "Homo sapiens"
+    },
+    {
+      "id": "GSE48113_ForcedDesync_Misaligned",
+      "name": "Human Blood Misaligned (Archer 2014)",
+      "species": "Homo sapiens"
+    },
+    {
+      "id": "GSE39445_Blood_SufficientSleep",
+      "name": "Human Blood Sufficient Sleep (Moller-Levet 2013)",
+      "species": "Homo sapiens"
+    },
+    {
+      "id": "GSE39445_Blood_SleepRestriction",
+      "name": "Human Blood Sleep Restriction (Moller-Levet 2013)",
+      "species": "Homo sapiens"
+    },
+    {
+      "id": "GSE122541_Nurses_DayShift",
+      "name": "Human PBMC Day-Shift Nurses (Gamble 2019)",
+      "species": "Homo sapiens"
+    },
+    {
+      "id": "GSE122541_Nurses_NightShift",
+      "name": "Human PBMC Night-Shift Nurses (Gamble 2019)",
+      "species": "Homo sapiens"
+    },
+    {
+      "id": "GSE70499_Liver_Bmal1WT",
+      "name": "Mouse Liver Bmal1-WT (Storch 2007)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE70499_Liver_Bmal1KO",
+      "name": "Mouse Liver Bmal1-KO (Storch 2007)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE93903_Liver_Young",
+      "name": "Mouse Liver Young (Sato 2017)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE93903_Liver_Old",
+      "name": "Mouse Liver Old (Sato 2017)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE93903_Liver_YoungCR",
+      "name": "Mouse Liver Young+CR (Sato 2017)",
+      "species": "Mus musculus"
+    },
+    {
+      "id": "GSE93903_Liver_OldCR",
+      "name": "Mouse Liver Old+CR (Sato 2017)",
+      "species": "Mus musculus"
+    }
+  ]
+}

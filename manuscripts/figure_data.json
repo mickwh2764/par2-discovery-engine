@@ -1,0 +1,94 @@
+{
+  "figure1_discovery_rates": {
+    "title": "Discovery Rates by Tissue",
+    "data": [
+      {"tissue": "Liver", "significant": 25, "total": 152, "rate": 16.4},
+      {"tissue": "Heart", "significant": 16, "total": 152, "rate": 10.5},
+      {"tissue": "Cerebellum", "significant": 8, "total": 152, "rate": 5.3},
+      {"tissue": "Hypothalamus", "significant": 7, "total": 152, "rate": 4.6},
+      {"tissue": "Kidney", "significant": 3, "total": 152, "rate": 2.0}
+    ]
+  },
+  "figure2_heatmap": {
+    "title": "Circadian Gating Heatmap (-log10 p-value)",
+    "clock_genes": ["Per1", "Per2", "Cry1", "Cry2", "Clock", "Arntl", "Nr1d1", "Nr1d2"],
+    "tissues": {
+      "Liver": {
+        "Atm": [1.71, 1.33, 1.37, null, 1.71, 1.66, 1.62, 1.44],
+        "Wee1": [1.85, 1.87, 1.98, 1.96, 1.84, 1.69, 1.98, 1.78],
+        "Ccnd1": [1.34, 1.42, 1.56, 1.54, 1.32, null, 1.54, null],
+        "Ccnb1": [null, 1.32, null, null, null, 1.30, null, 1.33],
+        "Mdm2": [null, null, null, null, null, null, 1.30, null]
+      },
+      "Heart": {
+        "Tead1": [1.68, 2.18, 2.03, 2.19, 2.14, 1.99, 2.21, 1.71],
+        "Yap1": [1.53, 1.78, 1.75, 1.78, 1.77, 1.73, 1.78, 1.58]
+      },
+      "Cerebellum": {
+        "Cdk1": [1.88, 1.79, 1.79, 1.69, 1.58, 1.68, 1.96, 1.88]
+      },
+      "Hypothalamus": {
+        "Sirt1": [null, null, 1.32, 1.30, null, null, 1.32, null],
+        "Chek2": [1.33, 1.33, null, null, null, 1.36, null, 1.34]
+      },
+      "Kidney": {
+        "Myc": [null, null, null, null, 1.35, 1.32, null, 1.37]
+      }
+    }
+  },
+  "figure3_pathway_model": {
+    "title": "Tissue Vulnerability Protection Model",
+    "pathways": [
+      {
+        "tissue": "Liver",
+        "primary_pathway": "DNA Repair + Cell Cycle",
+        "key_targets": ["Atm", "Wee1", "Ccnd1", "Ccnb1"],
+        "vulnerability": "Hepatocellular carcinoma",
+        "protection_mechanism": "Genome integrity checkpoints"
+      },
+      {
+        "tissue": "Heart",
+        "primary_pathway": "Hippo/YAP Growth Control",
+        "key_targets": ["Tead1", "Yap1"],
+        "vulnerability": "Cardiac hypertrophy",
+        "protection_mechanism": "Size restraint"
+      },
+      {
+        "tissue": "Kidney",
+        "primary_pathway": "Proliferation Control",
+        "key_targets": ["Myc"],
+        "vulnerability": "Renal cell carcinoma",
+        "protection_mechanism": "Proliferation timing"
+      },
+      {
+        "tissue": "Cerebellum",
+        "primary_pathway": "Mitosis Control",
+        "key_targets": ["Cdk1"],
+        "vulnerability": "Medulloblastoma",
+        "protection_mechanism": "Cell division checkpoint"
+      },
+      {
+        "tissue": "Hypothalamus",
+        "primary_pathway": "Metabolism + DNA Damage",
+        "key_targets": ["Sirt1", "Chek2"],
+        "vulnerability": "Neurodegeneration",
+        "protection_mechanism": "Metabolic homeostasis + Neuronal protection"
+      }
+    ]
+  },
+  "supplementary_methods": {
+    "par2_model": {
+      "description": "Phase-gated Autoregressive model of order 2",
+      "equation": "R(n) = β₀ + β₁R(n-1) + β₂R(n-1)cos(φ) + β₃R(n-1)sin(φ) + β₄R(n-2) + β₅R(n-2)cos(φ) + β₆R(n-2)sin(φ) + ε",
+      "significance_criterion": "p < 0.05 for any phase interaction term (β₂, β₃, β₅, β₆)",
+      "phase_estimation": "Cosinor regression with 24-hour period"
+    },
+    "data_source": {
+      "geo_accession": "GSE54650",
+      "citation": "Zhang et al. (2014) PNAS",
+      "tissues": 12,
+      "timepoints": 24,
+      "genes_per_tissue": "~21,000"
+    }
+  }
+}

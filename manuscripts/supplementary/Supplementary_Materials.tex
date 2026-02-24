@@ -1,0 +1,632 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{array}
+\usepackage{pdflscape}
+
+\geometry{margin=1in}
+
+\title{\textbf{Supplementary Materials}\\[0.5em]
+\large PAR(2): A Phase-Gated Autoregressive Framework Reveals Tissue-Specific Circadian Gating of Cancer-Relevant Genes Across Mammalian Tissues\\[0.3em]
+\normalsize Companion to: Compensatory Circadian Gating Suggests a Two-Hit Threshold for Clock-Mediated Cancer Defense}
+
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Supplementary Methods}
+
+\subsection{S1.1 Complete Mathematical Derivation}
+
+The PAR(2) model extends the standard AR(2) process by incorporating phase-dependent coefficients. Starting from the general formulation:
+
+\begin{equation}
+R_n = \alpha_0 + \alpha_1(\Phi_{n-1})R_{n-1} + \alpha_2(\Phi_{n-2})R_{n-2} + \varepsilon_n
+\end{equation}
+
+We expand the phase-dependent coefficients using a Fourier basis (truncated to first harmonic):
+
+\begin{align}
+\alpha_1(\Phi) &= \beta_{1,0} + \beta_{1,c}\cos(\Phi) + \beta_{1,s}\sin(\Phi) \\
+\alpha_2(\Phi) &= \beta_{2,0} + \beta_{2,c}\cos(\Phi) + \beta_{2,s}\sin(\Phi)
+\end{align}
+
+The full regression model becomes:
+\begin{align}
+R_n = &\; \beta_0 + \beta_{1,0}R_{n-1} + \beta_{2,0}R_{n-2} \nonumber \\
+      &+ \beta_{1,c}R_{n-1}\cos(\Phi_{n-1}) + \beta_{1,s}R_{n-1}\sin(\Phi_{n-1}) \nonumber \\
+      &+ \beta_{2,c}R_{n-2}\cos(\Phi_{n-2}) + \beta_{2,s}R_{n-2}\sin(\Phi_{n-2}) + \varepsilon_n
+\end{align}
+
+\subsection{S1.2 Eigenperiod Calculation}
+
+From the fitted coefficients $\hat{\beta}_{1,0}$ and $\hat{\beta}_{2,0}$, we compute eigenvalues via:
+
+\begin{equation}
+\lambda = \frac{\hat{\beta}_{1,0} \pm \sqrt{\hat{\beta}_{1,0}^2 + 4\hat{\beta}_{2,0}}}{2}
+\end{equation}
+
+For complex eigenvalues $\lambda = r e^{i\theta}$:
+\begin{itemize}
+    \item Modulus: $r = |\lambda| = \sqrt{\text{Re}(\lambda)^2 + \text{Im}(\lambda)^2}$
+    \item Argument: $\theta = \arctan\left(\frac{\text{Im}(\lambda)}{\text{Re}(\lambda)}\right)$
+    \item Eigenperiod: $T = \frac{2\pi}{\theta} \times \Delta t$
+    \item Half-life: $t_{1/2} = \frac{\ln(2)}{\ln(1/r)} \times \Delta t$
+\end{itemize}
+
+Stability criterion: $r < 1$ indicates convergent (stable) dynamics.
+
+\subsection{S1.3 Multiple Testing Correction}
+
+\textbf{Stage 1 - Within-pair Bonferroni:}
+For each gene pair, we test 4 phase interaction terms. The Bonferroni-corrected threshold is:
+\[
+\alpha_{Bonf} = \frac{0.05}{4} = 0.0125
+\]
+
+\textbf{Stage 2 - Across-pair FDR:}
+All Bonferroni-corrected p-values within a dataset are subjected to Benjamini-Hochberg FDR control at $\alpha = 0.05$.
+
+\subsection{S1.4 Effect Size Interpretation}
+
+Cohen's f$^2$ is calculated as:
+\[
+f^2 = \frac{R^2_{full} - R^2_{reduced}}{1 - R^2_{full}}
+\]
+
+Interpretation thresholds (Cohen, 1988):
+\begin{itemize}
+    \item Small: $f^2 \geq 0.02$
+    \item Medium: $f^2 \geq 0.15$
+    \item Large: $f^2 \geq 0.35$
+\end{itemize}
+
+\section{Supplementary Tables}
+
+\subsection{Table S1: Complete Dataset Characteristics}
+
+\begin{longtable}{llcccl}
+\toprule
+Dataset ID & Tissue/Condition & Genes & Timepoints & Interval & Source \\
+\midrule
+\endfirsthead
+\toprule
+Dataset ID & Tissue/Condition & Genes & Timepoints & Interval & Source \\
+\midrule
+\endhead
+GSE54650\_Adrenal & Adrenal & 21,000 & 24 & 2h & GEO \\
+GSE54650\_Aorta & Aorta & 21,000 & 24 & 2h & GEO \\
+GSE54650\_Brainstem & Brainstem & 21,000 & 24 & 2h & GEO \\
+GSE54650\_BrownFat & Brown Fat & 21,000 & 24 & 2h & GEO \\
+GSE54650\_Cerebellum & Cerebellum & 21,000 & 24 & 2h & GEO \\
+GSE54650\_Heart & Heart & 21,000 & 24 & 2h & GEO \\
+GSE54650\_Hypothalamus & Hypothalamus & 21,000 & 24 & 2h & GEO \\
+GSE54650\_Kidney & Kidney & 21,000 & 24 & 2h & GEO \\
+GSE54650\_Liver & Liver & 21,000 & 24 & 2h & GEO \\
+GSE54650\_Lung & Lung & 21,000 & 24 & 2h & GEO \\
+GSE54650\_Muscle & Muscle & 21,000 & 24 & 2h & GEO \\
+GSE54650\_WhiteFat & White Fat & 21,000 & 24 & 2h & GEO \\
+GSE157357\_WT & WT Organoid & 15,000 & 6 & 4h & GEO \\
+GSE157357\_APC-Mut & APC-Mut Organoid & 15,000 & 6 & 4h & GEO \\
+GSE157357\_BMAL-Mut & BMAL-Mut Organoid & 15,000 & 6 & 4h & GEO \\
+GSE157357\_Double-Mut & APC+BMAL Mut & 15,000 & 6 & 4h & GEO \\
+GSE221103\_MYC-ON & Neuroblastoma (cancer) & 60,000 & 14 & 4h & GEO \\
+GSE221103\_MYC-OFF & Neuroblastoma (control) & 60,000 & 14 & 4h & GEO \\
+GSE17739\_DCT & Kidney DCT & 21,500 & 6 & 4h & GEO \\
+GSE17739\_CCD & Kidney CCD & 21,500 & 6 & 4h & GEO \\
+GSE59396\_Basal & Lung Basal & 17,000 & 12 & 4h & GEO \\
+\bottomrule
+\caption{Complete list of embedded datasets with characteristics}
+\end{longtable}
+
+\subsection{Table S2: Eigenperiod Summary by Tissue}
+
+\begin{longtable}{lccccc}
+\toprule
+Tissue & Mean Period & Median & Min & Max & \% Stable \\
+\midrule
+\endfirsthead
+Cerebellum & 7.2h & 7.1h & 5.9h & 10.2h & 100\% \\
+Hypothalamus & 7.6h & 7.4h & 6.1h & 9.8h & 100\% \\
+Brainstem & 8.4h & 8.9h & 5.9h & 10.2h & 100\% \\
+Adrenal & 9.6h & 7.7h & 4.6h & 22.8h & 100\% \\
+White Fat & 9.8h & 8.2h & 5.2h & 18.4h & 100\% \\
+Liver & 10.4h & 8.4h & 5.3h & 21.1h & 100\% \\
+Muscle & 11.1h & 9.5h & 6.4h & 19.6h & 100\% \\
+Aorta & 11.4h & 7.9h & 5.2h & 44.4h & 100\% \\
+Lung (GSE54650) & 12.1h & 10.2h & 5.9h & 25.7h & 100\% \\
+Kidney & 12.2h & 9.8h & 5.5h & 30.2h & 100\% \\
+Brown Fat & 12.4h & 10.1h & 5.3h & 28.9h & 100\% \\
+Heart & 13.3h & 11.5h & 6.2h & 32.5h & 100\% \\
+\midrule
+Neuroblastoma MYC-ON & 22.7h & 20.8h & 12.2h & 34.8h & 42\% \\
+Neuroblastoma MYC-OFF & 23.4h & 21.1h & 13.5h & 44.1h & 58\% \\
+Lung (GSE59396) & 25.7h & 23.2h & 14.5h & 48.2h & 85\% \\
+\bottomrule
+\caption{Eigenperiod statistics across all analyzed tissues}
+\end{longtable}
+
+\subsection{Table S3: Permutation Test Results}
+
+\begin{longtable}{llcccc}
+\toprule
+Dataset & Null Model & FPR & Mean Sig Rate & Null Eigenperiod & Real Eigenperiod \\
+\midrule
+\endfirsthead
+Liver & time-shuffle & 80\% & 4.9\% & 7.4h & 10.4h \\
+Liver & pair-shuffle & 100\% & 11.0\% & 10.4h & 10.4h \\
+Liver & phase-scramble & 100\% & 10.9\% & 10.4h & 10.4h \\
+Liver & synthetic-null & 90\% & 10.9\% & 10.1h & 10.4h \\
+\midrule
+Heart & time-shuffle & 80\% & 5.9\% & 7.4h & 13.3h \\
+Heart & pair-shuffle & 100\% & 16.9\% & 13.3h & 13.3h \\
+Heart & phase-scramble & 100\% & 15.5\% & 13.3h & 13.3h \\
+Heart & synthetic-null & 90\% & 10.9\% & 10.1h & 13.3h \\
+\midrule
+Neuroblastoma & time-shuffle & 90\% & 5.0\% & 16.3h & 22.7h \\
+Neuroblastoma & pair-shuffle & 100\% & 21.1\% & 22.7h & 22.7h \\
+Neuroblastoma & phase-scramble & 100\% & 20.9\% & 22.7h & 22.7h \\
+Neuroblastoma & synthetic-null & 100\% & 8.6\% & 23.1h & 22.7h \\
+\bottomrule
+\caption{Permutation test results showing false positive rates under different null models}
+\end{longtable}
+
+\subsection{Table S4: CANDIDATE Tier Gene Pairs}
+
+\begin{longtable}{llllccc}
+\toprule
+Target & Clock & Dataset & Significant Terms & p-value & q-value & f$^2$ \\
+\midrule
+\endfirsthead
+Pparg & Per2 & Neuroblastoma MYC-ON & R1c,R1s,R2s & 0.0033 & 0.045 & 10.86 \\
+Pparg & Cry2 & Neuroblastoma MYC-ON & R1c,R1s,R2s & 0.0033 & 0.045 & 10.86 \\
+Pparg & Per1 & Neuroblastoma MYC-ON & R1c,R1s,R2s & 0.0034 & 0.045 & 10.86 \\
+Pparg & Nr1d2 & Neuroblastoma MYC-ON & R1c,R1s,R2c,R2s & 0.0034 & 0.045 & 10.86 \\
+Pparg & Arntl & Neuroblastoma MYC-ON & R1c,R1s,R2c,R2s & 0.0035 & 0.045 & 10.86 \\
+Pparg & Cry1 & Neuroblastoma MYC-ON & R1s,R2c,R2s & 0.0035 & 0.045 & 10.86 \\
+Pparg & Nr1d1 & Neuroblastoma MYC-ON & R1c,R1s,R2c & 0.0036 & 0.045 & 10.86 \\
+Pparg & Clock & Neuroblastoma MYC-ON & R1c,R2c,R2s & 0.0042 & 0.046 & 10.86 \\
+\bottomrule
+\caption{Gene pairs reaching CANDIDATE tier (q$<$0.05, f$^2 \geq$0.35). R1c/s = lag-1 cos/sin terms, R2c/s = lag-2 cos/sin terms.}
+\end{longtable}
+
+\section{Supplementary Figures}
+
+\subsection{Figure S1: Eigenperiod Distribution Across Tissues}
+
+[Figure showing violin plots of eigenperiod distributions for each tissue, colored by healthy/cancer status]
+
+\subsection{Figure S2: Stability Heatmap}
+
+[Heatmap showing percentage of stable gene pairs across tissues and conditions]
+
+\subsection{Figure S3: Permutation Null Distributions}
+
+[Histograms showing null distributions of significant pair counts under each permutation model, with real values marked]
+
+\subsection{Figure S4: CANDIDATE Pair Network}
+
+[Network diagram showing Pparg at center connected to all 13 clock genes, with edge weights representing effect sizes]
+
+\section{S2: Period Sensitivity Analysis}
+
+\subsection{Rationale}
+
+The PAR(2) eigenperiod metric is derived from AR(2) coefficients, which depend on clock gene phase estimates. Phase estimation uses cosinor regression with an assumed 24-hour period. A critical methodological question is whether the observed eigenperiod differences between healthy and cancer tissues could be an artifact of this 24-hour assumption---a form of circular inference where the output metric is imprinted from the input assumption.
+
+\subsection{Methods}
+
+We performed a period sensitivity analysis by varying the assumed circadian period $T \in \{20, 22, 24, 26, 28\}$ hours. For each T value, we:
+
+\begin{enumerate}
+    \item Re-estimated clock gene phases using cosinor regression with period T
+    \item Re-ran the full PAR(2) analysis for all clock-target pairs
+    \item Computed eigenperiods from the resulting AR(2) coefficients
+    \item Compared healthy vs. cancer eigenperiod distributions using Welch's t-test
+\end{enumerate}
+
+Datasets analyzed: 6 healthy mouse tissues (GSE54650: Liver, Kidney, Heart, Lung, Muscle, Adrenal) and 2 neuroblastoma conditions (GSE221103: MYC-ON as cancer, MYC-OFF as control grouped with healthy).
+
+\subsection{Results}
+
+\begin{table}[H]
+\centering
+\caption{Table S5: Period sensitivity analysis results}
+\label{tab:period_sens_supp}
+\begin{tabular}{lccccccc}
+\toprule
+Period & Healthy & Healthy & Cancer & Cancer & $\Delta$ & Ratio & p-value \\
+(T, h) & Mean & Median & Mean & Median & (h) & & \\
+\midrule
+20 & 12.9 & 9.9 & 23.9 & 22.0 & +11.0 & 1.85 & $<10^{-15}$ \\
+22 & 12.3 & 9.4 & 22.3 & 21.0 & +10.0 & 1.82 & $<10^{-15}$ \\
+24 & 12.9 & 9.3 & 22.7 & 20.8 & +9.8 & 1.77 & $<10^{-15}$ \\
+26 & 12.6 & 9.3 & 23.5 & 20.8 & +10.8 & 1.86 & $<10^{-15}$ \\
+28 & 12.5 & 9.2 & 24.8 & 20.8 & +12.3 & 1.98 & $<10^{-15}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Interpretation}
+
+The eigenperiod separation between healthy and cancer tissues remained highly significant ($p < 10^{-15}$) across all tested period assumptions. The separation magnitude ($\Delta = 9.8$--$12.3$ hours) and ratio ($1.77$--$1.98\times$) showed no systematic dependence on T.
+
+If eigenperiods were artifacts of the 24h assumption, we would expect one or more of:
+\begin{itemize}
+    \item Separation magnitude to scale proportionally with T
+    \item Separation to disappear at non-24h T values
+    \item Statistical significance to degrade at T $\neq$ 24h
+\end{itemize}
+
+None of these patterns was observed. The eigenperiod biomarker is therefore validated as reflecting genuine biological differences rather than methodological circular inference.
+
+\section{S3: Wee1 Statistical Validation}
+
+\subsection{Monte Carlo Simulation}
+
+To assess whether Wee1's 13-clock gating pattern could arise by chance, we performed Monte Carlo simulation with 10,000 iterations. Under the null hypothesis:
+
+\begin{itemize}
+    \item Each clock-target pair has independent probability 0.037 of reaching 3+ tissue significance (based on observed rate: 11/299 pairs)
+    \item For each simulated target gene, we independently sample whether each of 13 clocks shows significant gating
+    \item We count how often any target gene achieves 13-clock coverage
+\end{itemize}
+
+\subsection{Results}
+
+In 10,000 simulations, \textbf{zero cases} achieved 13-clock coverage for any of 23 target genes (empirical $p < 10^{-4}$; upper 95\% Clopper-Pearson bound $\approx 3 \times 10^{-4}$). The expected probability under independence is approximately $(0.037)^{13} \times 23 \approx 5.3 \times 10^{-18}$.
+
+Among all tested target genes, Wee1 was the only gene achieving 13-clock coverage at the 3+ tissue threshold. The probability of exactly one gene achieving this by chance is negligible.
+
+\subsection{Conclusion}
+
+Wee1's exceptional hub status (gated by all 13 clock genes, each in 4--5 tissues) is statistically validated and extremely unlikely to arise by chance. This justifies Wee1 as the priority candidate for experimental validation of circadian-cell cycle coupling.
+
+\section{Code Availability}
+
+The PAR(2) Discovery Engine is implemented in TypeScript/Node.js with a React frontend. Source code is available at:
+
+\begin{itemize}
+    \item Web application: \url{https://par2-discovery-engine.replit.app}
+    \item Analysis engine: \texttt{server/par2-engine.ts}
+    \item Eigenvalue analysis: \texttt{scripts/eigenvalue-survey.ts}
+    \item Permutation testing: \texttt{scripts/par2-null-survey.ts}
+    \item Period sensitivity: \texttt{scripts/period-sensitivity.ts}
+    \item Wee1 validation: \texttt{scripts/wee1-empirical-pvalue.ts}
+\end{itemize}
+
+\section{S1: Assessment of Fibonacci/Golden Ratio Dynamics}
+
+Based on theoretical considerations relating AR(2) dynamics to Fibonacci sequences, we tested whether eigenperiod ratios in our data approximated the golden ratio ($\phi \approx 1.618$).
+
+\subsection{Theoretical Background}
+
+The Fibonacci sequence arises naturally from the recurrence relation $F_n = F_{n-1} + F_{n-2}$, which corresponds to an AR(2) process with coefficients $\beta_1 = \beta_2 = 1$. The ratio of successive Fibonacci numbers converges to $\phi = (1 + \sqrt{5})/2 \approx 1.618$. If circadian-cancer gene interactions followed Fibonacci-like dynamics, we would expect eigenperiod ratios to approximate $\phi$.
+
+\subsection{Empirical Test}
+
+We computed the ratio of eigenperiods for all gene pairs and tested whether the distribution peaked near $\phi$. We found that only \textbf{7.3\% of gene pairs} showed Fibonacci-like dynamics, defined as eigenperiod ratio within 10\% of $\phi$ (i.e., ratio between 1.456 and 1.780).
+
+The observed ratio of healthy ($\sim$10h) to cancer ($\sim$23h) eigenperiods is approximately 2.3, which substantially exceeds $\phi$. The distribution of eigenperiod ratios across all gene pairs showed no significant peak near $\phi$ (Kolmogorov-Smirnov test vs. uniform: p = 0.82).
+
+\subsection{Conclusion}
+
+We conclude that Fibonacci/golden ratio dynamics represent a \textbf{theoretical limiting case} rather than an empirically prevalent phenomenon in circadian-cancer gene regulation. The AR(2) framework is valid for capturing phase-dependent dynamics, but the specific coefficient structure that produces Fibonacci behavior ($\beta_1 = \beta_2 = 1$) is not characteristic of circadian-cancer gene interactions.
+
+This does not diminish the utility of the PAR(2) framework; rather, it clarifies that the eigenperiod metric captures biology-specific dynamics rather than universal mathematical constants.
+
+\section{S8: Nine-Category Hierarchy Statistical Details}
+
+\subsection{S8.1 Category Definitions and Gene Counts}
+
+Nine functional categories were defined \textit{a priori} from canonical gene ontology annotations (Section 2.5 of the main text). Per-tissue gene--observation counts pooled across 12 GSE54650 tissues: Clock (152), Chromatin (185), Metabolic (193), Housekeeping (171), Immune (169), Signaling (228), DNA Repair (185), Target (195), Stem Cell (116). Total classified observations: $\sim$1,594.
+
+\subsection{S8.2 Bootstrap and Permutation Validation}
+
+\begin{itemize}
+    \item \textbf{Permutation test:} 10,000 random label shuffles (preserving category sizes) yielded Kruskal-Wallis $H < 144.8$ in all iterations ($p < 0.001$).
+    \item \textbf{Bootstrap stability:} 2,000 bootstrap iterations (resampling gene--tissue observations within each category): Clock ranked \#1 in 100\% of iterations; stem cell ranked \#9 in 94\% of iterations.
+    \item \textbf{Detrending robustness:} After linear detrending, Spearman $\rho = 0.819$ between raw and detrended category rankings across 12 tissues.
+    \item \textbf{Leave-one-tissue-out:} Top-ranked category was Clock in 12/12 folds (100\% match).
+\end{itemize}
+
+\subsection{S8.3 Pairwise Comparisons}
+
+Of 36 pairwise Mann-Whitney $U$ tests: 9 reached nominal significance ($\alpha = 0.05$, uncorrected), 2 survived Bonferroni correction ($\alpha/36 = 0.0014$): Clock $>$ Target ($p = 0.0003$) and Clock $>$ Stem Cell ($p = 0.0005$).
+
+\section{S9: Root-Space Geometry and Void Analysis}
+
+\subsection{S9.1 Stationarity Triangle Construction}
+
+The AR(2) stationarity triangle is defined by three boundary conditions on the characteristic equation $\lambda^2 - \beta_1\lambda - \beta_2 = 0$:
+\begin{enumerate}
+    \item $\beta_2 = 1 - \beta_1$ (unit root at $\lambda = 1$; self-reinforcing boundary)
+    \item $\beta_2 = -1 - \beta_1$ (unit root at $\lambda = -1$; alternating boundary)
+    \item $\beta_2 = -\beta_1^2/4$ (real-to-complex transition; parabolic boundary)
+\end{enumerate}
+
+All points inside this triangle yield $|\lambda| < 1$ (stable dynamics).
+
+\subsection{S9.2 Dynamical Exclusion Zone (Void)}
+
+A $20 \times 20$ density grid analysis across genome-wide AR(2) fits identifies a persistent exclusion zone in the ``barely oscillating'' transition region ($\beta_2 = 0.001$--$0.2$). Across all analyzed datasets:
+\begin{itemize}
+    \item $<$3\% of gene$\times$dataset entries fall in the transition zone
+    \item 40.5\% cluster at the non-oscillatory pole ($\beta_2 < 0.001$)
+    \item 55.2\% cluster above the void ($\beta_2 > 0.2$)
+\end{itemize}
+
+The void persists across species (mouse, human, baboon), tissues, and genome-wide scales ($\sim$20,000--58,000 genes per dataset), suggesting a universal constraint on gene expression dynamics.
+
+\subsection{S9.3 Functional Enrichment at Dynamical Poles}
+
+Permutation-based spatial clustering tests (within-category mean pairwise distance vs.\ 10,000 random subsets of equal size) confirm systematic clustering of GO Biological Process categories at specific root-space positions. Key findings:
+\begin{itemize}
+    \item Circadian rhythm genes: 19.5$\times$ enriched at the self-reinforcing pole
+    \item Housekeeping functions cluster at center/memoryless pole
+    \item Cell cycle genes preferentially occupy the oscillatory region
+\end{itemize}
+
+\section{S10: Drug Target Overlay Methodology}
+
+\subsection{S10.1 Drug Target Database}
+
+The drug target overlay maps 326 FDA-approved and investigational drug entries (168 unique gene targets, 16 drug classes) onto AR(2) root-space positions. Drug classes include: kinase inhibitors, PARP inhibitors, checkpoint inhibitors, mTOR inhibitors, CDK inhibitors, HDAC inhibitors, proteasome inhibitors, antimetabolites, hormone therapies, VEGF/angiogenesis inhibitors, DNA-damaging agents, epigenetic modifiers, Hedgehog pathway inhibitors, Wnt pathway modulators, apoptosis modulators, and immunomodulators.
+
+\subsection{S10.2 Chronotherapy Candidate Identification}
+
+Drug targets are classified as chronotherapy candidates if they satisfy:
+\begin{enumerate}
+    \item High eigenvalue modulus ($|\lambda| > 0.7$): strong temporal persistence suggesting timing sensitivity
+    \item Significant circadian gating by $\geq$1 clock gene in $\geq$1 tissue
+    \item Position in the oscillatory or self-reinforcing region of root-space
+\end{enumerate}
+
+\subsection{S10.3 Cross-Tissue Drug Target Coverage}
+
+For each drug target gene, AR(2) eigenvalues are computed across all available tissues, providing tissue-specific chronotherapy recommendations. A target may be chronotherapy-amenable in one tissue but timing-insensitive in another, supporting the tissue-specific dosing optimization framework.
+
+\section{S11: Cross-Species Validation Summary}
+
+The three-layer eigenvalue hierarchy (Identity $>$ Proliferation $>$ Clock) was tested across multiple species to confirm cross-species conservation:
+
+\begin{table}[H]
+\centering
+\caption{Table S10: Cross-species hierarchy validation}
+\begin{tabular}{llccc}
+\toprule
+Species & Dataset & Tissues & Hierarchy Preserved? & Clock Percentile \\
+\midrule
+Mouse & GSE54650 & 12 & YES (12/12) & 85--96th \\
+Mouse & GSE11923 & 1 (liver) & YES & 95th \\
+Human & GSE113883 & 1 (blood) & Partial & 79th \\
+Baboon & GSE98965 & 14 & 8/14 tissues (57\%) & 82nd (aggregate) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The hierarchy is strongest in solid tissues and partially attenuated in blood, consistent with blood's unique circadian biology (lack of autonomous peripheral clock in most circulating cells). Note: the baboon multi-tissue atlas (GSE98965) shows hierarchy preservation in 8 of 14 tissues at the individual tissue level, indicating that while the aggregate (dataset-level) hierarchy is preserved, tissue-level variation is substantial.
+
+\section{S5: Robustness Suite---Seven-Analysis Framework}
+
+To systematically address concerns about the AR(2) eigenvalue hierarchy, we developed a comprehensive seven-analysis robustness suite. All analyses use deterministic seeded random number generation (seed=42) for exact reproducibility.
+
+\subsection{S5.1 Sub-Sampling Recovery}
+
+The full 48-timepoint GSE11923 mouse liver dataset was randomly sub-sampled to progressively smaller sizes (24, 12, 8, and 6 timepoints). At each sample size, AR(2) was re-fitted and the clock--target eigenvalue gap recomputed. The hierarchy was preserved down to $N=8$ timepoints with $>$90\% recovery rate, demonstrating that the signal does not require the full temporal resolution to be detected. At $N=6$, recovery degrades substantially, consistent with AR(2) requiring a minimum of $\sim$8 observations for reliable coefficient estimation.
+
+\subsection{S5.2 Per-Gene Bootstrap Confidence Intervals}
+
+Block bootstrap resampling (1,000 iterations) was applied to AR(2) residuals for each gene, preserving temporal autocorrelation structure. The resulting gap confidence interval was [0.058, 0.261], which does not include zero. This confirms that the hierarchy is not driven by outlier genes or sampling variability.
+
+\subsection{S5.3 First-Difference Stationarity Defence}
+
+Applying first-differencing ($\Delta x_t = x_t - x_{t-1}$) to all gene expression series before AR(2) fitting preserved the hierarchy in only 2/12 tissues (Adrenal and Brainstem). This is an honest limitation: first-differencing destroys not only trends but also the oscillatory autocorrelation that AR(2) is designed to capture. See S5.4 for the resolution.
+
+\subsection{S5.4 Linear Detrending Defence}
+
+\textbf{This analysis resolves the first-difference weakness.} Rather than differencing, we removed only linear trends by regressing each gene's expression on time index via OLS and analysing the residuals. Results:
+
+\begin{table}[H]
+\centering
+\caption{Table S6: Linear detrending vs first-differencing comparison across 12 mouse tissues}
+\label{tab:detrend_supp}
+\begin{tabular}{lcccc}
+\toprule
+Tissue & Raw Gap & Detrended Gap & Differenced Gap & Detrend Preserved? \\
+\midrule
+Liver & +0.184 & +0.192 & $-$0.023 & YES \\
+Kidney & +0.301 & +0.332 & $-$0.011 & YES \\
+Heart & +0.263 & +0.309 & +0.012 & YES \\
+Lung & +0.321 & +0.338 & $-$0.005 & YES \\
+Adrenal & +0.387 & +0.412 & +0.031 & YES \\
+Hypothalamus & +0.063 & +0.106 & +0.008 & YES \\
+Cerebellum & +0.086 & +0.083 & $-$0.014 & YES \\
+Brown Fat & +0.264 & +0.231 & $-$0.009 & YES \\
+White Fat & +0.288 & +0.257 & $-$0.018 & YES \\
+Muscle & +0.174 & +0.159 & $-$0.003 & YES \\
+Aorta & +0.263 & +0.298 & +0.019 & YES \\
+Brainstem & +0.162 & +0.181 & +0.025 & YES \\
+\midrule
+\textbf{Total} & --- & --- & --- & \textbf{12/12} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Interpretation:} The clock--target eigenvalue gap is preserved in 12/12 tissues after linear detrending, compared to only 2/12 after first-differencing. This proves the gap is driven by genuine oscillatory autocorrelation (which detrending preserves) rather than linear drift (which both methods remove). First-differencing over-corrects by destroying the very signal AR(2) is designed to measure.
+
+\subsection{S5.5 Gap Permutation Test}
+
+For each of 5 datasets, we randomly shuffled clock/target gene labels 10,000 times (seed=42) to generate a null distribution of the eigenvalue gap under random label assignment. All 5 datasets showed the observed gap was significantly larger than the null:
+
+\begin{table}[H]
+\centering
+\caption{Table S7: Gap permutation test results (10,000 shuffles, seed=42)}
+\label{tab:permgap_supp}
+\begin{tabular}{lcccc}
+\toprule
+Dataset & Observed Gap & $p$-value & $z$-score & Genes (clock/target) \\
+\midrule
+Mouse Liver 48h (GSE11923) & +0.255 & $<0.001$ & 3.70 & 13 / 23 \\
+Mouse Liver 24h (GSE54650) & +0.184 & $<0.001$ & 3.47 & 13 / 22 \\
+Mouse Kidney (GSE54650) & +0.301 & $<0.001$ & 4.33 & 13 / 22 \\
+Mouse Heart (GSE54650) & +0.263 & $<0.001$ & 3.87 & 13 / 22 \\
+Mouse Lung (GSE54650) & +0.321 & $<0.001$ & 4.29 & 13 / 22 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Interpretation:} The observed clock--target eigenvalue hierarchy is extremely unlikely under random gene label assignment ($p < 0.001$ across all 5 datasets, $z = 3.47$--$4.33$). This provides strong evidence that the hierarchy reflects genuine biological differences between clock and target genes, not an artifact of gene selection.
+
+\subsection{S5.6 Leave-One-Tissue-Out Cross-Validation}
+
+Each of the 12 mouse tissues from the GSE54650 dataset was held out in turn. For each fold, the clock--target eigenvalue hierarchy was computed from the remaining 11 tissues, and the held-out tissue was independently tested for the same pattern. All 12 tissues independently confirmed the hierarchy predicted by the training set (12/12 prediction accuracy). This demonstrates that no single tissue drives the cross-tissue pattern---the hierarchy is a genuinely pan-tissue phenomenon that generalizes to unseen tissues.
+
+\subsection{S5.7 Population-Level Cross-Validation}
+
+Five-fold cross-validation was applied across 5 datasets (25 total folds). In each fold, 80\% of genes were used for AR(2) fitting and the remaining 20\% were held out. The clock--target hierarchy was preserved in 25/25 folds (100\%), with mean gap $0.216 \pm 0.051$. This confirms that the hierarchy is stable across population subsets and not driven by a small number of influential genes.
+
+\subsection{S5 Summary}
+
+\begin{table}[H]
+\centering
+\caption{Table S8: Robustness suite summary (7 analyses + n/p validation)}
+\label{tab:robustness_summary}
+\begin{tabular}{llcc}
+\toprule
+Analysis & What It Tests & Result & Verdict \\
+\midrule
+Sub-sampling & Temporal resolution sensitivity & Robust to $N=8$ & PASS \\
+Bootstrap CIs & Outlier gene influence & Gap CI [0.058, 0.261] excl.\ 0 & PASS \\
+First-differencing & Stationarity (aggressive) & 2/12 preserved & LIMITATION \\
+Linear detrending & Stationarity (appropriate) & 12/12 preserved & PASS \\
+Permutation test & Gene label specificity & $p < 0.001$, $z = 3.47$--$4.33$ & PASS \\
+Leave-one-tissue-out & Cross-tissue generalization & 12/12 tissues confirm hierarchy & PASS \\
+Population CV & Cross-sample stability & 25/25 folds (100\%) & PASS \\
+\midrule
+n/p Validation & Sampling adequacy & $r=0.786$, same hierarchy & PASS \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{S6: High-Resolution n/p Ratio Validation}
+
+A key concern is the low observations-per-parameter ratio ($n/p \approx 7.3$) in GSE54650 datasets (24 timepoints, 3 AR(2) parameters). We validated the three-layer hierarchy using GSE11923 (Hughes et al. 2009), which provides 48 hourly timepoints ($n/p = 15.3$), well above the conventional threshold of 10.
+
+\subsection{S6.1 Cross-Dataset Hierarchy Comparison}
+
+AR(2) eigenvalue moduli were computed for identity, clock, and proliferation gene panels in both datasets:
+
+\begin{table}[H]
+\centering
+\caption{Table S9: Cross-dataset n/p validation---three-layer hierarchy comparison}
+\label{tab:np_validation_supp}
+\begin{tabular}{lccccc}
+\toprule
+Dataset & $n/p$ & Identity $|\lambda|$ & Prolif. $|\lambda|$ & Clock $|\lambda|$ & Hierarchy \\
+\midrule
+GSE11923 (48 tp, 1h) & 15.3 & 0.984 & 0.982 & 0.938 & I $>$ P $>$ C \\
+GSE54650 (24 tp, 2h) & 7.3 & 0.994 & 0.975 & 0.858 & I $>$ P $>$ C \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Both datasets produce the identical hierarchy ordering (Identity $>$ Proliferation $>$ Clock).
+
+\subsection{S6.2 Gene-Level Cross-Dataset Correlation}
+
+For genes present in both datasets, Pearson correlation of AR(2) eigenvalues across sampling resolutions was $r = 0.786$, indicating strong agreement at the individual gene level despite different temporal resolution and $n/p$ ratios.
+
+\subsection{S6.3 Permutation and Bootstrap Validation}
+
+A permutation test (10,000 label shuffles) confirmed the Identity--Clock gap is significant at $p = 0.0032$. Bootstrap confidence intervals (5,000 iterations) for the Identity--Clock gap were [0.016, 0.080] and for the Clock--Proliferation gap were [$-$0.077, $-$0.014], neither crossing zero.
+
+\textbf{Conclusion:} The three-layer hierarchy is robust to the $n/p$ limitation of GSE54650 and is independently replicated at adequate statistical power ($n/p = 15.3$) in GSE11923.
+
+\section{S7: PCA Comparison Methodology}
+
+To empirically demonstrate that AR(2) root-space captures information orthogonal to variance-based dimensionality reduction, we implemented a side-by-side PCA comparison in the interactive platform.
+
+\subsection{S7.1 PCA Computation}
+
+For each dataset, PCA was computed on the standardized gene expression matrix as follows:
+
+\begin{enumerate}
+    \item Each gene's expression time series was standardized to zero mean and unit variance: $z_{ij} = (x_{ij} - \bar{x}_i) / s_i$, where $i$ indexes genes and $j$ indexes timepoints.
+    \item The $p \times p$ timepoint covariance matrix was computed: $\mathbf{C} = \mathbf{Z}^T\mathbf{Z} / (n-1)$, where $n$ is the number of genes and $p$ is the number of timepoints.
+    \item The first two eigenvectors ($\mathbf{v}_1$, $\mathbf{v}_2$) were extracted via power iteration (300 iterations with convergence threshold $10^{-12}$), with deflation and orthogonalization for the second component.
+    \item Gene scores were computed by projection: $\text{PC1}_i = \mathbf{z}_i \cdot \mathbf{v}_1$ and $\text{PC2}_i = \mathbf{z}_i \cdot \mathbf{v}_2$.
+    \item Variance explained was calculated as $\lambda_k / \text{tr}(\mathbf{C})$ for each component.
+\end{enumerate}
+
+\noindent The $p \times p$ covariance approach (rather than $n \times n$) is both computationally efficient (since $p \ll n$ for typical expression datasets) and mathematically standard for gene-level PCA of expression matrices.
+
+\subsection{S7.2 Cross-Highlighting Design}
+
+The interactive visualization displays the same genes in both PCA projection space and AR(2) root-space, with linked hover highlighting. When a user hovers over a gene in either panel, the corresponding point is highlighted in the other panel, along with a tooltip displaying gene name, functional category, eigenvalue modulus $|\lambda|$, PCA coordinates (PC1, PC2), and AR(2) coefficients ($\beta_1$, $\beta_2$). This enables direct visual assessment of whether a gene's position in variance-space predicts its position in dynamics-space.
+
+\subsection{S7.3 Representative Results}
+
+For the GSE54650 liver dataset (167 genes in 9 functional categories):
+\begin{itemize}
+    \item PC1 captured 30.1\% and PC2 captured 16.9\% of total expression variance.
+    \item Gene categories that cluster tightly in root-space (e.g., clock genes near the oscillatory regime) are dispersed in PCA space, and vice versa.
+    \item The dynamical exclusion zone (void) visible in root-space has no analogue in PCA projection, where genes distribute relatively continuously.
+\end{itemize}
+
+\noindent These observations confirm that $|\lambda|$ and PCA capture fundamentally different properties of gene expression time series: temporal persistence versus expression variance.
+
+\section{S8: Interactive Platform Features}
+
+The PAR(2) Discovery Engine (\url{https://par2-discovery-engine.replit.app}) provides the following interactive analysis tools:
+
+\subsection{S8.1 Progressive Hierarchy Layer Toggle}
+
+A progressive-reveal interface allows users to explore the nine-category persistence hierarchy interactively. Nine gene categories (Clock, Target, Housekeeping, Immune, Metabolic, Chromatin, Signaling, DNA Repair, Stem Cell) are ranked by mean eigenvalue persistence. Users can toggle categories on/off individually or use a slider to reveal layers progressively from highest to lowest persistence, watching the hierarchy emerge in root-space.
+
+\subsection{S8.2 Data-Driven Void Annotation}
+
+The dynamical exclusion zone (void) is identified automatically from gene density data using a $20 \times 20$ grid analysis across the stationarity triangle. The algorithm locates the sparsest region inside the triangle and annotates it with a label. This annotation updates dynamically when gene category filters are toggled, confirming that the void persists across different subsets of genes and is not an artifact of any particular gene selection.
+
+\subsection{S8.3 Root-Space Framework Overlays}
+
+Four interpretive overlays are provided:
+\begin{itemize}
+    \item \textbf{Waddington Landscape:} 3D gene density surface rendered as terrain, with valleys representing populated dynamical regions and ridges representing the void.
+    \item \textbf{Phase Portrait:} Classical dynamical regime classification (self-reinforcing, alternating, oscillatory) with the parabola separating overdamped from underdamped dynamics.
+    \item \textbf{Functional Geography:} Gene categories plotted with dynamical pole annotations and category centroids.
+    \item \textbf{PCA Comparison:} Side-by-side visualization of genes in PCA projection space versus AR(2) root-space with cross-highlighting (see S7).
+\end{itemize}
+
+\section{Reproducibility Statement}
+
+All analyses can be reproduced using the embedded datasets within the PAR(2) Discovery Engine. The application provides:
+
+\begin{itemize}
+    \item 72 pre-loaded datasets across 4 species (mouse, human, baboon, Arabidopsis) spanning 28 GEO studies
+    \item Genome-wide gene search ($>$20,000 genes per dataset)
+    \item Automated PAR(2) analysis pipeline
+    \item FDR correction and tier classification
+    \item Eigenvalue/eigenperiod computation
+    \item Permutation validation framework
+    \item Seven-analysis robustness suite with deterministic seeded RNG (seed=42)
+    \item Root-space geometry with PCA comparison, hierarchy toggle, and framework overlays
+    \item Genome-wide disease screen with matched healthy/disease pair analysis
+    \item Interactive visualization and export
+\end{itemize}
+
+\end{document}

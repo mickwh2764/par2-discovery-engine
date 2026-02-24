@@ -1,0 +1,388 @@
+{
+  "metadata": {
+    "source": "Jan et al. 2019 (Scientific Data)",
+    "study": "BXD Mouse Sleep Deprivation",
+    "design": "42 BXD strains, Control vs 6h Sleep Deprivation",
+    "tissues": [
+      "Cortex",
+      "Liver"
+    ]
+  },
+  "circadian_genes": [
+    {
+      "tissue": "Cortex",
+      "gene": "Clock",
+      "control_expr": 6.740146085934319,
+      "sd_expr": 7.013369408308564,
+      "log2FC": 0.2732233223742444,
+      "fold_change": 1.2085048997590133,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Cortex",
+      "gene": "Arntl",
+      "control_expr": 5.63333908821163,
+      "sd_expr": 5.96668350491504,
+      "log2FC": 0.33334441670340986,
+      "fold_change": 1.259930729157993,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Cortex",
+      "gene": "Per1",
+      "control_expr": 6.7576042986364,
+      "sd_expr": 7.497779134191052,
+      "log2FC": 0.7401748355546518,
+      "fold_change": 1.6703782543397272,
+      "direction": "UP"
+    },
+    {
+      "tissue": "Cortex",
+      "gene": "Per2",
+      "control_expr": 5.341804657321296,
+      "sd_expr": 6.363456571073855,
+      "log2FC": 1.0216519137525593,
+      "fold_change": 2.0302422959282325,
+      "direction": "UP"
+    },
+    {
+      "tissue": "Cortex",
+      "gene": "Per3",
+      "control_expr": 6.453707587742921,
+      "sd_expr": 6.491199858106235,
+      "log2FC": 0.03749227036331426,
+      "fold_change": 1.0263282850387674,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Cortex",
+      "gene": "Cry1",
+      "control_expr": 3.989806468468874,
+      "sd_expr": 4.300527962513986,
+      "log2FC": 0.3107214940451115,
+      "fold_change": 1.2403278347498568,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Cortex",
+      "gene": "Cry2",
+      "control_expr": 7.47424397620854,
+      "sd_expr": 7.46955677765906,
+      "log2FC": -0.00468719854948052,
+      "fold_change": 0.9967563535652757,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Cortex",
+      "gene": "Nr1d1",
+      "control_expr": 7.672630333717368,
+      "sd_expr": 7.311281412688841,
+      "log2FC": -0.36134892102852767,
+      "fold_change": 0.778436400626211,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Cortex",
+      "gene": "Nr1d2",
+      "control_expr": 7.339241513384874,
+      "sd_expr": 7.2775068943741354,
+      "log2FC": -0.06173461901073818,
+      "fold_change": 0.9581114447789173,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Cortex",
+      "gene": "Rora",
+      "control_expr": 3.5845696972357413,
+      "sd_expr": 3.644086800001963,
+      "log2FC": 0.0595171027662218,
+      "fold_change": 1.0421168862848393,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Cortex",
+      "gene": "Rorc",
+      "control_expr": 0.430151590263225,
+      "sd_expr": 0.40311032130726937,
+      "log2FC": -0.027041268955955655,
+      "fold_change": 0.9814309891665765,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Cortex",
+      "gene": "Npas2",
+      "control_expr": 5.892458708410569,
+      "sd_expr": 6.233182080158582,
+      "log2FC": 0.34072337174801337,
+      "fold_change": 1.2663914073700873,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Cortex",
+      "gene": "Dbp",
+      "control_expr": 6.447594906618143,
+      "sd_expr": 5.658930829367623,
+      "log2FC": -0.7886640772505196,
+      "fold_change": 0.5788798814570226,
+      "direction": "DOWN"
+    },
+    {
+      "tissue": "Cortex",
+      "gene": "Tef",
+      "control_expr": 8.69963913020239,
+      "sd_expr": 8.527949739211483,
+      "log2FC": -0.17168939099090785,
+      "fold_change": 0.88780245857445,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Cortex",
+      "gene": "Hlf",
+      "control_expr": 8.280899047231516,
+      "sd_expr": 8.250323298547679,
+      "log2FC": -0.03057574868383739,
+      "fold_change": 0.9790295099110475,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Cortex",
+      "gene": "Bhlhe40",
+      "control_expr": 7.018276123299193,
+      "sd_expr": 7.679850006459517,
+      "log2FC": 0.6615738831603242,
+      "fold_change": 1.5818073280874692,
+      "direction": "UP"
+    },
+    {
+      "tissue": "Cortex",
+      "gene": "Bhlhe41",
+      "control_expr": 5.442879440135783,
+      "sd_expr": 5.067087267180731,
+      "log2FC": -0.37579217295505263,
+      "fold_change": 0.7706821207672997,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Cortex",
+      "gene": "Nfil3",
+      "control_expr": 2.943825552039129,
+      "sd_expr": 3.946612721178168,
+      "log2FC": 1.0027871691390389,
+      "fold_change": 2.0038675715744256,
+      "direction": "UP"
+    },
+    {
+      "tissue": "Cortex",
+      "gene": "Csnk1d",
+      "control_expr": 7.306848786241397,
+      "sd_expr": 7.410175738641915,
+      "log2FC": 0.10332695240051848,
+      "fold_change": 1.074247896684266,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Cortex",
+      "gene": "Csnk1e",
+      "control_expr": 6.776298288758103,
+      "sd_expr": 6.895437976998727,
+      "log2FC": 0.11913968824062326,
+      "fold_change": 1.086087011074256,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Clock",
+      "control_expr": 7.0779072097368845,
+      "sd_expr": 7.248065666355766,
+      "log2FC": 0.17015845661888118,
+      "fold_change": 1.1251820608771428,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Arntl",
+      "control_expr": 4.267950687611031,
+      "sd_expr": 4.273508829775774,
+      "log2FC": 0.005558142164742819,
+      "fold_change": 1.0038600414143986,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Per1",
+      "control_expr": 5.798399577561009,
+      "sd_expr": 6.690147682817472,
+      "log2FC": 0.8917481052564638,
+      "fold_change": 1.8554229675657268,
+      "direction": "UP"
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Per2",
+      "control_expr": 6.251397212288751,
+      "sd_expr": 6.574733705281642,
+      "log2FC": 0.32333649299289124,
+      "fold_change": 1.2512208798010016,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Per3",
+      "control_expr": 6.238024115955359,
+      "sd_expr": 5.924785342794219,
+      "log2FC": -0.31323877316114057,
+      "fold_change": 0.8048329227702076,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Cry1",
+      "control_expr": 5.0877139585417686,
+      "sd_expr": 5.527891866411048,
+      "log2FC": 0.44017790786927957,
+      "fold_change": 1.356771629240745,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Cry2",
+      "control_expr": 6.94437376127395,
+      "sd_expr": 6.937280760397628,
+      "log2FC": -0.007093000876322364,
+      "fold_change": 0.9950955726128085,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Nr1d1",
+      "control_expr": 7.629539451637971,
+      "sd_expr": 7.506069468790657,
+      "log2FC": -0.12346998284731381,
+      "fold_change": 0.9179770666885947,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Nr1d2",
+      "control_expr": 7.623431979225894,
+      "sd_expr": 7.705073554470045,
+      "log2FC": 0.08164157524415039,
+      "fold_change": 1.058221456501956,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Rora",
+      "control_expr": 5.601629995868516,
+      "sd_expr": 5.573519652682262,
+      "log2FC": -0.028110343186253495,
+      "fold_change": 0.9807039928886938,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Rorc",
+      "control_expr": 7.149161157936606,
+      "sd_expr": 7.148458308101567,
+      "log2FC": -0.0007028498350392098,
+      "fold_change": 0.9995129402706042,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Npas2",
+      "control_expr": 1.004772861558687,
+      "sd_expr": 1.1876101214683834,
+      "log2FC": 0.18283725990969635,
+      "fold_change": 1.1351140508412165,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Dbp",
+      "control_expr": 7.047080096452392,
+      "sd_expr": 7.16141630719496,
+      "log2FC": 0.11433621074256806,
+      "fold_change": 1.082476879364979,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Tef",
+      "control_expr": 7.890126697812072,
+      "sd_expr": 8.022109337876032,
+      "log2FC": 0.13198264006395988,
+      "fold_change": 1.0957985806342059,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Hlf",
+      "control_expr": 7.337989722149376,
+      "sd_expr": 7.448933409130702,
+      "log2FC": 0.11094368698132584,
+      "fold_change": 1.0799344057036055,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Bhlhe40",
+      "control_expr": 7.5753922672282945,
+      "sd_expr": 7.541355802553962,
+      "log2FC": -0.0340364646743323,
+      "fold_change": 0.9766838425889297,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Bhlhe41",
+      "control_expr": 4.708298316880843,
+      "sd_expr": 4.443873193416508,
+      "log2FC": -0.2644251234643358,
+      "fold_change": 0.8325304103893247,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Nfil3",
+      "control_expr": 5.595475334742744,
+      "sd_expr": 5.637286481055555,
+      "log2FC": 0.0418111463128108,
+      "fold_change": 1.0294053219563621,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Csnk1d",
+      "control_expr": 7.29327727417934,
+      "sd_expr": 7.43106882405464,
+      "log2FC": 0.13779154987529996,
+      "fold_change": 1.1002196308697145,
+      "direction": "unchanged"
+    },
+    {
+      "tissue": "Liver",
+      "gene": "Csnk1e",
+      "control_expr": 4.208324027598368,
+      "sd_expr": 3.9824134636698543,
+      "log2FC": -0.22591056392851394,
+      "fold_change": 0.8550551831384049,
+      "direction": "unchanged"
+    }
+  ],
+  "summary": {
+    "cortex_up": [
+      "Per1",
+      "Per2",
+      "Bhlhe40",
+      "Nfil3"
+    ],
+    "cortex_down": [
+      "Dbp"
+    ],
+    "liver_up": [
+      "Per1"
+    ],
+    "liver_down": []
+  }
+}

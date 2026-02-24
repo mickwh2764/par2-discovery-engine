@@ -1,0 +1,45 @@
+{
+  "date": "2026-02-20",
+  "dataset": "GSE56931",
+  "description": "Human blood circadian with sleep deprivation",
+  "baseline": {
+    "n_probes": 10000,
+    "mean_lambda": 0.5181,
+    "ar2_pct": 2.9,
+    "complex_pct": 79.4,
+    "n_timepoints": 10,
+    "timepoints_hours": [
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44
+    ]
+  },
+  "sleep_deprivation": {
+    "n_probes": 10000,
+    "mean_lambda": 0.6066,
+    "ar2_pct": 4.1,
+    "complex_pct": 90.7,
+    "n_timepoints": 6,
+    "timepoints_hours": [
+      48,
+      52,
+      56,
+      60,
+      64,
+      68
+    ]
+  },
+  "disruption": {
+    "delta_lambda": 0.0885,
+    "p_value": 0.0,
+    "cohens_d": 0.4827,
+    "direction": "sleep deprivation increases eigenvalues"
+  }
+}

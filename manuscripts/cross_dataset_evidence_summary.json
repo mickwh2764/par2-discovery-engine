@@ -1,0 +1,125 @@
+{
+  "date": "2026-02-20",
+  "title": "Cross-Dataset PAR(2) Evidence Summary",
+  "datasets_analyzed": {
+    "GSE11923": {
+      "tissue": "Mouse liver",
+      "resolution": "1h",
+      "duration": "48h",
+      "n_timepoints": 48,
+      "n_genes": 21510,
+      "mean_lambda": 0.5339,
+      "clock_mean": 0.7655,
+      "target_mean": 0.6336,
+      "gap": 0.1319,
+      "hierarchy_preserved": true,
+      "ar2_preference": 95.6,
+      "quality_rating": "gold_standard"
+    },
+    "GSE67305_totalRNA": {
+      "tissue": "Mouse liver",
+      "resolution": "2h",
+      "duration": "24h",
+      "n_timepoints": 12,
+      "n_genes": 10826,
+      "mean_lambda": 0.505,
+      "clock_mean": 0.7654,
+      "target_mean": 0.5586,
+      "gap": 0.2069,
+      "hierarchy_preserved": true,
+      "ar2_preference": 52.9,
+      "quality_rating": "strong"
+    },
+    "GSE67305_ribosomeFP": {
+      "tissue": "Mouse liver (translational)",
+      "resolution": "2h",
+      "duration": "24h",
+      "n_timepoints": 12,
+      "n_genes": 9994,
+      "mean_lambda": 0.521,
+      "clock_mean": 0.8506,
+      "target_mean": 0.6052,
+      "gap": 0.2455,
+      "hierarchy_preserved": true,
+      "ar2_preference": 45.3,
+      "quality_rating": "novel_layer"
+    },
+    "GSE56931_baseline": {
+      "tissue": "Human blood",
+      "resolution": "4h",
+      "duration": "~36h",
+      "n_timepoints": 10,
+      "n_probes": 10000,
+      "mean_lambda": 0.5181,
+      "clock_mean": null,
+      "target_mean": null,
+      "gap": null,
+      "hierarchy_preserved": null,
+      "ar2_preference": 2.9,
+      "quality_rating": "exploratory"
+    },
+    "GSE56931_sleepdep": {
+      "tissue": "Human blood (sleep deprived)",
+      "resolution": "4h",
+      "duration": "~20h",
+      "n_timepoints": 6,
+      "n_probes": 10000,
+      "mean_lambda": 0.6066,
+      "clock_mean": null,
+      "target_mean": null,
+      "gap": null,
+      "hierarchy_preserved": null,
+      "ar2_preference": 4.1,
+      "quality_rating": "exploratory"
+    }
+  },
+  "key_findings": {
+    "resolution_robustness": {
+      "claim": "AR(2) eigenvalue estimates are robust to 2\u00d7 resolution change (1h vs 2h)",
+      "evidence": "Clock mean |\u03bb| identical (0.7655 vs 0.7654), genome-wide differs by only 0.029",
+      "confidence": "high",
+      "caveat": "AR(2) preference drops from 95.6% to 52.9% with fewer timepoints (statistical power issue, not eigenvalue bias)"
+    },
+    "translational_amplification": {
+      "claim": "Translational regulation may amplify circadian persistence hierarchy",
+      "evidence": "Ribosome footprint clock mean |\u03bb|=0.8506 vs total RNA 0.7654, gap 0.2455 vs 0.2069",
+      "confidence": "speculative",
+      "caveat": "Single dataset, no statistical test of RNA vs ribosome difference, could reflect translational buffering"
+    },
+    "human_disruption_direction": {
+      "claim": "Sleep deprivation increases genome-wide |\u03bb|",
+      "evidence": "\u0394|\u03bb|=+0.0897, p<0.001, Cohen d=0.48",
+      "confidence": "moderate",
+      "caveat": "Only 6 sleep dep timepoints (marginal for AR(2)), opposite to naive disruption prediction, may reflect homeostatic pressure buildup"
+    },
+    "hierarchy_universality": {
+      "claim": "Clock > target hierarchy is preserved across datasets and resolutions",
+      "evidence": "All 3 mouse liver analyses show clock > target: gaps +0.13, +0.21, +0.25",
+      "confidence": "high",
+      "caveat": "Only tested in mouse liver; no gene-level hierarchy test in human blood (probe IDs)"
+    }
+  },
+  "test_e_updates": {
+    "affected_convergence_points": [
+      {
+        "mapping": "Absolute eigenvalue magnitude claims",
+        "update": "Test E confirmed 25-30% nonlinear deviation is universal across all ODE models",
+        "new_confidence": "Claims about exact |\u03bb| values should include \u00b125-30% uncertainty from linearization",
+        "still_valid": "Relative comparisons (clock>target ordering) unaffected"
+      },
+      {
+        "mapping": "Boman k2 disease mechanism",
+        "update": "k2 invisibility definitively confirmed (spread=0.0006)",
+        "new_confidence": "AR(2) cannot detect primary Boman disease mechanism",
+        "still_valid": "Direction of APC-KO perturbation correctly predicted"
+      },
+      {
+        "mapping": "ODE-to-AR(2) bridge universality",
+        "update": "21-34% deviation found in ALL five canonical ODE models",
+        "new_confidence": "This is a universal property of linearized observation, not a Boman-specific failure",
+        "still_valid": "AR(2) captures dynamical class even with quantitative bias"
+      }
+    ],
+    "unaffected_convergence_points": "Most of 22 convergence mappings remain valid because they rely on relative comparisons (clock>target ordering, cross-species hierarchy, disruption direction) which survive nonlinear distortion"
+  }
+}

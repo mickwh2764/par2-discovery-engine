@@ -1,0 +1,265 @@
+{
+  "timestamp": "2025-12-04T14:52:51.492Z",
+  "version": "1.0.0",
+  "permutationsPerDataset": 20,
+  "shuffleModes": [
+    "time-shuffle",
+    "pair-shuffle",
+    "phase-scramble",
+    "synthetic-null"
+  ],
+  "datasets": [
+    {
+      "datasetId": "GSE54650_Liver",
+      "study": "GSE54650",
+      "tissue": "Liver",
+      "condition": null,
+      "realSignificantCount": 15,
+      "realMeanEigenperiod": 10.378734979859539,
+      "realMeanPValue": 0.3884840923051539,
+      "nullSummaries": [
+        {
+          "mode": "time-shuffle",
+          "permutations": 20,
+          "meanSignificantRate": 0.04889705882352941,
+          "stdSignificantRate": 0.03981975772824757,
+          "meanPValue": 0.3672529782798423,
+          "percentile5_pValue": 0.24269608322444866,
+          "percentile95_pValue": 0.4450882810794051,
+          "meanEigenperiod": 7.3933881038673945,
+          "eigenperiodRange": {
+            "min": 6.820260232750394,
+            "max": 8.035204229201552
+          },
+          "falsePositiveRate": 0.8
+        },
+        {
+          "mode": "pair-shuffle",
+          "permutations": 20,
+          "meanSignificantRate": 0.11029411764705882,
+          "stdSignificantRate": 2.7755575615628914e-17,
+          "meanPValue": 0.38848409230515385,
+          "percentile5_pValue": 0.38848409230515374,
+          "percentile95_pValue": 0.3884840923051539,
+          "meanEigenperiod": 10.378734979859537,
+          "eigenperiodRange": {
+            "min": 10.378734979859539,
+            "max": 10.378734979859539
+          },
+          "falsePositiveRate": 1
+        },
+        {
+          "mode": "phase-scramble",
+          "permutations": 20,
+          "meanSignificantRate": 0.10882352941176471,
+          "stdSignificantRate": 0.007570316280137501,
+          "meanPValue": 0.38868223113917083,
+          "percentile5_pValue": 0.38374296074491787,
+          "percentile95_pValue": 0.3918336266053232,
+          "meanEigenperiod": 10.378734979859514,
+          "eigenperiodRange": {
+            "min": 10.378734979859392,
+            "max": 10.378734979859656
+          },
+          "falsePositiveRate": 1
+        },
+        {
+          "mode": "synthetic-null",
+          "permutations": 20,
+          "meanSignificantRate": 0.10919117647058824,
+          "stdSignificantRate": 0.0707288351582109,
+          "meanPValue": 0.2561659681177741,
+          "percentile5_pValue": 0.2012297442932104,
+          "percentile95_pValue": 0.320376407251191,
+          "meanEigenperiod": 10.08667202075491,
+          "eigenperiodRange": {
+            "min": 8.612194801109249,
+            "max": 12.220427010785983
+          },
+          "falsePositiveRate": 0.9
+        }
+      ],
+      "empiricalPValue": 0.5375,
+      "conclusion": "NOT VALIDATED: Real findings could be due to chance (p = 0.537)"
+    },
+    {
+      "datasetId": "GSE54650_Heart",
+      "study": "GSE54650",
+      "tissue": "Heart",
+      "condition": null,
+      "realSignificantCount": 23,
+      "realMeanEigenperiod": 13.318062577481344,
+      "realMeanPValue": 0.27243722180024976,
+      "nullSummaries": [
+        {
+          "mode": "time-shuffle",
+          "permutations": 20,
+          "meanSignificantRate": 0.05845588235294118,
+          "stdSignificantRate": 0.04767944387796602,
+          "meanPValue": 0.35960032232795297,
+          "percentile5_pValue": 0.2850818152581272,
+          "percentile95_pValue": 0.4296811883610042,
+          "meanEigenperiod": 7.402605764048185,
+          "eigenperiodRange": {
+            "min": 6.6993692471490425,
+            "max": 8.161424238498066
+          },
+          "falsePositiveRate": 0.8
+        },
+        {
+          "mode": "pair-shuffle",
+          "permutations": 20,
+          "meanSignificantRate": 0.16911764705882354,
+          "stdSignificantRate": 5.551115123125783e-17,
+          "meanPValue": 0.2724372218002499,
+          "percentile5_pValue": 0.2724372218002497,
+          "percentile95_pValue": 0.2724372218002499,
+          "meanEigenperiod": 13.318062577481347,
+          "eigenperiodRange": {
+            "min": 13.318062577481342,
+            "max": 13.318062577481347
+          },
+          "falsePositiveRate": 1
+        },
+        {
+          "mode": "phase-scramble",
+          "permutations": 20,
+          "meanSignificantRate": 0.15514705882352942,
+          "stdSignificantRate": 0.011602745469161398,
+          "meanPValue": 0.27253420153273156,
+          "percentile5_pValue": 0.26591911528154405,
+          "percentile95_pValue": 0.27656747144681115,
+          "meanEigenperiod": 13.318062577474691,
+          "eigenperiodRange": {
+            "min": 13.318062577465794,
+            "max": 13.318062577483696
+          },
+          "falsePositiveRate": 1
+        },
+        {
+          "mode": "synthetic-null",
+          "permutations": 20,
+          "meanSignificantRate": 0.10919117647058824,
+          "stdSignificantRate": 0.0707288351582109,
+          "meanPValue": 0.2561659681177742,
+          "percentile5_pValue": 0.20122974429321042,
+          "percentile95_pValue": 0.32037640725119104,
+          "meanEigenperiod": 10.08667202075491,
+          "eigenperiodRange": {
+            "min": 8.612194801109249,
+            "max": 12.22042701078594
+          },
+          "falsePositiveRate": 0.9
+        }
+      ],
+      "empiricalPValue": 0.3625,
+      "conclusion": "NOT VALIDATED: Real findings could be due to chance (p = 0.362)"
+    },
+    {
+      "datasetId": "GSE221103_MYC_ON",
+      "study": "GSE221103",
+      "tissue": "Neuroblastoma",
+      "condition": "MYC_ON",
+      "realSignificantCount": 32,
+      "realMeanEigenperiod": 22.702621628563048,
+      "realMeanPValue": 0.32215212381707115,
+      "nullSummaries": [
+        {
+          "mode": "time-shuffle",
+          "permutations": 20,
+          "meanSignificantRate": 0.049999999999999996,
+          "stdSignificantRate": 0.03659456311887732,
+          "meanPValue": 0.3623666260178569,
+          "percentile5_pValue": 0.30896194869347376,
+          "percentile95_pValue": 0.4229143225619064,
+          "meanEigenperiod": 16.33052510838914,
+          "eigenperiodRange": {
+            "min": 13.664863684517917,
+            "max": 19.22364687412394
+          },
+          "falsePositiveRate": 0.9
+        },
+        {
+          "mode": "pair-shuffle",
+          "permutations": 20,
+          "meanSignificantRate": 0.21052631578947367,
+          "stdSignificantRate": 8.326672684688674e-17,
+          "meanPValue": 0.3221521238170712,
+          "percentile5_pValue": 0.3221521238170711,
+          "percentile95_pValue": 0.3221521238170712,
+          "meanEigenperiod": 22.702621628563058,
+          "eigenperiodRange": {
+            "min": 22.70262162856304,
+            "max": 22.70262162856305
+          },
+          "falsePositiveRate": 1
+        },
+        {
+          "mode": "phase-scramble",
+          "permutations": 20,
+          "meanSignificantRate": 0.20855263157894735,
+          "stdSignificantRate": 0.009780308386393752,
+          "meanPValue": 0.3242706398905392,
+          "percentile5_pValue": 0.3162201158973322,
+          "percentile95_pValue": 0.3300682215458432,
+          "meanEigenperiod": 22.70262162856468,
+          "eigenperiodRange": {
+            "min": 22.702621628562124,
+            "max": 22.70262162856685
+          },
+          "falsePositiveRate": 1
+        },
+        {
+          "mode": "synthetic-null",
+          "permutations": 20,
+          "meanSignificantRate": 0.0861842105263158,
+          "stdSignificantRate": 0.04393141059156986,
+          "meanPValue": 0.3054693429561804,
+          "percentile5_pValue": 0.22678097865599975,
+          "percentile95_pValue": 0.35908864672035873,
+          "meanEigenperiod": 23.0789839992254,
+          "eigenperiodRange": {
+            "min": 16.528504546394277,
+            "max": 31.61859679745445
+          },
+          "falsePositiveRate": 1
+        }
+      ],
+      "empiricalPValue": 0.3875,
+      "conclusion": "NOT VALIDATED: Real findings could be due to chance (p = 0.388)"
+    }
+  ],
+  "globalSummary": {
+    "totalDatasetsAnalyzed": 3,
+    "overallFalsePositiveRate": 0.9416666666666668,
+    "findingsValidatedPercent": 0,
+    "modeComparison": [
+      {
+        "mode": "time-shuffle",
+        "avgFalsePositiveRate": 0.8333333333333334,
+        "avgEmpiricalP": 0.42916666666666664
+      },
+      {
+        "mode": "pair-shuffle",
+        "avgFalsePositiveRate": 1,
+        "avgEmpiricalP": 0.42916666666666664
+      },
+      {
+        "mode": "phase-scramble",
+        "avgFalsePositiveRate": 1,
+        "avgEmpiricalP": 0.42916666666666664
+      },
+      {
+        "mode": "synthetic-null",
+        "avgFalsePositiveRate": 0.9333333333333332,
+        "avgEmpiricalP": 0.42916666666666664
+      }
+    ]
+  },
+  "conclusions": [
+    "0 of 3 datasets show findings unlikely to be due to chance (empirical p < 0.05).",
+    "Overall false positive rate under null: 94.2%",
+    "Mixed validation: Some findings may require additional validation.",
+    "Eigenperiod difference persists: healthy tissues ~11.8h vs cancer ~22.7h"
+  ]
+}

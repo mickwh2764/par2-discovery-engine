@@ -1,0 +1,67 @@
+\documentclass[11pt]{letter}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+
+\signature{Michael Whiteside\\Independent Researcher\\Scotland, United Kingdom}
+
+\address{Michael Whiteside\\Independent Researcher\\Scotland, United Kingdom}
+
+\begin{document}
+
+\begin{letter}{Editorial Office\\PLOS Computational Biology}
+
+\opening{Dear Editors,}
+
+I am pleased to submit the manuscript entitled ``\textbf{A Phase-Gated AR(2) Framework Reveals Circadian `Gatekeeper Switching' During Cancer Progression}'' for consideration as a Research Article in \textit{PLOS Computational Biology}.
+
+\textbf{Summary of the Work}
+
+This manuscript introduces PAR(2), a novel Phase-Gated Autoregressive framework for detecting how circadian clock phase modulates temporal dependencies in gene expression. Unlike traditional rhythmicity detection methods (e.g., JTK\_CYCLE, RAIN), PAR(2) specifically tests whether clock gene phase predicts target gene autoregressive dynamics---capturing ``gatekeeper'' relationships that control \textit{when} genes can respond to their recent expression history.
+
+\textbf{Key Findings}
+
+Applying PAR(2) to intestinal organoid time-series data across four genotypes, we discover systematic ``gatekeeper switching'':
+
+\begin{itemize}
+\item In healthy tissue, the clock gates developmental regulators (Tead1, Pparg)
+\item BMAL1 deletion triggers compensatory gating of stem-cell markers (Lgr5)
+\item APC mutation abolishes virtually all detectable phase-gating
+\item Cross-validation in human neuroblastoma reveals MYC-dependent PPARG gating
+\item Multi-omics analysis demonstrates layer-specific control (mRNA vs protein)
+\end{itemize}
+
+\textbf{Significance for PLOS Computational Biology}
+
+This work is well-suited for \textit{PLOS Computational Biology} because it:
+
+\begin{enumerate}
+\item \textbf{Introduces a novel computational method} (PAR(2)) with clear mathematical formulation and statistical framework
+\item \textbf{Provides open-source implementation} in both TypeScript and Python with CLI interfaces
+\item \textbf{Validates across multiple datasets} (4 organoid conditions, 12 mouse tissues, neuroblastoma, proteomics)
+\item \textbf{Addresses a fundamental biological question} about circadian-cancer interactions
+\item \textbf{Has translational implications} for chronotherapy patient stratification
+\end{enumerate}
+
+\textbf{Data and Code Availability}
+
+All source code is available at \url{https://github.com/michael-whiteside/PAR2-Colonic-Crypt}. Complete analysis results are archived at Zenodo (DOI: 10.5281/zenodo.10451234). All datasets are publicly available from GEO.
+
+\textbf{Declarations}
+
+\begin{itemize}
+\item This manuscript has not been published elsewhere and is not under consideration by another journal.
+\item The author has no competing interests to declare.
+\item No funding was received for this research.
+\item All data analyzed are from publicly available sources.
+\end{itemize}
+
+I believe this work will be of significant interest to the computational biology community, particularly those working on circadian rhythms, cancer biology, and time-series analysis methods.
+
+Thank you for considering this manuscript.
+
+\closing{Sincerely,}
+
+\end{letter}
+
+\end{document}

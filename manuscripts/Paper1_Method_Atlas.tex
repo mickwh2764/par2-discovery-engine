@@ -1,0 +1,1139 @@
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{lineno}
+\usepackage{enumitem}
+\linenumbers
+
+\title{\textbf{PAR(2): A Phase-Gated Autoregressive Framework Reveals Tissue-Specific Circadian Gating of Cancer-Relevant Genes Across Mammalian Tissues}}
+
+\author{
+Michael Whiteside$^{1,*}$ \\
+\\
+$^1$Independent Researcher, United Kingdom \\
+\\
+$^*$Corresponding author: mickwh@msn.com \\
+ORCID: 0009-0000-0643-5791
+}
+
+\date{February 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\noindent\textbf{Background:} Circadian disruption is linked to cancer, yet no framework systematically quantifies phase-dependent clock--cancer gene regulation across tissues.
+
+\noindent\textbf{Methods:} We developed PAR(2), which models target gene expression through second-order autoregressive dynamics with clock-gene phase-dependent coefficients. The eigenvalue modulus $|\lambda|$ quantifies temporal persistence---the degree to which expression state carries forward across circadian cycles. We validated the model against mechanistic ODE systems and applied it to 3,588 interactions (299 gene pairs $\times$ 12 tissues; GSE54650), with replication in GSE11923 (48 hourly timepoints). An eleven-analysis robustness suite and four permutation null models assessed reliability.
+
+\noindent\textbf{Results:} We identified 177 significant circadian gating relationships (4.9\% discovery rate, estimated single-tissue FDR $\sim$16\%, further reduced by cross-tissue consensus filters). \textbf{Cry1$\rightarrow$Wee1 was the only relationship conserved across $\geq$6 tissues}, identifying the G2/M checkpoint kinase Wee1 as the strongest candidate for a broadly conserved circadian gatekeeper among 23 cancer-relevant genes tested. Myc---often considered the canonical circadian-cancer target---was gated only in Muscle and Kidney, indicating that Myc behaves as a tissue-specific rather than broadly conserved circadian target in this dataset. Each tissue deployed distinct gating programs: liver guards DNA repair (ATM, Wee1), heart controls Hippo/YAP growth signaling (Tead1), and cerebellum gates CDK1 mitosis. A three-layer eigenvalue hierarchy (Identity $>$ Proliferation $>$ Clock) was confirmed across datasets with gene-level correlation $r = 0.786$ (permutation $p = 0.0032$). Extending beyond the binary clock/target split, we classified $\sim$1,594 genes into nine functional categories and discovered a fine-grained persistence hierarchy: Clock ($|\lambda|=0.70$) $>$ Chromatin ($0.67$) $>$ Metabolic ($0.66$) $>$ Housekeeping ($0.66$) $>$ Immune ($0.66$) $>$ Signaling ($0.65$) $>$ DNA Repair ($0.64$) $>$ Target ($0.63$) $>$ Stem Cell ($0.63$), with Kruskal-Wallis $H=144.8$, $p<0.001$ confirmed by permutation testing ($10{,}000$ label shuffles). Notably, chromatin remodeling genes outranked constitutively expressed housekeeping genes, and stem cell markers showed the lowest persistence---suggesting stemness is a low-memory state enabling rapid fate transitions. Cross-tissue consensus requiring significance in 3+ tissues reduced FDR from $\sim$16\% to approximately 1--5\%. An eleven-analysis robustness suite confirmed the clock--target hierarchy survives sub-sampling (to $N=8$), bootstrap resampling, linear detrending (12/12 tissues), gap permutation ($p < 0.001$, all 5 datasets), leave-one-tissue-out cross-validation (12/12 tissues), multi-category permutation ($H=144.8$, $p<0.001$), multi-category bootstrap (clock genes ranked \#1 in 100\% of 2,000 iterations, CI $[0.685, 0.752]$), multi-category detrending (mean rank correlation $\rho=0.819$, top category preserved 100\%), and multi-category leave-one-tissue-out (top category match 100\%). Bmal1-knockout data (GSE70499) provided causal validation: genetic ablation of the core oscillator collapsed the hierarchy completely (gap: $+0.152 \rightarrow -0.005$). Genome-wide validation ($\sim$180,000 gene-level fits across 5 contexts) confirmed the hierarchy is not an artifact of panel curation.
+
+\noindent\textbf{Conclusions:} PAR(2) provides a permutation-tested discovery framework establishing Wee1 as the broadly conserved circadian checkpoint target, challenging the assumed primacy of Myc, and revealing temporal memory organized along functional lines. The eigenvalue modulus $|\lambda|$ is a biologically informative metric distinct from expression level or variance, with direct implications for chronotherapy target prioritization and ongoing Wee1 inhibitor trials.
+
+\noindent\textbf{Keywords:} circadian rhythm, Wee1, autoregressive model, eigenvalue modulus, temporal persistence, cancer, tissue-specific gating, chronotherapy, root-space geometry, gene expression memory
+\end{abstract}
+
+\newpage
+
+\section{Introduction}
+
+The mammalian circadian clock orchestrates 24-hour rhythms in gene expression, metabolism, and cellular physiology across virtually all tissues \citep{takahashi2017}. At the molecular level, the clock comprises transcriptional activators CLOCK and BMAL1 (ARNTL) that drive expression of repressors PER1/2 and CRY1/2, forming an autoregulatory transcription-translation feedback loop (TTFL) with approximately 24-hour periodicity \citep{reppert2002}. While this core machinery is conserved across tissues, the downstream targets of clock control vary substantially, with tissue-specific transcriptional programs governing local physiology \citep{zhang2014}.
+
+Epidemiological evidence consistently links circadian disruption to cancer. Shift workers exhibit elevated rates of breast, prostate, and colorectal malignancies, leading the International Agency for Research on Cancer to classify circadian disruption as a probable human carcinogen \citep{straif2007}. Mouse models with genetic clock disruption develop spontaneous tumors, and chronic jet lag accelerates cancer progression \citep{fu2002}. However, the molecular mechanisms connecting clock dysfunction to tissue-specific cancer vulnerabilities remain poorly characterized.
+
+The concept of ``circadian gating'' describes how clock genes modulate the timing and magnitude of cellular responses, creating temporal windows of vulnerability or protection \citep{janich2011}. Recent optogenetic work has confirmed that signaling pathway output can be frequency-dependent: Rosen et al.\ demonstrated anti-resonance in the Wnt pathway, where intermediate activation frequencies suppress pathway output even with identical total ligand exposure \citep{rosen2026}. This provides direct experimental support for the principle that \textit{when} a gene is activated---not just \textit{how much}---determines downstream outcomes, the core premise of phase-gating analysis. Earlier studies identified specific clock-cancer gene interactions---notably Per2's regulation of Myc \citep{fu2002} and the CLOCK/BMAL1 complex's activation of Wee1 \citep{matsuo2003}. However, these studies examined single tissues or cell lines, leaving open the question: \textit{Are circadian gating relationships universal across tissues, or do different organs deploy distinct gating programs?}
+
+This question has direct implications for chronotherapy---the practice of timing cancer treatments to circadian rhythms. If gating relationships are tissue-specific, optimal treatment timing would differ by cancer type. Conversely, universal gating relationships would suggest body-wide therapeutic windows.
+
+A practical feature of this work is the parsimony of its core analytical step. While the full PAR(2) framework involves phase estimation, model comparison via F-tests, and multiple-testing correction, the quantitative backbone is a single two-parameter regression fitted independently to each gene's time series:
+\[
+y(t) = \beta_1 \cdot y(t{-}1) + \beta_2 \cdot y(t{-}2) + \varepsilon
+\]
+From these two fitted coefficients, we solve the characteristic equation $\lambda^2 - \beta_1\lambda - \beta_2 = 0$ and extract the eigenvalue modulus $|\lambda| = \max(|\lambda_1|, |\lambda_2|)$. This single derived quantity---a continuous measure of temporal persistence---serves as the foundation for all downstream analyses.
+
+To address the gap in systematic cross-tissue analysis, we developed the PAR(2) framework and conducted the first pan-tissue survey of circadian gating, testing 3,588 clock-target gene pair interactions across 12 mouse tissues using the Hughes Circadian Atlas \citep{zhang2014}. Our analysis is intentionally panel-based rather than genome-wide, focusing on 23 cancer-relevant targets and 13 clock genes to keep interpretation tractable.
+
+\section{Methods}
+
+\subsection{Mathematical Framework}
+
+The PAR(2) model represents target gene expression as a second-order autoregressive process with phase-dependent coefficients (Equation~\ref{eq:par2}). Let $R_n$ denote the expression level of a target gene at time point $n$, and let $\Phi_n$ denote the phase of a clock gene at the same time point:
+
+\begin{equation}
+R_n = \alpha_0 + \alpha_1(\Phi_{n-1})R_{n-1} + \alpha_2(\Phi_{n-2})R_{n-2} + \varepsilon_n
+\label{eq:par2}
+\end{equation}
+
+where $\alpha_0$ is an intercept, $\alpha_1(\Phi)$ and $\alpha_2(\Phi)$ are phase-dependent autoregressive coefficients, and $\varepsilon_n \sim \mathcal{N}(0, \sigma^2)$.
+
+\textbf{Exogeneity assumption:} We treat $\Phi_n$ as an exogenous regressor reflecting clock state, consistent with TTFL biology where core clock genes drive downstream targets. In reality, some targets may feed back onto clock components; modeling such reciprocal interactions would require a joint system identification approach and is beyond the current scope.
+
+We parameterize the phase dependence using a Fourier expansion truncated at the first harmonic:
+
+\begin{equation}
+\alpha_k(\Phi) = \beta_{k,0} + \beta_{k,\cos}\cos(\Phi) + \beta_{k,\sin}\sin(\Phi)
+\end{equation}
+
+Substituting and expanding yields the full regression model with seven predictors: the intercept, $R_{n-1}$, $R_{n-2}$, and four phase interaction terms ($R_{n-1}\cos\Phi_{n-1}$, $R_{n-1}\sin\Phi_{n-1}$, $R_{n-2}\cos\Phi_{n-2}$, $R_{n-2}\sin\Phi_{n-2}$).
+
+The PAR(2) model belongs to the well-established family of periodic autoregressive (PAR) processes \citep{box1994, hurd2007}. What distinguishes PAR(2) from classical periodic AR is that it indexes by \textit{inferred circadian phase}---the biological clock state estimated from clock gene expression---rather than calendar season, transforming a standard time-series technique into a hypothesis about circadian regulation.
+
+\subsection{Data Source and Processing}
+
+We analyzed circadian gene expression data from GSE54650 (Hughes Circadian Atlas), containing high-resolution time-series microarray data from 12 mouse tissues sampled every 2 hours from CT18 to CT64, providing 24 timepoints spanning two complete circadian cycles \citep{zhang2014}. Tissues analyzed: adrenal gland, aorta, brainstem, brown adipose tissue (BAT), cerebellum, heart, hypothalamus, kidney, liver, lung, skeletal muscle, and white adipose tissue (WAT).
+
+The $n/p$ ratio for GSE54650 is 7.3 (24 timepoints, 3 AR(2) parameters), below the conventional threshold of 10. To validate results under adequate $n/p$, we confirmed the three-layer hierarchy in GSE11923 (Hughes et al.\ 2009, 48 hourly timepoints, $n/p = 15.3$), obtaining the same Identity $>$ Proliferation $>$ Clock ordering with gene-level eigenvalue correlation $r = 0.786$ (permutation $p = 0.0032$).
+
+Raw probe-level expression data (Affymetrix MoGene-1.0-ST arrays) were processed using the GPL6246 platform annotation. Multiple probes mapping to the same gene symbol were averaged. Final datasets contained approximately 21,000 genes across 24 circadian timepoints per tissue.
+
+\subsection{Gene Selection}
+
+We selected 23 target genes across 7 functional categories relevant to cancer biology:
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Cell Cycle Control:} Ccnd1, Ccnb1, Cdk1, Wee1, Cdkn1a, Ccne1, Ccne2
+    \item \textbf{DNA Damage Response:} Atm, Chek2, Mdm2, Tp53
+    \item \textbf{Wnt/Stem Cell Signaling:} Myc, Lgr5, Axin2, Ctnnb1, Apc
+    \item \textbf{Apoptosis:} Bcl2, Bax
+    \item \textbf{Metabolic Regulation:} Pparg, Sirt1, Hif1a
+    \item \textbf{Proliferation/Replication:} Mcm6, Mki67
+\end{itemize}
+
+Thirteen clock genes were tested as potential gatekeepers: Per1, Per2, Per3, Cry1, Cry2, Clock, Arntl (BMAL1), Nr1d1 (REV-ERB$\alpha$), Nr1d2 (REV-ERB$\beta$), Dbp, Tef, Npas2, and Rorc. The panel is not exhaustive but is designed to span major cancer hallmarks, balancing biological relevance and statistical power.
+
+The clock gene panel comprises 8 core TTFL components \citep{takahashi2017} plus 5 genes with established circadian functions: Dbp, a direct CLOCK:BMAL1 target and the most robustly circadian mammalian gene \citep{ripperger2000, wuarin1990}, along with its PAR-bZIP family member Tef \citep{gachon2006}; Npas2, a functional CLOCK paralog \citep{reick2001, debruyne2007}; and Rorc (ROR$\gamma$), which directly regulates Cry1, Bmal1, and Per2 \citep{takeda2012}. Target gene additions include Ccne1 and Ccne2 (G1/S regulators with circadian modulation) and proliferation markers Mcm6 and Mki67.
+
+\subsection{Nine-Category Functional Gene Classification}
+
+To test whether temporal persistence is organized along broader functional lines beyond the binary clock/target split, we expanded analysis to $\sim$1,594 genes classified into nine functional categories:
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Clock (17 genes):} PER1/2/3, CRY1/2, CLOCK, ARNTL, NR1D1/2, RORA, RORC, DBP, TEF, HLF, NFIL3, NPAS2
+    \item \textbf{Target (24 genes):} MYC, CCND1, CCNB1, CDK1, WEE1, CDKN1A, LGR5, AXIN2, CTNNB1, APC, TP53, MDM2, ATM, CHEK2, BCL2, BAX, PPARG, SIRT1, HIF1A, CCNE1/2, MCM6, MKI67
+    \item \textbf{Housekeeping (23 genes):} GAPDH, ACTB, HPRT, TBP, B2M, RPLP0, PGK1, PPIA, GUSB, SDHA, TUBB5, UBC, YWHAZ, HMBS, ALDOA, ENO1, LDHA, TPI1, RPL13A, RPS18, POLR2A, EEF1A1, EIF4A2
+    \item \textbf{Immune (25 genes):} TNF, IL1B, IL6, IL10, IFNG, STAT1/3, IRF1/7, NFKB1/2, RELA, TLR2/4, CD4/8A/19/68, FCGR1, CXCL1/10, CCL2/5, ICOS, PTPRC
+    \item \textbf{Metabolic (28 genes):} PPARA/D, PPARGC1A, FASN, ACACA, HMGCR, CYP7A1, GPX1, SOD1/2, CAT, SLC2A1/2, GCK, PCK1, G6PC, FBP1, CS, IDH1/2, OGDH, NDUFV1, COX4I1, ATP5A1, ACOX1, CPT1A, ACADM
+    \item \textbf{Chromatin (26 genes):} HDAC1/2/3/4, SIRT2/3/6/7, KAT2A/B, EP300, CREBBP, EZH2, KDM5A, KDM1A, DNMT1/3A/3B, TET1/2/3, SMARCA4, ARID1A, CTCF, SUV39H1, SETDB1
+    \item \textbf{Signaling (36 genes):} NOTCH1/2, HES1, HEY1, DLL1, JAG1, WNT3A/5A, FZD1/7, LRP5/6, DKK1, RSPO1, SHH, GLI1/2, PTCH1, SMO, MAPK1/3, AKT1/2, PTEN, MTOR, RPTOR, EGFR, ERBB2, FGFR1, VEGFA, TGFB1, SMAD2/3/4, BMP2/4
+    \item \textbf{DNA Repair (27 genes):} BRCA1/2, RAD51/50, XRCC1/4, ERCC1/2, MLH1, MSH2/6, PMS2, XPC, DDB2, OGG1, APEX1, LIG1/3/4, PARP1/2, POLB, POLK, REV3L, FANCD2, FANCA, H2AFX
+    \item \textbf{Stem Cell (18 genes):} LGR5, ASCL2, SMOC2, OLFM4, BMI1, SOX2/9, POU5F1, NANOG, KLF4, LIN28A, ALDH1A1, PROM1, CD44, LRIG1, HOPX, TERT, LY6A
+\end{itemize}
+
+Genes not matching any category were classified as ``other'' and excluded from hierarchy analysis. Category assignments were defined \textit{a priori} from canonical gene ontology annotations and established functional literature. The total of $\sim$1,594 classified gene--tissue observations reflects a union across tissues: for each of the 12 GSE54650 tissues, all genes matching a category panel member were included (a gene present in multiple tissues contributes one observation per tissue). Gene counts in Table~\ref{tab:ninecategory} therefore reflect pooled observations, not unique gene symbols. This pooling approach weights the hierarchy toward genes with broad tissue expression, which is appropriate for testing whether temporal persistence is a systemic property rather than a tissue-specific artifact. Multi-category AR(2) analysis computed per-gene eigenvalue moduli in each tissue and aggregated by category. Bootstrap confidence intervals (2,000 iterations) were computed by resampling gene--tissue observations with replacement within each category.
+
+\subsection{Clock Gene Phase Estimation}
+
+For each clock gene, instantaneous phase was estimated from the expression time series using cosinor regression:
+
+\begin{equation}
+C_n = M + A\cos\left(\frac{2\pi t_n}{T} - \phi\right) + \epsilon_n
+\end{equation}
+
+where $M$ is the mesor, $A$ is the amplitude, $T=24$ hours is the assumed period, and $\phi$ is the acrophase.
+
+\textbf{Phase estimation limitations:} The fixed 24-hour period assumption may not capture free-running period variations. Period sensitivity analysis (T$\in$\{20--28\}h) showed robust eigenvalue separation, but alternative phase estimators (Hilbert transform, wavelet ridge-based methods) were not evaluated.
+
+\subsection{Statistical Testing}
+
+Significance of circadian gating was assessed using F-statistics comparing the full PAR(2) model against a reduced model lacking phase interaction terms:
+
+\begin{equation}
+F = \frac{(RSS_{\text{reduced}} - RSS_{\text{full}}) / 4}{RSS_{\text{full}} / (n - 7)}
+\end{equation}
+
+We applied a two-stage multiple testing correction:
+
+\begin{enumerate}[noitemsep]
+    \item \textbf{Within-pair Bonferroni correction ($\times 4$):} Additional correction given modest effective samples per additional parameter ($n/k \approx 1.75$ for the four phase-interaction terms), reducing per-test FPR from $\sim$5\% to $\sim$1.3\%.
+    \item \textbf{Across-pair FDR correction (Benjamini-Hochberg):} Controls FDR at $q < 0.05$ \citep{benjamini1995}.
+\end{enumerate}
+
+Effect sizes are reported as Cohen's f$^2$.
+
+For cross-tissue conservation analysis, each significant clock$\rightarrow$target pair was classified by the number of tissues achieving significance:
+\begin{itemize}[noitemsep]
+    \item \textbf{Conserved:} Significant in $\geq$6 tissues
+    \item \textbf{Moderately conserved:} Significant in 3--5 tissues
+    \item \textbf{Tissue-specific:} Significant in 1--2 tissues only
+\end{itemize}
+
+\subsection{ODE Validation of AR(2) Model Order}
+
+The AR(2) model order was validated against mechanistic ODE systems. We implemented the full 19-ODE Leloup-Goldbeter mammalian circadian clock model \citep{leloup2003} using parameters from BioModels (BIOMD0000000083) and applied identical AR(2) eigenvalue extraction. The eigenvalue mapping $\lambda_d = e^{\lambda_c \tau}$ demonstrates that eigenvalue modulus is approximately preserved across continuous (ODE), discrete (state-space), and autoregressive representations. This transforms PAR(2) from a curve-fitting exercise into a data-driven method for inferring mechanistic eigenvalues when the full ODE is unknown.
+
+Independent support for the AR(2) model order comes from an explicit cross-reference with the hidden-variable model of Wnt pathway anti-resonance \citep{rosen2026}. Their minimal ODE system couples an unobserved upstream pathway state $a(t)$ (destruction complex activity) to the observable $b(t)$ ($\beta$-catenin concentration):
+\begin{align}
+\frac{da}{dt} &= \begin{cases} k_{\text{on}}(1 - a) & \text{(Wnt ON)} \\ -k_{\text{off}} \cdot a & \text{(Wnt OFF)} \end{cases} \label{eq:rosen_a} \\
+\frac{db}{dt} &= k_b\left(1 - \frac{b}{1 + k_a \cdot a}\right) \label{eq:rosen_b}
+\end{align}
+where $k_{\text{on}}, k_{\text{off}}$ are the activation and deactivation rates of the hidden variable, $k_b$ is the $\beta$-catenin turnover rate, and $k_a$ controls the coupling strength.
+
+\textbf{ODE-to-AR(2) bridge.} This two-variable ODE system maps directly to the PAR(2) characteristic equation through a three-step derivation. Linearizing around the steady state $(a^*, b^*)$ for constant input (e.g., Wnt ON: $a^* = 1$, $b^* = 1 + k_a$), the Jacobian is:
+\begin{equation}
+J = \begin{pmatrix} -k_{\text{on}} & 0 \\ \frac{k_b k_a}{(1+k_a)^2} & -\frac{k_b}{1+k_a} \end{pmatrix}
+\label{eq:jacobian}
+\end{equation}
+with continuous eigenvalues $\lambda_1^c = -k_{\text{on}}$ and $\lambda_2^c = -k_b/(1+k_a)$. Discretizing at timestep $\tau$ gives the state-transition matrix $A_d = e^{J\tau}$ with discrete eigenvalues $\mu_1 = e^{-k_{\text{on}}\tau}$ and $\mu_2 = e^{-k_b\tau/(1+k_a)}$. Since only $b(t)$ is observed, the resulting time series follows an AR(2) process whose characteristic polynomial is $\det(zI - A_d)$. Term-by-term comparison with the PAR(2) characteristic equation $\lambda^2 - \phi_1\lambda - \phi_2 = 0$ yields:
+\begin{align}
+\phi_1 &= \text{tr}(A_d) = e^{-k_{\text{on}}\tau} + e^{-k_b\tau/(1+k_a)} \label{eq:phi1_map} \\
+\phi_2 &= -\det(A_d) = -e^{-(k_{\text{on}} + k_b/(1+k_a))\tau} \label{eq:phi2_map}
+\end{align}
+and the eigenvalue modulus:
+\begin{equation}
+|\lambda| = \max\left(e^{-k_{\text{on}}\tau},\; e^{-k_b\tau/(1+k_a)}\right)
+\label{eq:lambda_map}
+\end{equation}
+Equation~\ref{eq:lambda_map} establishes that the PAR(2) eigenvalue modulus directly recovers the slower of the two mechanistic decay rates in the Rosen system, providing a formal justification for the AR(2) model order: any system with one observed and one hidden variable, each with first-order dynamics, necessarily produces second-order autoregressive structure when projected onto the observed variable alone.
+
+\textbf{Empirical assessment.} We applied PAR(2) eigenvalue extraction to the publicly available optogenetic time-series data from \citet{rosen2026} (HEK293T Wnt I/O cells, 231 timepoints at 10-minute intervals across seven light-exposure conditions). All 14 channels---7 TopFlash transcriptional reporter and 7 $\beta$-catenin protein traces---yielded nonzero $\hat{\phi}_2$ coefficients (range: 0.07--0.38), confirming the AR(2) model order. TopFlash showed systematically higher $|\lambda|$ than $\beta$-catenin (mean $|\lambda|$: 0.998 vs.\ 0.974; TopFlash range: 0.994--1.001; $\beta$-catenin range: 0.910--0.997), consistent with slower transcriptional decay relative to destruction complex-mediated protein degradation. Both reporters showed an increasing trend in $|\lambda|$ with longer Wnt activation ($\beta$-catenin: 0.939 at 6hr to 0.996 at 24hr), suggesting dose-dependent accumulation of temporal persistence.
+
+\textbf{Sign of $\hat{\phi}_2$ and nonlinearity.} Notably, the linearized theory (Equation~\ref{eq:phi2_map}) predicts $\phi_2 < 0$ since both discrete eigenvalues are positive, yet all 14 empirical channels yield $\hat{\phi}_2 > 0$. This sign discrepancy is itself informative: positive $\hat{\phi}_2$ implies that the AR(2) roots have opposite signs, a hallmark of overshooting or oscillatory transient dynamics. This is precisely the nonlinear regime-switching behavior (ON $\leftrightarrow$ OFF transitions) that produces anti-resonance in the Rosen model. The linearized derivation correctly predicts the model \textit{order} (AR(2), not AR(1)), but the sign of $\hat{\phi}_2$ serves as a fingerprint of the full nonlinear dynamics that the linearized approximation cannot capture.
+
+\textbf{Boman crypt compartment model.} A complementary ODE validation comes from the three-compartment colorectal crypt model of \citet{boman2025}, which describes cell population dynamics as an autocatalytic polymerization process:
+\begin{align}
+\frac{dC}{dt} &= (k_1 - k_2 P)\,C \label{eq:boman_C} \\
+\frac{dP}{dt} &= (k_2 C - k_5)\,P \label{eq:boman_P} \\
+\frac{dD}{dt} &= k_3 P - k_4 D \label{eq:boman_D}
+\end{align}
+where $C$, $P$, $D$ are cycling, proliferative, and differentiated cell populations; $k_1$ is the stem cell self-renewal rate, $k_2$ the autocatalytic polymerization rate, $k_3$ the asymmetric division rate, $k_4$ the extrusion rate, and $k_5$ the apoptosis rate. At equilibrium ($C^* = k_5/k_2$, $P^* = k_1/k_2$), the Jacobian decomposes into a $2 \times 2$ C-P block plus a decoupled D equation ($\lambda_3 = -k_4$). The C-P block has \textit{purely imaginary} eigenvalues:
+\begin{equation}
+\lambda_{1,2}^c = \pm\, i\sqrt{k_1 k_5}
+\label{eq:boman_eigenvalues}
+\end{equation}
+producing oscillatory (center) dynamics with frequency $\omega = \sqrt{k_1 k_5}$. Discretizing at timestep $\tau$ and observing only one compartment yields AR(2) with:
+\begin{align}
+\phi_1 &= 2\cos\!\left(\sqrt{k_1 k_5}\;\tau\right), \quad
+\phi_2 = -1, \quad
+|\lambda| = 1
+\label{eq:boman_ar2}
+\end{align}
+
+\textbf{Observable-to-compartment mapping.} The Boman model describes cell \textit{population sizes} ($C$, $P$, $D$), whereas PAR(2) operates on gene \textit{expression levels} (mRNA). We treat marker gene expression as an approximate proxy for compartment size, following the principle that bulk tissue mRNA levels reflect the weighted contributions of constituent cell types \citep{newman2015, avila2018}. In our gene panel, Mki67 and Mcm6 are canonical markers of proliferating cells, making their temporal expression profiles approximate proxies for $P(t)$; likewise, Lgr5 marks the cycling stem cell compartment $C(t)$. This approximation has known limitations: marker expression can vary with cell-cycle phase, transcriptional regulation independent of cell number, and incomplete marker specificity. Nevertheless, the proportionality is sufficiently established for deconvolution-based methods \citep{newman2015} that treating marker gene dynamics as a first-order proxy for compartment dynamics is reasonable, and the AR(2) projection applies under this approximation.
+
+\textbf{Empirical $|\lambda| < 1$ and the theoretical ceiling.} The Boman model predicts $|\lambda| = 1$ (neutrally stable, undamped oscillation), yet all empirical eigenvalue estimates fall below unity. This is expected: the idealized ODE produces neutrally stable (undamped) oscillations at the linearized equilibrium. Real biological systems experience stochastic cell division timing, apoptotic variability, microenvironmental noise, and measurement error---all of which introduce effective damping that pushes $|\lambda|$ below 1. The Boman prediction therefore defines a \textit{theoretical upper bound}: empirical values $|\lambda| < 1$ are consistent with the model architecture while reflecting biological dissipation absent from the idealized equations.
+
+\textbf{Minimal model as a lower bound on complexity.} The Boman system omits spatial structure, Wnt gradient feedback, and Notch-mediated lateral inhibition---all features of real crypt biology. This simplicity is informative: the structural correspondence with AR(2) holds even for this minimal three-compartment model. More complex crypt models incorporating feedback from the differentiated compartment to stem cells (e.g., via Wnt or BMP gradients) may increase the effective autoregressive order beyond 2, depending on the coupling structure and choice of observed variable. The AR(2) correspondence with the minimal Boman model thus represents a \textit{lower bound} on complexity. This suggests a testable hypothesis: crypt models with D$\rightarrow$C feedback may require AR($p > 2$), which could be assessed by fitting AR models of increasing order to simulated data from such systems.
+
+The contrast with the Rosen model (Equations~\ref{eq:phi1_map}--\ref{eq:lambda_map}) is instructive: Rosen's hidden-variable system produces \textit{real} eigenvalues with $|\lambda| < 1$ (damped), while Boman's crypt oscillator produces \textit{imaginary} eigenvalues with $|\lambda| = 1$ (neutrally stable). Both independently require AR(2) model order, but for structurally different reasons---hidden-variable mediation versus compartmental oscillation. That PAR(2) eigenvalue extraction recovers both dynamics demonstrates the generality of the AR(2) framework: it captures temporal persistence regardless of whether the underlying mechanism is exponential decay (signaling) or sustained oscillation (tissue renewal).
+
+\subsubsection*{Information-Criteria Assessment of Model Order}
+
+Formal model selection using Akaike (AIC) and Bayesian (BIC) information criteria confirms AR(2) as the preferred model order over AR(1). Across 286 clock and target genes in 8 datasets (5 mouse tissues, organoid WT, organoid APC-KO, human blood), AR(2) yields substantially lower AIC than AR(1) (mean $\Delta$AIC = $-10.7$; mean $\Delta$BIC = $-9.7$), with $|\Delta\text{AIC}| > 10$ constituting overwhelming evidence by conventional thresholds \citep{burnham2002}. The clock $>$ target eigenvalue hierarchy is preserved under both AR(1) and AR(2) in all normal-tissue datasets (6/8 overall; the two exceptions---APC-KO organoids and human blood---are biologically expected due to oncogenic disruption and tissue-specific noise, respectively).
+
+Using corrected AICc (small-sample Akaike criterion) with standardized effective sample size ($n_{\text{eff}} = N - 3$ for all model orders, ensuring fair comparison), AR(1) is preferred for 58\% of genes, AR(2) for 16\%, and AR(3) for 25.5\%. The predominance of AR(1) reflects that many target genes exhibit simple exponential decay dynamics. Crucially, AR(2) is the \textit{minimum} order necessary for complex eigenvalue roots, which capture oscillatory dynamics inaccessible to AR(1)---and clock genes are preferentially selected as AR(2) or higher, consistent with their oscillatory biology. BIC, which imposes stronger parsimony penalties appropriate for short time series ($N = 12$--$48$), further favors AR(2) over AR(3). The hierarchy's robustness across model orders AR(1) through AR(4) (Table~\ref{tab:aic_comparison}) confirms that the clock $>$ target distinction reflects genuine biological structure rather than model-order sensitivity.
+
+\subsection{Null Model Summary}
+
+We employed four distinct null models for permutation testing (Table~\ref{tab:null_summary}):
+
+\begin{table}[H]
+\centering
+\caption{Summary of null models used for permutation testing (1,000 permutations each).}
+\label{tab:null_summary}
+\begin{tabular}{p{2.5cm}p{3.5cm}p{4cm}p{2.5cm}}
+\toprule
+Null Model & Structure Preserved & Hypothesis Tested & FPR Estimate \\
+\midrule
+Time-shuffle & Marginal distributions; cross-gene correlations & Temporal ordering matters & $\sim$16\% (single); $\sim$1--5\% (3+ tissues) \\
+Pair-shuffle & Expression dynamics; temporal structure & Specific pairing matters & 100\%$^*$ \\
+Phase-scramble & Expression magnitudes; pairing & Phase ordering matters & 100\%$^*$ \\
+Circular-shift & Autocorrelation structure & Phase relationship drives significance & 0\% (Bonferroni) \\
+\bottomrule
+\multicolumn{4}{l}{\small $^*$High FPR indicates these nulls preserve cross-tissue correlation.} \\
+\end{tabular}
+\end{table}
+
+Time-shuffle is the primary FDR estimator. The circular-shift null confirms PAR(2) is not falsely detecting phase-gating from autocorrelation alone.
+
+\subsection{Software and Reproducibility}
+
+All analyses were performed using the PAR(2) Discovery Engine \citep{whiteside2026zenodo}. The software, source code, embedded datasets, and analysis results are available at \url{https://github.com/mickwh2764/PAR-2--Final-09-12-2025}. The web application is accessible at \url{https://par2-discovery-engine.replit.app}. The interactive platform includes a genome-wide gene search across 72 datasets ($>$20,000 genes each), root-space geometry visualization with multiple interpretive overlays (Waddington landscape, phase portrait, functional geography, and PCA comparison), a progressive hierarchy layer toggle for exploring the nine-category persistence ranking, and a genome-wide disease screen with full statistical robustness validation. The PCA comparison overlay displays the same genes simultaneously in PCA projection space (based on expression variance) and AR(2) root-space (based on temporal dynamics), with cross-highlighting to demonstrate empirically that eigenvalue-based persistence captures information orthogonal to variance-based dimensionality reduction (Section~\ref{sec:pca_comparison}).
+
+\section{Results}
+
+\subsection{Pan-Tissue Analysis Reveals 177 Significant Circadian Gating Relationships}
+
+Systematic application of the PAR(2) framework across 12 mouse tissues identified 177 significant circadian gating relationships out of 3,588 tests (4.9\% overall discovery rate, FDR-corrected at $q < 0.05$; Table~\ref{tab:tissue_summary}).
+
+\begin{table}[H]
+\centering
+\caption{\textbf{Tissue-specific discovery rates and top findings.}}
+\label{tab:tissue_summary}
+\begin{tabular}{lcccl}
+\toprule
+\textbf{Tissue} & \textbf{Sig/Total} & \textbf{Rate (\%)} & \textbf{Conservation} & \textbf{Top Discovery (p-value)} \\
+\midrule
+Liver & 25/299 & 8.4 & Mixed & Nr1d1$\rightarrow$Wee1 (0.0104) \\
+Brown Adipose & 25/299 & 8.4 & Mixed & Nr1d2$\rightarrow$Chek2 (0.0076) \\
+White Adipose & 19/299 & 6.4 & Tissue-specific & Clock$\rightarrow$Bax (0.0059) \\
+Aorta & 19/299 & 6.4 & Wee1-enriched & Nr1d1$\rightarrow$Wee1 (0.0038) \\
+Heart & 16/299 & 5.4 & Tissue-specific & Nr1d1$\rightarrow$Tead1 (0.0061) \\
+Lung & 15/299 & 5.0 & Wee1-enriched & Arntl$\rightarrow$Wee1 (0.0178) \\
+Brainstem & 15/299 & 5.0 & Mixed & Cry1$\rightarrow$Tead1 (0.0048) \\
+Muscle & 14/299 & 4.7 & Myc-specific & Nr1d2$\rightarrow$Myc (0.0237) \\
+Adrenal & 11/299 & 3.7 & Wee1-enriched & Nr1d2$\rightarrow$Wee1 (0.0006) \\
+Cerebellum & 8/299 & 2.7 & Cdk1-specific & Nr1d1$\rightarrow$Cdk1 (0.0110) \\
+Hypothalamus & 7/299 & 2.3 & Chek2-specific & Arntl$\rightarrow$Chek2 (0.0436) \\
+Kidney & 3/299 & 1.0 & Myc-specific & Nr1d2$\rightarrow$Myc (0.0431) \\
+\midrule
+\textbf{Total} & \textbf{177/3,588} & \textbf{4.9} & --- & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Discovery rates varied 8-fold across tissues, from 8.4\% in Liver and Brown Adipose to 1.0\% in Kidney. Metabolic tissues (liver, adipose depots) exhibited the highest gating activity, suggesting enriched circadian-cancer crosstalk in metabolically central organs.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/generated/figure1_discovery_rates.pdf}
+\caption{\textbf{Tissue-specific circadian gating discovery rates.} Bar chart showing the percentage of significant clock--target gene pairs (FDR $q < 0.05$) in each of 12 mouse tissues from the Hughes Circadian Atlas (GSE54650). Metabolic tissues (Liver, Brown Fat) show the highest gating activity (8.4\%), while Kidney shows the lowest (1.0\%). Dashed line indicates the overall discovery rate of 4.9\%.}
+\label{fig:discovery_rates}
+\end{figure}
+
+\subsection{Cry1$\rightarrow$Wee1: The Only Universally Conserved Circadian Gating Relationship}
+
+Cross-tissue conservation analysis revealed a striking finding: \textbf{Cry1$\rightarrow$Wee1 was the only clock-target relationship significant in 6 or more tissues}, making Wee1 the only cancer-relevant target in our panel with broadly conserved ($\geq$6 tissues) Cry1-dependent circadian gating. Wee1 therefore emerges as the leading candidate for a broadly conserved circadian checkpoint among the genes tested.
+
+Cry1$\rightarrow$Wee1 gating was detected across diverse tissue types:
+\begin{itemize}[noitemsep]
+    \item \textbf{Metabolic:} Liver, Brown Fat, White Fat
+    \item \textbf{Cardiovascular:} Aorta, Heart
+    \item \textbf{Respiratory:} Lung
+    \item \textbf{Neural:} Brainstem, Cerebellum, Hypothalamus
+    \item \textbf{Muscular:} Muscle
+    \item \textbf{Endocrine:} Adrenal (\textit{strongest signal}: Nr1d2$\rightarrow$Wee1, p=0.0006)
+\end{itemize}
+
+Multi-criteria highest-confidence filtering (cross-tissue consensus + stability + hub status) identified 8 gene pairs, all involving Wee1, significant across 4--6 tissues with all 8 core clock genes (average f$^2$=2.36; Table~\ref{tab:wee1_hub}).
+
+\begin{table}[H]
+\centering
+\caption{\textbf{Highest-confidence tier: Wee1 as broadly conserved circadian hub.}}
+\label{tab:wee1_hub}
+\begin{tabular}{llccl}
+\toprule
+Target & Clock Gene & Tissues & Avg f$^2$ & Key Tissues \\
+\midrule
+Wee1 & Cry1 & 6 & 2.05 & Adrenal, Aorta, Liver, Lung, Muscle, White Fat \\
+Wee1 & Per1 & 5 & 2.89 & Adrenal, Aorta, Liver, Lung, Muscle \\
+Wee1 & Nr1d2 & 5 & 2.66 & Adrenal, Aorta, Liver, Lung, Muscle \\
+Wee1 & Clock & 5 & 2.66 & Adrenal, Aorta, Liver, Lung, Muscle \\
+Wee1 & Cry2 & 5 & 2.05 & Adrenal, Aorta, Liver, Lung, Muscle \\
+Wee1 & Nr1d1 & 5 & 2.05 & Adrenal, Aorta, Liver, Muscle, White Fat \\
+Wee1 & Arntl & 4 & 2.89 & Adrenal, Aorta, Liver, Lung \\
+Wee1 & Per2 & 4 & 2.66 & Adrenal, Aorta, Liver, White Fat \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Statistical validation of Wee1 hub status:} Monte Carlo simulation (10,000 iterations) showed zero cases achieving 8-clock coverage for any target gene (empirical $p < 10^{-4}$).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/generated/figure2_heatmap.pdf}
+\caption{\textbf{Circadian gating heatmap across tissues.} Heatmap of $-\log_{10}(p)$ values for all significant clock--target pairs across 12 tissues. Rows represent clock$\rightarrow$target pairs; columns represent tissues. Cry1$\rightarrow$Wee1 (top row) is the only relationship achieving significance across $\geq$6 tissues, establishing Wee1 as the broadly conserved circadian gatekeeper. Tissue-specific patterns are visible: Heart gates Tead1 exclusively, Cerebellum gates Cdk1, and Muscle gates Myc.}
+\label{fig:heatmap}
+\end{figure}
+
+\subsection{Myc Gating is Tissue-Specific, Not Universal}
+
+Contrary to the prevailing focus on Myc as a primary circadian-cancer target \citep{altman2015}, our analysis revealed that \textbf{Myc gating is restricted to only 2 tissues}: Muscle and Kidney.
+
+\begin{table}[H]
+\centering
+\caption{\textbf{Myc gating relationships are tissue-restricted.}}
+\begin{tabular}{llc}
+\toprule
+\textbf{Tissue} & \textbf{Clock$\rightarrow$Myc Pairs} & \textbf{P-value Range} \\
+\midrule
+Muscle & Nr1d2, Per1, Per2, Arntl, Clock, Cry1, Cry2, Nr1d1 & 0.024--0.048 \\
+Kidney & Nr1d2, Clock, Arntl & 0.043--0.048 \\
+\textit{All other tissues} & \textit{None significant} & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+This challenges the narrative that Myc is the canonical circadian-cancer target and suggests the G2/M checkpoint (Wee1) may be more fundamental to circadian tumor suppression than the G1 proliferation program (Myc/CyclinD). We interpret the eigenvalue hierarchy as a descriptive measure of temporal persistence rather than direct evidence of causal regulatory strength.
+
+\subsection{Tissue-Specific Gating Signatures Reveal Organ-Adapted Circadian Protection}
+
+Beyond the conserved Cry1$\rightarrow$Wee1 axis, each tissue deployed distinct gating programs (Table~\ref{tab:signatures}):
+
+\begin{table}[H]
+\centering
+\caption{\textbf{Tissue-specific circadian gating signatures.}}
+\label{tab:signatures}
+\begin{tabular}{lll}
+\toprule
+\textbf{Tissue} & \textbf{Dominant Gated Pathway} & \textbf{Key Targets} \\
+\midrule
+Liver & Cell cycle, DNA repair & Wee1, Ccnd1, Ccnb1, Atm \\
+Brown/White Fat & DNA damage, Apoptosis & Chek2, Bax, Yap1 \\
+Heart & Hippo/growth control & Tead1 (all 8 core clocks) \\
+Brainstem & Hippo pathway & Tead1 \\
+Muscle & Proliferation & Myc, Wee1 \\
+Kidney & Proliferation & Myc exclusively \\
+Cerebellum & Mitosis & Cdk1 \\
+Adrenal & Cell cycle checkpoint & Wee1 (strongest), Axin2 \\
+Hypothalamus & DNA damage, Metabolism & Chek2, Sirt1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Heart} showed selective gating of the Hippo pathway transcription factor Tead1 by all 8 core clock genes (p = 0.006--0.021), suggesting circadian control of organ size. No other target genes achieved significance in heart, making this the most focused gating program observed.
+
+\textbf{Liver} displayed the broadest gating profile, with ATM (DNA damage sensor) gated by 7 of 13 clock genes, Wee1 by all 8 core clocks, and Ccnd1 by 6 clocks---consistent with its metabolic hub role.
+
+\textbf{Cerebellum} exclusively gated Cdk1 by all 8 core clock genes (p = 0.011--0.026), particularly relevant given that medulloblastoma arises from cerebellar granule cell precursors.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/generated/figure3_model.pdf}
+\caption{\textbf{Tissue-specific circadian gating programs.} Schematic illustrating the organ-adapted circadian defense strategy. Each tissue deploys distinct gating programs targeting its most vulnerable pathways: Liver guards genomic integrity (ATM, Wee1), Heart controls Hippo/YAP growth signaling (Tead1), Kidney times proliferation (Myc), and Cerebellum gates mitosis (Cdk1). Cry1$\rightarrow$Wee1 is the only broadly conserved axis spanning $\geq$6 tissues. Arrows indicate clock-to-target gating relationships; line thickness reflects cross-tissue conservation.}
+\label{fig:model}
+\end{figure}
+
+\subsection{Cross-Tissue Consensus Dramatically Reduces False Discovery Rate}
+
+Requiring significance across multiple independent tissues provided robust identification of genuine phase-gating relationships (Table~\ref{tab:cross_tissue_fdr}):
+
+\begin{table}[H]
+\centering
+\caption{\textbf{Cross-tissue consensus reduces FDR} (time-shuffle null, 1,000 permutations $\times$ 12 tissues).}
+\label{tab:cross_tissue_fdr}
+\begin{tabular}{lccl}
+\toprule
+Threshold & Real Pairs & Time-shuffle FPR & Interpretation \\
+\midrule
+Single tissue & 2,353 & 16.2\% $\pm$ 2.5\% & Moderate false positive rate \\
+2+ tissues & 89 & 12.3\% $\pm$ 4.3\% & Improvement \\
+\textbf{3+ tissues (HIGH)} & \textbf{21} & \textbf{2.1\% $\pm$ 1.8\%} & \textbf{Strong evidence threshold} \\
+4+ tissues & 8 & 0.3\% $\pm$ 1.1\% & Very stringent \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Methodological consideration:} The 12 GSE54650 tissues share experimental pipeline and animal cohort, so the effective number of independent contexts may be lower than 12. FPR estimates should be interpreted as approximate.
+
+\subsection{Three-Layer Eigenvalue Hierarchy Confirmed Across Datasets}
+
+AR(2) eigenvalue analysis revealed a three-layer hierarchy of temporal persistence:
+
+\begin{table}[H]
+\centering
+\caption{\textbf{Three-layer hierarchy: cross-dataset validation.}}
+\label{tab:hierarchy}
+\begin{tabular}{lccccc}
+\toprule
+Dataset & $n/p$ & Identity $|\lambda|$ & Prolif.\ $|\lambda|$ & Clock $|\lambda|$ & Hierarchy \\
+\midrule
+GSE11923 (48 tp, 1h) & 15.3 & 0.984 & 0.982 & 0.938 & I $>$ P $>$ C \\
+GSE54650 (24 tp, 2h) & 7.3 & 0.994 & 0.975 & 0.858 & I $>$ P $>$ C \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Bootstrap confidence intervals (5,000 iterations) for the Identity--Clock gap were [0.016, 0.080] and for the Clock--Proliferation gap [$-$0.077, $-$0.014], neither crossing zero. This hierarchy---Identity genes showing highest persistence, followed by Proliferation markers, then Clock genes---was robust to the $n/p$ limitation of GSE54650.
+
+\subsection{Nine-Category Persistence Hierarchy}
+
+To test whether temporal persistence is organized along broader functional lines, we expanded beyond the binary clock/target classification to analyze $\sim$1,594 genes across nine functional categories, pooled across all 12 tissues (Table~\ref{tab:ninecategory}).
+
+\begin{table}[H]
+\centering
+\caption{\textbf{Nine-category temporal persistence hierarchy} (pooled across 12 tissues, GSE54650).}
+\label{tab:ninecategory}
+\begin{tabular}{clccc}
+\toprule
+\textbf{Rank} & \textbf{Category} & \textbf{$n$ genes} & \textbf{Mean $|\lambda|$} & \textbf{95\% Bootstrap CI} \\
+\midrule
+1 & Clock            & 152 & 0.6985 & [0.685, 0.752] \\
+2 & Chromatin        & 185 & 0.6709 & [0.651, 0.691] \\
+3 & Metabolic        & 193 & 0.6619 & [0.643, 0.681] \\
+4 & Housekeeping     & 171 & 0.6552 & [0.635, 0.676] \\
+5 & Immune           & 169 & 0.6550 & [0.634, 0.676] \\
+6 & Signaling        & 228 & 0.6527 & [0.636, 0.669] \\
+7 & DNA Repair       & 185 & 0.6449 & [0.626, 0.664] \\
+8 & Target           & 195 & 0.6322 & [0.613, 0.652] \\
+9 & Stem Cell        & 116 & 0.6259 & [0.602, 0.650] \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The hierarchy was statistically significant (Kruskal-Wallis $H = 144.8$, $p < 0.001$, $df = 8$). Of 36 pairwise comparisons (Mann-Whitney $U$), nine reached nominal significance at $\alpha = 0.05$ (uncorrected; exploratory pairwise tests following a significant omnibus KW): Clock $>$ Target ($p = 0.0003$), Clock $>$ Stem Cell ($p = 0.0005$), Clock $>$ DNA Repair ($p = 0.0013$), Clock $>$ Signaling ($p = 0.0039$), Clock $>$ Metabolic ($p = 0.019$), Chromatin $>$ Target ($p = 0.022$), Clock $>$ Immune ($p = 0.025$), Chromatin $>$ Stem Cell ($p = 0.029$), and Clock $>$ Housekeeping ($p = 0.029$). Under Bonferroni correction ($\alpha/36 = 0.0014$), Clock $>$ Target and Clock $>$ Stem Cell remain significant; the remaining comparisons are interpreted as suggestive of hierarchical structure.
+
+Three features of this hierarchy merit emphasis:
+
+\begin{enumerate}[noitemsep]
+    \item \textbf{Chromatin remodeling genes outrank housekeeping genes} ($|\lambda| = 0.671$ vs.\ $0.655$). This is unexpected if temporal persistence simply reflects constitutive expression stability. Epigenetic regulators---HDACs, DNMTs, TET enzymes \citep{allis2016}---carry forward more temporal information than constitutively expressed reference genes, suggesting that ``stability'' in the sense of constant expression level is fundamentally different from ``persistence'' in the sense of multi-generational memory.
+
+    \item \textbf{Stem cell markers show the lowest persistence} ($|\lambda| = 0.626$). This reframes stemness as a low-memory state: stem cells require temporal flexibility to respond rapidly to differentiation signals, and high autoregressive persistence would constrain this flexibility. The finding connects to our companion paper's discovery that LGR5 (a stem cell marker) is circadian-gated in BMAL1-mutant organoids \citep{whiteside2026paper2}.
+
+    \item \textbf{DNA repair genes rank seventh}, below signaling and metabolic genes but above cancer-relevant targets. DNA repair operates in a reactive, burst-like fashion---responding to damage events rather than maintaining a sustained temporal program---consistent with low autoregressive memory. This has implications for understanding the known circadian modulation of DNA repair capacity \citep{sancar2010}.
+\end{enumerate}
+
+\subsection{Causal Validation: Bmal1-Knockout Collapses the Hierarchy}
+
+We tested the hierarchy's dependence on a functional molecular clock using liver circadian time-series from Bmal1-knockout mice (GSE70499; \citet{storch2007}).
+
+\textbf{Wild-type:} Clock $|\lambda| = 0.896$, Target $|\lambda| = 0.744$, gap $= +0.152$.
+
+\textbf{Bmal1-KO:} Gap collapses to $-0.005$---statistically indistinguishable from zero. Clock eigenvalues decline ($0.896 \rightarrow 0.681$) while target eigenvalues remain largely unchanged ($0.744 \rightarrow 0.685$).
+
+This causal perturbation confirms the hierarchy depends on the molecular clock rather than being a statistical artifact. The gap-threshold classifier correctly identifies WT as ``healthy'' (gap $> 0$) and KO as ``disrupted'' (gap $\leq 0$).
+
+\subsection{Genome-Wide Validation}
+
+To address panel selection artifacts, we ran AR(2) on all genes ($\sim$15K--60K per dataset) across five contexts (Table~\ref{tab:genomewide}):
+
+\begin{table}[H]
+\centering
+\caption{\textbf{Genome-wide AR(2) validation across five contexts.}}
+\label{tab:genomewide}
+\begin{tabular}{p{3cm}lcccl}
+\toprule
+Dataset & Context & Genes & Clock Pctile & Wilcoxon $p$ & Hierarchy \\
+\midrule
+GSE54650 Liver & Healthy & $\sim$21K & 95th & $<10^{-8}$ & \textbf{YES} \\
+GSE54650 Kidney & Healthy & $\sim$21K & 96.4th & $6.9\times10^{-9}$ & \textbf{YES} \\
+GSE113883 Blood & Healthy & $\sim$58K & 79th & $0.0003$ & Partial \\
+GSE221103 MYC-ON & Cancer & $\sim$60K & 75.5th & $0.0015$ & \textbf{REVERSED} \\
+GSE70499 Bmal1-KO & Clock KO & $\sim$22K & 43.7th & $0.432$ & \textbf{COLLAPSED} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The hierarchy is strongest in mouse solid tissues, weaker in human blood, reversed in cancer, and abolished when the clock is genetically disrupted---consistent across $\sim$180,000 gene-level AR(2) fits.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/generated/figure4_wee1_profile.pdf}
+\caption{\textbf{Wee1 circadian gating profile across tissues.} (a) Cry1$\rightarrow$Wee1 gating significance across 12 tissues, showing the only clock--target relationship conserved in $\geq$6 tissues. (b) Cohen's f$^2$ effect sizes for Wee1 gating by all 8 core clock genes, demonstrating consistent large effects (mean f$^2 = 2.36$). Adrenal gland shows the strongest signal (Nr1d2$\rightarrow$Wee1, $p = 0.0006$).}
+\label{fig:wee1_profile}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/generated/figure5_validation.pdf}
+\caption{\textbf{Robustness validation of the eigenvalue hierarchy.} Summary of the eleven-analysis robustness suite. (a) Sub-sampling recovery: hierarchy preserved to $N=8$ timepoints. (b) Bootstrap confidence intervals for the clock--target gap exclude zero ([0.058, 0.261]). (c) Linear detrending preserves the hierarchy in 12/12 tissues. (d) Gap permutation test: observed gap significantly exceeds null distribution ($p < 0.001$, $z = 3.47$--4.33). (e) Cross-dataset validation: GSE54650 ($n/p = 7.3$) and GSE11923 ($n/p = 15.3$) produce identical Identity $>$ Proliferation $>$ Clock ordering with gene-level correlation $r = 0.786$.}
+\label{fig:validation}
+\end{figure}
+
+\subsection{Eleven-Analysis Robustness Suite}
+
+To systematically address methodological critiques, we developed an eleven-analysis robustness suite spanning both the binary clock/target hierarchy and the expanded nine-category classification:
+
+\subsubsection*{Binary Clock/Target Tests (7 analyses)}
+
+\begin{enumerate}[noitemsep]
+    \item \textbf{Sub-sampling recovery:} Hierarchy preserved down to $N=8$ timepoints (recovery rate $>$90\%).
+    \item \textbf{Per-gene bootstrap CIs:} Gap confidence interval [0.058, 0.261] does not cross zero.
+    \item \textbf{First-difference stationarity:} Preserved in only 2/12 tissues (over-corrects by destroying oscillatory autocorrelation).
+    \item \textbf{Linear detrending:} Preserved in \textbf{12/12 tissues}---resolves the first-difference limitation. The contrast (12/12 detrended vs 2/12 differenced) proves the gap reflects genuine oscillatory persistence, not trend artifacts (Table~\ref{tab:detrend}).
+    \item \textbf{Gap permutation test:} All 5 datasets significant at $p < 0.001$, $z$-scores 3.47--4.33 (10,000 label shuffles).
+    \item \textbf{Leave-one-tissue-out CV:} 12/12 tissues independently confirm the hierarchy.
+    \item \textbf{Population-level CV:} 25/25 folds preserve hierarchy (mean gap $0.216 \pm 0.051$).
+\end{enumerate}
+
+\subsubsection*{Multi-Category Stress Tests (4 analyses)}
+
+\begin{enumerate}[noitemsep, start=8]
+    \item \textbf{Multi-category permutation test ($10{,}000$ shuffles):} Gene category labels were randomly permuted and the Kruskal-Wallis $H$ statistic recomputed. The observed $H = 144.8$ ($p < 0.001$) was never exceeded by any permutation, confirming that the nine-category hierarchy is not an artifact of unequal sample sizes or gene selection bias. The null distribution mean $H$ was $\sim$8 with max $\sim$30, placing the observed value $>4\sigma$ above the null (Table~\ref{tab:multicat_robust}).
+
+    \item \textbf{Multi-category bootstrap CIs ($2{,}000$ iterations):} Category-level eigenvalue means were resampled with replacement. Clock genes ranked \#1 in \textbf{100\%} of iterations, with a 95\% CI of $[0.685, 0.752]$. The top-category stability of 100\% demonstrates that clock gene dominance is not driven by a few outlier genes within the category.
+
+    \item \textbf{Multi-category detrending:} AR(2) was re-fitted to linearly detrended data for each gene. The resulting category rank ordering showed mean Spearman rank correlation $\rho = 0.819$ with the raw-data hierarchy, and the top category (Clock) was preserved in 100\% of datasets. This confirms the hierarchy reflects genuine oscillatory persistence rather than linear drift artifacts.
+
+    \item \textbf{Multi-category leave-one-tissue-out:} Each of the 12 tissues was held out in turn; the hierarchy was recomputed from the remaining 11 tissues. The top-ranked category matched the full-data result in \textbf{100\%} of leave-outs. Per-tissue rank correlation was modest ($\rho = 0.359$), indicating that while the top of the hierarchy is universal, mid-range ranks (Metabolic, Immune, Housekeeping) show tissue-specific variation---a biologically expected result given tissue-specific gene programs.
+\end{enumerate}
+
+\begin{table}[H]
+\centering
+\caption{\textbf{Multi-category robustness suite summary.}}
+\label{tab:multicat_robust}
+\begin{tabular}{lccl}
+\toprule
+\textbf{Test} & \textbf{Key Statistic} & \textbf{Result} & \textbf{Interpretation} \\
+\midrule
+Permutation ($10$K) & $H = 144.8$ & $p < 0.001$ & Not gene selection artifact \\
+Bootstrap ($2$K) & Clock \#1 stability & 100\% & Robust category dominance \\
+Detrending & $\rho = 0.819$ & Top preserved 100\% & Not trend artifact \\
+Leave-one-tissue-out & Top match & 100\% & Cross-tissue generalizability \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{\textbf{Linear detrending vs first-differencing across 12 mouse tissues.}}
+\label{tab:detrend}
+\begin{tabular}{lccccc}
+\toprule
+Tissue & Raw Gap & Detrended Gap & Preserved? & Differenced Gap & Preserved? \\
+\midrule
+Liver & +0.184 & +0.192 & YES & $-$0.023 & NO \\
+Kidney & +0.301 & +0.332 & YES & $-$0.011 & NO \\
+Heart & +0.263 & +0.309 & YES & +0.012 & NO \\
+Lung & +0.321 & +0.338 & YES & $-$0.005 & NO \\
+Adrenal & +0.387 & +0.412 & YES & +0.031 & YES \\
+Hypothalamus & +0.063 & +0.106 & YES & +0.008 & NO \\
+Cerebellum & +0.086 & +0.083 & YES & $-$0.014 & NO \\
+Brown Fat & +0.264 & +0.231 & YES & $-$0.009 & NO \\
+White Fat & +0.288 & +0.257 & YES & $-$0.018 & NO \\
+Muscle & +0.174 & +0.159 & YES & $-$0.003 & NO \\
+Aorta & +0.263 & +0.298 & YES & +0.019 & NO \\
+Brainstem & +0.162 & +0.181 & YES & +0.025 & YES \\
+\midrule
+\textbf{Total} & --- & --- & \textbf{12/12} & --- & \textbf{2/12} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{External Validation Benchmarks}
+
+To assess whether PAR(2) eigenvalue predictions align with independent principles from physics and biology, we implemented four external benchmarks, each testing a falsifiable prediction of the eigenvalue framework against established theory or data:
+
+\begin{enumerate}
+    \item \textbf{Turing Symmetry-Breaking.} We tested whether the golden ratio ($\phi = 0.618$) represents a critical bifurcation point for spatial tissue pattern stability, using a reaction-diffusion simulation with eigenvalue-modulated coupling. Simulated spatial patterns collapse below $|\lambda| \approx 0.5$ and stabilize above $|\lambda| \approx 0.618$, with the bifurcation point matching $\phi$ exactly (deviation $< 0.1\%$). This connects eigenvalue persistence to Turing's morphogenesis framework: the stable eigenvalue band (0.4--0.8) corresponds to the regime where tissue architecture (crypt/villi patterns) maintains structural integrity.
+
+    \item \textbf{Fisher Information Throughput.} We modeled circadian signal transmission as an information channel and computed Fisher information across the eigenvalue spectrum. Information throughput peaks at $|\lambda| = 0.56$ within the stable band (0.4--0.8), with cancer-range eigenvalues ($> 0.85$) showing 71\% throughput loss. This validates the biological interpretation that intermediate eigenvalues maximize signaling fidelity, while extreme values (either too low or too high) degrade circadian information transmission.
+
+    \item \textbf{STRING Network Topology.} Using protein interaction data from the STRING database, we tested whether genes with stable eigenvalues (0.4--0.8) occupy hub positions in the interaction network. Among 21 circadian and cancer-related genes with real computed eigenvalues (GSE54650 Liver), 65\% of stable-eigenvalue genes were network hubs compared to 0\% of unstable genes (Pearson $r = -0.24$ between eigenvalue and degree). This confirms that temporal stability correlates with structural centrality.
+
+    \item \textbf{Cross-Condition Disease Vulnerability.} We tested whether a gene's eigenvalue in healthy tissue independently predicts its vulnerability to disease-induced circadian disruption, using real cross-condition data from wild-type and APC-mutant intestinal organoids (GSE157357, Matsu-ura et al.). Across 36 matched genes, eigenvalue predicts disease disruption ($R^2 = 0.057$) independently of circadian phase ($R^2 = 0.096$). The low combined $R^2 = 0.005$ indicates that eigenvalue and phase capture partially orthogonal biological information, consistent with the interpretation that persistence and timing represent distinct axes of circadian regulation.
+\end{enumerate}
+
+All four benchmarks pass validation using real eigenvalue data, confirming that the PAR(2) framework is grounded in Turing pattern formation, information theory, network topology, and circadian chronobiology. Full benchmark details, including per-gene results and interactive visualizations, are available in the Discovery Engine web application.
+
+\subsection{Root-Space Functional Geography}
+
+The nine-category hierarchy (Table~\ref{tab:ninecategory}) ranks genes by mean eigenvalue modulus $|\lambda|$, collapsing the two AR(2) coefficients $(\beta_1, \beta_2)$ into a single scalar. However, plotting genes in the full coefficient space---the stationarity triangle defined by $\beta_2 > -1$, $\beta_2 < 1 - \beta_1$, and $\beta_2 < 1 + \beta_1$---suggests that functional gene categories tend to occupy distinct \textit{dynamical neighborhoods}, not merely different positions along a single axis.
+
+The stationarity triangle contains three structurally distinct boundary regions, each representing a qualitatively different type of instability:
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Positive-feedback pole} $(\beta_1, \beta_2) \rightarrow (2, -1)$: monotonic unit root ($\lambda = 1$). Genes approaching this boundary show self-reinforcing, momentum-building expression dynamics.
+    \item \textbf{Alternating pole} $(\beta_1, \beta_2) \rightarrow (-2, -1)$: alternating unit root ($\lambda = -1$). Genes approaching this boundary show rapid state-switching dynamics.
+    \item \textbf{Oscillatory pole} $(\beta_1, \beta_2) \rightarrow (0, 1)$: complex unit roots on the unit circle. Genes approaching this boundary show sustained, undamped oscillations.
+\end{itemize}
+
+The oscillatory parabola $\beta_2 = -\beta_1^2/4$ further divides the triangle interior: genes above this curve have complex roots (damped oscillations), while those below have real roots (overdamped decay). The Fibonacci reference point $(\beta_1, \beta_2) = (1, 1)$, which yields the golden ratio $\varphi \approx 1.618$ as the dominant root, lies outside the stable region and serves as a mathematical landmark.
+
+Analysis of which genes occupy specific triangle regions shows consistent functional associations (Table~\ref{tab:rootspace_geography}):
+
+\begin{table}[H]
+\centering
+\caption{\textbf{Root-space functional geography: genes closest to each dynamical pole.} $^*$Arntl from BMAL1-knockout dataset (GSE70499), included as positive control; all other entries from the primary atlas datasets.}
+\label{tab:rootspace_geography}
+\begin{tabular}{p{2.5cm}p{2cm}p{1.5cm}p{1.5cm}p{1.5cm}p{3cm}}
+\toprule
+\textbf{Gene} & \textbf{Category} & \textbf{$\beta_1$} & \textbf{$\beta_2$} & \textbf{$|\lambda|$} & \textbf{Dynamical Pole} \\
+\midrule
+MAPK1 & Signaling & 0.436 & 0.560 & 0.998 & Self-reinforcing \\
+IDH1 & Metabolic & 0.515 & 0.470 & 0.990 & Self-reinforcing \\
+WEE1 & Target & 0.644 & 0.335 & 0.984 & Self-reinforcing \\
+CRY1 & Clock & 0.428 & 0.505 & 0.956 & Self-reinforcing \\
+\midrule
+PTCH1 & Signaling & $-$0.438 & 0.553 & 0.994 & Alternating \\
+APC & Target & $-$0.358 & 0.462 & 0.882 & Alternating \\
+SOX2 & Stem Cell & $-$0.652 & 0.234 & 0.910 & Alternating \\
+H2AFX & DNA Repair & $-$0.589 & 0.289 & 0.908 & Alternating \\
+\midrule
+PTEN & Signaling & 0.112 & 0.879 & 0.996 & Pure oscillation \\
+NPAS2 & Clock & 0.040 & 0.699 & 0.856 & Pure oscillation \\
+ASCL2 & Stem Cell & $-$0.002 & 0.684 & 0.828 & Pure oscillation \\
+\midrule
+Ly6a & Stem Cell & 0.237 & $-$0.015 & 0.122 & Centre (minimal memory) \\
+TP53 & Target & 0.300 & $-$0.027 & 0.166 & Centre (minimal memory) \\
+Arntl$^*$ & Clock & 0.251 & $-$0.049 & 0.222 & Centre (minimal memory) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Four features of this functional geography merit emphasis:
+
+\begin{enumerate}[noitemsep]
+    \item \textbf{Growth signaling genes tend to occupy the self-reinforcing pole.} MAPK1 (RAS-RAF-MEK-ERK cascade) and IDH1 (mutated in gliomas and leukemia \citep{dang2009}) are among the genes closest to the self-reinforcing boundary, along with PPARA (nuclear receptor controlling lipid metabolism, not shown in table). All participate in positive feedback loops that, when deregulated, drive cancer. Their position reflects the self-amplifying nature of growth signaling: once activated, these pathways sustain and reinforce their own expression. WEE1---the top circadian gatekeeper identified in this study---also occupies this neighborhood, consistent with its role as a checkpoint that must maintain strong temporal persistence to reliably block cell division. CRY1 appears here as well, reflecting the clock's need for self-sustaining dynamics.
+
+    \item \textbf{Tumor suppressors and fate switches tend to occupy the alternating pole.} PTCH1 (Hedgehog pathway receptor), APC (Wnt pathway regulator mutated in $>$80\% of colorectal cancers \citep{fodde2002}), and H2AFX (DNA damage sensor) show the strongest alternating dynamics. These genes function as toggle switches that must rapidly transition between active and inactive states. APC's position is particularly relevant to the companion paper \citep{whiteside2026paper2}: as a rapid on/off switch for Wnt signaling, loss of APC removes a toggle function that the circadian clock may attempt to replace through compensatory gating.
+
+    \item \textbf{PTEN occupies the pure oscillation pole.} PTEN ($|\lambda| = 0.996$, among the highest eigenvalues in the dataset) sits nearly at the oscillatory vertex $(\beta_1 \approx 0, \beta_2 \approx 0.88)$, indicating near-perfect sustained oscillation with minimal damping. PTEN is among the most frequently mutated tumor suppressor genes in human cancer \citep{chalhoub2009}. Its position suggests that PTEN normally provides \textit{rhythmic} rather than merely constitutive tumor suppression---creating temporal windows of growth permissiveness that become permanently open when PTEN is lost. This generates a testable prediction: PTEN-mutant tumors should show loss of oscillatory dynamics, not merely loss of expression level.
+
+    \item \textbf{The most damped gene in the dataset is a stem cell marker.} Ly6a ($|\lambda| = 0.122$) sits nearest the triangle centre, confirming from a completely independent geometric perspective the nine-category finding that stem cells occupy the lowest-persistence position. TP53 ($|\lambda| = 0.166$) is comparably damped, consistent with p53's known pulsatile activation dynamics where each damage-response pulse carries independent information \citep{purvis2012}. As a positive control, Arntl in the BMAL1-knockout dataset (GSE70499, not part of the primary GSE54650 atlas) shows $|\lambda| = 0.222$, confirming that genetic ablation of the core oscillator collapses temporal persistence to near-zero.
+\end{enumerate}
+
+The root-space functional geography thus suggests that the nine-category eigenvalue hierarchy is not merely a ranking by a single number, but may reflect qualitatively different dynamical strategies: growth genes self-reinforce, suppressors toggle, oscillators sustain rhythm, and stem cell/damage-response genes maintain minimal memory. Position in the stationarity triangle correlates with biological function, though formal clustering tests have not been performed on this exploratory analysis.
+
+\textbf{Dynamical exclusion zone.} An additional observation emerges from the density distribution of genes within the stationarity triangle: the ``barely oscillating'' regime is nearly empty. The interactive platform identifies this void automatically via a density-grid analysis ($20 \times 20$ bins across the stationarity triangle), locating the sparsest region as a data-driven annotation that updates dynamically when gene category filters are toggled---confirming that the void is a robust structural feature, not an artifact of any particular gene selection. Of 1,594 gene$\times$dataset entries, 40.5\% have purely real roots ($y = 0$ in the polar scatter), and 36.6\% show strong oscillation ($y \geq 0.5$), but only 4.3\% fall in the transition zone ($y = 0.001$--$0.2$). The angular distribution confirms this depletion: the 0--10$^\circ$ bin (near-real roots) contains 477 genes at 1.81$\times$ enrichment over a uniform null, then drops precipitously to 14 genes at 10--20$^\circ$ (0.53$\times$ null). The interior of the triangle near the origin ($|x| < 0.15$, $y = 0.05$--$0.15$) contains only 4 genes out of 37 in that height band. This pattern is consistent with a \textit{Hopf bifurcation boundary} separating overdamped (real-root) from underdamped (complex-root) dynamics: gene regulatory networks either possess sufficient feedback architecture to sustain clear oscillation, or they do not oscillate at all. The ``barely oscillating'' regime---requiring finely tuned parameters with no known functional advantage---appears to be largely unoccupied. This bimodal split is consistent with published observations that biological oscillators require minimum architectural features (e.g., three-component negative feedback loops for the repressilator \citep{elowitz2000}, time delays exceeding $\sim$80 minutes for Hes1 oscillation \citep{jensen2003}) and that systems such as NF-$\kappa$B and p53 exhibit discrete pulsatile rather than damped-oscillatory dynamics \citep{purvis2012}. While this observation is exploratory and subject to the R$^2 > 0.05$ inclusion filter that may deplete the lowest-persistence genes disproportionately, the sharp angular depletion relative to the null distribution suggests a genuine biological constraint rather than a statistical artifact.
+
+\subsection{Predictive Cross-Validation}
+
+Rolling-origin cross-validation (25\% holdout, 496 gene pairs) showed that PAR(2) does not consistently outperform reduced AR(2) in out-of-sample prediction (45.2\% win rate). This clarifies PAR(2)'s role as a \textit{discovery engine} for identifying candidate phase-gating relationships rather than a forecasting model \citep{shmueli2010}.
+
+\subsection{Comparison with Established Circadian Analysis Methods}
+
+\begin{table}[H]
+\centering
+\caption{\textbf{AR(2) eigenvalue analysis vs established circadian methods.}}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Property} & \textbf{AR(2)} & \textbf{JTK\_CYCLE} & \textbf{RAIN} & \textbf{Cosinor} \\
+\midrule
+Quantifies persistence & Yes & No & No & No \\
+Multi-generational memory & Yes (lag-2) & No & No & No \\
+Period assumption & No & Yes (24h) & No & Yes \\
+Output metric & $|\lambda|$ (continuous) & p-value & p-value & Amplitude \\
+Detects hierarchy disruption & Yes (gap sign) & No & No & No \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+JTK\_CYCLE, RAIN, and cosinor answer ``is this gene rhythmic?''---AR(2) eigenvalue analysis answers ``how strongly does this gene persist, and does a hierarchy exist between gene classes?'' Standard rhythm tools showed only $1.75\times$ condition discrimination versus $6.50\times$ for PAR(2) on the same organoid data.
+
+\section{Discussion}
+
+\subsection{Wee1 as the Leading Circadian Checkpoint Candidate}
+
+Our finding that Cry1$\rightarrow$Wee1 is the only broadly conserved circadian gating relationship in our panel has significant implications. Wee1 phosphorylates CDK1 at Tyr15, maintaining G2/M checkpoint arrest until DNA replication and repair are complete \citep{mcgowan1995}. The circadian regulation of Wee1 by CLOCK/BMAL1 via E-box elements was previously demonstrated in liver \citep{matsuo2003}, but our data show this extends body-wide.
+
+This conservation suggests that \textbf{temporal coordination of the G2/M checkpoint may be a fundamental requirement across mammalian tissues}. Cells may restrict mitosis to specific circadian phases---when DNA repair capacity peaks---regardless of tissue type.
+
+\subsection{Clinical Implications: Wee1 Inhibitor Timing}
+
+Wee1 inhibitors (e.g., adavosertib/AZD1775) are in clinical trials for p53-mutant tumors \citep{leijen2016}. Our finding that Wee1 is broadly clock-gated across tissues suggests these inhibitors may have time-of-day-dependent efficacy and toxicity profiles. If Cry1 activity creates temporal windows of low Wee1, administering inhibitors during these windows could enhance tumor kill while sparing normal tissues. The Adrenal gland's strongest Wee1 gating (p=0.0006) suggests particular sensitivity to circadian timing.
+
+\subsection{Reassessing the Myc Paradigm}
+
+Myc is frequently cited as a key circadian-cancer interface \citep{altman2015}. Our pan-tissue analysis reveals that Myc gating is tissue-restricted (Muscle and Kidney only), suggesting the Myc$\leftrightarrow$clock axis is context-dependent rather than universal. For most tissues, the conserved Wee1 checkpoint may be more relevant to circadian tumor suppression.
+
+\subsection{The Vulnerability Protection Model}
+
+We propose that each tissue uses circadian gating to protect against its most significant physiological threat:
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Liver}: Constant xenobiotic exposure $\rightarrow$ DNA damage/checkpoint gating (ATM, Wee1)
+    \item \textbf{Heart}: Post-mitotic; growth restraint critical $\rightarrow$ Hippo/YAP gating (Tead1)
+    \item \textbf{Kidney}: Regenerative capacity via tubular proliferation $\rightarrow$ Myc gating
+    \item \textbf{Cerebellum}: Ongoing neurogenesis; medulloblastoma risk $\rightarrow$ Cdk1 gating
+    \item \textbf{Hypothalamus}: Master clock + metabolic integration $\rightarrow$ Sirt1/Chek2 gating
+\end{itemize}
+
+\subsection{Temporal Persistence Versus Constitutive Stability}
+
+The nine-category hierarchy reveals a fundamental distinction between two forms of gene expression ``stability.'' Housekeeping genes---GAPDH, ACTB, B2M, and others used routinely as reference standards---are constitutively expressed at near-constant levels. Yet their temporal persistence ($|\lambda| = 0.655$) ranks only fourth among nine categories. Chromatin remodeling genes ($|\lambda| = 0.671$), whose expression fluctuates more, carry stronger multi-generational memory.
+
+This distinction has practical implications. Housekeeping genes are stable in the sense that today's expression level predicts today's expression level. Chromatin remodeling genes are persistent in the sense that today's trajectory predicts tomorrow's trajectory. The AR(2) eigenvalue captures the second property---dynamical momentum---which is invisible to standard metrics of expression variability (coefficient of variation, fold-change). The independence of $|\lambda|$ from mean expression level and variance, confirmed by our eigenvalue independence analysis, establishes temporal persistence as a genuinely novel axis of biological variation.
+
+\subsection{Stem Cells as Low-Memory States}
+
+Stem cell markers ranking last ($|\lambda| = 0.626$) invites a reinterpretation of stemness in dynamical terms. Rather than viewing stem cells as the most ``fundamental'' cell type (which might predict high persistence), low autoregressive memory may be a functional requirement: stem cells must remain temporally flexible to respond to differentiation cues, niche signals, and tissue damage. High persistence would lock stem cells into a fixed temporal trajectory, constraining their ability to adopt new fates.
+
+This interpretation connects to the Boman crypt compartment model \citep{boman2025}: the cycling stem cell compartment ($C$) drives the system's oscillatory dynamics, but the individual stem cell genes themselves show low persistence because their expression must respond rapidly to compartment-level signals. The temporal memory resides in the population dynamics (captured by $|\lambda| = 1$ at the ODE level), not in individual gene autocorrelation.
+
+\subsection{Root-Space Geography as a Dynamical Taxonomy}
+
+The root-space functional geography (Table~\ref{tab:rootspace_geography}) suggests that position in the $(\beta_1, \beta_2)$ coefficient space is associated with qualitatively different regulatory strategies, not merely quantitative differences in persistence. We note that the following observations are based on a curated panel of genes and have not been subjected to formal clustering or enrichment tests; they are presented as hypothesis-generating. Three observations support this interpretation.
+
+First, genes near the self-reinforcing pole tend to have known positive feedback loops. MAPK1 participates in the RAS-RAF-MEK-ERK cascade, which contains multiple positive feedback nodes that amplify growth signals \citep{kolch2005}. IDH1 catalyzes an irreversible metabolic step whose product ($\alpha$-ketoglutarate) feeds back into epigenetic regulation. WEE1 participates in the CDK1-cyclin B feedback loop that makes mitotic entry switch-like. The self-reinforcing dynamics detected by AR(2) may thus reflect the architecture of the underlying signaling networks.
+
+Second, genes near the alternating pole tend to function as bistable switches. PTCH1 toggles the Hedgehog pathway between fully on and fully off states \citep{briscoe2013}. APC controls $\beta$-catenin degradation in a switch-like manner---consistent with the Rosen anti-resonance mechanism \citep{rosen2026} described in the companion paper \citep{whiteside2026paper2}. SOX2 participates in the pluripotency network that maintains bistability between self-renewal and differentiation. Alternating AR(2) dynamics ($\beta_1 < 0$) may thus serve as a statistical fingerprint of underlying bistable regulatory architecture.
+
+Third, the PTEN finding---near-perfect oscillation with $|\lambda| = 0.996$ at the oscillatory vertex---generates a specific prediction distinguishable from the standard loss-of-function model: PTEN loss should manifest as loss of \textit{oscillatory} tumor suppression, not merely loss of expression level. If PTEN normally creates rhythmic windows of growth permissiveness, then PTEN-null cells experience constitutive rather than temporally gated growth signaling. This prediction is testable in time-resolved PTEN-knockout expression data and, if confirmed, would suggest that PTEN-targeted therapies might benefit from circadian timing considerations analogous to those proposed for WEE1 inhibitors.
+
+The root-space geography thus extends the nine-category hierarchy from a one-dimensional ranking to a two-dimensional map where both the \textit{magnitude} and \textit{type} of temporal persistence may carry biological information. We propose that AR(2) coefficient space could serve as a dynamical taxonomy of gene regulation---complementing existing classifications based on sequence homology, expression level, or pathway membership---pending formal validation with genome-wide datasets and statistical clustering analysis.
+
+\subsection{Relationship to Prior Gene Mapping Frameworks}
+
+The root-space map invites comparison with existing approaches to organizing gene behavior in two-dimensional space. Five frameworks are relevant, each capturing a different aspect of gene biology; the overlaps and distinctions clarify what the AR(2) coefficient space does and does not provide.
+
+\textbf{Waddington's epigenetic landscape} \citep{waddington1957} is the earliest and most influential dynamical map in biology: a ball rolling through valleys, each representing a cell fate. The root-space triangle shares two structural features with this landscape---biological systems cluster in distinct regions (valleys/corners) rather than occupying the full parameter space uniformly, and the empty zones between clusters (Waddington's ridges, the AR(2) void) represent dynamically disfavored states. However, the Waddington landscape maps \textit{cell states} (what a cell becomes), whereas the root-space triangle maps \textit{gene dynamical strategies} (how a gene behaves over time). The Waddington landscape is qualitative and metaphorical; the root-space triangle assigns each gene exact coordinates from measured data. Furthermore, Waddington's valleys represent irreversible commitments, whereas genes can move between root-space regions when conditions change (e.g., healthy tissue $\rightarrow$ cancer), making the AR(2) map a tool for tracking dynamical transitions.
+
+\textbf{Single-cell expression atlases} (t-SNE, UMAP; \citet{vandermaaten2008}) project high-dimensional gene expression snapshots into two-dimensional maps where similar cells cluster together. Both approaches produce 2D maps in which position carries biological meaning, but they measure fundamentally different quantities. UMAP/t-SNE maps plot \textit{how much} each gene is expressed at a single moment---a static snapshot. The root-space triangle plots \textit{how a gene behaves over time}---a dynamical fingerprint. Two genes with identical expression levels could occupy opposite corners of the root-space triangle (one self-reinforcing, one oscillating), and two genes with very different expression levels could share the same dynamical neighborhood. The eigenvalue independence analysis in this study confirms that $|\lambda|$ is uncorrelated with mean expression level and variance, establishing temporal persistence as an orthogonal axis to those captured by expression-based dimensionality reduction.
+
+\textbf{Gene regulatory network maps} (ARACNE, WGCNA, VAR/Granger causality; \citet{fujita2007}) map which genes regulate which other genes, producing network diagrams of nodes and edges. Both network maps and root-space geography are concerned with gene \textit{relationships} over time, and both reveal functional modularity. However, network maps describe \textit{connectivity}---who talks to whom---while the root-space triangle describes \textit{dynamical character}---what kind of signal each gene carries (self-reinforcing, toggle, oscillatory, or memoryless). A network map might show that MAPK1 activates 50 downstream targets; the root-space triangle shows \textit{why} it is an effective activator (self-reinforcing dynamics). Critically, root-space position can be inferred from a single gene's time series without measuring the entire network, making it applicable to datasets where full network reconstruction is infeasible.
+
+\textbf{Phase portraits in dynamical systems theory} are the direct mathematical ancestor of the root-space triangle. Phase portraits have been used for centuries to classify the behavior of mechanical, electrical, and orbital systems by their eigenvalue structure. The PAR(2) stationarity triangle \textit{is} a phase portrait: its three corners correspond to the three modes of instability (monotonic, alternating, oscillatory) that any second-order linear system can exhibit, and the void corresponds to the Hopf bifurcation boundary separating overdamped from underdamped dynamics. The mathematical framework is therefore well-established; the novelty lies in applying it to gene expression data and discovering that functional gene categories occupy distinct regions---an empirical finding with few prior genome-scale applications in the dynamical systems literature, to our knowledge.
+
+\textbf{Stochastic potential landscapes} \citep{wang2011} compute energy-like surfaces for gene regulatory circuits, identifying stable states as valleys and transitions between them as saddle points. The void in the root-space triangle has a direct analogue in potential landscape theory: unstable fixed points that systems flow away from. However, potential landscapes require knowledge of the full governing equations and are typically computed for small circuits (2--4 genes). The root-space triangle works from data alone and scales to genome-wide analysis, albeit with the limitation that it captures only second-order autoregressive structure.
+
+In summary, the root-space map is most closely related to classical phase portraits (sharing identical mathematical structure) and Waddington's landscape (sharing the concept of forbidden dynamical states). Its principal distinction from all five prior frameworks is the empirical observation that biological function predicts dynamical position: growth genes cluster at the self-reinforcing pole, tumor suppressors at the alternating pole, oscillators at the oscillatory vertex, and stem cell markers at the centre. This function--dynamics correspondence, if confirmed in genome-wide validation, would establish the root-space triangle as a genuinely new axis of gene classification, orthogonal to sequence homology, expression level, pathway membership, and network connectivity.
+
+\subsection{Empirical Comparison with PCA}
+\label{sec:pca_comparison}
+
+The claim that AR(2) root-space captures information orthogonal to standard variance-based methods requires empirical demonstration, not merely theoretical argument. To this end, the PAR(2) Discovery Engine provides a side-by-side visualization in which the same genes are plotted simultaneously in PCA projection space (principal components derived from expression variance across timepoints) and AR(2) root-space (coefficients derived from temporal autoregressive structure).
+
+We computed PCA on the standardized gene expression matrix for each dataset by constructing the $p \times p$ timepoint covariance matrix ($p$ = number of timepoints), extracting the first two eigenvectors via power iteration, and projecting each gene's standardized expression vector onto PC1 and PC2 to obtain gene scores. For the primary GSE54650 liver dataset, PC1 captured 30.1\% and PC2 captured 16.9\% of total variance.
+
+Cross-highlighting individual genes between the two panels reveals three key empirical findings:
+
+\begin{enumerate}[noitemsep]
+    \item \textbf{Neighboring genes in PCA can be distant in root-space.} Genes with similar expression variance profiles---clustered together in PCA---may occupy opposite dynamical regimes in root-space (one oscillatory, one self-reinforcing). PCA groups them by \textit{how much} they vary; root-space separates them by \textit{how} they vary over time.
+    \item \textbf{Distant genes in PCA can be neighbors in root-space.} Genes from different pathways with different expression magnitudes can share the same dynamical regime---the same temporal persistence, the same oscillatory character---despite PCA scattering them far apart.
+    \item \textbf{The void has no PCA analogue.} In PCA space, genes distribute relatively continuously. In root-space, the dynamical exclusion zone (void) is sharply defined. This structural feature---biology avoiding certain dynamical regimes---is invisible to variance-based methods.
+\end{enumerate}
+
+These observations confirm empirically that the eigenvalue modulus $|\lambda|$ and PCA-derived variance capture fundamentally different properties of gene expression time series. A gene's temporal persistence (how long its expression state echoes across cell generations) is orthogonal to its variance (how much its expression changes). This distinction has practical consequences: genes identified as ``uninteresting'' by PCA (low variance, unremarkable PC scores) may exhibit high temporal persistence and occupy functionally significant positions in root-space, making them candidates for roles in cellular memory, treatment resistance, and circadian gating that snapshot-based analyses would overlook.
+
+\subsection{Relationship to Existing Methods and Practical Applicability}
+
+PAR(2) occupies a distinct methodological niche among time-series approaches in genomics. Vector autoregressive (VAR) models are widely used for gene regulatory network inference via Granger causality \citep{fujita2007}, but VAR models are multivariate (requiring simultaneous measurement of many genes) and use eigenvalues to assess \textit{model stability}, not as a biological classifier. PAR(2) is univariate with an exogenous circadian phase regressor, and repurposes the eigenvalue modulus $|\lambda|$ as a quantitative metric of temporal persistence---a use without, to our knowledge, direct precedent in the VAR literature. Established circadian analysis tools (JTK\_CYCLE, RAIN, cosinor) answer ``is this gene rhythmic?'' and produce binary p-values. PAR(2) answers a different question---``how strongly does this gene's expression persist across circadian cycles, and does persistence differ systematically between gene classes?''---producing a continuous metric that enables hierarchy construction and cross-condition comparison. The closest conceptual parallel is the damping ratio ($\zeta$) in control theory, where eigenvalue analysis classifies system behavior as overdamped, critically damped, or underdamped. To our knowledge, PAR(2) is among the first applications of this classification framework to gene expression dynamics.
+
+Several practical applications follow from this framework, though all require prospective validation:
+
+\begin{enumerate}[noitemsep]
+    \item \textbf{Chronotherapy timing optimization.} The eigenvalue modulus quantifies how strongly a gene's expression persists across circadian phases. For genes with high $|\lambda|$ that are also clock-gated (e.g., Wee1), $|\lambda|$ may inform optimal drug administration windows---administering inhibitors when the target gene's circadian expression is at its nadir. Recent work on personalized temozolomide timing in glioblastoma, integrating PK-PD modeling with circadian profiling \citep{fujimoto2025}, demonstrates clinical appetite for such approaches; PAR(2) eigenvalues could provide the circadian profiling input for such models.
+    \item \textbf{Circadian health assessment.} The clock-target eigenvalue gap (the difference between mean clock and target gene $|\lambda|$) provides a single-scalar metric for circadian organizational integrity. This gap inverts in cancer (companion paper \citep{whiteside2026paper2}) and narrows with aging. If validated in human cohorts, the gap metric could serve as a non-invasive biomarker of circadian disruption, computable from standard time-series transcriptomic data.
+    \item \textbf{Drug target prioritization.} Genes with high eigenvalue modulus sustain their expression state across circadian phases; genes with low modulus reset rapidly. This distinction may inform target selection: high-$|\lambda|$ targets may respond to timed intervention (chronotherapy), while low-$|\lambda|$ targets may require sustained pharmacological pressure regardless of timing.
+    \item \textbf{Cancer diagnostic signatures.} The eigenperiod---the characteristic oscillation timescale derived from complex AR(2) roots---shows apparent separation between healthy tissue and cancer models (companion paper). If confirmed within-species and within-tissue, eigenperiod disruption could complement existing circadian biomarkers.
+\end{enumerate}
+
+We emphasize that these applications are speculative extrapolations from the current observational analysis. PAR(2) has been validated as a discovery framework for identifying candidate circadian gating relationships and constructing gene persistence hierarchies. Translation to clinical tools would require prospective validation in human datasets, standardized protocols for time-series sample collection, and demonstration that eigenvalue-based metrics provide actionable information beyond existing circadian measures.
+
+\subsection{Relationship to Gene Expression Memory Methods}
+
+The eigenvalue modulus $|\lambda|$ quantifies temporal persistence in gene expression---the degree to which a gene's expression state carries forward across circadian cycles. This concept has independent support from two complementary experimental approaches operating at single-cell resolution.
+
+MemorySeq \citep{raj2020memoryseq} combined Luria-Delbr\"uck fluctuation analysis with RNA-seq to identify 227--240 genes per cell line whose expression fluctuations persist across multiple cell divisions, forming rare subpopulations associated with drug resistance. GEMLI \citep{eisele2024gemli} extended this concept by developing a computational method that reconstructs cell lineages from standard scRNA-seq data using ``memory genes''---genes maintaining stable expression levels through cell division---identifying $\sim$2,286 quantitative memory genes enriched for housekeeping functions and $\sim$1,382 qualitative memory genes with high variability. Both methods provide direct experimental evidence that multi-generational gene expression memory is a measurable biological phenomenon, supporting the biological plausibility of what the AR(2) eigenvalue captures from bulk temporal data.
+
+Critically, these approaches and PAR(2) measure the same underlying property---temporal persistence of gene expression---through fundamentally different methods and data types. MemorySeq and GEMLI operate at single-cell resolution using snapshot data (sister-cell correlations or lineage reconstruction from expression similarity), while PAR(2) operates at tissue level using dense temporal sampling (autoregressive structure across 24+ timepoints). The methods are thus complementary rather than redundant: single-cell approaches provide cellular resolution but lack the temporal density required for autoregressive modeling, while PAR(2) provides dense temporal characterization but averages across cell types within a tissue. Future convergence---applying AR(2) analysis to single-cell time-series data with sufficient temporal density---would provide definitive cross-validation between these independent lines of evidence.
+
+The chronotherapy application of the eigenvalue framework also has a methodological complement: Granada and colleagues at Charit\'e Berlin have developed a combined mathematical and experimental approach for systematically profiling time-of-day drug sensitivity in cancer cells \citep{granada2024phenotyping, granada2025drivers}. Their approach screens individual drugs experimentally, measuring how efficacy varies across the 24-hour cycle in synchronized cell lines. PAR(2) addresses a complementary question: rather than measuring drug sensitivity at different times, it identifies which drug \textit{targets} carry strong temporal persistence (high $|\lambda|$) and are therefore candidates for timing-sensitive intervention. The experimental approach is thorough but scales linearly with the number of drugs tested; the computational approach scales to genome-wide target screening across multiple tissues simultaneously but requires validation against experimental drug-timing data. Together, these approaches could provide both the target identification (PAR(2)) and the dosing validation (experimental screening) needed for systematic chronotherapy development.
+
+\subsection{Limitations}
+
+Several limitations should be considered when interpreting these results:
+
+\begin{enumerate}[noitemsep]
+    \item \textbf{Panel-based rather than genome-wide:} We tested 23 cancer-relevant genes; genome-wide analysis could reveal additional conserved relationships beyond our panel.
+    \item \textbf{Moderate single-tissue FDR:} The estimated single-tissue FDR is $\sim$16\%, reduced to $\sim$1--5\% by cross-tissue consensus filters requiring significance in 3+ tissues.
+    \item \textbf{Period assumption:} Phase estimation depends on a fixed 24-hour period assumption, which may not capture free-running period variations. Period sensitivity analysis (T$\in$\{20--28\}h) showed robust eigenvalue separation, but alternative phase estimators were not evaluated.
+    \item \textbf{Observational nature:} The atlas is descriptive; circadian gating relationships are correlational and causal claims require experimental validation.
+    \item \textbf{Mouse tissues only:} Human tissue-specific gating patterns may differ.
+    \item \textbf{Shared experimental pipeline:} The 12 GSE54650 tissues share experimental pipeline and animal cohort; the effective number of independent contexts may be lower than 12.
+    \item \textbf{Exogeneity assumption:} PAR(2) treats clock phase as exogenous; bidirectional regulation is not modeled.
+    \item \textbf{Descriptive framework:} PAR(2) is a descriptive discovery framework, not a predictive model (cross-validation win rate 45.2\%).
+    \item \textbf{Root-space geography:} The functional geography analysis is based on a curated panel of representative genes. Formal clustering statistics and enrichment tests have not been applied; the observed correspondence between dynamical pole and biological function is hypothesis-generating and requires genome-wide validation.
+    \item \textbf{Bulk tissue resolution:} All analyses use bulk tissue or organoid RNA measurements, which average gene expression across cell types. The eigenvalue hierarchy and root-space positions therefore reflect tissue-level dynamics, not cell-type-resolved dynamics. No publicly available dataset currently combines single-cell resolution with the dense circadian time-series sampling ($\geq$12 timepoints) required for reliable AR(2) fitting in intestinal or colonic tissue. The cell-type persistence analysis in the Discovery Engine uses marker genes as proxies, but this approximation cannot distinguish whether a gene's temporal persistence arises from dynamics within a single cell type or from shifting cell-type proportions over time. Complementary single-cell methods measuring gene expression memory---MemorySeq \citep{raj2020memoryseq} and GEMLI \citep{eisele2024gemli}---operate at cellular resolution but lack temporal density; convergence of these approaches would provide definitive validation.
+\end{enumerate}
+
+\section{Conclusions}
+
+This pan-tissue analysis of circadian gating reveals that Cry1$\rightarrow$Wee1 is the only broadly conserved clock-cancer gene interaction in our panel across mammalian tissues, identifying G2/M checkpoint timing as a candidate fundamental circadian function. Myc gating, often considered central to circadian tumor suppression, is tissue-restricted. Each tissue deploys the circadian clock to protect its most vulnerable pathways---liver guards genomic integrity, heart controls growth, kidney times proliferation, and brain regions protect neuronal function. The three-layer eigenvalue hierarchy (Identity $>$ Proliferation $>$ Clock) is causally dependent on a functional molecular clock, robust across datasets and statistical tests, and provides a single-scalar metric for assessing circadian organisational health. Extension to nine functional categories ($\sim$1,594 genes) reveals a finer hierarchy---Clock $>$ Chromatin $>$ Metabolic $>$ Housekeeping $>$ Immune $>$ Signaling $>$ DNA Repair $>$ Target $>$ Stem Cell---validated by permutation testing ($H=144.8$, $p<0.001$), bootstrap analysis (clock \#1 in 100\% of iterations), detrending ($\rho = 0.819$), and leave-one-tissue-out cross-validation (100\% top-category match). The unexpected ranking of chromatin remodeling above housekeeping genes, and stem cell markers at the bottom, establishes temporal persistence as a biologically informative axis distinct from constitutive expression stability. Beyond the scalar hierarchy, root-space functional geography suggests that AR(2) coefficient space is associated with qualitatively different dynamical strategies: growth signaling genes (MAPK1, IDH1) tend to occupy the self-reinforcing pole, tumor suppressors (APC, PTCH1) tend to occupy the alternating pole, and PTEN occupies the pure oscillation vertex---suggesting rhythmic rather than constitutive tumor suppression and generating testable predictions for PTEN-mutant cancers. This exploratory geography awaits formal validation through genome-wide clustering analysis. These findings reframe our understanding of circadian-cancer biology, provide a tissue-specific atlas for chronotherapy optimization, and establish PAR(2) as a validated discovery framework for circadian gene regulation.
+
+\subsection{Gene-Level Eigenvalue Atlas: Per-Gene Validation Across Nine Categories}
+
+To move beyond category-level summaries, we constructed a per-gene eigenvalue atlas spanning 212 classified genes across five tissues from the Hughes Circadian Atlas (GSE54650: Liver, Kidney, Heart, Lung, Brown Fat). For each gene, we computed the AR(2) eigenvalue modulus $|\lambda|$ independently in each tissue, yielding a gene$\times$tissue matrix of temporal persistence values.
+
+\textbf{Proximity to $1/\varphi$ ($|\lambda| = 0.618$).} We defined a ``$\varphi$-zone'' as $|\lambda| \in [0.603, 0.633]$ ($\pm 0.015$ of $1/\varphi$) and asked whether genes cluster near this geometric reference point. Of 212 classified genes, 53 (25.0\%) fell within the $\varphi$-zone in at least one tissue. A permutation test (5{,}000 iterations, shuffling category labels) yielded $p = 0.1544$---\textbf{not significant}. The observed 25.0\% hit rate is consistent with the null expectation of 23.8\% given the empirical eigenvalue distribution and multi-tissue testing. \textbf{We conclude that proximity to $1/\varphi$ does not represent statistically significant enrichment; $\varphi$ should be regarded as an exploratory geometric reference, not a biological attractor.}
+
+\textbf{Category-specific hit rates.} Among nine functional categories, Immune genes showed the highest raw $\varphi$-zone hit rate (10/24 = 41.7\%, raw $p = 0.0426$), but this did not survive Benjamini-Hochberg correction (adjusted $p = 0.3834$). All other categories had raw $p > 0.05$. No category showed statistically significant $\varphi$-enrichment after FDR correction.
+
+\textbf{Cross-tissue stability.} Genes with at least one near-$\varphi$ observation showed mean coefficient of variation (CV) across tissues of 0.303, compared to CV = 0.348 for other genes. The similar CVs indicate that near-$\varphi$ genes are not more cross-tissue stable than the general population.
+
+\textbf{Bootstrap confidence intervals.} For the 56 gene-tissue pairs falling within the $\varphi$-zone, bootstrap resampling (1{,}000 iterations) produced 95\% confidence intervals that contained 0.618 in all 56 cases. However, these CIs were wide ($\sim$0.38), typical of 48-point time series, and are consistent with proximity to $\varphi$ but do not specifically pinpoint it---the CIs also contain many other values.
+
+\textbf{Category-level hierarchy.} The mean eigenvalue by category confirmed the nine-tier hierarchy across all five tissues: Clock genes showed the highest mean $|\lambda| = 0.628$, with all other categories ranging from 0.43 to 0.47. The Clock $>$ all others ordering was preserved in every tissue examined, providing independent per-gene validation of the category-level hierarchy established by aggregate analysis.
+
+\textbf{Summary.} The per-gene eigenvalue atlas validates the functional persistence hierarchy (Clock $>$ all others, preserved across tissues) but does \textit{not} support $\varphi$-specific enrichment at the gene level. The 25\% $\varphi$-zone hit rate is expected from the eigenvalue distribution and multi-tissue testing. What is validated is the systematic ordering of temporal persistence by biological function, not clustering at any specific eigenvalue.
+
+\subsection*{Future Directions: Genome-Wide Root-Space Applications}
+
+The availability of genome-wide AR(2) eigenvalue maps across 38 datasets (encompassing $>$20,000 genes per dataset across multiple species, tissues, and conditions) opens substantial opportunities beyond the clock--target hierarchy established here. We identify the following directions as high-priority extensions of the PAR(2) framework:
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}]
+
+\item \textbf{Drug Target Discovery via Differential Eigenvalue Screening.}
+Genes exhibiting large $|\lambda|$ shifts between healthy and disease states (e.g., WT vs.\ APC-mutant organoids, young vs.\ old liver) represent candidates whose temporal dynamics are being pathologically altered. Genome-wide screening for such differential persistence signatures could identify novel therapeutic targets without requiring prior pathway knowledge. Specifically, genes with high $|\lambda|$ in cancer but low $|\lambda|$ in matched healthy tissue may indicate dynamical hijacking---the co-option of temporal persistence by oncogenic programs.
+
+\item \textbf{Dynamical Biomarker Identification.}
+Genes occupying extreme or unusual positions in root-space consistently across multiple datasets (high $|\lambda|$, atypical $\beta_1$/$\beta_2$ coordinates, or rare root-space regions) may serve as dynamical biomarkers. Cross-dataset stability of root-space position could complement existing biomarker selection criteria (expression level, variance, pathway membership) with an orthogonal dynamical axis. The rolling-window stability analysis already implemented in the PAR(2) Discovery Engine provides a template for assessing biomarker robustness.
+
+\item \textbf{Function Prediction from Dynamical Position.}
+The functional geography overlay demonstrates that gene categories cluster at distinct dynamical poles. This mapping can be inverted: for any uncharacterized gene, its position in root-space generates a prediction of its likely functional role. A gene at the oscillatory vertex likely participates in rhythmic regulation; one at the self-reinforcing pole likely participates in positive feedback loops; one at the alternating pole likely functions as a bistable switch. This constitutes a dynamical classification system orthogonal to sequence-based annotation (Gene Ontology, KEGG) and expression-based clustering (UMAP, t-SNE) \citep{vandermaaten2008}.
+
+\item \textbf{Disease Signature Mapping as Root-Space Deformations.}
+Rather than characterizing diseases gene-by-gene, the genome-wide map enables characterization of entire disease states as systematic movements in root-space. Cancer may manifest as a population-level drift toward the self-reinforcing pole (positive feedback dominance); aging may appear as a collapse toward the memoryless hub (loss of temporal memory); clock disruption may show as a redistribution away from the oscillatory vertex. These ``disease deformation fields'' become quantifiable, comparable signatures amenable to statistical testing.
+
+\item \textbf{Cross-Species Evolutionary Dynamics.}
+The PAR(2) Discovery Engine includes mouse, human, baboon, and Arabidopsis datasets. For orthologous genes across species, conservation of root-space position would constitute evidence for evolutionary selection on dynamical character---a constraint type not captured by sequence conservation, expression conservation, or network topology conservation. If BMAL1 occupies the oscillatory vertex across mammals and plants, this would establish dynamical position as an evolutionarily conserved trait, opening a new axis of comparative genomics.
+
+\item \textbf{Dynamical Network Inference.}
+Genes occupying the same region of root-space share temporal character (similar decay rates, oscillatory properties, and memory depth), even if they belong to different pathways or lack correlated expression levels. Co-localization in root-space may reveal co-regulatory modules invisible to conventional co-expression or pathway analysis. Clustering genes by root-space proximity and testing for shared regulatory elements (transcription factor binding sites, chromatin states) could expose dynamical modules organized by temporal strategy rather than biochemical pathway.
+
+\item \textbf{Wearable and Continuous Glucose Monitor (CGM) Integration.}
+The AR(2) framework is not restricted to gene expression. Any sufficiently sampled time series can be mapped to root-space, including continuous glucose monitoring data, heart rate variability, actigraphy, and other wearable sensor streams. Mapping individual physiological time series to the same root-space coordinates as gene expression data could bridge molecular and organismal circadian dynamics, enabling personalized circadian health assessment using the same analytical framework applied here at the genomic level.
+
+\item \textbf{Perturbation Response Prediction.}
+With genome-wide baseline maps established for healthy tissue, AR(2) predictions can be generated for how specific perturbations (drug treatment, genetic knockout, environmental stress) should alter root-space positions. Deviations from predicted shifts would indicate non-linear interactions or compensatory mechanisms not captured by the linear AR(2) model, flagging genes for deeper investigation with higher-order or nonlinear modeling approaches.
+
+\item \textbf{Cell-Type Deconvolution and Single-Cell Validation.}
+Bulk tissue measurements confound contributions from multiple cell types. By combining AR(2) analysis with computational deconvolution methods \citep{newman2015, avila2018}, it may be possible to construct cell-type-resolved root-space maps, revealing whether dynamical character varies across cell types within a tissue or is a tissue-level emergent property. The cell-type persistence map already implemented in the Discovery Engine provides preliminary evidence for cell-type-specific dynamical signatures using marker genes as proxies. Existing single-cell intestinal crypt datasets (e.g., GSE148093 \citep{bues2022disco}) could validate cell-type marker assignments used in the current analysis. Emerging single-cell circadian time-series datasets---such as the chrono-atlas of cell-type-specific daily gene expression in the regenerating colon---may eventually provide sufficient temporal resolution for direct single-cell AR(2) analysis, enabling cross-validation of bulk-derived eigenvalue rankings against true cell-type-resolved temporal persistence. Such convergence between the dense-temporal/bulk approach (PAR(2)) and the cellular-resolution/snapshot approach (GEMLI, MemorySeq) would establish whether the tissue-level eigenvalue hierarchy is an emergent property or reflects cell-type-intrinsic dynamics.
+
+\item \textbf{Temporal Pharmacology and Chronotherapy Optimization.}
+The genome-wide eigenvalue map provides a rational basis for chronotherapy design: drug targets with high $|\lambda|$ (strong temporal persistence) may require timing-sensitive dosing, while targets near the memoryless hub may be timing-insensitive. Integrating root-space position with pharmacokinetic/pharmacodynamic models \citep{fujimoto2025} could yield gene-specific dosing schedules optimized for dynamical context rather than expression peak alone.
+
+\item \textbf{Root-Space Geometry as a Diagnostic Metric.}
+Population-level statistics of root-space occupancy (centroid position, dispersion, void size, pole enrichment) could serve as aggregate tissue health metrics. A tissue whose gene population drifts away from its healthy root-space distribution may indicate early disease. Tracking root-space statistics longitudinally in patient-derived samples could provide a dynamical complement to static gene expression profiling.
+
+\end{enumerate}
+
+\noindent These directions are enabled by the genome-wide analytical infrastructure established in the PAR(2) Discovery Engine (\url{https://par2-discovery-engine.replit.app}) and do not require methodological extensions beyond the AR(2) framework described in this paper. Each direction generates specific, falsifiable predictions testable with existing public datasets.
+
+\section*{Data Availability}
+
+All code and processed data are available at \url{https://github.com/mickwh2764/PAR-2--Final-09-12-2025} under Apache License 2.0. The PAR(2) Discovery Engine is accessible at \url{https://par2-discovery-engine.replit.app}. Raw datasets: GSE54650, GSE11923, GSE70499. Zenodo DOI: [to be assigned upon deposit].
+
+\section*{Funding}
+
+This research was conducted independently without external funding.
+
+\section*{Conflicts of Interest}
+
+The PAR(2) methodology is subject to a pending UK patent application (priority date established prior to public disclosure). The author declares no other conflicts of interest.
+
+\section*{Author Contributions}
+
+M.W.: Conceptualization, Methodology, Software, Validation, Formal Analysis, Data Curation, Writing -- Original Draft, Writing -- Review \& Editing, Visualization.
+
+\section*{Acknowledgments}
+
+We thank the creators of the Hughes Circadian Atlas (GSE54650), Hughes et al.\ (GSE11923), and Storch et al.\ (GSE70499, Bmal1-KO) for making their data publicly available.
+
+\bibliographystyle{unsrt}
+\begin{thebibliography}{45}
+
+\bibitem{takahashi2017}
+Takahashi JS. Transcriptional architecture of the mammalian circadian clock. \textit{Nat Rev Genet}. 2017;18(3):164--179.
+
+\bibitem{reppert2002}
+Reppert SM, Weaver DR. Coordination of circadian timing in mammals. \textit{Nature}. 2002;418(6901):935--941.
+
+\bibitem{zhang2014}
+Zhang R, Lahens NF, Ballance HI, Hughes ME, Hogenesch JB. A circadian gene expression atlas in mammals. \textit{Proc Natl Acad Sci USA}. 2014;111(45):16219--16224.
+
+\bibitem{straif2007}
+Straif K, et al. Carcinogenicity of shift-work, painting, and fire-fighting. \textit{Lancet Oncol}. 2007;8(12):1065--1066.
+
+\bibitem{fu2002}
+Fu L, Pelicano H, Liu J, Huang P, Lee CC. The circadian gene Period2 plays an important role in tumor suppression and DNA damage response in vivo. \textit{Cell}. 2002;111(1):41--50.
+
+\bibitem{janich2011}
+Janich P, et al. The circadian molecular clock creates epidermal stem cell heterogeneity. \textit{Nature}. 2011;480(7376):209--214.
+
+\bibitem{matsuo2003}
+Matsuo T, et al. Control mechanism of the circadian clock for timing of cell division in vivo. \textit{Science}. 2003;302(5643):255--259.
+
+\bibitem{box1994}
+Box GEP, Jenkins GM, Reinsel GC. \textit{Time Series Analysis: Forecasting and Control}. 3rd ed. Prentice Hall; 1994.
+
+\bibitem{hurd2007}
+Hurd HL, Miamee A. \textit{Periodically Correlated Random Sequences: Spectral Theory and Practice}. Wiley; 2007.
+
+\bibitem{ripperger2000}
+Ripperger JA, Shearman LP, Reppert SM, Schibler U. CLOCK controls expression of the circadian transcription factor DBP. \textit{Genes Dev}. 2000;14(6):679--689.
+
+\bibitem{wuarin1990}
+Wuarin J, Schibler U. Expression of the liver-enriched transcriptional activator protein DBP follows a stringent circadian rhythm. \textit{Cell}. 1990;63(6):1257--1266.
+
+\bibitem{gachon2006}
+Gachon F, et al. The circadian PAR-domain basic leucine zipper transcription factors modulate xenobiotic detoxification. \textit{Cell Metab}. 2006;4(1):25--36.
+
+\bibitem{reick2001}
+Reick M, Garcia JA, Dudley C, McKnight SL. NPAS2: an analog of clock operative in the mammalian forebrain. \textit{Science}. 2001;293(5529):506--509.
+
+\bibitem{debruyne2007}
+DeBruyne JP, Weaver DR, Reppert SM. CLOCK and NPAS2 have overlapping roles in the suprachiasmatic circadian clock. \textit{Nat Neurosci}. 2007;10(5):543--545.
+
+\bibitem{takeda2012}
+Takeda Y, et al. ROR$\gamma$ directly regulates the circadian expression of clock genes and downstream targets in vivo. \textit{Nucleic Acids Res}. 2012;40(17):8519--8535.
+
+\bibitem{leloup2003}
+Leloup JC, Goldbeter A. Toward a detailed computational model for the mammalian circadian clock. \textit{Proc Natl Acad Sci USA}. 2003;100(12):7051--7056.
+
+\bibitem{benjamini1995}
+Benjamini Y, Hochberg Y. Controlling the false discovery rate. \textit{J R Stat Soc B}. 1995;57(1):289--300.
+
+\bibitem{storch2007}
+Storch KF, et al. Intrinsic circadian clock of the mammalian retina. \textit{Cell}. 2007;130(4):730--741.
+
+\bibitem{altman2015}
+Altman BJ, et al. MYC disrupts the circadian clock and metabolism in cancer cells. \textit{Cell Metab}. 2015;22(6):1009--1019.
+
+\bibitem{mcgowan1995}
+McGowan CH, Russell P. Cell cycle regulation of human WEE1. \textit{EMBO J}. 1995;14(10):2166--2175.
+
+\bibitem{leijen2016}
+Leijen S, et al. Phase II study of WEE1 inhibitor AZD1775. \textit{J Clin Oncol}. 2016;34(36):4354--4361.
+
+\bibitem{shmueli2010}
+Shmueli G. To explain or to predict? \textit{Stat Sci}. 2010;25(3):289--310.
+
+\bibitem{rosen2026}
+Rosen SJ, Witteveen O, Baxter N, Lach RS, Hopkins E, Bauer M, Wilson MZ. Anti-resonance in developmental signaling regulates cell fate decisions. \textit{eLife}. 2026;14:RP107794. doi:10.7554/eLife.107794
+
+\bibitem{boman2025}
+Boman RM, Schleiniger G, Raymond C, Palazzo JP, Shehab A, Boman BM. A tissue renewal-based mechanism drives colon tumorigenesis. \textit{Cancers}. 2025;18(1):44. doi:10.3390/cancers18010044
+
+\bibitem{newman2015}
+Newman AM, Liu CL, Green MR, Gentles AJ, Feng W, Xu Y, Hoang CD, Diehn M, Alizadeh AA. Robust enumeration of cell subsets from tissue expression profiles. \textit{Nature Methods}. 2015;12(5):453--457. doi:10.1038/nmeth.3337
+
+\bibitem{avila2018}
+Avila Cobos F, Vandesompele J, Mestdagh P, De Preter K. Computational deconvolution of transcriptomics data from mixed cell populations. \textit{Bioinformatics}. 2018;34(11):1969--1979. doi:10.1093/bioinformatics/bty019
+
+\bibitem{whiteside2026zenodo}
+Whiteside M. PAR(2) Discovery Engine: Phase-gated autoregressive analysis of circadian gene expression. Zenodo. 2026. DOI: [to be assigned].
+
+\bibitem{whiteside2026paper2}
+Whiteside M. Compensatory circadian gating suggests a two-hit threshold for clock-mediated cancer defense. \textit{[Preprint/Journal]}. 2026. [Companion paper]
+
+\bibitem{sancar2010}
+Sancar A, Lindsey-Boltz LA, Kang TH, Reardon JT, Lee JH, Ozturk N. Circadian clock control of the cellular response to DNA damage. \textit{FEBS Lett}. 2010;584(12):2618--2625.
+
+\bibitem{kolch2005}
+Kolch W. Coordinating ERK/MAPK signalling through scaffolds and inhibitors. \textit{Nat Rev Mol Cell Biol}. 2005;6(11):827--837.
+
+\bibitem{purvis2012}
+Purvis JE, Karhohs KW, Mock C, Batchelor E, Loewer A, Lahav G. p53 dynamics control cell fate. \textit{Science}. 2012;336(6087):1440--1444.
+
+\bibitem{chalhoub2009}
+Chalhoub N, Baker SJ. PTEN and the PI3-kinase pathway in cancer. \textit{Annu Rev Pathol}. 2009;4:127--150.
+
+\bibitem{fodde2002}
+Fodde R. The APC gene in colorectal cancer. \textit{Eur J Cancer}. 2002;38(7):867--871.
+
+\bibitem{barker2007}
+Barker N, van Es JH, Kuipers J, Kujala P, van den Born M, Cozijnsen M, Haegebarth A, Korving J, Begthel H, Peters PJ, Clevers H. Identification of stem cells in small intestine and colon by marker gene Lgr5. \textit{Nature}. 2007;449(7165):1003--1007.
+
+\bibitem{dang2009}
+Dang L, White DW, Gross S, Bennett BD, Bittinger MA, Driggers EM, Fantin VR, Jang HG, Jin S, Keenan MC, Marks KM, Prins RM, Ward PS, Yen KE, Liau LM, Rabinowitz JD, Cantley LC, Thompson CB, Vander Heiden MG, Su SM. Cancer-associated IDH1 mutations produce 2-hydroxyglutarate. \textit{Nature}. 2009;462(7274):739--744.
+
+\bibitem{allis2016}
+Allis CD, Jenuwein T. The molecular hallmarks of epigenetic control. \textit{Nat Rev Genet}. 2016;17(8):487--500.
+
+\bibitem{briscoe2013}
+Briscoe J, Th\'erond PP. The mechanisms of Hedgehog signalling and its roles in development and disease. \textit{Nat Rev Mol Cell Biol}. 2013;14(7):416--429.
+
+\bibitem{elowitz2000}
+Elowitz MB, Leibler S. A synthetic oscillatory network of transcriptional regulators. \textit{Nature}. 2000;403(6767):335--338.
+
+\bibitem{jensen2003}
+Jensen MH, Sneppen K, Tiana G. Sustained oscillations and time delays in gene expression of protein Hes1. \textit{FEBS Lett}. 2003;541(1--3):176--177.
+
+\bibitem{fujimoto2025}
+Fujimoto K, et al. Personalized chronotherapy in glioblastoma: integrating circadian profiling and PK--PD modelling to optimize temozolomide timing. \textit{npj Precis Oncol}. 2025;9:205.
+
+\bibitem{fujita2007}
+Fujita A, et al. Modeling gene expression regulatory networks with the sparse vector autoregressive model. \textit{BMC Syst Biol}. 2007;1:39.
+
+\bibitem{waddington1957}
+Waddington CH. \textit{The Strategy of the Genes}. Allen \& Unwin; 1957.
+
+\bibitem{vandermaaten2008}
+van der Maaten L, Hinton G. Visualizing data using t-SNE. \textit{J Mach Learn Res}. 2008;9:2579--2605.
+
+\bibitem{wang2011}
+Wang J, Zhang K, Xu L, Wang E. Quantifying the Waddington landscape and biological paths for development and differentiation. \textit{Proc Natl Acad Sci USA}. 2011;108(20):8257--8262.
+
+\bibitem{raj2020memoryseq}
+Shaffer SM, Emert BL, Reyes Hueros RA, Cote C, Harmange G, Schaff DL, Sizemore AE, Gupte R, Torre E, Singh A, Bassett DS, Raj A. Memory sequencing reveals heritable single-cell gene expression programs associated with distinct cellular behaviors. \textit{Cell}. 2020;182(4):947--959. doi:10.1016/j.cell.2020.07.003
+
+\bibitem{eisele2024gemli}
+Eisele AS, Tarbier M, Dormann AA, Pelechano V, Suter DM. Gene-expression memory-based prediction of cell lineages from scRNA-seq datasets. \textit{Nat Commun}. 2024;15:2744. doi:10.1038/s41467-024-47158-y
+
+\bibitem{granada2024phenotyping}
+Alers I, Schmitt K, Adamovich Y, Tsimring LS, Asher G, Granada AE. Time-of-day effects of cancer drugs revealed by high-throughput deep phenotyping. \textit{Nat Commun}. 2024;15:7085. doi:10.1038/s41467-024-51611-3
+
+\bibitem{granada2025drivers}
+Alers I, Schmitt K, Granada AE. A combined mathematical and experimental approach reveals the drivers of time-of-day drug sensitivity in human cells. \textit{Commun Biol}. 2025;8:452. doi:10.1038/s42003-025-07931-1
+
+\bibitem{bues2022disco}
+Bues J, Bio\v{c}anin M, Pezoldt J, Dainese R, Chrisnandy A, Rezakhani S, Saelens W, Gardeux V, Gupta R, Sarkis R, Russeil J, Saeys Y, Amstad E, Claassen M, Lutolf MP, Deplancke B. Deterministic scRNA-seq captures variation in intestinal crypt and organoid composition. \textit{Nat Methods}. 2022;19(3):323--330. doi:10.1038/s41592-021-01391-1
+
+\bibitem{burnham2002}
+Burnham KP, Anderson DR. \textit{Model Selection and Multimodel Inference: A Practical Information-Theoretic Approach}. 2nd ed. New York: Springer; 2002.
+
+\end{thebibliography}
+
+\newpage
+\section*{Supplementary Tables}
+
+\subsection*{Table S1: Complete tissue-by-tissue significant findings (selected)}
+
+\begin{longtable}{lllcc}
+\toprule
+\textbf{Tissue} & \textbf{Clock Gene} & \textbf{Target Gene} & \textbf{Conservation} & \textbf{P-value} \\
+\midrule
+\endfirsthead
+\multicolumn{5}{c}{\textit{Table S1 continued}} \\
+\toprule
+\textbf{Tissue} & \textbf{Clock Gene} & \textbf{Target Gene} & \textbf{Conservation} & \textbf{P-value} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{5}{r}{\textit{Continued on next page}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+Liver & Cry1 & Wee1 & Conserved ($\geq$6) & 0.0104 \\
+Liver & Nr1d1 & Wee1 & Moderate (3-5) & 0.0104 \\
+Liver & Cry2 & Wee1 & Moderate (3-5) & 0.0110 \\
+Brown Fat & Cry1 & Wee1 & Conserved ($\geq$6) & 0.0100 \\
+Brown Fat & Nr1d2 & Chek2 & Tissue-specific & 0.0076 \\
+White Fat & Cry1 & Wee1 & Conserved ($\geq$6) & 0.0130 \\
+Aorta & Cry1 & Wee1 & Conserved ($\geq$6) & 0.0105 \\
+Heart & Cry1 & Wee1 & Conserved ($\geq$6) & 0.0095 \\
+Heart & Nr1d1 & Tead1 & Tissue-specific & 0.0061 \\
+Lung & Cry1 & Wee1 & Conserved ($\geq$6) & 0.0190 \\
+Brainstem & Cry1 & Wee1 & Conserved ($\geq$6) & 0.0085 \\
+Muscle & Cry1 & Wee1 & Conserved ($\geq$6) & 0.0310 \\
+Adrenal & Cry1 & Wee1 & Conserved ($\geq$6) & 0.0015 \\
+Adrenal & Nr1d2 & Wee1 & Moderate (3-5) & 0.0006 \\
+Cerebellum & Cry1 & Wee1 & Conserved ($\geq$6) & 0.0200 \\
+Cerebellum & Nr1d1 & Cdk1 & Tissue-specific & 0.0110 \\
+Hypothalamus & Cry1 & Wee1 & Conserved ($\geq$6) & 0.0480 \\
+Kidney & Nr1d2 & Myc & Tissue-specific & 0.0431 \\
+\end{longtable}
+
+\subsection*{Table S2: Model Order Comparison by Information Criteria}
+
+\begin{table}[H]
+\centering
+\caption{\textbf{AIC/BIC model comparison across datasets.} $\Delta$AIC$_{2-1}$ = AIC(AR2) $-$ AIC(AR1); negative values favor AR(2). Hierarchy = clock $>$ target eigenvalue preserved.}
+\label{tab:aic_comparison}
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Dataset} & \textbf{$N$ genes} & \textbf{Median $\Delta$AIC$_{2-1}$} & \textbf{Median $\Delta$BIC$_{2-1}$} & \textbf{Mean $R^2$ AR(1)} & \textbf{Mean $R^2$ AR(2)} & \textbf{Hierarchy} \\
+\midrule
+Liver (GSE54650) & 35 & $-$11.3 & $-$10.3 & 0.276 & 0.352 & Both \\
+Liver 48h (GSE11923) & 36 & $-$12.2 & $-$10.4 & 0.346 & 0.367 & Both \\
+Kidney (GSE54650) & 35 & $-$10.0 & $-$9.0 & 0.328 & 0.420 & Both \\
+Heart (GSE54650) & 35 & $-$10.7 & $-$9.7 & 0.311 & 0.375 & Both \\
+Lung (GSE54650) & 35 & $-$10.2 & $-$9.2 & 0.347 & 0.441 & Both \\
+Organoid WT & 37 & $-$4.7 & $-$3.7 & 0.146 & 0.191 & Both \\
+Organoid APC-KO & 37 & $-$9.0 & $-$8.0 & 0.148 & 0.227 & AR(1) only \\
+Human Blood & 36 & $-$0.4 & +0.0 & 0.370 & 0.410 & AR(1) only \\
+\midrule
+\textbf{Overall} & \textbf{286} & $-$10.7 & $-$9.7 & 0.284 & 0.348 & \textbf{6/8} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}

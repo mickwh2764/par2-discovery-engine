@@ -1,0 +1,6 @@
+Model_Name,AR2_Eigenvalue,ODE_Eigenvalue,Match,Description
+"FitzHugh-Nagumo (oscillatory, I=0.5)",,,,
+Goodwin Oscillator (n=10),,,,
+"Van der Pol (μ=1.0, near-sinusoidal)",,,,
+Lotka-Volterra (balanced),,,,
+Tyson-Novak Cell Cycle (healthy),,,,

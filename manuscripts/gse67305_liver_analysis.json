@@ -1,0 +1,27 @@
+{
+  "date": "2026-02-20",
+  "gse67305_total_rna": {
+    "n_genes": 10826,
+    "ar2_pct": 52.9,
+    "mean_lambda": 0.505,
+    "clock_mean": 0.7654,
+    "target_mean": 0.5586,
+    "gap": 0.2069
+  },
+  "gse67305_ribosome": {
+    "n_genes": 9994,
+    "ar2_pct": 45.3,
+    "mean_lambda": 0.521,
+    "clock_mean": 0.8506,
+    "target_mean": 0.6052,
+    "gap": 0.2455
+  },
+  "gse11923_1h_48h": {
+    "n_genes": 21510,
+    "ar2_pct": 95.6,
+    "mean_lambda": 0.5339,
+    "clock_mean": 0.7655,
+    "target_mean": 0.6336,
+    "gap": 0.1319
+  }
+}

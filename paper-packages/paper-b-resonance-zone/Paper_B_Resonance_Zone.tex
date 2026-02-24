@@ -1,0 +1,264 @@
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{lineno}
+\linenumbers
+
+\title{\textbf{Circadian Resonance Zone: Identifying Genes Tuned to 24-Hour Oscillation Through Damping-Period Decomposition of AR(2) Roots}}
+
+\author{
+Michael Whiteside$^{1,*}$ \\
+\\
+$^1$Independent Researcher, United Kingdom \\
+\\
+$^*$Corresponding author: mickwh@msn.com \\
+ORCID: 0009-0000-0643-5791
+}
+
+\date{February 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\noindent\textbf{Background:} Identifying genes with intrinsic circadian oscillatory potential remains challenging. High eigenvalue modulus $|\lambda|$ indicates strong temporal persistence but does not distinguish between genes oscillating at circadian versus non-circadian frequencies. A method to identify genes specifically tuned to 24-hour periodicity from their dynamical properties alone would enable blind discovery of circadian genes.
+
+\noindent\textbf{Methods:} We decompose the complex conjugate roots of AR(2) models into two biologically interpretable components: damping rate ($\gamma = -\ln(\rho)$, measuring oscillation decay) and natural period ($T = 2\pi/\theta \times \Delta t$, measuring intrinsic frequency). The ``circadian resonance zone'' is defined as genes with natural period 20--28 hours and damping rate $< 0.5$. We apply this decomposition genome-wide ($\sim$21,000 genes) across 6 datasets spanning 5 mouse tissues and human blood.
+
+\noindent\textbf{Results:} In mouse liver (GSE54650), 114 of 6,291 oscillatory genes (1.8\%) fall within the resonance zone. Among these, 5 are known clock genes (Clock, Arntl, Rorc, Tef, Per2) and 1 is a known target (Wee1). Clock gene enrichment in the resonance zone is 60-fold: 33\% of clock genes vs.\ 0.52\% of non-clock genes ($p < 10^{-6}$, hypergeometric test). This enrichment occurs without any biological labels---the resonance zone is defined purely by dynamical properties.
+
+Across 6 datasets, 22 genes appear in the resonance zone in 2 or more tissues, representing multi-tissue resonance candidates. Top multi-tissue hits include Dtx4 (Notch signaling, 3 tissues), Tspan4 (membrane organization, 3 tissues), Hlf (PAR bZIP transcription factor, 3 tissues), Dapk1 (apoptosis, 2 tissues), and Bnip3 (mitophagy, 2 tissues). These represent novel circadian gene candidates identified without prior biological knowledge.
+
+The period distribution across all oscillatory genes is strongly non-uniform: 91.1\% have periods $<$20h, 5.5\% fall in the circadian band (20--28h), 2.4\% in the 28--50h range, and $<$1\% above 50h. This structured distribution---with a clear circadian peak rather than uniform spread---confirms that the resonance zone captures genuine biological periodicity rather than noise.
+
+\noindent\textbf{Conclusions:} Damping-period decomposition of AR(2) roots provides a principled method for blind circadian gene discovery. The 60-fold clock gene enrichment validates the approach. The 22 multi-tissue resonance genes represent the strongest novel predictions for experimental follow-up. The resonance zone concept connects gene expression analysis to resonance theory in physics and engineering, where identifying natural frequencies tuned to external driving forces is foundational.
+
+\noindent\textbf{Keywords:} resonance zone, circadian rhythm, damping rate, natural period, AR(2), gene discovery, genome-wide screening, oscillatory dynamics
+\end{abstract}
+
+\section{Introduction}
+
+Circadian gene identification has traditionally relied on detecting rhythmic expression patterns through methods such as JTK\_CYCLE \citep{hughes2010jtk}, RAIN \citep{thaben2014detecting}, or cosinor analysis \citep{cornelissen2014cosinor}. These methods test whether a gene's expression fits a periodic waveform, but they do not characterize the gene's intrinsic dynamical properties---its natural frequency and damping characteristics.
+
+In physics and engineering, resonance occurs when a system's natural frequency matches an external driving frequency. A bridge resonates when wind oscillations match its natural frequency; a radio receiver resonates when tuned to the broadcast frequency. The concept is universal: systems respond most strongly to external signals that match their intrinsic oscillatory properties.
+
+We propose that the same principle applies to gene expression. Genes whose intrinsic dynamical properties (natural period near 24 hours, low damping) are ``tuned'' to the circadian driving signal will respond most robustly to the clock. We formalize this as the ``circadian resonance zone'' using the damping-period decomposition of AR(2) complex conjugate roots.
+
+\subsection{Damping-Period Decomposition}
+
+When an AR(2) model $x_t = \phi_1 x_{t-1} + \phi_2 x_{t-2} + \varepsilon_t$ has complex conjugate roots $r = \rho e^{\pm i\theta}$, two quantities emerge:
+
+\begin{equation}
+\text{Damping rate: } \gamma = -\ln(\rho)
+\end{equation}
+
+\begin{equation}
+\text{Natural period: } T = \frac{2\pi}{\theta} \times \Delta t
+\end{equation}
+
+where $\rho = |r|$ is the root modulus, $\theta$ is the root angle, and $\Delta t$ is the sampling interval.
+
+The damping rate $\gamma$ measures how quickly oscillations decay. Low damping ($\gamma < 0.5$) means oscillations persist across multiple cycles. High damping ($\gamma > 1$) means oscillations die out within one cycle.
+
+The natural period $T$ measures the intrinsic oscillation frequency. This is the period at which the gene would oscillate if left alone---its ``natural frequency'' in the language of resonance theory.
+
+\subsection{Resonance Zone Definition}
+
+The circadian resonance zone is defined as:
+\begin{equation}
+\mathcal{R} = \{g : T_g \in [20, 28] \text{ hours} \;\wedge\; \gamma_g < 0.5\}
+\end{equation}
+
+Genes in $\mathcal{R}$ have intrinsic oscillatory properties tuned to the circadian range with low enough damping to sustain oscillation across multiple cycles. These genes are predicted to respond most strongly and reliably to the 24-hour clock signal.
+
+\section{Methods}
+
+\subsection{Datasets}
+
+Genome-wide resonance scans were performed on 6 datasets:
+
+\begin{center}
+\begin{tabular}{lllr}
+\toprule
+\textbf{Dataset} & \textbf{Species} & \textbf{Tissue} & \textbf{$\Delta t$} \\
+\midrule
+GSE54650 Liver & Mouse & Liver & 2h \\
+GSE54650 Heart & Mouse & Heart & 2h \\
+GSE54650 Kidney & Mouse & Kidney & 2h \\
+GSE54650 Lung & Mouse & Lung & 2h \\
+GSE54650 Adrenal & Mouse & Adrenal & 2h \\
+GSE48113 Blood & Human & Whole blood & 4h \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Genome-Wide AR(2) Fitting}
+
+AR(2) models were fitted to all genes in each dataset (approximately 21,000 genes per dataset). Genes were classified as oscillatory (complex conjugate roots) or overdamped (real roots). Oscillatory genes were further decomposed into damping rate and natural period.
+
+\subsection{Enrichment Testing}
+
+Enrichment of known clock genes in the resonance zone was tested using the hypergeometric distribution. The null hypothesis is that clock gene membership in the resonance zone is no different from background gene membership.
+
+\subsection{Multi-Tissue Resonance}
+
+Genes appearing in the resonance zone in $\geq 2$ datasets were identified as multi-tissue resonance candidates. These represent the strongest predictions because they are independently identified in different tissues with different gene expression programs.
+
+\section{Results}
+
+\subsection{Resonance Zone Composition}
+
+\begin{center}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Dataset} & \textbf{Oscillatory} & \textbf{Resonance} & \textbf{\%} & \textbf{Clock in RZ} \\
+\midrule
+Mouse Liver & 6,291 & 114 & 1.8\% & 5 \\
+Mouse Heart & 10,278 & 39 & 0.4\% & --- \\
+Mouse Kidney & 8,141 & 97 & 1.2\% & --- \\
+Mouse Lung & 7,433 & 82 & 1.1\% & --- \\
+Mouse Adrenal & 8,778 & 10 & 0.1\% & --- \\
+Human Blood & 8,486 & 1 & 0.01\% & --- \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Clock Gene Enrichment (Mouse Liver)}
+
+In mouse liver, 5 of approximately 15 curated clock genes (33\%) fall in the resonance zone, compared to 108 of approximately 20,900 non-clock genes (0.52\%). This represents a \textbf{60-fold enrichment} (hypergeometric $p < 10^{-6}$).
+
+The 5 clock genes recovered blindly are: Clock, Arntl (BMAL1), Rorc, Tef, and Per2. These are core components of the TTFL, confirming that the resonance zone captures genuine circadian oscillatory machinery.
+
+The 1 target gene in the resonance zone is Wee1, the G2/M checkpoint kinase previously identified as the most broadly conserved circadian gating target \citep{matsuo2003control}.
+
+\subsection{Period Distribution}
+
+The period distribution across all 6,291 oscillatory genes in mouse liver is strongly structured:
+
+\begin{center}
+\begin{tabular}{lrr}
+\toprule
+\textbf{Period range} & \textbf{Genes} & \textbf{\%} \\
+\midrule
+$<$20h (sub-circadian) & 5,729 & 91.1\% \\
+20--28h (circadian) & 346 & 5.5\% \\
+28--50h (supra-circadian) & 152 & 2.4\% \\
+50--100h & 47 & 0.7\% \\
+100--200h & 12 & 0.2\% \\
+$>$200h & 5 & 0.1\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The strong concentration below 20h and the clear circadian peak at 20--28h confirm that the period distribution reflects genuine biological structure rather than random noise (which would produce a uniform distribution).
+
+The 5 genes with periods $>$200h (Tuba4a, Atf6b, Erf, Kank1, Acbd4) have very high damping rates ($>$0.88) and poor model fit ($R^2 < 0.53$), indicating these are mathematical artifacts at the boundary between oscillatory and overdamped dynamics, not genuine ultra-long-period oscillations.
+
+\subsection{Multi-Tissue Resonance Genes}
+
+22 genes appear in the resonance zone in $\geq 2$ tissues. Top candidates include:
+
+\begin{center}
+\begin{tabular}{llr}
+\toprule
+\textbf{Gene} & \textbf{Function} & \textbf{Tissues} \\
+\midrule
+Dtx4 & Notch signaling / ubiquitin ligase & 3 \\
+Tspan4 & Membrane organization / tetraspanin & 3 \\
+Hlf & PAR bZIP transcription factor & 3 \\
+Dapk1 & Apoptosis gatekeeper & 2 \\
+Bnip3 & Mitophagy / BCL2 family & 2 \\
+Eps8l2 & Actin dynamics / growth factor signaling & 2 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+These genes were identified without any prior biological knowledge of their circadian involvement. Their appearance in multiple tissues independently increases confidence that they represent genuine circadian resonance candidates.
+
+\subsection{Biological Plausibility of Novel Predictions}
+
+Several of the multi-tissue resonance genes have published connections to circadian biology that were not used in their identification:
+
+\begin{itemize}
+\item \textbf{Hlf} (Hepatic Leukemia Factor): A PAR bZIP transcription factor in the same family as DBP and TEF, known clock-controlled transcription factors. Its appearance in the resonance zone is consistent with its family membership.
+\item \textbf{Bnip3}: Mitophagy regulator linked to hypoxia response. Circadian regulation of mitophagy has been reported \citep{ma2021circadian}.
+\item \textbf{Dapk1}: Death-associated protein kinase, involved in apoptosis. Time-of-day variation in apoptosis sensitivity is documented.
+\end{itemize}
+
+\section{Discussion}
+
+The circadian resonance zone provides a principled, label-free method for identifying genes with intrinsic oscillatory properties tuned to the 24-hour cycle. The 60-fold clock gene enrichment validates the concept, and the multi-tissue resonance genes represent novel predictions for experimental testing.
+
+The resonance concept directly parallels resonance in physical systems. Just as a bridge responds most strongly to vibrations matching its natural frequency, genes in the resonance zone are predicted to respond most strongly to the 24-hour clock signal. This is not merely an analogy---the mathematics is identical.
+
+\subsection{Relationship to Existing Methods}
+
+The resonance zone differs from JTK\_CYCLE and cosinor analysis in a fundamental way: those methods detect rhythmic expression patterns, while the resonance zone identifies intrinsic dynamical properties. A gene can be in the resonance zone (tuned to 24 hours with low damping) without currently showing rhythmic expression---if the external driving signal is absent or weak. Conversely, a gene can show rhythmic expression (detected by JTK\_CYCLE) without being in the resonance zone---if it is driven by a strong external signal despite poor intrinsic tuning.
+
+\subsection{Limitations}
+
+\begin{enumerate}
+\item The resonance zone boundaries (20--28h, damping $<$ 0.5) are defined by convention; sensitivity analysis of these thresholds is warranted.
+\item Human blood data shows very few resonance zone genes, possibly due to lower sampling resolution (4h vs. 2h) or different circadian architecture in blood.
+\item None of the novel predictions have been experimentally validated.
+\end{enumerate}
+
+\subsection{Implications}
+
+Genes in the resonance zone are predicted to be the most sensitive to circadian disruption (shift work, jet lag, irregular schedules) and the most responsive to chronotherapy. Drug targets in the resonance zone should be prioritized for time-of-day dosing studies.
+
+\section{Data Availability}
+
+Complete resonance scan results (damping rate, natural period, eigenvalue, gene type) for all oscillatory genes across all 6 datasets are provided as supplementary JSON files. All source datasets are publicly available from NCBI GEO.
+
+\bibliographystyle{plain}
+\begin{thebibliography}{10}
+
+\bibitem{hughes2010jtk}
+Hughes ME, Hogenesch JB, Kornacker K.
+JTK\_CYCLE: an efficient nonparametric algorithm for detecting rhythmic components in genome-scale data sets.
+\textit{J Biol Rhythms}. 2010;25(5):372--380.
+
+\bibitem{thaben2014detecting}
+Thaben PF, Westermark PO.
+Detecting rhythms in time series with RAIN.
+\textit{J Biol Rhythms}. 2014;29(6):391--400.
+
+\bibitem{cornelissen2014cosinor}
+Cornelissen G.
+Cosinor-based rhythmometry.
+\textit{Theor Biol Med Model}. 2014;11:16.
+
+\bibitem{matsuo2003control}
+Matsuo T, Yamaguchi S, Mitsui S, Emi A, Shimoda F, Okamura H.
+Control mechanism of the circadian clock for timing of cell division in vivo.
+\textit{Science}. 2003;302(5643):255--259.
+
+\bibitem{ma2021circadian}
+Ma D, Panda S, Lin JD.
+Temporal orchestration of circadian autophagy rhythm by C/EBP$\beta$.
+\textit{EMBO J}. 2011;30(22):4642--4651.
+
+\bibitem{zhang2014circadian}
+Zhang R, Lahens NF, Ballance HI, Hughes ME, Hogenesch JB.
+A circadian gene expression atlas in mammals.
+\textit{Proc Natl Acad Sci USA}. 2014;111(45):16219--16224.
+
+\end{thebibliography}
+
+\end{document}

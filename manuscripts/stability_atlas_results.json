@@ -1,0 +1,94 @@
+{
+  "summaries": [
+    {
+      "scenario": "healthy",
+      "datasets": [
+        "WT Organoid",
+        "Mouse Liver",
+        "Mouse Kidney"
+      ],
+      "averageModulus": 0.4980992997213655,
+      "modulusStdDev": 0.05276452658249967,
+      "averageEigenperiod": 35.376357621965965,
+      "eigenperiodStdDev": 7.01482301713438,
+      "percentStable": 100,
+      "interpretation": "Highly damped system (|λ|=0.498). Perturbations decay rapidly. Eigenperiod ~35h indicates tight coupling."
+    },
+    {
+      "scenario": "pre-malignant",
+      "datasets": [
+        "BMAL1-KO Organoid",
+        "MYC-OFF Neuroblastoma"
+      ],
+      "averageModulus": 0.49263789691161847,
+      "modulusStdDev": 0.023753512195265947,
+      "averageEigenperiod": 17.349911891684467,
+      "eigenperiodStdDev": 0.8460988107676464,
+      "percentStable": 100,
+      "interpretation": "Reduced damping (|λ|=0.493). Roots migrating toward unit circle boundary. Eigenperiod drift to ~17h."
+    },
+    {
+      "scenario": "malignant",
+      "datasets": [
+        "APC-KO Organoid",
+        "Double-KO Organoid",
+        "MYC-ON Neuroblastoma"
+      ],
+      "averageModulus": 0.5996788672202554,
+      "modulusStdDev": 0.02003934947221141,
+      "averageEigenperiod": 30.163461271123438,
+      "eigenperiodStdDev": 19.322268049171683,
+      "percentStable": 100,
+      "interpretation": "System shows instability markers (|λ|=0.600)."
+    }
+  ],
+  "scenarioResults": {
+    "healthy": {
+      "moduli": [
+        0.4610179988046261,
+        0.46056075849552275,
+        0.5727191418639476
+      ],
+      "eigenperiods": [
+        25.51292950332828,
+        39.388179158253976,
+        41.22796420431564
+      ],
+      "names": [
+        "WT Organoid",
+        "Mouse Liver",
+        "Mouse Kidney"
+      ]
+    },
+    "pre-malignant": {
+      "moduli": [
+        0.4688843847163525,
+        0.5163914091068844
+      ],
+      "eigenperiods": [
+        16.50381308091682,
+        18.196010702452114
+      ],
+      "names": [
+        "BMAL1-KO Organoid",
+        "MYC-OFF Neuroblastoma"
+      ]
+    },
+    "malignant": {
+      "moduli": [
+        0.5955594424185899,
+        0.5774561570611026,
+        0.6260210021810738
+      ],
+      "eigenperiods": [
+        10.841193221951754,
+        49.48572932029512
+      ],
+      "names": [
+        "APC-KO Organoid",
+        "Double-KO Organoid",
+        "MYC-ON Neuroblastoma"
+      ]
+    }
+  }
+}

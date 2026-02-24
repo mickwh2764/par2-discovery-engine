@@ -1,0 +1,10 @@
+Tissue,Central_Module,Key_Targets,Clock_Genes_Involved,Tier,FDR_Level,Eigenperiod_Range_h,Golden_Ratio_Region,Functional_Category
+Liver,Wee1-centred,"Wee1, Chek1, Cdc25a, Gadd45a","Cry1, Bmal1, Per2",0,q<0.05,20-28,Yes,G2/M checkpoint + DNA repair
+Liver,Xenobiotic defence,"Cyp2b10, Cyp3a11, Aldh1a1","Clock, Nr1d1",2,q<0.10,22-26,Partial,Xenobiotic metabolism
+Heart,Tead1/YAP1-linked,"Tead1, Yap1, Lats2, Ccnd1","Bmal1, Cry1, Per1",1,q<0.05,21-27,Yes,Hippo pathway + cell cycle
+Heart,Cardiac remodelling,"Myh7, Tnnt2, Nppa","Clock, Per2",2,q<0.10,22-30,Partial,Cardiac function
+Cerebellum,Cdk1-centred,"Cdk1, Ccnb1, Ccnb2, Aurka","Bmal1, Cry2",1,q<0.05,20-25,Yes,Core mitotic machinery
+Cerebellum,Neural maintenance,"Bdnf, Ntrk2, Map2","Per1, Per2",2,q<0.10,23-28,Partial,Neuronal integrity
+Intestine_WT,Stem cell markers,"Lgr5, Olfm4, Ascl2","Bmal1, Clock",2,q<0.10,22-26,Partial,Stem cell renewal
+Intestine_Apc,Enhanced gating,"Lgr5, Ccnd1, Myc, Axin2","Bmal1, Cry1",1,q<0.05,20-25,Yes,Proliferation + Wnt
+Intestine_ApcBmal1,Collapsed,"—","—",—,NS,—,No,Gating loss

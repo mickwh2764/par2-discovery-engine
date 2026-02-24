@@ -1,0 +1,61 @@
+\documentclass[11pt]{letter}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+
+\signature{Michael Whiteside \\ Independent Researcher \\ ORCID: 0009-0000-0643-5791}
+\address{mickwh@msn.com \\ February 2026}
+
+\begin{document}
+
+\begin{letter}{Editor-in-Chief \\ PLOS Computational Biology}
+
+\opening{Dear Editor,}
+
+I am pleased to submit my manuscript entitled ``\textbf{PAR(2): A Phase-Gated Autoregressive Framework Reveals Tissue-Specific Circadian Gating of Cancer-Relevant Genes Across Mammalian Tissues}'' for consideration for publication in \textit{PLOS Computational Biology}.
+
+\textbf{Summary of Findings:}
+
+I present the PAR(2) framework, a novel analytical approach that extracts a single scalar metric---the eigenvalue modulus $|\lambda|$---from two-parameter autoregressive fits to gene expression time series, quantifying temporal persistence in gene expression dynamics. Applied systematically to 3,588 clock-target gene interactions across 12 mouse tissues (GSE54650) and validated in the gold-standard GSE11923 dataset (48 hourly timepoints), I report four principal findings:
+
+\begin{enumerate}
+    \item \textbf{Wee1 as the broadly conserved circadian gatekeeper:} Cry1$\rightarrow$Wee1 is the only circadian gating relationship conserved across $\geq$6 tissues, establishing Wee1 as the leading candidate for a broadly conserved circadian checkpoint among 23 cancer-relevant genes tested. Multi-criteria filtering confirms Wee1 is associated with all 8 core clock genes across 4--6 tissues (f$^2$=2.36). Myc---often considered the canonical circadian-cancer target---is gated in only 2 tissues.
+
+    \item \textbf{Nine-category persistence hierarchy:} Extension beyond the binary clock/target split to $\sim$1,594 genes across nine functional categories reveals a fine-grained hierarchy: Clock $>$ Chromatin $>$ Metabolic $>$ Housekeeping $>$ Immune $>$ Signaling $>$ DNA Repair $>$ Target $>$ Stem Cell ($H=144.8$, $p<0.001$). Chromatin remodeling genes unexpectedly outrank housekeeping genes, and stem cell markers show the lowest persistence, reframing stemness as a low-memory dynamical state.
+
+    \item \textbf{Root-space functional geography:} Plotting genes in AR(2) coefficient space reveals that functional categories tend to occupy distinct dynamical neighborhoods. The resulting ``stationarity triangle'' maps gene dynamical strategies rather than expression levels, capturing information orthogonal to PCA (empirically demonstrated via side-by-side comparison). A data-driven dynamical exclusion zone (void) contains $<$3\% of genes genome-wide.
+
+    \item \textbf{Drug target chronotherapy overlay:} Mapping 326 FDA-approved and investigational drug targets onto root-space identifies clock-gated targets amenable to tissue-specific time-of-day dosing optimization, with 168 genes across 16 drug classes positioned relative to the four dynamical poles.
+\end{enumerate}
+
+\textbf{Methodological Contribution:}
+
+PAR(2) addresses a gap in the circadian analysis toolkit: existing methods (JTK\_CYCLE, RAIN, cosinor) detect \textit{rhythmicity} but cannot quantify phase-dependent \textit{gating} or \textit{persistence hierarchies}. The framework is validated against two mechanistic ODE systems (the Leloup-Goldbeter circadian clock and the Boman crypt compartment model), tested with four permutation null models, and supported by an eleven-analysis robustness suite. An explicit ODE-to-AR(2) bridge demonstrates that the eigenvalue modulus directly recovers mechanistic decay rates from partially observed systems.
+
+\textbf{Relationship to Adjacent Work:}
+
+The manuscript positions PAR(2) within the context of complementary approaches. Single-cell gene expression memory methods (MemorySeq, GEMLI) measure temporal persistence at cellular resolution using snapshot data; PAR(2) measures it at tissue level using dense temporal sampling. Experimental drug-timing screens (Granada et al., Charit\'{e} Berlin) measure time-of-day drug sensitivity per drug; PAR(2) identifies which targets are candidates for timing-sensitive intervention genome-wide. These approaches are complementary rather than competing.
+
+\textbf{Transparency:}
+
+I explicitly report that PAR(2) is a descriptive discovery framework (cross-validation win rate 45.2\%), not a predictive model. I provide honest limitations including the moderate single-tissue FDR ($\sim$16\%, reduced to $\sim$1--5\% by cross-tissue consensus) and the bulk-tissue resolution limitation.
+
+\textbf{Data Availability:}
+
+All source data are publicly available from NCBI GEO. The interactive Discovery Engine platform is accessible at \url{https://par2-discovery-engine.replit.app}. Analysis software and datasets are available at \url{https://github.com/mickwh2764/PAR-2--Final-09-12-2025}.
+
+\textbf{Suggested Reviewers:}
+
+\begin{enumerate}
+    \item Dr.~John Hogenesch (Cincinnati Children's Hospital) --- circadian genomics and tissue atlas expertise
+    \item Dr.~Achim Kramer (Charit\'{e} -- Universit\"{a}tsmedizin Berlin) --- circadian chronotherapy and drug timing
+    \item Dr.~David Suter (EPFL) --- gene expression memory and GEMLI methodology
+\end{enumerate}
+
+PLOS Computational Biology is an ideal venue because PAR(2) bridges mechanistic ODE models and data-driven time-series analysis to address a biologically important question. The manuscript demonstrates the framework's utility from single-gene analysis to genome-wide atlas construction. Because all findings derive from public datasets with fully shared code, they can be readily re-evaluated and extended by the community.
+
+This manuscript has not been published previously and is not under consideration elsewhere.
+
+\closing{Sincerely,}
+
+\end{letter}
+\end{document}

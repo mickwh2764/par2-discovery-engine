@@ -1,0 +1,13 @@
+{
+  "check1_singleCycle": {
+    "mousePositive": 11,
+    "mouseTotal": 12,
+    "directionPreserved": true
+  },
+  "check2_tissueClass": {
+    "neuralDelta": -0.15144807697233365,
+    "periphDelta": -0.13718637527166966,
+    "reversalInBoth": true
+  },
+  "conclusion": "REAL_BIOLOGY"
+}

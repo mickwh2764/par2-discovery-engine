@@ -1,0 +1,704 @@
+{
+  "metadata": {
+    "totalAnalyses": 28,
+    "clockGenes": [
+      "Clock",
+      "Arntl",
+      "Nr1d1",
+      "Nr1d2"
+    ],
+    "targetGenes": [
+      "Clock",
+      "Arntl",
+      "Nr1d1",
+      "Nr1d2",
+      "Wee1",
+      "Yap1",
+      "Bax"
+    ],
+    "dataSource": "Wang et al. 2018 - Mouse Liver Circadian Nuclear Proteomics"
+  },
+  "summary": {
+    "avgModulus": 0.6008358502671582,
+    "avgStabilityMargin": 0.3991641497328418,
+    "avgFibonacciProximity": 74.07759090310584,
+    "avgEigenperiod": 12.700410706200133,
+    "stableCount": 28,
+    "fibonacciLikeCount": 4,
+    "nearFibonacciCount": 16
+  },
+  "results": [
+    {
+      "clockGene": "Clock",
+      "targetGene": "Clock",
+      "beta1": 0.4587507053629043,
+      "beta2": -0.3451372170972832,
+      "lambda1": {
+        "real": 0.22937535268145215,
+        "imag": 0.5408550311123514
+      },
+      "lambda2": {
+        "real": 0.22937535268145215,
+        "imag": -0.5408550311123514
+      },
+      "modulus": 0.5874838015616117,
+      "eigenperiodHours": 16.11499833610356,
+      "isStable": true,
+      "stabilityMargin": 0.41251619843838827,
+      "fibonacciRatio": -1.3291835323386672,
+      "fibonacciProximity": 74.91242237515037,
+      "fibonacciClassification": "Near-Fibonacci",
+      "fStatistic": 1.8789030091215848,
+      "pValue": 0.3908421517150418,
+      "significant": false
+    },
+    {
+      "clockGene": "Clock",
+      "targetGene": "Arntl",
+      "beta1": 0.39008167081201095,
+      "beta2": -0.3400974127160983,
+      "lambda1": {
+        "real": 0.19504083540600547,
+        "imag": 0.5495966568677668
+      },
+      "lambda2": {
+        "real": 0.19504083540600547,
+        "imag": -0.5495966568677668
+      },
+      "modulus": 0.5831787142172615,
+      "eigenperiodHours": 15.327574467929274,
+      "isStable": true,
+      "stabilityMargin": 0.41682128578273847,
+      "fibonacciRatio": -1.1469704156133578,
+      "fibonacciProximity": 62.43378860320661,
+      "fibonacciClassification": "Non-Fibonacci",
+      "fStatistic": 1.5100702559755939,
+      "pValue": 0.4699941044933867,
+      "significant": false
+    },
+    {
+      "clockGene": "Clock",
+      "targetGene": "Nr1d1",
+      "beta1": 0.5142196053889213,
+      "beta2": -0.5470813863964167,
+      "lambda1": {
+        "real": 0.25710980269446065,
+        "imag": 0.6935242863482376
+      },
+      "lambda2": {
+        "real": 0.25710980269446065,
+        "imag": -0.6935242863482376
+      },
+      "modulus": 0.7396495023971941,
+      "eigenperiodHours": 15.504147790472953,
+      "isStable": true,
+      "stabilityMargin": 0.26035049760280593,
+      "fibonacciRatio": -0.9399325551469528,
+      "fibonacciProximity": 72.47717028066482,
+      "fibonacciClassification": "Near-Fibonacci",
+      "fStatistic": 1.0545908864851667,
+      "pValue": 0.5901990398815488,
+      "significant": false
+    },
+    {
+      "clockGene": "Clock",
+      "targetGene": "Nr1d2",
+      "beta1": -0.3926272537605874,
+      "beta2": -0.4270790685572622,
+      "lambda1": {
+        "real": -0.1963136268802937,
+        "imag": 0.623329791088447
+      },
+      "lambda2": {
+        "real": -0.1963136268802937,
+        "imag": -0.623329791088447
+      },
+      "modulus": 0.6535128679354847,
+      "eigenperiodHours": 10.048242822863356,
+      "isStable": true,
+      "stabilityMargin": 0.3464871320645153,
+      "fibonacciRatio": 0.9193315305452495,
+      "fibonacciProximity": 73.98576014342106,
+      "fibonacciClassification": "Near-Fibonacci",
+      "fStatistic": 0.9034450150878363,
+      "pValue": 0.6365307777091403,
+      "significant": false
+    },
+    {
+      "clockGene": "Clock",
+      "targetGene": "Wee1",
+      "beta1": -0.39620259685029735,
+      "beta2": -0.5264132685788391,
+      "lambda1": {
+        "real": -0.19810129842514868,
+        "imag": 0.6979750311731139
+      },
+      "lambda2": {
+        "real": -0.19810129842514868,
+        "imag": -0.6979750311731139
+      },
+      "modulus": 0.7255434298364496,
+      "eigenperiodHours": 10.203584533355178,
+      "isStable": true,
+      "stabilityMargin": 0.2744565701635504,
+      "fibonacciRatio": 0.7526455363101462,
+      "fibonacciProximity": 87.40553746939247,
+      "fibonacciClassification": "Fibonacci-like",
+      "fStatistic": 1.1996057874901462,
+      "pValue": 0.5489198209618841,
+      "significant": false
+    },
+    {
+      "clockGene": "Clock",
+      "targetGene": "Yap1",
+      "beta1": -0.1018306635041501,
+      "beta2": -0.23461757517376078,
+      "lambda1": {
+        "real": -0.05091533175207505,
+        "imag": 0.48168994609223154
+      },
+      "lambda2": {
+        "real": -0.05091533175207505,
+        "imag": -0.48168994609223154
+      },
+      "modulus": 0.4843733840476382,
+      "eigenperiodHours": 11.246035466383404,
+      "isStable": true,
+      "stabilityMargin": 0.5156266159523618,
+      "fibonacciRatio": 0.4340282838092287,
+      "fibonacciProximity": 83.1931057695811,
+      "fibonacciClassification": "Near-Fibonacci",
+      "fStatistic": 1.9193382340428968,
+      "pValue": 0.383019599676237,
+      "significant": false
+    },
+    {
+      "clockGene": "Clock",
+      "targetGene": "Bax",
+      "beta1": -0.19833386900354405,
+      "beta2": -0.18671840555551225,
+      "lambda1": {
+        "real": -0.09916693450177202,
+        "imag": 0.4205761817519313
+      },
+      "lambda2": {
+        "real": -0.09916693450177202,
+        "imag": -0.4205761817519313
+      },
+      "modulus": 0.4321092518744678,
+      "eigenperiodHours": 10.458291526293205,
+      "isStable": true,
+      "stabilityMargin": 0.5678907481255322,
+      "fibonacciRatio": 1.062208454562764,
+      "fibonacciProximity": 64.13535168032449,
+      "fibonacciClassification": "Non-Fibonacci",
+      "fStatistic": 0.6028965945928041,
+      "pValue": 0.739746072237834,
+      "significant": false
+    },
+    {
+      "clockGene": "Arntl",
+      "targetGene": "Clock",
+      "beta1": 0.4587507053629043,
+      "beta2": -0.3451372170972832,
+      "lambda1": {
+        "real": 0.22937535268145215,
+        "imag": 0.5408550311123514
+      },
+      "lambda2": {
+        "real": 0.22937535268145215,
+        "imag": -0.5408550311123514
+      },
+      "modulus": 0.5874838015616117,
+      "eigenperiodHours": 16.11499833610356,
+      "isStable": true,
+      "stabilityMargin": 0.41251619843838827,
+      "fibonacciRatio": -1.3291835323386672,
+      "fibonacciProximity": 74.91242237515037,
+      "fibonacciClassification": "Near-Fibonacci",
+      "fStatistic": 1.5758500878526753,
+      "pValue": 0.45478748097430477,
+      "significant": false
+    },
+    {
+      "clockGene": "Arntl",
+      "targetGene": "Arntl",
+      "beta1": 0.39008167081201095,
+      "beta2": -0.3400974127160983,
+      "lambda1": {
+        "real": 0.19504083540600547,
+        "imag": 0.5495966568677668
+      },
+      "lambda2": {
+        "real": 0.19504083540600547,
+        "imag": -0.5495966568677668
+      },
+      "modulus": 0.5831787142172615,
+      "eigenperiodHours": 15.327574467929274,
+      "isStable": true,
+      "stabilityMargin": 0.41682128578273847,
+      "fibonacciRatio": -1.1469704156133578,
+      "fibonacciProximity": 62.43378860320661,
+      "fibonacciClassification": "Non-Fibonacci",
+      "fStatistic": 0.3068828832522508,
+      "pValue": 0.8577509912314427,
+      "significant": false
+    },
+    {
+      "clockGene": "Arntl",
+      "targetGene": "Nr1d1",
+      "beta1": 0.5142196053889213,
+      "beta2": -0.5470813863964167,
+      "lambda1": {
+        "real": 0.25710980269446065,
+        "imag": 0.6935242863482376
+      },
+      "lambda2": {
+        "real": 0.25710980269446065,
+        "imag": -0.6935242863482376
+      },
+      "modulus": 0.7396495023971941,
+      "eigenperiodHours": 15.504147790472953,
+      "isStable": true,
+      "stabilityMargin": 0.26035049760280593,
+      "fibonacciRatio": -0.9399325551469528,
+      "fibonacciProximity": 72.47717028066482,
+      "fibonacciClassification": "Near-Fibonacci",
+      "fStatistic": 1.8576854093768713,
+      "pValue": 0.39501058985202203,
+      "significant": false
+    },
+    {
+      "clockGene": "Arntl",
+      "targetGene": "Nr1d2",
+      "beta1": -0.3926272537605874,
+      "beta2": -0.4270790685572622,
+      "lambda1": {
+        "real": -0.1963136268802937,
+        "imag": 0.623329791088447
+      },
+      "lambda2": {
+        "real": -0.1963136268802937,
+        "imag": -0.623329791088447
+      },
+      "modulus": 0.6535128679354847,
+      "eigenperiodHours": 10.048242822863356,
+      "isStable": true,
+      "stabilityMargin": 0.3464871320645153,
+      "fibonacciRatio": 0.9193315305452495,
+      "fibonacciProximity": 73.98576014342106,
+      "fibonacciClassification": "Near-Fibonacci",
+      "fStatistic": 1.8998035641542634,
+      "pValue": 0.38677901021997296,
+      "significant": false
+    },
+    {
+      "clockGene": "Arntl",
+      "targetGene": "Wee1",
+      "beta1": -0.39620259685029735,
+      "beta2": -0.5264132685788391,
+      "lambda1": {
+        "real": -0.19810129842514868,
+        "imag": 0.6979750311731139
+      },
+      "lambda2": {
+        "real": -0.19810129842514868,
+        "imag": -0.6979750311731139
+      },
+      "modulus": 0.7255434298364496,
+      "eigenperiodHours": 10.203584533355178,
+      "isStable": true,
+      "stabilityMargin": 0.2744565701635504,
+      "fibonacciRatio": 0.7526455363101462,
+      "fibonacciProximity": 87.40553746939247,
+      "fibonacciClassification": "Fibonacci-like",
+      "fStatistic": 1.3417727259536645,
+      "pValue": 0.5112552191980804,
+      "significant": false
+    },
+    {
+      "clockGene": "Arntl",
+      "targetGene": "Yap1",
+      "beta1": -0.1018306635041501,
+      "beta2": -0.23461757517376078,
+      "lambda1": {
+        "real": -0.05091533175207505,
+        "imag": 0.48168994609223154
+      },
+      "lambda2": {
+        "real": -0.05091533175207505,
+        "imag": -0.48168994609223154
+      },
+      "modulus": 0.4843733840476382,
+      "eigenperiodHours": 11.246035466383404,
+      "isStable": true,
+      "stabilityMargin": 0.5156266159523618,
+      "fibonacciRatio": 0.4340282838092287,
+      "fibonacciProximity": 83.1931057695811,
+      "fibonacciClassification": "Near-Fibonacci",
+      "fStatistic": 1.4375524246595464,
+      "pValue": 0.48734830201178575,
+      "significant": false
+    },
+    {
+      "clockGene": "Arntl",
+      "targetGene": "Bax",
+      "beta1": -0.19833386900354405,
+      "beta2": -0.18671840555551225,
+      "lambda1": {
+        "real": -0.09916693450177202,
+        "imag": 0.4205761817519313
+      },
+      "lambda2": {
+        "real": -0.09916693450177202,
+        "imag": -0.4205761817519313
+      },
+      "modulus": 0.4321092518744678,
+      "eigenperiodHours": 10.458291526293205,
+      "isStable": true,
+      "stabilityMargin": 0.5678907481255322,
+      "fibonacciRatio": 1.062208454562764,
+      "fibonacciProximity": 64.13535168032449,
+      "fibonacciClassification": "Non-Fibonacci",
+      "fStatistic": 0.9490337324868697,
+      "pValue": 0.6221855827198453,
+      "significant": false
+    },
+    {
+      "clockGene": "Nr1d1",
+      "targetGene": "Clock",
+      "beta1": 0.4587507053629043,
+      "beta2": -0.3451372170972832,
+      "lambda1": {
+        "real": 0.22937535268145215,
+        "imag": 0.5408550311123514
+      },
+      "lambda2": {
+        "real": 0.22937535268145215,
+        "imag": -0.5408550311123514
+      },
+      "modulus": 0.5874838015616117,
+      "eigenperiodHours": 16.11499833610356,
+      "isStable": true,
+      "stabilityMargin": 0.41251619843838827,
+      "fibonacciRatio": -1.3291835323386672,
+      "fibonacciProximity": 74.91242237515037,
+      "fibonacciClassification": "Near-Fibonacci",
+      "fStatistic": 0.06627880533708908,
+      "pValue": 0.9674036915326074,
+      "significant": false
+    },
+    {
+      "clockGene": "Nr1d1",
+      "targetGene": "Arntl",
+      "beta1": 0.39008167081201095,
+      "beta2": -0.3400974127160983,
+      "lambda1": {
+        "real": 0.19504083540600547,
+        "imag": 0.5495966568677668
+      },
+      "lambda2": {
+        "real": 0.19504083540600547,
+        "imag": -0.5495966568677668
+      },
+      "modulus": 0.5831787142172615,
+      "eigenperiodHours": 15.327574467929274,
+      "isStable": true,
+      "stabilityMargin": 0.41682128578273847,
+      "fibonacciRatio": -1.1469704156133578,
+      "fibonacciProximity": 62.43378860320661,
+      "fibonacciClassification": "Non-Fibonacci",
+      "fStatistic": 1.0118607209290456,
+      "pValue": 0.6029443588069029,
+      "significant": false
+    },
+    {
+      "clockGene": "Nr1d1",
+      "targetGene": "Nr1d1",
+      "beta1": 0.5142196053889213,
+      "beta2": -0.5470813863964167,
+      "lambda1": {
+        "real": 0.25710980269446065,
+        "imag": 0.6935242863482376
+      },
+      "lambda2": {
+        "real": 0.25710980269446065,
+        "imag": -0.6935242863482376
+      },
+      "modulus": 0.7396495023971941,
+      "eigenperiodHours": 15.504147790472953,
+      "isStable": true,
+      "stabilityMargin": 0.26035049760280593,
+      "fibonacciRatio": -0.9399325551469528,
+      "fibonacciProximity": 72.47717028066482,
+      "fibonacciClassification": "Near-Fibonacci",
+      "fStatistic": 0.06596021635298135,
+      "pValue": 0.9675578058867191,
+      "significant": false
+    },
+    {
+      "clockGene": "Nr1d1",
+      "targetGene": "Nr1d2",
+      "beta1": -0.3926272537605874,
+      "beta2": -0.4270790685572622,
+      "lambda1": {
+        "real": -0.1963136268802937,
+        "imag": 0.623329791088447
+      },
+      "lambda2": {
+        "real": -0.1963136268802937,
+        "imag": -0.623329791088447
+      },
+      "modulus": 0.6535128679354847,
+      "eigenperiodHours": 10.048242822863356,
+      "isStable": true,
+      "stabilityMargin": 0.3464871320645153,
+      "fibonacciRatio": 0.9193315305452495,
+      "fibonacciProximity": 73.98576014342106,
+      "fibonacciClassification": "Near-Fibonacci",
+      "fStatistic": 0.580892935332588,
+      "pValue": 0.74792956665563,
+      "significant": false
+    },
+    {
+      "clockGene": "Nr1d1",
+      "targetGene": "Wee1",
+      "beta1": -0.39620259685029735,
+      "beta2": -0.5264132685788391,
+      "lambda1": {
+        "real": -0.19810129842514868,
+        "imag": 0.6979750311731139
+      },
+      "lambda2": {
+        "real": -0.19810129842514868,
+        "imag": -0.6979750311731139
+      },
+      "modulus": 0.7255434298364496,
+      "eigenperiodHours": 10.203584533355178,
+      "isStable": true,
+      "stabilityMargin": 0.2744565701635504,
+      "fibonacciRatio": 0.7526455363101462,
+      "fibonacciProximity": 87.40553746939247,
+      "fibonacciClassification": "Fibonacci-like",
+      "fStatistic": 1.7302802050947044,
+      "pValue": 0.4209925663643908,
+      "significant": false
+    },
+    {
+      "clockGene": "Nr1d1",
+      "targetGene": "Yap1",
+      "beta1": -0.1018306635041501,
+      "beta2": -0.23461757517376078,
+      "lambda1": {
+        "real": -0.05091533175207505,
+        "imag": 0.48168994609223154
+      },
+      "lambda2": {
+        "real": -0.05091533175207505,
+        "imag": -0.48168994609223154
+      },
+      "modulus": 0.4843733840476382,
+      "eigenperiodHours": 11.246035466383404,
+      "isStable": true,
+      "stabilityMargin": 0.5156266159523618,
+      "fibonacciRatio": 0.4340282838092287,
+      "fibonacciProximity": 83.1931057695811,
+      "fibonacciClassification": "Near-Fibonacci",
+      "fStatistic": 0.47960106500206484,
+      "pValue": 0.7867847834085518,
+      "significant": false
+    },
+    {
+      "clockGene": "Nr1d1",
+      "targetGene": "Bax",
+      "beta1": -0.19833386900354405,
+      "beta2": -0.18671840555551225,
+      "lambda1": {
+        "real": -0.09916693450177202,
+        "imag": 0.4205761817519313
+      },
+      "lambda2": {
+        "real": -0.09916693450177202,
+        "imag": -0.4205761817519313
+      },
+      "modulus": 0.4321092518744678,
+      "eigenperiodHours": 10.458291526293205,
+      "isStable": true,
+      "stabilityMargin": 0.5678907481255322,
+      "fibonacciRatio": 1.062208454562764,
+      "fibonacciProximity": 64.13535168032449,
+      "fibonacciClassification": "Non-Fibonacci",
+      "fStatistic": 0.32027464367482394,
+      "pValue": 0.8520267790495636,
+      "significant": false
+    },
+    {
+      "clockGene": "Nr1d2",
+      "targetGene": "Clock",
+      "beta1": 0.4587507053629043,
+      "beta2": -0.3451372170972832,
+      "lambda1": {
+        "real": 0.22937535268145215,
+        "imag": 0.5408550311123514
+      },
+      "lambda2": {
+        "real": 0.22937535268145215,
+        "imag": -0.5408550311123514
+      },
+      "modulus": 0.5874838015616117,
+      "eigenperiodHours": 16.11499833610356,
+      "isStable": true,
+      "stabilityMargin": 0.41251619843838827,
+      "fibonacciRatio": -1.3291835323386672,
+      "fibonacciProximity": 74.91242237515037,
+      "fibonacciClassification": "Near-Fibonacci",
+      "fStatistic": 0.5133117994302834,
+      "pValue": 0.7736343757786922,
+      "significant": false
+    },
+    {
+      "clockGene": "Nr1d2",
+      "targetGene": "Arntl",
+      "beta1": 0.39008167081201095,
+      "beta2": -0.3400974127160983,
+      "lambda1": {
+        "real": 0.19504083540600547,
+        "imag": 0.5495966568677668
+      },
+      "lambda2": {
+        "real": 0.19504083540600547,
+        "imag": -0.5495966568677668
+      },
+      "modulus": 0.5831787142172615,
+      "eigenperiodHours": 15.327574467929274,
+      "isStable": true,
+      "stabilityMargin": 0.41682128578273847,
+      "fibonacciRatio": -1.1469704156133578,
+      "fibonacciProximity": 62.43378860320661,
+      "fibonacciClassification": "Non-Fibonacci",
+      "fStatistic": 1.4223435599519356,
+      "pValue": 0.49106843603381517,
+      "significant": false
+    },
+    {
+      "clockGene": "Nr1d2",
+      "targetGene": "Nr1d1",
+      "beta1": 0.5142196053889213,
+      "beta2": -0.5470813863964167,
+      "lambda1": {
+        "real": 0.25710980269446065,
+        "imag": 0.6935242863482376
+      },
+      "lambda2": {
+        "real": 0.25710980269446065,
+        "imag": -0.6935242863482376
+      },
+      "modulus": 0.7396495023971941,
+      "eigenperiodHours": 15.504147790472953,
+      "isStable": true,
+      "stabilityMargin": 0.26035049760280593,
+      "fibonacciRatio": -0.9399325551469528,
+      "fibonacciProximity": 72.47717028066482,
+      "fibonacciClassification": "Near-Fibonacci",
+      "fStatistic": 1.3376967032157978,
+      "pValue": 0.5122982256156914,
+      "significant": false
+    },
+    {
+      "clockGene": "Nr1d2",
+      "targetGene": "Nr1d2",
+      "beta1": -0.3926272537605874,
+      "beta2": -0.4270790685572622,
+      "lambda1": {
+        "real": -0.1963136268802937,
+        "imag": 0.623329791088447
+      },
+      "lambda2": {
+        "real": -0.1963136268802937,
+        "imag": -0.623329791088447
+      },
+      "modulus": 0.6535128679354847,
+      "eigenperiodHours": 10.048242822863356,
+      "isStable": true,
+      "stabilityMargin": 0.3464871320645153,
+      "fibonacciRatio": 0.9193315305452495,
+      "fibonacciProximity": 73.98576014342106,
+      "fibonacciClassification": "Near-Fibonacci",
+      "fStatistic": 0.15027568606840333,
+      "pValue": 0.9276156121649204,
+      "significant": false
+    },
+    {
+      "clockGene": "Nr1d2",
+      "targetGene": "Wee1",
+      "beta1": -0.39620259685029735,
+      "beta2": -0.5264132685788391,
+      "lambda1": {
+        "real": -0.19810129842514868,
+        "imag": 0.6979750311731139
+      },
+      "lambda2": {
+        "real": -0.19810129842514868,
+        "imag": -0.6979750311731139
+      },
+      "modulus": 0.7255434298364496,
+      "eigenperiodHours": 10.203584533355178,
+      "isStable": true,
+      "stabilityMargin": 0.2744565701635504,
+      "fibonacciRatio": 0.7526455363101462,
+      "fibonacciProximity": 87.40553746939247,
+      "fibonacciClassification": "Fibonacci-like",
+      "fStatistic": 1.1983551683049387,
+      "pValue": 0.5492631731310165,
+      "significant": false
+    },
+    {
+      "clockGene": "Nr1d2",
+      "targetGene": "Yap1",
+      "beta1": -0.1018306635041501,
+      "beta2": -0.23461757517376078,
+      "lambda1": {
+        "real": -0.05091533175207505,
+        "imag": 0.48168994609223154
+      },
+      "lambda2": {
+        "real": -0.05091533175207505,
+        "imag": -0.48168994609223154
+      },
+      "modulus": 0.4843733840476382,
+      "eigenperiodHours": 11.246035466383404,
+      "isStable": true,
+      "stabilityMargin": 0.5156266159523618,
+      "fibonacciRatio": 0.4340282838092287,
+      "fibonacciProximity": 83.1931057695811,
+      "fibonacciClassification": "Near-Fibonacci",
+      "fStatistic": 0.4722486500214067,
+      "pValue": 0.7896824905455145,
+      "significant": false
+    },
+    {
+      "clockGene": "Nr1d2",
+      "targetGene": "Bax",
+      "beta1": -0.19833386900354405,
+      "beta2": -0.18671840555551225,
+      "lambda1": {
+        "real": -0.09916693450177202,
+        "imag": 0.4205761817519313
+      },
+      "lambda2": {
+        "real": -0.09916693450177202,
+        "imag": -0.4205761817519313
+      },
+      "modulus": 0.4321092518744678,
+      "eigenperiodHours": 10.458291526293205,
+      "isStable": true,
+      "stabilityMargin": 0.5678907481255322,
+      "fibonacciRatio": 1.062208454562764,
+      "fibonacciProximity": 64.13535168032449,
+      "fibonacciClassification": "Non-Fibonacci",
+      "fStatistic": 0.13126736590776908,
+      "pValue": 0.9364738478011213,
+      "significant": false
+    }
+  ]
+}

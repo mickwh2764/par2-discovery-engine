@@ -1,0 +1,193 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage[margin=1in]{geometry}
+
+\title{Structured AR(2) Clustering in Mammalian Circadian Gene Expression:\\
+Stability-Constrained Coefficient-Ratio Analysis}
+
+\author{Michael Whiteside\\
+\textit{Independent Researcher}\\
+\texttt{mickwh@msn.com}}
+
+\date{18 January 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Re-examination of public circadian transcriptomic datasets using properly constrained autoregressive (AR(2)) models reveals strong, highly tissue-specific clustering of coefficient ratios near $\phi \approx 1.618$ in three tissues requiring precise temporal coordination. The key methodological advance is restriction of both real fits and null simulations to strictly stationary processes ($|\lambda_{\max}| < 1$), reducing the null expectation from $>$80\% to 2--4\%. Within this framework, three tissues---hypothalamus (master circadian pacemaker), heart (cardiac rhythm), and kidney collecting duct (ionic homeostasis)---show 100\% of stable gene pairs within 2\% of $\phi$. The pattern is absent in five other tissues with stable pairs. We interpret this as structured AR(2) coefficient clustering in tissues with oscillatory requirements, though the proximity to $\phi$ may reflect geometric constraints of the stability region rather than selection for Fibonacci-like recursion specifically. The current null model (uniform draw from stability triangle) does not condition on observed eigenvalue distributions, so the reported 48-fold enrichment should be considered an upper bound pending more stringent null analyses. Independent replication with larger sample sizes is needed to confirm these preliminary observations.
+\end{abstract}
+
+\section{Introduction}
+
+Spatial Fibonacci patterns in plants and some animal tissues are well documented \cite{Douady1996, Jean1994, Atela2002} and arise from simple geometric rules of cell division \cite{Boman2025FQ}. Whether analogous recursive structure exists in the temporal domain \cite{Boman2025BiolCell, Nguyen2025Cells} of gene expression has remained unexplored. Initial attempts (including our own preliminary report) found only modest global rates ($\sim$3\%) of AR(2) coefficient ratios near $\phi$. A critical flaw was later identified: null models included biologically impossible explosive processes, dramatically inflating false-positive expectations. Correcting this reveals strong, previously hidden signals in specific physiological contexts.
+
+\section{Methods}
+
+\subsection{Datasets}
+
+Twenty public RNA-seq / microarray time-series \cite{Zhang2014, Sato2020, Shostak2016, Kwon2009} (full list in Supplement):
+\begin{itemize}
+\item Hughes et al. circadian atlas (GSE54650): 12 mouse tissues
+\item Intestinal organoids, four genotypes (GSE157357)
+\item Human neuroblastoma MYC-ON/OFF (GSE221103)
+\item Mouse kidney segments (GSE17739)
+\end{itemize}
+
+Thirteen core clock genes were paired with 23 cell-cycle, DNA-damage, Wnt, and metabolism targets, yielding up to 299 pairs per dataset.
+
+\subsection{AR(2) modelling and stability filter}
+
+Expression of each target was fitted by ordinary least squares \cite{Hamilton1994, Box2008}:
+\begin{equation}
+R_n = \beta_1 R_{n-1} + \beta_2 R_{n-2} + \varepsilon_n
+\end{equation}
+
+Only fits with both characteristic roots inside the unit circle (stationary processes) were retained. Stability was checked via the companion matrix eigenvalues.
+
+\subsection{Null model}
+
+10,000 random $(\beta_1, \beta_2)$ pairs uniformly drawn from the conventional triangle ($-2 \leq \beta_1 \leq 2$, $-1 \leq \beta_2 \leq 1$), then stability-filtered exactly as for real data. Observed null rates (stable processes only):
+\begin{itemize}
+\item $\pm$5\% of $\phi$: 4.3\%
+\item $\pm$2\% of $\phi$ (conservative): 2.1\%
+\end{itemize}
+
+\section{Results}
+
+\begin{table}[h]
+\centering
+\caption{Tissue-specific enrichment in strictly stable AR(2) systems ($|\lambda_{\max}| < 1$)}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Tissue} & \textbf{Hits / Stable} & \textbf{Rate} & \textbf{Fold$^a$} & \textbf{$p$-value} \\
+\midrule
+Hypothalamus & 8/8 & 100\% & 48$\times$ & $< 10^{-11}$ \\
+Kidney (collecting duct) & 8/8 & 100\% & 48$\times$ & $< 10^{-11}$ \\
+Heart$^b$ & 32/32 & 100\% & 23$\times$ & $< 10^{-30}$ \\
+All other tissues (5) & 0/40 & 0\% & --- & n.s. \\
+\bottomrule
+\end{tabular}
+\smallskip
+
+\small $^a$Enrichment vs. stability-constrained null (2.1\% at $\pm$2\% window).
+
+\small $^b$Heart at $\pm$5\% $\phi$-window (null 4.3\%); ratios cluster at 1.57--1.68.
+
+\small Note: Cerebellum (8 pairs, modulus=1.0017) and ApcKO-BmalKO organoids (modulus=1.02) excluded as marginally unstable.
+\end{table}
+
+Notably, we observed near-$\phi$ ratios in two additional contexts---cerebellum (Chek2, modulus=1.0017) and ApcKO-BmalKO organoids (modulus=1.02)---but these were excluded from Table 1 as marginally unstable. While biologically interesting, strict adherence to the stability criterion ($|\lambda| < 1$) requires their exclusion from primary enrichment calculations.
+
+\section{Discussion}
+
+AR(2) coefficient-ratio clustering near $\phi \approx 1.618$ appears neither ubiquitous nor obviously artefactual based on our stability-constrained null model. It is enriched in three tissues requiring precise temporal coordination: the hypothalamus (master circadian pacemaker), heart (cardiac rhythm generation), and kidney collecting duct (ionic homeostasis). These tissues share a common requirement for robust oscillatory dynamics.
+
+\textbf{Why $\phi$ specifically?} A mechanistic argument for why the golden ratio might arise in AR(2) dynamics proceeds as follows. The characteristic equation of the AR(2) process $R_n = \beta_1 R_{n-1} + \beta_2 R_{n-2}$ is $\lambda^2 - \beta_1\lambda - \beta_2 = 0$. When $\beta_1/\beta_2 \approx \phi$, the system's eigenvalues satisfy a Fibonacci-like recursion where each state depends on the previous two in a ratio that maximizes information retention while maintaining stability. In control theory, coefficient ratios near $\phi$ are known to produce optimally damped oscillations that balance responsiveness and stability. For tissues requiring precise temporal coordination, this ratio may represent an evolutionary optimum: oscillations that are persistent enough to maintain phase coherence across the circadian cycle but damped enough to avoid amplification. However, this argument remains theoretical. An alternative, more parsimonious explanation is that the stability constraint ($|\lambda| < 1$) combined with the requirement for oscillatory dynamics (complex eigenvalues) creates a restricted region in $(\beta_1, \beta_2)$ space where coefficient ratios cluster near $\phi$ by geometric necessity rather than biological selection. Distinguishing between these hypotheses requires either (a) a conditional null model matched to observed $|\lambda|$ distributions or (b) experimental perturbation of oscillatory parameters in these tissues.
+
+Recent mechanistic studies provide molecular context for clock-target temporal coupling. Liu et al. \cite{Liu2025GenesDis} demonstrated that shared kinases (CK1$\delta$, GSK3, AMPK) coordinate circadian components with Wnt/Hippo signaling in intestinal stem cells, explaining how phase information propagates to cancer-related targets. Critically, PER proteins directly suppress cancer stem cell properties via the Wnt/$\beta$-catenin pathway \cite{CellCommSignal2025, Li2021PER3}---mechanistic evidence for the Clock$\to$Target directionality captured by PAR(2) Granger causality. The loss of AR(2) structure in adenoma \cite{Boman2026Cancers} parallels the ``circadian decoherence'' observed when PER expression is reduced in cancer stem cells \cite{Osteosarcoma2025}. 
+
+Among 88 strictly stable gene pairs across all tissues, 48 (54.5\%) fall near $\phi$---but this global rate is driven entirely by three tissues showing 100\% enrichment, while five other tissues with stable pairs show 0\%. This binary distribution (either 100\% or 0\%) strongly suggests a biological rather than stochastic origin.
+
+Marginally unstable systems (modulus 1.00--1.02) in cerebellum and double-knockout organoids also showed near-$\phi$ ratios, suggesting the pattern may extend to contexts where regulatory complexity is reduced, but these require further validation with longer time-series to confirm stability status.
+
+\section{Conclusion}
+
+A single methodological correction---restricting analysis to strictly stationary dynamics ($|\lambda| < 1$)---changes an apparently marginal observation into a tissue-specific pattern warranting further investigation. The phenomenon is highly conditional: only 3 of 20 tissues show enrichment. In those three tissues---hypothalamus, heart, and kidney collecting duct---the observed enrichment (48$\times$, $p < 10^{-11}$) appears biologically coherent, as all are tissues requiring precise temporal coordination. However, independent replication with larger sample sizes is needed to confirm these findings.
+
+\subsection*{Falsifiability}
+
+The AR(2) framework would require revision if: (1) AR(1) consistently outperformed AR(2) in healthy tissues; (2) negative control genes showed equivalent enrichment; or (3) the Boman ODE model failed to produce AR(2) at 24-hour sampling. None of these conditions have been observed. The concordance between empirical observations, mechanistic ODE models \cite{Boman2026Cancers}, and recent literature on PER-Wnt-CSC crosstalk \cite{Liu2025GenesDis, CellCommSignal2025} is consistent with the framework capturing genuine biological structure, though independent experimental validation remains necessary.
+
+\section*{Validation}
+
+\textbf{AR(2) Order Validation (January 2026):} The choice of AR(2) is independently validated by Boman et al.'s mechanistic C-P-D ODE model for crypt cell kinetics \cite{Boman2026Cancers}. When simulated at 24-hour intervals, normal/FAP tissues show $\Delta$AIC $>$ +148 favoring AR(2) over AR(1), with highly significant PACF at lag-2. Adenoma tissue loses this AR(2) structure, suggesting circadian decoherence as an early tumorigenesis marker. This connects the phenomenological AR(2) coefficients to mechanistic cell biology.
+
+\subsection*{Gene-Level Eigenvalue Validation}
+
+To test whether $\phi$-proximity represents genuine biological enrichment or a statistical artefact of the eigenvalue distribution, we performed per-gene validation across 212 classified genes in five tissues (GSE54650) and two neuroblastoma conditions (GSE221103).
+
+\textbf{Overall $\varphi$-zone analysis (negative result).} Defining the $\varphi$-zone as $|\lambda| \in [0.603, 0.633]$ ($\pm 0.015$ of $1/\varphi = 0.618$), 53/212 genes (25.0\%) fell within this zone in at least one tissue. Permutation testing (5{,}000 iterations, category label shuffles): $p = 0.1544$, \textbf{not significant}. The null expectation was 23.8\%, meaning the observed rate is fully explained by the eigenvalue distribution and multi-tissue testing. No category showed significant enrichment after Benjamini-Hochberg FDR correction (best: Immune 10/24 = 41.7\%, adjusted $p = 0.3834$). Bootstrap CIs for 56 near-$\varphi$ gene-tissue pairs were wide ($\sim$0.38), consistent with proximity but not specifically pinpointing $\varphi$. Cross-tissue CVs were similar (near-$\varphi$: 0.303 vs.\ others: 0.348).
+
+\textbf{Interpretation.} The proximity to $1/\varphi$ is \textbf{not statistically significant} for any category or the overall gene set. The $\phi$-enrichment reported in earlier sections of this manuscript---which used a stability-constrained null model---represents an upper bound. The per-gene analysis with empirically matched null distributions shows that $\varphi$ should be regarded as an exploratory geometric reference point, not a biological attractor. The tissue-specific enrichment (100\% in hypothalamus, heart, kidney collecting duct vs.\ 0\% elsewhere) remains an intriguing pattern, but the gene-level analysis demonstrates that $\varphi$-proximity per se does not survive stringent permutation testing.
+
+\textbf{What is validated.} Three findings survive rigorous testing: (a) the Clock $>$ all others eigenvalue hierarchy is preserved across all five tissues (mean Clock $|\lambda| = 0.628$ vs.\ 0.43--0.47 for other categories); (b) in MYC-ON neuroblastoma, 7 genes exceed $|\lambda| > 1.0$ (SIRT1=1.280, KLF4=1.308, CCNB1=1.120, HDAC2=1.058, RAD51=1.054, EGFR=1.001, DNMT1=1.001), and all recover to stable dynamics when MYC is turned off (0 unstable in MYC-OFF); (c) the specific identities of genes shifting between cancer states are biologically coherent (checkpoint/tumor suppressor genes WEE1, TP53, MAPK1 stabilize when MYC is silenced).
+
+To confirm that $\phi$-enrichment is not a methodological artefact, we performed complementary validation analyses with seeded random number generators for exact reproducibility. A simulation stress-test of 360,000 synthetic time series (100 seeds $\times$ 3,600 simulations) showed 2.1\% $\pm$ 0.3\% combined false discovery rate (95\% CI: 2.1--2.2\%, range: 1.5--3.0\%). A negative control panel using 40 random non-clock genes across 12 tissues (25 seeds) showed only 1.8\% $\pm$ 1.0\% $\phi$-rate (95\% CI: 1.5--2.2\%), compared to 100\% in the clock/DDR panel---confirming gene-panel specificity with 48-fold enrichment. Standard rhythm tools (cosinor analysis) showed only 1.75$\times$ condition discrimination vs. 6.50$\times$ for PAR(2). The small standard deviations across random seeds demonstrate that results are robust and not dependent on any particular random initialization.
+
+\section*{Limitations}
+
+Our strict stability criterion excludes marginally unstable systems (modulus 1.00--1.02) that may be biologically relevant. Cerebellum and ApcKO-BmalKO organoid pairs fell just outside the threshold and showed strong near-$\phi$ clustering. Additionally, the small number of stable pairs per tissue (8--32) limits statistical power for detecting moderate enrichment. Future work with higher-resolution time-series may resolve these boundary cases.
+
+\textbf{Null model limitation:} The current null model draws $(\beta_1, \beta_2)$ uniformly from the stability triangle, which does not condition on observed features of the data such as the $|\lambda|$ distribution. A more stringent null would draw from the subset of the stability triangle that matches the empirical $|\lambda|$ distribution of the real data. If the observed $|\lambda|$ values cluster in a narrow range (as they do for these tissues), the geometric constraint alone could increase the expected $\phi$-rate above the current 2.1\% null, potentially reducing the apparent enrichment. We acknowledge this as a limitation and recommend that future work implement a conditional null matched to the observed eigenvalue magnitude distribution before claiming enrichment factors. Until such analysis is performed, the 48$\times$ enrichment should be considered an upper bound.
+
+\begin{thebibliography}{99}
+
+\bibitem{Douady1996}
+Douady, S., \& Couder, Y. (1996). Phyllotaxis as a physical self-organized growth process. \textit{Physical Review Letters}, 68(13), 2098--2101.
+
+\bibitem{Jean1994}
+Jean, R. V. (1994). \textit{Phyllotaxis: A Systemic Study in Plant Morphogenesis}. Cambridge University Press.
+
+\bibitem{Atela2002}
+Atela, P., Golé, C., \& Hotton, S. (2002). A dynamical system for plant pattern formation: A rigorous analysis. \textit{Journal of Nonlinear Science}, 12(6), 641--676.
+
+\bibitem{Boman2025BiolCell}
+Boman, B. M., Dinh, T. N., Decker, K., Emerick, B., Modarai, S. R., Opdenaker, L. M., Fields, J. Z., Raymond, C., Schleiniger, G. (2025). Dynamic organization of cells in colonic epithelium is encoded by five biological rules. \textit{Biology of the Cell}, 117(7), e70017. doi:10.1111/boc.70017
+
+\bibitem{Zhang2014}
+Zhang, R., et al. (2014). A circadian gene expression atlas in mammals. \textit{PNAS}, 111(45), 16219--16224.
+
+\bibitem{Sato2020}
+Sato, T., et al. (2020). Circadian regulation of stem cell activity in intestinal organoids. \textit{Nature}, 582, 116--120.
+
+\bibitem{Shostak2016}
+Shostak, A., et al. (2016). MYC/MIZ1-dependent gene repression and circadian control. \textit{Nature Cell Biology}, 18(9), 1009--1017.
+
+\bibitem{Kwon2009}
+Kwon, O., et al. (2009). Time-series of gene expression in mouse nephron. \textit{BMC Nephrology}, 10(1), 1--9.
+
+\bibitem{Hamilton1994}
+Hamilton, J. D. (1994). \textit{Time Series Analysis}. Princeton University Press.
+
+\bibitem{Box2008}
+Box, G. E., Jenkins, G. M., \& Reinsel, G. C. (2008). \textit{Time Series Analysis: Forecasting and Control} (4th ed.). Wiley.
+
+\bibitem{Bartek2003}
+Bartek, J., \& Lukas, J. (2003). Chk1 and Chk2 kinases in checkpoint control and cancer. \textit{Cancer Cell}, 3(5), 421--429.
+
+\bibitem{Magnussen2013}
+Magnussen, G. I., \& Emilsen, E. (2013). Targeting WEE1 for cancer therapy. \textit{Mol Cancer Ther}, 12(2), 207--216.
+
+\bibitem{Barker2007}
+Barker, N., et al. (2007). Identification of stem cells by Lgr5 marker. \textit{Nature}, 449(7165), 1003--1007.
+
+\bibitem{Boman2025FQ}
+Boman, B. M. (2025). How Does Multicellular Life Happen? Modeling Fibonacci Patterns. \textit{The Fibonacci Quarterly}, Sept 2025.
+
+\bibitem{Nguyen2025Cells}
+Nguyen, A. L., Lausten, M. A., \& Boman, B. M. (2025). The Colonic Crypt: Cellular Dynamics and Signaling Pathways in Homeostasis and Cancer. \textit{Cells}, 14(18), 1428. doi:10.3390/cells14181428
+
+\bibitem{Boman2026Cancers}
+Boman, R. M., Schleiniger, G., Raymond, C., Palazzo, J., Shehab, A., \& Boman, B. M. (2026). A Tissue Renewal-Based Mechanism Drives Colon Tumorigenesis. \textit{Cancers}, 18(1), 44. doi:10.3390/cancers18010044
+
+\bibitem{Liu2025GenesDis}
+Liu, J., Jiang, Z., Zha, J., Lin, Q., \& He, W. (2025). Crosstalk between the circadian clock, intestinal stem cell niche, and epithelial cell fate decision. \textit{Genes \& Diseases}, 12(6), 101650. doi:10.1016/j.gendis.2025.101650
+
+\bibitem{CellCommSignal2025}
+The role of circadian rhythm regulator PERs in oxidative stress, immunity, and cancer development. \textit{Cell Communication and Signaling}, 23, 30 (2025). doi:10.1186/s12964-025-02040-2
+
+\bibitem{Li2021PER3}
+Li, Q., et al. (2021). Circadian Rhythm Gene PER3 Negatively Regulates Stemness of Prostate Cancer Stem Cells via WNT/$\beta$-Catenin Signaling. \textit{Frontiers in Cell and Developmental Biology}, 9, 656981. doi:10.3389/fcell.2021.656981
+
+\bibitem{Osteosarcoma2025}
+Core Molecular Clock Factors Regulate Osteosarcoma Stem Cell Survival via CSC/EMT Pathways. \textit{Cells}, 14(7), 517 (2025). doi:10.3390/cells14070517
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,226 @@
+{
+  "title": "PAR(2) Discovery Engine - Complete Analysis Results",
+  "date": "2026-02-20",
+  "version": "2.0",
+  "summary": {
+    "datasets_analyzed": 82,
+    "species": [
+      "Mouse",
+      "Human",
+      "Baboon",
+      "Arabidopsis",
+      "Yeast"
+    ],
+    "tissues_with_hierarchy": "12/12 mouse tissues (all significant)",
+    "disruption_comparisons": 7,
+    "strongest_finding": "Clock > target hierarchy: 12/12 tissues, all p < 0.05",
+    "resolution_invariance": "Clock |lambda| = 0.7655 (1h) vs 0.7654 (2h), diff = 0.0001"
+  },
+  "hierarchy_results": {
+    "tissues": {
+      "Lung": {
+        "clock": 0.9863,
+        "target": 0.6056,
+        "gap": 0.3806,
+        "p": "<0.001"
+      },
+      "Aorta": {
+        "clock": 0.7841,
+        "target": 0.4003,
+        "gap": 0.3838,
+        "p": "<0.001"
+      },
+      "Heart": {
+        "clock": 0.8545,
+        "target": 0.5084,
+        "gap": 0.3461,
+        "p": "<0.001"
+      },
+      "Kidney": {
+        "clock": 0.8731,
+        "target": 0.5688,
+        "gap": 0.3043,
+        "p": "<0.001"
+      },
+      "White_Fat": {
+        "clock": 0.7957,
+        "target": 0.4915,
+        "gap": 0.3042,
+        "p": "<0.001"
+      },
+      "Brown_Fat": {
+        "clock": 0.7927,
+        "target": 0.5045,
+        "gap": 0.2882,
+        "p": "<0.001"
+      },
+      "Cerebellum": {
+        "clock": 0.6899,
+        "target": 0.4039,
+        "gap": 0.2859,
+        "p": "<0.001"
+      },
+      "Muscle": {
+        "clock": 0.733,
+        "target": 0.4532,
+        "gap": 0.2798,
+        "p": "<0.001"
+      },
+      "Adrenal": {
+        "clock": 0.7277,
+        "target": 0.4815,
+        "gap": 0.2463,
+        "p": "<0.001"
+      },
+      "Brainstem": {
+        "clock": 0.6646,
+        "target": 0.4191,
+        "gap": 0.2454,
+        "p": "<0.001"
+      },
+      "Liver": {
+        "clock": 0.7755,
+        "target": 0.6465,
+        "gap": 0.129,
+        "p": "0.032"
+      },
+      "Hypothalamus": {
+        "clock": 0.4926,
+        "target": 0.3819,
+        "gap": 0.1107,
+        "p": "0.023"
+      }
+    }
+  },
+  "disruption_results": {
+    "Bmal1_KO": {
+      "normal": 0.5867,
+      "disrupted": 0.5547,
+      "delta": -0.032,
+      "direction": "decrease"
+    },
+    "APC_KO_organoid": {
+      "normal": 0.4235,
+      "disrupted": 0.5256,
+      "delta": 0.1022,
+      "direction": "increase"
+    },
+    "Aging": {
+      "normal": 0.5766,
+      "disrupted": 0.5969,
+      "delta": 0.0203,
+      "direction": "increase"
+    },
+    "Sleep_restriction": {
+      "normal": 0.5545,
+      "disrupted": 0.5637,
+      "delta": 0.0091,
+      "direction": "increase"
+    },
+    "Night_shift": {
+      "normal": 0.5438,
+      "disrupted": 0.5528,
+      "delta": 0.0089,
+      "direction": "increase"
+    },
+    "MYC_ON_cancer": {
+      "normal": 0.4474,
+      "disrupted": 0.4725,
+      "delta": 0.0251,
+      "direction": "increase"
+    },
+    "Forced_desync": {
+      "normal": 0.6297,
+      "disrupted": 0.5146,
+      "delta": -0.1151,
+      "direction": "decrease"
+    }
+  },
+  "cross_resolution": {
+    "GSE11923_1h_48h": {
+      "mean": 0.5339,
+      "clock": 0.7655,
+      "target": 0.6336,
+      "gap": 0.1319
+    },
+    "GSE67305_totalRNA_2h": {
+      "mean": 0.505,
+      "clock": 0.7654,
+      "target": 0.5586,
+      "gap": 0.2069
+    },
+    "GSE67305_ribosome_2h": {
+      "mean": 0.521,
+      "clock": 0.8506,
+      "target": 0.6052,
+      "gap": 0.2455
+    }
+  },
+  "human_disruption": {
+    "GSE56931_baseline": {
+      "mean": 0.5184,
+      "ar2_pct": 2.9
+    },
+    "GSE56931_sleepdep": {
+      "mean": 0.6081,
+      "ar2_pct": 4.1
+    },
+    "delta": 0.0897,
+    "p_value": "<0.001",
+    "cohens_d": 0.48
+  },
+  "test_e_bridge": {
+    "k2_invisibility": "CONFIRMED (spread=0.0006)",
+    "nonlinear_deviation": "21-34% universal across all ODE models",
+    "organoid_direction": "APC-KO > WT consistent with prediction",
+    "oscillatory_loss": "Complex eigenvalues drop 22.7% to 5.8% in APC-KO"
+  },
+  "honest_assessment": {
+    "novel": "|lambda| as continuous persistence metric; root-space genome map; resolution invariance",
+    "not_novel": "Clock > target hierarchy (known qualitatively); circadian-cancer link (epidemiology)",
+    "strongest_claim": "Robust two-parameter method quantifying temporal persistence across tissues, species, and conditions with formal permutation validation",
+    "unverified": "|lambda| superiority over existing metrics; cancer progression prediction; translational amplification"
+  },
+  "phase_portrait_coupling": {
+    "date": "2026-02-22",
+    "description": "BMAL1 coupling analysis across 12 GSE54650 tissues using Phase Portrait Explorer",
+    "total_coupling_events": 85,
+    "unique_genes_coupled": 33,
+    "distinct_findings": 25,
+    "findings_breakdown": {
+      "independently_confirmed": 7,
+      "strongly_supported": 8,
+      "novel_predictions": 10
+    },
+    "top_universally_coupled_genes": {
+      "Wee1": {"tissues": 10, "best_p": 0.000003, "reference": "Matsuo et al. 2003 Science"},
+      "Nampt": {"tissues": 8, "best_p": 0.000000, "reference": "Ramsey et al. 2009 Science"},
+      "Acaca": {"tissues": 5, "best_p": 0.001084},
+      "Actb": {"tissues": 4, "best_p": 0.000123},
+      "Ppara": {"tissues": 4, "best_p": 0.001499},
+      "Cdk6": {"tissues": 4, "best_p": 0.005749}
+    },
+    "tissue_coupling_counts": {
+      "Lung": 14,
+      "Liver": 20,
+      "Kidney": 8,
+      "Muscle": 8,
+      "Brown_Fat": 6,
+      "Heart": 5,
+      "White_Fat": 5,
+      "Brainstem": 5,
+      "Adrenal": 4,
+      "Aorta": 4,
+      "Cerebellum": 4,
+      "Hypothalamus": 2
+    },
+    "key_findings": [
+      "Wee1 universally clock-coupled in 10/12 tissues (confirmed by Matsuo et al. 2003)",
+      "Nampt broadly clock-coupled in 8/12 tissues (confirmed by Ramsey et al. 2009)",
+      "Lung has most coupled genes (14), Hypothalamus fewest (2)",
+      "Ogg1 DNA repair couples in heart/muscle but not liver (tissue-specific)",
+      "Actb/Tubb5 reference gene instability confirmed with tissue-specific map",
+      "10 novel testable predictions generated for experimental validation"
+    ]
+  }
+}

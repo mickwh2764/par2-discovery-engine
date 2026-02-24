@@ -1,0 +1,61 @@
+\documentclass[11pt]{letter}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+
+\signature{Michael Whiteside \\ Independent Researcher \\ ORCID: 0009-0000-0643-5791}
+\address{mickwh@msn.com \\ February 2026}
+
+\begin{document}
+
+\begin{letter}{Editor-in-Chief \\ Cancer Research}
+
+\opening{Dear Editor,}
+
+I am pleased to submit my manuscript entitled ``\textbf{Compensatory Circadian Gating Suggests a Two-Hit Threshold for Clock-Mediated Cancer Defense}'' for consideration as an Article in \textit{Cancer Research}.
+
+\textbf{Summary of Key Findings:}
+
+This study challenges the prevailing paradigm that circadian disruption merely enables cancer progression. Using the PAR(2) Phase-Amplitude-Relationship framework (methodology published separately), I report the following discoveries:
+
+\begin{enumerate}
+\item \textbf{The clock fights back:} APC mutation triggers a 2-fold \textit{increase} in circadian gating (11\% $\rightarrow$ 22\%), suggesting active compensation by the remaining clock machinery. The genes gaining circadian control are specifically cancer-relevant: Wee1, Ccnb1, Tp53, and Sirt1.
+
+\item \textbf{Two-hit threshold:} Combined APC and BMAL1 mutations cause a 17-fold collapse (22\% $\rightarrow$ 1.3\%), consistent with a threshold at which circadian protection fails. This explains why single clock gene mutations have modest cancer effects while combined pathway disruption accelerates tumorigenesis.
+
+\item \textbf{First LGR5 gating report:} BMAL1 mutation rewires circadian gating to the stem cell marker LGR5, to our knowledge linking the clock to cancer stem cell biology for the first time. This finding gains significance from the nine-category persistence hierarchy, which reveals stem cell markers as the lowest-persistence functional category ($|\lambda| = 0.626$), reframing stemness as a low-memory dynamical state.
+
+\item \textbf{Root-space cancer gene geography:} APC occupies the alternating-dynamics region (consistent with toggle-switch function), PTEN sits at the pure oscillation vertex ($|\lambda| = 0.996$, suggesting rhythmic rather than constitutive tumor suppression), and TP53 occupies the memoryless centre---generating testable predictions for mutation-specific dynamical disruption.
+
+\item \textbf{Divergent trajectories:} Aging and cancer represent distinct deformations of circadian hierarchy---aging weakens it (rigidity), cancer reverses it (escape)---with caloric restriction partially rescuing the youthful pattern ($\sim$73\% recovery).
+
+\item \textbf{Cancer-specific target:} Pparg emerges as the sole FDR-significant target in MYC-ON neuroblastoma, with transparent reporting of the collinearity explanation for identical effect sizes across clock genes.
+\end{enumerate}
+
+\textbf{Broader Impact:}
+
+The compensatory gating model has direct implications for chronotherapy. Granada and colleagues (Charit\'{e} Berlin) have developed complementary experimental frameworks for profiling time-of-day drug sensitivity. PAR(2) addresses the upstream question: which drug targets carry strong temporal persistence and are therefore candidates for timing-sensitive intervention. Integrating computational target identification (PAR(2)) with experimental drug-timing validation would provide both layers needed for systematic chronotherapy development.
+
+\textbf{Scientific Rigor:}
+
+I maintain full transparency about limitations. The eigenperiod healthy-vs-cancer comparison is explicitly flagged as subject to a species $\times$ tissue $\times$ context confound and is presented as hypothesis-generating. The Pparg finding is reported as one finding, not seven, with mathematical explanation. Bulk-tissue resolution limitations are acknowledged alongside a concrete roadmap for single-cell validation using emerging datasets and complementary memory methods (MemorySeq, GEMLI).
+
+\textbf{Data Availability:}
+
+All analyses use publicly available NCBI GEO datasets (GSE54650, GSE157357, GSE221103). The interactive Discovery Engine platform is accessible at \url{https://par2-discovery-engine.replit.app}. Complete code is available at \url{https://github.com/mickwh2764/PAR-2--Final-09-12-2025}.
+
+\textbf{Suggested Reviewers:}
+
+\begin{enumerate}
+    \item Dr.~Seung-Hee Yoo (University of Texas Health Science Center) --- circadian clock biology and cancer
+    \item Dr.~Angela Relógio (Charit\'{e} -- Universit\"{a}tsmedizin Berlin) --- circadian systems medicine and cancer chronobiology
+    \item Dr.~Hans Clevers (Hubrecht Institute / Roche) --- intestinal organoid biology and APC-mutant models
+\end{enumerate}
+
+Because these findings are derived from public datasets with fully shared code, they can be readily re-evaluated and extended by the community.
+
+This manuscript has not been published previously and is not under consideration elsewhere.
+
+\closing{Sincerely,}
+
+\end{letter}
+\end{document}

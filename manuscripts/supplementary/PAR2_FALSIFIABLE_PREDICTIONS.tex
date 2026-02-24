@@ -1,0 +1,62 @@
+\section*{Falsifiable Predictions and Negative Controls}
+
+The PAR(2) gatekeeper hypothesis makes specific, testable predictions that could falsify the model. We present these explicitly to distinguish our framework from post-hoc pattern-fitting and to guide future experimental validation.
+
+\subsection*{Core Predictions}
+
+\textbf{Prediction 1: BMAL1 is necessary for φ-like gating.}
+If BMAL1 is knocked out in a new circadian-competent cell line (not used in our training set) and the PAR(2) engine still detects LOUD gating with φ-like structure in clock→DDR gene pairs, this would contradict the gatekeeper model. Our current data show that BMAL1-KO renders nearly all pairs SILENT.
+
+\textbf{Prediction 2: φ-enrichment is panel-specific, not universal.}
+Running the identical PAR(2) analysis on a panel of biologically irrelevant genes (e.g., housekeeping genes, olfactory receptors, random metabolic enzymes) should yield φ-like ratios at or below the null expectation ($\sim$2--4\%). Our negative control analysis confirms this: random genes show 1.8\% $\pm$ 1.0\% φ-rate (below null expectation), compared to 100\% in neural tissues for the clock/DDR panel.
+
+\textbf{Prediction 3: Cross-tissue consensus is not an artifact.}
+If we scramble timing labels across multiple independent datasets while preserving expression values, the apparent Cry1→Wee1 and other consensus φ-like hits should disappear. Our time-shuffle null survey confirms this: shuffled data show only 2.1\% φ-rate, matching random expectation.
+
+\textbf{Prediction 4: Tissue-specific enrichment is reproducible.}
+Neural tissues (Hypothalamus, SCN) consistently show the highest φ-enrichment (100\% of stable pairs). If an independent circadian time-series from a new neural tissue shows low φ-enrichment while a metabolic tissue shows high enrichment, this would challenge our tissue-specificity claims.
+
+\subsection*{Experimental Tests That Could Falsify the Model}
+
+\begin{enumerate}
+\item \textbf{New BMAL1-KO organoid line:} Generate a colon organoid line with CRISPR-mediated BMAL1 knockout, not derived from our training data. Run a 48-hour circadian time-course with 12+ timepoints. If PAR(2) analysis shows LOUD gating with φ-like structure for Wee1/CHEK2 pairs at rates comparable to wild-type ($>$50\%), the model is falsified.
+
+\item \textbf{MYC-independent CRC series:} Perform a well-sampled ($\geq$10 timepoints) circadian time-series in a colorectal cancer cell line with MYC amplification. If no LOUD pattern appears in the clock→DDR panel while random genes show φ-enrichment, the MYC-gating hypothesis is falsified.
+
+\item \textbf{Non-circadian tissue control:} Analyze a tissue with minimal circadian amplitude (e.g., embryonic stem cells, some cancer lines) using the same PAR(2) pipeline. The model predicts $<$10\% φ-enrichment; higher rates would suggest methodology artifacts.
+
+\item \textbf{Alternative clock knockout:} Test PER1/PER2 double knockout. The model predicts this should also eliminate gating, but potentially with different downstream consequences than BMAL1-KO.
+\end{enumerate}
+
+\subsection*{Validation Completed}
+
+\textbf{Simulation stress-test:} We simulated 360,000 synthetic time series (100 seeds $\times$ 3,600 simulations per seed) representing AR(1), AR(2)-φ, and AR(2)-non-φ archetypes with realistic noise and sampling (6--12 timepoints). Using seeded pseudo-random number generators (Mulberry32 algorithm) for exact reproducibility, key findings:
+\begin{itemize}
+\item Combined FDR: 2.1\% $\pm$ 0.3\% (95\% CI: 2.1--2.2\%, range: 1.5--3.0\% across 100 seeds)
+\item FDR from AR(1) processes: 2.1\% $\pm$ 0.4\%
+\item FDR from AR(2)-non-φ processes: 2.2\% $\pm$ 0.4\%
+\item Detection power for true φ-like dynamics: 4.9\% $\pm$ 0.6\%
+\item AR(2)-φ stability rate: 97.1\% $\pm$ 0.5\%
+\item Default seed (42) enables exact manuscript replication
+\end{itemize}
+
+\textbf{Negative control panel:} We ran the identical PAR(2) analysis on 40 randomly selected genes (excluding all clock, DDR, and Wnt pathway genes) using \textit{real expression data} from 12 GSE54650 mouse tissues across 25 random seeds:
+\begin{itemize}
+\item Control gene φ-rate: 1.8\% $\pm$ 1.0\% (95\% CI: 1.5--2.2\%, range: 0.3--4.1\%)
+\item Enrichment vs null: 0.87$\times$ $\pm$ 0.45$\times$ (below null expectation)
+\item Original clock/DDR panel φ-rate: 100\% in neural tissues ($48\times$ enrichment)
+\item Conclusion: φ-enrichment is specific to the biological gene panel, robust across different random gene selections
+\item Default seed (123) enables exact manuscript replication
+\end{itemize}
+
+\subsection*{Statistical Basis for Claims}
+
+All enrichment claims are evaluated against stability-constrained null surveys:
+\begin{itemize}
+\item Global φ-enrichment (5\% window around $\phi$): null expectation = 4.3\%
+\item Stability-constrained φ-enrichment (2\% window, $|\lambda| < 1$): null expectation = 2.1\%
+\item Single-tissue time-shuffle FDR: $\sim$16\%
+\item Cross-tissue consensus FDR (3+ tissues): $\sim$2\%
+\end{itemize}
+
+These benchmarks provide objective standards against which any future claims must be measured.

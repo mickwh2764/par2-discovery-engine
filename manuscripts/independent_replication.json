@@ -1,0 +1,162 @@
+{
+  "loocv": {
+    "consistent": 12,
+    "total": 12,
+    "results": [
+      {
+        "heldOutTissue": "Adrenal",
+        "trainDelta": 0.08051659676028822,
+        "testDelta": 0.0925550199077203,
+        "consistent": true
+      },
+      {
+        "heldOutTissue": "Aorta",
+        "trainDelta": 0.07720331157055194,
+        "testDelta": 0.1290011569948185,
+        "consistent": true
+      },
+      {
+        "heldOutTissue": "Brainstem",
+        "trainDelta": 0.08784727374580759,
+        "testDelta": 0.011917573067007026,
+        "consistent": true
+      },
+      {
+        "heldOutTissue": "Brown_Fat",
+        "trainDelta": 0.0789296327869744,
+        "testDelta": 0.11001162361417083,
+        "consistent": true
+      },
+      {
+        "heldOutTissue": "Cerebellum",
+        "trainDelta": 0.08800017092157841,
+        "testDelta": 0.010235704133527035,
+        "consistent": true
+      },
+      {
+        "heldOutTissue": "Heart",
+        "trainDelta": 0.0783227674291227,
+        "testDelta": 0.11668714255054102,
+        "consistent": true
+      },
+      {
+        "heldOutTissue": "Hypothalamus",
+        "trainDelta": 0.0883846671947357,
+        "testDelta": 0.006006245128796328,
+        "consistent": true
+      },
+      {
+        "heldOutTissue": "Kidney",
+        "trainDelta": 0.08034394714597715,
+        "testDelta": 0.09445416566513853,
+        "consistent": true
+      },
+      {
+        "heldOutTissue": "Liver",
+        "trainDelta": 0.07550235094211033,
+        "testDelta": 0.1477117239076764,
+        "consistent": true
+      },
+      {
+        "heldOutTissue": "Lung",
+        "trainDelta": 0.07717899922327764,
+        "testDelta": 0.12926859281483505,
+        "consistent": true
+      },
+      {
+        "heldOutTissue": "Muscle",
+        "trainDelta": 0.0841288316336225,
+        "testDelta": 0.05282043630104205,
+        "consistent": true
+      },
+      {
+        "heldOutTissue": "White_Fat",
+        "trainDelta": 0.0818790349168429,
+        "testDelta": 0.07756820018561672,
+        "consistent": true
+      }
+    ]
+  },
+  "tierSplit": {
+    "tier1Delta": 0.11961767737445195,
+    "tier2Delta": 0.09244477456467692,
+    "replicated": true
+  },
+  "geneLevel": {
+    "aboveClock": 9,
+    "total": 10,
+    "results": [
+      {
+        "gene": "Clu",
+        "mean": 0.9814353191337513,
+        "lower": 0.8515987638209868,
+        "upper": 1.0041079433703852,
+        "aboveClock": false
+      },
+      {
+        "gene": "Tacstd2",
+        "mean": 0.9912808239554788,
+        "lower": 0.9517934821579992,
+        "upper": 1.005844290310299,
+        "aboveClock": true
+      },
+      {
+        "gene": "Ly6a",
+        "mean": 0.9977947453870034,
+        "lower": 0.9925928595615094,
+        "upper": 1.004894572363594,
+        "aboveClock": true
+      },
+      {
+        "gene": "Anxa1",
+        "mean": 0.9916737629362428,
+        "lower": 0.9307575295996271,
+        "upper": 1.0021441816999124,
+        "aboveClock": true
+      },
+      {
+        "gene": "Sox2",
+        "mean": 1.0001903941481032,
+        "lower": 0.9927582149490657,
+        "upper": 1.0054080430376544,
+        "aboveClock": true
+      },
+      {
+        "gene": "Sox9",
+        "mean": 0.9990284747370688,
+        "lower": 0.980143826465802,
+        "upper": 1.0120487220388559,
+        "aboveClock": true
+      },
+      {
+        "gene": "Yap1",
+        "mean": 0.9964419353098112,
+        "lower": 0.9888873662652493,
+        "upper": 1.0027064221492592,
+        "aboveClock": true
+      },
+      {
+        "gene": "Wwtr1",
+        "mean": 0.9975518565920677,
+        "lower": 0.9893208562650038,
+        "upper": 1.0025947886509627,
+        "aboveClock": true
+      },
+      {
+        "gene": "Fosl1",
+        "mean": 0.9975106206024836,
+        "lower": 0.9878259677428995,
+        "upper": 1.0039692011476153,
+        "aboveClock": true
+      },
+      {
+        "gene": "Igf2bp1",
+        "mean": 0.9996587716796146,
+        "lower": 0.9956115793032833,
+        "upper": 1.0051494496311288,
+        "aboveClock": true
+      }
+    ]
+  },
+  "overall": true
+}
