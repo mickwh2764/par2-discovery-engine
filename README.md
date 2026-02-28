@@ -240,7 +240,7 @@ If you use this software in your research, please cite:
 ```bibtex
 @software{par2_discovery_engine,
   title = {PAR(2) Discovery Engine: Circadian Clock-Target Dynamics Analysis Platform},
-  author = {{PAR(2) Discovery Engine Contributors}},
+  author = {{Michael Whiteside, Independant Researcher, Scotland}},
   year = {2026},
   doi = {10.5281/zenodo.18730681},
   url = {https://par-2-discovery--6tbwkcht9k.replit.app},
