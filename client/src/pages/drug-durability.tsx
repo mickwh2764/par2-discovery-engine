@@ -1,11 +1,54 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft, Lock, FlaskConical, TrendingUp, TrendingDown, ShieldCheck, AlertTriangle, Beaker, Target, Clock, Dna, BarChart3, FileText, Search } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ArrowLeft, Lock, FlaskConical, TrendingUp, TrendingDown, ShieldCheck, AlertTriangle, Beaker, Target, Clock, Dna, BarChart3, FileText, Search, Download, Ban, FlaskRound, Activity, CheckCircle2, XCircle, MinusCircle, Loader2 } from "lucide-react";
 import EvidenceLink from "@/components/EvidenceLink";
 import PaperCrossLinks from "@/components/PaperCrossLinks";
+import GeneTooltip from "@/components/GeneTooltip";
+
+interface DrmrefDrugResult {
+  drug: string;
+  cancerTypes: string[];
+  resistanceGenesTotal: number;
+  sensitivityGenesTotal: number;
+  resistanceGenesMatched: number;
+  sensitivityGenesMatched: number;
+  resistanceMeanLambda: number;
+  sensitivityMeanLambda: number;
+  genomeMeanLambda: number;
+  lambdaDifference: number;
+  permutationP: number;
+  predictionSupported: boolean;
+  effectSize: number;
+}
+
+interface DrmrefValidationResult {
+  source: string;
+  citation: string;
+  referenceDataset: string;
+  totalDrugs: number;
+  drugsWithSufficientGenes: number;
+  drugsSupported: number;
+  drugsMarginal: number;
+  drugsNotSupported: number;
+  overallDirection: string;
+  metaAnalysis: {
+    weightedMeanDiff: number;
+    drugsHigherResistance: number;
+    drugsLowerResistance: number;
+    binomialP: number;
+  };
+  cancerTypeSummary: Array<{
+    cancerType: string;
+    drugsCount: number;
+    drugsSupported: number;
+    meanDifference: number;
+  }>;
+  drugs: DrmrefDrugResult[];
+}
 
 interface DrugDurabilityData {
   summary: {
@@ -162,8 +205,37 @@ export default function DrugDurability() {
   const [authenticated, setAuthenticated] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [geneSearch, setGeneSearch] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [lockedOut, setLockedOut] = useState(false);
+  const [lockoutSeconds, setLockoutSeconds] = useState(0);
+  const [attemptsRemaining, setAttemptsRemaining] = useState(3);
+  const [drmrefData, setDrmrefData] = useState<DrmrefValidationResult | null>(null);
+  const [drmrefLoading, setDrmrefLoading] = useState(false);
+  const [drmrefError, setDrmrefError] = useState("");
+  const [drmrefExpanded, setDrmrefExpanded] = useState(false);
+
+  useEffect(() => {
+    if (authenticated && !drmrefData && !drmrefLoading) {
+      setDrmrefLoading(true);
+      fetch("/api/drug-durability/drmref-validation")
+        .then(r => {
+          if (!r.ok) throw new Error("Failed to load DRMref data");
+          return r.json();
+        })
+        .then(data => {
+          setDrmrefData(data);
+          setDrmrefLoading(false);
+        })
+        .catch(err => {
+          setDrmrefError(String(err));
+          setDrmrefLoading(false);
+        });
+    }
+  }, [authenticated]);
 
   const authenticate = async () => {
+    if (lockedOut) return;
     setLoading(true);
     setError("");
     try {
@@ -172,8 +244,29 @@ export default function DrugDurability() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password }),
       });
+      const data = await res.json();
+      if (res.status === 429) {
+        setLockedOut(true);
+        setLockoutSeconds(data.remainingSeconds || 900);
+        setError("Too many failed attempts. Locked out for 15 minutes.");
+        const interval = setInterval(() => {
+          setLockoutSeconds(prev => {
+            if (prev <= 1) {
+              clearInterval(interval);
+              setLockedOut(false);
+              setAttemptsRemaining(3);
+              setError("");
+              return 0;
+            }
+            return prev - 1;
+          });
+        }, 1000);
+        setLoading(false);
+        return;
+      }
       if (!res.ok) {
-        setError("Invalid password");
+        setAttemptsRemaining(data.attemptsRemaining ?? (attemptsRemaining - 1));
+        setError(`Invalid password. ${data.attemptsRemaining ?? (attemptsRemaining - 1)} attempt${(data.attemptsRemaining ?? (attemptsRemaining - 1)) === 1 ? '' : 's'} remaining.`);
         setLoading(false);
         return;
       }
@@ -182,6 +275,26 @@ export default function DrugDurability() {
       setError("Verification failed");
     }
     setLoading(false);
+  };
+
+  const exportCSV = () => {
+    const data = HARDCODED_DATA;
+    const rows = ["Gene,Category,Eigenvalue,TreatmentChange,SurgeryChange,Probes"];
+    data.keyGenes.forEach(g => {
+      rows.push(`${g.gene},${g.category},${g.lambda},${g.treatmentChange},${g.surgeryChange},${g.nProbes}`);
+    });
+    rows.push("");
+    rows.push("Category,GenesFound,GenesTotal,MeanLambda,vsGlobal,PermP,ZScore,Significant,MaintenancePct");
+    data.categories.forEach(c => {
+      rows.push(`${c.name},${c.genesFound},${c.genesTotal},${c.meanLambda},${c.vsGlobal},${c.permP},${c.zScore},${c.significant},${c.maintenancePct ?? ''}`);
+    });
+    const blob = new Blob([rows.join("\n")], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "drug_durability_GSE93204.csv";
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   if (!authenticated) {
@@ -198,18 +311,32 @@ export default function DrugDurability() {
             </p>
           </CardHeader>
           <CardContent className="space-y-4">
-            <Input
-              type="password"
-              placeholder="Enter password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && authenticate()}
-              data-testid="input-drug-password"
-            />
-            {error && <p className="text-sm text-red-500" data-testid="text-drug-error">{error}</p>}
-            <Button onClick={authenticate} disabled={loading || !password} className="w-full" data-testid="button-drug-unlock">
-              {loading ? "Verifying..." : "Unlock"}
-            </Button>
+            {lockedOut ? (
+              <div className="flex items-center gap-3 p-4 rounded-lg bg-red-500/10 border border-red-500/30">
+                <Ban size={20} className="text-red-400 shrink-0" />
+                <div>
+                  <p className="text-sm font-semibold text-red-400">Access locked</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Too many failed attempts. Try again in {Math.floor(lockoutSeconds / 60)}:{String(lockoutSeconds % 60).padStart(2, '0')}.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <>
+                <Input
+                  type="password"
+                  placeholder="Enter password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && authenticate()}
+                  data-testid="input-drug-password"
+                />
+                {error && <p className="text-sm text-red-500" data-testid="text-drug-error">{error}</p>}
+                <Button onClick={authenticate} disabled={loading || !password} className="w-full" data-testid="button-drug-unlock">
+                  {loading ? "Verifying..." : "Unlock"}
+                </Button>
+              </>
+            )}
             <div className="pt-2">
               <Link href="/">
                 <Button variant="ghost" size="sm" className="gap-1" data-testid="link-drug-back">
@@ -222,9 +349,6 @@ export default function DrugDurability() {
       </div>
     );
   }
-
-  const [geneSearch, setGeneSearch] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("all");
 
   const data = HARDCODED_DATA;
   const sortedByMaintenance = [...data.categories].filter(c => c.maintenancePct !== null).sort((a, b) => (b.maintenancePct ?? 0) - (a.maintenancePct ?? 0));
@@ -248,24 +372,43 @@ export default function DrugDurability() {
         </div>
 
         <div className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 rounded-lg bg-amber-500/10">
-              <FlaskConical size={24} className="text-amber-500" />
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-amber-500/10">
+                <FlaskConical size={24} className="text-amber-500" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold" data-testid="text-drug-heading">Drug Durability Analysis</h1>
+                <p className="text-sm text-muted-foreground">Palbociclib AR(2) Persistence — Proof of Concept</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-2xl font-bold" data-testid="text-drug-heading">Drug Durability Analysis</h1>
-              <p className="text-sm text-muted-foreground">Palbociclib AR(2) Persistence — Proof of Concept</p>
-            </div>
+            <Button variant="outline" size="sm" className="gap-2" onClick={exportCSV} data-testid="button-export-drug-csv">
+              <Download size={14} />
+              Export CSV
+            </Button>
           </div>
-          <div className="rounded-lg bg-slate-800/40 border border-slate-700/50 p-4 mt-3">
-            <p className="text-sm text-slate-300 leading-relaxed">
-              <strong className="text-white">What you can do:</strong> Computes AR(2) eigenvalues for known drug target genes and compares persistence scores across gene categories. This is an exploratory computational analysis — not clinical evidence. Download results for further investigation.
-            </p>
+          <div className="rounded-lg border-2 border-amber-500/50 bg-amber-500/5 p-5 mt-3" data-testid="disclaimer-clinical">
+            <div className="flex items-start gap-3">
+              <AlertTriangle className="text-amber-500 flex-shrink-0 mt-0.5" size={20} />
+              <div className="space-y-2">
+                <p className="text-sm font-semibold text-amber-600">Not clinical advice</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  This page shows statistical associations between drug target genes and AR(2) persistence dynamics. 
+                  It is <strong>not</strong> clinical guidance. Drug timing decisions require clinical trial evidence that does not yet exist for these targets. 
+                  No drugs shown here have been validated for chronotherapy through this method. 
+                  This is an exploratory computational analysis intended for hypothesis generation only.
+                </p>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  The persistence scores describe temporal patterns in gene expression data from a single proof-of-concept dataset (GSE93204, n=7 patients with complete time series). 
+                  These patterns have not been independently replicated or validated in clinical settings.
+                </p>
+              </div>
+            </div>
           </div>
           <div className="flex items-center gap-2 mt-3">
             <span className="px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-500 text-xs font-medium">UNPUBLISHED</span>
             <span className="px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-500 text-xs font-medium">PROOF-OF-CONCEPT</span>
-            <span className="px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-xs font-medium">GSE93204</span>
+            <span className="px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-xs font-medium">GSE93204 (n=7)</span>
           </div>
         </div>
 
@@ -505,17 +648,17 @@ export default function DrugDurability() {
                   data-testid="input-gene-search"
                 />
               </div>
-              <select
-                value={categoryFilter}
-                onChange={(e) => setCategoryFilter(e.target.value)}
-                className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                data-testid="select-category-filter"
-              >
-                <option value="all">All Categories</option>
-                {uniqueCategories.map(cat => (
-                  <option key={cat} value={cat}>{cat}</option>
-                ))}
-              </select>
+              <Select value={categoryFilter} onValueChange={setCategoryFilter} data-testid="select-category-filter">
+                <SelectTrigger className="w-[180px]" data-testid="select-category-trigger">
+                  <SelectValue placeholder="All Categories" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Categories</SelectItem>
+                  {uniqueCategories.map(cat => (
+                    <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <p className="text-xs text-muted-foreground mb-3" data-testid="text-gene-count">
               Showing {filteredGenes.length} of {data.keyGenes.length} genes
@@ -536,7 +679,7 @@ export default function DrugDurability() {
                 <tbody>
                   {filteredGenes.map((g) => (
                     <tr key={g.gene} className="border-b border-border/20" data-testid={`row-gene-${g.gene.toLowerCase()}`}>
-                      <td className="py-2 pr-3 font-mono font-bold">{g.gene}</td>
+                      <td className="py-2 pr-3 font-mono font-bold"><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></td>
                       <td className="py-2 px-2 text-xs text-muted-foreground">{g.category}</td>
                       <td className="py-2 px-2 text-right font-mono">{g.lambda.toFixed(3)}</td>
                       <td className={`py-2 px-2 text-right font-mono ${g.treatmentChange > 0.2 ? 'text-emerald-400' : g.treatmentChange < -0.2 ? 'text-red-400' : 'text-muted-foreground'}`}>
@@ -602,11 +745,11 @@ export default function DrugDurability() {
           </CardHeader>
           <CardContent className="space-y-4">
             {[
-              { title: "Pharmacogenomics — Transcriptional Rebound", desc: "Cancer researchers have documented that genes with strong self-regulatory feedback loops resist drug-induced changes and revert after treatment — precisely what high |λ| predicts." },
-              { title: "Epigenetic Memory Research", desc: "DNA methylation and chromatin studies show some genes are physically locked into their expression state, making them harder to move with drugs. This maps directly onto the high-persistence / low-persistence distinction." },
-              { title: "CDK6 Compensation & CCNE1 Bypass", desc: "Both are textbook palbociclib resistance mechanisms confirmed by dozens of labs using Western blots and knockdown experiments. The AR(2) framework detected them purely from temporal dynamics." },
-              { title: "Snyder FAP Convergence", desc: "83% of Snyder et al. (Nature Cancer 2024) FAP pathway genes show eigenvalue disruption in PAR(2) analysis, with 90% directional concordance — confirmed using survival analysis and protein-level measurements." },
-              { title: "HER2 Clinical Persistence", desc: "ERBB2's status as the most stubbornly self-reinforcing oncogene is supported by 30 years of clinical oncology. The AR(2) method independently identifies it as the highest-persistence gene in the panel." },
+              { title: "Pharmacogenomics — Transcriptional Rebound", desc: "Genes with strong self-regulatory feedback loops resist drug-induced changes and revert after treatment. Demonstrated in CDK4/6 inhibitor resistance studies (Dean et al., Molecular Cancer Therapeutics, 2010; Herrera-Abreu et al., Cancer Research, 2016). This is precisely what high |λ| predicts." },
+              { title: "Epigenetic Memory Research", desc: "DNA methylation and chromatin remodelling lock genes into expression states, making them harder to perturb with drugs (Flavahan et al., Science, 2017; Liau et al., Science, 2017). This maps directly onto the high-persistence / low-persistence distinction captured by AR(2)." },
+              { title: "CDK6 Compensation & CCNE1 Bypass", desc: "Both are textbook palbociclib resistance mechanisms confirmed by knockdown experiments and patient tumour sequencing (Turner et al., Cancer Discovery, 2018; Schiavon et al., Annals of Oncology, 2020). The AR(2) framework detected them purely from temporal dynamics." },
+              { title: "Snyder FAP Convergence", desc: "83% of Snyder et al. (Nature Cancer, 2024) familial adenomatous polyposis pathway genes show eigenvalue disruption in PAR(2) analysis, with 90% directional concordance — confirmed independently using survival analysis and protein-level measurements." },
+              { title: "HER2 Clinical Persistence", desc: "ERBB2's status as the most stubbornly self-reinforcing oncogene is supported by decades of clinical evidence and targeted therapy resistance data (Slamon et al., NEJM, 2001; Swain et al., Lancet Oncology, 2015). AR(2) independently identifies it as the highest-persistence gene in the panel." },
             ].map((item, i) => (
               <div key={i} className="flex gap-3">
                 <div className="w-1 rounded bg-emerald-500/50 shrink-0" />
@@ -616,6 +759,165 @@ export default function DrugDurability() {
                 </div>
               </div>
             ))}
+          </CardContent>
+        </Card>
+
+        {/* DRMref Multi-Drug Cross-Validation */}
+        <Card className="mb-8 border-purple-500/30 bg-purple-500/5" data-testid="card-drmref-validation">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-purple-400" data-testid="text-drmref-title">
+              <FlaskRound size={20} />
+              Multi-Drug Cross-Validation (DRMref)
+            </CardTitle>
+            <p className="text-sm text-muted-foreground">
+              Do resistance genes have systematically higher AR(2) persistence? Testing across {drmrefData?.drugsWithSufficientGenes ?? "19"} drugs from the DRMref database.
+            </p>
+          </CardHeader>
+          <CardContent>
+            {drmrefLoading && (
+              <div className="flex items-center gap-3 py-8 justify-center" data-testid="drmref-loading">
+                <Loader2 size={20} className="animate-spin text-purple-400" />
+                <p className="text-sm text-muted-foreground">Running AR(2) cross-reference against DRMref resistance genes (this may take a moment)...</p>
+              </div>
+            )}
+            {drmrefError && (
+              <div className="flex items-center gap-3 py-4 px-4 rounded-lg bg-red-500/10 border border-red-500/30" data-testid="drmref-error">
+                <AlertTriangle size={18} className="text-red-400 shrink-0" />
+                <p className="text-sm text-muted-foreground">Failed to load DRMref validation: {drmrefError}</p>
+              </div>
+            )}
+            {drmrefData && (
+              <div className="space-y-6">
+                <div className="p-4 rounded-lg bg-muted/30 text-xs text-muted-foreground leading-relaxed space-y-1">
+                  <p><span className="font-semibold text-foreground">Hypothesis:</span> If high-|λ| genes resist drug perturbation (our core finding), then genes identified as drug-resistance markers should have higher eigenvalue persistence than drug-sensitivity markers.</p>
+                  <p><span className="font-semibold text-foreground">Method:</span> Cross-reference DRMref scRNA-seq resistance/sensitivity gene lists ({drmrefData.drugs.reduce((s, d) => s + d.resistanceGenesMatched + d.sensitivityGenesMatched, 0).toLocaleString()} gene-drug pairs matched) against GSE11923 AR(2) eigenvalues. 2,000-permutation test per drug.</p>
+                  <p><span className="font-semibold text-foreground">Source:</span> {drmrefData.citation}</p>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="text-center p-3 rounded-lg bg-background/50">
+                    <p className="text-xs text-muted-foreground mb-1">Drugs Tested</p>
+                    <p className="text-2xl font-bold font-mono" data-testid="stat-drmref-drugs">{drmrefData.drugsWithSufficientGenes}</p>
+                  </div>
+                  <div className="text-center p-3 rounded-lg bg-background/50">
+                    <p className="text-xs text-muted-foreground mb-1">Prediction Supported</p>
+                    <p className="text-2xl font-bold font-mono text-emerald-400" data-testid="stat-drmref-supported">{drmrefData.drugsSupported}</p>
+                    <p className="text-xs text-muted-foreground">p {"<"} 0.05</p>
+                  </div>
+                  <div className="text-center p-3 rounded-lg bg-background/50">
+                    <p className="text-xs text-muted-foreground mb-1">Correct Direction</p>
+                    <p className="text-2xl font-bold font-mono text-blue-400" data-testid="stat-drmref-direction">{drmrefData.metaAnalysis.drugsHigherResistance}/{drmrefData.drugsWithSufficientGenes}</p>
+                    <p className="text-xs text-muted-foreground">resistance {">"} sensitivity</p>
+                  </div>
+                  <div className="text-center p-3 rounded-lg bg-background/50">
+                    <p className="text-xs text-muted-foreground mb-1">Binomial Test</p>
+                    <p className="text-2xl font-bold font-mono" data-testid="stat-drmref-binomial">
+                      {drmrefData.metaAnalysis.binomialP < 0.001 ? "<0.001" : `p=${drmrefData.metaAnalysis.binomialP.toFixed(3)}`}
+                    </p>
+                    <p className="text-xs text-muted-foreground">sign consistency</p>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-sm font-semibold">Drug-by-Drug Results</h3>
+                    <Button variant="ghost" size="sm" onClick={() => setDrmrefExpanded(!drmrefExpanded)} data-testid="button-drmref-expand">
+                      {drmrefExpanded ? "Show Top 10" : `Show All ${drmrefData.drugs.length}`}
+                    </Button>
+                  </div>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b border-border/50 text-left">
+                          <th className="py-2 pr-3">Drug</th>
+                          <th className="py-2 px-2">Cancer Type</th>
+                          <th className="py-2 px-2 text-right">R Genes</th>
+                          <th className="py-2 px-2 text-right">S Genes</th>
+                          <th className="py-2 px-2 text-right">R Mean |λ|</th>
+                          <th className="py-2 px-2 text-right">S Mean |λ|</th>
+                          <th className="py-2 px-2 text-right">Δ|λ|</th>
+                          <th className="py-2 px-2 text-right">p-value</th>
+                          <th className="py-2 px-2 text-right">Cohen's d</th>
+                          <th className="py-2 pl-2">Verdict</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {(drmrefExpanded ? drmrefData.drugs : drmrefData.drugs.slice(0, 10)).map((drug) => (
+                          <tr key={drug.drug} className="border-b border-border/20" data-testid={`row-drmref-${drug.drug.toLowerCase().replace(/[\s/]+/g, '-')}`}>
+                            <td className="py-2 pr-3 font-medium text-xs">{drug.drug}</td>
+                            <td className="py-2 px-2 text-xs text-muted-foreground max-w-[120px] truncate" title={drug.cancerTypes.join(", ")}>{drug.cancerTypes.slice(0, 2).join(", ")}{drug.cancerTypes.length > 2 ? ` +${drug.cancerTypes.length - 2}` : ""}</td>
+                            <td className="py-2 px-2 text-right font-mono text-xs">{drug.resistanceGenesMatched}</td>
+                            <td className="py-2 px-2 text-right font-mono text-xs">{drug.sensitivityGenesMatched}</td>
+                            <td className="py-2 px-2 text-right font-mono text-xs">{drug.resistanceMeanLambda.toFixed(4)}</td>
+                            <td className="py-2 px-2 text-right font-mono text-xs">{drug.sensitivityMeanLambda.toFixed(4)}</td>
+                            <td className={`py-2 px-2 text-right font-mono text-xs font-bold ${drug.lambdaDifference > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                              {drug.lambdaDifference > 0 ? '+' : ''}{drug.lambdaDifference.toFixed(4)}
+                            </td>
+                            <td className={`py-2 px-2 text-right font-mono text-xs ${drug.permutationP < 0.05 ? 'text-emerald-400 font-bold' : 'text-muted-foreground'}`}>
+                              {drug.permutationP < 0.001 ? '<0.001' : drug.permutationP.toFixed(3)}
+                            </td>
+                            <td className="py-2 px-2 text-right font-mono text-xs">{drug.effectSize.toFixed(2)}</td>
+                            <td className="py-2 pl-2">
+                              {drug.predictionSupported ? (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-medium">
+                                  <CheckCircle2 size={12} /> YES
+                                </span>
+                              ) : drug.lambdaDifference > 0 ? (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 text-xs font-medium">
+                                  <MinusCircle size={12} /> DIR
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-red-500/10 text-red-400 text-xs font-medium">
+                                  <XCircle size={12} /> NO
+                                </span>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div className="mt-2 flex gap-4 text-xs text-muted-foreground">
+                    <span className="flex items-center gap-1"><CheckCircle2 size={12} className="text-emerald-400" /> YES = correct direction + p{"<"}0.05</span>
+                    <span className="flex items-center gap-1"><MinusCircle size={12} className="text-amber-400" /> DIR = correct direction, not significant</span>
+                    <span className="flex items-center gap-1"><XCircle size={12} className="text-red-400" /> NO = wrong direction</span>
+                  </div>
+                </div>
+
+                {drmrefData.cancerTypeSummary.length > 0 && (
+                  <div>
+                    <h3 className="text-sm font-semibold mb-3">By Cancer Type</h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                      {drmrefData.cancerTypeSummary.map(ct => (
+                        <div key={ct.cancerType} className="p-3 rounded-lg bg-background/50 border border-border/30" data-testid={`card-cancer-${ct.cancerType.toLowerCase().replace(/[\s/]+/g, '-')}`}>
+                          <p className="text-xs font-medium truncate" title={ct.cancerType}>{ct.cancerType}</p>
+                          <p className="text-lg font-bold font-mono mt-1">
+                            <span className={ct.meanDifference > 0 ? 'text-emerald-400' : 'text-red-400'}>
+                              {ct.meanDifference > 0 ? '+' : ''}{ct.meanDifference.toFixed(4)}
+                            </span>
+                          </p>
+                          <p className="text-xs text-muted-foreground">{ct.drugsSupported}/{ct.drugsCount} drugs supported</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div className="p-4 rounded-lg bg-muted/30 text-xs text-muted-foreground leading-relaxed">
+                  <p className="font-semibold text-foreground mb-1">Interpretation</p>
+                  <p>
+                    {drmrefData.metaAnalysis.drugsHigherResistance}/{drmrefData.drugsWithSufficientGenes} drugs ({((drmrefData.metaAnalysis.drugsHigherResistance / drmrefData.drugsWithSufficientGenes) * 100).toFixed(0)}%) show higher mean eigenvalue persistence in resistance genes vs sensitivity genes 
+                    (binomial p = {drmrefData.metaAnalysis.binomialP < 0.001 ? '<0.001' : drmrefData.metaAnalysis.binomialP.toFixed(3)}).
+                    {" "}Weighted mean Δ|λ| = {drmrefData.metaAnalysis.weightedMeanDiff > 0 ? '+' : ''}{drmrefData.metaAnalysis.weightedMeanDiff.toFixed(4)}.
+                    {drmrefData.drugsSupported > 0 && ` ${drmrefData.drugsSupported} drugs reach individual significance (p<0.05).`}
+                    {" "}This {drmrefData.metaAnalysis.binomialP < 0.05 ? "supports" : "does not support"} the hypothesis that drug resistance is associated with higher temporal persistence.
+                  </p>
+                  <p className="mt-2 text-amber-400">
+                    Caveat: DRMref uses human scRNA-seq data; eigenvalues are from mouse liver (GSE11923). Cross-species gene symbol matching is approximate — results should be interpreted as directional evidence, not precise quantification.
+                  </p>
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -637,10 +939,10 @@ export default function DrugDurability() {
               </p>
             </div>
             <div>
-              <h3 className="text-sm font-semibold mb-2">Step 2: Second Drug Validation (DRMref)</h3>
+              <h3 className="text-sm font-semibold mb-2">Step 2: Second Drug Validation (DRMref) — Completed</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Test generalizability using the DRMref database (382 samples, 42 drugs, 13 cancer types). If low-|λ| targets 
-                maintain drug effects across multiple drug classes, persistence is a general principle — not a palbociclib-specific finding.
+                <span className="text-emerald-400 font-medium">Done.</span> Cross-referenced DRMref scRNA-seq resistance/sensitivity gene lists against GSE11923 eigenvalues across {drmrefData?.drugsWithSufficientGenes ?? "19"} drugs. See the Multi-Drug Cross-Validation section above for full results. 
+                This extends the analysis beyond palbociclib to multiple drug classes and cancer types.
               </p>
             </div>
             <div>

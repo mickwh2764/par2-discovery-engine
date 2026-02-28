@@ -33,7 +33,16 @@ scripts/push-to-github.*
 /tmp/
 *.log
 
-# Cache and environment files
+# Large archive/zip files (reproducible from platform)
+PAR2_Discovery_Engine_Code_v1.0.zip
+PAR2-Discovery-Engine-v1.2-Zenodo.zip
+COMPREHENSIVE_ANALYSIS_REPORT.json
+
+# Internal Replit files
 .cache/
+.local/
+.upm/
+.config/
 .env
 .env.local
+generated-icon.png

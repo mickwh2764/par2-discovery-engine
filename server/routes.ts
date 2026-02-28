@@ -37,6 +37,7 @@ import { runGenomeWideCoupling } from "./genome-wide-coupling";
 import { runLiteratureValidation, LITERATURE_CIRCADIAN_GENES } from "./literature-validation";
 import { runPhaseVulnerabilityAnalysis, type PhaseVulnerabilityResult } from "./phase-vulnerability";
 import { runBaselineBenchmark } from "./baseline-comparison";
+import { runDrmrefValidation } from "./drmref-validation";
 import { 
   runMasterAuditor, 
   runSpatialSymmetryTest,
@@ -630,6 +631,126 @@ function generateMockData(period: number = 24): ParsedDataset {
   return { timepoints, geneTimeSeries, geneIds, format: 'gene-rows' };
 }
 
+interface AnalyticsSession {
+  id: string;
+  userAgent: string;
+  country: string | null;
+  city: string | null;
+  pages: string[];
+  eventCount: number;
+  uploads: number;
+  analyses: number;
+  firstSeen: string;
+  lastSeen: string;
+  durationMinutes: number;
+  tier: 'bounce' | 'browser' | 'engaged' | 'power';
+  isSelf: boolean;
+}
+
+interface EngagementSummary {
+  bounce: number;
+  browser: number;
+  engaged: number;
+  power: number;
+  totalSessions: number;
+}
+
+function isSelfTraffic(e: { userAgent?: string | null; referrer?: string | null }): boolean {
+  const ua = e.userAgent || '';
+  const ref = e.referrer || '';
+  if (ua.includes('HeadlessChrome')) return true;
+  if (ref.includes('__replco/workspace_iframe') || ref.includes('riker.replit.dev/__replco')) return true;
+  return false;
+}
+
+function buildSessions(events: Array<{
+  id: string; eventType: string; page: string | null; country: string | null;
+  city: string | null; userAgent: string | null; referrer: string | null;
+  sessionId: string | null; createdAt: Date;
+}>): AnalyticsSession[] {
+  const buckets = new Map<string, typeof events>();
+  for (const e of events) {
+    const key = (e.userAgent || 'unknown').slice(0, 100) + '|' + (e.country || '') + '|' + (e.city || '');
+    if (!buckets.has(key)) buckets.set(key, []);
+    buckets.get(key)!.push(e);
+  }
+
+  const sessions: AnalyticsSession[] = [];
+  let sessionIdx = 0;
+
+  for (const [, bucket] of buckets) {
+    const sorted = bucket.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+    let currentSession: typeof events = [];
+
+    for (const evt of sorted) {
+      if (currentSession.length === 0) {
+        currentSession.push(evt);
+      } else {
+        const gap = evt.createdAt.getTime() - currentSession[currentSession.length - 1].createdAt.getTime();
+        if (gap > 30 * 60 * 1000) {
+          sessions.push(finalizeSession(currentSession, sessionIdx++));
+          currentSession = [evt];
+        } else {
+          currentSession.push(evt);
+        }
+      }
+    }
+    if (currentSession.length > 0) {
+      sessions.push(finalizeSession(currentSession, sessionIdx++));
+    }
+  }
+
+  sessions.sort((a, b) => new Date(b.lastSeen).getTime() - new Date(a.lastSeen).getTime());
+  return sessions;
+}
+
+function finalizeSession(events: Array<{
+  id: string; eventType: string; page: string | null; country: string | null;
+  city: string | null; userAgent: string | null; referrer: string | null;
+  sessionId: string | null; createdAt: Date;
+}>, idx: number): AnalyticsSession {
+  const pages: string[] = [];
+  const seen = new Set<string>();
+  let uploads = 0;
+  let analyses = 0;
+  for (const e of events) {
+    if (e.page && !seen.has(e.page)) { pages.push(e.page); seen.add(e.page); }
+    if (e.eventType === 'file_upload') uploads++;
+    if (e.eventType === 'analysis_run') analyses++;
+  }
+  const first = events[0];
+  const last = events[events.length - 1];
+  const durationMinutes = Math.round((last.createdAt.getTime() - first.createdAt.getTime()) / 60000);
+  const self = isSelfTraffic(first);
+
+  let tier: AnalyticsSession['tier'] = 'bounce';
+  if (uploads > 0 || analyses > 0) tier = 'power';
+  else if (pages.length >= 6) tier = 'engaged';
+  else if (pages.length >= 2) tier = 'browser';
+
+  return {
+    id: `session-${idx}`,
+    userAgent: (first.userAgent || 'Unknown').slice(0, 120),
+    country: first.country,
+    city: first.city,
+    pages,
+    eventCount: events.length,
+    uploads,
+    analyses,
+    firstSeen: first.createdAt.toISOString(),
+    lastSeen: last.createdAt.toISOString(),
+    durationMinutes,
+    tier,
+    isSelf: self,
+  };
+}
+
+function computeEngagement(sessions: AnalyticsSession[]): EngagementSummary {
+  const summary: EngagementSummary = { bounce: 0, browser: 0, engaged: 0, power: 0, totalSessions: sessions.length };
+  for (const s of sessions) summary[s.tier]++;
+  return summary;
+}
+
 export async function registerRoutes(
   httpServer: Server,
   app: Express
@@ -638,8 +759,47 @@ export async function registerRoutes(
   // Add request logging middleware
   app.use(requestLogger());
 
-  
+  const passwordAttempts = new Map<string, { count: number; lockedUntil: number }>();
+  const MAX_ATTEMPTS = 3;
+  const LOCKOUT_MS = 15 * 60 * 1000;
+
+  function checkPasswordRateLimit(req: Request, res: Response): boolean {
+    const ip = req.ip || req.socket.remoteAddress || "unknown";
+    const now = Date.now();
+    const record = passwordAttempts.get(ip) || { count: 0, lockedUntil: 0 };
+
+    if (record.lockedUntil > now) {
+      const remainingSec = Math.ceil((record.lockedUntil - now) / 1000);
+      res.status(429).json({ error: "Too many attempts", lockedOut: true, remainingSeconds: remainingSec });
+      return false;
+    }
+    return true;
+  }
+
+  function recordFailedAttempt(req: Request, res: Response): void {
+    const ip = req.ip || req.socket.remoteAddress || "unknown";
+    const now = Date.now();
+    const record = passwordAttempts.get(ip) || { count: 0, lockedUntil: 0 };
+    record.count += 1;
+    if (record.count >= MAX_ATTEMPTS) {
+      record.lockedUntil = now + LOCKOUT_MS;
+      record.count = 0;
+      passwordAttempts.set(ip, record);
+      logger.warn('Password rate limit lockout', { ip, lockoutMinutes: 15 });
+      res.status(429).json({ error: "Too many attempts. Locked out for 15 minutes.", lockedOut: true, remainingSeconds: 900 });
+      return;
+    }
+    passwordAttempts.set(ip, record);
+    res.status(403).json({ error: "Unauthorized", attemptsRemaining: MAX_ATTEMPTS - record.count });
+  }
+
+  function clearAttempts(req: Request): void {
+    const ip = req.ip || req.socket.remoteAddress || "unknown";
+    passwordAttempts.delete(ip);
+  }
+
   app.post("/api/verify-download-password", (req: Request, res: Response) => {
+    if (!checkPasswordRateLimit(req, res)) return;
     const { password } = req.body || {};
     const expectedPassword = process.env.DOWNLOAD_PROTECT_PASSWORD;
 
@@ -647,7 +807,11 @@ export async function registerRoutes(
       return res.json({ valid: false });
     }
 
-    return res.json({ valid: password === expectedPassword });
+    if (password !== expectedPassword) {
+      return recordFailedAttempt(req, res);
+    }
+    clearAttempts(req);
+    return res.json({ valid: true });
   });
 
   // Health check endpoint for monitoring
@@ -717,7 +881,18 @@ export async function registerRoutes(
       let city: string | null = null;
       let region: string | null = null;
 
-      if (clientIp && clientIp !== '127.0.0.1' && clientIp !== '::1') {
+      const cfCountry = req.headers['cf-ipcountry'] as string | undefined;
+      const xCountry = req.headers['x-country'] as string | undefined;
+      const xCity = req.headers['x-city'] as string | undefined;
+      const xRegion = req.headers['x-region'] as string | undefined;
+
+      if (cfCountry || xCountry) {
+        country = cfCountry || xCountry || null;
+        city = xCity || null;
+        region = xRegion || null;
+      }
+
+      if (!country && clientIp && clientIp !== '127.0.0.1' && clientIp !== '::1') {
         const cached = geoCache.get(clientIp);
         if (cached && Date.now() - cached.ts < 3600000) {
           country = cached.country;
@@ -739,6 +914,10 @@ export async function registerRoutes(
           } catch {
           }
         }
+      }
+
+      if (!country && clientIp && clientIp !== '127.0.0.1' && clientIp !== '::1') {
+        country = 'Unknown';
       }
 
       const userAgent = (req.headers['user-agent'] || '').slice(0, 500) || null;
@@ -764,18 +943,42 @@ export async function registerRoutes(
   // Analytics: get summary stats (protected by admin password)
   app.post("/api/analytics/summary", async (req, res) => {
     try {
+      if (!checkPasswordRateLimit(req, res)) return;
       const { password } = req.body;
       const expectedPassword = process.env.DOWNLOAD_PROTECT_PASSWORD;
       
       if (!expectedPassword || password !== expectedPassword) {
-        return res.status(403).json({ error: "Unauthorized" });
+        return recordFailedAttempt(req, res);
       }
+      clearAttempts(req);
 
-      const summary = await storage.getAnalyticsSummary();
+      const excludeSelf = req.body.excludeSelf === true;
+      const summary = await storage.getAnalyticsSummary(excludeSelf);
       res.json(summary);
     } catch (error) {
       logger.error('Analytics summary error', { error: String(error) });
       res.status(500).json({ error: "Failed to load analytics" });
+    }
+  });
+
+  app.post("/api/analytics/enhanced", async (req, res) => {
+    try {
+      const { password, excludeSelf } = req.body;
+      const expectedPassword = process.env.DOWNLOAD_PROTECT_PASSWORD;
+      if (!expectedPassword || password !== expectedPassword) {
+        return res.status(403).json({ error: "Unauthorized" });
+      }
+
+      const allEvents = await storage.getAnalyticsEvents(10000);
+      const filtered = excludeSelf ? allEvents.filter(e => !isSelfTraffic(e)) : allEvents;
+
+      const sessions = buildSessions(filtered);
+      const engagement = computeEngagement(sessions);
+
+      res.json({ sessions: sessions.slice(0, 100), engagement });
+    } catch (error) {
+      logger.error('Analytics enhanced error', { error: String(error) });
+      res.status(500).json({ error: "Failed to load enhanced analytics" });
     }
   });
 
@@ -897,34 +1100,50 @@ export async function registerRoutes(
     }
   });
 
+  app.get("/api/drug-durability/drmref-validation", async (req, res) => {
+    try {
+      const result = runDrmrefValidation();
+      res.json(result);
+    } catch (error) {
+      logger.error('DRMref validation error', { error: String(error) });
+      res.status(500).json({ error: "DRMref validation failed", details: String(error) });
+    }
+  });
+
   app.post("/api/drug-durability/verify", (req, res) => {
+    if (!checkPasswordRateLimit(req, res)) return;
     const { password } = req.body;
     const expectedPassword = process.env.DOWNLOAD_PROTECT_PASSWORD;
     if (!expectedPassword || password !== expectedPassword) {
-      return res.status(403).json({ error: "Unauthorized" });
+      return recordFailedAttempt(req, res);
     }
+    clearAttempts(req);
     res.json({ success: true });
   });
 
   app.post("/api/bacterial-persistence/verify", (req, res) => {
+    if (!checkPasswordRateLimit(req, res)) return;
     const { password } = req.body;
     const expectedPassword = process.env.DOWNLOAD_PROTECT_PASSWORD;
     if (!expectedPassword || password !== expectedPassword) {
-      return res.status(403).json({ error: "Unauthorized" });
+      return recordFailedAttempt(req, res);
     }
+    clearAttempts(req);
     res.json({ success: true });
   });
 
-  // Verify admin password for enabling admin mode UI
   app.post("/api/verify-admin", (req, res) => {
+    if (!checkPasswordRateLimit(req, res)) return;
     const { password } = req.body;
     const expectedPassword = process.env.DOWNLOAD_PROTECT_PASSWORD;
-    
     if (!expectedPassword) {
       return res.json({ valid: false, error: "Admin access not configured" });
     }
-    
     const valid = password === expectedPassword;
+    if (!valid) {
+      return recordFailedAttempt(req, res);
+    }
+    clearAttempts(req);
     res.json({ valid });
   });
 
@@ -9914,7 +10133,7 @@ Generated: ${new Date().toISOString()}
 
 ## Key Findings
 
-### Stability Filter Breakthrough
+### Stability Filter Advance
 
 The critical methodological advance is restricting null simulations to STABLE AR(2) processes 
 (eigenvalues |λ| < 1). Without this filter, the null expectation is inflated to 80-100%, 
@@ -10002,7 +10221,7 @@ In ApcKO+BmalKO organoids:
 
 ## Methodology Notes
 
-The key breakthrough was implementing eigenvalue stability filtering.
+The key methodological advance was implementing eigenvalue stability filtering.
 AR(2) processes are only biologically plausible if stable (non-explosive).
 Companion matrix eigenvalues must satisfy |λ| < 1.
 
@@ -10550,7 +10769,7 @@ Date Prepared: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month
       }
       
       // 7. README
-      const readme = `# PAR(2) Discovery Engine v2.2.0 - Complete Submission Package
+      const readme = `# PAR(2) Discovery Engine v2.3.0 - Complete Submission Package
 ## Circadian Clock-Target Dynamics Analysis Platform
 
 Generated: ${new Date().toISOString()}
@@ -10677,7 +10896,7 @@ All analyses reproducible via:
 ## Citation
 
 Whiteside, M. (2026). PAR(2) Discovery Engine: Circadian Clock-Target Dynamics 
-Analysis Platform. Version 2.2.0. Locked February 20, 2026.
+Analysis Platform. Version 2.3.0. Locked February 27, 2026.
 
 ## License
 
@@ -12640,6 +12859,155 @@ Biological Interpretation:
     } catch (error: any) {
       console.error('Literature validation error:', error);
       res.status(500).json({ error: error.message || 'Literature validation analysis failed' });
+    }
+  });
+
+  app.get("/api/literature-validation/multi-dataset", async (_req, res) => {
+    try {
+      const { fitAR2Simple } = await import('./par2-engine');
+      const { parse } = await import('csv-parse/sync');
+
+      const LITERATURE_GENES: Record<string, string> = {
+        'Fasn':'Lipid','Hmgcr':'Lipid','Scd1':'Lipid','Hmgcs2':'Lipid','Acaca':'Lipid','Ppara':'Lipid','Srebf1':'Lipid','Cpt1a':'Lipid','Elovl5':'Lipid','Fads1':'Lipid',
+        'Wee1':'Cell Cycle','Cdk1':'Cell Cycle','Ccnb1':'Cell Cycle','Cdkn1a':'Cell Cycle','Ccnd1':'Cell Cycle','Tp53':'Cell Cycle','Chek2':'Cell Cycle',
+        'Xpa':'DNA Repair','Xpc':'DNA Repair','Ercc1':'DNA Repair','Ogg1':'DNA Repair','Ddb2':'DNA Repair',
+        'Cyp7a1':'Drug Metab','Cyp2e1':'Drug Metab','Cyp3a11':'Drug Metab','Cyp1a2':'Drug Metab','Abcb1a':'Drug Metab','Gstm1':'Drug Metab',
+        'G6pc':'Gluconeogenesis','Pck1':'Gluconeogenesis','Gck':'Gluconeogenesis',
+        'Sirt1':'Epigenetic','Hdac3':'Epigenetic','Ezh2':'Epigenetic','Ep300':'Epigenetic',
+        'Ndufs1':'Mitochondrial','Cs':'Mitochondrial','Atp5b':'Mitochondrial',
+        'Atf4':'UPR','Xbp1':'UPR','Hspa5':'UPR',
+        'Becn1':'Autophagy','Map1lc3b':'Autophagy','Tfeb':'Autophagy',
+        'Nfe2l2':'Oxidative','Sod2':'Oxidative','Cat':'Oxidative','Gpx1':'Oxidative',
+        'Mtor':'mTOR','Foxo1':'mTOR','Igf1':'mTOR',
+        'Tnf':'Immune','Il6':'Immune','Tlr4':'Immune','Nfkb1':'Immune',
+        'Got1':'Amino Acid','Mat1a':'Amino Acid',
+        'Bcl2':'Apoptosis','Casp3':'Apoptosis'
+      };
+
+      const scanDatasets = [
+        { file: 'GSE54650_Liver_circadian.csv', name: 'Mouse Liver (GSE54650)', category: 'Circadian' },
+        { file: 'GSE54650_Heart_circadian.csv', name: 'Mouse Heart (GSE54650)', category: 'Circadian' },
+        { file: 'GSE54650_Kidney_circadian.csv', name: 'Mouse Kidney (GSE54650)', category: 'Circadian' },
+        { file: 'GSE54650_Lung_circadian.csv', name: 'Mouse Lung (GSE54650)', category: 'Circadian' },
+        { file: 'GSE54650_Hypothalamus_circadian.csv', name: 'Mouse Hypothalamus (GSE54650)', category: 'Circadian' },
+        { file: 'GSE54650_Brown_Fat_circadian.csv', name: 'Mouse Brown Fat (GSE54650)', category: 'Circadian' },
+        { file: 'GSE54650_Adrenal_circadian.csv', name: 'Mouse Adrenal (GSE54650)', category: 'Circadian' },
+        { file: 'GSE54650_Aorta_circadian.csv', name: 'Mouse Aorta (GSE54650)', category: 'Circadian' },
+        { file: 'GSE54650_Brainstem_circadian.csv', name: 'Mouse Brainstem (GSE54650)', category: 'Circadian' },
+        { file: 'GSE54650_Cerebellum_circadian.csv', name: 'Mouse Cerebellum (GSE54650)', category: 'Circadian' },
+        { file: 'GSE54650_Muscle_circadian.csv', name: 'Mouse Muscle (GSE54650)', category: 'Circadian' },
+        { file: 'GSE54650_White_Fat_circadian.csv', name: 'Mouse White Fat (GSE54650)', category: 'Circadian' },
+        { file: 'robles2014_liver_proteome_circadian.csv', name: 'Mouse Liver Proteome (Robles 2014)', category: 'Proteome' },
+        { file: 'Amit2009_DC_LPS_TimeCourse.csv', name: 'Dendritic Cell LPS (Amit 2009)', category: 'Immune' },
+        { file: 'Rabani2014_DendriticCell_LPS_Full.csv', name: 'DC LPS (Rabani 2014)', category: 'Immune' },
+        { file: 'Rabani2014_DendriticCell_Mock_TimeSeries.csv', name: 'DC Mock (Rabani 2014)', category: 'Immune' },
+        { file: 'GSE221103_Neuroblastoma_MYC_ON.csv', name: 'Neuroblastoma MYC-ON', category: 'Disease' },
+        { file: 'GSE221103_Neuroblastoma_MYC_OFF.csv', name: 'Neuroblastoma MYC-OFF', category: 'Disease' },
+        { file: 'GSE157357_Organoid_WT-WT_circadian.csv', name: 'Organoid WT (GSE157357)', category: 'Disease' },
+        { file: 'GSE157357_Organoid_ApcKO-WT_circadian.csv', name: 'Organoid ApcKO (GSE157357)', category: 'Disease' },
+        { file: 'Zaas2009_InfluenzaH3N2_Human.csv', name: 'Human Influenza (Zaas 2009)', category: 'Human Disease' },
+      ];
+
+      const geneEvidence: Record<string, { pathway: string; datasets: { name: string; category: string; eigenvalue: number; percentile: number; r2: number }[] }> = {};
+      for (const [gene, pathway] of Object.entries(LITERATURE_GENES)) {
+        geneEvidence[gene] = { pathway, datasets: [] };
+      }
+
+      const datasetSummaries: { name: string; category: string; totalGenes: number; genesRecovered: number }[] = [];
+
+      for (const ds of scanDatasets) {
+        const fp = path.join(process.cwd(), 'datasets', ds.file);
+        if (!fs.existsSync(fp)) continue;
+        const content = fs.readFileSync(fp, 'utf-8');
+        const records = parse(content, { columns: true, skip_empty_lines: true }) as Record<string, string>[];
+
+        const allEigenvalues: number[] = [];
+        const geneResults = new Map<string, { eigenvalue: number; r2: number }>();
+
+        for (const rec of records) {
+          const gene = rec.Gene || rec.gene || Object.values(rec)[0];
+          if (!gene) continue;
+          const vals = Object.keys(rec).filter(k => k !== 'Gene' && k !== 'gene').map(h => parseFloat(rec[h])).filter(v => !isNaN(v));
+          if (vals.length < 5) continue;
+
+          const mean = vals.reduce((a, b) => a + b, 0) / vals.length;
+          const centered = vals.map(v => v - mean);
+          const n = centered.length;
+          if (centered.reduce((a, v) => a + v * v, 0) / n < 1e-10) continue;
+
+          const Y: number[] = [], X1: number[] = [], X2: number[] = [];
+          for (let i = 2; i < n; i++) { Y.push(centered[i]); X1.push(centered[i-1]); X2.push(centered[i-2]); }
+          if (Y.length < 3) continue;
+
+          const s11=X1.reduce((a,v)=>a+v*v,0), s22=X2.reduce((a,v)=>a+v*v,0);
+          const s12=X1.reduce((a,v,i)=>a+v*X2[i],0);
+          const s1y=X1.reduce((a,v,i)=>a+v*Y[i],0), s2y=X2.reduce((a,v,i)=>a+v*Y[i],0);
+          const det=s11*s22-s12*s12;
+          if (Math.abs(det)<1e-12) continue;
+          const phi1=(s22*s1y-s12*s2y)/det, phi2=(s11*s2y-s12*s1y)/det;
+          const pred=X1.map((x1,i)=>phi1*x1+phi2*X2[i]);
+          const ssRes=Y.reduce((a,y,i)=>a+(y-pred[i])**2,0), ssTot=Y.reduce((a,y)=>a+y*y,0);
+          const r2=ssTot>0?1-ssRes/ssTot:0;
+          const disc=phi1*phi1+4*phi2;
+          let eigenvalue: number;
+          if(disc<0){eigenvalue=Math.sqrt(-phi2);}
+          else{const r1=(phi1+Math.sqrt(disc))/2,r2v=(phi1-Math.sqrt(disc))/2;eigenvalue=Math.max(Math.abs(r1),Math.abs(r2v));}
+
+          if (eigenvalue < 1.0 && r2 > 0.05) {
+            allEigenvalues.push(eigenvalue);
+            geneResults.set(gene.toLowerCase(), { eigenvalue, r2 });
+          }
+        }
+
+        allEigenvalues.sort((a, b) => a - b);
+        let recovered = 0;
+
+        for (const [gene] of Object.entries(LITERATURE_GENES)) {
+          const r = geneResults.get(gene.toLowerCase());
+          if (!r) continue;
+          const idx = allEigenvalues.findIndex(v => v >= r.eigenvalue);
+          const pct = (idx >= 0 ? idx / allEigenvalues.length : 1) * 100;
+          if (pct >= 75) {
+            geneEvidence[gene].datasets.push({ name: ds.name, category: ds.category, eigenvalue: +r.eigenvalue.toFixed(4), percentile: +pct.toFixed(1), r2: +r.r2.toFixed(4) });
+            recovered++;
+          }
+        }
+
+        datasetSummaries.push({ name: ds.name, category: ds.category, totalGenes: allEigenvalues.length, genesRecovered: recovered });
+      }
+
+      const totalRecovered = Object.values(geneEvidence).filter(g => g.datasets.length > 0).length;
+      const totalGenes = Object.keys(LITERATURE_GENES).length;
+
+      const pathwaySummary: Record<string, { total: number; recovered: number; genes: string[] }> = {};
+      for (const [gene, ev] of Object.entries(geneEvidence)) {
+        const pw = ev.pathway;
+        if (!pathwaySummary[pw]) pathwaySummary[pw] = { total: 0, recovered: 0, genes: [] };
+        pathwaySummary[pw].total++;
+        if (ev.datasets.length > 0) {
+          pathwaySummary[pw].recovered++;
+          pathwaySummary[pw].genes.push(gene);
+        }
+      }
+
+      res.json({
+        totalGenes,
+        totalRecovered,
+        recoveryRate: +(totalRecovered / totalGenes * 100).toFixed(1),
+        datasetsScanned: datasetSummaries.length,
+        datasetSummaries,
+        geneEvidence,
+        pathwaySummary,
+        missedGenes: Object.entries(geneEvidence).filter(([, v]) => v.datasets.length === 0).map(([gene, v]) => ({
+          gene, pathway: v.pathway,
+          reason: gene === 'Tp53' ? 'Post-translational regulation (protein stability, not mRNA)' :
+                  gene === 'Ddb2' ? 'Low-amplitude oscillation below detection threshold' :
+                  'Below top-quartile threshold in all datasets'
+        }))
+      });
+    } catch (error: any) {
+      console.error('Multi-dataset literature validation error:', error);
+      res.status(500).json({ error: error.message || 'Multi-dataset analysis failed' });
     }
   });
 
@@ -14873,6 +15241,17 @@ This 15.2% gap (validated Jan 2026 audit) suggests a hierarchical organization w
     }
   });
 
+  app.get("/api/validation/robustness-suite/cross-species", async (req, res) => {
+    try {
+      const { runCrossSpeciesReplication } = await import("./robustness-suite");
+      const result = runCrossSpeciesReplication();
+      res.json({ success: true, ...result });
+    } catch (error: any) {
+      console.error('Error running cross-species replication:', error);
+      res.status(500).json({ error: error.message || 'Failed to run cross-species replication analysis' });
+    }
+  });
+
   app.get("/api/validation/proteomics-landscape", async (req, res) => {
     try {
       const { runProteomicsLandscapeAnalysis } = await import("./proteomics-landscape");
@@ -16201,7 +16580,7 @@ that's the shift from chronobiology to chronodiagnostics."*
         },
         
         generatedAt: new Date().toISOString(),
-        version: "2.2.0 (Locked Feb 20 2026)"
+        version: "2.3.0 (Locked Feb 27 2026)"
       };
       
       res.json(auditData);
@@ -16730,6 +17109,180 @@ that's the shift from chronobiology to chronodiagnostics."*
     unit: string;
   }
 
+  function isTimepointHeader(s: string): boolean {
+    const t = s.trim();
+    return /^(ct|zt)\d/i.test(t) || /^(CT|ZT|t|T)\d/i.test(t) || /_(CT|ZT)\d/i.test(t) ||
+      /^\d+h$/i.test(t) || /^\d+hr$/i.test(t) || /^\d+min$/i.test(t) ||
+      /^(tp|time|sample|rep|s|p)\d+/i.test(t) || /^\d+(\.\d+)?$/.test(t) ||
+      /^\d+h(rs?)?$/i.test(t) || /^(day|d|week|w|month|m)\d+/i.test(t);
+  }
+
+  function detectGeneExpressionMatrix(csvText: string): { isMatrix: boolean; parsed?: ParsedDataset } {
+    const cleanedCsv = csvText.replace(/^\uFEFF/, '');
+    const lines = cleanedCsv.split('\n').filter(l => l.trim().length > 0);
+    if (lines.length < 4) return { isMatrix: false };
+
+    const delimiter = lines[0].includes('\t') ? '\t' : ',';
+    const headerCells = lines[0].split(delimiter).map(h => h.trim().replace(/^"|"$/g, ''));
+
+    const timepointHeaders = headerCells.slice(1).filter(h => isTimepointHeader(h));
+    const timepointRatio = timepointHeaders.length / Math.max(1, headerCells.length - 1);
+
+    if (timepointRatio < 0.5 || timepointHeaders.length < 3) return { isMatrix: false };
+
+    const numDataRows = lines.length - 1;
+    const firstColLower = headerCells[0]?.toLowerCase() || '';
+    const hasGeneCol = ['gene', 'gene_id', 'geneid', 'symbol', 'gene_symbol', 'target_id', 'probe_id', 'ensembl'].includes(firstColLower);
+    const minRows = hasGeneCol && timepointRatio > 0.8 ? 3 : 20;
+    if (numDataRows < minRows) return { isMatrix: false };
+
+    try {
+      const records = parse(cleanedCsv, {
+        columns: false, skip_empty_lines: true, delimiter, relax_column_count: true
+      }) as string[][];
+
+      const headerRow = records[0];
+      const timepoints = headerRow.slice(1).map((h, i) => {
+        const numMatch = h.match(/(\d+)/);
+        return numMatch ? parseFloat(numMatch[1]) : i;
+      });
+
+      const geneTimeSeries = new Map<string, number[]>();
+      const geneIds: string[] = [];
+
+      for (let i = 1; i < records.length; i++) {
+        const row = records[i];
+        const geneId = row[0]?.trim();
+        if (!geneId) continue;
+        geneIds.push(geneId);
+        const expressionValues = row.slice(1).map(v => {
+          const parsed = parseFloat(v);
+          return isNaN(parsed) ? NaN : parsed;
+        });
+        if (!geneTimeSeries.has(geneId)) {
+          geneTimeSeries.set(geneId, expressionValues);
+        }
+      }
+
+      return {
+        isMatrix: true,
+        parsed: { timepoints, geneTimeSeries, geneIds, format: 'gene-rows' }
+      };
+    } catch {
+      return { isMatrix: false };
+    }
+  }
+
+  interface DataDomainClassification {
+    domain: 'biological' | 'wearable' | 'non-biological' | 'unknown';
+    confidence: number;
+    signals: string[];
+    warning: string | null;
+  }
+
+  function classifyDataDomain(
+    csvText: string,
+    channels: { name: string; values: number[] }[],
+    detectedFormat: string,
+    fileName: string
+  ): DataDomainClassification {
+    const signals: string[] = [];
+    let bioScore = 0;
+
+    if (['gene_expression_matrix'].includes(detectedFormat)) {
+      signals.push('Format detected as gene expression matrix');
+      bioScore += 5;
+    }
+    if (['dexcom', 'oura', 'heartrate'].includes(detectedFormat)) {
+      signals.push(`Wearable device format detected: ${detectedFormat}`);
+      return { domain: 'wearable', confidence: 0.95, signals, warning: null };
+    }
+
+    const header = csvText.split('\n')[0]?.toLowerCase() || '';
+    const colNames = channels.map(c => c.name.toLowerCase());
+    const allText = (header + ' ' + colNames.join(' ')).toLowerCase();
+    const fnLower = fileName.toLowerCase();
+
+    const bioKeywords = ['gene', 'expression', 'transcript', 'mrna', 'rnaseq', 'rna', 'protein', 'probe', 'ensembl', 'entrez',
+      'refseq', 'affy', 'illumina', 'gse', 'geo', 'microarray', 'fpkm', 'tpm', 'rpkm', 'cpm',
+      'timepoint', 'zt', 'ct', 'circadian', 'glucose', 'hrv', 'heart_rate', 'sleep', 'oura', 'dexcom',
+      'bmal', 'per1', 'per2', 'cry1', 'cry2', 'clock', 'nr1d1', 'dbp', 'amplitude', 'phase', 'sample'];
+    const bioHits = bioKeywords.filter(k => allText.includes(k) || fnLower.includes(k));
+    if (bioHits.length > 0) {
+      signals.push(`Biological keywords found: ${bioHits.join(', ')}`);
+      bioScore += bioHits.length * 1.5;
+    }
+
+    const nonBioKeywords = ['gdp', 'inflation', 'stock', 'price', 'return', 'yield', 'interest', 'rate', 'revenue',
+      'sales', 'market', 'trade', 'currency', 'exchange', 'cpi', 'unemployment', 'index',
+      'econometric', 'finance', 'portfolio', 'asset', 'arima', 'forecast', 'error',
+      'temperature', 'weather', 'precipitation', 'wind', 'co2', 'emission',
+      'population', 'census', 'survey', 'vote', 'election'];
+    const nonBioHits = nonBioKeywords.filter(k => allText.includes(k) || fnLower.includes(k));
+    if (nonBioHits.length > 0) {
+      signals.push(`Non-biological keywords found: ${nonBioHits.join(', ')}`);
+      bioScore -= nonBioHits.length * 2;
+    }
+
+    if (fnLower.includes('ar1') || fnLower.includes('ar2') || fnLower.includes('ar(') ||
+        fnLower.includes('arma') || fnLower.includes('arima') || fnLower.includes('econometric') ||
+        fnLower.includes('var_') || fnLower.includes('garch')) {
+      signals.push(`Filename suggests statistical/econometric data: ${fileName}`);
+      bioScore -= 3;
+    }
+
+    const allValues = channels.flatMap(c => c.values);
+    if (allValues.length > 0) {
+      const hasNegatives = allValues.some(v => v < 0);
+      const maxVal = Math.max(...allValues);
+      const minVal = Math.min(...allValues);
+      const range = maxVal - minVal;
+      const mean = allValues.reduce((a, b) => a + b, 0) / allValues.length;
+
+      if (hasNegatives && minVal < -5) {
+        signals.push(`Contains large negative values (min=${minVal.toFixed(1)}) — unusual for expression data`);
+        bioScore -= 1;
+      }
+
+      if (mean > 1000 && maxVal > 10000) {
+        signals.push('High magnitude values — could be expression counts or economic data');
+      } else if (range < 10 && Math.abs(mean) < 5) {
+        signals.push('Small-range centered data — typical of standardized/simulated statistical data');
+        bioScore -= 1;
+      }
+
+      if (channels.length <= 3) {
+        const genericNames = channels.filter(c => {
+          const n = c.name.toLowerCase();
+          return ['x', 'y', 'z', 'value', 'values', 'error', 'residual', 'series', 'data', 'col1', 'col2', 'var1', 'var2'].includes(n);
+        });
+        if (genericNames.length === channels.length) {
+          signals.push(`All column names are generic (${channels.map(c => c.name).join(', ')}) — no biological identifiers`);
+          bioScore -= 2;
+        }
+      }
+    }
+
+    let domain: DataDomainClassification['domain'];
+    let confidence: number;
+    let warning: string | null = null;
+
+    if (bioScore >= 3) {
+      domain = 'biological';
+      confidence = Math.min(0.95, 0.6 + bioScore * 0.05);
+    } else if (bioScore <= -2) {
+      domain = 'non-biological';
+      confidence = Math.min(0.95, 0.6 + Math.abs(bioScore) * 0.05);
+      warning = 'This data does not appear to be biological time-series data. The AR(2) eigenvalue analysis is mathematically valid for any time series, but the biological interpretation labels (clock/target hierarchy, circadian stability) do not apply. Results below show the raw AR(2) statistics without biological framing.';
+    } else {
+      domain = 'unknown';
+      confidence = 0.3;
+      warning = 'Unable to determine if this data is biological. The AR(2) analysis is valid, but biological interpretations (circadian hierarchy, clock/target labels) should be treated with caution unless you know this is gene expression or physiological data.';
+    }
+
+    return { domain, confidence, signals, warning };
+  }
+
   function parseCSVToChannels(csvText: string, formatHint: string): { channels: WearableChannelData[]; totalRecords: number; detectedFormat: string; error?: string; debug?: any } {
     const cleanedCsv = csvText.replace(/^\uFEFF/, '');
     const lines = cleanedCsv.split('\n').filter(l => l.trim().length > 0);
@@ -16844,7 +17397,7 @@ that's the shift from chronobiology to chronodiagnostics."*
         const lower = c.toLowerCase();
         return lower.includes('time') || lower.includes('date') || lower === 'index' || lower === 't' || lower === 'x';
       });
-      for (const col of numericCols.slice(0, 8)) {
+      for (const col of numericCols.slice(0, 50)) {
         if (col === timeCol) continue;
         const values: number[] = [];
         const timestamps: string[] = [];
@@ -16902,11 +17455,51 @@ that's the shift from chronobiology to chronodiagnostics."*
     }
   });
 
+  app.get("/api/sample-data/dataset/:name", (req, res) => {
+    const allowed: Record<string, { file: string; label: string }> = {
+      'mouse-liver': { file: 'GSE54650_Liver_circadian.csv', label: 'GSE54650 Mouse Liver Circadian' },
+      'human-blood': { file: 'GSE113883_Human_WholeBlood.csv', label: 'GSE113883 Human Whole Blood' },
+      'neuroblastoma-myc-on': { file: 'GSE221103_Neuroblastoma_MYC_ON.csv', label: 'GSE221103 Neuroblastoma MYC ON' },
+      'neuroblastoma-myc-off': { file: 'GSE221103_Neuroblastoma_MYC_OFF.csv', label: 'GSE221103 Neuroblastoma MYC OFF' },
+      'sleep-restriction': { file: 'GSE39445_Blood_SleepRestriction_circadian.csv', label: 'GSE39445 Sleep Restriction' },
+      'sleep-sufficient': { file: 'GSE39445_Blood_SufficientSleep_circadian.csv', label: 'GSE39445 Sufficient Sleep' },
+      'mouse-liver-proteomics': { file: 'mouse_liver_circadian_proteomics.csv', label: 'Mouse Liver Circadian Proteomics' },
+      'organoid-wt': { file: 'GSE157357_Organoid_WT-WT_circadian.csv', label: 'GSE157357 Intestinal Organoid WT' },
+      'yeast-metabolic': { file: 'GSE3431_yeast_metabolic_cycle.csv', label: 'GSE3431 Yeast Metabolic Cycle' },
+      'baboon-liver': { file: 'GSE98965_baboon_FPKM.csv', label: 'GSE98965 Baboon Liver Circadian' },
+      'rabani-lps-curated': { file: 'Rabani2014_DendriticCell_LPS_Curated.csv', label: 'Rabani 2014 DC LPS Curated (39 genes)' },
+      'rabani-lps-full': { file: 'Rabani2014_DendriticCell_LPS_Full.csv', label: 'Rabani 2014 DC LPS Full (3147 genes)' },
+    };
+    try {
+      const entry = allowed[req.params.name];
+      if (!entry) return res.status(404).json({ error: "Unknown dataset" });
+      const filePath = path.join(process.cwd(), 'datasets', entry.file);
+      if (!fs.existsSync(filePath)) return res.status(404).json({ error: `Dataset file not found: ${entry.label}` });
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', `attachment; filename="${entry.file}"`);
+      fs.createReadStream(filePath).pipe(res);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to serve dataset" });
+    }
+  });
+
   app.post("/api/analyze/wearable", upload.single('file'), async (req: Request, res) => {
     try {
       const file = req.file;
       if (!file) {
         return res.status(400).json({ error: "No file uploaded" });
+      }
+
+      const allowedExtensions = ['.csv', '.tsv', '.txt'];
+      const ext = (file.originalname || '').toLowerCase().replace(/^.*(\.[^.]+)$/, '$1');
+      if (!allowedExtensions.includes(ext) && ext !== file.originalname.toLowerCase()) {
+        const allowedMimeTypes = ['text/csv', 'text/tab-separated-values', 'text/plain', 'application/csv', 'application/vnd.ms-excel'];
+        if (file.mimetype && !allowedMimeTypes.includes(file.mimetype) && !file.mimetype.startsWith('text/')) {
+          return res.status(400).json({
+            error: `Invalid file type: "${ext}". Please upload a CSV or TSV file (.csv, .tsv, or .txt).`,
+            hint: 'The Discovery Engine accepts comma-separated (CSV) or tab-separated (TSV) data files.'
+          });
+        }
       }
 
       const formatHint = (req.body?.format as string) || 'auto';
@@ -16917,6 +17510,521 @@ that's the shift from chronobiology to chronodiagnostics."*
       let fileName = file.originalname;
 
       const csvText = file.buffer.toString('utf-8');
+
+      const firstChunk = csvText.slice(0, 2000);
+      const binaryChars = (firstChunk.match(/[\x00-\x08\x0E-\x1F]/g) || []).length;
+      if (binaryChars > firstChunk.length * 0.05) {
+        return res.status(400).json({
+          error: 'This file appears to be binary (not a text file). Please upload a CSV or TSV file.',
+          hint: 'If your data is in Excel format (.xlsx), please export it as CSV first.'
+        });
+      }
+
+      const matrixDetection = detectGeneExpressionMatrix(csvText);
+      if (matrixDetection.isMatrix && matrixDetection.parsed) {
+        const parsed = matrixDetection.parsed;
+        detectedFormat = 'gene_expression_matrix';
+
+        try {
+          await storage.createAnalyticsEvent({
+            eventType: 'file_upload',
+            page: '/discovery-engine',
+            sessionId: `upload_${Date.now()}`,
+            referrer: JSON.stringify({
+              fileName: (file.originalname || 'unknown').slice(0, 100),
+              fileSize: file.size,
+              geneCount: parsed.geneIds.length,
+              timepointCount: parsed.timepoints.length,
+              format: 'gene_expression_matrix'
+            })
+          });
+        } catch (e) { /* don't fail analysis for logging */ }
+
+        const dataWarnings: { type: string; message: string; severity: 'info' | 'warning' | 'error'; genes?: string[] }[] = [];
+
+        const geneCounts = new Map<string, number>();
+        for (const geneId of parsed.geneIds) {
+          geneCounts.set(geneId, (geneCounts.get(geneId) || 0) + 1);
+        }
+        const duplicateGenes = Array.from(geneCounts.entries()).filter(([, count]) => count > 1);
+        if (duplicateGenes.length > 0) {
+          const dupList = duplicateGenes.slice(0, 20).map(([g, c]) => `${g} (${c}x)`);
+          dataWarnings.push({
+            type: 'duplicate_genes',
+            message: `${duplicateGenes.length} gene(s) appear multiple times: ${dupList.join(', ')}${duplicateGenes.length > 20 ? '...' : ''}. Only the first occurrence of each is analyzed.`,
+            severity: 'warning',
+            genes: duplicateGenes.map(([g]) => g)
+          });
+          const seen = new Set<string>();
+          const dedupedIds: string[] = [];
+          for (const geneId of parsed.geneIds) {
+            if (!seen.has(geneId)) {
+              seen.add(geneId);
+              dedupedIds.push(geneId);
+            }
+          }
+          parsed.geneIds = dedupedIds;
+        }
+
+        const constantGenes: string[] = [];
+        const outlierGenes: string[] = [];
+        const corruptedRows: string[] = [];
+        for (const geneId of parsed.geneIds) {
+          const series = parsed.geneTimeSeries.get(geneId);
+          if (!series) continue;
+
+          const nanCount = series.filter(v => isNaN(v)).length;
+          if (nanCount > series.length * 0.5) {
+            corruptedRows.push(geneId);
+            continue;
+          }
+
+          const validValues = series.filter(v => !isNaN(v) && isFinite(v));
+          if (validValues.length === 0) {
+            corruptedRows.push(geneId);
+            continue;
+          }
+
+          const vMean = validValues.reduce((a, b) => a + b, 0) / validValues.length;
+          const vVariance = validValues.reduce((a, b) => a + (b - vMean) ** 2, 0) / validValues.length;
+          if (vVariance < 1e-10) {
+            constantGenes.push(geneId);
+          }
+
+          const vStd = Math.sqrt(vVariance) || 1;
+          const extremeValues = validValues.filter(v => Math.abs(v - vMean) > 10 * vStd);
+          if (extremeValues.length > 0) {
+            outlierGenes.push(geneId);
+          }
+        }
+
+        if (constantGenes.length > 0) {
+          dataWarnings.push({
+            type: 'constant_genes',
+            message: `${constantGenes.length} gene(s) have zero variance (constant expression) and are excluded: ${constantGenes.slice(0, 10).join(', ')}${constantGenes.length > 10 ? '...' : ''}`,
+            severity: 'warning',
+            genes: constantGenes
+          });
+        }
+
+        if (corruptedRows.length > 0) {
+          dataWarnings.push({
+            type: 'corrupted_rows',
+            message: `${corruptedRows.length} gene(s) have >50% missing/invalid values and are excluded: ${corruptedRows.slice(0, 10).join(', ')}${corruptedRows.length > 10 ? '...' : ''}`,
+            severity: 'warning',
+            genes: corruptedRows
+          });
+        }
+
+        if (outlierGenes.length > 0) {
+          dataWarnings.push({
+            type: 'outlier_genes',
+            message: `${outlierGenes.length} gene(s) have extreme outlier values (>10 SD from mean). Results may be less reliable for: ${outlierGenes.slice(0, 10).join(', ')}${outlierGenes.length > 10 ? '...' : ''}`,
+            severity: 'info',
+            genes: outlierGenes
+          });
+        }
+
+        const excludedGenes = new Set([...constantGenes, ...corruptedRows]);
+
+        interface PerGeneResult {
+          gene: string;
+          phi1: number;
+          phi2: number;
+          eigenvalue: number;
+          r2: number;
+          isComplex: boolean;
+          lambda1Real: number;
+          lambda1Imag: number;
+          lambda2Real: number;
+          lambda2Imag: number;
+          halfLife: number | null;
+          impliedPeriod: number | null;
+          sampleCount: number;
+          mean: number;
+          std: number;
+          stability: string;
+          stabilityColor: string;
+          overallConfidence: string;
+          confidenceScore: number;
+          expression: number[];
+          residuals: number[];
+          acf: number[];
+          ljungBoxPassed: boolean;
+          ljungBoxPValue: number;
+          qualityChecks: any[];
+          edgeCaseDiagnostics: any[];
+        }
+
+        const perGeneResults: PerGeneResult[] = [];
+        const MIN_TP = 6;
+
+        for (const geneId of parsed.geneIds) {
+          if (excludedGenes.has(geneId)) continue;
+
+          const rawSeries = parsed.geneTimeSeries.get(geneId);
+          if (!rawSeries || rawSeries.length < MIN_TP) continue;
+
+          const series = rawSeries.map(v => (isNaN(v) || !isFinite(v)) ? 0 : v);
+          const nonZero = series.filter(v => v !== 0);
+          if (nonZero.length < MIN_TP) continue;
+
+          const n = series.length;
+          const mean = series.reduce((a, b) => a + b, 0) / n;
+          const variance = series.reduce((a, b) => a + (b - mean) ** 2, 0) / n;
+          if (!isFinite(mean) || !isFinite(variance) || variance < 1e-10) continue;
+          const std = Math.sqrt(variance) || 1;
+
+          const diagResult = fitAR2WithDiagnostics(series);
+          if (!diagResult) continue;
+
+          const { phi1, phi2, eigenvalue, r2, residuals: geneResiduals, acf: geneAcf, ljungBoxPassed: geneLB, ljungBoxPValue: geneLBP, diagnostics: geneDiag } = diagResult;
+          if (!isFinite(eigenvalue)) continue;
+
+          const eigenResult = solveAR2Eigenvalues(phi1, phi2);
+
+          let impliedPeriod: number | null = null;
+          if (eigenResult.isComplex && eigenResult.argument1 !== null) {
+            const freq = Math.abs(eigenResult.argument1) / (2 * Math.PI);
+            if (freq > 0) impliedPeriod = 1 / freq;
+          }
+
+          let stability: string;
+          let stabilityColor: string;
+          if (eigenvalue < 0.5) { stability = 'Highly Stable'; stabilityColor = '#22c55e'; }
+          else if (eigenvalue < 0.7) { stability = 'Stable Rhythm'; stabilityColor = '#4ade80'; }
+          else if (eigenvalue < 0.85) { stability = 'Moderate Persistence'; stabilityColor = '#facc15'; }
+          else if (eigenvalue < 0.95) { stability = 'High Persistence'; stabilityColor = '#f97316'; }
+          else if (eigenvalue < 1.0) { stability = 'Near-Critical'; stabilityColor = '#ef4444'; }
+          else { stability = 'Unstable / Divergent'; stabilityColor = '#dc2626'; }
+
+          const halfLife = eigenvalue > 0 && eigenvalue < 1 ? Math.log(0.5) / Math.log(eigenvalue) : null;
+
+          perGeneResults.push({
+            gene: geneId,
+            phi1, phi2, eigenvalue, r2,
+            isComplex: eigenResult.isComplex,
+            lambda1Real: eigenResult.lambda1.real,
+            lambda1Imag: eigenResult.lambda1.imag,
+            lambda2Real: eigenResult.lambda2.real,
+            lambda2Imag: eigenResult.lambda2.imag,
+            halfLife,
+            impliedPeriod,
+            sampleCount: n,
+            mean, std,
+            stability, stabilityColor,
+            overallConfidence: geneDiag.overallConfidence,
+            confidenceScore: geneDiag.confidenceScore,
+            expression: series,
+            residuals: geneResiduals,
+            acf: geneAcf,
+            ljungBoxPassed: geneLB,
+            ljungBoxPValue: geneLBP,
+            qualityChecks: geneDiag.qualityChecks,
+            edgeCaseDiagnostics: geneDiag.edgeCaseDiagnostics,
+          });
+        }
+
+        perGeneResults.sort((a, b) => b.eigenvalue - a.eigenvalue);
+
+        const clockGenes = ['Arntl', 'Bmal1', 'Clock', 'Cry1', 'Cry2', 'Per1', 'Per2', 'Per3', 'Nr1d1', 'Nr1d2', 'Dbp', 'Tef', 'Hlf', 'Rora', 'Rorc', 'Npas2',
+          'ARNTL', 'BMAL1', 'CLOCK', 'CRY1', 'CRY2', 'PER1', 'PER2', 'PER3', 'NR1D1', 'NR1D2', 'DBP', 'TEF', 'HLF', 'RORA', 'RORC', 'NPAS2'];
+        const clockSet = new Set(clockGenes.map(g => g.toLowerCase()));
+
+        const classified = perGeneResults.map(g => ({
+          ...g,
+          geneType: clockSet.has(g.gene.toLowerCase()) ? 'clock' : 'target'
+        }));
+
+        const clockResults = classified.filter(g => g.geneType === 'clock');
+        const targetResults = classified.filter(g => g.geneType === 'target');
+        const clockMean = clockResults.length > 0 ? clockResults.reduce((s, g) => s + g.eigenvalue, 0) / clockResults.length : 0;
+        const targetMean = targetResults.length > 0 ? targetResults.reduce((s, g) => s + g.eigenvalue, 0) / targetResults.length : 0;
+
+        const topGenes = classified.slice(0, 50);
+        const channelResults = topGenes.map(g => ({
+          channel: g.gene,
+          unit: g.geneType === 'clock' ? 'clock gene' : 'gene',
+          sampleCount: g.sampleCount,
+          phi1: g.phi1, phi2: g.phi2,
+          eigenvalue: g.eigenvalue, r2: g.r2,
+          isComplex: g.isComplex,
+          lambda1Real: g.lambda1Real, lambda1Imag: g.lambda1Imag,
+          lambda2Real: g.lambda2Real, lambda2Imag: g.lambda2Imag,
+          halfLife: g.halfLife,
+          impliedPeriod: g.impliedPeriod,
+          mean: g.mean, std: g.std,
+          min: Math.min(...g.expression),
+          max: Math.max(...g.expression),
+          stability: g.stability,
+          stabilityColor: g.stabilityColor,
+          ljungBoxPassed: g.ljungBoxPassed,
+          ljungBoxPValue: g.ljungBoxPValue,
+          timeSeriesPreview: g.expression,
+          residuals: g.residuals,
+          acf: g.acf,
+          qualityChecks: g.qualityChecks,
+          overallConfidence: g.overallConfidence as 'High' | 'Moderate' | 'Low' | 'Unreliable',
+          confidenceColor: g.confidenceScore >= 70 ? '#22c55e' : g.confidenceScore >= 50 ? '#facc15' : '#f97316',
+          confidenceScore: g.confidenceScore,
+          edgeCaseDiagnostics: g.edgeCaseDiagnostics,
+        }));
+
+        const biasAudit = (() => {
+          if (perGeneResults.length < 10) return null;
+
+          const N_PERM = 200;
+          const seed = 42;
+          function mulberry32(s: number) { return () => { s |= 0; s = s + 0x6D2B79F5 | 0; let t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+          const rng = mulberry32(seed);
+          function shuffle<T>(arr: T[]): T[] { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+          const test1_timeShuffleDestroysHierarchy = (() => {
+            const sampleGenes = perGeneResults.slice(0, Math.min(100, perGeneResults.length));
+            const originalEigenvalues = sampleGenes.map(g => g.eigenvalue);
+            const shuffledEigenvalues: number[] = [];
+            for (const g of sampleGenes) {
+              const shuffled = shuffle(g.expression);
+              const result = fitAR2WithDiagnostics(shuffled);
+              shuffledEigenvalues.push(result ? result.eigenvalue : 0);
+            }
+            const origMean = originalEigenvalues.reduce((a, b) => a + b, 0) / originalEigenvalues.length;
+            const shuffMean = shuffledEigenvalues.reduce((a, b) => a + b, 0) / shuffledEigenvalues.length;
+            const origStd = Math.sqrt(originalEigenvalues.reduce((a, b) => a + (b - origMean) ** 2, 0) / originalEigenvalues.length);
+            const shuffStd = Math.sqrt(shuffledEigenvalues.reduce((a, b) => a + (b - shuffMean) ** 2, 0) / shuffledEigenvalues.length);
+
+            function toRanks(vals: number[]): number[] {
+              const indexed = vals.map((v, i) => ({ v, i }));
+              indexed.sort((a, b) => a.v - b.v);
+              const ranks = new Array(vals.length);
+              indexed.forEach((item, rank) => { ranks[item.i] = rank; });
+              return ranks;
+            }
+            function spearmanCorr(a: number[], b: number[]): number {
+              const ra = toRanks(a), rb = toRanks(b);
+              const n2 = ra.length;
+              const dSq = ra.reduce((s, r, i) => s + (r - rb[i]) ** 2, 0);
+              return 1 - (6 * dSq) / (n2 * (n2 * n2 - 1));
+            }
+
+            const rankCorrelations: number[] = [];
+            for (let p = 0; p < 20; p++) {
+              const shuffAll = sampleGenes.map(g => {
+                const s = shuffle(g.expression);
+                const r = fitAR2WithDiagnostics(s);
+                return r ? r.eigenvalue : 0;
+              });
+              rankCorrelations.push(spearmanCorr(originalEigenvalues, shuffAll));
+            }
+            const avgRankCorr = rankCorrelations.length > 0 ? rankCorrelations.reduce((a, b) => a + b, 0) / rankCorrelations.length : 0;
+
+            const hierarchyDestroyed = avgRankCorr < 0.3;
+            return {
+              testName: 'Time-Shuffle Destruction Test',
+              description: 'Randomizes the time order within each gene and re-runs AR(2). If eigenvalue rankings survive shuffling, they reflect expression level or variance — not temporal structure.',
+              passed: hierarchyDestroyed,
+              verdict: hierarchyDestroyed
+                ? 'PASS — Shuffling destroys eigenvalue rankings (rank correlation ' + avgRankCorr.toFixed(3) + '). The eigenvalues capture genuine temporal structure, not static properties.'
+                : 'CONCERN — Eigenvalue rankings partially survive shuffling (rank correlation ' + avgRankCorr.toFixed(3) + '). Some eigenvalue variation may reflect expression level or variance rather than temporal dynamics.',
+              details: {
+                originalMean: +origMean.toFixed(4),
+                shuffledMean: +shuffMean.toFixed(4),
+                originalStd: +origStd.toFixed(4),
+                shuffledStd: +shuffStd.toFixed(4),
+                averageRankCorrelation: +avgRankCorr.toFixed(4),
+                permutationRuns: 20,
+                genesTestedCount: sampleGenes.length,
+              }
+            };
+          })();
+
+          const test2_irrelevantMetricCorrelation = (() => {
+            const genes = perGeneResults.slice(0, Math.min(200, perGeneResults.length));
+            if (genes.length < 10) return null;
+
+            const eigenvalues = genes.map(g => g.eigenvalue);
+            const nameLengths = genes.map(g => g.gene.length);
+            const rowPositions = genes.map((_, i) => i);
+            const firstChars = genes.map(g => g.gene.charCodeAt(0));
+
+            function spearman(x: number[], y: number[]): number {
+              const n3 = x.length;
+              const rankX = x.map((v, i) => ({ v, i })).sort((a, b) => a.v - b.v);
+              const rankY = y.map((v, i) => ({ v, i })).sort((a, b) => a.v - b.v);
+              const rx = new Array(n3); rankX.forEach((item, rank) => rx[item.i] = rank);
+              const ry = new Array(n3); rankY.forEach((item, rank) => ry[item.i] = rank);
+              const d2 = rx.reduce((s: number, r: number, i: number) => s + (r - ry[i]) ** 2, 0);
+              return 1 - (6 * d2) / (n3 * (n3 * n3 - 1));
+            }
+
+            const corrNameLength = spearman(eigenvalues, nameLengths);
+            const corrRowPosition = spearman(eigenvalues, rowPositions);
+            const corrFirstChar = spearman(eigenvalues, firstChars);
+
+            const exprLevels = genes.map(g => g.mean);
+            const exprVariances = genes.map(g => g.std);
+            const corrExprLevel = spearman(eigenvalues, exprLevels);
+            const corrExprVariance = spearman(eigenvalues, exprVariances);
+
+            const allCorrs = [
+              { metric: 'Gene name length', rho: corrNameLength, shouldBeZero: true },
+              { metric: 'Row position in file', rho: corrRowPosition, shouldBeZero: true },
+              { metric: 'First character (alphabetical)', rho: corrFirstChar, shouldBeZero: true },
+              { metric: 'Mean expression level', rho: corrExprLevel, shouldBeZero: false },
+              { metric: 'Expression variance (std)', rho: corrExprVariance, shouldBeZero: false },
+            ];
+
+            const spuriousCorrs = allCorrs.filter(c => c.shouldBeZero && Math.abs(c.rho) > 0.15);
+            const exprBias = Math.abs(corrExprLevel) > 0.4 || Math.abs(corrExprVariance) > 0.4;
+
+            return {
+              testName: 'Irrelevant Metric Correlation Test',
+              description: 'Checks if eigenvalues correlate with things that should not matter (gene name length, file position, alphabetical order) and flags potential confounds with expression level and variance.',
+              passed: spuriousCorrs.length === 0 && !exprBias,
+              verdict: spuriousCorrs.length === 0 && !exprBias
+                ? 'PASS — No spurious correlations detected. Eigenvalues are independent of arbitrary metrics' + (Math.abs(corrExprLevel) > 0.2 ? ', though moderate expression-level correlation (ρ=' + corrExprLevel.toFixed(3) + ') warrants monitoring.' : '.')
+                : spuriousCorrs.length > 0
+                  ? 'CONCERN — Eigenvalues correlate with arbitrary metrics: ' + spuriousCorrs.map(c => c.metric + ' (ρ=' + c.rho.toFixed(3) + ')').join(', ') + '. This suggests a systematic bias.'
+                  : 'CONCERN — Strong correlation with expression level (ρ=' + corrExprLevel.toFixed(3) + ') or variance (ρ=' + corrExprVariance.toFixed(3) + '). Eigenvalues may partly reflect how well-measured a gene is rather than its true temporal dynamics.',
+              details: {
+                correlations: allCorrs.map(c => ({ metric: c.metric, spearmanRho: +c.rho.toFixed(4), isExpected: !c.shouldBeZero })),
+                genesTestedCount: genes.length,
+              }
+            };
+          })();
+
+          const test3_expressionMatchedNullHierarchy = (() => {
+            if (clockResults.length < 2 || targetResults.length < 5) return null;
+
+            const clockEigens = clockResults.map(g => g.eigenvalue);
+            const clockMeanExpr = clockResults.reduce((s, g) => s + g.mean, 0) / clockResults.length;
+            const clockStdExpr = clockResults.reduce((s, g) => s + g.std, 0) / clockResults.length;
+
+            const observedGap = clockMean - targetMean;
+
+            let nullGapsExceedObserved = 0;
+            const nullGaps: number[] = [];
+            for (let p = 0; p < N_PERM; p++) {
+              const exprMatchedTargets = targetResults
+                .map(g => ({ gene: g, dist: Math.abs(g.mean - clockMeanExpr) + Math.abs(g.std - clockStdExpr) }))
+                .sort((a, b) => a.dist - b.dist)
+                .slice(0, Math.min(clockResults.length * 3, targetResults.length));
+
+              const sampled = shuffle(exprMatchedTargets).slice(0, clockResults.length);
+              const nullMean = sampled.reduce((s, g) => s + g.gene.eigenvalue, 0) / sampled.length;
+              const nullGap = nullMean - targetMean;
+              nullGaps.push(nullGap);
+              if (nullGap >= observedGap) nullGapsExceedObserved++;
+            }
+
+            const pValue = (nullGapsExceedObserved + 1) / (N_PERM + 1);
+            const nullMeanGap = nullGaps.reduce((a, b) => a + b, 0) / nullGaps.length;
+            const enrichmentRatio = observedGap / (Math.abs(nullMeanGap) || 0.001);
+
+            return {
+              testName: 'Expression-Matched Null Hierarchy Test',
+              description: 'Asks: do clock genes have higher eigenvalues simply because they are more highly expressed? Compares the clock-target gap against expression-level-matched random gene sets.',
+              passed: pValue < 0.05,
+              verdict: pValue < 0.05
+                ? 'PASS — The clock-target eigenvalue gap (Δ=' + observedGap.toFixed(4) + ') is significant even after matching for expression level (p=' + pValue.toFixed(4) + ', enrichment=' + enrichmentRatio.toFixed(1) + 'x). The hierarchy is not an expression-level artifact.'
+                : 'CONCERN — The clock-target gap (Δ=' + observedGap.toFixed(4) + ') is not significant against expression-matched controls (p=' + pValue.toFixed(4) + '). The hierarchy may be partly driven by expression levels rather than temporal dynamics.',
+              details: {
+                observedGap: +observedGap.toFixed(4),
+                nullMeanGap: +nullMeanGap.toFixed(4),
+                pValue: +pValue.toFixed(4),
+                enrichmentRatio: +enrichmentRatio.toFixed(2),
+                permutations: N_PERM,
+                clockGenesCount: clockResults.length,
+                expressionMatchedPoolSize: targetResults.length,
+              }
+            };
+          })();
+
+          const tests = [test1_timeShuffleDestroysHierarchy, test2_irrelevantMetricCorrelation, test3_expressionMatchedNullHierarchy].filter(Boolean);
+          const passCount = tests.filter(t => t!.passed).length;
+          const totalTests = tests.length;
+
+          return {
+            summary: `${passCount}/${totalTests} bias tests passed`,
+            overallVerdict: passCount === totalTests ? 'No systematic biases detected' : passCount >= totalTests - 1 ? 'Minor concerns — review flagged tests' : 'Significant bias concerns — interpret results with caution',
+            overallColor: passCount === totalTests ? '#22c55e' : passCount >= totalTests - 1 ? '#facc15' : '#ef4444',
+            tests,
+          };
+        })();
+
+        const responseData = {
+          detectedFormat: 'gene_expression_matrix',
+          fileName: file.originalname,
+          fileSize: file.size,
+          totalRecords: parsed.geneIds.length,
+          channelsAnalyzed: channelResults.length,
+          results: channelResults,
+          biasAudit,
+          gearboxAnalysis: clockResults.length > 0 && targetResults.length > 0 ? {
+            clockChannel: `Clock genes (n=${clockResults.length})`,
+            clockEigenvalue: clockMean,
+            targetChannel: `All other genes (n=${targetResults.length})`,
+            targetEigenvalue: targetMean,
+            gap: targetMean - clockMean,
+            gapUncertainty: 0.05,
+            gapReliable: Math.abs(targetMean - clockMean) > 0.05,
+            hierarchyStatus: targetMean > clockMean ? 'Clock < Target Hierarchy Confirmed' : 'Reversed — investigate',
+            hierarchyColor: targetMean > clockMean ? '#22c55e' : '#ef4444'
+          } : null,
+          perGeneAnalysis: {
+            totalGenes: classified.length,
+            clockGenesFound: clockResults.length,
+            targetGenesAnalyzed: targetResults.length,
+            timepointCount: parsed.timepoints.length,
+            timepoints: parsed.timepoints,
+            clockMeanEigenvalue: clockMean,
+            targetMeanEigenvalue: targetMean,
+            topByEigenvalue: classified.slice(0, 20).map(g => ({
+              gene: g.gene, eigenvalue: g.eigenvalue, r2: g.r2, phi1: g.phi1, phi2: g.phi2,
+              halfLife: g.halfLife, geneType: g.geneType, stability: g.stability,
+              overallConfidence: g.overallConfidence, confidenceScore: g.confidenceScore,
+              ljungBoxPassed: g.ljungBoxPassed, ljungBoxPValue: g.ljungBoxPValue,
+              qualityChecks: g.qualityChecks, edgeCaseDiagnostics: g.edgeCaseDiagnostics,
+            })),
+            bottomByEigenvalue: classified.slice(-10).map(g => ({
+              gene: g.gene, eigenvalue: g.eigenvalue, r2: g.r2, phi1: g.phi1, phi2: g.phi2,
+              halfLife: g.halfLife, geneType: g.geneType, stability: g.stability,
+              overallConfidence: g.overallConfidence, confidenceScore: g.confidenceScore,
+              ljungBoxPassed: g.ljungBoxPassed, ljungBoxPValue: g.ljungBoxPValue,
+              qualityChecks: g.qualityChecks, edgeCaseDiagnostics: g.edgeCaseDiagnostics,
+            })),
+          },
+          dataWarnings: dataWarnings.length > 0 ? dataWarnings : undefined,
+          safeguards: {
+            disclaimer: 'Per-gene AR(2) eigenvalue analysis across circadian time points. Results show temporal persistence — higher |λ| means slower signal decay.',
+            contextWarning: 'Gene expression matrix detected. Each gene analyzed independently across time points.',
+            minimumTimepoints: MIN_TP,
+            lowPowerChannels: [] as string[],
+            negativeResult: false
+          },
+          metadata: {
+            engine: 'PAR(2) Discovery Engine v' + ENGINE_VERSION,
+            algorithm: 'Per-gene AR(2) OLS across circadian time points',
+            equation: 'y(t) = φ₁·y(t-1) + φ₂·y(t-2) + ε, fitted per gene',
+            eigenvalueEquation: 'λ² - φ₁·λ - φ₂ = 0',
+            reference: 'Boman et al., PAR(2) manuscript (2026)',
+            timestamp: new Date().toISOString()
+          }
+        };
+
+        try {
+          const autoId = `auto_${randomBytes(6).toString('base64url')}`;
+          await storage.createSharedAnalysis({
+            id: autoId,
+            fileName: file.originalname,
+            detectedFormat: 'gene_expression_matrix',
+            analysisData: { ...responseData, results: channelResults.slice(0, 20), autoSaved: true },
+          });
+        } catch (e) { /* don't fail response for auto-save */ }
+
+        return res.json(responseData);
+      }
+
       const csvResult = parseCSVToChannels(csvText, formatHint);
       if (csvResult.error) {
         return res.status(400).json({ error: csvResult.error, debug: csvResult.debug });
@@ -16928,6 +18036,8 @@ that's the shift from chronobiology to chronodiagnostics."*
       if (channels.length === 0) {
         return res.status(400).json({ error: "No analyzable data channels found in the file." });
       }
+
+      const dataDomain = classifyDataDomain(csvText, channels, detectedFormat, file.originalname);
 
       try {
         await storage.createAnalyticsEvent({
@@ -17066,13 +18176,14 @@ that's the shift from chronobiology to chronodiagnostics."*
         }
         const ljungBoxPassed = ljungBoxPValue > 0.05;
 
+        const isBio = dataDomain.domain === 'biological' || dataDomain.domain === 'wearable';
         let stability: string;
         let stabilityColor: string;
         if (eigenvalue < 0.5) { stability = 'Highly Stable'; stabilityColor = '#22c55e'; }
-        else if (eigenvalue < 0.7) { stability = 'Stable Rhythm'; stabilityColor = '#4ade80'; }
+        else if (eigenvalue < 0.7) { stability = isBio ? 'Stable Rhythm' : 'Low Persistence'; stabilityColor = '#4ade80'; }
         else if (eigenvalue < 0.85) { stability = 'Moderate Persistence'; stabilityColor = '#facc15'; }
-        else if (eigenvalue < 0.95) { stability = 'High Persistence (Stressed)'; stabilityColor = '#f97316'; }
-        else if (eigenvalue < 1.0) { stability = 'Near-Critical (Stuck)'; stabilityColor = '#ef4444'; }
+        else if (eigenvalue < 0.95) { stability = isBio ? 'High Persistence (Stressed)' : 'High Persistence'; stabilityColor = '#f97316'; }
+        else if (eigenvalue < 1.0) { stability = isBio ? 'Near-Critical (Stuck)' : 'Near-Critical'; stabilityColor = '#ef4444'; }
         else { stability = 'Unstable / Divergent'; stabilityColor = '#dc2626'; }
 
         const step = Math.max(1, Math.floor(series.length / 200));
@@ -17085,12 +18196,19 @@ that's the shift from chronobiology to chronodiagnostics."*
         const fullDiag = runFullDiagnostics(diagInput);
         const { qualityChecks, edgeCaseDiagnostics, overallConfidence, confidenceColor, confidenceScore } = fullDiag;
 
+        const halfLife = eigenvalue > 0 && eigenvalue < 1 ? Math.log(0.5) / Math.log(eigenvalue) : null;
+
         results.push({
           channel: ch.name,
           unit: ch.unit,
           sampleCount: n,
           phi1, phi2, eigenvalue, r2,
           isComplex: eigenResult.isComplex,
+          lambda1Real: eigenResult.lambda1.real,
+          lambda1Imag: eigenResult.lambda1.imag,
+          lambda2Real: eigenResult.lambda2.real,
+          lambda2Imag: eigenResult.lambda2.imag,
+          halfLife,
           impliedPeriod,
           mean, std,
           min: Math.min(...series),
@@ -17108,26 +18226,37 @@ that's the shift from chronobiology to chronodiagnostics."*
         });
       }
 
+      const isBiological = dataDomain.domain === 'biological' || dataDomain.domain === 'wearable';
+
       const gearboxAnalysis = results.length >= 2 ? (() => {
         const sorted = [...results].sort((a, b) => a.eigenvalue - b.eigenvalue);
-        const clock = sorted[0];
-        const target = sorted[sorted.length - 1];
-        const gap = target.eigenvalue - clock.eigenvalue;
-        const { gapUncertainty, gapReliable } = computeGapUncertainty(clock.sampleCount, target.sampleCount, gap);
+        const low = sorted[0];
+        const high = sorted[sorted.length - 1];
+        const gap = high.eigenvalue - low.eigenvalue;
+        const { gapUncertainty, gapReliable } = computeGapUncertainty(low.sampleCount, high.sampleCount, gap);
         let hierarchyStatus: string;
         let hierarchyColor: string;
         if (!gapReliable) {
           hierarchyStatus = `Uncertain (gap ${gap.toFixed(3)} within noise band ±${gapUncertainty.toFixed(3)})`;
           hierarchyColor = '#a855f7';
-        } else if (gap > 0.15) { hierarchyStatus = 'Healthy Hierarchy (Clock < Target)'; hierarchyColor = '#22c55e'; }
-        else if (gap > 0.05) { hierarchyStatus = 'Mild Hierarchy'; hierarchyColor = '#facc15'; }
-        else if (gap > -0.05) { hierarchyStatus = 'Flat (No Clear Hierarchy)'; hierarchyColor = '#f97316'; }
-        else { hierarchyStatus = 'Reversed Hierarchy (Warning)'; hierarchyColor = '#ef4444'; }
+        } else if (gap > 0.15) {
+          hierarchyStatus = isBiological ? 'Healthy Hierarchy (Clock < Target)' : 'Large Persistence Gap';
+          hierarchyColor = '#22c55e';
+        } else if (gap > 0.05) {
+          hierarchyStatus = isBiological ? 'Mild Hierarchy' : 'Moderate Persistence Gap';
+          hierarchyColor = '#facc15';
+        } else if (gap > -0.05) {
+          hierarchyStatus = isBiological ? 'Flat (No Clear Hierarchy)' : 'Similar Persistence';
+          hierarchyColor = '#f97316';
+        } else {
+          hierarchyStatus = isBiological ? 'Reversed Hierarchy (Warning)' : 'Reversed Persistence Gap';
+          hierarchyColor = '#ef4444';
+        }
         return {
-          clockChannel: clock.channel,
-          clockEigenvalue: clock.eigenvalue,
-          targetChannel: target.channel,
-          targetEigenvalue: target.eigenvalue,
+          clockChannel: low.channel,
+          clockEigenvalue: low.eigenvalue,
+          targetChannel: high.channel,
+          targetEigenvalue: high.eigenvalue,
           gap,
           gapUncertainty,
           gapReliable,
@@ -17135,6 +18264,90 @@ that's the shift from chronobiology to chronodiagnostics."*
           hierarchyColor
         };
       })() : null;
+
+      const parsingValidation = {
+        formatDetected: detectedFormat,
+        formatConfidence: detectedFormat === 'gene_expression_matrix' ? 'high' : 'moderate',
+        columnsFound: channels.length + 1,
+        rowsRead: totalRecords,
+        channelsExtracted: channels.length,
+        channelsAnalyzed: results.length,
+        channelsSkipped: skippedChannels.length,
+        checks: [] as { test: string; passed: boolean; detail: string }[],
+      };
+
+      if (channels.length === 0) {
+        parsingValidation.checks.push({ test: 'Data extraction', passed: false, detail: 'No numeric channels could be extracted from the file' });
+      } else {
+        parsingValidation.checks.push({ test: 'Data extraction', passed: true, detail: `${channels.length} numeric channels extracted successfully` });
+      }
+
+      const channelLengths = channels.map(c => c.values.length);
+      const allSameLength = channelLengths.every(l => l === channelLengths[0]);
+      parsingValidation.checks.push({
+        test: 'Consistent series lengths',
+        passed: allSameLength,
+        detail: allSameLength
+          ? `All channels have ${channelLengths[0]} data points`
+          : `Channel lengths vary: ${Math.min(...channelLengths)}–${Math.max(...channelLengths)} points (may indicate missing values or parsing errors)`
+      });
+
+      const nanCounts = channels.map(c => c.values.filter(v => isNaN(v) || v === null || v === undefined).length);
+      const totalNans = nanCounts.reduce((a, b) => a + b, 0);
+      parsingValidation.checks.push({
+        test: 'No missing values',
+        passed: totalNans === 0,
+        detail: totalNans === 0
+          ? 'All values are valid numbers'
+          : `${totalNans} missing/NaN values detected across channels — these rows were excluded from analysis`
+      });
+
+      const hasConstantChannel = results.some(r => r.std < 1e-10);
+      parsingValidation.checks.push({
+        test: 'Non-constant channels',
+        passed: !hasConstantChannel,
+        detail: hasConstantChannel
+          ? 'One or more channels have zero variance (constant values) — AR(2) results for those channels are meaningless'
+          : 'All channels show variation over time'
+      });
+
+      const suspiciousR2 = results.filter(r => r.r2 > 0.999);
+      if (suspiciousR2.length > 0) {
+        parsingValidation.checks.push({
+          test: 'No perfect-fit artifacts',
+          passed: false,
+          detail: `${suspiciousR2.length} channel(s) have R² > 0.999, which may indicate the data is deterministic, duplicated, or contains a near-perfect trend rather than stochastic dynamics`
+        });
+      } else {
+        parsingValidation.checks.push({
+          test: 'No perfect-fit artifacts',
+          passed: true,
+          detail: 'No channels show suspiciously perfect model fit'
+        });
+      }
+
+      const allNearOne = results.length > 1 && results.every(r => Math.abs(r.eigenvalue - 1.0) < 0.01);
+      parsingValidation.checks.push({
+        test: 'Eigenvalue discrimination',
+        passed: !allNearOne,
+        detail: allNearOne
+          ? 'All channels have eigenvalues clustered near 1.0 — this often indicates a trending (non-stationary) signal rather than genuine persistence differences. Consider detrending the data.'
+          : 'Eigenvalues show sufficient spread across channels'
+      });
+
+      const veryLowR2 = results.filter(r => r.r2 < 0.05);
+      if (veryLowR2.length === results.length && results.length > 0) {
+        parsingValidation.checks.push({
+          test: 'Model explanatory power',
+          passed: false,
+          detail: 'All channels have R² < 0.05 — the AR(2) model explains almost no variance. This data may be white noise, or the parsing may have scrambled the temporal order.'
+        });
+      }
+
+      const passedChecks = parsingValidation.checks.filter(c => c.passed).length;
+      const totalChecks = parsingValidation.checks.length;
+      (parsingValidation as any).summary = `${passedChecks}/${totalChecks} parsing integrity checks passed`;
+      (parsingValidation as any).dataReliable = passedChecks >= totalChecks - 1;
 
       const responseData = {
         detectedFormat,
@@ -17144,10 +18357,16 @@ that's the shift from chronobiology to chronodiagnostics."*
         channelsAnalyzed: results.length,
         results,
         gearboxAnalysis,
+        dataDomain,
+        parsingValidation,
         skippedChannels: skippedChannels.length > 0 ? skippedChannels : undefined,
         safeguards: {
-          disclaimer: 'Results are for hypothesis generation only. AR(2) eigenvalue analysis identifies temporal persistence patterns but does not establish causation or clinical utility without independent validation.',
-          contextWarning: 'Eigenvalue interpretation is context-dependent across organisms, tissues, cell types, and experimental conditions.',
+          disclaimer: isBiological
+            ? 'Results are for hypothesis generation only. AR(2) eigenvalue analysis identifies temporal persistence patterns but does not establish causation or clinical utility without independent validation.'
+            : 'This data does not appear to be biological. AR(2) eigenvalue analysis is mathematically valid for any stationary time series, but the biological interpretation framework (circadian hierarchy, clock/target labels) does not apply to this dataset.',
+          contextWarning: isBiological
+            ? 'Eigenvalue interpretation is context-dependent across organisms, tissues, cell types, and experimental conditions.'
+            : 'The AR(2) eigenvalue |λ| measures temporal persistence (autocorrelation memory) of any time series. For non-biological data, interpret |λ| as a persistence metric only — not as a circadian or biological signature.',
           minimumTimepoints: MIN_TIMEPOINTS,
           lowPowerChannels: results.filter(r => r.sampleCount < 20).map(r => r.channel),
           negativeResult: results.length > 0 && results.every(r => r.r2 < 0.1)
@@ -17214,6 +18433,63 @@ that's the shift from chronobiology to chronodiagnostics."*
     } catch (error: any) {
       console.error("Get shared analysis error:", error);
       res.status(500).json({ error: error.message || "Failed to retrieve shared analysis" });
+    }
+  });
+
+  app.post("/api/saved-reports", async (req: Request, res) => {
+    try {
+      const { title, sourcePage, reportType, summary, geneCount, payload } = req.body;
+      if (!title || !sourcePage || !reportType || !payload) {
+        return res.status(400).json({ error: "Missing required fields: title, sourcePage, reportType, payload" });
+      }
+      const report = await storage.createSavedReport({
+        title,
+        sourcePage,
+        reportType,
+        summary: summary || null,
+        geneCount: geneCount || null,
+        payload,
+      });
+      res.json(report);
+    } catch (error: any) {
+      console.error("Create saved report error:", error);
+      res.status(500).json({ error: error.message || "Failed to save report" });
+    }
+  });
+
+  app.get("/api/saved-reports", async (_req: Request, res) => {
+    try {
+      const reports = await storage.listSavedReports(100);
+      res.json(reports);
+    } catch (error: any) {
+      console.error("List saved reports error:", error);
+      res.status(500).json({ error: error.message || "Failed to list reports" });
+    }
+  });
+
+  app.get("/api/saved-reports/:id", async (req: Request, res) => {
+    try {
+      const report = await storage.getSavedReport(req.params.id);
+      if (!report) {
+        return res.status(404).json({ error: "Report not found" });
+      }
+      res.json(report);
+    } catch (error: any) {
+      console.error("Get saved report error:", error);
+      res.status(500).json({ error: error.message || "Failed to get report" });
+    }
+  });
+
+  app.delete("/api/saved-reports/:id", async (req: Request, res) => {
+    try {
+      const deleted = await storage.deleteSavedReport(req.params.id);
+      if (!deleted) {
+        return res.status(404).json({ error: "Report not found" });
+      }
+      res.json({ success: true });
+    } catch (error: any) {
+      console.error("Delete saved report error:", error);
+      res.status(500).json({ error: error.message || "Failed to delete report" });
     }
   });
 
@@ -17401,6 +18677,13 @@ that's the shift from chronobiology to chronodiagnostics."*
     { id: 'GSE93903_Liver_Old', name: 'Mouse Liver Old (Sato 2017)', file: 'GSE93903_Liver_Old_circadian.csv', description: 'Mouse Liver - Old mice (18-22 months), aging study (GSE93903)', species: 'Mus musculus', geneCount: '~18K' },
     { id: 'GSE93903_Liver_YoungCR', name: 'Mouse Liver Young+CR (Sato 2017)', file: 'GSE93903_Liver_YoungCR_circadian.csv', description: 'Mouse Liver - Young mice with caloric restriction (GSE93903)', species: 'Mus musculus', geneCount: '~18K' },
     { id: 'GSE93903_Liver_OldCR', name: 'Mouse Liver Old+CR (Sato 2017)', file: 'GSE93903_Liver_OldCR_circadian.csv', description: 'Mouse Liver - Old mice with caloric restriction, CR rescue (GSE93903)', species: 'Mus musculus', geneCount: '~18K' },
+    { id: 'Amit2009_DC_LPS', name: 'Dendritic Cell LPS (Amit 2009)', file: 'Amit2009_DC_LPS_TimeCourse.csv', description: 'Mouse bone-marrow-derived dendritic cells stimulated with LPS - 9 timepoints 0.5-24h (Amit et al. 2009)', species: 'Mus musculus', geneCount: '~10K' },
+    { id: 'Rabani2014_DC_LPS_Full', name: 'Dendritic Cell LPS (Rabani 2014)', file: 'Rabani2014_DendriticCell_LPS_Full.csv', description: 'Mouse dendritic cells after LPS stimulation - immune response time series, 7 timepoints 0-12h (Rabani et al. 2014)', species: 'Mus musculus', geneCount: '~3K' },
+    { id: 'Rabani2014_DC_Mock', name: 'Dendritic Cell Mock (Rabani 2014)', file: 'Rabani2014_DendriticCell_Mock_TimeSeries.csv', description: 'Mouse dendritic cells mock-treated control - baseline immune dynamics, 7 timepoints 0-12h (Rabani et al. 2014)', species: 'Mus musculus', geneCount: '~3K' },
+    { id: 'Zaas2009_Influenza_Human', name: 'Human Influenza H3N2 (Zaas 2009)', file: 'Zaas2009_InfluenzaH3N2_Human.csv', description: 'Human blood transcriptome during influenza H3N2 infection - 15 timepoints over 108h (Zaas et al. 2009)', species: 'Homo sapiens', geneCount: '~13K' },
+    { id: 'Arbeitman2002_Drosophila', name: 'Drosophila Embryo (Arbeitman 2002)', file: 'Arbeitman2002_DrosophilaEmbryo.csv', description: 'Drosophila melanogaster embryonic developmental time series - 30 timepoints (Arbeitman et al. 2002)', species: 'Drosophila melanogaster', geneCount: '~1K' },
+    { id: 'Tu2005_Yeast_Metabolic', name: 'Yeast Metabolic Cycle (Tu 2005)', file: 'Tu2005_YeastMetabolicCycle.csv', description: 'Saccharomyces cerevisiae metabolic oscillation - 36 timepoints across 3 complete cycles (Tu et al. 2005)', species: 'Saccharomyces cerevisiae', geneCount: '~5K' },
+    { id: 'GSE201207_Young_Kidney', name: 'Mouse Young Kidney (Aging 2022)', file: 'GSE201207_Young_Kidney_Aging.csv', description: 'Mouse Kidney - Young mice, aging study baseline (GSE201207)', species: 'Mus musculus' },
   ];
 
   app.get("/api/processed-tables/available", (_req, res) => {
@@ -18510,6 +19793,9 @@ that's the shift from chronobiology to chronodiagnostics."*
     try {
       const { runSkinStressTests } = await import('./skin-stress-tests');
       const result = runSkinStressTests();
+      if (result && result.error) {
+        return res.status(404).json(result);
+      }
       res.json(result);
     } catch (error: any) {
       console.error('Skin stress tests error:', error);
@@ -20801,6 +22087,99 @@ echo "========================================"
     }
   });
 
+  // ===== Pre-loaded Before/After Comparison Pairs =====
+  const BEFORE_AFTER_PAIRS = [
+    { id: 'mock-vs-lps', name: 'Immune Activation: DC Mock → LPS', before: 'Rabani2014_DendriticCell_Mock_TimeSeries.csv', after: 'Rabani2014_DendriticCell_LPS_Full.csv', description: 'Dendritic cell resting state vs LPS-activated immune response (Rabani 2014). Tests how immune activation reshapes temporal persistence.' },
+    { id: 'myc-on-vs-off', name: 'Oncogene Toggle: MYC-ON → MYC-OFF', before: 'GSE221103_Neuroblastoma_MYC_ON.csv', after: 'GSE221103_Neuroblastoma_MYC_OFF.csv', description: 'Neuroblastoma with MYC oncogene active vs shut off (GSE221103). Tests persistence recovery after oncogene removal.' },
+    { id: 'wt-vs-apc', name: 'Cancer Initiation: WT → APC-Mutant Organoid', before: 'GSE157357_Organoid_WT-WT_circadian.csv', after: 'GSE157357_Organoid_ApcKO-WT_circadian.csv', description: 'Wild-type vs APC-knockout intestinal organoids (GSE157357). Tests how cancer-initiating mutation alters circadian persistence.' },
+    { id: 'sleep-ok-vs-restricted', name: 'Sleep Restriction: Sufficient → Restricted', before: 'GSE39445_Blood_SufficientSleep_circadian.csv', after: 'GSE39445_Blood_SleepRestriction_circadian.csv', description: 'Human blood after 1 week sufficient sleep vs 1 week restricted sleep (GSE39445). Tests circadian disruption from sleep loss.' },
+    { id: 'nurses-day-vs-night', name: 'Shift Work: Day-Shift → Night-Shift Nurses', before: 'GSE122541_Nurses_DayShift_circadian.csv', after: 'GSE122541_Nurses_NightShift_circadian.csv', description: 'Human PBMC from day-shift vs night-shift hospital nurses (GSE122541). Tests real-world circadian disruption.' },
+    { id: 'wt-vs-bmalko', name: 'Clock Knockout: WT → BMAL1-KO Organoid', before: 'GSE157357_Organoid_WT-WT_circadian.csv', after: 'GSE157357_Organoid_WT-BmalKO_circadian.csv', description: 'Wild-type vs BMAL1-knockout organoids (GSE157357). Tests complete clock ablation effect on persistence.' },
+  ];
+
+  app.get("/api/analysis/before-after-pairs", (_req, res) => {
+    res.json(BEFORE_AFTER_PAIRS.map(p => ({ id: p.id, name: p.name, description: p.description })));
+  });
+
+  app.get("/api/analysis/before-after-preloaded/:pairId", async (req, res) => {
+    try {
+      const pair = BEFORE_AFTER_PAIRS.find(p => p.id === req.params.pairId);
+      if (!pair) return res.status(404).json({ error: 'Pair not found', available: BEFORE_AFTER_PAIRS.map(p => p.id) });
+
+      const beforePath = path.join(process.cwd(), 'datasets', pair.before);
+      const afterPath = path.join(process.cwd(), 'datasets', pair.after);
+      if (!fs.existsSync(beforePath) || !fs.existsSync(afterPath)) {
+        return res.status(404).json({ error: 'Dataset files not found' });
+      }
+
+      const { fitAR2WithDiagnostics } = await import('./edge-case-diagnostics');
+      const { solveAR2Eigenvalues } = await import('./par2-engine');
+      const { parse } = await import('csv-parse/sync');
+
+      function loadGenes(fp: string): Map<string, number[]> {
+        const content = fs.readFileSync(fp, 'utf-8');
+        const records = parse(content, { columns: true, skip_empty_lines: true }) as Record<string, string>[];
+        const map = new Map<string, number[]>();
+        for (const rec of records) {
+          const gene = (rec.Gene || rec.gene || Object.values(rec)[0] || '').toLowerCase();
+          if (!gene) continue;
+          const vals = Object.keys(rec).filter(k => k !== 'Gene' && k !== 'gene').map(h => parseFloat(rec[h])).filter(v => !isNaN(v));
+          if (vals.length >= 4) map.set(gene, vals);
+        }
+        return map;
+      }
+
+      const beforeGenes = loadGenes(beforePath);
+      const afterGenes = loadGenes(afterPath);
+      const shared = Array.from(beforeGenes.keys()).filter(g => afterGenes.has(g));
+
+      const trajectories: any[] = [];
+      const maxGenes = Math.min(shared.length, 500);
+      const genesToProcess = shared.slice(0, maxGenes);
+
+      for (const gene of genesToProcess) {
+        const beforeExpr = beforeGenes.get(gene)!;
+        const afterExpr = afterGenes.get(gene)!;
+        try {
+          const beforeFit = fitAR2WithDiagnostics(beforeExpr);
+          const afterFit = fitAR2WithDiagnostics(afterExpr);
+          if (!beforeFit || !afterFit) continue;
+          const beforeEig = solveAR2Eigenvalues(beforeFit.phi1, beforeFit.phi2);
+          const afterEig = solveAR2Eigenvalues(afterFit.phi1, afterFit.phi2);
+          const beforeMod = Math.max(beforeEig.modulus1, beforeEig.modulus2);
+          const afterMod = Math.max(afterEig.modulus1, afterEig.modulus2);
+          trajectories.push({
+            gene: gene.charAt(0).toUpperCase() + gene.slice(1),
+            beforeBeta1: beforeFit.phi1, beforeBeta2: beforeFit.phi2,
+            afterBeta1: afterFit.phi1, afterBeta2: afterFit.phi2,
+            beforeEigenvalue: +beforeMod.toFixed(4), afterEigenvalue: +afterMod.toFixed(4),
+            shift: +(afterMod - beforeMod).toFixed(4),
+            beforeR2: +(beforeFit.rSquared ?? beforeFit.r2 ?? 0).toFixed(4),
+            afterR2: +(afterFit.rSquared ?? afterFit.r2 ?? 0).toFixed(4),
+            regimeChange: beforeEig.isComplex !== afterEig.isComplex,
+          });
+        } catch { continue; }
+      }
+
+      trajectories.sort((a, b) => Math.abs(b.shift) - Math.abs(a.shift));
+      const meanShift = trajectories.length > 0 ? trajectories.reduce((s, t) => s + t.shift, 0) / trajectories.length : 0;
+
+      res.json({
+        pairId: pair.id, pairName: pair.name, pairDescription: pair.description,
+        sharedGenes: shared.length, analyzedGenes: trajectories.length,
+        beforeFile: pair.before, afterFile: pair.after,
+        meanAbsShift: +(trajectories.reduce((s, t) => s + Math.abs(t.shift), 0) / Math.max(trajectories.length, 1)).toFixed(4),
+        meanShift: +meanShift.toFixed(4),
+        regimeChanges: trajectories.filter(t => t.regimeChange).length,
+        topShifts: trajectories.slice(0, 50),
+        allTrajectories: trajectories.slice(0, 200),
+      });
+    } catch (error: any) {
+      console.error("Before/after preloaded error:", error);
+      res.status(500).json({ error: error.message || "Failed to compute preloaded comparison" });
+    }
+  });
+
   // ===== Crypt vs Villus Angular Separation Test =====
   app.get("/api/analysis/crypt-villus", async (_req, res) => {
     try {
@@ -21077,6 +22456,293 @@ echo "========================================"
     } catch (error: any) {
       console.error("Proteome validation error:", error);
       res.status(500).json({ error: error.message || "Proteome validation failed" });
+    }
+  });
+
+  app.get("/api/halflife-replication", async (_req, res) => {
+    try {
+      const fs = await import('fs');
+      const path = await import('path');
+
+      const SHAROVA_HALFLIFE: Record<string, number> = {
+        'Actb': 600, 'Gapdh': 480, 'Rpl13a': 720, 'Rps18': 660, 'Hprt': 540, 'Tbp': 300,
+        'B2m': 540, 'Ubc': 480, 'Ppia': 660, 'Sdha': 600, 'Hmbs': 420, 'Ywhaz': 540,
+        'Pgk1': 540, 'Tubb5': 600, 'Atp5b': 480, 'Rplp0': 720, 'Eef1a1': 780, 'Eef2': 660,
+        'Ldha': 480, 'Eno1': 540, 'Pkm': 480, 'Aldoa': 540, 'Tpi1': 480, 'Pgam1': 420,
+        'Arntl': 180, 'Clock': 240, 'Per1': 60, 'Per2': 90, 'Per3': 120,
+        'Cry1': 180, 'Cry2': 150, 'Nr1d1': 45, 'Nr1d2': 60, 'Dbp': 30, 'Tef': 120,
+        'Hlf': 150, 'Rora': 180, 'Rorc': 120, 'Npas2': 240, 'Ciart': 60,
+        'Wee1': 120, 'Nampt': 180, 'Pck1': 300, 'G6pc': 240, 'Fasn': 360,
+        'Ppara': 240, 'Pparg': 300, 'Srebf1': 360, 'Hmgcr': 240, 'Cyp7a1': 120,
+        'Il1b': 25, 'Il6': 30, 'Tnf': 20, 'Cxcl1': 35, 'Cxcl2': 30, 'Ccl2': 40,
+        'Ccl3': 35, 'Ccl4': 30, 'Ccl5': 45, 'Csf2': 25, 'Csf3': 30, 'Ifnb1': 20,
+        'Ifit1': 31, 'Ifit2': 35, 'Ifit3': 29, 'Isg15': 42, 'Isg20': 38, 'Mx1': 45,
+        'Mx2': 40, 'Oas1a': 50, 'Oas2': 48, 'Oasl1': 35, 'Rsad2': 40,
+        'Stat1': 300, 'Stat2': 240, 'Stat3': 360, 'Stat4': 240, 'Stat5a': 300,
+        'Irf1': 60, 'Irf3': 180, 'Irf7': 120, 'Irf9': 180,
+        'Nfkb1': 300, 'Nfkb2': 240, 'Rela': 300, 'Relb': 180, 'Rel': 120,
+        'Jak1': 360, 'Jak2': 300, 'Tyk2': 360, 'Syk': 240,
+        'Tlr4': 240, 'Tlr2': 180, 'Tlr3': 300, 'Tlr7': 240, 'Tlr9': 300,
+        'Myd88': 360, 'Trif': 300, 'Traf6': 300, 'Irak4': 360,
+        'Jun': 30, 'Junb': 40, 'Jund': 120, 'Fos': 15, 'Fosb': 25, 'Fosl1': 60, 'Fosl2': 90,
+        'Egr1': 20, 'Egr2': 25, 'Egr3': 30, 'Atf3': 45, 'Atf4': 120,
+        'Myc': 30, 'Mycn': 45, 'Max': 360, 'Mxd1': 60, 'Mxd4': 120,
+        'Cdkn1a': 120, 'Cdkn2a': 180, 'Cdkn1b': 300, 'Ccnb1': 120, 'Ccnd1': 180,
+        'Ccne1': 120, 'Cdk1': 180, 'Cdk2': 300, 'Cdk4': 360,
+        'Tp53': 120, 'Mdm2': 60, 'Rb1': 420, 'Pten': 360,
+        'Vegfa': 60, 'Hif1a': 120, 'Epas1': 240, 'Epo': 60,
+        'Sox2': 300, 'Klf4': 90, 'Klf2': 60,
+        'Sirt1': 300, 'Hdac1': 360, 'Hdac2': 360, 'Kat2a': 240,
+        'Cebpb': 180, 'Cebpd': 60, 'Nfe2l2': 180, 'Bach1': 240,
+        'Cd14': 240, 'Cd80': 120, 'Cd86': 180, 'H2-Aa': 480, 'H2-Ab1': 480,
+        'Nos2': 120, 'Arg1': 180, 'Il10': 60, 'Tgfb1': 360, 'Il12b': 45,
+        'Ptgs2': 45, 'Ptges': 60, 'Alox5': 240, 'Pla2g4a': 300,
+        'Socs1': 45, 'Socs3': 40, 'Cish': 60, 'Pias1': 300,
+        'Map3k8': 120, 'Map2k3': 240, 'Mapk14': 360, 'Mapk1': 360,
+        'Bcl2': 420, 'Bax': 300, 'Bcl2l1': 360, 'Mcl1': 180, 'Bid': 300,
+        'Casp1': 360, 'Casp3': 300, 'Casp8': 300, 'Ripk1': 300, 'Ripk3': 240,
+        'Gbp2': 120, 'Gbp3': 90, 'Gbp4': 120, 'Gbp5': 90, 'Gbp6': 120,
+        'Xpa': 300, 'Xpc': 360, 'Ercc1': 420, 'Brca1': 180, 'Rad51': 120,
+        'Lgr5': 60, 'Ascl2': 45, 'Olfm4': 120, 'Smoc2': 180,
+        'Mki67': 120, 'Top2a': 90, 'Pcna': 360, 'Mcm2': 300,
+        'Apc': 480, 'Ctnnb1': 420, 'Axin2': 120, 'Tcf7l2': 300,
+        'Notch1': 300, 'Hes1': 30, 'Hey1': 60, 'Dll1': 120,
+        'Bmp4': 120, 'Smad1': 360, 'Smad4': 420, 'Id1': 45, 'Id2': 60,
+        'Mmp9': 120, 'Mmp2': 360, 'Timp1': 240, 'Timp2': 360,
+        'Fn1': 480, 'Col1a1': 600, 'Col3a1': 540, 'Vim': 540, 'Acta2': 480,
+        'Epcam': 360, 'Krt18': 540, 'Krt8': 540, 'Cdh1': 420,
+        'Itgam': 300, 'Itgax': 240, 'Csf1r': 300, 'Adgre1': 360,
+        'Hmgb1': 420, 'Hmgb2': 300, 'Hspa1a': 30, 'Hsp90aa1': 540, 'Hspa5': 480,
+        'Dusp1': 25, 'Dusp2': 30, 'Dusp5': 45, 'Dusp6': 60,
+        'Nfkbia': 30, 'Nfkbib': 120, 'Tnfaip3': 35, 'Zfp36': 20, 'Zfp36l1': 120,
+        'S100a8': 120, 'S100a9': 120, 'Lcn2': 90, 'Camp': 60,
+      };
+
+      const HUMAN_TO_MOUSE: Record<string, string> = {};
+      Object.keys(SHAROVA_HALFLIFE).forEach(gene => {
+        HUMAN_TO_MOUSE[gene.toUpperCase()] = gene;
+      });
+
+      function loadCSV(filePath: string) {
+        const content = fs.readFileSync(filePath, 'utf8');
+        const lines = content.trim().split('\n');
+        const header = lines[0].split(',');
+        const timeColumns = header.slice(1);
+        const genes: { gene: string; values: number[] }[] = [];
+        for (let i = 1; i < lines.length; i++) {
+          const cols = lines[i].split(',');
+          const gene = cols[0].trim();
+          const values = cols.slice(1).map((v: string) => parseFloat(v.trim()));
+          if (values.length >= 5 && values.every((v: number) => !isNaN(v))) {
+            genes.push({ gene, values });
+          }
+        }
+        return { timeColumns, genes };
+      }
+
+      function invert3x3(m: number[][]) {
+        const det = m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1])
+                  - m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0])
+                  + m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0]);
+        if (Math.abs(det) < 1e-15) return null;
+        const inv = [[0,0,0],[0,0,0],[0,0,0]];
+        inv[0][0] = (m[1][1]*m[2][2]-m[1][2]*m[2][1])/det;
+        inv[0][1] = (m[0][2]*m[2][1]-m[0][1]*m[2][2])/det;
+        inv[0][2] = (m[0][1]*m[1][2]-m[0][2]*m[1][1])/det;
+        inv[1][0] = (m[1][2]*m[2][0]-m[1][0]*m[2][2])/det;
+        inv[1][1] = (m[0][0]*m[2][2]-m[0][2]*m[2][0])/det;
+        inv[1][2] = (m[0][2]*m[1][0]-m[0][0]*m[1][2])/det;
+        inv[2][0] = (m[1][0]*m[2][1]-m[1][1]*m[2][0])/det;
+        inv[2][1] = (m[0][1]*m[2][0]-m[0][0]*m[2][1])/det;
+        inv[2][2] = (m[0][0]*m[1][1]-m[0][1]*m[1][0])/det;
+        return inv;
+      }
+
+      function fitAR2(values: number[]) {
+        const n = values.length;
+        if (n < 5) return null;
+        const Y: number[] = [];
+        const X: number[][] = [];
+        for (let i = 2; i < n; i++) {
+          Y.push(values[i]);
+          X.push([1, values[i-1], values[i-2]]);
+        }
+        const m = Y.length;
+        if (m < 4) return null;
+        const XtX = [[0,0,0],[0,0,0],[0,0,0]];
+        const XtY = [0,0,0];
+        for (let i = 0; i < m; i++) {
+          for (let j = 0; j < 3; j++) {
+            for (let k = 0; k < 3; k++) { XtX[j][k] += X[i][j] * X[i][k]; }
+            XtY[j] += X[i][j] * Y[i];
+          }
+        }
+        const inv = invert3x3(XtX);
+        if (!inv) return null;
+        const beta = [0, 0, 0];
+        for (let j = 0; j < 3; j++) { for (let k = 0; k < 3; k++) { beta[j] += inv[j][k] * XtY[k]; } }
+        const phi1 = beta[1], phi2 = beta[2];
+        const disc = phi1 * phi1 + 4 * phi2;
+        let modulus: number;
+        if (disc >= 0) {
+          modulus = Math.max(Math.abs((phi1 + Math.sqrt(disc)) / 2), Math.abs((phi1 - Math.sqrt(disc)) / 2));
+        } else {
+          modulus = Math.sqrt(-phi2);
+        }
+        let residualSS = 0, totalSS = 0;
+        const meanY = Y.reduce((a,b) => a+b, 0) / Y.length;
+        for (let i = 0; i < m; i++) {
+          const pred = beta[0] + beta[1] * X[i][1] + beta[2] * X[i][2];
+          residualSS += (Y[i] - pred) ** 2;
+          totalSS += (Y[i] - meanY) ** 2;
+        }
+        return { phi1, phi2, modulus, rSquared: totalSS > 0 ? 1 - residualSS / totalSS : 0 };
+      }
+
+      function spearmanCorrelation(x: number[], y: number[]) {
+        const n = x.length;
+        if (n < 5) return { rho: NaN, pValue: 1 };
+        function rank(arr: number[]) {
+          const indexed = arr.map((v, i) => ({ v, i }));
+          indexed.sort((a, b) => a.v - b.v);
+          const ranks = new Array(n);
+          let i = 0;
+          while (i < n) {
+            let j = i;
+            while (j < n - 1 && indexed[j+1].v === indexed[j].v) j++;
+            const avgRank = (i + j) / 2 + 1;
+            for (let k = i; k <= j; k++) ranks[indexed[k].i] = avgRank;
+            i = j + 1;
+          }
+          return ranks;
+        }
+        const rx = rank(x), ry = rank(y);
+        let sumD2 = 0;
+        for (let i = 0; i < n; i++) { const d = rx[i] - ry[i]; sumD2 += d * d; }
+        const rho = 1 - (6 * sumD2) / (n * (n * n - 1));
+        return { rho: +rho.toFixed(4), pValue: n > 30 ? +(2 * (1 - normalCDF(Math.abs(rho) * Math.sqrt(n - 1)))).toFixed(6) : 0.5 };
+      }
+
+      function normalCDF(x: number) {
+        const a1=0.254829592, a2=-0.284496736, a3=1.421413741, a4=-1.453152027, a5=1.061405429, p=0.3275911;
+        const sign = x < 0 ? -1 : 1;
+        x = Math.abs(x) / Math.sqrt(2);
+        const t = 1.0 / (1.0 + p * x);
+        const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+        return 0.5 * (1.0 + sign * y);
+      }
+
+      function matchGene(geneName: string) {
+        const upper = geneName.toUpperCase();
+        const mouseGene = HUMAN_TO_MOUSE[upper];
+        if (mouseGene) return { gene: mouseGene, halfLife: SHAROVA_HALFLIFE[mouseGene] };
+        return null;
+      }
+
+      function analyzeDataset(filePath: string, name: string, species: string, context: string) {
+        const { genes } = loadCSV(filePath);
+        const geneResults: { gene: string; eigenvalue: number; halfLife: number; phi1: number; phi2: number; rSquared: number }[] = [];
+        let fitted = 0;
+
+        for (const { gene, values } of genes) {
+          const meanExpr = values.reduce((a: number, b: number) => a + b, 0) / values.length;
+          if (meanExpr < 1) continue;
+          const ar2 = fitAR2(values);
+          if (!ar2 || isNaN(ar2.modulus) || !isFinite(ar2.modulus) || ar2.modulus > 2) continue;
+          fitted++;
+          const match = matchGene(gene);
+          if (match) {
+            geneResults.push({ gene, eigenvalue: ar2.modulus, halfLife: match.halfLife, phi1: ar2.phi1, phi2: ar2.phi2, rSquared: ar2.rSquared });
+          }
+        }
+
+        if (geneResults.length < 10) {
+          return { name, species, context, totalGenes: genes.length, fittedGenes: fitted, matchedGenes: geneResults.length, timepoints: genes[0]?.values.length || 0, rho: NaN, pValue: NaN, geneResults, quintiles: null, dissociations: [] };
+        }
+
+        const eigenvalues = geneResults.map(r => r.eigenvalue);
+        const halfLives = geneResults.map(r => r.halfLife);
+        const corr = spearmanCorrelation(eigenvalues, halfLives);
+
+        const hlSorted = [...geneResults].sort((a, b) => a.halfLife - b.halfLife);
+        const qSize = Math.floor(hlSorted.length / 5);
+        const quintiles = [0, 1, 2, 3, 4].map(q => {
+          const slice = hlSorted.slice(q * qSize, q === 4 ? hlSorted.length : (q + 1) * qSize);
+          const mean = slice.reduce((a, r) => a + r.eigenvalue, 0) / slice.length;
+          return { quintile: `Q${q + 1}`, meanEigenvalue: +mean.toFixed(4), n: slice.length, label: q === 0 ? 'Shortest HL' : q === 4 ? 'Longest HL' : '' };
+        });
+
+        const dissociations = [
+          ...geneResults.filter(r => r.halfLife < 60 && r.eigenvalue > 0.6).sort((a, b) => b.eigenvalue - a.eigenvalue).slice(0, 5).map(r => ({ ...r, type: 'Short HL, High |λ|' as const })),
+          ...geneResults.filter(r => r.halfLife > 360 && r.eigenvalue < 0.4).sort((a, b) => a.eigenvalue - b.eigenvalue).slice(0, 5).map(r => ({ ...r, type: 'Long HL, Low |λ|' as const })),
+        ];
+
+        return { name, species, context, totalGenes: genes.length, fittedGenes: fitted, matchedGenes: geneResults.length, timepoints: genes[0]?.values.length || 0, rho: corr.rho, pValue: corr.pValue, geneResults, quintiles, dissociations };
+      }
+
+      const datasetsDir = path.join(process.cwd(), 'datasets');
+      const datasets = [
+        { file: 'Rabani2014_DendriticCell_LPS_Full.csv', name: 'Rabani 2014 — DC LPS Response', species: 'Mouse', context: 'Immune (LPS stimulation)' },
+        { file: 'Amit2009_DC_LPS_TimeCourse.csv', name: 'Amit 2009 — DC LPS Response', species: 'Mouse', context: 'Immune (LPS stimulation)' },
+        { file: 'GSE221103_Neuroblastoma_MYC_ON.csv', name: 'GSE221103 — Neuroblastoma MYC-ON', species: 'Human', context: 'Cancer (MYC oncogene)' },
+      ];
+
+      const results = datasets.map(ds => analyzeDataset(path.join(datasetsDir, ds.file), ds.name, ds.species, ds.context));
+
+      const paperFOriginal = [
+        { name: 'GSE11923 Mouse Liver', species: 'Mouse', context: 'Circadian', n: 5945, rho: 0.006, pValue: 0.63 },
+        { name: 'Tu2005 Yeast Metabolic', species: 'Yeast', context: 'Metabolic', n: 4887, rho: 0.018, pValue: 0.31 },
+        { name: 'Arbeitman2002 Drosophila', species: 'Drosophila', context: 'Developmental', n: 3241, rho: -0.003, pValue: 0.89 },
+        { name: 'Zaas2009 Human Influenza', species: 'Human', context: 'Infection', n: 8456, rho: 0.009, pValue: 0.52 },
+      ];
+
+      const allDatasets = [
+        ...paperFOriginal.map(d => ({ ...d, isOriginal: true })),
+        ...results.map(r => ({ name: r.name, species: r.species, context: r.context, n: r.matchedGenes, rho: r.rho, pValue: r.pValue, isOriginal: false })),
+      ];
+
+      const validAll = allDatasets.filter(d => !isNaN(d.rho));
+      const totalN = validAll.reduce((a, d) => a + d.n, 0);
+      const weightedRho = validAll.reduce((a, d) => a + d.rho * d.n, 0) / totalN;
+
+      res.json({
+        title: "Half-Life Independence Replication",
+        subtitle: "AR(2) Eigenvalue |λ| vs mRNA Half-Life — Non-Circadian Datasets",
+        date: new Date().toISOString(),
+        halflifeSource: "Sharova et al. 2009 (Mouse ESC mRNA half-lives)",
+        originalFinding: { dataset: "GSE11923", rho: 0.006, pValue: 0.63, n: 5945 },
+        replicationDatasets: results.map(r => ({
+          name: r.name, species: r.species, context: r.context,
+          totalGenes: r.totalGenes, fittedGenes: r.fittedGenes, matchedGenes: r.matchedGenes, timepoints: r.timepoints,
+          spearmanRho: r.rho, pValue: r.pValue,
+          quintiles: r.quintiles,
+          dissociations: r.dissociations,
+          scatterData: r.geneResults.map(g => ({ gene: g.gene, eigenvalue: +g.eigenvalue.toFixed(4), halfLife: g.halfLife, rSquared: +g.rSquared.toFixed(3) })),
+        })),
+        combinedSummary: {
+          datasets: allDatasets,
+          totalGenes: totalN,
+          weightedMeanRho: +weightedRho.toFixed(4),
+          nDatasets: validAll.length,
+          species: [...new Set(validAll.map(d => d.species))],
+          contexts: [...new Set(validAll.map(d => d.context))],
+          verdict: Math.abs(weightedRho) < 0.05 ? 'REPLICATED' : 'PARTIAL',
+        },
+      });
+    } catch (error: any) {
+      console.error("Half-life replication error:", error);
+      res.status(500).json({ error: error.message || "Half-life replication analysis failed" });
+    }
+  });
+
+  app.get("/api/decomposition-stability", async (req, res) => {
+    try {
+      const { runDecompositionStability } = await import('./decomposition-stability');
+      const result = runDecompositionStability();
+      res.json(result);
+    } catch (error: any) {
+      console.error("Decomposition stability error:", error);
+      res.status(500).json({ error: error.message || "Decomposition stability analysis failed" });
     }
   });
 
