@@ -79,6 +79,10 @@ for (const { gene, values } of genes) {
 | Hughes 2009 | GSE11923 | Mouse | Liver | 48 | 1h | Hughes et al. 2009 PLoS Genet |
 | Organoid | GSE157357 | Mouse | Intestinal organoid | 24 | 2h | Rosselot et al. 2022 |
 
+## Note on Large Files
+
+The dataset CSVs and full gene_lambdas.csv may not be present in the GitHub `reproducibility-package/` directory due to file size limits. These files are available in the main repository under `datasets/` (with their original names: `GSE54650_Liver_circadian.csv`, `GSE11923_Liver_1h_48h_genes.csv`, `GSE157357_Organoid_WT-WT_circadian.csv`). All source data are also available directly from NCBI GEO.
+
 ## License
 
 Data from NCBI GEO (public domain). Code: MIT License.
