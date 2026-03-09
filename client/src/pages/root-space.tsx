@@ -13,17 +13,16 @@ import { Checkbox } from "@/components/ui/checkbox";
 import {
   ArrowLeft, Loader2, AlertCircle, Copy, Check,
   ChevronDown, ChevronUp, Atom, Triangle, Crosshair, FlaskConical, Box,
-  Search, X, Filter, Eye, EyeOff, Download, Camera, BarChart3, Layers, MapPin, Pill, Target
+  Search, X, Filter, Eye, EyeOff, Download, Camera, BarChart3, Layers, MapPin, Pill, Target, BookOpen
 } from "lucide-react";
 import { exportChartAsImage } from "@/lib/export-chart";
 import { Link } from "wouter";
 import HowTo from "@/components/HowTo";
 import PaperCrossLinks from "@/components/PaperCrossLinks";
-import { WebGLErrorBoundary } from "@/components/ErrorBoundary";
-import { useState, useCallback, useRef, useMemo, Suspense, useEffect } from "react";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Text, Html } from "@react-three/drei";
-import * as THREE from "three";
+import { useLoadedReport } from "@/hooks/useLoadedReport";
+import LoadedReportBanner from "@/components/LoadedReportBanner";
+import GeneTooltip from "@/components/GeneTooltip";
+import { useState, useCallback, useRef, useMemo, useEffect } from "react";
 
 interface GeneRootPoint {
   gene: string;
@@ -206,19 +205,7 @@ const DATASET_COLORS: Record<string, string> = {
   'GSE48113_Misaligned': '#ec4899',
 };
 
-const DATASET_COLORS_3D: Record<string, THREE.Color> = {
-  'GSE11923_48h': new THREE.Color('#22d3ee'),
-  'GSE54650_Liver': new THREE.Color('#06b6d4'),
-  'GSE113883_Blood': new THREE.Color('#f59e0b'),
-  'GSE157357_WT': new THREE.Color('#22c55e'),
-  'GSE157357_ApcKO': new THREE.Color('#ef4444'),
-  'GSE48113_Aligned': new THREE.Color('#8b5cf6'),
-  'GSE48113_Misaligned': new THREE.Color('#ec4899'),
-};
-
-
 const GENOME_SEARCH_COLOR = '#94a3b8';
-const GENOME_SEARCH_COLOR_3D = new THREE.Color('#94a3b8');
 
 interface Gene3DPoint {
   beta1: number;
@@ -231,195 +218,263 @@ interface Gene3DPoint {
   r2: number;
 }
 
-function StationarityTriangleWireframe() {
-  const vertices = useMemo(() => {
-    const v1 = new THREE.Vector3(-2, 0, -1);
-    const v2 = new THREE.Vector3(0, 0, 1);
-    const v3 = new THREE.Vector3(2, 0, -1);
-    const points = [v1, v2, v3, v1];
-    return new THREE.BufferGeometry().setFromPoints(points);
-  }, []);
+function isoProject(b1: number, b2: number, ev: number, angle: number): { x: number; y: number } {
+  const cos = Math.cos(angle);
+  const sin = Math.sin(angle);
+  const sx = b1 * cos - b2 * sin;
+  const sy = b1 * sin * 0.5 + b2 * cos * 0.5 - ev * 1.8;
+  return { x: sx, y: sy };
+}
 
-  const parabolaPoints = useMemo(() => {
-    const pts: THREE.Vector3[] = [];
+function Iso3DScatter({ points, clockMeanEv, targetMeanEv, filters, overlayGenes }: {
+  points: Gene3DPoint[];
+  clockMeanEv: number;
+  targetMeanEv: number;
+  filters: FilterState;
+  overlayGenes?: GenomeSearchGene[];
+}) {
+  const svgRef = useRef<SVGSVGElement>(null);
+  const [hovered, setHovered] = useState<Gene3DPoint | null>(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [rotAngle, setRotAngle] = useState(0.65);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStart = useRef({ x: 0, angle: 0 });
+
+  const W = 720;
+  const H = 500;
+  const cx = W / 2;
+  const cy = H * 0.62;
+  const sc = 100;
+
+  const proj = useCallback((b1: number, b2: number, ev: number) => {
+    const p = isoProject(b1, b2, ev, rotAngle);
+    return { x: cx + p.x * sc, y: cy + p.y * sc };
+  }, [rotAngle, cx, cy, sc]);
+
+  const gridLines = useMemo(() => {
+    const lines: { x1: number; y1: number; x2: number; y2: number }[] = [];
+    for (let b1 = -2; b1 <= 2; b1 += 0.5) {
+      const a = proj(b1, -1.2, 0);
+      const b = proj(b1, 1.2, 0);
+      lines.push({ x1: a.x, y1: a.y, x2: b.x, y2: b.y });
+    }
+    for (let b2 = -1; b2 <= 1; b2 += 0.5) {
+      const a = proj(-2.2, b2, 0);
+      const b = proj(2.2, b2, 0);
+      lines.push({ x1: a.x, y1: a.y, x2: b.x, y2: b.y });
+    }
+    return lines;
+  }, [proj]);
+
+  const triangleVerts = useMemo(() => {
+    const v1 = proj(-2, -1, 0);
+    const v2 = proj(0, 1, 0);
+    const v3 = proj(2, -1, 0);
+    return `${v1.x},${v1.y} ${v2.x},${v2.y} ${v3.x},${v3.y}`;
+  }, [proj]);
+
+  const parabolaPath = useMemo(() => {
+    const pts: string[] = [];
     for (let i = 0; i <= 100; i++) {
       const b1 = -2 + (i / 100) * 4;
       const b2 = -b1 * b1 / 4;
       if (b2 >= -1 && b2 <= 1) {
-        pts.push(new THREE.Vector3(b1, 0, b2));
+        const p = proj(b1, b2, 0);
+        pts.push(`${pts.length === 0 ? 'M' : 'L'}${p.x.toFixed(1)},${p.y.toFixed(1)}`);
       }
     }
-    return new THREE.BufferGeometry().setFromPoints(pts);
-  }, []);
+    return pts.join(' ');
+  }, [proj]);
 
-  const gridLines = useMemo(() => {
-    const lines: THREE.Vector3[] = [];
-    for (let x = -2; x <= 2; x += 0.5) {
-      lines.push(new THREE.Vector3(x, 0, -1.2), new THREE.Vector3(x, 0, 1.2));
-    }
-    for (let z = -1; z <= 1; z += 0.5) {
-      lines.push(new THREE.Vector3(-2.2, 0, z), new THREE.Vector3(2.2, 0, z));
-    }
-    return new THREE.BufferGeometry().setFromPoints(lines);
-  }, []);
+  const vertAxis = useMemo(() => {
+    const bottom = proj(-2.2, -1.2, 0);
+    const top = proj(-2.2, -1.2, 1);
+    return { bottom, top };
+  }, [proj]);
 
-  const triangleLine = useMemo(() => {
-    const mat = new THREE.LineBasicMaterial({ color: '#475569', linewidth: 2 });
-    return new THREE.Line(vertices, mat);
-  }, [vertices]);
-
-  const parabolaLine = useMemo(() => {
-    const mat = new THREE.LineBasicMaterial({ color: '#eab308', transparent: true, opacity: 0.5 });
-    return new THREE.Line(parabolaPoints, mat);
-  }, [parabolaPoints]);
-
-  const gridObj = useMemo(() => {
-    const mat = new THREE.LineBasicMaterial({ color: '#1e293b', transparent: true, opacity: 0.4 });
-    return new THREE.LineSegments(gridLines, mat);
-  }, [gridLines]);
-
-  return (
-    <>
-      <primitive object={gridObj} />
-      <primitive object={triangleLine} />
-      <primitive object={parabolaLine} />
-    </>
-  );
-}
-
-function GenePoint({ point, scale }: { point: Gene3DPoint; scale: number }) {
-  const meshRef = useRef<THREE.Mesh>(null);
-  const [hovered, setHovered] = useState(false);
-  const color = useMemo(() => {
-    const catColor = GENE_CATEGORY_CONFIG[point.geneType as GeneCategory]?.color;
-    return new THREE.Color(catColor || '#94a3b8');
-  }, [point.geneType]);
-
-  const radius = point.geneType === 'clock' ? 0.045 * scale : 0.028 * scale;
-  const pos: [number, number, number] = [point.beta1, point.eigenvalue * 2, point.beta2];
-
-  return (
-    <mesh
-      ref={meshRef}
-      position={pos}
-      onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer'; }}
-      onPointerOut={() => { setHovered(false); document.body.style.cursor = 'auto'; }}
-    >
-      <sphereGeometry args={[hovered ? radius * 1.5 : radius, 12, 12]} />
-      <meshStandardMaterial
-        color={color}
-        emissive={color}
-        emissiveIntensity={hovered ? 0.8 : point.geneType === 'clock' ? 0.4 : 0.15}
-        transparent
-        opacity={point.geneType === 'clock' ? 0.85 : 0.45}
-        roughness={0.3}
-        metalness={0.2}
-      />
-      {hovered && (
-        <Html distanceFactor={5} style={{ pointerEvents: 'none' }}>
-          <div className="bg-gray-900/95 border border-gray-600 rounded-lg px-3 py-2 text-xs shadow-xl whitespace-nowrap">
-            <div className="font-bold text-white">{point.gene}</div>
-            <div className="text-gray-300">{point.datasetName}</div>
-            <div className="text-gray-300">{point.geneType} gene</div>
-            <div className="text-cyan-300">|λ| = {point.eigenvalue.toFixed(4)}</div>
-            <div className="text-blue-300">β₁ = {point.beta1.toFixed(3)}, β₂ = {point.beta2.toFixed(3)}</div>
-            <div className="text-slate-400">R² = {point.r2.toFixed(3)}</div>
-          </div>
-        </Html>
-      )}
-    </mesh>
-  );
-}
-
-function DropLine({ point }: { point: Gene3DPoint }) {
-  const lineObj = useMemo(() => {
-    const geo = new THREE.BufferGeometry().setFromPoints([
-      new THREE.Vector3(point.beta1, 0, point.beta2),
-      new THREE.Vector3(point.beta1, point.eigenvalue * 2, point.beta2),
-    ]);
-    const mat = new THREE.LineBasicMaterial({
-      color: GENE_CATEGORY_CONFIG[point.geneType as GeneCategory]?.color || '#64748b',
-      transparent: true,
-      opacity: point.geneType === 'clock' ? 0.15 : 0.06,
+  const sortedPoints = useMemo(() => {
+    return [...points].sort((a, b) => {
+      const pa = isoProject(a.beta1, a.beta2, 0, rotAngle);
+      const pb = isoProject(b.beta1, b.beta2, 0, rotAngle);
+      return pb.y - pa.y;
     });
-    return new THREE.Line(geo, mat);
-  }, [point]);
+  }, [points, rotAngle]);
 
-  return <primitive object={lineObj} />;
-}
+  const overlayProjected = useMemo(() => {
+    if (!overlayGenes?.length) return [];
+    return overlayGenes.map(g => ({
+      ...g,
+      ...proj(g.beta1, g.beta2, g.eigenvalue),
+      color: getCategoryColor(g),
+    }));
+  }, [overlayGenes, proj]);
 
-function EigenvaluePlane({ height, label, color }: { height: number; label: string; color: string }) {
-  return (
-    <group position={[0, height * 2, 0]}>
-      <mesh rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[4.4, 2.4]} />
-        <meshStandardMaterial color={color} transparent opacity={0.04} side={THREE.DoubleSide} />
-      </mesh>
-      <Text
-        position={[2.3, 0, 0]}
-        fontSize={0.12}
-        color={color}
-        anchorX="left"
-        anchorY="middle"
-      >
-        {label}
-      </Text>
-    </group>
-  );
-}
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    setIsDragging(true);
+    dragStart.current = { x: e.clientX, angle: rotAngle };
+  }, [rotAngle]);
 
-function AxisLabels() {
-  return (
-    <>
-      <Text position={[0, -0.15, -1.5]} fontSize={0.14} color="#94a3b8" anchorX="center">
-        β₁ (AR coefficient 1)
-      </Text>
-      <Text position={[-2.5, -0.15, 0]} fontSize={0.14} color="#94a3b8" rotation={[0, Math.PI / 2, 0]} anchorX="center">
-        β₂ (AR coefficient 2)
-      </Text>
-      <Text position={[-2.5, 1.0, -1.2]} fontSize={0.14} color="#94a3b8" rotation={[0, Math.PI / 4, 0]} anchorX="center">
-        |λ| (eigenvalue modulus)
-      </Text>
-      <Text position={[0, 0, 1.25]} fontSize={0.1} color="#eab308" anchorX="center">
-        oscillatory boundary
-      </Text>
-      <Text position={[-1.5, 0, -1.05]} fontSize={0.1} color="#475569" anchorX="center">
-        stationarity triangle
-      </Text>
-    </>
-  );
-}
-
-function TickMarks() {
-  const ticks = useMemo(() => {
-    const marks: { pos: [number, number, number]; label: string; axis: 'x' | 'y' | 'z' }[] = [];
-    for (let x = -2; x <= 2; x += 1) {
-      marks.push({ pos: [x, 0, -1.3], label: x.toString(), axis: 'x' });
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (isDragging) {
+      const dx = e.clientX - dragStart.current.x;
+      setRotAngle(dragStart.current.angle + dx * 0.005);
     }
-    for (let z = -1; z <= 1; z += 0.5) {
-      marks.push({ pos: [-2.3, 0, z], label: z.toFixed(1), axis: 'z' });
+    const svg = svgRef.current;
+    if (svg) {
+      const rect = svg.getBoundingClientRect();
+      setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
     }
-    for (let y = 0; y <= 1; y += 0.2) {
-      marks.push({ pos: [-2.3, y * 2, -1.3], label: y.toFixed(1), axis: 'y' });
-    }
-    return marks;
+  }, [isDragging]);
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false);
   }, []);
 
+  const clockPlaneY = useMemo(() => {
+    const corners = [
+      proj(-2.2, -1.2, clockMeanEv),
+      proj(2.2, -1.2, clockMeanEv),
+      proj(2.2, 1.2, clockMeanEv),
+      proj(-2.2, 1.2, clockMeanEv),
+    ];
+    return corners.map(c => `${c.x},${c.y}`).join(' ');
+  }, [proj, clockMeanEv]);
+
+  const targetPlaneY = useMemo(() => {
+    const corners = [
+      proj(-2.2, -1.2, targetMeanEv),
+      proj(2.2, -1.2, targetMeanEv),
+      proj(2.2, 1.2, targetMeanEv),
+      proj(-2.2, 1.2, targetMeanEv),
+    ];
+    return corners.map(c => `${c.x},${c.y}`).join(' ');
+  }, [proj, targetMeanEv]);
+
   return (
-    <>
-      {ticks.map((t, i) => (
-        <Text
-          key={i}
-          position={t.pos}
-          fontSize={0.08}
-          color="#94a3b8"
-          anchorX="center"
-          anchorY="middle"
-        >
-          {t.label}
-        </Text>
+    <svg
+      ref={svgRef}
+      viewBox={`0 0 ${W} ${H}`}
+      className="w-full h-auto select-none"
+      style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+    >
+      <rect width={W} height={H} fill="#020617" rx="8" />
+
+      {gridLines.map((l, i) => (
+        <line key={`g${i}`} x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} stroke="#1e293b" strokeWidth="0.5" opacity="0.4" />
       ))}
-    </>
+
+      <polygon points={triangleVerts} fill="none" stroke="#475569" strokeWidth="1.5" />
+      <path d={parabolaPath} fill="none" stroke="#eab308" strokeWidth="1.2" opacity="0.5" />
+
+      <line x1={vertAxis.bottom.x} y1={vertAxis.bottom.y} x2={vertAxis.top.x} y2={vertAxis.top.y} stroke="#475569" strokeWidth="1" />
+      {[0, 0.2, 0.4, 0.6, 0.8, 1.0].map(v => {
+        const p = proj(-2.2, -1.2, v);
+        return (
+          <g key={`yt${v}`}>
+            <line x1={p.x - 4} y1={p.y} x2={p.x} y2={p.y} stroke="#475569" strokeWidth="0.8" />
+            <text x={p.x - 8} y={p.y + 3} fill="#94a3b8" fontSize="8" textAnchor="end">{v.toFixed(1)}</text>
+          </g>
+        );
+      })}
+      <text x={vertAxis.top.x - 20} y={vertAxis.top.y - 8} fill="#94a3b8" fontSize="9" textAnchor="middle">|λ|</text>
+
+      {[-2, -1, 0, 1, 2].map(v => {
+        const p = proj(v, -1.3, 0);
+        return <text key={`xt${v}`} x={p.x} y={p.y + 12} fill="#94a3b8" fontSize="8" textAnchor="middle">{v}</text>;
+      })}
+      {(() => { const p = proj(0, -1.6, 0); return <text x={p.x} y={p.y + 10} fill="#94a3b8" fontSize="9" textAnchor="middle">β₁</text>; })()}
+
+      {[-1, -0.5, 0, 0.5, 1].map(v => {
+        const p = proj(-2.4, v, 0);
+        return <text key={`zt${v}`} x={p.x - 4} y={p.y + 3} fill="#94a3b8" fontSize="8" textAnchor="end">{v.toFixed(1)}</text>;
+      })}
+      {(() => { const p = proj(-2.6, 0, 0); return <text x={p.x - 8} y={p.y} fill="#94a3b8" fontSize="9" textAnchor="end">β₂</text>; })()}
+
+      {filters.visibleCategories.has('target') && (
+        <polygon points={targetPlaneY} fill="#94a3b8" opacity="0.06" stroke="#64748b" strokeWidth="0.5" strokeDasharray="4 2" />
+      )}
+      {filters.visibleCategories.has('clock') && (
+        <polygon points={clockPlaneY} fill="#22d3ee" opacity="0.06" stroke="#22d3ee" strokeWidth="0.5" strokeDasharray="4 2" />
+      )}
+      {filters.visibleCategories.has('clock') && (() => {
+        const lbl = proj(2.4, 0, clockMeanEv);
+        return <text x={lbl.x} y={lbl.y} fill="#22d3ee" fontSize="8">Clock mean: {clockMeanEv.toFixed(3)}</text>;
+      })()}
+      {filters.visibleCategories.has('target') && (() => {
+        const lbl = proj(2.4, 0, targetMeanEv);
+        return <text x={lbl.x} y={lbl.y} fill="#94a3b8" fontSize="8">Target mean: {targetMeanEv.toFixed(3)}</text>;
+      })()}
+
+      {sortedPoints.map((p, i) => {
+        const base = proj(p.beta1, p.beta2, 0);
+        const top = proj(p.beta1, p.beta2, p.eigenvalue);
+        const color = GENE_CATEGORY_CONFIG[p.geneType as GeneCategory]?.color || '#94a3b8';
+        const isClock = p.geneType === 'clock';
+        const isHL = filters.highlightedGenes.has(p.gene);
+        const r = isClock ? (isHL ? 5 : 3.5) : (isHL ? 4 : 2);
+        const opacity = isClock ? 0.85 : 0.5;
+
+        return (
+          <g key={`pt-${p.datasetId}-${p.gene}-${i}`}>
+            {(isClock || isHL) && (
+              <line x1={base.x} y1={base.y} x2={top.x} y2={top.y} stroke={color} strokeWidth="0.5" opacity={isClock ? 0.15 : 0.1} />
+            )}
+            <circle
+              cx={top.x}
+              cy={top.y}
+              r={r}
+              fill={color}
+              opacity={opacity}
+              stroke={isHL ? '#fff' : 'none'}
+              strokeWidth={isHL ? 1.5 : 0}
+              onMouseEnter={() => setHovered(p)}
+              onMouseLeave={() => setHovered(null)}
+              style={{ cursor: 'pointer' }}
+            />
+          </g>
+        );
+      })}
+
+      {overlayProjected.map((g, i) => (
+        <circle
+          key={`ov-${g.gene}-${i}`}
+          cx={g.x}
+          cy={g.y}
+          r={g.isFibonacci ? 5 : 3.5}
+          fill={g.color}
+          opacity={0.9}
+          stroke={g.isFibonacci ? '#f59e0b' : '#fff'}
+          strokeWidth={1}
+        />
+      ))}
+
+      {hovered && (
+        <g>
+          <rect
+            x={Math.min(mousePos.x + 10, W - 160)}
+            y={Math.max(mousePos.y - 80, 5)}
+            width="150"
+            height="72"
+            rx="6"
+            fill="#111827"
+            fillOpacity="0.95"
+            stroke="#4b5563"
+            strokeWidth="0.8"
+          />
+          <text x={Math.min(mousePos.x + 18, W - 152)} y={Math.max(mousePos.y - 64, 19)} fill="#fff" fontSize="10" fontWeight="bold">{hovered.gene}</text>
+          <text x={Math.min(mousePos.x + 18, W - 152)} y={Math.max(mousePos.y - 52, 31)} fill="#d1d5db" fontSize="8">{hovered.datasetName}</text>
+          <text x={Math.min(mousePos.x + 18, W - 152)} y={Math.max(mousePos.y - 40, 43)} fill="#d1d5db" fontSize="8">{hovered.geneType} gene</text>
+          <text x={Math.min(mousePos.x + 18, W - 152)} y={Math.max(mousePos.y - 28, 55)} fill="#22d3ee" fontSize="8">|λ| = {hovered.eigenvalue.toFixed(4)}</text>
+          <text x={Math.min(mousePos.x + 18, W - 152)} y={Math.max(mousePos.y - 16, 67)} fill="#60a5fa" fontSize="8">β₁ = {hovered.beta1.toFixed(3)}, β₂ = {hovered.beta2.toFixed(3)}</text>
+        </g>
+      )}
+
+      <text x={W / 2} y={H - 6} fill="#64748b" fontSize="8" textAnchor="middle">Drag to rotate</text>
+    </svg>
   );
 }
 
@@ -715,9 +770,6 @@ function FilterPanel({ data, filterHook }: { data: RootSpaceData; filterHook: Re
 }
 
 function RootSpace3DVisualization({ data, filters, toggleDataset, overlayGenes }: { data: RootSpaceData; filters: FilterState; toggleDataset: (id: string) => void; overlayGenes?: GenomeSearchGene[] }) {
-  const [showDropLines, setShowDropLines] = useState(true);
-  const [autoRotate, setAutoRotate] = useState(true);
-
   const allPoints = useMemo(() => {
     const pts: Gene3DPoint[] = [];
     for (const ds of data.datasets) {
@@ -767,119 +819,25 @@ function RootSpace3DVisualization({ data, filters, toggleDataset, overlayGenes }
         <CardDescription className="text-slate-400">
           AR(2) coefficients on the ground plane (stationarity triangle), eigenvalue modulus as height.
           Clock genes (bright, large) cluster at higher altitudes than targets — visualizing the persistence hierarchy.
-          Drag to rotate, scroll to zoom.
+          Drag left/right to rotate the view.
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex flex-wrap gap-2 mb-3">
-          <Button
-            variant={showDropLines ? "default" : "outline"}
-            size="sm"
-            className="text-xs h-7"
-            onClick={() => setShowDropLines(!showDropLines)}
-            data-testid="button-toggle-droplines"
-          >
-            {showDropLines ? 'Hide' : 'Show'} Drop Lines
-          </Button>
-          <Button
-            variant={autoRotate ? "default" : "outline"}
-            size="sm"
-            className="text-xs h-7"
-            onClick={() => setAutoRotate(!autoRotate)}
-            data-testid="button-toggle-rotate"
-          >
-            {autoRotate ? 'Stop Rotation' : 'Auto Rotate'}
-          </Button>
           <div className="ml-auto flex items-center gap-4 text-xs text-slate-400">
             {filters.visibleCategories.has('clock') && <span>Clock mean |λ|: <span className="text-cyan-300 font-mono">{clockMeanEv.toFixed(4)}</span></span>}
             {filters.visibleCategories.has('target') && <span>Target mean |λ|: <span className="text-slate-300 font-mono">{targetMeanEv.toFixed(4)}</span></span>}
           </div>
         </div>
 
-        <div className="w-full h-[500px] rounded-lg overflow-hidden bg-slate-950 border border-slate-700" data-testid="container-3d-rootspace">
-          <WebGLErrorBoundary fallbackMessage="WebGL is not available in this browser. Open the page in Chrome, Firefox, or Safari to see the interactive 3D root-space scatter plot. The 2D overlay views below work without WebGL.">
-          <Suspense fallback={
-            <div className="w-full h-full flex items-center justify-center">
-              <Loader2 className="h-6 w-6 animate-spin text-cyan-400" />
-            </div>
-          }>
-            <Canvas
-              camera={{ position: [4, 3, 4], fov: 50 }}
-              gl={{ antialias: true, alpha: false }}
-              onCreated={({ gl }) => { gl.setClearColor('#020617'); }}
-            >
-              <ambientLight intensity={0.4} />
-              <directionalLight position={[5, 8, 5]} intensity={0.8} />
-              <pointLight position={[-3, 4, -2]} intensity={0.3} color="#22d3ee" />
-
-              <OrbitControls
-                enableDamping
-                dampingFactor={0.1}
-                autoRotate={autoRotate}
-                autoRotateSpeed={0.5}
-                minDistance={2}
-                maxDistance={15}
-                target={[0, 0.8, 0]}
-              />
-
-              <StationarityTriangleWireframe />
-              <AxisLabels />
-              <TickMarks />
-
-              {filters.visibleCategories.has('clock') && <EigenvaluePlane height={clockMeanEv} label={`Clock mean: ${clockMeanEv.toFixed(3)}`} color="#22d3ee" />}
-              {filters.visibleCategories.has('target') && <EigenvaluePlane height={targetMeanEv} label={`Target mean: ${targetMeanEv.toFixed(3)}`} color="#94a3b8" />}
-
-              {filteredPoints.map((p, i) => (
-                <GenePoint
-                  key={`${p.datasetId}-${p.gene}-${i}`}
-                  point={p}
-                  scale={filters.highlightedGenes.has(p.gene) ? 1.8 : 1}
-                />
-              ))}
-
-              {showDropLines && filteredPoints.filter(p => p.geneType === 'clock' || filters.highlightedGenes.has(p.gene)).map((p, i) => (
-                <DropLine key={`drop-${p.datasetId}-${p.gene}-${i}`} point={p} />
-              ))}
-
-              {overlayGenes?.map((g, i) => {
-                const catColor = new THREE.Color(getCategoryColor(g));
-                return g.isFibonacci ? (
-                  <group key={`overlay-${g.gene}-${i}`} position={[g.beta1, g.eigenvalue * 2, g.beta2]}>
-                    <mesh rotation={[0, Math.PI / 4, 0]}>
-                      <octahedronGeometry args={[0.1, 0]} />
-                      <meshStandardMaterial
-                        color={catColor}
-                        emissive={catColor}
-                        emissiveIntensity={0.8}
-                        transparent
-                        opacity={0.95}
-                        roughness={0.1}
-                        metalness={0.5}
-                      />
-                    </mesh>
-                    <mesh>
-                      <ringGeometry args={[0.12, 0.15, 32]} />
-                      <meshBasicMaterial color="#f59e0b" transparent opacity={0.6} side={THREE.DoubleSide} />
-                    </mesh>
-                  </group>
-                ) : (
-                  <mesh key={`overlay-${g.gene}-${i}`} position={[g.beta1, g.eigenvalue * 2, g.beta2]}>
-                    <sphereGeometry args={[0.08, 16, 16]} />
-                    <meshStandardMaterial
-                      color={catColor}
-                      emissive={catColor}
-                      emissiveIntensity={0.6}
-                      transparent
-                      opacity={0.95}
-                      roughness={0.2}
-                      metalness={0.3}
-                    />
-                  </mesh>
-                );
-              })}
-            </Canvas>
-          </Suspense>
-          </WebGLErrorBoundary>
+        <div className="w-full rounded-lg overflow-hidden bg-slate-950 border border-slate-700" data-testid="container-3d-rootspace">
+          <Iso3DScatter
+            points={filteredPoints}
+            clockMeanEv={clockMeanEv}
+            targetMeanEv={targetMeanEv}
+            filters={filters}
+            overlayGenes={overlayGenes}
+          />
         </div>
 
         <div className="flex flex-wrap gap-3 mt-3 justify-center text-xs">
@@ -1012,7 +970,7 @@ function GridDensityHeatmap({ genes, xKey, yKey, xDomain, yDomain, gridSize = 25
   );
 }
 
-function StationarityTrianglePlot({ data, filters, toggleDataset, overlayGenes }: { data: RootSpaceData; filters: FilterState; toggleDataset: (id: string) => void; overlayGenes?: GenomeSearchGene[] }) {
+function StationarityTrianglePlot({ data, filters, toggleDataset, overlayGenes, reportGeneSet }: { data: RootSpaceData; filters: FilterState; toggleDataset: (id: string) => void; overlayGenes?: GenomeSearchGene[]; reportGeneSet?: Set<string> }) {
   const [viewMode, setViewMode] = useState<'dots' | 'density'>('dots');
 
   const triangleLines = [
@@ -1080,16 +1038,16 @@ function StationarityTrianglePlot({ data, filters, toggleDataset, overlayGenes }
               dataKey="x"
               type="number"
               domain={[-2.5, 2.5]}
-              tick={{ fill: '#94a3b8', fontSize: 11 }}
-              label={{ value: 'β₁', position: 'bottom', fill: '#94a3b8', fontSize: 12 }}
+              tick={{ fill: '#64748b', fontSize: 11 }}
+              label={{ value: 'β₁', position: 'bottom', fill: '#64748b', fontSize: 12 }}
               name="β₁"
             />
             <YAxis
               dataKey="y"
               type="number"
               domain={[-1.5, 1.5]}
-              tick={{ fill: '#94a3b8', fontSize: 11 }}
-              label={{ value: 'β₂', angle: -90, position: 'left', fill: '#94a3b8', fontSize: 12 }}
+              tick={{ fill: '#64748b', fontSize: 11 }}
+              label={{ value: 'β₂', angle: -90, position: 'left', fill: '#64748b', fontSize: 12 }}
               name="β₂"
             />
             <Tooltip
@@ -1100,7 +1058,7 @@ function StationarityTrianglePlot({ data, filters, toggleDataset, overlayGenes }
                 if (d.lineType) return null;
                 return (
                   <div className="bg-gray-900 border border-gray-700 rounded-lg p-2 text-xs shadow-xl">
-                    <div className="font-bold text-white">{d.gene || 'Fibonacci (1,1)'}</div>
+                    <div className="font-bold text-white">{d.gene || 'Reference point'}</div>
                     {d.dataset && <div className="text-gray-300">{d.dataset}</div>}
                     {d.type && <div className="text-gray-300">{d.type} gene</div>}
                     <div className="text-blue-300">β₁={d.x?.toFixed(3)}, β₂={d.y?.toFixed(3)}</div>
@@ -1112,6 +1070,7 @@ function StationarityTrianglePlot({ data, filters, toggleDataset, overlayGenes }
             <Scatter data={triangleLines.map(t => ({ x: t.b1, y: t.edge2, lineType: true }))} fill="none" line={{ stroke: '#475569', strokeWidth: 2, strokeDasharray: '8 4' }} shape={(() => <circle r={0} />) as any} name="β₂ < 1-β₁" legendType="none" />
             <Scatter data={triangleLines.map(t => ({ x: t.b1, y: t.edge3, lineType: true }))} fill="none" line={{ stroke: '#475569', strokeWidth: 2, strokeDasharray: '8 4' }} shape={(() => <circle r={0} />) as any} name="β₂ < 1+β₁" legendType="none" />
             <Scatter data={data.triangle.oscillatoryParabola.map((p: any) => ({ x: p.x, y: p.y, lineType: true }))} fill="none" line={{ stroke: '#eab308', strokeWidth: 1.5, strokeDasharray: '4 2' }} shape={(() => <circle r={0} />) as any} name="Oscillatory" legendType="none" />
+            <Scatter data={triangleLines.map(t => ({ x: t.b1, y: 0, lineType: true }))} fill="none" line={{ stroke: '#22d3ee', strokeWidth: 1.5, strokeDasharray: '6 3' }} shape={(() => <circle r={0} />) as any} name="AR(1) boundary (β₂=0)" legendType="none" />
             {data.datasets.map(ds => {
               const filtered = applyFilters(ds.genes, ds.datasetId, filters);
               if (filtered.length === 0) return null;
@@ -1136,6 +1095,25 @@ function StationarityTrianglePlot({ data, filters, toggleDataset, overlayGenes }
                 </Scatter>
               );
             })}
+            {reportGeneSet && reportGeneSet.size > 0 && (() => {
+              const reportHighlighted = data.datasets.flatMap(ds =>
+                applyFilters(ds.genes, ds.datasetId, filters)
+                  .filter(g => reportGeneSet.has(g.gene.toUpperCase()))
+                  .map(g => ({ x: g.beta1, y: g.beta2, gene: g.gene, type: g.geneType }))
+              );
+              if (reportHighlighted.length === 0) return null;
+              return (
+                <Scatter
+                  data={reportHighlighted}
+                  fill="none"
+                  name="Report Genes"
+                >
+                  {reportHighlighted.map((g, i) => (
+                    <Cell key={i} fill="none" opacity={1} r={8} stroke="#00e5ff" strokeWidth={2} />
+                  ))}
+                </Scatter>
+              );
+            })()}
             {overlayGenes && overlayGenes.filter(g => !g.isFibonacci).length > 0 && (
               <Scatter
                 data={overlayGenes.filter(g => !g.isFibonacci).map(g => ({ x: g.beta1, y: g.beta2, gene: g.gene, type: g.geneCategory || g.geneType }))}
@@ -1163,13 +1141,7 @@ function StationarityTrianglePlot({ data, filters, toggleDataset, overlayGenes }
               data={[{ x: 1, y: 1 }]}
               fill="#f97316"
               shape="star"
-              name="Fibonacci (1,1)"
-            />
-            <Scatter
-              data={[{ x: -1, y: 1 }]}
-              fill="#3b82f6"
-              shape="triangle"
-              name="Anti-Fibonacci (-1,1)"
+              name="Fibonacci β=(1,1), |λ|=φ≈1.618"
             />
           </ScatterChart>
         </ResponsiveContainer>
@@ -1187,7 +1159,13 @@ function StationarityTrianglePlot({ data, filters, toggleDataset, overlayGenes }
             </button>
           ))}
           <span className="flex items-center gap-1">
-            <span className="text-orange-400">★</span> Fibonacci (1,1)
+            <span className="text-orange-400">★</span> Fibonacci β=(1,1) |λ|=1.618
+          </span>
+          <span className="flex items-center gap-1">
+            <span className="text-cyan-400">┈</span> AR(1) boundary (β₂=0)
+          </span>
+          <span className="flex items-center gap-1">
+            <span className="text-yellow-400">┈</span> Oscillatory boundary
           </span>
           <span className="flex items-center gap-2 ml-3 border-l border-slate-700 pl-3">
             {Object.entries(GENE_CATEGORY_CONFIG).filter(([k]) => k !== 'other').map(([cat, cfg]) => (
@@ -1206,7 +1184,7 @@ function StationarityTrianglePlot({ data, filters, toggleDataset, overlayGenes }
   );
 }
 
-function RootSpaceScatterPlot({ data, filters, toggleDataset, overlayGenes }: { data: RootSpaceData; filters: FilterState; toggleDataset: (id: string) => void; overlayGenes?: GenomeSearchGene[] }) {
+function RootSpaceScatterPlot({ data, filters, toggleDataset, overlayGenes, reportGeneSet }: { data: RootSpaceData; filters: FilterState; toggleDataset: (id: string) => void; overlayGenes?: GenomeSearchGene[]; reportGeneSet?: Set<string> }) {
   const [viewMode, setViewMode] = useState<'dots' | 'density'>('dots');
 
   const allVisibleGenes = useMemo(() => {
@@ -1267,15 +1245,15 @@ function RootSpaceScatterPlot({ data, filters, toggleDataset, overlayGenes }: { 
               dataKey="x"
               type="number"
               domain={[-1.1, 1.1]}
-              tick={{ fill: '#94a3b8', fontSize: 11 }}
-              label={{ value: 'r·cos(θ)', position: 'bottom', fill: '#94a3b8', fontSize: 12 }}
+              tick={{ fill: '#64748b', fontSize: 11 }}
+              label={{ value: 'r·cos(θ)', position: 'bottom', fill: '#64748b', fontSize: 12 }}
             />
             <YAxis
               dataKey="y"
               type="number"
               domain={[-0.2, 1.1]}
-              tick={{ fill: '#94a3b8', fontSize: 11 }}
-              label={{ value: 'r·sin(θ)', angle: -90, position: 'left', fill: '#94a3b8', fontSize: 12 }}
+              tick={{ fill: '#64748b', fontSize: 11 }}
+              label={{ value: 'r·sin(θ)', angle: -90, position: 'left', fill: '#64748b', fontSize: 12 }}
             />
             <Tooltip
               contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px', color: '#e2e8f0' }}
@@ -1314,6 +1292,25 @@ function RootSpaceScatterPlot({ data, filters, toggleDataset, overlayGenes }: { 
                 </Scatter>
               );
             })}
+            {reportGeneSet && reportGeneSet.size > 0 && (() => {
+              const reportHighlighted = data.datasets.flatMap(ds =>
+                applyFilters(ds.genes, ds.datasetId, filters)
+                  .filter(g => reportGeneSet.has(g.gene.toUpperCase()))
+                  .map(g => ({ x: g.x, y: g.y, gene: g.gene, r: g.r, theta: g.theta, type: g.geneType, dPhi: g.dPhi }))
+              );
+              if (reportHighlighted.length === 0) return null;
+              return (
+                <Scatter
+                  data={reportHighlighted}
+                  fill="none"
+                  name="Report Genes"
+                >
+                  {reportHighlighted.map((g, i) => (
+                    <Cell key={i} fill="none" opacity={1} r={8} stroke="#00e5ff" strokeWidth={2} />
+                  ))}
+                </Scatter>
+              );
+            })()}
             {overlayGenes && overlayGenes.filter(g => !g.isFibonacci).length > 0 && (
               <Scatter
                 data={overlayGenes.filter(g => !g.isFibonacci).map(g => ({ x: g.x, y: g.y, gene: g.gene, r: g.r, theta: g.theta, type: g.geneCategory || g.geneType, dPhi: g.dPhi }))}
@@ -1420,8 +1417,8 @@ function DPhiHistogram({ data }: { data: RootSpaceData }) {
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={merged}>
             <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-            <XAxis dataKey="bin" tick={{ fill: '#94a3b8', fontSize: 10 }} label={{ value: 'D_φ', position: 'bottom', fill: '#94a3b8' }} />
-            <YAxis tick={{ fill: '#94a3b8', fontSize: 10 }} label={{ value: 'Density', angle: -90, position: 'left', fill: '#94a3b8', fontSize: 11 }} />
+            <XAxis dataKey="bin" tick={{ fill: '#64748b', fontSize: 10 }} label={{ value: 'D_φ', position: 'bottom', fill: '#64748b' }} />
+            <YAxis tick={{ fill: '#64748b', fontSize: 10 }} label={{ value: 'Density', angle: -90, position: 'left', fill: '#64748b', fontSize: 11 }} />
             <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px', color: '#e2e8f0' }} />
             <Legend wrapperStyle={{ fontSize: '11px' }} />
             <Bar dataKey="observed" name="Observed (biological)" fill="#22d3ee" opacity={0.9} />
@@ -1465,13 +1462,13 @@ function ThresholdSweepChart({ sweep }: { sweep: ThresholdSweepPoint[] }) {
             <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
             <XAxis 
               dataKey="threshold" 
-              tick={{ fill: '#94a3b8', fontSize: 11 }} 
-              label={{ value: 'D_φ Threshold', position: 'bottom', offset: 10, fill: '#94a3b8', fontSize: 12 }} 
+              tick={{ fill: '#64748b', fontSize: 11 }} 
+              label={{ value: 'D_φ Threshold', position: 'bottom', offset: 10, fill: '#64748b', fontSize: 12 }} 
             />
             <YAxis 
               yAxisId="left" 
-              tick={{ fill: '#94a3b8', fontSize: 11 }} 
-              label={{ value: 'Cumulative %', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 11 }} 
+              tick={{ fill: '#64748b', fontSize: 11 }} 
+              label={{ value: 'Cumulative %', angle: -90, position: 'insideLeft', fill: '#64748b', fontSize: 11 }} 
             />
             <YAxis 
               yAxisId="right" 
@@ -1491,7 +1488,7 @@ function ThresholdSweepChart({ sweep }: { sweep: ThresholdSweepPoint[] }) {
             <ReferenceLine yAxisId="right" y={1} stroke="#fbbf24" strokeDasharray="6 3" strokeOpacity={0.5} />
             <ReferenceLine x={1.0} stroke="#22d3ee" strokeDasharray="4 4" strokeOpacity={0.4} label={{ value: 'D_φ=1.0', position: 'top', fill: '#22d3ee', fontSize: 10 }} yAxisId="left" />
             <Line yAxisId="left" type="monotone" dataKey="observed" name="Observed (biological)" stroke="#22d3ee" strokeWidth={2.5} dot={{ fill: '#22d3ee', r: 3 }} />
-            <Line yAxisId="left" type="monotone" dataKey="null" name="Null (uniform triangle)" stroke="#94a3b8" strokeWidth={2} strokeDasharray="6 3" dot={{ fill: '#94a3b8', r: 2 }} />
+            <Line yAxisId="left" type="monotone" dataKey="null" name="Null (uniform triangle)" stroke="#64748b" strokeWidth={2} strokeDasharray="6 3" dot={{ fill: '#64748b', r: 2 }} />
             <Line yAxisId="right" type="monotone" dataKey="enrichment" name="Enrichment ratio" stroke="#fbbf24" strokeWidth={2} dot={{ fill: '#fbbf24', r: 3 }} />
           </ComposedChart>
         </ResponsiveContainer>
@@ -1537,15 +1534,15 @@ function ThetaDistributionChart({ bins, thetaPhiRef }: { bins: ThetaBin[]; theta
             <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
             <XAxis 
               dataKey="label" 
-              tick={{ fill: '#94a3b8', fontSize: 9 }} 
+              tick={{ fill: '#64748b', fontSize: 9 }} 
               angle={-45}
               textAnchor="end"
               height={60}
-              label={{ value: 'θ (phase angle)', position: 'bottom', offset: 45, fill: '#94a3b8', fontSize: 12 }}
+              label={{ value: 'θ (phase angle)', position: 'bottom', offset: 45, fill: '#64748b', fontSize: 12 }}
             />
             <YAxis 
-              tick={{ fill: '#94a3b8', fontSize: 11 }} 
-              label={{ value: 'Density (%)', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 11 }} 
+              tick={{ fill: '#64748b', fontSize: 11 }} 
+              label={{ value: 'Density (%)', angle: -90, position: 'insideLeft', fill: '#64748b', fontSize: 11 }} 
             />
             <Tooltip 
               contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px', color: '#e2e8f0' }} 
@@ -1860,7 +1857,7 @@ function GenomeWideSearchPanel({ onOverlayChange }: { onOverlayChange: (genes: G
       >
         <div className="flex items-center gap-2 min-w-0">
           <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: getCategoryColor(gene) }} />
-          <span className="font-mono font-semibold text-white truncate">{gene.gene}</span>
+          <GeneTooltip gene={gene.gene}><span className="font-mono font-semibold text-white truncate">{gene.gene}</span></GeneTooltip>
           <Badge className={`text-[10px] px-1 py-0 ${
             GENE_CATEGORY_CONFIG[gene.geneCategory || 'other']?.bgClass || 'bg-slate-700'
           } ${
@@ -3429,7 +3426,7 @@ const POLE_COLORS: Record<string, string> = {
   'alternating': '#f59e0b',
   'oscillatory': '#3b82f6',
   'center': '#a855f7',
-  'intermediate': '#94a3b8',
+  'intermediate': '#64748b',
 };
 
 interface DrugTargetOverlayData {
@@ -3673,16 +3670,16 @@ function DrugTargetOverlayPanel() {
                         type="number"
                         dataKey="x"
                         domain={[-2.5, 2.5]}
-                        tick={{ fill: '#94a3b8', fontSize: 11 }}
-                        label={{ value: 'β₁', position: 'bottom', fill: '#94a3b8', fontSize: 12 }}
+                        tick={{ fill: '#64748b', fontSize: 11 }}
+                        label={{ value: 'β₁', position: 'bottom', fill: '#64748b', fontSize: 12 }}
                         name="β₁"
                       />
                       <YAxis
                         type="number"
                         dataKey="y"
                         domain={[-1.5, 1.5]}
-                        tick={{ fill: '#94a3b8', fontSize: 11 }}
-                        label={{ value: 'β₂', angle: -90, position: 'left', fill: '#94a3b8', fontSize: 12 }}
+                        tick={{ fill: '#64748b', fontSize: 11 }}
+                        label={{ value: 'β₂', angle: -90, position: 'left', fill: '#64748b', fontSize: 12 }}
                         name="β₂"
                       />
                       <Tooltip
@@ -3764,7 +3761,7 @@ function DrugTargetOverlayPanel() {
                       </div>
                       <div>
                         <span className="text-slate-400">Pole:</span>
-                        <span className="ml-1 text-white font-semibold" style={{ color: POLE_COLORS[selectedGene.dominantPole] || '#fff' }}>
+                        <span className="ml-1 text-white font-semibold" style={{ color: POLE_COLORS[selectedGene.dominantPole] || '#64748b' }}>
                           {selectedGene.dominantPole}
                         </span>
                       </div>
@@ -3880,14 +3877,14 @@ function DrugTargetOverlayPanel() {
                               className="border-b border-slate-700/50 hover:bg-slate-800/30 cursor-pointer"
                               onClick={() => setSelectedGene(g)}
                             >
-                              <td className="py-1.5 px-2 text-white font-semibold">{g.gene}</td>
+                              <td className="py-1.5 px-2 text-slate-900 font-semibold"><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></td>
                               <td className="py-1.5 px-1 text-rose-300">
                                 {g.drugs.slice(0, 2).map(d => d.drugName).join(', ')}
                                 {g.drugs.length > 2 ? ` +${g.drugs.length - 2}` : ''}
                               </td>
                               <td className="py-1.5 px-1 text-right font-mono text-emerald-400">{g.eigenvalue.toFixed(3)}</td>
                               <td className="py-1.5 px-1">
-                                <span style={{ color: POLE_COLORS[g.dominantPole] || '#fff' }}>{g.dominantPole}</span>
+                                <span style={{ color: POLE_COLORS[g.dominantPole] || '#64748b' }}>{g.dominantPole}</span>
                               </td>
                               <td className="py-1.5 px-2 text-slate-400 truncate max-w-[200px]">
                                 {g.drugs[0]?.indication || '—'}
@@ -3915,12 +3912,12 @@ function DrugTargetOverlayPanel() {
                         <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
                         <XAxis
                           dataKey="gene"
-                          tick={{ fill: '#94a3b8', fontSize: 10 }}
+                          tick={{ fill: '#64748b', fontSize: 10 }}
                           interval={0}
                         />
                         <YAxis
-                          tick={{ fill: '#94a3b8', fontSize: 10 }}
-                          label={{ value: '|λ|', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 11 }}
+                          tick={{ fill: '#64748b', fontSize: 10 }}
+                          label={{ value: '|λ|', angle: -90, position: 'insideLeft', fill: '#64748b', fontSize: 11 }}
                         />
                         <Tooltip
                           content={({ active, payload }: any) => {
@@ -4123,7 +4120,7 @@ function CrossTissueComparison() {
                     <tbody>
                       {data.poleSwitchers.slice(0, 15).map(g => (
                         <tr key={g.gene} className="border-b border-slate-700/30 hover:bg-slate-800/20">
-                          <td className="py-1.5 px-2 text-white font-semibold">{g.gene}</td>
+                          <td className="py-1.5 px-2 text-slate-900 font-semibold"><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></td>
                           <td className="py-1.5 px-1 text-right font-mono text-amber-400">{g.cv.toFixed(3)}</td>
                           {data.tissues.filter(t => data.tissueSummaries[t]?.totalMatched > 0).map(tissue => {
                             const val = g.tissues[tissue];
@@ -4506,16 +4503,16 @@ function GenomeWideEnrichmentPanel() {
                           dataKey="meanBeta1"
                           name="Mean β₁"
                           domain={[-1.5, 2]}
-                          tick={{ fill: '#94a3b8', fontSize: 10 }}
-                          label={{ value: 'Mean β₁', position: 'bottom', fill: '#94a3b8', fontSize: 11 }}
+                          tick={{ fill: '#64748b', fontSize: 10 }}
+                          label={{ value: 'Mean β₁', position: 'bottom', fill: '#64748b', fontSize: 11 }}
                         />
                         <YAxis
                           type="number"
                           dataKey="meanBeta2"
                           name="Mean β₂"
                           domain={[-1.2, 1.2]}
-                          tick={{ fill: '#94a3b8', fontSize: 10 }}
-                          label={{ value: 'Mean β₂', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 11 }}
+                          tick={{ fill: '#64748b', fontSize: 10 }}
+                          label={{ value: 'Mean β₂', angle: -90, position: 'insideLeft', fill: '#64748b', fontSize: 11 }}
                         />
                         <Tooltip
                           content={({ active, payload }) => {
@@ -4572,6 +4569,7 @@ export default function RootSpace() {
     staleTime: 1000 * 60 * 30,
   });
 
+  const { report, hasReport, geneSet, genes } = useLoadedReport();
   const filterHook = useFilterState();
   const { filters, toggleDataset } = filterHook;
   const [genomeOverlayGenes, setGenomeOverlayGenes] = useState<GenomeSearchGene[]>([]);
@@ -4665,6 +4663,16 @@ export default function RootSpace() {
           </Link>
         </div>
 
+        {hasReport && report && (
+          <LoadedReportBanner
+            title={report.title}
+            summary={report.summary}
+            geneCount={report.geneCount}
+            sourcePage={report.sourcePage}
+            highlightedCount={data ? data.datasets.reduce((count, ds) => count + ds.genes.filter(g => geneSet.has(g.gene.toUpperCase())).length, 0) : 0}
+          />
+        )}
+
         <PaperCrossLinks currentPage="/root-space" />
 
         <HowTo
@@ -4709,9 +4717,86 @@ export default function RootSpace() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-          <StationarityTrianglePlot data={data} filters={filters} toggleDataset={toggleDataset} overlayGenes={genomeOverlayGenes} />
-          <RootSpaceScatterPlot data={data} filters={filters} toggleDataset={toggleDataset} overlayGenes={genomeOverlayGenes} />
+          <StationarityTrianglePlot data={data} filters={filters} toggleDataset={toggleDataset} overlayGenes={genomeOverlayGenes} reportGeneSet={geneSet.size > 0 ? geneSet : undefined} />
+          <RootSpaceScatterPlot data={data} filters={filters} toggleDataset={toggleDataset} overlayGenes={genomeOverlayGenes} reportGeneSet={geneSet.size > 0 ? geneSet : undefined} />
         </div>
+
+        <Card className="mb-6 bg-slate-900/50 border-slate-700" data-testid="card-reading-the-charts">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-foreground flex items-center gap-2 text-lg">
+              <BookOpen size={18} className="text-cyan-400" />
+              Reading These Charts — A Plain-Language Guide
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="text-sm text-slate-400 space-y-4">
+            <p className="text-foreground font-medium">What we are trying to see:</p>
+            <p>
+              Every gene in the dataset gets two numbers (β₁ and β₂) that describe how its expression at one timepoint 
+              depends on the two previous timepoints. These two numbers place the gene as a single dot on the left chart 
+              (the Stationarity Triangle). The right chart (Root Space) transforms those same numbers into a different 
+              view showing how fast the signal decays and whether it oscillates.
+            </p>
+            <p>
+              The goal is simple: <strong className="text-foreground">do clock genes and target genes land in different 
+              places?</strong> If they do, it means the body's master clock genes behave in a measurably different way 
+              from the genes they control — they have different temporal "personalities." That separation is what we call 
+              the persistence hierarchy.
+            </p>
+
+            <p className="text-foreground font-medium mt-4">What the boundaries mean:</p>
+            <div className="space-y-3">
+              <div className="flex items-start gap-3">
+                <span className="text-slate-500 font-mono text-xs mt-0.5 shrink-0 w-24">Dashed grey</span>
+                <span><strong className="text-foreground">Stationarity triangle</strong> — the outer boundary. Genes inside 
+                this triangle have stable, bounded expression. Genes outside would have expression that grows without 
+                limit — biologically impossible for a real, regulated gene. Everything in the dataset must fall inside.</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-yellow-400 font-mono text-xs mt-0.5 shrink-0 w-24">Yellow curve</span>
+                <span><strong className="text-foreground">Oscillatory boundary</strong> — the parabola dividing genes with 
+                oscillating expression (below the curve) from genes with purely decaying expression (above the curve). 
+                Circadian genes typically sit below this line because they oscillate over the 24-hour cycle.</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-cyan-400 font-mono text-xs mt-0.5 shrink-0 w-24">Cyan line</span>
+                <span><strong className="text-foreground">AR(1) boundary (β₂ = 0)</strong> — the horizontal line where the 
+                second coefficient equals zero. Above this line, a gene's expression depends only on the immediately previous 
+                timepoint (simple carry-forward). Below this line, the gene also looks back two timepoints — it has genuine 
+                second-order memory. Genes below this line are the ones where AR(2) modelling adds value over simpler AR(1). 
+                Our AIC analysis shows 58% of genes sit near or above this line (AR(1) is sufficient), while 16.4% genuinely 
+                need the second-order model.</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-orange-400 font-mono text-xs mt-0.5 shrink-0 w-24">Orange star</span>
+                <span><strong className="text-foreground">Fibonacci reference (1, 1)</strong> — where the famous Fibonacci 
+                recurrence sits. It is outside the triangle because it produces explosive growth (|λ| ≈ 1.618). It marks the 
+                connection between AR(2) modelling and the Fibonacci sequence — they share the same mathematical structure 
+                (a second-order linear recurrence), but biological genes must operate in the stable region below.</span>
+              </div>
+            </div>
+
+            <p className="text-foreground font-medium mt-4">What the empty zones tell us:</p>
+            <div className="space-y-3">
+              <div className="flex items-start gap-3">
+                <span className="text-slate-500 font-mono text-xs mt-0.5 shrink-0 w-24">Central void</span>
+                <span>The empty region near the origin (0, 0) is where a gene would have <strong className="text-foreground">no 
+                temporal memory at all</strong> — pure random noise. Real genes avoid this because even weak biological 
+                regulation creates some carry-forward between timepoints.</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-slate-500 font-mono text-xs mt-0.5 shrink-0 w-24">Corner gaps</span>
+                <span>The empty spaces near the triangle corners are where expression would be <strong className="text-foreground">
+                too extreme</strong> — unbounded drift, explosive amplification, or violent oscillation. Biological feedback 
+                mechanisms prevent genes from operating this close to instability.</span>
+              </div>
+            </div>
+
+            <p>
+              So the gene cluster occupies a ring between "too random" (centre) and "too extreme" (edges) — exactly where 
+              you'd expect regulated, bounded, biologically viable dynamics to live.
+            </p>
+          </CardContent>
+        </Card>
 
         <div className="mb-6">
           <FrameworkOverlays data={data} filters={filters} />
@@ -4831,7 +4916,7 @@ export default function RootSpace() {
             <p><span className="text-slate-300">Oscillatory Region:</span> Below parabola β₂ = -β₁²/4 (complex roots, damped oscillations).</p>
             <p><span className="text-slate-300">Fibonacci Reference:</span> (β₁,β₂) = (1,1) yields λ = φ ≈ 1.618. This is <em>outside</em> the stationarity triangle — exponentially unstable. Biology must damp Fibonacci-like dynamics to remain stable.</p>
             <p><span className="text-slate-300">D_φ Metric:</span> Weighted distance in root space to a φ-reference geometry. Combines log-damping distance and angular distance to θ_φ = 2π/φ.</p>
-            <p><span className="text-slate-300">Mapping Sensitivity:</span> θ_φ = 2π/φ stress-tested against 2π/φ² (137.5°) and π/φ (111.2°). Band occupancy significant in 2/3 mappings. Production mapping is the only one showing genuine enrichment (1.86×) over analytical null (100K random AR(2) draws).</p>
+            <p><span className="text-slate-300">Mapping Sensitivity:</span> θ_φ = 2π/φ stress-tested against 2π/φ² (137.5°) and π/φ (111.2°). Production mapping shows modest enrichment (1.86×) over analytical null, but genome-wide gene-level enrichment is not statistically significant (p = 0.154). Pair-counting metrics inflate apparent enrichment; treat as exploratory.</p>
             <p><span className="text-slate-300">Null Model 1:</span> Phase-randomized surrogates (preserves power spectrum, destroys temporal phase structure).</p>
             <p><span className="text-slate-300">Null Model 2:</span> Uniform random draws from the stationarity triangle (theoretical comparator).</p>
             <p className="text-slate-400 mt-3 italic">

@@ -995,8 +995,8 @@ function CircadianFingerprint({ entries }: { entries: ComparisonEntry[] }) {
             <ResponsiveContainer width="100%" height={280}>
               <RadarChart data={radarData} outerRadius="75%">
                 <PolarGrid stroke="#334155" />
-                <PolarAngleAxis dataKey="signal" tick={{ fontSize: 9, fill: "#94a3b8" }} />
-                <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 8, fill: "#94a3b8" }} tickCount={5} />
+                <PolarAngleAxis dataKey="signal" tick={{ fontSize: 9, fill: "#64748b" }} />
+                <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 8, fill: "#64748b" }} tickCount={5} />
                 <Radar name="Eigenvalue %" dataKey="eigenvalue" stroke="#818cf8" fill="#818cf8" fillOpacity={0.25} strokeWidth={2} />
                 <Radar name="R² %" dataKey="r2" stroke="#34d399" fill="#34d399" fillOpacity={0.1} strokeWidth={1} strokeDasharray="4 2" />
                 <Legend wrapperStyle={{ fontSize: 10, color: "#94a3b8" }} />
@@ -1502,9 +1502,9 @@ function ResilienceMap({ entries }: { entries: ComparisonEntry[] }) {
                 fill: colorMap[e.result.signalType] || "#94a3b8",
               }))}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis dataKey="name" tick={{ fontSize: 10, fill: "#94a3b8" }} />
-                <YAxis domain={[0, 1]} tick={{ fontSize: 10, fill: "#94a3b8" }} label={{ value: "|λ|", angle: -90, position: "insideLeft", style: { fontSize: 11, fill: "#94a3b8" } }} />
-                <Tooltip contentStyle={{ backgroundColor: "#1e293b", borderColor: "#334155", fontSize: 11, color: "#e2e8f0" }} itemStyle={{ color: "#e2e8f0" }} labelStyle={{ color: "#94a3b8" }} />
+                <XAxis dataKey="name" tick={{ fontSize: 10, fill: "#64748b" }} />
+                <YAxis domain={[0, 1]} tick={{ fontSize: 10, fill: "#64748b" }} label={{ value: "|λ|", angle: -90, position: "insideLeft", style: { fontSize: 11, fill: "#64748b" } }} />
+                <Tooltip contentStyle={{ backgroundColor: "#ffffff", borderColor: "#e2e8f0", fontSize: 11, color: "#475569" }} itemStyle={{ color: "#475569" }} labelStyle={{ color: "#334155" }} />
                 <Bar dataKey="eigenvalue" radius={[4, 4, 0, 0]}>
                   {sortedEntries.map((entry, i) => (
                     <Cell key={i} fill={colorMap[entry.result.signalType] || "#94a3b8"} />
@@ -1797,7 +1797,7 @@ export default function WearableAnalysis() {
       "• The link between wearable-derived |λ| and tissue-level",
       "  circadian health is an UNTESTED HYPOTHESIS",
       "",
-      "Engine: PAR(2) Discovery Engine v2.2.0 (Locked Feb 20 2026)",
+      "Engine: PAR(2) Discovery Engine v2.3.0 (Locked Feb 27 2026)",
       "Algorithm: AR(2) Ordinary Least Squares",
       "Model: y(t) = φ₁·y(t-1) + φ₂·y(t-2) + ε",
       "═══════════════════════════════════════════════════════════",
@@ -2385,10 +2385,10 @@ export default function WearableAnalysis() {
                                 </linearGradient>
                               </defs>
                               <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                              <XAxis dataKey="hour" tick={{ fill: "#94a3b8", fontSize: 10 }}
-                                label={{ value: "Hour", position: "bottom", fill: "#94a3b8", fontSize: 10 }} />
-                              <YAxis tick={{ fill: "#94a3b8", fontSize: 10 }} domain={["auto", "auto"]} />
-                              <Tooltip contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #475569", borderRadius: "8px", fontSize: "11px", color: "#e2e8f0" }} itemStyle={{ color: "#e2e8f0" }} labelStyle={{ color: "#94a3b8" }}
+                              <XAxis dataKey="hour" tick={{ fill: "#64748b", fontSize: 10 }}
+                                label={{ value: "Hour", position: "bottom", fill: "#64748b", fontSize: 10 }} />
+                              <YAxis tick={{ fill: "#64748b", fontSize: 10 }} domain={["auto", "auto"]} />
+                              <Tooltip contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "8px", fontSize: "11px", color: "#475569" }} itemStyle={{ color: "#475569" }} labelStyle={{ color: "#334155" }}
                                 formatter={(v: number) => [v.toFixed(2), "Value"]} />
                               <Area type="monotone" dataKey="value" stroke="#06b6d4" strokeWidth={1.5} fill="url(#uploadGrad)" dot={false} />
                             </AreaChart>
@@ -2419,10 +2419,10 @@ export default function WearableAnalysis() {
                             <ResponsiveContainer width="100%" height={200} minWidth={1} minHeight={1}>
                               <AreaChart data={uploadDaySummaryData} margin={{ top: 10, right: 10, bottom: 20, left: 10 }}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                                <XAxis dataKey="hour" tick={{ fill: "#94a3b8", fontSize: 10 }}
-                                  label={{ value: "Hour of Day", position: "bottom", fill: "#94a3b8", fontSize: 10 }} />
-                                <YAxis tick={{ fill: "#94a3b8", fontSize: 10 }} domain={["auto", "auto"]} />
-                                <Tooltip contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #475569", borderRadius: "8px", fontSize: "11px", color: "#e2e8f0" }} itemStyle={{ color: "#e2e8f0" }} labelStyle={{ color: "#94a3b8" }}
+                                <XAxis dataKey="hour" tick={{ fill: "#64748b", fontSize: 10 }}
+                                  label={{ value: "Hour of Day", position: "bottom", fill: "#64748b", fontSize: 10 }} />
+                                <YAxis tick={{ fill: "#64748b", fontSize: 10 }} domain={["auto", "auto"]} />
+                                <Tooltip contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "8px", fontSize: "11px", color: "#475569" }} itemStyle={{ color: "#475569" }} labelStyle={{ color: "#334155" }}
                                   formatter={(value: number, name: string) => {
                                     const labels: Record<string, string> = { mean: "Mean", min: "Min", max: "Max", p25: "25th %ile", p75: "75th %ile" };
                                     return [typeof value === 'number' ? value.toFixed(1) : value, labels[name] || name];
@@ -2458,10 +2458,10 @@ export default function WearableAnalysis() {
                                   <ResponsiveContainer width="100%" height={180} minWidth={1} minHeight={1}>
                                     <LineChart data={uploadDayOverlayData} margin={{ top: 10, right: 10, bottom: 20, left: 10 }}>
                                       <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                                      <XAxis dataKey="hour" tick={{ fill: "#94a3b8", fontSize: 10 }}
-                                        label={{ value: "Hour of Day", position: "bottom", fill: "#94a3b8", fontSize: 10 }} />
-                                      <YAxis tick={{ fill: "#94a3b8", fontSize: 10 }} domain={["auto", "auto"]} />
-                                      <Tooltip contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #475569", borderRadius: "8px", fontSize: "11px", color: "#e2e8f0" }} itemStyle={{ color: "#e2e8f0" }} labelStyle={{ color: "#94a3b8" }} />
+                                      <XAxis dataKey="hour" tick={{ fill: "#64748b", fontSize: 10 }}
+                                        label={{ value: "Hour of Day", position: "bottom", fill: "#64748b", fontSize: 10 }} />
+                                      <YAxis tick={{ fill: "#64748b", fontSize: 10 }} domain={["auto", "auto"]} />
+                                      <Tooltip contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "8px", fontSize: "11px", color: "#475569" }} itemStyle={{ color: "#475569" }} labelStyle={{ color: "#334155" }} />
                                       {uploadResult.dayConsistency.dayData.slice(0, MAX_INDIVIDUAL_DAYS).map((_, i) => (
                                         <Line key={i} type="monotone" dataKey={`day${i + 1}`} stroke={dayColors[i % dayColors.length]}
                                           strokeWidth={1.5} dot={false} name={`Day ${i + 1}`} strokeOpacity={0.7} />
@@ -2599,9 +2599,9 @@ export default function WearableAnalysis() {
                           </linearGradient>
                         </defs>
                         <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                        <XAxis dataKey="hour" tick={{ fill: "#94a3b8", fontSize: 10 }} />
-                        <YAxis tick={{ fill: "#94a3b8", fontSize: 10 }} domain={["auto", "auto"]} />
-                        <Tooltip contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #475569", borderRadius: "8px", fontSize: "11px", color: "#e2e8f0" }} itemStyle={{ color: "#e2e8f0" }} labelStyle={{ color: "#94a3b8" }}
+                        <XAxis dataKey="hour" tick={{ fill: "#64748b", fontSize: 10 }} />
+                        <YAxis tick={{ fill: "#64748b", fontSize: 10 }} domain={["auto", "auto"]} />
+                        <Tooltip contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "8px", fontSize: "11px", color: "#475569" }} itemStyle={{ color: "#475569" }} labelStyle={{ color: "#334155" }}
                           formatter={(v: number) => [`${v.toFixed(1)} mg/dL`, "Glucose"]} />
                         <ReferenceLine y={70} stroke="#22c55e" strokeDasharray="3 3" />
                         <ReferenceLine y={140} stroke="#ef4444" strokeDasharray="3 3" />
@@ -2622,9 +2622,9 @@ export default function WearableAnalysis() {
                     <ResponsiveContainer width="100%" height={180} minWidth={1} minHeight={1}>
                       <LineChart data={dayOverlayData} margin={{ top: 10, right: 10, bottom: 20, left: 10 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                        <XAxis dataKey="hour" tick={{ fill: "#94a3b8", fontSize: 10 }} />
-                        <YAxis tick={{ fill: "#94a3b8", fontSize: 10 }} domain={["auto", "auto"]} />
-                        <Tooltip contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #475569", borderRadius: "8px", fontSize: "11px", color: "#e2e8f0" }} itemStyle={{ color: "#e2e8f0" }} labelStyle={{ color: "#94a3b8" }} />
+                        <XAxis dataKey="hour" tick={{ fill: "#64748b", fontSize: 10 }} />
+                        <YAxis tick={{ fill: "#64748b", fontSize: 10 }} domain={["auto", "auto"]} />
+                        <Tooltip contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "8px", fontSize: "11px", color: "#475569" }} itemStyle={{ color: "#475569" }} labelStyle={{ color: "#334155" }} />
                         <Line type="monotone" dataKey="day1" stroke="#22d3ee" strokeWidth={2} dot={false} name="Day 1" />
                         <Line type="monotone" dataKey="day2" stroke="#a78bfa" strokeWidth={2} dot={false} name="Day 2" />
                         <Line type="monotone" dataKey="day3" stroke="#fb923c" strokeWidth={2} dot={false} name="Day 3" />
@@ -2657,9 +2657,9 @@ export default function WearableAnalysis() {
                     <ResponsiveContainer width="100%" height={150} minWidth={1} minHeight={1}>
                       <BarChart data={comparisonData} margin={{ top: 10, right: 10, bottom: 10, left: 10 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                        <XAxis dataKey="name" tick={{ fill: "#94a3b8", fontSize: 9 }} />
-                        <YAxis domain={[0, 1]} tick={{ fill: "#94a3b8", fontSize: 9 }} />
-                        <Tooltip contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #475569", borderRadius: "8px", fontSize: "11px", color: "#e2e8f0" }} itemStyle={{ color: "#e2e8f0" }} labelStyle={{ color: "#94a3b8" }}
+                        <XAxis dataKey="name" tick={{ fill: "#64748b", fontSize: 9 }} />
+                        <YAxis domain={[0, 1]} tick={{ fill: "#64748b", fontSize: 9 }} />
+                        <Tooltip contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "8px", fontSize: "11px", color: "#475569" }} itemStyle={{ color: "#475569" }} labelStyle={{ color: "#334155" }}
                           formatter={(v: number) => [v.toFixed(4), "|λ|"]} />
                         <Bar dataKey="eigenvalue" radius={[4, 4, 0, 0]}>
                           {comparisonData.map((entry, i) => <Cell key={i} fill={entry.fill} />)}

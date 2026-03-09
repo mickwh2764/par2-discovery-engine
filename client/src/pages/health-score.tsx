@@ -16,6 +16,8 @@ import HowTo from "@/components/HowTo";
 import InsightCallout from "@/components/InsightCallout";
 import EvidenceLink from "@/components/EvidenceLink";
 import DownloadResultsButton from "@/components/DownloadResultsButton";
+import { useLoadedReport } from "@/hooks/useLoadedReport";
+import LoadedReportBanner from "@/components/LoadedReportBanner";
 
 interface HealthScore {
   datasetId: string;
@@ -78,6 +80,7 @@ export default function HealthScorePage() {
   const [sortDir, setSortDir] = useState<"desc" | "asc">("desc");
   const [speciesFilter, setSpeciesFilter] = useState<string>("all");
   const [gradeFilter, setGradeFilter] = useState<string>("all");
+  const { report, hasReport } = useLoadedReport();
 
   const { data, isLoading } = useQuery<{ scores: HealthScore[]; totalDatasets: number }>({
     queryKey: ["/api/analysis/health-scores"],
@@ -159,6 +162,15 @@ export default function HealthScorePage() {
             filename="PAR2_HealthScores.csv"
           />
         </div>
+
+        {hasReport && report && (
+          <LoadedReportBanner
+            title={report.title}
+            summary={report.summary}
+            geneCount={report.geneCount}
+            sourcePage={report.sourcePage}
+          />
+        )}
 
         <HowTo
           title="Circadian Health Score"

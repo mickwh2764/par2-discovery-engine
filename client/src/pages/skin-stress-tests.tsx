@@ -265,15 +265,15 @@ function LayerPanel({ layer, data, isExpanded, toggle }: { layer: string; data: 
             <ResponsiveContainer width="100%" height={250}>
               <BarChart data={bootstrapChartData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                <XAxis dataKey="gene" stroke="#9ca3af" tick={{ fontSize: 10 }} angle={-45} textAnchor="end" height={60} />
-                <YAxis domain={[0, 1.1]} stroke="#9ca3af" />
+                <XAxis dataKey="gene" stroke="#6b7280" tick={{ fontSize: 10 }} angle={-45} textAnchor="end" height={60} />
+                <YAxis domain={[0, 1.1]} stroke="#6b7280" />
                 <Tooltip content={<CustomTooltip />} />
                 <ReferenceLine y={1.0} stroke="#ef4444" strokeDasharray="3 3" label={{ value: '|λ|=1', fill: '#ef4444', fontSize: 10 }} />
                 <Bar dataKey="eigenvalue" name="Eigenvalue |λ|" radius={[2, 2, 0, 0]}>
                   {bootstrapChartData.map((entry, idx) => (
                     <Cell key={idx} fill={entry.geneType === 'clock' ? '#60a5fa' : '#f59e0b'} opacity={0.8} />
                   ))}
-                  <ErrorBar dataKey="errorHigh" width={2} strokeWidth={1} stroke="#9ca3af" direction="y" />
+                  <ErrorBar dataKey="errorHigh" width={2} strokeWidth={1} stroke="#6b7280" direction="y" />
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
@@ -433,8 +433,8 @@ export default function SkinStressTests() {
                     { test: 'Random Null', dermis: data.headToHead.dermisNullPValue, epidermis: data.headToHead.epidermisNullPValue },
                   ]} margin={{ top: 10, right: 30, bottom: 10, left: 10 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                    <XAxis dataKey="test" stroke="#9ca3af" />
-                    <YAxis domain={[0, 0.5]} stroke="#9ca3af" label={{ value: 'p-value', angle: -90, position: 'insideLeft', fill: '#9ca3af', fontSize: 12 }} />
+                    <XAxis dataKey="test" stroke="#6b7280" />
+                    <YAxis domain={[0, 0.5]} stroke="#6b7280" label={{ value: 'p-value', angle: -90, position: 'insideLeft', fill: '#6b7280', fontSize: 12 }} />
                     <Tooltip content={<CustomTooltip />} />
                     <ReferenceLine y={0.05} stroke="#ef4444" strokeDasharray="3 3" label={{ value: 'α=0.05', fill: '#ef4444', fontSize: 10 }} />
                     <Bar dataKey="dermis" name="Dermis" fill="#22d3ee" radius={[4, 4, 0, 0]} />

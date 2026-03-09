@@ -14,6 +14,8 @@ interface PaperConfig {
   shortTitle: string;
   description: string;
   journal: string;
+  version: string;
+  lastUpdated: string;
   icon: React.ReactNode;
   color: string;
   bgColor: string;
@@ -30,6 +32,8 @@ const papers: PaperConfig[] = [
     shortTitle: "All-in-One Submission",
     description: "Phase-Amplitude-Relationship (PAR2) Analysis Reveals Emergent Temporal Dynamics in Circadian-Cancer Gene Networks. Combines the full Method+Atlas and Cancer Biology papers into a single comprehensive manuscript with all 26 tables, tri-model ODE validation, ODE round-trip eigenvalue recovery (5/5 pass), eleven-analysis robustness suite, and complete caveats.",
     journal: "Journal Submission Package",
+    version: "1.0",
+    lastUpdated: "2026-02-26 05:28 UTC",
     icon: <Star className="w-6 h-6" />,
     color: "text-amber-400",
     bgColor: "bg-amber-600/20",
@@ -38,7 +42,7 @@ const papers: PaperConfig[] = [
       { label: "Scope", value: "Methods + Atlas + Cancer Biology" },
       { label: "Datasets", value: "14 dataset-level analyses across 4 species" },
       { label: "Tables", value: "26 tables, 86 references" },
-      { label: "Updated", value: "February 2026" },
+
     ],
     contents: [
       "LaTeX source (PAR2_Complete_Manuscript.tex)",
@@ -56,6 +60,8 @@ const papers: PaperConfig[] = [
     shortTitle: "PLOS Comp Bio",
     description: "PAR(2): A Phase-Gated Autoregressive Framework Reveals Tissue-Specific Circadian Gating of Cancer-Relevant Genes Across Mammalian Tissues. 12-tissue survey, Wee1 universal gatekeeper, three-layer hierarchy, ODE validation, seven-analysis robustness suite.",
     journal: "PLOS Computational Biology",
+    version: "1.0",
+    lastUpdated: "2026-02-26 05:28 UTC",
     icon: <BookOpen className="w-6 h-6" />,
     color: "text-blue-400",
     bgColor: "bg-blue-600/20",
@@ -64,7 +70,7 @@ const papers: PaperConfig[] = [
       { label: "Sections", value: "Methods, Results, Discussion" },
       { label: "Datasets", value: "GSE54650 (12 tissues), GSE11923, GSE70499" },
       { label: "Scope", value: "AR(2) method + pan-tissue atlas" },
-      { label: "Updated", value: "February 2026" },
+
     ],
     contents: [
       "LaTeX source (Paper1_Method_Atlas.tex)",
@@ -81,6 +87,8 @@ const papers: PaperConfig[] = [
     shortTitle: "Cancer Research",
     description: "Compensatory Circadian Gating and Eigenperiod Dynamics Reveal a Two-Hit Threshold for Clock-Mediated Tumor Suppression. APC compensatory gating, LGR5 stem cell discovery, Pparg MYC-ON target, aging vs cancer trajectories.",
     journal: "Cancer Research",
+    version: "1.0",
+    lastUpdated: "2026-02-26 05:28 UTC",
     icon: <FlaskConical className="w-6 h-6" />,
     color: "text-emerald-400",
     bgColor: "bg-emerald-600/20",
@@ -89,7 +97,7 @@ const papers: PaperConfig[] = [
       { label: "Sections", value: "Methods, Results, Discussion" },
       { label: "Datasets", value: "GSE157357, GSE221103, GSE93903" },
       { label: "Scope", value: "APC two-hit + cancer biology" },
-      { label: "Updated", value: "February 2026" },
+
     ],
     contents: [
       "LaTeX source (Paper2_Cancer_Biology.tex)",
@@ -106,6 +114,8 @@ const papers: PaperConfig[] = [
     shortTitle: "PLOS Comp Bio (Revised)",
     description: "Demonstrates that eigenvalue modulus |λ| from AR(2) regression recovers a three-layer hierarchy (clock > target > genome-wide) across 13 datasets and 4 species, validated by ODE round-trip testing and 11-analysis robustness suite.",
     journal: "PLOS Computational Biology",
+    version: "2.0",
+    lastUpdated: "2026-02-27 16:13 UTC",
     icon: <Brain className="w-6 h-6" />,
     color: "text-cyan-400",
     bgColor: "bg-cyan-600/20",
@@ -114,7 +124,7 @@ const papers: PaperConfig[] = [
       { label: "Datasets", value: "13 datasets, 4 species" },
       { label: "Validation", value: "ODE round-trip, robustness suite" },
       { label: "Hierarchy", value: "Clock > Target > Background" },
-      { label: "Updated", value: "February 2026" },
+
     ],
     contents: [
       "LaTeX source (Paper_A_Core_Methods.tex)",
@@ -132,6 +142,8 @@ const papers: PaperConfig[] = [
     shortTitle: "PNAS",
     description: "Reports discovery of a resonance zone in AR(2) root-space where 33% of clock genes cluster vs 0.52% of background genes — a 60-fold enrichment (p < 10⁻⁶) — identifying 22 novel multi-tissue resonance genes.",
     journal: "PNAS",
+    version: "1.0",
+    lastUpdated: "2026-02-26 05:28 UTC",
     icon: <Target className="w-6 h-6" />,
     color: "text-rose-400",
     bgColor: "bg-rose-600/20",
@@ -140,7 +152,7 @@ const papers: PaperConfig[] = [
       { label: "Enrichment", value: "60× clock gene enrichment" },
       { label: "Novel genes", value: "22 multi-tissue resonance" },
       { label: "Datasets", value: "6 datasets scanned" },
-      { label: "Updated", value: "February 2026" },
+
     ],
     contents: [
       "LaTeX source (Paper_B_Resonance_Zone.tex)",
@@ -156,8 +168,10 @@ const papers: PaperConfig[] = [
     endpoint: "/api/download/paper-c-package",
     title: "Paper C: 12-Tissue BMAL1 Coupling Atlas",
     shortTitle: "Mol Sys Bio",
-    description: "Maps AR(2)+BMAL1 exogenous coupling across 12 mouse tissues (636 gene-tissue tests). Reports 180-fold enrichment over random predictors, Wee1 coupled in 10/12 tissues, 25 distinct findings (7 independently confirmed, 10 novel).",
+    description: "Maps AR(2)+BMAL1 exogenous coupling across 12 mouse tissues (636 gene-tissue tests). Reports 180-fold enrichment over random predictors, Wee1 coupled in 10/12 tissues, 25 distinct findings (7 consistent with published circadian biology, 10 untested candidates).",
     journal: "Molecular Systems Biology",
+    version: "1.0",
+    lastUpdated: "2026-02-26 05:58 UTC",
     icon: <Layers className="w-6 h-6" />,
     color: "text-orange-400",
     bgColor: "bg-orange-600/20",
@@ -166,7 +180,7 @@ const papers: PaperConfig[] = [
       { label: "Tissues", value: "12 GSE54650 tissues" },
       { label: "Tests", value: "636 gene-tissue combinations" },
       { label: "Enrichment", value: "180× over random predictors" },
-      { label: "Updated", value: "February 2026" },
+
     ],
     contents: [
       "LaTeX source (Paper_C_Coupling_Atlas.tex)",
@@ -184,6 +198,8 @@ const papers: PaperConfig[] = [
     shortTitle: "Cell Systems",
     description: "Perspective arguing that eigenvalue modulus captures a genuine biological property — temporal memory — that is nearly independent of chromatin state, network connectivity, and expression amplitude, validated across metrics.",
     journal: "Cell Systems (Perspective)",
+    version: "1.0",
+    lastUpdated: "2026-02-26 11:51 UTC",
     icon: <Lightbulb className="w-6 h-6" />,
     color: "text-yellow-400",
     bgColor: "bg-yellow-600/20",
@@ -192,7 +208,7 @@ const papers: PaperConfig[] = [
       { label: "Type", value: "Perspective / Opinion" },
       { label: "Independence", value: "|λ| vs 4 metrics" },
       { label: "Key result", value: "ρ = 0.08 vs chromatin" },
-      { label: "Updated", value: "February 2026" },
+
     ],
     contents: [
       "LaTeX source (Paper_D_Perspective.tex)",
@@ -206,19 +222,21 @@ const papers: PaperConfig[] = [
   {
     id: "all-papers",
     endpoint: "/api/download/all-papers-package",
-    title: "Complete Paper Suite (A + B + C + D + E)",
-    shortTitle: "All 5 Papers",
-    description: "Download all five companion papers in a single zip. Includes all manuscripts, cover letters, supplementary data tables, and supporting JSON data files organized in separate folders.",
+    title: "Complete Paper Suite (A + B + C + D + E + F)",
+    shortTitle: "All 6 Papers",
+    description: "Download all six companion papers in a single zip. Includes all manuscripts, cover letters, supplementary data tables, and supporting JSON data files organized in separate folders.",
     journal: "Combined Package",
+    version: "2.0",
+    lastUpdated: "2026-02-27 16:13 UTC",
     icon: <Package className="w-6 h-6" />,
     color: "text-violet-400",
     bgColor: "bg-violet-600/20",
     borderColor: "border-violet-500/50",
     details: [
-      { label: "Papers", value: "5 manuscripts" },
-      { label: "Journals", value: "PLOS, PNAS, MSB, Cell Sys ×2" },
+      { label: "Papers", value: "6 manuscripts" },
+      { label: "Journals", value: "PLOS, PNAS, MSB, Cell Sys ×2, Genome Bio" },
       { label: "Data tables", value: "15+ supplementary CSVs" },
-      { label: "Updated", value: "February 2026" },
+
     ],
     contents: [
       "Paper A: Core Methods (PLOS Comp Bio)",
@@ -226,6 +244,7 @@ const papers: PaperConfig[] = [
       "Paper C: Coupling Atlas (Mol Sys Bio)",
       "Paper D: Perspective (Cell Systems)",
       "Paper E: Phase-Gated PAR(2) (Cell Systems)",
+      "Paper F: Expression Persistence (Genome Biology)",
       "All supplementary tables and JSON data",
     ],
   },
@@ -236,6 +255,8 @@ const papers: PaperConfig[] = [
     shortTitle: "Cell Systems",
     description: "Introduces stability-constrained, phase-dependent AR(2) where coefficients vary smoothly over circadian phase. Maps tissue-specific gating modules (Wee1 in liver, Tead1/YAP1 in heart, Cdk1 in cerebellum) and shows Apc/Bmal1 double mutation collapses gating in organoids.",
     journal: "Cell Systems (Research Article)",
+    version: "1.0",
+    lastUpdated: "2026-02-26 05:28 UTC",
     icon: <Dna className="w-6 h-6" />,
     color: "text-pink-400",
     bgColor: "bg-pink-600/20",
@@ -244,7 +265,7 @@ const papers: PaperConfig[] = [
       { label: "Innovation", value: "Phase-varying AR(2) coefficients" },
       { label: "Tissues", value: "Liver, Heart, Cerebellum, Intestine" },
       { label: "Discovery", value: "Tiered cross-tissue replication" },
-      { label: "Updated", value: "February 2026" },
+
     ],
     contents: [
       "LaTeX source (Paper_E_Phase_Gated_PAR2.tex)",
@@ -258,12 +279,41 @@ const papers: PaperConfig[] = [
     ],
   },
   {
+    id: "paper-f",
+    endpoint: "/api/download/paper-f-package",
+    title: "Paper F: Context-Dependent Expression Persistence",
+    shortTitle: "Genome Biology",
+    description: "Demonstrates that AR(2) eigenvalue |λ| is independent of intrinsic mRNA half-life (ρ = 0.006, n = 5,945 genes) but captures context-dependent expression persistence. Cross-validates against four public datasets (Amit 2009, Tu 2005, Arbeitman 2002, Zaas 2009) with complete bias audits. Key finding: IFIT1 has 31-min mRNA half-life but |λ| = 0.72, revealing sustained interferon-driven retranscription.",
+    journal: "Genome Biology",
+    version: "2.0",
+    lastUpdated: "2026-02-27 15:04 UTC",
+    icon: <Microscope className="w-6 h-6" />,
+    color: "text-emerald-400",
+    bgColor: "bg-emerald-600/20",
+    borderColor: "border-emerald-500/50",
+    details: [
+      { label: "Key result", value: "ρ = 0.006 vs mRNA half-life" },
+      { label: "Genes", value: "5,945 genes tested" },
+      { label: "Datasets", value: "4 cross-validation sets" },
+
+    ],
+    contents: [
+      "LaTeX source (Paper_F_Expression_Persistence.tex)",
+      "Cover letter for Genome Biology",
+      "Cross-metric independence data (JSON)",
+      "Bias audit results (CSV)",
+      "mRNA half-life vs eigenvalue scatter data",
+    ],
+  },
+  {
     id: "fibonacci-reply",
     endpoint: "/api/download/fibonacci-reply-zip",
     title: "Fibonacci Reply Package",
     shortTitle: "Fibonacci Reply",
     description: "Reply to Boman (Fibonacci Quarterly 2025): Golden-Ratio-Like Recursion in Mammalian Circadian Gene Expression — A Stability-Constrained Reanalysis",
     journal: "The Fibonacci Quarterly",
+    version: "1.2",
+    lastUpdated: "2026-02-26 19:47 UTC",
     icon: <Microscope className="w-6 h-6" />,
     color: "text-purple-400",
     bgColor: "bg-purple-600/20",
@@ -272,7 +322,7 @@ const papers: PaperConfig[] = [
       { label: "Type", value: "Reply / Letter" },
       { label: "Focus", value: "Temporal Fibonacci dynamics" },
       { label: "Method", value: "Stability-filtered AR(2)" },
-      { label: "Updated", value: "February 2026" },
+
     ],
     contents: [
       "LaTeX source (Reply_to_Boman_FQ_2025.tex)",
@@ -332,6 +382,14 @@ function PaperCard({ paper, password }: { paper: PaperConfig; password: string }
             </CardTitle>
             <p className={`text-xs font-medium mt-1 ${paper.color}`}>{paper.journal}</p>
           </div>
+        </div>
+        <div className="flex items-center gap-3 mt-2">
+          <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-700/60 text-slate-300 border border-slate-600/50" data-testid={`text-${paper.id}-version`}>
+            v{paper.version}
+          </span>
+          <span className="text-[11px] text-slate-500 font-mono" data-testid={`text-${paper.id}-timestamp`}>
+            {paper.lastUpdated}
+          </span>
         </div>
         <CardDescription className="text-slate-400 text-sm mt-2 leading-relaxed">
           {paper.description}
@@ -395,6 +453,8 @@ function PaperCard({ paper, password }: { paper: PaperConfig; password: string }
               ? "bg-yellow-600 hover:bg-yellow-700"
               : paper.id === "paper-e"
               ? "bg-pink-600 hover:bg-pink-700"
+              : paper.id === "paper-f"
+              ? "bg-emerald-600 hover:bg-emerald-700"
               : paper.id === "all-papers"
               ? "bg-violet-600 hover:bg-violet-700"
               : "bg-purple-600 hover:bg-purple-700"

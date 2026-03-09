@@ -15,6 +15,7 @@ import {
   ArrowLeft, Loader2, Search, Dna, TrendingUp, AlertTriangle, Download,
 } from "lucide-react";
 import PaperCrossLinks from "@/components/PaperCrossLinks";
+import GeneTooltip from "@/components/GeneTooltip";
 
 interface GeneCoupling {
   gene: string;
@@ -117,11 +118,11 @@ function VolcanoPlot({ data }: { data: VolcanoPoint[] }) {
       <ScatterChart margin={{ top: 20, right: 20, bottom: 40, left: 40 }}>
         <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
         <XAxis type="number" dataKey="deltaAIC" name="ΔAIC"
-          label={{ value: "ΔAIC (positive = clock coupling helps)", position: "bottom", fill: "#94a3b8", offset: 20 }}
-          stroke="#94a3b8" tick={{ fill: "#94a3b8" }} />
+          label={{ value: "ΔAIC (positive = clock coupling helps)", position: "bottom", fill: "#64748b", offset: 20 }}
+          stroke="#64748b" tick={{ fill: "#64748b" }} />
         <YAxis type="number" dataKey="negLogFDR" name="-log₁₀(FDR)"
-          label={{ value: "-log₁₀(FDR q-value)", angle: -90, position: "insideLeft", fill: "#94a3b8", offset: -20 }}
-          stroke="#94a3b8" tick={{ fill: "#94a3b8" }} />
+          label={{ value: "-log₁₀(FDR q-value)", angle: -90, position: "insideLeft", fill: "#64748b", offset: -20 }}
+          stroke="#64748b" tick={{ fill: "#64748b" }} />
         <ReferenceLine y={fdrLine} stroke="#f59e0b" strokeDasharray="5 5" label={{ value: "FDR=0.05", fill: "#f59e0b", position: "right" }} />
         <ReferenceLine x={2} stroke="#f59e0b" strokeDasharray="5 5" label={{ value: "ΔAIC=2", fill: "#f59e0b", position: "top" }} />
         <Tooltip
@@ -382,7 +383,7 @@ export default function GenomeWideCoupling() {
                       <div className="text-sm font-medium text-emerald-400 mb-1">Known Clock/Cell-Cycle Genes Detected:</div>
                       <div className="flex flex-wrap gap-1">
                         {data.summary.knownClockGenesCoupled.map(g => (
-                          <Badge key={g} className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30 text-xs">{g}</Badge>
+                          <Badge key={g} className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30 text-xs"><GeneTooltip gene={g}>{g}</GeneTooltip></Badge>
                         ))}
                       </div>
                       <div className="text-xs text-slate-400 mt-1">These validate the scan — known circadian genes should appear coupled.</div>
@@ -393,7 +394,7 @@ export default function GenomeWideCoupling() {
                       <div className="text-sm font-medium text-blue-400 mb-1">Novel Clock-Coupled Genes:</div>
                       <div className="flex flex-wrap gap-1">
                         {data.summary.novelFindings.slice(0, 20).map(g => (
-                          <Badge key={g} className="bg-blue-500/20 text-blue-300 border-blue-500/30 text-xs">{g}</Badge>
+                          <Badge key={g} className="bg-blue-500/20 text-blue-300 border-blue-500/30 text-xs"><GeneTooltip gene={g}>{g}</GeneTooltip></Badge>
                         ))}
                         {data.summary.novelFindings.length > 20 && (
                           <Badge className="bg-slate-700 text-slate-400 text-xs">+{data.summary.novelFindings.length - 20} more</Badge>
@@ -459,7 +460,7 @@ export default function GenomeWideCoupling() {
                       {filteredGenes.map((g, i) => (
                         <tr key={g.gene} className="border-b border-slate-800 hover:bg-slate-800/50" data-testid={`row-gene-${g.gene}`}>
                           <td className="py-2 px-3 text-slate-400">{i + 1}</td>
-                          <td className="py-2 px-3 font-medium text-white">{g.gene}</td>
+                          <td className="py-2 px-3 font-medium text-white"><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></td>
                           <td className="py-2 px-3 text-right text-emerald-400">{g.deltaAIC.toFixed(2)}</td>
                           <td className="py-2 px-3 text-right text-slate-300">{g.deltaBIC.toFixed(2)}</td>
                           <td className="py-2 px-3 text-right text-slate-300">{(g.deltaR2 * 100).toFixed(2)}%</td>

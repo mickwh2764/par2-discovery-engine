@@ -1,0 +1,102 @@
+{
+  "title": "PAR(2) Discovery Engine: Circadian Clock-Target Dynamics Analysis Platform",
+  "description": "A statistical platform for analyzing circadian clock-target gene dynamics using AR(2) autoregressive modeling. The eigenvalue modulus |lambda| quantifies temporal persistence in gene expression across 79 embedded datasets spanning 5 species (Mus musculus, Homo sapiens, Papio anubis, Arabidopsis thaliana, Saccharomyces cerevisiae) and ~125,000 unique genes. Features: 6-check edge-case diagnostics, multi-tissue Phase Portrait Explorer with BMAL1 coupling analysis (12 tissues, 636 gene-tissue tests), root-space geometry with GO/KEGG enrichment, drug target overlay (168 genes, 256 FDA drugs), literature validation against 59 curated circadian genes, genome-wide coupling scan with BH-FDR correction, ODE Model Zoo (5 models, 12/12 checks PASS), framework benchmarks against ARIMA/OU/State-Space, 11-analysis robustness suite, and custom CSV upload for real-time analysis.",
+  "creators": [
+    {
+      "name": "PAR(2) Discovery Engine Contributors",
+      "affiliation": "Independent Research"
+    }
+  ],
+  "publication_date": "2026-02-08",
+  "keywords": [
+    "circadian rhythms",
+    "chronobiology",
+    "cancer biology",
+    "gene expression",
+    "time-series analysis",
+    "phase-amplitude relationship",
+    "PAR(2)",
+    "AR(2)",
+    "eigenvalue analysis",
+    "BMAL1",
+    "Per2",
+    "clock genes",
+    "chronotherapy",
+    "bioinformatics",
+    "circadian gating",
+    "autoregressive model",
+    "cross-species validation",
+    "Gearbox Hypothesis",
+    "Arabidopsis",
+    "human blood circadian",
+    "ODE model zoo",
+    "edge-case diagnostics",
+    "wearable data analysis"
+  ],
+  "license": "other-open",
+  "upload_type": "software",
+  "access_right": "open",
+  "version": "2.0.0",
+  "language": "eng",
+  "related_identifiers": [
+    {
+      "identifier": "https://par-2-discovery--6tbwkcht9k.replit.app",
+      "relation": "isSupplementedBy",
+      "resource_type": "other"
+    },
+    {
+      "identifier": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE11923",
+      "relation": "references",
+      "resource_type": "dataset"
+    },
+    {
+      "identifier": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE54650",
+      "relation": "references",
+      "resource_type": "dataset"
+    },
+    {
+      "identifier": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE113883",
+      "relation": "references",
+      "resource_type": "dataset"
+    },
+    {
+      "identifier": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE48113",
+      "relation": "references",
+      "resource_type": "dataset"
+    },
+    {
+      "identifier": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE98965",
+      "relation": "references",
+      "resource_type": "dataset"
+    },
+    {
+      "identifier": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE242964",
+      "relation": "references",
+      "resource_type": "dataset"
+    },
+    {
+      "identifier": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE157357",
+      "relation": "references",
+      "resource_type": "dataset"
+    },
+    {
+      "identifier": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE221103",
+      "relation": "references",
+      "resource_type": "dataset"
+    },
+    {
+      "identifier": "10.1101/gad.348530.121",
+      "relation": "references",
+      "resource_type": "publication-article",
+      "scheme": "doi"
+    }
+  ],
+  "notes": "DUAL LICENSE: Free for academic/research use; commercial license required for pharmaceutical, biotech, or revenue-generating applications. Contact mickwh@msn.com for commercial licensing. PATENT NOTICE: The PAR(2) methodology is subject to a pending UK patent application. Platform scale: ~130,000 lines of code, 253 files, 48 frontend routes, 79 embedded datasets spanning 5 species. Key validation results: ODE Model Zoo 12/12 predictions PASS, multi-species hierarchy preserved across 8 core validated datasets (4 species), 6-check edge-case diagnostics screening every AR(2) result, literature validation against 59 curated circadian genes with 180x enrichment over controls.",
+  "references": [
+    "Stokes K, et al. (2021) The circadian clock gene BMAL1 coordinates intestinal regeneration. Genes Dev. 35(17-18):1290-1301.",
+    "Hughes ME, et al. (2009) Harmonics of circadian gene transcription in mammals. PLoS Genet 5(4):e1000442.",
+    "Zhang R, et al. (2014) A circadian gene expression atlas in mammals. Proc Natl Acad Sci 111(45):16219-16224.",
+    "Mure LS, et al. (2018) Diurnal transcriptome atlas of a primate across major neural and peripheral tissues. Science 359(6381).",
+    "Redmond S, et al. (2024) Circadian clock gene expression in Arabidopsis thaliana developmental stages. GSE242964."
+  ]
+}

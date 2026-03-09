@@ -269,8 +269,8 @@ export default function SharedAnalysis() {
               <ResponsiveContainer width="100%" height={250}>
                 <BarChart data={eigenvalueBarData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                  <XAxis dataKey="channel" tick={{ fill: '#94a3b8', fontSize: 11 }} />
-                  <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} />
+                  <XAxis dataKey="channel" tick={{ fill: '#64748b', fontSize: 11 }} />
+                  <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
                   <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px', color: '#e2e8f0' }} />
                   <ReferenceLine y={1} stroke="#ef4444" strokeDasharray="3 3" label={{ value: '|λ|=1', fill: '#ef4444', fontSize: 10 }} />
                   <Bar dataKey="eigenvalue" radius={[4, 4, 0, 0]}>

@@ -1,0 +1,11 @@
+Control_Type,Index,Phase_Type,P_Value,Corrected_P,Significant,Passed
+Positive,1,cos,0.00020095,0.00080382,true,true
+Positive,2,sin,0.00000501,0.00002004,true,true
+Positive,3,cos,0.00259788,0.01039150,true,true
+Positive,4,both,0.00000006,0.00000025,true,true
+Positive,5,undefined,0.00002464,0.00009857,true,true
+Negative,1,none,0.54551687,1.00000000,false,true
+Negative,2,none,0.71676233,1.00000000,false,true
+Negative,3,none,0.10103140,0.40412561,false,true
+Negative,4,none,0.14736387,0.58945546,false,true
+Negative,5,none,0.08337137,0.33348548,false,true

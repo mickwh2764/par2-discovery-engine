@@ -1,0 +1,22 @@
+{
+  "name": "par2-discovery-engine",
+  "version": "1.0.0",
+  "description": "PAR(2) Phase-Amplitude-Relationship Analysis for Circadian Gene Networks",
+  "main": "par2-core.ts",
+  "scripts": {
+    "analyze": "npx tsx par2-cli.ts",
+    "test": "npx tsx test-par2.ts"
+  },
+  "keywords": [
+    "circadian",
+    "gene-expression",
+    "autoregressive",
+    "time-series",
+    "biology"
+  ],
+  "author": "Michael Whiteside",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "tsx": "^4.0.0"
+  }
+}

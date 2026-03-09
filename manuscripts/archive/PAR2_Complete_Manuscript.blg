@@ -1,0 +1,111 @@
+This is BibTeX, Version 0.99d (TeX Live 2023/nixos.org)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: PAR2_Complete_Manuscript.aux
+The style file: unsrt.bst
+I found no \bibdata command---while reading file PAR2_Complete_Manuscript.aux
+Warning--I didn't find a database entry for "bass2010circadian"
+Warning--I didn't find a database entry for "takahashi2017transcriptional"
+Warning--I didn't find a database entry for "reppert2002coordination"
+Warning--I didn't find a database entry for "lowrey2011genetics"
+Warning--I didn't find a database entry for "gekakis1998role"
+Warning--I didn't find a database entry for "kume1999mcry1"
+Warning--I didn't find a database entry for "straif2007carcinogenicity"
+Warning--I didn't find a database entry for "schernhammer2003night"
+Warning--I didn't find a database entry for "fu2003circadian"
+Warning--I didn't find a database entry for "lee2010disrupting"
+Warning--I didn't find a database entry for "levi2010circadian"
+Warning--I didn't find a database entry for "matsuo2003control"
+Warning--I didn't find a database entry for "gery2006circadian"
+Warning--I didn't find a database entry for "masri2015circadian"
+Warning--I didn't find a database entry for "liu2025genesdiseases"
+Warning--I didn't find a database entry for "cellcommsignal2025per"
+Warning--I didn't find a database entry for "li2021per3wnt"
+Warning--I didn't find a database entry for "osteosarcoma2025cells"
+Warning--I didn't find a database entry for "zaidi2010mitotic"
+Warning--I didn't find a database entry for "zhu2023mitotic"
+Warning--I didn't find a database entry for "bmcbiol2024memory"
+Warning--I didn't find a database entry for "zhang2014circadian"
+Warning--I didn't find a database entry for "zhang2014atlas"
+Warning--I didn't find a database entry for "mure2018diurnal"
+Warning--I didn't find a database entry for "barabasi2011network"
+Warning--I didn't find a database entry for "koike2012transcriptional"
+Warning--I didn't find a database entry for "menet2012nascent"
+Warning--I didn't find a database entry for "box1979seasonal"
+Warning--I didn't find a database entry for "hurd2007periodically"
+Warning--I didn't find a database entry for "paap2025shrinkage"
+Warning--I didn't find a database entry for "lopezdelacalle2005partsm"
+Warning--I didn't find a database entry for "cornelissen2014cosinor"
+Warning--I didn't find a database entry for "benjamini1995controlling"
+Warning--I didn't find a database entry for "cohen1988statistical"
+Warning--I didn't find a database entry for "boman2026cancers"
+Warning--I didn't find a database entry for "wold1938study"
+Warning--I didn't find a database entry for "smallbone2014crosstalk"
+Warning--I didn't find a database entry for "vanleeuwen2007wnt"
+Warning--I didn't find a database entry for "shmueli2010explain"
+Warning--I didn't find a database entry for "hanahan2011hallmarks"
+Warning--I didn't find a database entry for "wang2008regulation"
+Warning--I didn't find a database entry for "yang2006nuclear"
+Warning--I didn't find a database entry for "pavlova2016emerging"
+Warning--I didn't find a database entry for "mcgowan1993cell"
+Warning--I didn't find a database entry for "watanabe1995regulation"
+Warning--I didn't find a database entry for "sato2009circadian"
+Warning--I didn't find a database entry for "boman2025fibonacci"
+Warning--I didn't find a database entry for "geyfman2012brain"
+Warning--I didn't find a database entry for "scheffer2009early"
+Warning--I didn't find a database entry for "chen2012biomarkers"
+Warning--I didn't find a database entry for "leloup2003pnas"
+Warning--I didn't find a database entry for "hughes2010jtk"
+Warning--I didn't find a database entry for "thaben2014rain"
+Warning--I didn't find a database entry for "wu2016metacycle"
+Warning--I didn't find a database entry for "dcpr2025bioinf"
+Warning--I didn't find a database entry for "cgrf2025bmcbioinf"
+Warning--I didn't find a database entry for "taufisher2024natcomm"
+Warning--I didn't find a database entry for "ye2018orchestration"
+Warning--I didn't find a database entry for "michalik2004international"
+Warning--I didn't find a database entry for "droin2019space"
+Warning--I didn't find a database entry for "archer2014mistimed"
+Warning--I didn't find a database entry for "mollerlevet2013effects"
+Warning--I didn't find a database entry for "gamble2019shift"
+Warning--I didn't find a database entry for "sulli2018interplay"
+You've used 0 entries,
+            1791 wiz_defined-function locations,
+            508 strings with 4696 characters,
+and the built_in function-call counts, 18 in all, are:
+= -- 0
+> -- 0
+< -- 0
++ -- 0
+- -- 0
+* -- 2
+:= -- 7
+add.period$ -- 0
+call.type$ -- 0
+change.case$ -- 0
+chr.to.int$ -- 0
+cite$ -- 0
+duplicate$ -- 0
+empty$ -- 1
+format.name$ -- 0
+if$ -- 1
+int.to.chr$ -- 0
+int.to.str$ -- 0
+missing$ -- 0
+newline$ -- 3
+num.names$ -- 0
+pop$ -- 0
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 1
+stack$ -- 0
+substring$ -- 0
+swap$ -- 0
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 0
+width$ -- 0
+write$ -- 2
+(There was 1 error message)

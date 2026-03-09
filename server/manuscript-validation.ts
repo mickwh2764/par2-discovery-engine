@@ -1207,7 +1207,7 @@ export async function runManuscriptValidation(): Promise<ManuscriptValidationRes
       eigenperiods
     },
     computedAt: new Date().toISOString(),
-    methodology: 'Five-paper validation suite. Paper A: PAR(2) phase-interaction F-test (df1=4, df2=n-7) with Bonferroni correction. Paper B: AR(2) resonance zone classification (φ₁∈[0.8,1.2], φ₂∈[-0.8,-0.3]). Paper C: AR(2)+exogenous Arntl coupling F-test (df1=1, df2=n-4) with BH FDR. Paper D: Spearman correlations from curated cross-metric data. Paper E: BH FDR on raw p-values (q < 0.05).'
+    methodology: 'Seven-paper validation suite. Paper A: PAR(2) phase-interaction F-test (df1=4, df2=n-7) with Bonferroni correction. Paper B: AR(2) resonance zone classification (φ₁∈[0.8,1.2], φ₂∈[-0.8,-0.3]). Paper C: AR(2)+exogenous Arntl coupling F-test (df1=1, df2=n-4) with BH FDR. Paper D: Spearman correlations from curated cross-metric data. Paper E: BH FDR on raw p-values (q < 0.05). Paper F: Half-life independence replication across 7 datasets (22,989 genes), Spearman ρ with partial correlation controls. Paper G: Fibonacci Reply cross-validation across 22 datasets/5 species with honest caveats (φ-enrichment p=0.154, BMAL1-KO partially disconfirmed).'
   };
 
   cachedResult = result;

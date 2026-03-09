@@ -1,0 +1,150 @@
+=== PALBOCICLIB PERSISTENCE ANALYSIS (GSE93204) ===
+
+Dataset: 46 breast cancer patients treated with palbociclib
+Time points: Baseline → C1D1 (anastrozole) → C1D15 (anastrozole+palbociclib) → Surgery
+
+Patients with all 4 time points: 7
+Patient IDs: 123, 128, 133, 134, 203, 207, 208
+
+Total probes: 29284
+
+
+Probes with valid stationary AR(2): 23197
+Mean |λ|: 0.7007
+Median |λ|: 0.7055
+Range: 0.1057 — 0.9999
+
+Eigenvalue distribution:
+  0.0-0.1:     0 
+  0.1-0.2:     8 
+  0.2-0.3:    57 
+  0.3-0.4:   190 █
+  0.4-0.5:  1068 █████
+  0.5-0.6:  3274 ██████████████
+  0.6-0.7:  6568 ████████████████████████████
+  0.7-0.8:  7151 ███████████████████████████████
+  0.8-0.9:  3794 ████████████████
+  0.9-1.0:  1087 █████
+
+
+=== NAMED GENE PERSISTENCE PROFILES ===
+
+Gene          |λ|    φ₁     φ₂     R²     BL→C1D15   BL→Surg   Trajectory
+----------------------------------------------------------------------------------------------------
+ERBB2         0.978  -0.261  -0.956  0.535  +0.257     +0.093     ↑ RISES
+CDKN2A        0.919  -0.314  -0.844  0.553  -2.680     -1.078     ↓ DROPS
+FGFR1         0.899  -0.390  -0.809  0.578  -1.147     -0.457     ↓ DROPS
+CRY2          0.889  -0.415  -0.790  0.391  -0.639     +0.474     ↓ DROPS
+E2F1          0.843  -0.230  -0.711  0.693  -2.164     -1.030     ↓ DROPS
+CDK6          0.814  -0.415  -0.663  0.468  +0.804     +0.386     ↑ RISES
+CDKN1A        0.761  -0.272  -0.579  0.443  -0.784     -0.547     ↓ DROPS
+MKI67         0.750  -0.521  -0.562  0.437  +0.496     -0.020     ↑ RISES
+CLOCK         0.747  -0.392  -0.557  0.314  +0.003     +0.287     → STABLE
+DBP           0.742  -0.401  -0.551  0.328  +0.314     -0.189     ↑ RISES
+PER2          0.687  -0.245  -0.472  0.278  +0.306     +0.107     ↑ RISES
+CCNE1         0.660  -0.238  -0.436  0.285  +0.163     +0.450     → STABLE
+
+
+=== CATEGORY PERSISTENCE COMPARISON ===
+
+CDK4/6 Targets (what drug hits)     mean |λ|=0.829  mean Δ(treatment)=-0.680
+  Genes: CDK6(0.81), E2F1(0.84)
+Proliferation markers               mean |λ|=0.750  mean Δ(treatment)=+0.496
+  Genes: MKI67(0.75)
+Resistance pathways                 mean |λ|=0.780  mean Δ(treatment)=-0.492
+  Genes: CCNE1(0.66), FGFR1(0.90)
+Clock genes                         mean |λ|=0.766  mean Δ(treatment)=-0.004
+  Genes: CLOCK(0.75), PER2(0.69), CRY2(0.89), DBP(0.74)
+Tumor suppressors                   mean |λ|=0.840  mean Δ(treatment)=-1.732
+  Genes: CDKN1A(0.76), CDKN2A(0.92)
+Oncogenes                           mean |λ|=0.978  mean Δ(treatment)=+0.257
+  Genes: ERBB2(0.98)
+
+
+=== PERSISTENCE vs TREATMENT RESPONSE ===
+
+Does eigenvalue modulus predict whether drug effects persist to surgery?
+
+HIGH persistence genes (top 25%, |λ| > 0.784):
+  Mean |treatment change|: 0.4660
+  Change maintenance at surgery: 40.4%
+  (n=4780 genes with measurable change)
+
+LOW persistence genes (bottom 25%, |λ| < 0.623):
+  Mean |treatment change|: 0.3831
+  Change maintenance at surgery: 88.9%
+  (n=4677 genes with measurable change)
+
+→ LOW-persistence genes maintain treatment changes better at surgery
+
+
+=== PALBOCICLIB TARGET PERSISTENCE ===
+
+Key question: When palbociclib suppresses CDK4/6 pathway genes,
+does the suppression PERSIST to surgery (weeks later)?
+
+TARGETS (should be suppressed by drug):
+  CDK6       |λ|=0.814  BL→Treat: +0.804  BL→Surg: +0.386  Maintained: 48%
+  MKI67      |λ|=0.750  BL→Treat: +0.496  BL→Surg: -0.020  Maintained: -4%
+  E2F1       |λ|=0.843  BL→Treat: -2.164  BL→Surg: -1.030  Maintained: 48%
+
+RESISTANCE ESCAPE ROUTES (may activate during/after treatment):
+  CCNE1      |λ|=0.660  BL→Treat: +0.163  BL→Surg: +0.450
+  FGFR1      |λ|=0.899  BL→Treat: -1.147  BL→Surg: -0.457
+
+CLOCK GENES (do they survive palbociclib treatment?):
+  CLOCK      |λ|=0.747  BL→Treat: +0.003  BL→Surg: +0.287
+  PER2       |λ|=0.687  BL→Treat: +0.306  BL→Surg: +0.107
+  CRY2       |λ|=0.889  BL→Treat: -0.639  BL→Surg: +0.474
+
+
+=== TOP 20 MOST PERSISTENT GENES (TREATMENT-RESISTANT EXPRESSION) ===
+
+Gene/Probe        |λ|    φ₁     φ₂     Treatment Δ   Surgery Δ
+--------------------------------------------------------------------------------
+A_23_P108522       1.000  -0.101  -1.000  +0.250       +0.052
+A_32_P105195       1.000  -0.351  -1.000  +0.314       +0.194
+A_24_P895528       1.000  -0.348  -0.999  -0.373       -0.403
+A_23_P430800       0.999  -0.085  -0.999  -0.030       +0.314
+A_23_P120002       0.999  +0.016  -0.999  +0.101       +0.226
+A_24_P38951        0.999  -0.254  -0.998  -0.386       +0.092
+A_32_P167631       0.999  -0.244  -0.998  +0.256       +0.258
+A_23_P208325       0.999  -0.634  -0.998  +0.096       -0.026
+A_23_P66481        0.998  -0.423  -0.997  -0.343       -0.523
+A_24_P299685       0.998  -0.142  -0.997  +0.022       -0.368
+A_23_P142671       0.998  -0.149  -0.996  +0.246       +0.082
+A_23_P84929        0.998  -0.317  -0.996  +0.057       +0.118
+A_23_P102622       0.998  -0.010  -0.996  -0.447       +0.012
+A_24_P363408       0.998  -0.176  -0.996  +0.918       -0.228
+A_32_P105940       0.998  -0.323  -0.996  +0.069       +0.109
+A_23_P148088       0.998  -0.591  -0.996  -0.652       +0.340
+A_23_P203498       0.998  -0.401  -0.996  -0.220       -0.036
+A_24_P32085        0.997  -0.150  -0.995  +0.656       +0.300
+A_32_P180971       0.997  -0.511  -0.995  +0.282       +0.037
+A_32_P18034        0.997  -0.198  -0.994  +0.670       +0.440
+
+
+=== TOP 20 LEAST PERSISTENT GENES (MOST RESPONSIVE TO TREATMENT) ===
+
+Gene/Probe        |λ|    φ₁     φ₂     Treatment Δ   Surgery Δ
+--------------------------------------------------------------------------------
+A_32_P162306       0.106  -0.030  -0.011  -0.220       -0.187
+A_24_P851353       0.174  -0.167  -0.030  -0.362       -0.856
+A_32_P112034       0.175  -0.153  -0.031  +0.472       +0.255
+A_23_P169756       0.181  +0.281  -0.033  +0.519       +0.351
+A_32_P212272       0.184  -0.187  -0.034  -0.156       -0.182
+A_24_P45160        0.187  +0.125  -0.035  -0.262       -0.238
+A_23_P357270       0.189  -0.291  -0.036  -0.252       -0.406
+A_32_P190211       0.199  +0.092  -0.040  -1.786       -2.266
+A_24_P384369       0.200  -0.068  -0.040  +0.340       +0.156
+A_23_P59022        0.204  +0.252  -0.010  +0.776       +0.872
+A_32_P208991       0.209  -0.180  +0.006  -0.886       -1.114
+A_23_P385529       0.210  -0.297  -0.044  +0.708       +0.970
+A_32_P66266        0.211  +0.046  -0.044  -0.306       -0.382
+A_23_P41075        0.214  -0.171  -0.046  -0.161       -0.231
+A_23_P125109       0.214  +0.071  -0.046  -0.074       -0.084
+A_23_P204252       0.214  -0.209  -0.046  -0.588       -0.836
+A_32_P93584        0.215  -0.298  -0.018  -0.035       -0.065
+A_23_P27613        0.216  -0.401  -0.047  +0.137       +0.149
+A_24_P941167       0.224  -0.029  -0.050  +0.437       +0.757
+A_23_P103315       0.226  -0.254  -0.051  +0.096       +0.372

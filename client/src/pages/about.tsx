@@ -39,13 +39,13 @@ const COLOR_CLASSES: Record<string, { bg: string; text: string; border: string; 
 
 export default function About() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-foreground">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
 
         <header className="text-center space-y-6">
           <div className="flex justify-center">
             <Badge variant="outline" className="text-cyan-400 border-cyan-400/50 px-4 py-1 text-sm">
-              v2.2.0
+              v2.3.0
             </Badge>
           </div>
           <h1 className="text-5xl sm:text-6xl font-bold bg-gradient-to-r from-emerald-400 via-cyan-400 to-violet-400 bg-clip-text text-transparent leading-tight" data-testid="text-about-title">
@@ -84,11 +84,11 @@ export default function About() {
             <div className="h-10 w-10 rounded-lg bg-emerald-500/20 flex items-center justify-center">
               <Brain className="w-5 h-5 text-emerald-400" />
             </div>
-            <h2 className="text-3xl font-bold text-white">Executive Summary</h2>
+            <h2 className="text-3xl font-bold text-foreground">Executive Summary</h2>
           </div>
           <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-8 space-y-5 text-slate-300 text-lg leading-relaxed">
             <p>
-              Circadian biology traditionally classifies genes as "rhythmic" or "non-rhythmic," a binary distinction based on periodicity. This approach overlooks a deeper and more consequential property: <strong className="text-white">temporal persistence</strong> — how strongly clock-derived timing information propagates across successive cellular states.
+              Circadian biology traditionally classifies genes as "rhythmic" or "non-rhythmic," a binary distinction based on periodicity. This approach overlooks a deeper and more consequential property: <strong className="text-foreground">temporal persistence</strong> — how strongly clock-derived timing information propagates across successive cellular states.
             </p>
             <p>
               The PAR(2) Discovery Engine introduces a minimal dynamical systems framework that quantifies this persistence using second-order autoregressive (AR(2)) modeling. Rather than asking whether a gene oscillates, the framework measures how strongly its expression at one time point predicts future behavior via the eigenvalue modulus |λ| derived from AR(2) coefficients.
@@ -120,14 +120,14 @@ export default function About() {
             <div className="h-10 w-10 rounded-lg bg-amber-500/20 flex items-center justify-center">
               <GitBranch className="w-5 h-5 text-amber-400" />
             </div>
-            <h2 className="text-3xl font-bold text-white">What This Is Not</h2>
+            <h2 className="text-3xl font-bold text-foreground">What This Is Not</h2>
           </div>
           <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-8 space-y-5 text-slate-300 text-lg leading-relaxed">
             <p>
               Existing circadian analysis tools — JTK_CYCLE <span className="text-slate-400">(Hughes et al. 2010)</span>, RAIN <span className="text-slate-400">(Thaben & Westermark 2014)</span>, MetaCycle <span className="text-slate-400">(Wu et al. 2016)</span>, CircaCompare <span className="text-slate-400">(Parsons et al. 2020)</span>, and ARSER <span className="text-slate-400">(Yang & Su 2010)</span> — answer the question: <em>"Is this gene rhythmic?"</em> They detect oscillation and measure period, amplitude, and phase.
             </p>
             <p>
-              <strong className="text-white">PAR(2) does not detect rhythms.</strong> It measures temporal persistence via the eigenvalue modulus |λ| of an AR(2) process. This is mathematically independent of oscillation amplitude (Spearman ρ = 0.26 across ~20,000 genes). A gene can be highly persistent without being rhythmic, or strongly rhythmic without being persistent. These are different biological states. <EvidenceLink label="See independence analysis" to="/validation-suite" hash="eigenvalue-independence" /> <EvidenceLink label="Robustness suite" to="/robustness-suite" />
+              <strong className="text-foreground">PAR(2) does not detect rhythms.</strong> It measures temporal persistence via the eigenvalue modulus |λ| of an AR(2) process. This is mathematically independent of oscillation amplitude (Spearman ρ = 0.26 across ~20,000 genes). A gene can be highly persistent without being rhythmic, or strongly rhythmic without being persistent. These are different biological states. <EvidenceLink label="See independence analysis" to="/validation-suite" hash="eigenvalue-independence" /> <EvidenceLink label="Robustness suite" to="/robustness-suite" />
             </p>
             <p>
               ARSER <span className="text-slate-400">(Yang & Su 2010)</span> notably uses autoregressive spectral estimation — the same AR mathematical framework — but extracts only period and amplitude from it, discarding the eigenvalue structure. PAR(2) recovers and analyzes what ARSER discards.
@@ -149,7 +149,7 @@ export default function About() {
             <div className="h-10 w-10 rounded-lg bg-violet-500/20 flex items-center justify-center">
               <Layers className="w-5 h-5 text-violet-400" />
             </div>
-            <h2 className="text-3xl font-bold text-white">Independent Convergence</h2>
+            <h2 className="text-3xl font-bold text-foreground">Independent Convergence</h2>
           </div>
           <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-8 space-y-5 text-slate-300 text-lg leading-relaxed">
             <p>
@@ -157,19 +157,19 @@ export default function About() {
             </p>
             <div className="space-y-3">
               <div className="bg-slate-900/80 border border-slate-600 rounded-lg p-4">
-                <p className="text-white font-medium">Phillips et al. (2019) Nature Communications</p>
+                <p className="text-foreground font-medium">Phillips et al. (2019) Nature Communications</p>
                 <p className="text-slate-400 text-sm">"Mean transcriptional activity is transmitted from mother to daughter cells, leading to multi-generational transcriptional memory." Demonstrated using live-cell imaging with luminescent reporters across cell divisions.</p>
               </div>
               <div className="bg-slate-900/80 border border-slate-600 rounded-lg p-4">
-                <p className="text-white font-medium">Kuchen et al. (2020) eLife</p>
+                <p className="text-foreground font-medium">Kuchen et al. (2020) eLife</p>
                 <p className="text-slate-400 text-sm">"Hidden long-range memories of growth and cycle speed correlate cell cycles in lineage trees." Two coupled heritable quantities — growth/size and cell-cycle progression speed — explain correlations across 10-generation neuroblastoma lineage trees. Strong external justification for the two-term memory structure in AR(2).</p>
               </div>
               <div className="bg-slate-900/80 border border-slate-600 rounded-lg p-4">
-                <p className="text-white font-medium">Sandler et al. (2015) Nature</p>
+                <p className="text-foreground font-medium">Sandler et al. (2015) Nature</p>
                 <p className="text-slate-400 text-sm">Lineage correlations of single cell division time as a probe of cell-cycle dynamics. Established that cell-cycle timing carries multi-generational correlations.</p>
               </div>
               <div className="bg-slate-900/80 border border-slate-600 rounded-lg p-4">
-                <p className="text-white font-medium">Binder et al. (2024) Nature Communications (GEMLI)</p>
+                <p className="text-foreground font-medium">Binder et al. (2024) Nature Communications (GEMLI)</p>
                 <p className="text-slate-400 text-sm">Reconstructed cell lineages from scRNA-seq data using gene expression memory alone — proving the memory is strong enough to infer family trees without experimental tracing.</p>
               </div>
             </div>
@@ -184,7 +184,7 @@ export default function About() {
             <div className="h-10 w-10 rounded-lg bg-emerald-500/20 flex items-center justify-center">
               <Microscope className="w-5 h-5 text-emerald-400" />
             </div>
-            <h2 className="text-3xl font-bold text-white">Mechanistic Support</h2>
+            <h2 className="text-3xl font-bold text-foreground">Mechanistic Support</h2>
           </div>
           <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-8 space-y-5 text-slate-300 text-lg leading-relaxed">
             <p>
@@ -192,19 +192,19 @@ export default function About() {
             </p>
             <div className="space-y-3">
               <div className="bg-slate-900/80 border border-emerald-600/40 rounded-lg p-4">
-                <p className="text-white font-medium">Hwang-Verslues et al. (2023) Scientific Reports</p>
+                <p className="text-foreground font-medium">Hwang-Verslues et al. (2023) Scientific Reports</p>
                 <p className="text-slate-400 text-sm">BMAL1 transcriptionally activates MEX3A, which binds and stabilizes Lgr5 mRNA in intestinal crypt cells. A clean mechanistic bridge between clock machinery and stemness marker maintenance — timing control directly reshapes the renewal hierarchy.</p>
               </div>
               <div className="bg-slate-900/80 border border-emerald-600/40 rounded-lg p-4">
-                <p className="text-white font-medium">Stokes et al. (2021) Cell Mol Gastroenterol Hepatol</p>
+                <p className="text-foreground font-medium">Stokes et al. (2021) Cell Mol Gastroenterol Hepatol</p>
                 <p className="text-slate-400 text-sm">Loss of BMAL1 or environmental circadian disruption increases tumor initiation in Apc-min mice. Circadian photoperiod disruption rewires ISC pathway dominance (high YAP/Hippo, low Wnt). Direct evidence that temporal order is tumor-suppressive at the initiation stage.</p>
               </div>
               <div className="bg-slate-900/80 border border-emerald-600/40 rounded-lg p-4">
-                <p className="text-white font-medium">Andersen, Duan & Karri (2023) Stem Cells</p>
+                <p className="text-foreground font-medium">Andersen, Duan & Karri (2023) Stem Cells</p>
                 <p className="text-slate-400 text-sm">Review summarizing diurnal oscillations in epithelial stem cell proliferation across tissues. Intrinsic circadian clock function is required for proliferative rhythms, providing biological plausibility for PAR(2)'s temporal architecture.</p>
               </div>
               <div className="bg-slate-900/80 border border-emerald-600/40 rounded-lg p-4">
-                <p className="text-white font-medium">IBD Epigenetic Memory (2025) bioRxiv</p>
+                <p className="text-foreground font-medium">IBD Epigenetic Memory (2025) bioRxiv</p>
                 <p className="text-slate-400 text-sm">Patient-matched organoids from prior-inflamed regions retain thousands of distinct accessible chromatin regions. Silent at baseline, but re-challenge produces heightened responses — direct empirical support for memory in renewal systems that is silent until perturbed.</p>
               </div>
             </div>
@@ -219,11 +219,11 @@ export default function About() {
             <div className="h-10 w-10 rounded-lg bg-cyan-500/20 flex items-center justify-center">
               <Target className="w-5 h-5 text-cyan-400" />
             </div>
-            <h2 className="text-3xl font-bold text-white">Central Finding: The Persistence Gap</h2>
+            <h2 className="text-3xl font-bold text-foreground">Central Finding: The Persistence Gap</h2>
           </div>
           <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-8 space-y-5 text-slate-300 text-lg leading-relaxed">
             <p>
-              Across <strong className="text-white">14 dataset-level analyses</strong> spanning <strong className="text-white">four species</strong> (mouse, human, baboon, Arabidopsis), clock genes consistently exhibit higher eigenvalue moduli than the target genes they regulate. Note: some datasets share cohort-level variance; cross-tissue claims are qualified by block permutation testing.
+              Across <strong className="text-foreground">14 dataset-level analyses</strong> spanning <strong className="text-foreground">four species</strong> (mouse, human, baboon, Arabidopsis), clock genes consistently exhibit higher eigenvalue moduli than the target genes they regulate. Note: some datasets share cohort-level variance; cross-tissue claims are qualified by block permutation testing.
             </p>
             <p>
               This difference — termed the <strong className="text-cyan-400">persistence gap</strong> — reflects a hierarchical organization:
@@ -259,7 +259,7 @@ export default function About() {
             <div className="h-10 w-10 rounded-lg bg-red-500/20 flex items-center justify-center">
               <Activity className="w-5 h-5 text-red-400" />
             </div>
-            <h2 className="text-3xl font-bold text-white">Perturbation Sensitivity</h2>
+            <h2 className="text-3xl font-bold text-foreground">Perturbation Sensitivity</h2>
           </div>
           <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-8 space-y-5 text-slate-300 text-lg leading-relaxed">
             <p>
@@ -289,7 +289,7 @@ export default function About() {
               In cancer models, root-space distributions shift significantly (Mann-Whitney p &lt; 0.001), with targets acquiring persistence comparable to clock genes. This pattern is distinct from age-matched controls and from gradual aging trajectories. <EvidenceLink label="See perturbation analysis" to="/root-space" hash="perturbation-shifts" /> <EvidenceLink label="Disease screen" to="/disease-screen" />
             </p>
             <p>
-              These results suggest that <strong className="text-white">loss of circadian hierarchical separation is associated with oncogenic disruption</strong>. <EvidenceLink label="Drug target durability" to="/drug-durability" variant="inline" />
+              These results suggest that <strong className="text-foreground">loss of circadian hierarchical separation is associated with oncogenic disruption</strong>. <EvidenceLink label="Drug target durability" to="/drug-durability" variant="inline" />
             </p>
           </div>
         </section>
@@ -299,13 +299,13 @@ export default function About() {
             <div className="h-10 w-10 rounded-lg bg-violet-500/20 flex items-center justify-center">
               <Atom className="w-5 h-5 text-violet-400" />
             </div>
-            <h2 className="text-3xl font-bold text-white">Root-Space Geometry</h2>
+            <h2 className="text-3xl font-bold text-foreground">Root-Space Geometry</h2>
           </div>
           <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-8 space-y-5 text-slate-300 text-lg leading-relaxed">
             <p>
               Mapping AR(2) coefficients into root space (r, θ) reveals non-uniform clustering relative to phase-randomized null models.
             </p>
-            <p className="font-semibold text-white">Key structural observations:</p>
+            <p className="font-semibold text-foreground">Key structural observations:</p>
             <ul className="space-y-3 text-base">
               <li className="flex items-start gap-3">
                 <CheckCircle2 size={16} className="text-emerald-400 mt-1 flex-shrink-0" />
@@ -313,11 +313,11 @@ export default function About() {
               </li>
               <li className="flex items-start gap-3">
                 <CheckCircle2 size={16} className="text-emerald-400 mt-1 flex-shrink-0" />
-                <span>φ-band occupancy enrichment (Bonferroni-corrected p = 0.0048) under the primary angular reference (θ = 2π/φ) <EvidenceLink label="See enrichment tests" to="/root-space" hash="phi-enrichment" variant="inline" /></span>
+                <span>φ-band occupancy tested under the primary angular reference (θ = 2π/φ) — genome-wide enrichment at gene level is not significant (p = 0.154). Pair-counting methodology inflates apparent significance; results are exploratory. <EvidenceLink label="See enrichment tests" to="/root-space" hash="phi-enrichment" variant="inline" /></span>
               </li>
               <li className="flex items-start gap-3">
-                <CheckCircle2 size={16} className="text-emerald-400 mt-1 flex-shrink-0" />
-                <span>Threshold sweep (19 cutoffs) demonstrates enrichment persists across a range of D<sub>φ</sub> values (peak 2.2× at D<sub>φ</sub> &lt; 0.8)</span>
+                <AlertTriangle size={16} className="text-amber-400 mt-1 flex-shrink-0" />
+                <span>Threshold sweep (19 cutoffs) shows modest enrichment at some D<sub>φ</sub> values, but this does not survive correction for multiple comparisons at the individual gene level</span>
               </li>
               <li className="flex items-start gap-3">
                 <CheckCircle2 size={16} className="text-emerald-400 mt-1 flex-shrink-0" />
@@ -325,7 +325,7 @@ export default function About() {
               </li>
             </ul>
             <p>
-              These findings indicate <strong className="text-white">structured stability geometry</strong> rather than uniform AR(2) coefficient sampling. <EvidenceLink label="Explore root-space" to="/root-space" hash="enrichment-tests" />
+              These findings indicate <strong className="text-foreground">structured stability geometry</strong> rather than uniform AR(2) coefficient sampling. <EvidenceLink label="Explore root-space" to="/root-space" hash="enrichment-tests" />
             </p>
             <p className="text-slate-400 text-base italic">
               The Fibonacci reference point (β₁, β₂) = (1,1) lies outside the stationary region; the analysis treats φ as a geometric reference axis, not a universal attractor.
@@ -338,7 +338,7 @@ export default function About() {
             <div className="h-10 w-10 rounded-lg bg-amber-500/20 flex items-center justify-center">
               <Shield className="w-5 h-5 text-amber-400" />
             </div>
-            <h2 className="text-3xl font-bold text-white">Model Validation and Safeguards</h2>
+            <h2 className="text-3xl font-bold text-foreground">Model Validation and Safeguards</h2>
           </div>
           <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-8 space-y-5 text-slate-300 text-lg leading-relaxed">
             <p>
@@ -374,7 +374,7 @@ export default function About() {
             <div className="h-10 w-10 rounded-lg bg-purple-500/20 flex items-center justify-center">
               <BarChart3 className="w-5 h-5 text-purple-400" />
             </div>
-            <h2 className="text-3xl font-bold text-white">Why AR(2) Instead of Simpler Methods?</h2>
+            <h2 className="text-3xl font-bold text-foreground">Why AR(2) Instead of Simpler Methods?</h2>
           </div>
           <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-8 space-y-5 text-slate-300 text-lg leading-relaxed">
             <p>
@@ -409,7 +409,7 @@ export default function About() {
               <Zap className="w-5 h-5 text-yellow-400" />
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-white">Explore the Platform</h2>
+              <h2 className="text-3xl font-bold text-foreground">Explore the Platform</h2>
               <p className="text-slate-400 text-sm mt-1">Every analysis page is interactive. Click to explore.</p>
             </div>
           </div>
@@ -428,7 +428,7 @@ export default function About() {
                       {IconComponent && <IconComponent className={`w-4 h-4 ${colors.text}`} />}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-bold text-white text-base">{feature.title}</h3>
+                      <h3 className="font-bold text-foreground text-base">{feature.title}</h3>
                       <p className="text-slate-400 text-sm mt-1">{feature.description}</p>
                       <Link href={feature.route}>
                         <span className="text-sm text-cyan-400 flex items-center gap-1 mt-3 hover:text-cyan-300" data-testid={`link-explore-${feature.route.replace('/', '')}`}>
@@ -448,7 +448,7 @@ export default function About() {
             <div className="h-10 w-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
               <Layers className="w-5 h-5 text-blue-400" />
             </div>
-            <h2 className="text-3xl font-bold text-white">Interpretation</h2>
+            <h2 className="text-3xl font-bold text-foreground">Interpretation</h2>
           </div>
           <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-8 space-y-5 text-slate-300 text-lg leading-relaxed">
             <p>
@@ -484,7 +484,7 @@ export default function About() {
               </div>
             </div>
             <p>
-              The eigenvalue modulus thus provides a <strong className="text-white">continuous metric of circadian structural integrity</strong> beyond binary rhythmicity classification. <EvidenceLink label="See external benchmarks" to="/framework-benchmarks" hash="turing-detail" /> <EvidenceLink label="Model zoo validation" to="/model-zoo" hash="round-trip" />
+              The eigenvalue modulus thus provides a <strong className="text-foreground">continuous metric of circadian structural integrity</strong> beyond binary rhythmicity classification. <EvidenceLink label="See external benchmarks" to="/framework-benchmarks" hash="turing-detail" /> <EvidenceLink label="Model zoo validation" to="/model-zoo" hash="round-trip" />
             </p>
           </div>
         </section>
@@ -494,7 +494,7 @@ export default function About() {
             <div className="h-10 w-10 rounded-lg bg-slate-600/50 flex items-center justify-center">
               <AlertTriangle className="w-5 h-5 text-slate-400" />
             </div>
-            <h2 className="text-3xl font-bold text-white">Scope and Limits</h2>
+            <h2 className="text-3xl font-bold text-foreground">Scope and Limits</h2>
           </div>
           <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-8 space-y-5 text-slate-300 text-lg leading-relaxed">
             <p>
@@ -511,7 +511,7 @@ export default function About() {
             <div className="h-10 w-10 rounded-lg bg-indigo-500/20 flex items-center justify-center">
               <FileText className="w-5 h-5 text-indigo-400" />
             </div>
-            <h2 className="text-3xl font-bold text-white">Platform Capabilities</h2>
+            <h2 className="text-3xl font-bold text-foreground">Platform Capabilities</h2>
           </div>
           <div className="space-y-4">
             {[
@@ -576,7 +576,7 @@ export default function About() {
                 <div className="bg-slate-800/50 border border-slate-700 hover:border-slate-500 rounded-xl p-5 flex items-start gap-4 cursor-pointer transition-all group" data-testid={`link-capability-${cap.link.replace('/', '')}`}>
                   <div className={`mt-1 ${cap.color}`}>{cap.icon}</div>
                   <div className="flex-1">
-                    <div className="font-semibold text-white group-hover:text-cyan-300 transition-colors flex items-center gap-2">
+                    <div className="font-semibold text-foreground group-hover:text-cyan-300 transition-colors flex items-center gap-2">
                       {cap.title}
                       <ChevronRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>
@@ -589,7 +589,7 @@ export default function About() {
         </section>
 
         <section className="bg-gradient-to-r from-emerald-500/10 via-cyan-500/10 to-violet-500/10 border border-cyan-500/20 rounded-2xl p-10 text-center space-y-5">
-          <h2 className="text-3xl font-bold text-white">Conclusion</h2>
+          <h2 className="text-3xl font-bold text-foreground">Conclusion</h2>
           <p className="text-lg text-slate-300 max-w-3xl mx-auto leading-relaxed">
             The PAR(2) Discovery Engine introduces a reproducible, low-dimensional dynamical measure of circadian hierarchy that replicates across species and datasets, distinguishes aging from oncogenic perturbation, and reveals structured stability geometry beyond rhythmic classification. It provides a quantitative lens for evaluating temporal control integrity in biological systems.
           </p>
@@ -604,8 +604,8 @@ export default function About() {
         </section>
 
         <footer className="text-center text-sm text-slate-400 py-8 border-t border-slate-700">
-          <p>PAR(2) Discovery Engine v2.2.0 — Built for open science and reproducible circadian research.</p>
-          <p className="mt-1 text-xs text-slate-400 font-mono">Build locked: February 20, 2026</p>
+          <p>PAR(2) Discovery Engine v2.3.0 — Built for open science and reproducible circadian research.</p>
+          <p className="mt-1 text-xs text-slate-400 font-mono">Build locked: February 27, 2026</p>
           <p className="mt-2">Patent Pending UK</p>
         </footer>
 

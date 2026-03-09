@@ -203,3 +203,22 @@ export const insertFeedbackSchema = createInsertSchema(feedbackSubmissions).omit
 
 export type InsertFeedback = z.infer<typeof insertFeedbackSchema>;
 export type Feedback = typeof feedbackSubmissions.$inferSelect;
+
+export const savedReports = pgTable("saved_reports", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  sourcePage: text("source_page").notNull(),
+  reportType: text("report_type").notNull(),
+  summary: text("summary"),
+  geneCount: integer("gene_count"),
+  payload: jsonb("payload").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+}, (table) => [index("IDX_saved_reports_created").on(table.createdAt)]);
+
+export const insertSavedReportSchema = createInsertSchema(savedReports).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertSavedReport = z.infer<typeof insertSavedReportSchema>;
+export type SavedReport = typeof savedReports.$inferSelect;

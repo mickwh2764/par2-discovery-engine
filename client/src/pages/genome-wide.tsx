@@ -20,6 +20,7 @@ import HowTo from "@/components/HowTo";
 import PaperCrossLinks from "@/components/PaperCrossLinks";
 import InsightCallout from "@/components/InsightCallout";
 import ViewInRootSpace from "@/components/ViewInRootSpace";
+import GeneTooltip from "@/components/GeneTooltip";
 
 interface StabilityFiltered {
   totalGenesRetained: number;
@@ -370,15 +371,15 @@ function SkinLayerPanel({ layer, data, isExpanded, toggle }: { layer: string; da
             <ResponsiveContainer width="100%" height={250}>
               <BarChart data={bootstrapChartData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis dataKey="gene" stroke="#94a3b8" tick={{ fontSize: 10 }} angle={-45} textAnchor="end" height={60} />
-                <YAxis domain={[0, 1.1]} stroke="#94a3b8" />
+                <XAxis dataKey="gene" stroke="#64748b" tick={{ fontSize: 10 }} angle={-45} textAnchor="end" height={60} />
+                <YAxis domain={[0, 1.1]} stroke="#64748b" />
                 <Tooltip content={<SkinCustomTooltip />} />
                 <ReferenceLine y={1.0} stroke="#ef4444" strokeDasharray="3 3" label={{ value: '|λ|=1', fill: '#ef4444', fontSize: 10 }} />
                 <Bar dataKey="eigenvalue" name="Eigenvalue |λ|" radius={[2, 2, 0, 0]}>
                   {bootstrapChartData.map((entry, idx) => (
                     <Cell key={idx} fill={entry.geneType === 'clock' ? '#60a5fa' : '#f59e0b'} opacity={0.8} />
                   ))}
-                  <ErrorBar dataKey="errorHigh" width={2} strokeWidth={1} stroke="#94a3b8" direction="y" />
+                  <ErrorBar dataKey="errorHigh" width={2} strokeWidth={1} stroke="#64748b" direction="y" />
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
@@ -694,7 +695,7 @@ export default function GenomeWide() {
                   <div className="space-y-2 max-h-80 overflow-y-auto">
                     {result.clockGenes.genes.map(g => (
                       <div key={g.gene} className="flex items-center justify-between p-2 bg-blue-500/10 rounded text-sm" data-testid={`clock-gene-${g.gene}`}>
-                        <span className="font-mono font-medium">{g.gene}</span>
+                        <GeneTooltip gene={g.gene}><span className="font-mono font-medium">{g.gene}</span></GeneTooltip>
                         <div className="flex items-center gap-3">
                           <span className="text-muted-foreground">|lambda|={g.eigenvalue}</span>
                           <Badge variant={g.percentile >= 90 ? "default" : g.percentile >= 75 ? "secondary" : "outline"}>
@@ -723,7 +724,7 @@ export default function GenomeWide() {
                   <div className="space-y-2 max-h-80 overflow-y-auto">
                     {result.targetGenes.genes.map(g => (
                       <div key={g.gene} className="flex items-center justify-between p-2 bg-amber-500/10 rounded text-sm" data-testid={`target-gene-${g.gene}`}>
-                        <span className="font-mono font-medium">{g.gene}</span>
+                        <GeneTooltip gene={g.gene}><span className="font-mono font-medium">{g.gene}</span></GeneTooltip>
                         <div className="flex items-center gap-3">
                           <span className="text-muted-foreground">|lambda|={g.eigenvalue}</span>
                           <Badge variant={g.percentile >= 90 ? "default" : g.percentile >= 75 ? "secondary" : "outline"}>
@@ -888,7 +889,7 @@ export default function GenomeWide() {
                       <div className="flex flex-wrap gap-2">
                         {result.stabilityFiltered.unstableGenes.map(g => (
                           <Badge key={g.gene} variant="outline" className="text-amber-400 border-amber-500/30" data-testid={`badge-unstable-${g.gene}`}>
-                            {g.gene} ({g.geneType}) |lambda|={g.eigenvalue}
+                            <GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip> ({g.geneType}) |lambda|={g.eigenvalue}
                           </Badge>
                         ))}
                       </div>
@@ -1100,7 +1101,7 @@ export default function GenomeWide() {
             </Alert>
           )}
 
-          {skinData && (
+          {skinData && skinData.headToHead && (
             <>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <Card>
@@ -1160,8 +1161,8 @@ export default function GenomeWide() {
                       { test: 'Random Null', dermis: skinData.headToHead.dermisNullPValue, epidermis: skinData.headToHead.epidermisNullPValue },
                     ]} margin={{ top: 10, right: 30, bottom: 10, left: 10 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                      <XAxis dataKey="test" stroke="#94a3b8" />
-                      <YAxis domain={[0, 0.5]} stroke="#94a3b8" label={{ value: 'p-value', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 12 }} />
+                      <XAxis dataKey="test" stroke="#64748b" />
+                      <YAxis domain={[0, 0.5]} stroke="#64748b" label={{ value: 'p-value', angle: -90, position: 'insideLeft', fill: '#64748b', fontSize: 12 }} />
                       <Tooltip content={<SkinCustomTooltip />} />
                       <ReferenceLine y={0.05} stroke="#ef4444" strokeDasharray="3 3" label={{ value: 'α=0.05', fill: '#ef4444', fontSize: 10 }} />
                       <Bar dataKey="dermis" name="Dermis" fill="#22d3ee" radius={[4, 4, 0, 0]} />

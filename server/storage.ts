@@ -17,6 +17,8 @@ import {
   type InsertAnalyticsEvent,
   type Feedback,
   type InsertFeedback,
+  type SavedReport,
+  type InsertSavedReport,
   analysisRuns,
   hypotheses,
   users,
@@ -25,7 +27,8 @@ import {
   concordanceAnalysis,
   sharedAnalyses,
   analyticsEvents,
-  feedbackSubmissions
+  feedbackSubmissions,
+  savedReports
 } from "@shared/schema";
 import { drizzle } from "drizzle-orm/neon-serverless";
 import { Pool, neonConfig } from "@neondatabase/serverless";
@@ -41,7 +44,12 @@ let db: any = null;
 
 if (hasDatabase) {
   try {
-    const pool = new Pool({ connectionString: process.env.DATABASE_URL! });
+    const connectionString = process.env.DATABASE_URL!;
+    const pool = new Pool({
+      connectionString,
+      ssl: connectionString.includes('neon.tech') ? { rejectUnauthorized: true } : undefined,
+      connectionTimeoutMillis: 10000,
+    });
     pool.on('error', (err: Error) => {
       console.error('[storage] Database pool error (non-fatal):', err.message);
     });
@@ -100,7 +108,7 @@ export interface IStorage {
   // Analytics
   createAnalyticsEvent(event: InsertAnalyticsEvent): Promise<AnalyticsEvent>;
   getAnalyticsEvents(limit?: number): Promise<AnalyticsEvent[]>;
-  getAnalyticsSummary(): Promise<{
+  getAnalyticsSummary(excludeSelf?: boolean): Promise<{
     totalVisits: number;
     totalAnalyses: number;
     uniqueCountries: string[];
@@ -108,6 +116,7 @@ export interface IStorage {
     visitsByPage: Record<string, number>;
     recentVisits: AnalyticsEvent[];
     visitsByDay: Record<string, number>;
+    trafficSources: Record<string, number>;
   }>;
   
   clearAnalytics(): Promise<void>;
@@ -116,6 +125,12 @@ export interface IStorage {
   // Feedback
   createFeedback(feedback: InsertFeedback): Promise<Feedback>;
   listFeedback(limit?: number): Promise<Feedback[]>;
+  
+  // Saved reports
+  createSavedReport(report: InsertSavedReport): Promise<SavedReport>;
+  getSavedReport(id: string): Promise<SavedReport | undefined>;
+  listSavedReports(limit?: number): Promise<SavedReport[]>;
+  deleteSavedReport(id: string): Promise<boolean>;
   
   // Health check
   healthCheck(): Promise<boolean>;
@@ -317,8 +332,17 @@ export class DatabaseStorage implements IStorage {
     return db.select().from(analyticsEvents).orderBy(desc(analyticsEvents.createdAt)).limit(limit);
   }
 
-  async getAnalyticsSummary() {
-    const allEvents = await db.select().from(analyticsEvents).orderBy(desc(analyticsEvents.createdAt));
+  async getAnalyticsSummary(excludeSelf = false) {
+    let allEvents = await db.select().from(analyticsEvents).orderBy(desc(analyticsEvents.createdAt));
+    if (excludeSelf) {
+      allEvents = allEvents.filter(e => {
+        const ua = e.userAgent || '';
+        const ref = e.referrer || '';
+        if (ua.includes('HeadlessChrome')) return false;
+        if (ref.includes('__replco/workspace_iframe') || ref.includes('riker.replit.dev/__replco')) return false;
+        return true;
+      });
+    }
     return this.buildSummary(allEvents);
   }
 
@@ -328,18 +352,39 @@ export class DatabaseStorage implements IStorage {
     const visitsByCountry: Record<string, number> = {};
     const visitsByPage: Record<string, number> = {};
     const visitsByDay: Record<string, number> = {};
+    const trafficSources: Record<string, number> = {};
     const countries = new Set<string>();
 
     for (const e of visits) {
-      if (e.country) {
-        countries.add(e.country);
-        visitsByCountry[e.country] = (visitsByCountry[e.country] || 0) + 1;
-      }
+      const countryName = e.country || 'Unknown';
+      countries.add(countryName);
+      visitsByCountry[countryName] = (visitsByCountry[countryName] || 0) + 1;
       if (e.page) {
         visitsByPage[e.page] = (visitsByPage[e.page] || 0) + 1;
       }
       const day = e.createdAt.toISOString().split('T')[0];
       visitsByDay[day] = (visitsByDay[day] || 0) + 1;
+
+      if (e.referrer) {
+        let sourceLabel = 'Direct';
+        try {
+          const ref = JSON.parse(e.referrer);
+          if (ref.utm_source) {
+            sourceLabel = ref.utm_source;
+          } else if (ref.domain) {
+            sourceLabel = ref.domain;
+          } else if (ref.url) {
+            try { sourceLabel = new URL(ref.url).hostname; } catch { sourceLabel = ref.url.slice(0, 50); }
+          }
+        } catch {
+          if (e.referrer.startsWith('http')) {
+            try { sourceLabel = new URL(e.referrer).hostname; } catch { sourceLabel = e.referrer.slice(0, 50); }
+          } else if (e.referrer.length > 0 && e.referrer !== 'null') {
+            sourceLabel = e.referrer.slice(0, 50);
+          }
+        }
+        trafficSources[sourceLabel] = (trafficSources[sourceLabel] || 0) + 1;
+      }
     }
 
     return {
@@ -350,6 +395,7 @@ export class DatabaseStorage implements IStorage {
       visitsByPage,
       recentVisits: allEvents.slice(0, 50),
       visitsByDay,
+      trafficSources,
     };
   }
 
@@ -372,6 +418,25 @@ export class DatabaseStorage implements IStorage {
 
   async listFeedback(limit = 100): Promise<Feedback[]> {
     return db.select().from(feedbackSubmissions).orderBy(desc(feedbackSubmissions.createdAt)).limit(limit);
+  }
+
+  async createSavedReport(report: InsertSavedReport): Promise<SavedReport> {
+    const [result] = await db.insert(savedReports).values(report).returning();
+    return result;
+  }
+
+  async getSavedReport(id: string): Promise<SavedReport | undefined> {
+    const [result] = await db.select().from(savedReports).where(eq(savedReports.id, id));
+    return result;
+  }
+
+  async listSavedReports(limit = 50): Promise<SavedReport[]> {
+    return db.select().from(savedReports).orderBy(desc(savedReports.createdAt)).limit(limit);
+  }
+
+  async deleteSavedReport(id: string): Promise<boolean> {
+    const result = await db.delete(savedReports).where(eq(savedReports.id, id)).returning();
+    return result.length > 0;
   }
 
   async healthCheck(): Promise<boolean> {
@@ -718,25 +783,55 @@ export class InMemoryStorage implements IStorage {
       .slice(0, limit);
   }
 
-  async getAnalyticsSummary() {
-    const allEvents = this.analyticsEventsArr.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  async getAnalyticsSummary(excludeSelf = false) {
+    let allEvents = this.analyticsEventsArr.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    if (excludeSelf) {
+      allEvents = allEvents.filter(e => {
+        const ua = e.userAgent || '';
+        const ref = e.referrer || '';
+        if (ua.includes('HeadlessChrome')) return false;
+        if (ref.includes('__replco/workspace_iframe') || ref.includes('riker.replit.dev/__replco')) return false;
+        return true;
+      });
+    }
     const visits = allEvents.filter(e => e.eventType === 'page_view');
     const analyses = allEvents.filter(e => e.eventType === 'analysis_run');
     const visitsByCountry: Record<string, number> = {};
     const visitsByPage: Record<string, number> = {};
     const visitsByDay: Record<string, number> = {};
+    const trafficSources: Record<string, number> = {};
     const countries = new Set<string>();
 
     for (const e of visits) {
-      if (e.country) {
-        countries.add(e.country);
-        visitsByCountry[e.country] = (visitsByCountry[e.country] || 0) + 1;
-      }
+      const countryName = e.country || 'Unknown';
+      countries.add(countryName);
+      visitsByCountry[countryName] = (visitsByCountry[countryName] || 0) + 1;
       if (e.page) {
         visitsByPage[e.page] = (visitsByPage[e.page] || 0) + 1;
       }
       const day = e.createdAt.toISOString().split('T')[0];
       visitsByDay[day] = (visitsByDay[day] || 0) + 1;
+
+      if (e.referrer) {
+        let sourceLabel = 'Direct';
+        try {
+          const ref = JSON.parse(e.referrer);
+          if (ref.utm_source) {
+            sourceLabel = ref.utm_source;
+          } else if (ref.domain) {
+            sourceLabel = ref.domain;
+          } else if (ref.url) {
+            try { sourceLabel = new URL(ref.url).hostname; } catch { sourceLabel = ref.url.slice(0, 50); }
+          }
+        } catch {
+          if (e.referrer.startsWith('http')) {
+            try { sourceLabel = new URL(e.referrer).hostname; } catch { sourceLabel = e.referrer.slice(0, 50); }
+          } else if (e.referrer.length > 0 && e.referrer !== 'null') {
+            sourceLabel = e.referrer.slice(0, 50);
+          }
+        }
+        trafficSources[sourceLabel] = (trafficSources[sourceLabel] || 0) + 1;
+      }
     }
 
     return {
@@ -747,6 +842,7 @@ export class InMemoryStorage implements IStorage {
       visitsByPage,
       recentVisits: allEvents.slice(0, 50),
       visitsByDay,
+      trafficSources,
     };
   }
 
@@ -770,6 +866,37 @@ export class InMemoryStorage implements IStorage {
 
   async listFeedback(limit = 100): Promise<Feedback[]> {
     return [...this.feedbackArr].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()).slice(0, limit);
+  }
+
+  private savedReportsMap: Map<string, SavedReport> = new Map();
+
+  async createSavedReport(report: InsertSavedReport): Promise<SavedReport> {
+    const saved: SavedReport = {
+      id: randomUUID(),
+      title: report.title,
+      sourcePage: report.sourcePage,
+      reportType: report.reportType,
+      summary: report.summary ?? null,
+      geneCount: report.geneCount ?? null,
+      payload: report.payload,
+      createdAt: new Date(),
+    };
+    this.savedReportsMap.set(saved.id, saved);
+    return saved;
+  }
+
+  async getSavedReport(id: string): Promise<SavedReport | undefined> {
+    return this.savedReportsMap.get(id);
+  }
+
+  async listSavedReports(limit = 50): Promise<SavedReport[]> {
+    return Array.from(this.savedReportsMap.values())
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+      .slice(0, limit);
+  }
+
+  async deleteSavedReport(id: string): Promise<boolean> {
+    return this.savedReportsMap.delete(id);
   }
 
   async healthCheck(): Promise<boolean> {

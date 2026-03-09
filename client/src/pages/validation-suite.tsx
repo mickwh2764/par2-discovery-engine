@@ -613,9 +613,9 @@ export default function ValidationSuite() {
                         <ScatterChart margin={{ left: 10, right: 10, top: 10, bottom: 10 }}>
                           <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
                           <XAxis type="number" dataKey="trueEigenvalue" name="True |λ|" domain={[0, 1.1]}
-                            tick={{ fill: '#94a3b8', fontSize: 11 }} label={{ value: 'True |λ|', fill: '#94a3b8', position: 'bottom', offset: -5 }} />
+                            tick={{ fill: '#64748b', fontSize: 11 }} label={{ value: 'True |λ|', fill: '#64748b', position: 'bottom', offset: -5 }} />
                           <YAxis type="number" dataKey="recoveredEigenvalue" name="Recovered |λ|" domain={[0, 1.1]}
-                            tick={{ fill: '#94a3b8', fontSize: 11 }} label={{ value: 'Recovered |λ|', fill: '#94a3b8', angle: -90, position: 'insideLeft' }} />
+                            tick={{ fill: '#64748b', fontSize: 11 }} label={{ value: 'Recovered |λ|', fill: '#64748b', angle: -90, position: 'insideLeft' }} />
                           <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }}
                             formatter={(val: number) => val.toFixed(4)} />
                           <ReferenceLine segment={[{ x: 0, y: 0 }, { x: 1.1, y: 1.1 }]} stroke="#22c55e50" strokeDasharray="5 5" />
@@ -651,9 +651,9 @@ export default function ValidationSuite() {
                                 truth: sens.data.trueEigenvalue,
                               }))}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                                <XAxis dataKey="x" tick={{ fill: '#94a3b8', fontSize: 10 }}
-                                  label={{ value: sens.label, fill: '#94a3b8', position: 'bottom', offset: -5, fontSize: 10 }} />
-                                <YAxis domain={[0, 'auto']} tick={{ fill: '#94a3b8', fontSize: 10 }} />
+                                <XAxis dataKey="x" tick={{ fill: '#64748b', fontSize: 10 }}
+                                  label={{ value: sens.label, fill: '#64748b', position: 'bottom', offset: -5, fontSize: 10 }} />
+                                <YAxis domain={[0, 'auto']} tick={{ fill: '#64748b', fontSize: 10 }} />
                                 <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }} />
                                 <Line type="monotone" dataKey="recovered" stroke="#22c55e" strokeWidth={2} dot={{ fill: '#22c55e', r: 4 }} name="Recovered |λ|" />
                                 <Line type="monotone" dataKey="truth" stroke="#facc15" strokeWidth={1} strokeDasharray="5 5" dot={false} name="True |λ|" />
@@ -669,8 +669,8 @@ export default function ValidationSuite() {
                                 error: sens.data.errors[i],
                               }))}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                                <XAxis dataKey="x" tick={{ fill: '#94a3b8', fontSize: 10 }} />
-                                <YAxis tick={{ fill: '#94a3b8', fontSize: 10 }} />
+                                <XAxis dataKey="x" tick={{ fill: '#64748b', fontSize: 10 }} />
+                                <YAxis tick={{ fill: '#64748b', fontSize: 10 }} />
                                 <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }} />
                                 <Bar dataKey="error" name="Error">
                                   {sens.data.errors.map((e, i) => (
@@ -730,10 +730,10 @@ export default function ValidationSuite() {
                       <ResponsiveContainer width="100%" height={300} minWidth={1} minHeight={1}>
                         <BarChart data={histogramBins} margin={{ left: 10, right: 10 }}>
                           <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                          <XAxis dataKey="range" tick={{ fill: '#94a3b8', fontSize: 10 }}
-                            label={{ value: 'Eigenvalue |λ| range', fill: '#94a3b8', position: 'bottom', offset: -5, fontSize: 10 }} />
-                          <YAxis tick={{ fill: '#94a3b8', fontSize: 10 }}
-                            label={{ value: 'Count', fill: '#94a3b8', angle: -90, position: 'insideLeft', fontSize: 10 }} />
+                          <XAxis dataKey="range" tick={{ fill: '#64748b', fontSize: 10 }}
+                            label={{ value: 'Eigenvalue |λ| range', fill: '#64748b', position: 'bottom', offset: -5, fontSize: 10 }} />
+                          <YAxis tick={{ fill: '#64748b', fontSize: 10 }}
+                            label={{ value: 'Count', fill: '#64748b', angle: -90, position: 'insideLeft', fontSize: 10 }} />
                           <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }} />
                           <Legend />
                           <Bar dataKey="noise" name="White Noise" fill="#94a3b8" stackId="a" />
@@ -749,9 +749,9 @@ export default function ValidationSuite() {
                         <ScatterChart margin={{ left: 10, right: 10, top: 10 }}>
                           <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
                           <XAxis type="number" dataKey="eigenvalue" domain={[0, 1.2]}
-                            tick={{ fill: '#94a3b8', fontSize: 10 }}
-                            label={{ value: '|λ| Eigenvalue Modulus', fill: '#94a3b8', position: 'bottom', offset: -5, fontSize: 10 }} />
-                          <YAxis type="category" dataKey="group" tick={{ fill: '#94a3b8', fontSize: 10 }} width={140} />
+                            tick={{ fill: '#64748b', fontSize: 10 }}
+                            label={{ value: '|λ| Eigenvalue Modulus', fill: '#64748b', position: 'bottom', offset: -5, fontSize: 10 }} />
+                          <YAxis type="category" dataKey="group" tick={{ fill: '#64748b', fontSize: 10 }} width={140} />
                           <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }} />
                           <ReferenceLine x={0.7} stroke="#facc15" strokeDasharray="5 5" />
                           <ReferenceLine x={1.0} stroke="#ef4444" strokeDasharray="5 5" />
@@ -914,15 +914,15 @@ export default function ValidationSuite() {
                                   dataKey="eigenvalue"
                                   name="|λ|"
                                   domain={[0, 1]}
-                                  stroke="#9ca3af"
-                                  label={{ value: 'Eigenvalue |λ|', position: 'bottom', offset: 5, fill: '#9ca3af', fontSize: 12 }}
+                                  stroke="#6b7280"
+                                  label={{ value: 'Eigenvalue |λ|', position: 'bottom', offset: 5, fill: '#6b7280', fontSize: 12 }}
                                 />
                                 <YAxis
                                   type="number"
                                   dataKey="amplitude"
                                   name="Amplitude"
-                                  stroke="#9ca3af"
-                                  label={{ value: 'Cosinor Amplitude', angle: -90, position: 'insideLeft', fill: '#9ca3af', fontSize: 12 }}
+                                  stroke="#6b7280"
+                                  label={{ value: 'Cosinor Amplitude', angle: -90, position: 'insideLeft', fill: '#6b7280', fontSize: 12 }}
                                   scale="log"
                                   domain={['auto', 'auto']}
                                 />
@@ -953,16 +953,16 @@ export default function ValidationSuite() {
                                   dataKey="eigenvalue"
                                   name="|λ|"
                                   domain={[0, 1]}
-                                  stroke="#9ca3af"
-                                  label={{ value: 'Eigenvalue |λ|', position: 'bottom', offset: 5, fill: '#9ca3af', fontSize: 12 }}
+                                  stroke="#6b7280"
+                                  label={{ value: 'Eigenvalue |λ|', position: 'bottom', offset: 5, fill: '#6b7280', fontSize: 12 }}
                                 />
                                 <YAxis
                                   type="number"
                                   dataKey="rSquared"
                                   name="R²"
                                   domain={[0, 1]}
-                                  stroke="#9ca3af"
-                                  label={{ value: 'AR(2) R²', angle: -90, position: 'insideLeft', fill: '#9ca3af', fontSize: 12 }}
+                                  stroke="#6b7280"
+                                  label={{ value: 'AR(2) R²', angle: -90, position: 'insideLeft', fill: '#6b7280', fontSize: 12 }}
                                 />
                                 <ZAxis range={[30, 30]} />
                                 <Tooltip content={<CustomScatterTooltip />} />
@@ -1116,18 +1116,18 @@ export default function ValidationSuite() {
                                   type="number"
                                   dataKey="gap"
                                   name="Eigenvalue Gap"
-                                  stroke="#9ca3af"
+                                  stroke="#6b7280"
                                   domain={['auto', 'auto']}
-                                  label={{ value: 'Clock - Target |λ| Gap', position: 'bottom', offset: 10, fill: '#9ca3af', fontSize: 12 }}
+                                  label={{ value: 'Clock - Target |λ| Gap', position: 'bottom', offset: 10, fill: '#6b7280', fontSize: 12 }}
                                 />
                                 <YAxis
                                   type="number"
                                   dataKey="proliferationIndex"
                                   name="Proliferation"
-                                  stroke="#9ca3af"
+                                  stroke="#6b7280"
                                   scale="log"
                                   domain={['auto', 'auto']}
-                                  label={{ value: 'Proliferation Index', angle: -90, position: 'insideLeft', offset: -5, fill: '#9ca3af', fontSize: 12 }}
+                                  label={{ value: 'Proliferation Index', angle: -90, position: 'insideLeft', offset: -5, fill: '#6b7280', fontSize: 12 }}
                                 />
                                 <ZAxis range={[80, 80]} />
                                 <Tooltip content={<ProlifTooltip />} />
@@ -1159,8 +1159,8 @@ export default function ValidationSuite() {
                                 margin={{ top: 10, right: 20, bottom: 10, left: 80 }}
                               >
                                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                                <XAxis type="number" stroke="#9ca3af" domain={[0, 'auto']} />
-                                <YAxis type="category" dataKey="tissue" stroke="#9ca3af" width={75} tick={{ fontSize: 11 }} />
+                                <XAxis type="number" stroke="#6b7280" domain={[0, 'auto']} />
+                                <YAxis type="category" dataKey="tissue" stroke="#6b7280" width={75} tick={{ fontSize: 11 }} />
                                 <Tooltip content={<ProlifTooltip />} />
                                 <Bar dataKey="gap" name="Eigenvalue Gap" radius={[0, 4, 4, 0]}>
                                   {[...prolifData.tissues].sort((a, b) => a.gap - b.gap).map((entry, idx) => {

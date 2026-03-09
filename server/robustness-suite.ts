@@ -317,6 +317,13 @@ export function runBootstrapCI(datasetId = 'liver', nBootstrap = 200, seed = 42)
     'heart': 'GSE54650_Heart_circadian.csv',
     'lung': 'GSE54650_Lung_circadian.csv',
     'adrenal': 'GSE54650_Adrenal_circadian.csv',
+    'muscle': 'GSE54650_Muscle_circadian.csv',
+    'cerebellum': 'GSE54650_Cerebellum_circadian.csv',
+    'brainstem': 'GSE54650_Brainstem_circadian.csv',
+    'hypothalamus': 'GSE54650_Hypothalamus_circadian.csv',
+    'brown_fat': 'GSE54650_Brown_Fat_circadian.csv',
+    'white_fat': 'GSE54650_White_Fat_circadian.csv',
+    'human_blood': 'GSE48113_Human_Blood_Circadian.csv',
   };
 
   const filename = datasetMap[datasetId] || datasetMap['liver'];
@@ -1835,4 +1842,226 @@ export function runMultiCategoryLOTO(): MultiCatLOTOResult {
         : 'Weak cross-tissue generalization — the hierarchy may be tissue-specific.');
 
   return { tissues: results, totalTissues: results.length, meanRankCorrelation: meanRankCorr, topCategoryMatchRate: topMatchRate, conclusion };
+}
+
+const BABOON_SYMBOL_TO_CLOCK_TARGET: Record<string, 'clock' | 'target'> = {};
+for (const g of CLOCK_GENES_UPPER) BABOON_SYMBOL_TO_CLOCK_TARGET[g] = 'clock';
+for (const g of TARGET_GENES_UPPER) BABOON_SYMBOL_TO_CLOCK_TARGET[g] = 'target';
+
+function parseBaboonTissue(tissuePrefix: string): Map<string, GeneData> {
+  const filePath = path.join(process.cwd(), 'datasets', 'GSE98965_baboon_FPKM.csv');
+  if (!fs.existsSync(filePath)) throw new Error('Baboon dataset not found');
+
+  const content = fs.readFileSync(filePath, 'utf-8');
+  const lines = content.trim().split('\n');
+  const header = lines[0].split(',');
+
+  const colIndices: number[] = [];
+  for (let i = 2; i < header.length; i++) {
+    if (header[i].startsWith(tissuePrefix + '.ZT')) {
+      colIndices.push(i);
+    }
+  }
+  if (colIndices.length === 0) throw new Error(`No columns found for tissue prefix: ${tissuePrefix}`);
+
+  const genes = new Map<string, GeneData>();
+  for (let i = 1; i < lines.length; i++) {
+    const cols = lines[i].split(',');
+    const symbol = (cols[1] || '').trim().replace(/"/g, '');
+    if (!symbol) continue;
+    const type = BABOON_SYMBOL_TO_CLOCK_TARGET[symbol.toUpperCase()];
+    if (!type) continue;
+
+    const values = colIndices.map(ci => parseFloat(cols[ci])).filter(v => !isNaN(v));
+    if (values.length < 5) continue;
+    const allZero = values.every(v => v === 0);
+    if (allZero) continue;
+
+    genes.set(symbol, { gene: symbol, type, values });
+  }
+  return genes;
+}
+
+const BABOON_TISSUES = [
+  { id: 'Baboon Liver', prefix: 'LIV' },
+  { id: 'Baboon Heart', prefix: 'HEA' },
+  { id: 'Baboon Lung', prefix: 'LUN' },
+  { id: 'Baboon Kidney Cortex', prefix: 'KIC' },
+  { id: 'Baboon Cerebellum', prefix: 'CER' },
+  { id: 'Baboon Adrenal Cortex', prefix: 'ADC' },
+  { id: 'Baboon White Fat', prefix: 'WAT' },
+  { id: 'Baboon Bone Marrow', prefix: 'BOM' },
+];
+
+export interface CrossSpeciesTissueResult {
+  tissue: string;
+  species: string;
+  clockMean: number;
+  targetMean: number;
+  gap: number;
+  hierarchyPreserved: boolean;
+  clockGenes: { gene: string; eigenvalue: number; r2: number }[];
+  targetGenes: { gene: string; eigenvalue: number; r2: number }[];
+  clockCount: number;
+  targetCount: number;
+}
+
+export interface CrossSpeciesBootstrapResult {
+  tissue: string;
+  mouseGap: number;
+  baboonGap: number;
+  gapDifference: number;
+  mouseCI: [number, number];
+  baboonCI: [number, number];
+  bothSignificant: boolean;
+}
+
+export interface CrossSpeciesReplicationResult {
+  mouseTissues: CrossSpeciesTissueResult[];
+  baboonTissues: CrossSpeciesTissueResult[];
+  mouseHierarchyRate: number;
+  baboonHierarchyRate: number;
+  matchedComparisons: CrossSpeciesBootstrapResult[];
+  overallConclusion: string;
+  baboonTimepointsPerTissue: number;
+  totalBaboonGenes: number;
+}
+
+export function runCrossSpeciesReplication(nBootstrap = 200, seed = 42): CrossSpeciesReplicationResult {
+  const mouseDatasetFiles = [
+    { id: 'Mouse Liver', file: 'GSE54650_Liver_circadian.csv' },
+    { id: 'Mouse Heart', file: 'GSE54650_Heart_circadian.csv' },
+    { id: 'Mouse Lung', file: 'GSE54650_Lung_circadian.csv' },
+    { id: 'Mouse Kidney', file: 'GSE54650_Kidney_circadian.csv' },
+    { id: 'Mouse Cerebellum', file: 'GSE54650_Cerebellum_circadian.csv' },
+    { id: 'Mouse Adrenal', file: 'GSE54650_Adrenal_circadian.csv' },
+    { id: 'Mouse White Fat', file: 'GSE54650_White_Fat_circadian.csv' },
+  ];
+
+  function analyzeTissue(genes: Map<string, GeneData>, tissueId: string, species: string): CrossSpeciesTissueResult {
+    const clockGenes: { gene: string; eigenvalue: number; r2: number }[] = [];
+    const targetGenes: { gene: string; eigenvalue: number; r2: number }[] = [];
+
+    for (const geneData of Array.from(genes.values())) {
+      const fit = fitAR2(geneData.values);
+      if (geneData.type === 'clock') {
+        clockGenes.push({ gene: geneData.gene, eigenvalue: fit.eigenvalue, r2: fit.r2 });
+      } else {
+        targetGenes.push({ gene: geneData.gene, eigenvalue: fit.eigenvalue, r2: fit.r2 });
+      }
+    }
+
+    const clockMean = clockGenes.length > 0 ? clockGenes.reduce((a, g) => a + g.eigenvalue, 0) / clockGenes.length : 0;
+    const targetMean = targetGenes.length > 0 ? targetGenes.reduce((a, g) => a + g.eigenvalue, 0) / targetGenes.length : 0;
+
+    return {
+      tissue: tissueId,
+      species,
+      clockMean,
+      targetMean,
+      gap: clockMean - targetMean,
+      hierarchyPreserved: clockMean > targetMean,
+      clockGenes,
+      targetGenes,
+      clockCount: clockGenes.length,
+      targetCount: targetGenes.length,
+    };
+  }
+
+  const mouseTissues: CrossSpeciesTissueResult[] = [];
+  for (const ds of mouseDatasetFiles) {
+    const filePath = path.join(process.cwd(), 'datasets', ds.file);
+    if (!fs.existsSync(filePath)) continue;
+    const genes = parseDataset(filePath);
+    mouseTissues.push(analyzeTissue(genes, ds.id, 'Mouse'));
+  }
+
+  const baboonTissues: CrossSpeciesTissueResult[] = [];
+  let totalBaboonGenes = 0;
+  let baboonTimepointsPerTissue = 12;
+  for (const bt of BABOON_TISSUES) {
+    try {
+      const genes = parseBaboonTissue(bt.prefix);
+      if (genes.size === 0) continue;
+      totalBaboonGenes += genes.size;
+      baboonTimepointsPerTissue = Array.from(genes.values())[0]?.values.length || 12;
+      baboonTissues.push(analyzeTissue(genes, bt.id, 'Baboon'));
+    } catch {
+      continue;
+    }
+  }
+
+  const tissueMap: Record<string, string> = {
+    'Mouse Liver': 'Baboon Liver',
+    'Mouse Heart': 'Baboon Heart',
+    'Mouse Lung': 'Baboon Lung',
+    'Mouse Kidney': 'Baboon Kidney Cortex',
+    'Mouse Cerebellum': 'Baboon Cerebellum',
+    'Mouse Adrenal': 'Baboon Adrenal Cortex',
+    'Mouse White Fat': 'Baboon White Fat',
+  };
+
+  const rng = mulberry32(seed);
+  const matchedComparisons: CrossSpeciesBootstrapResult[] = [];
+
+  for (const mt of mouseTissues) {
+    const baboonName = tissueMap[mt.tissue];
+    const bt = baboonTissues.find(b => b.tissue === baboonName);
+    if (!bt) continue;
+
+    function bootstrapGap(clockEigs: number[], targetEigs: number[]): [number, number] {
+      const gaps: number[] = [];
+      for (let b = 0; b < nBootstrap; b++) {
+        const cSample = Array.from({ length: clockEigs.length }, () => clockEigs[Math.floor(rng() * clockEigs.length)]);
+        const tSample = Array.from({ length: targetEigs.length }, () => targetEigs[Math.floor(rng() * targetEigs.length)]);
+        const cMean = cSample.reduce((a, v) => a + v, 0) / cSample.length;
+        const tMean = tSample.reduce((a, v) => a + v, 0) / tSample.length;
+        gaps.push(cMean - tMean);
+      }
+      gaps.sort((a, b) => a - b);
+      return [gaps[Math.floor(nBootstrap * 0.025)], gaps[Math.floor(nBootstrap * 0.975)]];
+    }
+
+    const mouseCI = bootstrapGap(mt.clockGenes.map(g => g.eigenvalue), mt.targetGenes.map(g => g.eigenvalue));
+    const baboonCI = bootstrapGap(bt.clockGenes.map(g => g.eigenvalue), bt.targetGenes.map(g => g.eigenvalue));
+
+    matchedComparisons.push({
+      tissue: mt.tissue.replace('Mouse ', ''),
+      mouseGap: mt.gap,
+      baboonGap: bt.gap,
+      gapDifference: Math.abs(mt.gap - bt.gap),
+      mouseCI,
+      baboonCI,
+      bothSignificant: mouseCI[0] > 0 && baboonCI[0] > 0,
+    });
+  }
+
+  const mouseHierarchyRate = mouseTissues.length > 0
+    ? mouseTissues.filter(t => t.hierarchyPreserved).length / mouseTissues.length : 0;
+  const baboonHierarchyRate = baboonTissues.length > 0
+    ? baboonTissues.filter(t => t.hierarchyPreserved).length / baboonTissues.length : 0;
+
+  const bothPreserved = matchedComparisons.filter(m => m.bothSignificant).length;
+
+  const overallConclusion = `Cross-species replication (Mouse GSE54650 vs Baboon GSE98965, Mure 2018): ` +
+    `Mouse hierarchy preserved in ${mouseTissues.filter(t => t.hierarchyPreserved).length}/${mouseTissues.length} tissues; ` +
+    `Baboon hierarchy preserved in ${baboonTissues.filter(t => t.hierarchyPreserved).length}/${baboonTissues.length} tissues. ` +
+    `${matchedComparisons.length} matched tissue comparisons: ` +
+    `${bothPreserved}/${matchedComparisons.length} show significant clock > target gap in both species (bootstrap 95% CI). ` +
+    (baboonHierarchyRate >= 0.7
+      ? 'The eigenvalue hierarchy replicates across species — the clock > target pattern is not specific to the mouse GSE54650 dataset.'
+      : baboonHierarchyRate >= 0.4
+        ? 'Partial cross-species replication — the hierarchy holds in some baboon tissues but not all, consistent with tissue-specific variation.'
+        : 'Limited cross-species replication — the hierarchy may be species- or dataset-specific.');
+
+  return {
+    mouseTissues,
+    baboonTissues,
+    mouseHierarchyRate,
+    baboonHierarchyRate,
+    matchedComparisons,
+    overallConclusion,
+    baboonTimepointsPerTissue,
+    totalBaboonGenes,
+  };
 }

@@ -17,6 +17,7 @@ import { useState, useCallback } from "react";
 import { downloadAsCSV } from "@/components/DownloadResultsButton";
 import PaperCrossLinks from "@/components/PaperCrossLinks";
 import { Download } from "lucide-react";
+import GeneTooltip from "@/components/GeneTooltip";
 
 interface WindowResult {
   windowStart: number;
@@ -316,8 +317,8 @@ function DatasetCard({ ds }: { ds: DatasetResult }) {
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={gapChartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis dataKey="window" tick={{ fill: '#94a3b8', fontSize: 11 }} />
-                <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} />
+                <XAxis dataKey="window" tick={{ fill: '#64748b', fontSize: 11 }} />
+                <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
                 <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px', color: '#e2e8f0' }} />
                 <Legend wrapperStyle={{ fontSize: '11px' }} />
                 <Bar dataKey="clockMean" name="Clock |λ|" fill="#22d3ee" radius={[4, 4, 0, 0]} />
@@ -421,8 +422,8 @@ function DatasetCard({ ds }: { ds: DatasetResult }) {
             <ResponsiveContainer width="100%" height={Math.max(200, filteredGenes.length * 28)}>
               <BarChart data={geneBarData} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis type="number" tick={{ fill: '#94a3b8', fontSize: 10 }} domain={[0, 'auto']} />
-                <YAxis type="category" dataKey="gene" tick={{ fill: '#94a3b8', fontSize: 10 }} width={80} />
+                <XAxis type="number" tick={{ fill: '#64748b', fontSize: 10 }} domain={[0, 'auto']} />
+                <YAxis type="category" dataKey="gene" tick={{ fill: '#64748b', fontSize: 10 }} width={80} />
                 <Tooltip
                   contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px', color: '#e2e8f0' }}
                   formatter={(value: number, name: string) => [
@@ -443,7 +444,7 @@ function DatasetCard({ ds }: { ds: DatasetResult }) {
                 <div key={i} className="flex items-center justify-between text-xs bg-slate-800/30 px-3 py-1.5 rounded">
                   <div className="flex items-center gap-2">
                     {g.geneType === 'clock' ? <Clock size={10} className="text-cyan-400" /> : <Target size={10} className="text-violet-400" />}
-                    <span className="text-slate-300 font-mono">{g.gene}</span>
+                    <span className="text-slate-300 font-mono"><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></span>
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="text-slate-400">|λ̄| = <span className="text-white">{g.meanEigenvalue.toFixed(4)}</span></span>

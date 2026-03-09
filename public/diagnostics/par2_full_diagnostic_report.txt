@@ -1,0 +1,254 @@
+
+===============================================================================
+PAR(2) FULL DIAGNOSTIC REPORT
+Generated: 2025-12-04T07:55:10.895Z
+===============================================================================
+
+VALIDATION SUITE
+----------------
+Status: PASSED ✓
+Positive Controls: 5/5 passed
+Negative Controls: 5/5 passed
+Pass Rate: 100.0%
+
+BATCH ANALYSIS SUMMARY
+----------------------
+Total Datasets Analyzed: 21
+Completed: 21
+Failed: 0
+
+Total Gene Pairs Tested: 3,192
+Total Significant (Bonferroni): 82
+Total Significant (FDR): 8
+
+RESULTS BY STUDY
+----------------
+GSE157357 (Organoids):
+  Datasets: 4
+  Significant (Bonf): 25
+  Significant (FDR): 0
+
+GSE17739 (Kidney):
+  Datasets: 2
+  Significant (Bonf): 0
+  Significant (FDR): 0
+
+GSE221103 (Neuroblastoma):
+  Datasets: 2
+  Significant (Bonf): 15
+  Significant (FDR): 8
+
+GSE54650 (Hughes Atlas):
+  Datasets: 12
+  Significant (Bonf): 42
+  Significant (FDR): 0
+
+GSE59396 (Lung):
+  Datasets: 1
+  Significant (Bonf): 0
+  Significant (FDR): 0
+
+INDIVIDUAL DATASET RESULTS
+--------------------------
+ApcKO-BmalKO (GSE157357 (Organoids)):
+  Status: completed
+  Pairs Tested: 152
+  Significant (Bonf): 0
+  Significant (FDR): 0
+  No significant findings
+
+ApcKO-WT (GSE157357 (Organoids)):
+  Status: completed
+  Pairs Tested: 152
+  Significant (Bonf): 11
+  Significant (FDR): 0
+  Top Findings:
+    - Arntl → Ccnb1: p=1.20e-2, f²=1.394 (large)
+    - Per2 → Ccnb1: p=3.43e-2, f²=1.394 (large)
+    - Cry1 → Ccnb1: p=4.02e-2, f²=1.394 (large)
+    - Clock → Ccnb1: p=5.43e-3, f²=1.394 (large)
+    - Nr1d1 → Ccnb1: p=1.05e-2, f²=1.394 (large)
+
+WT-BmalKO (GSE157357 (Organoids)):
+  Status: completed
+  Pairs Tested: 152
+  Significant (Bonf): 1
+  Significant (FDR): 0
+  Top Findings:
+    - Arntl → Lgr5: p=4.80e-2, f²=1.138 (large)
+
+WT-WT (GSE157357 (Organoids)):
+  Status: completed
+  Pairs Tested: 152
+  Significant (Bonf): 13
+  Significant (FDR): 0
+  Top Findings:
+    - Cry1 → Tead1: p=1.66e-2, f²=1.819 (large)
+    - Per2 → Tead1: p=2.33e-2, f²=1.819 (large)
+    - Per1 → Tead1: p=1.81e-2, f²=1.819 (large)
+    - Clock → Tead1: p=2.84e-2, f²=1.819 (large)
+    - Nr1d2 → Tead1: p=1.85e-2, f²=1.819 (large)
+
+CCD (GSE17739 (Kidney)):
+  Status: completed
+  Pairs Tested: 152
+  Significant (Bonf): 0
+  Significant (FDR): 0
+  No significant findings
+
+DCT (GSE17739 (Kidney)):
+  Status: completed
+  Pairs Tested: 152
+  Significant (Bonf): 0
+  Significant (FDR): 0
+  No significant findings
+
+MYC_OFF (GSE221103 (Neuroblastoma)):
+  Status: completed
+  Pairs Tested: 152
+  Significant (Bonf): 0
+  Significant (FDR): 0
+  No significant findings
+
+MYC_ON (GSE221103 (Neuroblastoma)):
+  Status: completed
+  Pairs Tested: 152
+  Significant (Bonf): 15
+  Significant (FDR): 8
+  Top Findings:
+    - Arntl → Pparg: p=3.49e-3, f²=10.860 (large)
+    - Nr1d1 → Pparg: p=3.57e-3, f²=10.860 (large)
+    - Per2 → Pparg: p=3.33e-3, f²=10.860 (large)
+    - Nr1d2 → Pparg: p=3.37e-3, f²=10.860 (large)
+    - Clock → Pparg: p=4.16e-3, f²=10.860 (large)
+
+Adrenal (GSE54650 (Hughes Atlas)):
+  Status: completed
+  Pairs Tested: 152
+  Significant (Bonf): 8
+  Significant (FDR): 0
+  Top Findings:
+    - Cry2 → Wee1: p=1.11e-2, f²=2.889 (large)
+    - Per2 → Wee1: p=7.08e-3, f²=2.889 (large)
+    - Per1 → Wee1: p=4.10e-3, f²=2.889 (large)
+    - Nr1d1 → Wee1: p=1.47e-2, f²=2.889 (large)
+    - Arntl → Wee1: p=2.87e-3, f²=2.889 (large)
+
+Aorta (GSE54650 (Hughes Atlas)):
+  Status: completed
+  Pairs Tested: 152
+  Significant (Bonf): 6
+  Significant (FDR): 0
+  Top Findings:
+    - Cry1 → Wee1: p=3.94e-2, f²=2.426 (large)
+    - Clock → Wee1: p=3.56e-2, f²=2.426 (large)
+    - Cry2 → Wee1: p=3.71e-2, f²=2.426 (large)
+    - Nr1d2 → Wee1: p=3.64e-2, f²=2.426 (large)
+    - Nr1d1 → Wee1: p=1.50e-2, f²=2.426 (large)
+
+Brainstem (GSE54650 (Hughes Atlas)):
+  Status: completed
+  Pairs Tested: 152
+  Significant (Bonf): 8
+  Significant (FDR): 0
+  Top Findings:
+    - Cry1 → Tead1: p=1.92e-2, f²=1.318 (large)
+    - Per1 → Tead1: p=2.12e-2, f²=1.318 (large)
+    - Nr1d1 → Tead1: p=2.22e-2, f²=1.318 (large)
+    - Arntl → Tead1: p=2.40e-2, f²=1.318 (large)
+    - Clock → Tead1: p=2.40e-2, f²=1.318 (large)
+
+Brown_Fat (GSE54650 (Hughes Atlas)):
+  Status: completed
+  Pairs Tested: 152
+  Significant (Bonf): 4
+  Significant (FDR): 0
+  Top Findings:
+    - Arntl → Yap1: p=3.84e-2, f²=2.224 (large)
+    - Per1 → Yap1: p=3.81e-2, f²=2.224 (large)
+    - Nr1d2 → Chek2: p=3.04e-2, f²=0.949 (large)
+    - Per1 → Chek2: p=3.70e-2, f²=0.949 (large)
+
+Cerebellum (GSE54650 (Hughes Atlas)):
+  Status: completed
+  Pairs Tested: 152
+  Significant (Bonf): 1
+  Significant (FDR): 0
+  Top Findings:
+    - Nr1d1 → Cdk1: p=4.38e-2, f²=0.851 (large)
+
+Heart (GSE54650 (Hughes Atlas)):
+  Status: completed
+  Pairs Tested: 152
+  Significant (Bonf): 6
+  Significant (FDR): 0
+  Top Findings:
+    - Nr1d1 → Tead1: p=2.42e-2, f²=3.158 (large)
+    - Arntl → Tead1: p=4.10e-2, f²=3.158 (large)
+    - Cry1 → Tead1: p=3.71e-2, f²=3.158 (large)
+    - Clock → Tead1: p=2.89e-2, f²=3.158 (large)
+    - Cry2 → Tead1: p=2.59e-2, f²=3.158 (large)
+
+Hypothalamus (GSE54650 (Hughes Atlas)):
+  Status: completed
+  Pairs Tested: 152
+  Significant (Bonf): 0
+  Significant (FDR): 0
+  No significant findings
+
+Kidney (GSE54650 (Hughes Atlas)):
+  Status: completed
+  Pairs Tested: 152
+  Significant (Bonf): 0
+  Significant (FDR): 0
+  No significant findings
+
+Liver (GSE54650 (Hughes Atlas)):
+  Status: completed
+  Pairs Tested: 152
+  Significant (Bonf): 3
+  Significant (FDR): 0
+  Top Findings:
+    - Cry2 → Wee1: p=4.40e-2, f²=1.004 (large)
+    - Nr1d1 → Wee1: p=4.17e-2, f²=1.004 (large)
+    - Cry1 → Wee1: p=4.18e-2, f²=1.004 (large)
+
+Lung (GSE54650 (Hughes Atlas)):
+  Status: completed
+  Pairs Tested: 152
+  Significant (Bonf): 0
+  Significant (FDR): 0
+  No significant findings
+
+Muscle (GSE54650 (Hughes Atlas)):
+  Status: completed
+  Pairs Tested: 152
+  Significant (Bonf): 0
+  Significant (FDR): 0
+  No significant findings
+
+White_Fat (GSE54650 (Hughes Atlas)):
+  Status: completed
+  Pairs Tested: 152
+  Significant (Bonf): 6
+  Significant (FDR): 0
+  Top Findings:
+    - Cry2 → Bax: p=3.37e-2, f²=0.930 (large)
+    - Cry1 → Bax: p=3.60e-2, f²=0.930 (large)
+    - Arntl → Bax: p=2.54e-2, f²=0.930 (large)
+    - Per1 → Bax: p=3.24e-2, f²=0.930 (large)
+    - Clock → Bax: p=2.34e-2, f²=0.930 (large)
+
+Basal (GSE59396 (Lung)):
+  Status: completed
+  Pairs Tested: 152
+  Significant (Bonf): 0
+  Significant (FDR): 0
+  No significant findings
+
+===============================================================================
+Files generated:
+- /home/runner/workspace/public/diagnostics/par2_full_diagnostic.json
+- /home/runner/workspace/public/diagnostics/all_datasets_summary.csv
+- /home/runner/workspace/public/diagnostics/par2_full_diagnostic_report.txt
+===============================================================================

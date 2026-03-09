@@ -22,7 +22,7 @@ import {
   Heart, Target, AlertTriangle, Pill, FlaskConical, GitCompare,
   CheckCircle2, Shield, Moon, Beaker, Microscope, Bug,
   BookOpen, Info, Lock, ShieldCheck, Sparkles, ChevronDown,
-  Menu, Home, Upload, Search, Award, CircleDot, BarChart3,
+  Menu, Home, Upload, Search, Award, CircleDot, BarChart3, FolderOpen, Zap, ChevronRight,
 } from "lucide-react";
 
 const NAV_GROUPS = [
@@ -37,6 +37,7 @@ const NAV_GROUPS = [
       { href: "/phase-portrait", icon: CircleDot, color: "text-violet-400", label: "Phase Portrait Explorer", desc: "Animated 24h cycle across tissues" },
       { href: "/genome-wide", icon: Globe, color: "text-blue-400", label: "Genome-Wide Scan", desc: "All genes in a dataset" },
       { href: "/convergence-map", icon: Network, color: "text-sky-400", label: "Convergence Map", desc: "Research convergence visualization" },
+      { href: "/reports", icon: FolderOpen, color: "text-cyan-400", label: "Saved Reports", desc: "Load & analyze saved results" },
     ],
   },
   {
@@ -60,18 +61,20 @@ const NAV_GROUPS = [
     label: "Validate",
     color: "",
     items: [
+      { href: "/validation-summary", icon: CheckCircle2, color: "text-emerald-400", label: "Validation Summary", desc: "Literature, cross-species, bias audits" },
       { href: "/framework-benchmarks", icon: Award, color: "text-amber-400", label: "Framework Benchmarks", desc: "Accuracy, FDR & reliability report" },
-      { href: "/robustness-suite", icon: Shield, color: "text-sky-400", label: "Robustness Suite", desc: "Bootstrap & permutation tests" },
       { href: "/cross-context-validation", icon: Layers, color: "text-rose-400", label: "Cross-Context Validation", desc: "Cross-species & tissue tests" },
       { href: "/literature-validation", icon: BookOpen, color: "text-emerald-400", label: "Literature Validation", desc: "Cross-reference vs published findings" },
-      { href: "/validation-suite", icon: CheckCircle2, color: "text-green-400", label: "Model Comparison", desc: "AR(1) vs AR(2) vs AR(3)" },
-      { href: "/model-zoo", icon: Beaker, color: "text-teal-400", label: "ODE Model Zoo", desc: "ODE round-trip validation" },
-      { href: "/human-disruption", icon: Moon, color: "text-indigo-400", label: "Human Disruption", desc: "Shift work & jet lag effects" },
+      { href: "/oscillator-taxonomy", icon: Zap, color: "text-yellow-400", label: "Oscillator Taxonomy", desc: "Three-class biological oscillator hierarchy" },
       { href: "/phase-gating", icon: Sparkles, color: "text-fuchsia-400", label: "Phase-Gating Analysis", desc: "Clock-cell cycle coupling tests" },
-      { href: "/proteome-validation", icon: Dna, color: "text-teal-400", label: "Proteome Validation", desc: "Protein-level AR(2) hierarchy" },
-      { href: "/yeast-validation", icon: Microscope, color: "text-lime-400", label: "Cross-Kingdom (Yeast)", desc: "Yeast metabolic cycles" },
-      { href: "/bacterial-persistence", icon: Bug, color: "text-green-400", label: "Bacterial Persistence", desc: "E. coli persistence analysis" },
-      { href: "/crypt-villus", icon: FlaskConical, color: "text-amber-400", label: "Crypt-Villus Axis", desc: "Spatial-temporal analysis" },
+      {
+        label: "Advanced Validation",
+        href: "#",
+        icon: Mountain,
+        color: "text-slate-400",
+        isSection: true,
+        desc: "Additional method comparisons and domain-specific tests",
+      },
     ],
   },
   {
@@ -106,20 +109,29 @@ function NavDropdown({ group }: { group: typeof NAV_GROUPS[0] }) {
       <DropdownMenuContent align="start" className="w-72 max-h-[70vh] overflow-y-auto">
         <DropdownMenuLabel className="text-xs text-primary">{group.label}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {group.items.map(item => (
-          <Link key={item.href} href={item.href}>
-            <DropdownMenuItem
-              className={`gap-3 cursor-pointer py-2 ${location === item.href ? "bg-primary/10" : ""}`}
-              data-testid={`nav-link-${item.href.slice(1)}`}
-            >
-              <item.icon size={15} className={`shrink-0 ${item.color}`} />
-              <div>
-                <div className="font-medium text-sm">{item.label}</div>
-                <div className="text-[11px] text-muted-foreground">{item.desc}</div>
+        {group.items.map(item => {
+          if ((item as any).isSection) {
+            return (
+              <div key={item.href} className="px-2 py-1.5 text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
+                {item.label}
               </div>
-            </DropdownMenuItem>
-          </Link>
-        ))}
+            );
+          }
+          return (
+            <Link key={item.href} href={item.href}>
+              <DropdownMenuItem
+                className={`gap-3 cursor-pointer py-2 ${location === item.href ? "bg-primary/10" : ""}`}
+                data-testid={`nav-link-${item.href.slice(1)}`}
+              >
+                <item.icon size={15} className={`shrink-0 ${item.color}`} />
+                <div>
+                  <div className="font-medium text-sm">{item.label}</div>
+                  <div className="text-[11px] text-muted-foreground">{item.desc}</div>
+                </div>
+              </DropdownMenuItem>
+            </Link>
+          );
+        })}
       </DropdownMenuContent>
     </DropdownMenu>
   );

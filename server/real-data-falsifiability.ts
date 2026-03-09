@@ -445,7 +445,7 @@ export async function runComprehensiveRealDataValidation(): Promise<Comprehensiv
     const avgLiverLambda = liverTests.reduce((s, t) => s + t.eigenvalue, 0) / liverTests.length;
     scientificImplications.push(
       `TISSUE_BASELINE: Mouse liver (healthy) mean λ=${avgLiverLambda.toFixed(3)} ` +
-      `establishes wild-type baseline for disease comparison`
+      `provides wild-type baseline for disease comparison`
     );
   }
   

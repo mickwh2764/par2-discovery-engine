@@ -14,14 +14,15 @@ import {
   ArrowLeft, Loader2, Shield, ShieldCheck, TrendingDown, Layers,
   FlaskConical, Target, BarChart3, GitBranch, Shuffle, Minus, Crosshair, Gauge,
   Network, Dna, ShieldAlert, AlertCircle, Activity, TrendingUp, Zap,
-  ChevronDown, ChevronUp, Clock
+  ChevronDown, ChevronUp, Clock, Globe
 } from "lucide-react";
 import HowTo from "@/components/HowTo";
 import PaperCrossLinks from "@/components/PaperCrossLinks";
+import GeneTooltip from "@/components/GeneTooltip";
 import { downloadAsCSV } from "@/components/DownloadResultsButton";
 import { Download } from "lucide-react";
 
-type Tab = 'subsampling' | 'bootstrap' | 'first-diff' | 'detrend' | 'permutation' | 'loto' | 'population-cv' | 'model-order' | 'multi-cat-permutation' | 'multi-cat-bootstrap' | 'multi-cat-detrend' | 'multi-cat-loto' | 'stationarity' | 'null-survey';
+type Tab = 'subsampling' | 'bootstrap' | 'first-diff' | 'detrend' | 'permutation' | 'loto' | 'population-cv' | 'model-order' | 'multi-cat-permutation' | 'multi-cat-bootstrap' | 'multi-cat-detrend' | 'multi-cat-loto' | 'stationarity' | 'null-survey' | 'cross-species';
 
 function TabButton({ active, onClick, icon, label, testId }: {
   active: boolean; onClick: () => void; icon: React.ReactNode; label: string; testId: string;
@@ -155,8 +156,8 @@ function SubsamplingTab() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={summaryData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis dataKey="name" stroke="#94a3b8" fontSize={12} />
-                <YAxis stroke="#94a3b8" fontSize={12} label={{ value: '% within ±10%', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 11 }} />
+                <XAxis dataKey="name" stroke="#64748b" fontSize={12} />
+                <YAxis stroke="#64748b" fontSize={12} label={{ value: '% within ±10%', angle: -90, position: 'insideLeft', fill: '#64748b', fontSize: 11 }} />
                 <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }} />
                 <Bar dataKey="within10" name="Within ±10% of true eigenvalue" fill="#3b82f6" radius={[4, 4, 0, 0]} />
               </BarChart>
@@ -185,7 +186,7 @@ function SubsamplingTab() {
               <tbody>
                 {geneData.map((g: any) => (
                   <tr key={g.gene} className="border-b border-slate-700 hover:bg-slate-800/50">
-                    <td className="py-2 px-3 text-white font-mono text-xs">{g.gene}</td>
+                    <td className="py-2 px-3 text-white font-mono text-xs"><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></td>
                     <td className="py-2 px-3">
                       <Badge className={g.type === 'clock' ? 'bg-blue-500/20 text-blue-400 border-blue-500/30' : 'bg-amber-500/20 text-amber-400 border-amber-500/30'}>
                         {g.type}
@@ -241,7 +242,7 @@ function BootstrapTab() {
     errorY: [g.pointEstimate - g.ci95Lower, g.ci95Upper - g.pointEstimate],
   })).sort((a: any, b: any) => b.eigenvalue - a.eigenvalue) || [];
 
-  const datasets = ['liver', 'liver48', 'kidney', 'heart', 'lung', 'adrenal'];
+  const datasets = ['liver', 'liver48', 'kidney', 'heart', 'lung', 'adrenal', 'muscle', 'cerebellum', 'brainstem', 'hypothalamus', 'brown_fat', 'white_fat', 'human_blood'];
 
   return (
     <div className="space-y-6">
@@ -344,8 +345,8 @@ function BootstrapTab() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={ciChartData} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis type="number" stroke="#94a3b8" fontSize={11} domain={[0, 'auto']} label={{ value: 'Eigenvalue |λ|', position: 'bottom', fill: '#94a3b8', fontSize: 11 }} />
-                <YAxis dataKey="gene" type="category" stroke="#94a3b8" fontSize={10} width={60} />
+                <XAxis type="number" stroke="#64748b" fontSize={11} domain={[0, 'auto']} label={{ value: 'Eigenvalue |λ|', position: 'bottom', fill: '#64748b', fontSize: 11 }} />
+                <YAxis dataKey="gene" type="category" stroke="#64748b" fontSize={10} width={60} />
                 <Tooltip
                   contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }}
                   formatter={(val: any, name: string, props: any) => {
@@ -388,7 +389,7 @@ function BootstrapTab() {
               <tbody>
                 {data.genes?.sort((a: any, b: any) => b.pointEstimate - a.pointEstimate).map((g: any) => (
                   <tr key={g.gene} className="border-b border-slate-700 hover:bg-slate-800/50">
-                    <td className="py-2 px-3 text-white font-mono text-xs">{g.gene}</td>
+                    <td className="py-2 px-3 text-white font-mono text-xs"><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></td>
                     <td className="py-2 px-3">
                       <Badge className={g.geneType === 'clock' ? 'bg-blue-500/20 text-blue-400 border-blue-500/30' : 'bg-amber-500/20 text-amber-400 border-amber-500/30'}>
                         {g.geneType}
@@ -484,8 +485,8 @@ function FirstDiffTab() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis dataKey="tissue" stroke="#94a3b8" fontSize={10} angle={-30} textAnchor="end" height={60} />
-                <YAxis stroke="#94a3b8" fontSize={11} label={{ value: 'Gap (Clock - Target)', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 11 }} />
+                <XAxis dataKey="tissue" stroke="#64748b" fontSize={10} angle={-30} textAnchor="end" height={60} />
+                <YAxis stroke="#64748b" fontSize={11} label={{ value: 'Gap (Clock - Target)', angle: -90, position: 'insideLeft', fill: '#64748b', fontSize: 11 }} />
                 <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }} />
                 <Legend />
                 <ReferenceLine y={0} stroke="#ef4444" strokeDasharray="3 3" />
@@ -622,8 +623,8 @@ function PopulationCVTab() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={foldChartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis dataKey="label" stroke="#94a3b8" fontSize={9} angle={-45} textAnchor="end" height={70} />
-                <YAxis stroke="#94a3b8" fontSize={11} label={{ value: 'Mean |λ|', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 11 }} />
+                <XAxis dataKey="label" stroke="#64748b" fontSize={9} angle={-45} textAnchor="end" height={70} />
+                <YAxis stroke="#64748b" fontSize={11} label={{ value: 'Mean |λ|', angle: -90, position: 'insideLeft', fill: '#64748b', fontSize: 11 }} />
                 <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }} />
                 <Legend />
                 <Bar dataKey="clockMean" name="Clock Mean |λ|" fill="#3b82f6" radius={[4, 4, 0, 0]} />
@@ -743,8 +744,8 @@ function DetrendTab() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis dataKey="tissue" stroke="#94a3b8" fontSize={10} angle={-30} textAnchor="end" height={60} />
-                <YAxis stroke="#94a3b8" fontSize={11} label={{ value: 'Gap (Clock - Target)', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 11 }} />
+                <XAxis dataKey="tissue" stroke="#64748b" fontSize={10} angle={-30} textAnchor="end" height={60} />
+                <YAxis stroke="#64748b" fontSize={11} label={{ value: 'Gap (Clock - Target)', angle: -90, position: 'insideLeft', fill: '#64748b', fontSize: 11 }} />
                 <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }} />
                 <Legend />
                 <ReferenceLine y={0} stroke="#ef4444" strokeDasharray="3 3" />
@@ -900,8 +901,8 @@ function PermutationTab() {
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={ds.nullDistribution}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                  <XAxis dataKey="binCenter" stroke="#94a3b8" fontSize={9} tickFormatter={(v: number) => v.toFixed(2)} />
-                  <YAxis stroke="#94a3b8" fontSize={10} />
+                  <XAxis dataKey="binCenter" stroke="#64748b" fontSize={9} tickFormatter={(v: number) => v.toFixed(2)} />
+                  <YAxis stroke="#64748b" fontSize={10} />
                   <Tooltip
                     contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }}
                     formatter={(val: any) => [val, 'Count']}
@@ -992,8 +993,8 @@ function LOTOTab() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis type="number" stroke="#94a3b8" fontSize={10} tickFormatter={(v: number) => v.toFixed(3)} />
-                <YAxis type="category" dataKey="tissue" stroke="#94a3b8" fontSize={11} width={100} />
+                <XAxis type="number" stroke="#64748b" fontSize={10} tickFormatter={(v: number) => v.toFixed(3)} />
+                <YAxis type="category" dataKey="tissue" stroke="#64748b" fontSize={11} width={100} />
                 <Tooltip
                   contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }}
                   formatter={(val: any, name: string) => [Number(val).toFixed(4), name === 'heldOutGap' ? 'Held-Out Gap' : 'Training Gap']}
@@ -1108,8 +1109,8 @@ function ModelOrderTab() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={gapChartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis dataKey="dataset" stroke="#94a3b8" fontSize={10} angle={-30} textAnchor="end" height={60} />
-                <YAxis stroke="#94a3b8" fontSize={11} label={{ value: 'Eigenvalue Gap', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 11 }} />
+                <XAxis dataKey="dataset" stroke="#64748b" fontSize={10} angle={-30} textAnchor="end" height={60} />
+                <YAxis stroke="#64748b" fontSize={11} label={{ value: 'Eigenvalue Gap', angle: -90, position: 'insideLeft', fill: '#64748b', fontSize: 11 }} />
                 <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }} />
                 <Legend />
                 <ReferenceLine y={0} stroke="#ef4444" strokeDasharray="3 3" />
@@ -1388,8 +1389,8 @@ function MultiCatBootstrapTab() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis type="number" stroke="#94a3b8" fontSize={11} domain={[0, 'auto']} label={{ value: 'Mean Eigenvalue |λ|', position: 'bottom', fill: '#94a3b8', fontSize: 11 }} />
-                <YAxis dataKey="category" type="category" stroke="#94a3b8" fontSize={10} width={80} />
+                <XAxis type="number" stroke="#64748b" fontSize={11} domain={[0, 'auto']} label={{ value: 'Mean Eigenvalue |λ|', position: 'bottom', fill: '#64748b', fontSize: 11 }} />
+                <YAxis dataKey="category" type="category" stroke="#64748b" fontSize={10} width={80} />
                 <Tooltip
                   contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }}
                   formatter={(val: any, name: string, props: any) => {
@@ -1963,7 +1964,7 @@ function StationarityTab() {
                             <tbody>
                               {ds.geneResults.map((g: any) => (
                                 <tr key={g.gene} className="border-b border-slate-700 hover:bg-slate-800/30">
-                                  <td className="py-1.5 px-2 text-white font-mono">{g.gene}</td>
+                                  <td className="py-1.5 px-2 text-white font-mono"><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></td>
                                   <td className="py-1.5 px-2">
                                     <Badge variant="outline" className={g.type === 'clock' ? 'border-cyan-500 text-cyan-400 text-xs' : 'border-rose-500 text-rose-400 text-xs'}>
                                       {g.type}
@@ -2018,8 +2019,8 @@ function StationarityTab() {
                   'Naive': ds.forecasting.meanNaiveMAE,
                 }))}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                  <XAxis dataKey="name" tick={{ fill: '#94a3b8', fontSize: 10 }} angle={-20} textAnchor="end" height={60} />
-                  <YAxis tick={{ fill: '#94a3b8', fontSize: 12 }} label={{ value: 'MAE', angle: -90, position: 'insideLeft', fill: '#94a3b8' }} />
+                  <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 10 }} angle={-20} textAnchor="end" height={60} />
+                  <YAxis tick={{ fill: '#64748b', fontSize: 12 }} label={{ value: 'MAE', angle: -90, position: 'insideLeft', fill: '#64748b' }} />
                   <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }} />
                   <Legend />
                   <Bar dataKey="AR(2)" fill="#22d3ee" />
@@ -2229,8 +2230,8 @@ function StationarityTab() {
                               <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={gapChartData}>
                                   <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                                  <XAxis dataKey="window" tick={{ fill: '#94a3b8', fontSize: 11 }} />
-                                  <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} />
+                                  <XAxis dataKey="window" tick={{ fill: '#64748b', fontSize: 11 }} />
+                                  <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
                                   <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px', color: '#e2e8f0' }} />
                                   <Legend wrapperStyle={{ fontSize: '11px' }} />
                                   <Bar dataKey="clockMean" name="Clock |λ|" fill="#22d3ee" radius={[4, 4, 0, 0]} />
@@ -2265,7 +2266,7 @@ function StationarityTab() {
                             <div key={i} className="flex items-center justify-between text-xs bg-slate-800/30 px-3 py-1.5 rounded">
                               <div className="flex items-center gap-2">
                                 {g.geneType === 'clock' ? <Clock size={10} className="text-cyan-400" /> : <Target size={10} className="text-violet-400" />}
-                                <span className="text-slate-300 font-mono">{g.gene}</span>
+                                <span className="text-slate-300 font-mono"><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></span>
                               </div>
                               <div className="flex items-center gap-3">
                                 <span className="text-slate-400">|λ̄| = <span className="text-white">{g.meanEigenvalue.toFixed(4)}</span></span>
@@ -2371,8 +2372,8 @@ function StationarityTab() {
                                 correct: p.directionCorrect
                               }))}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                                <XAxis dataKey="gene" tick={{ fill: '#94a3b8', fontSize: 10 }} />
-                                <YAxis tick={{ fill: '#94a3b8', fontSize: 12 }} label={{ value: 'Eigenvalue Shift', angle: -90, position: 'insideLeft', fill: '#94a3b8' }} />
+                                <XAxis dataKey="gene" tick={{ fill: '#64748b', fontSize: 10 }} />
+                                <YAxis tick={{ fill: '#64748b', fontSize: 12 }} label={{ value: 'Eigenvalue Shift', angle: -90, position: 'insideLeft', fill: '#64748b' }} />
                                 <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }} />
                                 <ReferenceLine y={0} stroke="#475569" />
                                 <Bar dataKey="shift">
@@ -2509,7 +2510,7 @@ function NullSurveyTab() {
 
   const chartData = [
     { name: 'Real Significant', rate: data.realSignificantCount, fill: data.exceedsNull ? '#22c55e' : '#f59e0b' },
-    { name: 'Null Expected', rate: data.nullSignificantRate, fill: '#94a3b8' },
+    { name: 'Null Expected', rate: data.nullSignificantRate, fill: '#64748b' },
   ];
 
   return (
@@ -2571,8 +2572,8 @@ function NullSurveyTab() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis dataKey="name" stroke="#94a3b8" fontSize={12} />
-                <YAxis stroke="#94a3b8" fontSize={12} label={{ value: 'Count / Rate', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 11 }} />
+                <XAxis dataKey="name" stroke="#64748b" fontSize={12} />
+                <YAxis stroke="#64748b" fontSize={12} label={{ value: 'Count / Rate', angle: -90, position: 'insideLeft', fill: '#64748b', fontSize: 11 }} />
                 <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }} />
                 <Bar dataKey="rate" name="Significant" radius={[4, 4, 0, 0]}>
                   {chartData.map((entry, index) => (
@@ -2595,6 +2596,221 @@ function NullSurveyTab() {
               <strong>Note:</strong> {data.note}
             </p>
           )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+function CrossSpeciesTab() {
+  const { data, isLoading, error } = useQuery<any>({
+    queryKey: ['/api/validation/robustness-suite/cross-species'],
+    queryFn: () => fetch('/api/validation/robustness-suite/cross-species').then(r => r.json()),
+    staleTime: 10 * 60 * 1000,
+  });
+
+  if (isLoading) return <LoadingState label="Running cross-species replication (baboon GSE98965 vs mouse GSE54650)..." />;
+  if (error || !data) return <ErrorState message="Failed to load cross-species replication" />;
+
+  const mouseData = (data.mouseTissues || []).map((t: any) => ({
+    tissue: t.tissue.replace('Mouse ', ''),
+    clockMean: +t.clockMean.toFixed(4),
+    targetMean: +t.targetMean.toFixed(4),
+    gap: +t.gap.toFixed(4),
+    preserved: t.hierarchyPreserved,
+    clockN: t.clockCount,
+    targetN: t.targetCount,
+  }));
+
+  const baboonData = (data.baboonTissues || []).map((t: any) => ({
+    tissue: t.tissue.replace('Baboon ', ''),
+    clockMean: +t.clockMean.toFixed(4),
+    targetMean: +t.targetMean.toFixed(4),
+    gap: +t.gap.toFixed(4),
+    preserved: t.hierarchyPreserved,
+    clockN: t.clockCount,
+    targetN: t.targetCount,
+  }));
+
+  const matched = (data.matchedComparisons || []).map((m: any) => ({
+    tissue: m.tissue,
+    mouseGap: +m.mouseGap.toFixed(4),
+    baboonGap: +m.baboonGap.toFixed(4),
+    diff: +m.gapDifference.toFixed(4),
+    mouseCI: m.mouseCI,
+    baboonCI: m.baboonCI,
+    both: m.bothSignificant,
+  }));
+
+  const mousePreserved = mouseData.filter((t: any) => t.preserved).length;
+  const baboonPreserved = baboonData.filter((t: any) => t.preserved).length;
+  const bothSig = matched.filter((m: any) => m.both).length;
+
+  return (
+    <div className="space-y-6" data-testid="cross-species-tab">
+      <Card className="bg-slate-900 border-slate-700">
+        <CardHeader>
+          <CardTitle className="text-lg flex items-center gap-2" data-testid="text-cross-species-title">
+            <Globe className="w-5 h-5 text-cyan-400" />
+            Cross-Species Replication: Mouse vs Baboon
+          </CardTitle>
+          <p className="text-sm text-slate-400 mt-1">
+            Tests whether the clock &gt; target eigenvalue hierarchy discovered in mouse (GSE54650, Zhang 2014) 
+            independently replicates in baboon (GSE98965, Mure 2018) — a different species, lab, and experimental design.
+          </p>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-3 gap-4 mb-6">
+            <div className="bg-slate-800 rounded-lg p-4 text-center" data-testid="stat-mouse-hierarchy">
+              <div className="text-2xl font-bold text-blue-400">{mousePreserved}/{mouseData.length}</div>
+              <div className="text-xs text-slate-400 mt-1">Mouse tissues preserved</div>
+            </div>
+            <div className="bg-slate-800 rounded-lg p-4 text-center" data-testid="stat-baboon-hierarchy">
+              <div className="text-2xl font-bold text-amber-400">{baboonPreserved}/{baboonData.length}</div>
+              <div className="text-xs text-slate-400 mt-1">Baboon tissues preserved</div>
+            </div>
+            <div className="bg-slate-800 rounded-lg p-4 text-center" data-testid="stat-both-significant">
+              <div className="text-2xl font-bold text-emerald-400">{bothSig}/{matched.length}</div>
+              <div className="text-xs text-slate-400 mt-1">Both significant (bootstrap)</div>
+            </div>
+          </div>
+
+          {data.baboonTimepointsPerTissue && (
+            <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3 mb-6 text-sm text-amber-300" data-testid="text-baboon-note">
+              Baboon data: {data.baboonTimepointsPerTissue} timepoints per tissue (2h sampling, ZT00-ZT22), 
+              {data.totalBaboonGenes} clock/target genes detected. This is an independent dataset from a different species, 
+              lab (Mure et al. 2018, Salk Institute), and experimental protocol.
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <Card className="bg-slate-900 border-slate-700">
+          <CardHeader>
+            <CardTitle className="text-base text-blue-400" data-testid="text-mouse-title">Mouse (GSE54650)</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={280} minWidth={1} minHeight={1}>
+              <BarChart data={mouseData} margin={{ top: 5, right: 20, bottom: 40, left: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                <XAxis dataKey="tissue" tick={{ fill: "#64748b", fontSize: 10 }} angle={-30} textAnchor="end" height={50} />
+                <YAxis tick={{ fill: "#64748b", fontSize: 11 }} domain={[0, 'auto']} />
+                <Tooltip contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #334155", borderRadius: "8px", fontSize: "12px" }} />
+                <Bar dataKey="clockMean" fill="#3b82f6" name="Clock mean |λ|" radius={[3, 3, 0, 0]} />
+                <Bar dataKey="targetMean" fill="#ef4444" name="Target mean |λ|" radius={[3, 3, 0, 0]} />
+                <Legend wrapperStyle={{ fontSize: 11 }} />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-slate-900 border-slate-700">
+          <CardHeader>
+            <CardTitle className="text-base text-amber-400" data-testid="text-baboon-title">Baboon (GSE98965)</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={280} minWidth={1} minHeight={1}>
+              <BarChart data={baboonData} margin={{ top: 5, right: 20, bottom: 40, left: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                <XAxis dataKey="tissue" tick={{ fill: "#64748b", fontSize: 10 }} angle={-30} textAnchor="end" height={50} />
+                <YAxis tick={{ fill: "#64748b", fontSize: 11 }} domain={[0, 'auto']} />
+                <Tooltip contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #334155", borderRadius: "8px", fontSize: "12px" }} />
+                <Bar dataKey="clockMean" fill="#f59e0b" name="Clock mean |λ|" radius={[3, 3, 0, 0]} />
+                <Bar dataKey="targetMean" fill="#ef4444" name="Target mean |λ|" radius={[3, 3, 0, 0]} />
+                <Legend wrapperStyle={{ fontSize: 11 }} />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      </div>
+
+      {matched.length > 0 && (
+        <Card className="bg-slate-900 border-slate-700">
+          <CardHeader>
+            <CardTitle className="text-base" data-testid="text-matched-title">Matched Tissue Comparison (Bootstrap 95% CI)</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm" data-testid="table-matched-comparison">
+                <thead>
+                  <tr className="border-b border-slate-700 text-slate-400 text-xs">
+                    <th className="py-2 px-3 text-left">Tissue</th>
+                    <th className="py-2 px-3 text-right">Mouse Gap</th>
+                    <th className="py-2 px-3 text-right">Mouse 95% CI</th>
+                    <th className="py-2 px-3 text-right">Baboon Gap</th>
+                    <th className="py-2 px-3 text-right">Baboon 95% CI</th>
+                    <th className="py-2 px-3 text-center">Both Significant</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {matched.map((m: any) => (
+                    <tr key={m.tissue} className="border-b border-slate-800">
+                      <td className="py-2 px-3 text-slate-300">{m.tissue}</td>
+                      <td className={`py-2 px-3 text-right font-mono ${m.mouseGap > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                        {m.mouseGap > 0 ? '+' : ''}{m.mouseGap}
+                      </td>
+                      <td className="py-2 px-3 text-right font-mono text-slate-400 text-xs">
+                        [{m.mouseCI[0].toFixed(4)}, {m.mouseCI[1].toFixed(4)}]
+                      </td>
+                      <td className={`py-2 px-3 text-right font-mono ${m.baboonGap > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                        {m.baboonGap > 0 ? '+' : ''}{m.baboonGap}
+                      </td>
+                      <td className="py-2 px-3 text-right font-mono text-slate-400 text-xs">
+                        [{m.baboonCI[0].toFixed(4)}, {m.baboonCI[1].toFixed(4)}]
+                      </td>
+                      <td className="py-2 px-3 text-center">
+                        {m.both ? (
+                          <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30">Yes</Badge>
+                        ) : (
+                          <Badge className="bg-slate-700 text-slate-400 border-slate-600">No</Badge>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      <Card className="bg-slate-900 border-slate-700">
+        <CardContent className="py-4">
+          <h3 className="text-white font-medium mb-2">Per-Gene Detail</h3>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {(data.baboonTissues || []).map((t: any) => (
+              <div key={t.tissue} className="bg-slate-800 rounded-lg p-3">
+                <h4 className="text-amber-400 text-sm font-medium mb-2">{t.tissue}</h4>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div>
+                    <span className="text-slate-400">Clock genes:</span>
+                    {t.clockGenes.map((g: any) => (
+                      <div key={g.gene} className="flex justify-between text-blue-300">
+                        <span><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></span>
+                        <span className="font-mono">{g.eigenvalue.toFixed(4)}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div>
+                    <span className="text-slate-400">Target genes:</span>
+                    {t.targetGenes.map((g: any) => (
+                      <div key={g.gene} className="flex justify-between text-red-300">
+                        <span><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></span>
+                        <span className="font-mono">{g.eigenvalue.toFixed(4)}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="bg-slate-900 border-slate-700">
+        <CardContent className="py-4">
+          <p className="text-slate-300 text-sm" data-testid="text-cross-species-conclusion">{data.overallConclusion}</p>
         </CardContent>
       </Card>
     </div>
@@ -2751,6 +2967,16 @@ export default function RobustnessSuite() {
             label="MC LOTO"
             testId="tab-multi-cat-loto"
           />
+          <div className="w-full mt-2 mb-1">
+            <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider" data-testid="text-cross-species-header">Cross-Species</span>
+          </div>
+          <TabButton
+            active={activeTab === 'cross-species'}
+            onClick={() => setActiveTab('cross-species')}
+            icon={<Globe className="w-4 h-4" />}
+            label="Baboon Replication"
+            testId="tab-cross-species"
+          />
         </div>
 
         {activeTab === 'subsampling' && <SubsamplingTab />}
@@ -2767,6 +2993,7 @@ export default function RobustnessSuite() {
         {activeTab === 'multi-cat-detrend' && <MultiCatDetrendTab />}
         {activeTab === 'multi-cat-loto' && <MultiCatLOTOTab />}
         {activeTab === 'null-survey' && <NullSurveyTab />}
+        {activeTab === 'cross-species' && <CrossSpeciesTab />}
 
         <Card className="bg-slate-900 border-slate-700 mt-8">
           <CardContent className="py-4">
@@ -2840,6 +3067,13 @@ export default function RobustnessSuite() {
               For each permutation, the number of significant pairs (p&lt;0.05) is counted. The enrichment 
               ratio (real significant / mean null significant) quantifies how far real results exceed the 
               null expectation. A ratio &gt;&gt;1 confirms the observed hierarchy is not a statistical artifact.
+            </p>
+            <p className="text-slate-400 text-sm mb-2">
+              <strong>Cross-Species (Baboon):</strong> The GSE98965 baboon atlas (Mure et al. 2018, Salk Institute) 
+              provides 12 timepoints (ZT00-ZT22, 2h intervals) across 64+ tissues. AR(2) eigenvalues are computed 
+              for matched clock and target genes in baboon, and the clock &gt; target hierarchy is tested tissue-by-tissue. 
+              Bootstrap 95% CIs quantify gap significance in both species. This is the strongest form of external 
+              validation: a completely independent dataset from a different species, lab, and experimental design.
             </p>
           </CardContent>
         </Card>

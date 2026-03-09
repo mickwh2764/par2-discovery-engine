@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import DownloadResultsButton, { downloadAsCSV } from "@/components/DownloadResultsButton";
 import PaperCrossLinks from "@/components/PaperCrossLinks";
+import GeneTooltip from "@/components/GeneTooltip";
 
 interface TimeVaryingGene {
   gene: string;
@@ -341,18 +342,18 @@ export default function PhaseGating() {
                         <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
                         <XAxis
                           dataKey="gene"
-                          tick={{ fill: '#94a3b8', fontSize: 10 }}
+                          tick={{ fill: '#64748b', fontSize: 10 }}
                           angle={-45}
                           textAnchor="end"
                           height={60}
                         />
                         <YAxis
-                          tick={{ fill: '#94a3b8', fontSize: 11 }}
-                          label={{ value: '|λ| Eigenvalue', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 12 }}
+                          tick={{ fill: '#64748b', fontSize: 11 }}
+                          label={{ value: '|λ| Eigenvalue', angle: -90, position: 'insideLeft', fill: '#64748b', fontSize: 12 }}
                         />
                         <Tooltip
                           contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }}
-                          labelStyle={{ color: '#e2e8f0' }}
+                          labelStyle={{ color: '#334155' }}
                           formatter={(value: number, name: string) => [value.toFixed(4), name === 'day' ? 'Day (CT0-12)' : 'Night (CT12-24)']}
                         />
                         <Legend
@@ -382,7 +383,7 @@ export default function PhaseGating() {
                       <tbody>
                         {data.timeVaryingEigenvalues.genes.map(g => (
                           <tr key={g.gene} className="border-b border-slate-700/50 hover:bg-slate-800/50" data-testid={`row-tv-${g.gene}`}>
-                            <td className={`py-2 px-3 font-mono font-medium ${g.category === 'clock' ? 'text-amber-300' : 'text-cyan-300'}`}>{g.gene}</td>
+                            <td className={`py-2 px-3 font-mono font-medium ${g.category === 'clock' ? 'text-amber-300' : 'text-cyan-300'}`}><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></td>
                             <td className="py-2 px-3 text-slate-400 text-xs capitalize">{g.category}</td>
                             <td className="py-2 px-3 text-right font-mono text-white">{g.fullEigenvalue.toFixed(4)}</td>
                             <td className="py-2 px-3 text-right font-mono text-yellow-300">{g.dayEigenvalue.toFixed(4)}</td>
@@ -467,10 +468,10 @@ export default function PhaseGating() {
                             margin={{ top: 5, right: 20, left: 20, bottom: 5 }}
                           >
                             <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                            <XAxis dataKey="name" tick={{ fill: '#94a3b8', fontSize: 12 }} />
+                            <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 12 }} />
                             <YAxis
-                              tick={{ fill: '#94a3b8', fontSize: 11 }}
-                              label={{ value: 'Mean |λ|', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 12 }}
+                              tick={{ fill: '#64748b', fontSize: 11 }}
+                              label={{ value: 'Mean |λ|', angle: -90, position: 'insideLeft', fill: '#64748b', fontSize: 12 }}
                             />
                             <Tooltip
                               contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }}
@@ -610,14 +611,14 @@ export default function PhaseGating() {
                             <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
                             <XAxis
                               dataKey="gene"
-                              tick={{ fill: '#94a3b8', fontSize: 10 }}
+                              tick={{ fill: '#64748b', fontSize: 10 }}
                               angle={-45}
                               textAnchor="end"
                               height={60}
                             />
                             <YAxis
-                              tick={{ fill: '#94a3b8', fontSize: 11 }}
-                              label={{ value: '|λ| Eigenvalue', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 12 }}
+                              tick={{ fill: '#64748b', fontSize: 11 }}
+                              label={{ value: '|λ| Eigenvalue', angle: -90, position: 'insideLeft', fill: '#64748b', fontSize: 12 }}
                             />
                             <Tooltip
                               contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }}
@@ -647,7 +648,7 @@ export default function PhaseGating() {
                           <tbody>
                             {data.koComparison.perGene.map(g => (
                               <tr key={g.gene} className="border-b border-slate-700/50 hover:bg-slate-800/50" data-testid={`row-ko-${g.gene}`}>
-                                <td className={`py-2 px-3 font-mono font-medium ${g.category === 'clock' ? 'text-amber-300' : 'text-cyan-300'}`}>{g.gene}</td>
+                                <td className={`py-2 px-3 font-mono font-medium ${g.category === 'clock' ? 'text-amber-300' : 'text-cyan-300'}`}><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></td>
                                 <td className="py-2 px-3 text-slate-400 text-xs capitalize">{g.category}</td>
                                 <td className="py-2 px-3 text-right font-mono text-emerald-300">{g.wtEigenvalue.toFixed(4)}</td>
                                 <td className="py-2 px-3 text-right font-mono text-red-300">{g.koEigenvalue.toFixed(4)}</td>

@@ -164,8 +164,8 @@ function OverviewTab({ data, ht }: { data: any; ht: any }) {
             <ResponsiveContainer>
               <BarChart data={catChartData} layout="vertical" margin={{ left: 130, right: 30, top: 10, bottom: 10 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                <XAxis type="number" domain={[0, 'auto']} tick={{ fill: '#999', fontSize: 12 }} label={{ value: '|λ| eigenvalue modulus', position: 'insideBottom', offset: -5, fill: '#999' }} />
-                <YAxis type="category" dataKey="name" tick={{ fill: '#ccc', fontSize: 12 }} width={120} />
+                <XAxis type="number" domain={[0, 'auto']} tick={{ fill: '#6b7280', fontSize: 12 }} label={{ value: '|λ| eigenvalue modulus', position: 'insideBottom', offset: -5, fill: '#6b7280' }} />
+                <YAxis type="category" dataKey="name" tick={{ fill: '#4b5563', fontSize: 12 }} width={120} />
                 <Tooltip
                   contentStyle={{ backgroundColor: '#1a1a2e', border: '1px solid #333' }}
                   formatter={(value: any, _: any, props: any) => [
@@ -242,8 +242,8 @@ function OverviewTab({ data, ht }: { data: any; ht: any }) {
             <ResponsiveContainer>
               <BarChart data={data.genomeWideDistribution.bins} margin={{ left: 20, right: 20, top: 10, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                <XAxis dataKey="range" tick={{ fill: '#999', fontSize: 11 }} label={{ value: '|λ| range', position: 'insideBottom', offset: -10, fill: '#999' }} />
-                <YAxis tick={{ fill: '#999', fontSize: 12 }} label={{ value: 'Gene count', angle: -90, position: 'insideLeft', fill: '#999' }} />
+                <XAxis dataKey="range" tick={{ fill: '#6b7280', fontSize: 11 }} label={{ value: '|λ| range', position: 'insideBottom', offset: -10, fill: '#6b7280' }} />
+                <YAxis tick={{ fill: '#6b7280', fontSize: 12 }} label={{ value: 'Gene count', angle: -90, position: 'insideLeft', fill: '#6b7280' }} />
                 <Tooltip contentStyle={{ backgroundColor: '#1a1a2e', border: '1px solid #333' }} formatter={(v: any, name: string) => [v, name === 'count' ? 'Genes' : name]} />
                 <Bar dataKey="count" fill="#4b5563" radius={[4, 4, 0, 0]} />
               </BarChart>
@@ -352,8 +352,8 @@ function CrossSystemTab({ data }: { data: any }) {
             <ResponsiveContainer>
               <BarChart data={comparisonData} margin={{ left: 60, right: 30, top: 20, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                <XAxis dataKey="system" tick={{ fill: '#ccc', fontSize: 12 }} />
-                <YAxis tick={{ fill: '#999', fontSize: 12 }} label={{ value: 'Core − Target Gap', angle: -90, position: 'insideLeft', fill: '#999' }} />
+                <XAxis dataKey="system" tick={{ fill: '#4b5563', fontSize: 12 }} />
+                <YAxis tick={{ fill: '#6b7280', fontSize: 12 }} label={{ value: 'Core − Target Gap', angle: -90, position: 'insideLeft', fill: '#6b7280' }} />
                 <Tooltip contentStyle={{ backgroundColor: '#1a1a2e', border: '1px solid #333' }} />
                 <ReferenceLine y={0} stroke="#666" strokeDasharray="3 3" />
                 <Bar dataKey="gap" radius={[4, 4, 0, 0]}>
@@ -483,7 +483,7 @@ function PhaseTab({ data }: { data: any }) {
     phase: p.phase,
     meanEig: parseFloat(p.meanEigenvalue.toFixed(4)),
     genes: p.genes,
-    color: phaseColors[p.phase] || '#999',
+    color: phaseColors[p.phase] || '#6b7280',
   }));
 
   return (
@@ -502,8 +502,8 @@ function PhaseTab({ data }: { data: any }) {
             <ResponsiveContainer>
               <BarChart data={phaseChartData} margin={{ left: 60, right: 30, top: 10, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                <XAxis dataKey="phase" tick={{ fill: '#ccc', fontSize: 14 }} />
-                <YAxis tick={{ fill: '#999', fontSize: 12 }} label={{ value: 'Mean |λ|', angle: -90, position: 'insideLeft', fill: '#999' }} />
+                <XAxis dataKey="phase" tick={{ fill: '#4b5563', fontSize: 14 }} />
+                <YAxis tick={{ fill: '#6b7280', fontSize: 12 }} label={{ value: 'Mean |λ|', angle: -90, position: 'insideLeft', fill: '#6b7280' }} />
                 <Tooltip contentStyle={{ backgroundColor: '#1a1a2e', border: '1px solid #333' }} formatter={(v: any, _: any, props: any) => [`${v} (n=${props.payload.genes})`, 'Mean |λ|']} />
                 <Bar dataKey="meanEig" radius={[4, 4, 0, 0]}>
                   {phaseChartData.map((entry: any, idx: number) => (
@@ -540,7 +540,7 @@ function PhaseTab({ data }: { data: any }) {
                 <tbody>
                   {phase.topGenes.map((g: any, i: number) => (
                     <tr key={i} className="border-b border-border/30 hover:bg-muted/20">
-                      <td className="py-1.5 px-3 font-mono font-medium" style={{ color: CATEGORY_COLORS[g.category] || '#ccc' }}>{g.gene}</td>
+                      <td className="py-1.5 px-3 font-mono font-medium" style={{ color: CATEGORY_COLORS[g.category] || '#6b7280' }}>{g.gene}</td>
                       <td className="py-1.5 px-3 text-right font-mono">{g.eigenvalue.toFixed(4)}</td>
                       <td className="py-1.5 px-3 text-muted-foreground">{CATEGORY_LABELS[g.category] || g.category}</td>
                     </tr>
@@ -607,8 +607,8 @@ function StabilityTab({ data }: { data: any }) {
             <ResponsiveContainer>
               <LineChart data={windowData} margin={{ left: 60, right: 30, top: 10, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                <XAxis dataKey="label" tick={{ fill: '#999', fontSize: 11 }} />
-                <YAxis tick={{ fill: '#999', fontSize: 12 }} label={{ value: 'Mean |λ|', angle: -90, position: 'insideLeft', fill: '#999' }} />
+                <XAxis dataKey="label" tick={{ fill: '#6b7280', fontSize: 11 }} />
+                <YAxis tick={{ fill: '#6b7280', fontSize: 12 }} label={{ value: 'Mean |λ|', angle: -90, position: 'insideLeft', fill: '#6b7280' }} />
                 <Tooltip contentStyle={{ backgroundColor: '#1a1a2e', border: '1px solid #333' }} />
                 <Line type="monotone" dataKey="core" stroke="#f59e0b" strokeWidth={2} name="Core Oscillator" dot={{ r: 4 }} />
                 <Line type="monotone" dataKey="target" stroke="#3b82f6" strokeWidth={2} name="Targets" dot={{ r: 4 }} />

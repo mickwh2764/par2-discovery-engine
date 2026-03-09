@@ -13,11 +13,13 @@ import {
   Upload, FileUp, Activity, Loader2, AlertCircle, CheckCircle2,
   ArrowLeft, Download, Info, TrendingUp, Zap, Clock, Target,
   BarChart3, X, ShieldCheck, ShieldAlert, ChevronDown, ChevronUp,
-  Share2, Copy, Check
+  Share2, Copy, Check, FolderOpen, Save
 } from "lucide-react";
 import { Link } from "wouter";
 import HowTo from "@/components/HowTo";
+import ExportReport from "@/components/ExportReport";
 import { Term } from "@/components/Glossary";
+import GeneTooltip from "@/components/GeneTooltip";
 
 interface QualityCheck {
   name: string;
@@ -44,6 +46,11 @@ interface ChannelResult {
   eigenvalue: number;
   r2: number;
   isComplex: boolean;
+  lambda1Real: number;
+  lambda1Imag: number;
+  lambda2Real: number;
+  lambda2Imag: number;
+  halfLife: number | null;
   impliedPeriod: number | null;
   mean: number;
   std: number;
@@ -75,6 +82,40 @@ interface GearboxAnalysis {
   hierarchyColor: string;
 }
 
+interface PerGeneAnalysis {
+  totalGenes: number;
+  clockGenesFound: number;
+  targetGenesAnalyzed: number;
+  timepointCount: number;
+  timepoints: number[];
+  clockMeanEigenvalue: number;
+  targetMeanEigenvalue: number;
+  topByEigenvalue: { gene: string; eigenvalue: number; geneType: string; stability: string }[];
+  bottomByEigenvalue: { gene: string; eigenvalue: number; geneType: string; stability: string }[];
+}
+
+interface DataDomainClassification {
+  domain: 'biological' | 'wearable' | 'non-biological' | 'unknown';
+  confidence: number;
+  signals: string[];
+  warning: string | null;
+}
+
+interface BiasAuditTest {
+  testName: string;
+  description: string;
+  passed: boolean;
+  verdict: string;
+  details: Record<string, any>;
+}
+
+interface BiasAudit {
+  summary: string;
+  overallVerdict: string;
+  overallColor: string;
+  tests: BiasAuditTest[];
+}
+
 interface AnalysisResponse {
   detectedFormat: string;
   fileName: string;
@@ -83,7 +124,23 @@ interface AnalysisResponse {
   channelsAnalyzed: number;
   results: ChannelResult[];
   gearboxAnalysis: GearboxAnalysis | null;
+  dataDomain?: DataDomainClassification;
   skippedChannels?: string[];
+  perGeneAnalysis?: PerGeneAnalysis;
+  biasAudit?: BiasAudit | null;
+  dataWarnings?: { type: string; message: string; severity: 'info' | 'warning' | 'error'; genes?: string[] }[];
+  parsingValidation?: {
+    formatDetected: string;
+    formatConfidence: string;
+    columnsFound: number;
+    rowsRead: number;
+    channelsExtracted: number;
+    channelsAnalyzed: number;
+    channelsSkipped: number;
+    checks: { test: string; passed: boolean; detail: string }[];
+    summary: string;
+    dataReliable: boolean;
+  };
   safeguards?: {
     disclaimer: string;
     contextWarning: string;
@@ -151,6 +208,147 @@ function StabilityRing({ eigenvalue, size = 180, label }: { eigenvalue: number; 
   );
 }
 
+function UnitCirclePlot({ results }: { results: ChannelResult[] }) {
+  const size = 380;
+  const cx = size / 2;
+  const cy = size / 2;
+  const plotRadius = size / 2 - 40;
+
+  const eigenPoints = results.flatMap(r => {
+    const pts = [];
+    pts.push({
+      channel: r.channel,
+      real: r.lambda1Real,
+      imag: r.lambda1Imag,
+      modulus: Math.sqrt(r.lambda1Real ** 2 + r.lambda1Imag ** 2),
+      color: r.stabilityColor,
+      label: r.isComplex ? `λ₁` : `λ₁`,
+    });
+    if (r.isComplex || Math.abs(r.lambda1Real - r.lambda2Real) > 0.001 || Math.abs(r.lambda1Imag - r.lambda2Imag) > 0.001) {
+      pts.push({
+        channel: r.channel,
+        real: r.lambda2Real,
+        imag: r.lambda2Imag,
+        modulus: Math.sqrt(r.lambda2Real ** 2 + r.lambda2Imag ** 2),
+        color: r.stabilityColor,
+        label: `λ₂`,
+      });
+    }
+    return pts;
+  });
+
+  const maxExtent = Math.max(1.15, ...eigenPoints.map(p => Math.max(Math.abs(p.real), Math.abs(p.imag))) ) * 1.1;
+  const scale = plotRadius / maxExtent;
+
+  const toX = (real: number) => cx + real * scale;
+  const toY = (imag: number) => cy - imag * scale;
+
+  const [hovered, setHovered] = useState<number | null>(null);
+
+  return (
+    <Card className="bg-gradient-to-r from-slate-900 to-slate-900/80 border-slate-700">
+      <CardHeader>
+        <CardTitle className="text-lg flex items-center gap-2">
+          <Activity size={18} className="text-purple-400" />
+          Unit Circle Plot
+        </CardTitle>
+        <CardDescription className="text-slate-400">
+          Eigenvalues plotted in the complex plane. Points inside the unit circle are stable (decaying signal), on the boundary are critical, and outside are divergent. Complex conjugate pairs indicate oscillatory dynamics.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="flex justify-center">
+          <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="overflow-visible" data-testid="unit-circle-plot">
+            <defs>
+              <radialGradient id="uc-stable-zone" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#22c55e" stopOpacity="0.06" />
+                <stop offset="70%" stopColor="#22c55e" stopOpacity="0.03" />
+                <stop offset="100%" stopColor="#22c55e" stopOpacity="0" />
+              </radialGradient>
+            </defs>
+
+            <circle cx={cx} cy={cy} r={1.0 * scale} fill="url(#uc-stable-zone)" stroke="#22c55e" strokeWidth="1.5" strokeDasharray="6 3" opacity="0.6" />
+
+            <line x1={cx - plotRadius - 5} y1={cy} x2={cx + plotRadius + 5} y2={cy} stroke="#334155" strokeWidth="1" />
+            <line x1={cx} y1={cy - plotRadius - 5} x2={cx} y2={cy + plotRadius + 5} stroke="#334155" strokeWidth="1" />
+
+            {[-0.5, 0.5, -1, 1].filter(v => Math.abs(v) * scale <= plotRadius).map(v => (
+              <g key={`tick-r-${v}`}>
+                <line x1={toX(v)} y1={cy - 3} x2={toX(v)} y2={cy + 3} stroke="#475569" strokeWidth="1" />
+                <text x={toX(v)} y={cy + 14} textAnchor="middle" fill="#64748b" fontSize="9">{v}</text>
+              </g>
+            ))}
+            {[-0.5, 0.5, -1, 1].filter(v => Math.abs(v) * scale <= plotRadius).map(v => (
+              <g key={`tick-i-${v}`}>
+                <line x1={cx - 3} y1={toY(v)} x2={cx + 3} y2={toY(v)} stroke="#475569" strokeWidth="1" />
+                <text x={cx - 10} y={toY(v) + 3} textAnchor="end" fill="#64748b" fontSize="9">{v}i</text>
+              </g>
+            ))}
+
+            <text x={cx + plotRadius + 8} y={cy + 4} fill="#64748b" fontSize="10" textAnchor="start">Re</text>
+            <text x={cx + 4} y={cy - plotRadius - 8} fill="#64748b" fontSize="10" textAnchor="start">Im</text>
+
+            {[0.25, 0.5, 0.75].filter(r => r * scale <= plotRadius).map(r => (
+              <circle key={`grid-${r}`} cx={cx} cy={cy} r={r * scale} fill="none" stroke="#1e293b" strokeWidth="0.5" strokeDasharray="3 4" />
+            ))}
+
+            {eigenPoints.map((pt, i) => {
+              const px = toX(pt.real);
+              const py = toY(pt.imag);
+              const isHov = hovered === i;
+              return (
+                <g key={i}
+                  onMouseEnter={() => setHovered(i)}
+                  onMouseLeave={() => setHovered(null)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {isHov && <circle cx={px} cy={py} r={12} fill={pt.color} opacity="0.15" />}
+                  <circle
+                    cx={px} cy={py}
+                    r={isHov ? 7 : 5}
+                    fill={pt.color}
+                    stroke="#0f172a"
+                    strokeWidth="1.5"
+                    opacity={hovered !== null && !isHov ? 0.4 : 1}
+                    style={{ transition: 'r 0.15s, opacity 0.15s' }}
+                  />
+                  {isHov && (
+                    <g>
+                      <rect x={px + 10} y={py - 32} width={Math.max(120, pt.channel.length * 7 + 20)} height={42} rx="4" fill="#1e293b" stroke="#334155" strokeWidth="1" />
+                      <text x={px + 16} y={py - 18} fill="#e2e8f0" fontSize="11" fontWeight="600">{pt.channel}</text>
+                      <text x={px + 16} y={py - 4} fill="#94a3b8" fontSize="10">
+                        {pt.real.toFixed(3)}{pt.imag >= 0 ? ' + ' : ' − '}{Math.abs(pt.imag).toFixed(3)}i
+                      </text>
+                      <text x={px + 16} y={py + 8} fill="#94a3b8" fontSize="9">|λ| = {pt.modulus.toFixed(4)}</text>
+                    </g>
+                  )}
+                </g>
+              );
+            })}
+
+            <text x={cx + 1.0 * scale + 4} y={cy - 6} fill="#22c55e" fontSize="9" opacity="0.7">|λ|=1</text>
+          </svg>
+        </div>
+
+        <div className="mt-4 flex flex-wrap gap-3 justify-center">
+          {results.map((r, i) => (
+            <div key={i} className="flex items-center gap-1.5 text-xs text-slate-400">
+              <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: r.stabilityColor }} />
+              <span>{r.channel}</span>
+              <span className="text-slate-500 font-mono">|λ|={r.eigenvalue.toFixed(3)}</span>
+              {r.halfLife != null && <span className="text-emerald-500 font-mono">t½={r.halfLife.toFixed(1)}</span>}
+            </div>
+          ))}
+        </div>
+
+        <p className="text-[11px] text-slate-500 mt-3 text-center">
+          Dashed green circle = unit circle boundary (|λ| = 1). Points inside: stable, decaying dynamics. Complex conjugate pairs appear mirrored across the real axis.
+        </p>
+      </CardContent>
+    </Card>
+  );
+}
+
 function StateSpacePlot({ results }: { results: ChannelResult[] }) {
   const data = results.map(r => ({
     name: r.channel,
@@ -184,9 +382,9 @@ function StateSpacePlot({ results }: { results: ChannelResult[] }) {
       <ScatterChart margin={{ top: 20, right: 20, bottom: 30, left: 20 }}>
         <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
         <XAxis type="number" dataKey="x" name="β₁" domain={[-2.2, 2.2]}
-          tick={{ fill: '#94a3b8', fontSize: 11 }} label={{ value: 'β₁ (phi1)', position: 'bottom', fill: '#94a3b8', fontSize: 11, offset: 15 }} />
+          tick={{ fill: '#64748b', fontSize: 11 }} label={{ value: 'β₁ (phi1)', position: 'bottom', fill: '#64748b', fontSize: 11, offset: 15 }} />
         <YAxis type="number" dataKey="y" name="β₂" domain={[-1.3, 1.2]}
-          tick={{ fill: '#94a3b8', fontSize: 11 }} label={{ value: 'β₂ (phi2)', angle: -90, position: 'left', fill: '#94a3b8', fontSize: 11 }} />
+          tick={{ fill: '#64748b', fontSize: 11 }} label={{ value: 'β₂ (phi2)', angle: -90, position: 'left', fill: '#64748b', fontSize: 11 }} />
         <ZAxis type="number" dataKey="size" range={[200, 200]} />
 
         <Scatter data={stationarityBottom} fill="none" line={{ stroke: '#475569', strokeWidth: 1.5, strokeDasharray: '6 3' }} shape={() => <circle r={0} />} legendType="none" />
@@ -241,6 +439,11 @@ const FORMAT_INFO: Record<string, { label: string; description: string; example:
     description: 'Sleep/readiness data with HRV and temperature',
     example: 'date,hrv,temperature_deviation\n2025-01-01,45,0.2\n2025-01-02,42,-0.1'
   },
+  gene_expression_matrix: {
+    label: 'Gene Expression Matrix',
+    description: 'Circadian time-course data — genes as rows, time points as columns. Per-gene AR(2) eigenvalue analysis.',
+    example: 'Gene,CT18,CT20,CT22,CT24,CT26,CT28\nPer2,8.2,9.1,7.3,5.4,4.2,6.8\nBmal1,5.1,4.2,3.8,6.7,8.2,7.1'
+  },
   heartrate: {
     label: 'Heart Rate',
     description: 'Any device with heart rate time series',
@@ -257,9 +460,20 @@ export default function DiscoveryEngine() {
   const [sharing, setSharing] = useState(false);
   const [shareUrl, setShareUrl] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFile = useCallback((f: File) => {
+    const name = f.name.toLowerCase();
+    if (!name.endsWith('.csv') && !name.endsWith('.tsv') && !name.endsWith('.txt')) {
+      setError(`Invalid file type: "${f.name}". Please upload a CSV, TSV, or TXT file.`);
+      return;
+    }
+    if (f.size > 50 * 1024 * 1024) {
+      setError('File too large (max 50 MB). Please use a smaller file.');
+      return;
+    }
     setFile(f);
     setError(null);
     setResult(null);
@@ -335,6 +549,63 @@ export default function DiscoveryEngine() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleSaveToReports = async () => {
+    if (!result) return;
+    setSaving(true);
+    try {
+      const pga = result.perGeneAnalysis;
+      const isGeneMatrix = !!pga;
+      const genes = pga
+        ? (pga.topByEigenvalue || []).concat(pga.bottomByEigenvalue || [])
+        : result.results.map((r: any) => ({
+            gene: r.channel,
+            eigenvalue: r.eigenvalue,
+            phi1: r.phi1,
+            phi2: r.phi2,
+            r2: r.r2,
+            stability: r.stability,
+            geneType: 'other',
+          }));
+
+      const payload = {
+        genes,
+        fileName: result.fileName,
+        detectedFormat: result.detectedFormat,
+        gearboxAnalysis: result.gearboxAnalysis || null,
+        perGeneAnalysis: pga ? {
+          totalGenes: pga.totalGenes,
+          clockGenesFound: pga.clockGenesFound,
+          clockMeanEigenvalue: pga.clockMeanEigenvalue,
+          targetMeanEigenvalue: pga.targetMeanEigenvalue,
+        } : null,
+      };
+
+      const summary = pga
+        ? `${pga.totalGenes} genes, ${pga.clockGenesFound} clock genes. Clock |λ| = ${pga.clockMeanEigenvalue?.toFixed(4) || 'N/A'}, Target |λ| = ${pga.targetMeanEigenvalue?.toFixed(4) || 'N/A'}`
+        : `${result.channelsAnalyzed} channels analyzed from ${result.detectedFormat} data`;
+
+      const res = await fetch('/api/saved-reports', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: `Discovery Engine — ${result.fileName || 'Analysis'}`,
+          sourcePage: 'discovery-engine',
+          reportType: 'gene_eigenvalue_list',
+          summary,
+          geneCount: pga ? pga.totalGenes : result.channelsAnalyzed,
+          payload,
+        }),
+      });
+      if (!res.ok) throw new Error('Failed to save report');
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
+    } catch (err: any) {
+      setError(err.message || 'Failed to save report');
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const loadRosenData = async (variant: 'topflash' | 'bcat') => {
     setError(null);
     setResult(null);
@@ -350,6 +621,24 @@ export default function DiscoveryEngine() {
       handleFile(f);
     } catch (err: any) {
       setError(err.message || 'Failed to load sample data');
+    }
+  };
+
+  const [loadingDataset, setLoadingDataset] = useState<string | null>(null);
+  const loadDataset = async (name: string, filename: string) => {
+    setError(null);
+    setResult(null);
+    setLoadingDataset(name);
+    try {
+      const response = await fetch(`/api/sample-data/dataset/${name}`);
+      if (!response.ok) throw new Error(`Failed to load dataset: ${name}`);
+      const blob = await response.blob();
+      const f = new File([blob], filename, { type: 'text/csv' });
+      handleFile(f);
+    } catch (err: any) {
+      setError(err.message || 'Failed to load dataset');
+    } finally {
+      setLoadingDataset(null);
     }
   };
 
@@ -536,56 +825,192 @@ export default function DiscoveryEngine() {
                   Try with Sample Data
                 </CardTitle>
                 <CardDescription className="text-slate-400 text-xs">
-                  Load real experimental data or synthetic examples to explore the analysis pipeline
+                  Load real experimental datasets from published studies or synthetic examples
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  <Button
-                    variant="outline"
-                    className="h-auto py-3 px-4 border-emerald-700/50 hover:bg-emerald-900/20 flex flex-col items-start gap-1 text-left whitespace-normal"
-                    onClick={() => loadRosenData('topflash')}
-                    data-testid="button-sample-rosen-tf"
-                  >
-                    <span className="font-medium text-emerald-400">Rosen et al. TopFlash (eLife 2026)</span>
-                    <span className="text-xs text-slate-400 leading-snug">7 optogenetic Wnt conditions, 231 timepoints at 10-min intervals. Real experimental data.</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="h-auto py-3 px-4 border-emerald-700/50 hover:bg-emerald-900/20 flex flex-col items-start gap-1 text-left whitespace-normal"
-                    onClick={() => loadRosenData('bcat')}
-                    data-testid="button-sample-rosen-bcat"
-                  >
-                    <span className="font-medium text-emerald-400">Rosen et al. Beta-Catenin (eLife 2026)</span>
-                    <span className="text-xs text-slate-400 leading-snug">7 conditions of beta-catenin protein dynamics. Hidden-variable AR(2) validation.</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="h-auto py-3 px-4 border-emerald-700/50 hover:bg-emerald-900/20 flex flex-col items-start gap-1 text-left whitespace-normal"
-                    onClick={() => generateSampleCSV('generic')}
-                    data-testid="button-sample-generic"
-                  >
-                    <span className="font-medium text-cyan-400">Synthetic Multi-Channel</span>
-                    <span className="text-xs text-slate-400 leading-snug">Two synthetic oscillatory signals with different periods — demonstrates multi-channel AR(2) analysis</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="h-auto py-3 px-4 border-slate-700 hover:bg-slate-800 flex flex-col items-start gap-1 text-left whitespace-normal"
-                    onClick={() => generateSampleCSV('glucose')}
-                    data-testid="button-sample-glucose"
-                  >
-                    <span className="font-medium text-amber-400">CGM Glucose (24h)</span>
-                    <span className="text-xs text-slate-400 leading-snug">288 readings at 5-min intervals with circadian rhythm and meal spikes</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="h-auto py-3 px-4 border-slate-700 hover:bg-slate-800 flex flex-col items-start gap-1 text-left whitespace-normal"
-                    onClick={() => generateSampleCSV('hrv')}
-                    data-testid="button-sample-hrv"
-                  >
-                    <span className="font-medium text-purple-400">Oura Ring (30 days)</span>
-                    <span className="text-xs text-slate-400 leading-snug">HRV + Temperature data with weekly and monthly rhythms</span>
-                  </Button>
+              <CardContent className="space-y-4">
+                <div>
+                  <p className="text-xs text-emerald-400 font-semibold uppercase tracking-wider mb-2">Wnt Signaling (Rosen et al. 2026)</p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <Button
+                      variant="outline"
+                      className="h-auto py-3 px-4 border-emerald-700/50 hover:bg-emerald-900/20 flex flex-col items-start gap-1 text-left whitespace-normal"
+                      onClick={() => loadRosenData('topflash')}
+                      disabled={!!loadingDataset}
+                      data-testid="button-sample-rosen-tf"
+                    >
+                      <span className="font-medium text-emerald-400">TopFlash + Beta-Catenin (All Conditions)</span>
+                      <span className="text-xs text-slate-400 leading-snug">14 channels: 7 TF + 7 bcat across NL, 6hr, 9hr, 15hr, 18hr, 21hr, 24hr Wnt pulses. 231 timepoints.</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="h-auto py-3 px-4 border-emerald-700/50 hover:bg-emerald-900/20 flex flex-col items-start gap-1 text-left whitespace-normal"
+                      onClick={() => loadRosenData('bcat')}
+                      disabled={!!loadingDataset}
+                      data-testid="button-sample-rosen-bcat"
+                    >
+                      <span className="font-medium text-emerald-400">Beta-Catenin Only</span>
+                      <span className="text-xs text-slate-400 leading-snug">7 conditions of beta-catenin protein dynamics. Upstream signal with wide |λ| range (0.91–0.997).</span>
+                    </Button>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-xs text-blue-400 font-semibold uppercase tracking-wider mb-2">Circadian Gene Expression (Genome-Wide)</p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <Button
+                      variant="outline"
+                      className="h-auto py-3 px-4 border-blue-700/50 hover:bg-blue-900/20 flex flex-col items-start gap-1 text-left whitespace-normal"
+                      onClick={() => loadDataset('mouse-liver', 'GSE54650_Liver_circadian.csv')}
+                      disabled={!!loadingDataset}
+                      data-testid="button-sample-mouse-liver"
+                    >
+                      <span className="font-medium text-blue-400">{loadingDataset === 'mouse-liver' ? 'Loading...' : 'Mouse Liver (GSE54650)'}</span>
+                      <span className="text-xs text-slate-400 leading-snug">Hughes et al. Circadian Atlas. ~21K genes, 24 timepoints across 2 circadian cycles. The canonical dataset.</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="h-auto py-3 px-4 border-blue-700/50 hover:bg-blue-900/20 flex flex-col items-start gap-1 text-left whitespace-normal"
+                      onClick={() => loadDataset('human-blood', 'GSE113883_Human_WholeBlood.csv')}
+                      disabled={!!loadingDataset}
+                      data-testid="button-sample-human-blood"
+                    >
+                      <span className="font-medium text-blue-400">{loadingDataset === 'human-blood' ? 'Loading...' : 'Human Blood (GSE113883)'}</span>
+                      <span className="text-xs text-slate-400 leading-snug">Whole blood circadian transcriptome. ~58K transcripts, 15 timepoints over 29 hours. Human validation.</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="h-auto py-3 px-4 border-blue-700/50 hover:bg-blue-900/20 flex flex-col items-start gap-1 text-left whitespace-normal"
+                      onClick={() => loadDataset('baboon-liver', 'GSE98965_baboon_FPKM.csv')}
+                      disabled={!!loadingDataset}
+                      data-testid="button-sample-baboon-liver"
+                    >
+                      <span className="font-medium text-blue-400">{loadingDataset === 'baboon-liver' ? 'Loading...' : 'Baboon Liver (GSE98965)'}</span>
+                      <span className="text-xs text-slate-400 leading-snug">Primate liver circadian expression. ~29K genes. Cross-species hierarchy validation.</span>
+                    </Button>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-xs text-rose-400 font-semibold uppercase tracking-wider mb-2">Disease & Disruption</p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <Button
+                      variant="outline"
+                      className="h-auto py-3 px-4 border-rose-700/50 hover:bg-rose-900/20 flex flex-col items-start gap-1 text-left whitespace-normal"
+                      onClick={() => loadDataset('neuroblastoma-myc-on', 'GSE221103_Neuroblastoma_MYC_ON.csv')}
+                      disabled={!!loadingDataset}
+                      data-testid="button-sample-neuro-myc-on"
+                    >
+                      <span className="font-medium text-rose-400">{loadingDataset === 'neuroblastoma-myc-on' ? 'Loading...' : 'Neuroblastoma MYC-ON (GSE221103)'}</span>
+                      <span className="text-xs text-slate-400 leading-snug">Cancer cells with MYC oncogene active. ~60K genes, 14 timepoints. Tests circadian disruption in cancer.</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="h-auto py-3 px-4 border-rose-700/50 hover:bg-rose-900/20 flex flex-col items-start gap-1 text-left whitespace-normal"
+                      onClick={() => loadDataset('neuroblastoma-myc-off', 'GSE221103_Neuroblastoma_MYC_OFF.csv')}
+                      disabled={!!loadingDataset}
+                      data-testid="button-sample-neuro-myc-off"
+                    >
+                      <span className="font-medium text-rose-400">{loadingDataset === 'neuroblastoma-myc-off' ? 'Loading...' : 'Neuroblastoma MYC-OFF (GSE221103)'}</span>
+                      <span className="text-xs text-slate-400 leading-snug">Same cells with MYC silenced. Compare against MYC-ON to see if circadian hierarchy recovers.</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="h-auto py-3 px-4 border-rose-700/50 hover:bg-rose-900/20 flex flex-col items-start gap-1 text-left whitespace-normal"
+                      onClick={() => loadDataset('organoid-wt', 'GSE157357_Organoid_WT-WT_circadian.csv')}
+                      disabled={!!loadingDataset}
+                      data-testid="button-sample-organoid-wt"
+                    >
+                      <span className="font-medium text-rose-400">{loadingDataset === 'organoid-wt' ? 'Loading...' : 'Intestinal Organoid WT (GSE157357)'}</span>
+                      <span className="text-xs text-slate-400 leading-snug">Wild-type organoid circadian data. ~15K genes, 22 timepoints. Baseline for Apc/Bmal knockout comparisons.</span>
+                    </Button>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-xs text-amber-400 font-semibold uppercase tracking-wider mb-2">Sleep & Human Physiology</p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <Button
+                      variant="outline"
+                      className="h-auto py-3 px-4 border-amber-700/50 hover:bg-amber-900/20 flex flex-col items-start gap-1 text-left whitespace-normal"
+                      onClick={() => loadDataset('sleep-restriction', 'GSE39445_Blood_SleepRestriction_circadian.csv')}
+                      disabled={!!loadingDataset}
+                      data-testid="button-sample-sleep-restrict"
+                    >
+                      <span className="font-medium text-amber-400">{loadingDataset === 'sleep-restriction' ? 'Loading...' : 'Sleep Restriction (GSE39445)'}</span>
+                      <span className="text-xs text-slate-400 leading-snug">Human blood after sleep restriction. ~19K genes, 10 timepoints. Tests circadian disruption from sleep loss.</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="h-auto py-3 px-4 border-amber-700/50 hover:bg-amber-900/20 flex flex-col items-start gap-1 text-left whitespace-normal"
+                      onClick={() => loadDataset('sleep-sufficient', 'GSE39445_Blood_SufficientSleep_circadian.csv')}
+                      disabled={!!loadingDataset}
+                      data-testid="button-sample-sleep-sufficient"
+                    >
+                      <span className="font-medium text-amber-400">{loadingDataset === 'sleep-sufficient' ? 'Loading...' : 'Sufficient Sleep (GSE39445)'}</span>
+                      <span className="text-xs text-slate-400 leading-snug">Same subjects with adequate sleep. Compare against restriction to quantify circadian resilience.</span>
+                    </Button>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-xs text-teal-400 font-semibold uppercase tracking-wider mb-2">Non-Circadian Validation</p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                    <Button
+                      variant="outline"
+                      className="h-auto py-3 px-4 border-teal-700/50 hover:bg-teal-900/20 flex flex-col items-start gap-1 text-left whitespace-normal"
+                      onClick={() => loadDataset('rabani-lps-curated', 'Rabani2014_DendriticCell_LPS_Curated.csv')}
+                      disabled={!!loadingDataset}
+                      data-testid="button-sample-rabani-curated"
+                    >
+                      <span className="font-medium text-teal-400">{loadingDataset === 'rabani-lps-curated' ? 'Loading...' : 'Rabani 2014 DC LPS — Curated (39 genes)'}</span>
+                      <span className="text-xs text-slate-400 leading-snug">Dendritic cell immune response. Fast responders (Il1b, Ptgs2) vs sustained effectors (Ifit1, Stat1) vs housekeeping. Tests regulator→effector hierarchy beyond circadian.</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="h-auto py-3 px-4 border-teal-700/50 hover:bg-teal-900/20 flex flex-col items-start gap-1 text-left whitespace-normal"
+                      onClick={() => loadDataset('rabani-lps-full', 'Rabani2014_DendriticCell_LPS_Full.csv')}
+                      disabled={!!loadingDataset}
+                      data-testid="button-sample-rabani-full"
+                    >
+                      <span className="font-medium text-teal-400">{loadingDataset === 'rabani-lps-full' ? 'Loading...' : 'Rabani 2014 DC LPS — Full (3,147 genes)'}</span>
+                      <span className="text-xs text-slate-400 leading-snug">Genome-wide innate immune response time series (0-12h post-LPS). Tests AR(2) persistence hierarchy across entire transcriptome in non-circadian context.</span>
+                    </Button>
+                  </div>
+
+                  <p className="text-xs text-violet-400 font-semibold uppercase tracking-wider mb-2">Cross-Kingdom & Proteomics</p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <Button
+                      variant="outline"
+                      className="h-auto py-3 px-4 border-violet-700/50 hover:bg-violet-900/20 flex flex-col items-start gap-1 text-left whitespace-normal"
+                      onClick={() => loadDataset('yeast-metabolic', 'GSE3431_yeast_metabolic_cycle.csv')}
+                      disabled={!!loadingDataset}
+                      data-testid="button-sample-yeast"
+                    >
+                      <span className="font-medium text-violet-400">{loadingDataset === 'yeast-metabolic' ? 'Loading...' : 'Yeast Metabolic Cycle (GSE3431)'}</span>
+                      <span className="text-xs text-slate-400 leading-snug">Tu et al. ~6.7K genes with ultradian ~4-5hr metabolic oscillation. Non-circadian periodic test case.</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="h-auto py-3 px-4 border-violet-700/50 hover:bg-violet-900/20 flex flex-col items-start gap-1 text-left whitespace-normal"
+                      onClick={() => loadDataset('mouse-liver-proteomics', 'mouse_liver_circadian_proteomics.csv')}
+                      disabled={!!loadingDataset}
+                      data-testid="button-sample-proteomics"
+                    >
+                      <span className="font-medium text-violet-400">{loadingDataset === 'mouse-liver-proteomics' ? 'Loading...' : 'Mouse Liver Proteomics'}</span>
+                      <span className="text-xs text-slate-400 leading-snug">Circadian protein-level expression for 7 core clock genes. 16 timepoints. Protein vs mRNA persistence.</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="h-auto py-3 px-4 border-slate-700 hover:bg-slate-800 flex flex-col items-start gap-1 text-left whitespace-normal"
+                      onClick={() => generateSampleCSV('generic')}
+                      disabled={!!loadingDataset}
+                      data-testid="button-sample-generic"
+                    >
+                      <span className="font-medium text-cyan-400">Synthetic Multi-Channel</span>
+                      <span className="text-xs text-slate-400 leading-snug">Two synthetic oscillatory signals with different periods. Quick demo of multi-channel AR(2) analysis.</span>
+                    </Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -618,7 +1043,7 @@ export default function DiscoveryEngine() {
               <div className="flex items-center gap-3">
                 <Badge className="bg-green-600/20 text-green-400 border-green-600/30">Analysis Complete</Badge>
                 <span className="text-sm text-slate-400">
-                  {result.fileName} | {result.totalRecords} records | Format: {FORMAT_INFO[result.detectedFormat]?.label || result.detectedFormat}
+                  {result.fileName} | {result.totalRecords} {result.detectedFormat === 'gene_expression_matrix' ? 'genes' : 'records'} | Format: {FORMAT_INFO[result.detectedFormat]?.label || result.detectedFormat}
                 </span>
               </div>
               <div className="flex items-center gap-2">
@@ -662,6 +1087,7 @@ export default function DiscoveryEngine() {
                       const zone = eig < 0.5 ? 'Low Persistence (Resilient)' : eig < 0.8 ? 'Moderate Persistence' : eig < 0.95 ? 'High Persistence' : 'Near-Critical';
                       reportLines.push(`  Persistence Zone: ${zone} (exploratory classification, not clinically validated)`);
                       reportLines.push(`  Stability: ${ch.stability}`);
+                      if (ch.halfLife != null) reportLines.push(`  Half-Life: ${ch.halfLife.toFixed(1)} time steps`);
                       if (ch.impliedPeriod) reportLines.push(`  Implied Period: ${ch.impliedPeriod.toFixed(1)} time units`);
                       reportLines.push(`  Mean: ${ch.mean.toFixed(4)}, Std: ${ch.std.toFixed(4)}, Min: ${ch.min.toFixed(4)}, Max: ${ch.max.toFixed(4)}`);
                       if (ch.overallConfidence) {
@@ -808,6 +1234,44 @@ export default function DiscoveryEngine() {
                 <Button
                   variant="outline"
                   size="sm"
+                  className={saved ? "border-emerald-700 text-emerald-400" : "border-slate-700 text-slate-300"}
+                  onClick={handleSaveToReports}
+                  disabled={saving || saved}
+                  data-testid="button-save-to-reports"
+                >
+                  {saving ? <Loader2 size={14} className="mr-1 animate-spin" /> : saved ? <Check size={14} className="mr-1" /> : <Save size={14} className="mr-1" />}
+                  {saving ? 'Saving...' : saved ? 'Saved!' : 'Save to Reports'}
+                </Button>
+                <ExportReport
+                  title={`PAR(2) Discovery Engine — ${result.fileName || 'Analysis'}`}
+                  subtitle={`Format: ${result.detectedFormat} | ${result.channelsAnalyzed} channels | ${result.totalRecords} records | Generated ${new Date().toLocaleDateString()}`}
+                  sections={[
+                    ...(result.perGeneAnalysis ? [
+                      { heading: 'Gene Expression Matrix Summary', content: { type: 'stats' as const, items: [
+                        { label: 'Total Genes', value: result.perGeneAnalysis.totalGenes },
+                        { label: 'Clock Genes Found', value: result.perGeneAnalysis.clockGenesFound },
+                        { label: 'Time Points', value: result.perGeneAnalysis.timepointCount },
+                        { label: 'Clock Mean |λ|', value: result.perGeneAnalysis.clockMeanEigenvalue?.toFixed(4) || 'N/A' },
+                        { label: 'Target Mean |λ|', value: result.perGeneAnalysis.targetMeanEigenvalue?.toFixed(4) || 'N/A' },
+                      ]}},
+                      { heading: 'Hierarchy (Gearbox) Analysis', content: result.gearboxAnalysis ? `Clock mean |λ| = ${result.gearboxAnalysis.clockEigenvalue?.toFixed(4) || 'N/A'} vs Target mean |λ| = ${result.gearboxAnalysis.targetEigenvalue?.toFixed(4) || 'N/A'}. Gap = ${result.gearboxAnalysis.gap?.toFixed(4) || 'N/A'}. Status: ${result.gearboxAnalysis.hierarchyStatus || 'Unknown'}.` : 'No gearbox analysis available.' },
+                      { heading: 'Top 20 Genes by Eigenvalue', content: { type: 'table' as const, headers: ['Rank', 'Gene', 'Type', '|λ|', 'Stability'], rows: (result.perGeneAnalysis.topByEigenvalue || []).map((g: any, i: number) => [String(i+1), g.gene, g.geneType, g.eigenvalue.toFixed(4), g.stability]) }},
+                      { heading: 'Bottom 10 Genes by Eigenvalue', content: { type: 'table' as const, headers: ['Rank', 'Gene', 'Type', '|λ|', 'Stability'], rows: (result.perGeneAnalysis.bottomByEigenvalue || []).map((g: any, i: number) => [String(i+1), g.gene, g.geneType, g.eigenvalue.toFixed(4), g.stability]) }},
+                    ] : [
+                      { heading: 'Analysis Summary', content: { type: 'stats' as const, items: [
+                        { label: 'Channels Analyzed', value: result.channelsAnalyzed },
+                        { label: 'Total Records', value: result.totalRecords },
+                        { label: 'Format', value: result.detectedFormat },
+                      ]}},
+                      { heading: 'Channel Results', content: { type: 'table' as const, headers: ['Channel', '|λ|', 'φ₁', 'φ₂', 'R²', 'Stability'], rows: result.results.slice(0, 50).map((ch: any) => [ch.channel, ch.eigenvalue.toFixed(4), ch.phi1.toFixed(4), ch.phi2.toFixed(4), ch.r2.toFixed(4), ch.stability]) }},
+                    ]),
+                    { heading: 'Methodology', content: `Engine: ${result.metadata?.engine || 'PAR(2) Discovery Engine'}. Algorithm: ${result.metadata?.algorithm || 'AR(2) OLS regression'}. Equation: y(t) = φ₁·y(t-1) + φ₂·y(t-2) + ε. Eigenvalue equation: λ² - φ₁·λ - φ₂ = 0.` },
+                  ]}
+                  className="border-slate-700 text-slate-300"
+                />
+                <Button
+                  variant="outline"
+                  size="sm"
                   className="border-slate-700 text-slate-300"
                   onClick={() => { setResult(null); setFile(null); setShareUrl(null); }}
                   data-testid="button-new-analysis"
@@ -849,6 +1313,26 @@ export default function DiscoveryEngine() {
               </AlertDescription>
             </Alert>
 
+            {result.dataDomain?.warning && (
+              <Alert className={`${result.dataDomain.domain === 'non-biological' ? 'bg-orange-950/40 border-orange-700/60' : 'bg-amber-950/30 border-amber-700/50'}`} data-testid="alert-data-domain">
+                <AlertCircle className={`h-4 w-4 ${result.dataDomain.domain === 'non-biological' ? 'text-orange-400' : 'text-amber-400'}`} />
+                <AlertTitle className={result.dataDomain.domain === 'non-biological' ? 'text-orange-300' : 'text-amber-300'}>
+                  {result.dataDomain.domain === 'non-biological' ? 'Non-Biological Data Detected' : 'Data Domain Uncertain'}
+                </AlertTitle>
+                <AlertDescription className="text-xs text-slate-300 space-y-2 mt-1">
+                  <p>{result.dataDomain.warning}</p>
+                  {result.dataDomain.signals.length > 0 && (
+                    <details className="text-slate-400">
+                      <summary className="cursor-pointer hover:text-slate-300 text-[11px]">Detection signals ({result.dataDomain.signals.length})</summary>
+                      <ul className="mt-1 space-y-0.5 text-[11px] pl-3 list-disc">
+                        {result.dataDomain.signals.map((s, i) => <li key={i}>{s}</li>)}
+                      </ul>
+                    </details>
+                  )}
+                </AlertDescription>
+              </Alert>
+            )}
+
             {result.skippedChannels && result.skippedChannels.length > 0 && (
               <Alert className="bg-slate-800/50 border-slate-700/50" data-testid="alert-skipped-channels">
                 <Info className="h-4 w-4 text-slate-400" />
@@ -869,7 +1353,7 @@ export default function DiscoveryEngine() {
               </Alert>
             )}
 
-            {result.results.length > 0 && result.results.every(ch => ch.r2 < 0.1) && (
+            {result.results.length > 0 && result.results.every(ch => ch.r2 < 0.1) && !result.perGeneAnalysis && (
               <Alert className="bg-red-950/30 border-red-800/50" data-testid="alert-negative-result">
                 <AlertCircle className="h-4 w-4 text-red-400" />
                 <AlertTitle className="text-red-300">Negative Result Flag</AlertTitle>
@@ -879,10 +1363,215 @@ export default function DiscoveryEngine() {
               </Alert>
             )}
 
+            {result.dataWarnings && result.dataWarnings.length > 0 && (
+              <div className="space-y-2" data-testid="data-warnings">
+                {result.dataWarnings.map((w, i) => (
+                  <Alert key={i} className={
+                    w.severity === 'error' ? 'bg-red-950/30 border-red-800/50' :
+                    w.severity === 'warning' ? 'bg-amber-950/30 border-amber-800/50' :
+                    'bg-blue-950/30 border-blue-800/50'
+                  } data-testid={`warning-${w.type}`}>
+                    <AlertCircle className={`h-4 w-4 ${
+                      w.severity === 'error' ? 'text-red-400' :
+                      w.severity === 'warning' ? 'text-amber-400' :
+                      'text-blue-400'
+                    }`} />
+                    <AlertTitle className={
+                      w.severity === 'error' ? 'text-red-300' :
+                      w.severity === 'warning' ? 'text-amber-300' :
+                      'text-blue-300'
+                    }>
+                      {w.type === 'duplicate_genes' ? 'Duplicate Genes Detected' :
+                       w.type === 'constant_genes' ? 'Constant Expression Genes Excluded' :
+                       w.type === 'corrupted_rows' ? 'Corrupted Data Rows Excluded' :
+                       w.type === 'outlier_genes' ? 'Outlier Values Detected' :
+                       'Data Quality Notice'}
+                    </AlertTitle>
+                    <AlertDescription className="text-xs text-slate-400 mt-1">
+                      {w.message}
+                    </AlertDescription>
+                  </Alert>
+                ))}
+              </div>
+            )}
+
+            {result.parsingValidation && (
+              <Card className={`${result.parsingValidation.dataReliable ? 'bg-slate-900/60 border-slate-700/50' : 'bg-red-950/30 border-red-700/50'}`} data-testid="parsing-validation">
+                <CardContent className="pt-4 pb-3">
+                  <details>
+                    <summary className="cursor-pointer flex items-center gap-2 text-sm">
+                      {result.parsingValidation.dataReliable ? (
+                        <Badge className="bg-green-600/20 text-green-400 border-green-600/30 text-xs">
+                          <ShieldCheck size={10} className="mr-1" />
+                          Data Integrity Verified
+                        </Badge>
+                      ) : (
+                        <Badge className="bg-red-600/20 text-red-400 border-red-600/30 text-xs">
+                          <AlertCircle size={10} className="mr-1" />
+                          Data Integrity Warning
+                        </Badge>
+                      )}
+                      <span className="text-xs text-slate-400">{result.parsingValidation.summary}</span>
+                    </summary>
+                    <div className="mt-3 space-y-2">
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-center mb-3">
+                        <div className="bg-slate-800/50 rounded px-2 py-1.5">
+                          <div className="text-sm font-medium text-white">{result.parsingValidation.formatDetected}</div>
+                          <div className="text-[10px] text-slate-500">Format Detected</div>
+                        </div>
+                        <div className="bg-slate-800/50 rounded px-2 py-1.5">
+                          <div className="text-sm font-medium text-cyan-400">{result.parsingValidation.columnsFound}</div>
+                          <div className="text-[10px] text-slate-500">Columns Found</div>
+                        </div>
+                        <div className="bg-slate-800/50 rounded px-2 py-1.5">
+                          <div className="text-sm font-medium text-white">{result.parsingValidation.channelsAnalyzed}</div>
+                          <div className="text-[10px] text-slate-500">Channels Analyzed</div>
+                        </div>
+                        <div className="bg-slate-800/50 rounded px-2 py-1.5">
+                          <div className="text-sm font-medium text-white">{result.parsingValidation.rowsRead.toLocaleString()}</div>
+                          <div className="text-[10px] text-slate-500">Data Points</div>
+                        </div>
+                      </div>
+                      {result.parsingValidation.checks.map((check, i) => (
+                        <div key={i} className="flex items-start gap-2 text-xs">
+                          <span className={`mt-0.5 flex-shrink-0 ${check.passed ? 'text-green-400' : 'text-red-400'}`}>
+                            {check.passed ? '✓' : '✗'}
+                          </span>
+                          <div>
+                            <span className="text-slate-300 font-medium">{check.test}:</span>
+                            <span className="text-slate-400 ml-1">{check.detail}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </details>
+                </CardContent>
+              </Card>
+            )}
+
+            {result.perGeneAnalysis && (
+              <Card className="bg-emerald-950/30 border-emerald-700/50" data-testid="per-gene-summary">
+                <CardContent className="pt-5 space-y-4">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Badge className="bg-emerald-600/30 text-emerald-400 border-emerald-600/40">Gene Expression Matrix Detected</Badge>
+                    <span className="text-xs text-slate-400">Per-gene AR(2) eigenvalue analysis</span>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
+                    <div className="bg-slate-800/50 rounded-lg p-3">
+                      <div className="text-xl font-bold text-white" data-testid="text-total-genes">{result.perGeneAnalysis.totalGenes.toLocaleString()}</div>
+                      <div className="text-xs text-slate-400">Genes Analyzed</div>
+                    </div>
+                    <div className="bg-slate-800/50 rounded-lg p-3">
+                      <div className="text-xl font-bold text-cyan-400" data-testid="text-timepoints">{result.perGeneAnalysis.timepointCount}</div>
+                      <div className="text-xs text-slate-400">Time Points</div>
+                    </div>
+                    <div className="bg-slate-800/50 rounded-lg p-3">
+                      <div className="text-xl font-bold text-amber-400" data-testid="text-clock-genes">{result.perGeneAnalysis.clockGenesFound}</div>
+                      <div className="text-xs text-slate-400">Clock Genes Found</div>
+                    </div>
+                    <div className="bg-slate-800/50 rounded-lg p-3">
+                      <div className="text-xl font-bold text-emerald-400" data-testid="text-hierarchy-gap">
+                        {(result.perGeneAnalysis.targetMeanEigenvalue - result.perGeneAnalysis.clockMeanEigenvalue).toFixed(3)}
+                      </div>
+                      <div className="text-xs text-slate-400">Clock→Target Gap</div>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div>
+                      <h4 className="font-semibold text-slate-300 mb-2">Highest Persistence (Top 10)</h4>
+                      <div className="space-y-1">
+                        {result.perGeneAnalysis.topByEigenvalue.slice(0, 10).map((g, i) => (
+                          <div key={i} className="flex justify-between items-center bg-slate-800/30 rounded px-2 py-1">
+                            <span className={g.geneType === 'clock' ? 'text-cyan-400 font-medium' : 'text-slate-300'}><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></span>
+                            <span className="text-slate-400">|λ| = {g.eigenvalue.toFixed(4)}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-slate-300 mb-2">Lowest Persistence (Bottom 10)</h4>
+                      <div className="space-y-1">
+                        {result.perGeneAnalysis.bottomByEigenvalue.slice(0, 10).map((g, i) => (
+                          <div key={i} className="flex justify-between items-center bg-slate-800/30 rounded px-2 py-1">
+                            <span className={g.geneType === 'clock' ? 'text-cyan-400 font-medium' : 'text-slate-300'}><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></span>
+                            <span className="text-slate-400">|λ| = {g.eigenvalue.toFixed(4)}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  {result.perGeneAnalysis.clockGenesFound > 0 && (
+                    <div className="text-xs text-slate-400 bg-slate-800/30 rounded-lg p-3">
+                      <span className="text-cyan-400">Clock genes</span> mean |λ| = {result.perGeneAnalysis.clockMeanEigenvalue.toFixed(4)} vs all other genes mean |λ| = {result.perGeneAnalysis.targetMeanEigenvalue.toFixed(4)}
+                      {result.perGeneAnalysis.targetMeanEigenvalue > result.perGeneAnalysis.clockMeanEigenvalue
+                        ? ' — Clock < Target hierarchy confirmed (clock genes have lower persistence, consistent with faster-cycling regulatory role)'
+                        : ' — Hierarchy not confirmed in this dataset'}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
+
+            {result.biasAudit && (
+              <Card className="bg-slate-900/80 border-slate-700" data-testid="bias-audit-card">
+                <CardContent className="pt-5">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke={result.biasAudit.overallColor} strokeWidth="2"><path d="M12 9v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      <h3 className="font-bold text-white text-lg">Bias Audit</h3>
+                    </div>
+                    <Badge className="text-xs" style={{ backgroundColor: result.biasAudit.overallColor + '20', color: result.biasAudit.overallColor, borderColor: result.biasAudit.overallColor }} data-testid="bias-audit-summary">
+                      {result.biasAudit.summary}
+                    </Badge>
+                  </div>
+                  <p className="text-sm mb-4" style={{ color: result.biasAudit.overallColor }}>{result.biasAudit.overallVerdict}</p>
+                  <div className="space-y-4">
+                    {result.biasAudit.tests.map((test, tIdx) => (
+                      <div key={tIdx} className={`rounded-lg p-4 border ${test.passed ? 'border-green-800/50 bg-green-950/20' : 'border-amber-800/50 bg-amber-950/20'}`} data-testid={`bias-test-${tIdx}`}>
+                        <div className="flex items-start gap-2 mb-2">
+                          <span className={`text-lg mt-0.5 ${test.passed ? 'text-green-400' : 'text-amber-400'}`}>{test.passed ? '✓' : '⚠'}</span>
+                          <div className="flex-1">
+                            <h4 className="font-semibold text-white text-sm">{test.testName}</h4>
+                            <p className="text-xs text-slate-400 mt-1">{test.description}</p>
+                          </div>
+                        </div>
+                        <p className={`text-xs mt-2 ${test.passed ? 'text-green-300' : 'text-amber-300'}`}>{test.verdict}</p>
+                        {test.details && (
+                          <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2">
+                            {Object.entries(test.details).filter(([, v]) => typeof v !== 'object').map(([key, value]) => (
+                              <div key={key} className="bg-slate-800/40 rounded px-2 py-1">
+                                <div className="text-[10px] text-slate-500">{key.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())}</div>
+                                <div className="text-xs text-slate-300 font-mono">{typeof value === 'number' ? value.toFixed?.(4) ?? value : String(value)}</div>
+                              </div>
+                            ))}
+                            {test.details.correlations && (
+                              <div className="col-span-full mt-1">
+                                <div className="text-[10px] text-slate-500 mb-1">Spearman Correlations with Eigenvalue</div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+                                  {(test.details.correlations as any[]).map((c: any, ci: number) => (
+                                    <div key={ci} className="flex justify-between items-center bg-slate-800/40 rounded px-2 py-1">
+                                      <span className="text-[10px] text-slate-400">{c.metric}</span>
+                                      <span className={`text-xs font-mono ${Math.abs(c.spearmanRho) > 0.4 ? 'text-amber-400' : Math.abs(c.spearmanRho) > 0.15 ? 'text-yellow-400' : 'text-green-400'}`}>
+                                        ρ = {c.spearmanRho.toFixed(3)}
+                                      </span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
             {result.results.length > 0 && (
               <div className="space-y-3">
               <div className="flex flex-wrap items-center gap-4 text-xs text-slate-400 px-1" data-testid="persistence-legend">
-                <span className="font-medium text-slate-300">Persistence scale:</span>
+                <span className="font-medium text-slate-300">{result.perGeneAnalysis ? 'Top genes by persistence:' : 'Persistence scale:'}</span>
                 <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-green-500" /> Low (fades quickly)</span>
                 <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-yellow-400" /> Moderate (lingers)</span>
                 <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-orange-500" /> High (persistent)</span>
@@ -923,6 +1612,13 @@ export default function DiscoveryEngine() {
                         <StabilityRing eigenvalue={ch.eigenvalue} size={140} label={ch.channel} />
                       </div>
 
+                      {ch.mean !== 0 && Math.abs(ch.std / ch.mean) < 0.05 && (
+                        <div className="flex items-center gap-1.5 mb-3 px-2 py-1.5 rounded bg-amber-500/10 border border-amber-500/20" data-testid={`warning-low-amplitude-${idx}`}>
+                          <AlertCircle size={12} className="text-amber-400 shrink-0" />
+                          <span className="text-[11px] text-amber-400">Low response amplitude — eigenvalue may be less informative</span>
+                        </div>
+                      )}
+
                       <div className="grid grid-cols-2 gap-2 text-xs">
                         <div className="bg-slate-800/50 rounded p-2">
                           <span className="text-slate-400"><Term>phi1</Term> (recent influence)</span>
@@ -942,8 +1638,14 @@ export default function DiscoveryEngine() {
                             {ch.ljungBoxPassed ? 'PASS' : 'FAIL'} (p={ch.ljungBoxPValue.toFixed(3)})
                           </div>
                         </div>
+                        {ch.halfLife != null && (
+                          <div className="bg-slate-800/50 rounded p-2">
+                            <span className="text-slate-400"><Term>half-life</Term> (expression persistence)</span>
+                            <div className="font-mono text-emerald-400" data-testid={`text-halflife-${idx}`}>{ch.halfLife.toFixed(1)} steps</div>
+                          </div>
+                        )}
                         {ch.isComplex && ch.impliedPeriod && (
-                          <div className="bg-slate-800/50 rounded p-2 col-span-2">
+                          <div className="bg-slate-800/50 rounded p-2">
                             <span className="text-slate-400"><Term>implied period</Term> (cycle length)</span>
                             <div className="font-mono text-cyan-400">{ch.impliedPeriod.toFixed(1)} time units</div>
                           </div>
@@ -956,7 +1658,7 @@ export default function DiscoveryEngine() {
               </div>
             )}
 
-            {result.gearboxAnalysis && (
+            {result.gearboxAnalysis && result.dataDomain?.domain !== 'non-biological' && (
               <Card className="bg-gradient-to-r from-slate-900 to-slate-900/80 border-slate-700">
                 <CardHeader>
                   <CardTitle className="text-lg flex items-center gap-2">
@@ -1028,6 +1730,7 @@ export default function DiscoveryEngine() {
                 </TabsTrigger>
                 <TabsTrigger value="timeseries" data-testid="tab-timeseries">Raw Data</TabsTrigger>
                 <TabsTrigger value="statespace" data-testid="tab-statespace">Dynamics Map</TabsTrigger>
+                <TabsTrigger value="unitcircle" data-testid="tab-unitcircle">Unit Circle</TabsTrigger>
                 <TabsTrigger value="residuals" data-testid="tab-residuals">Model Fit</TabsTrigger>
                 <TabsTrigger value="acf" data-testid="tab-acf">Pattern Check</TabsTrigger>
               </TabsList>
@@ -1187,8 +1890,8 @@ export default function DiscoveryEngine() {
                         <ResponsiveContainer width="100%" height={180} minWidth={1} minHeight={1}>
                           <LineChart data={ch.timeSeriesPreview.map((v, i) => ({ t: i, value: v }))}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                            <XAxis dataKey="t" tick={{ fill: '#94a3b8', fontSize: 10 }} />
-                            <YAxis tick={{ fill: '#94a3b8', fontSize: 10 }} domain={['auto', 'auto']} />
+                            <XAxis dataKey="t" tick={{ fill: '#64748b', fontSize: 10 }} />
+                            <YAxis tick={{ fill: '#64748b', fontSize: 10 }} domain={['auto', 'auto']} />
                             <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px', fontSize: '11px' }} />
                             <Line type="monotone" dataKey="value" stroke={ch.stabilityColor} dot={false} strokeWidth={1.5} />
                           </LineChart>
@@ -1213,6 +1916,10 @@ export default function DiscoveryEngine() {
                 </Card>
               </TabsContent>
 
+              <TabsContent value="unitcircle">
+                <UnitCirclePlot results={result.results} />
+              </TabsContent>
+
               <TabsContent value="residuals">
                 <Card className="bg-slate-900/80 border-slate-700">
                   <CardHeader>
@@ -1233,9 +1940,9 @@ export default function DiscoveryEngine() {
                         <ResponsiveContainer width="100%" height={150} minWidth={1} minHeight={1}>
                           <BarChart data={ch.residuals.map((v, i) => ({ t: i, residual: v }))}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                            <XAxis dataKey="t" tick={{ fill: '#94a3b8', fontSize: 10 }} />
-                            <YAxis tick={{ fill: '#94a3b8', fontSize: 10 }} />
-                            <ReferenceLine y={0} stroke="#94a3b8" />
+                            <XAxis dataKey="t" tick={{ fill: '#64748b', fontSize: 10 }} />
+                            <YAxis tick={{ fill: '#64748b', fontSize: 10 }} />
+                            <ReferenceLine y={0} stroke="#64748b" />
                             <Bar dataKey="residual" fill={ch.ljungBoxPassed ? '#22c55e40' : '#f9731640'} />
                           </BarChart>
                         </ResponsiveContainer>
@@ -1262,10 +1969,10 @@ export default function DiscoveryEngine() {
                           <ResponsiveContainer width="100%" height={150} minWidth={1} minHeight={1}>
                             <BarChart data={ch.acf.map((v, i) => ({ lag: i + 1, acf: v }))}>
                               <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                              <XAxis dataKey="lag" tick={{ fill: '#94a3b8', fontSize: 10 }} label={{ value: 'Lag', position: 'bottom', fill: '#94a3b8', fontSize: 10 }} />
-                              <YAxis tick={{ fill: '#94a3b8', fontSize: 10 }} domain={[-0.5, 0.5]} />
-                              <ReferenceLine y={confBound} stroke="#94a3b8" strokeDasharray="5 5" label={{ value: '95% CI', fill: '#94a3b8', fontSize: 9 }} />
-                              <ReferenceLine y={-confBound} stroke="#94a3b8" strokeDasharray="5 5" />
+                              <XAxis dataKey="lag" tick={{ fill: '#64748b', fontSize: 10 }} label={{ value: 'Lag', position: 'bottom', fill: '#64748b', fontSize: 10 }} />
+                              <YAxis tick={{ fill: '#64748b', fontSize: 10 }} domain={[-0.5, 0.5]} />
+                              <ReferenceLine y={confBound} stroke="#64748b" strokeDasharray="5 5" label={{ value: '95% CI', fill: '#64748b', fontSize: 9 }} />
+                              <ReferenceLine y={-confBound} stroke="#64748b" strokeDasharray="5 5" />
                               <ReferenceLine y={0} stroke="#475569" />
                               <Bar dataKey="acf">
                                 {ch.acf.map((v, i) => (
@@ -1297,8 +2004,8 @@ export default function DiscoveryEngine() {
                     color: r.stabilityColor
                   }))} layout="vertical" margin={{ left: 100 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                    <XAxis type="number" domain={[0, 1.1]} tick={{ fill: '#94a3b8', fontSize: 11 }} />
-                    <YAxis type="category" dataKey="channel" tick={{ fill: '#94a3b8', fontSize: 11 }} width={90} />
+                    <XAxis type="number" domain={[0, 1.1]} tick={{ fill: '#64748b', fontSize: 11 }} />
+                    <YAxis type="category" dataKey="channel" tick={{ fill: '#64748b', fontSize: 11 }} width={90} />
                     <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }} />
                     <ReferenceLine x={0.7} stroke="#facc15" strokeDasharray="5 5" label={{ value: "Moderate", fill: '#facc1580', fontSize: 10 }} />
                     <ReferenceLine x={1.0} stroke="#ef4444" strokeDasharray="5 5" label={{ value: "Unstable", fill: '#ef444480', fontSize: 10 }} />

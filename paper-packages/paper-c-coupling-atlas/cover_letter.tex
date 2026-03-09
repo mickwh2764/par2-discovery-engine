@@ -21,7 +21,7 @@ We submit for your consideration the manuscript entitled ``\textbf{A 12-Tissue A
 
 \vspace{0.3cm}
 
-\textbf{Summary.} We present a systematic atlas of BMAL1 (Arntl) statistical coupling across 12 mouse tissues and genome-wide in mouse liver. Using AR(2)+exogenous predictor modeling, we identify 63 BMAL1-coupled genes genome-wide (180-fold enrichment over random predictors, $p < 10^{-10}$) and 85 significant coupling events across 33 genes in the 12-tissue atlas. Wee1 is coupled in 10/12 tissues (the most broadly conserved circadian output), and Nampt in 8/12 tissues.
+\textbf{Summary.} We present a systematic atlas of BMAL1 (Arntl) statistical coupling across 12 mouse tissues and genome-wide in mouse liver. Using AR(2)+exogenous predictor modeling, we identify 63 BMAL1-coupled genes genome-wide (180-fold enrichment over random predictors, $p < 10^{-10}$, Fisher's exact test) and 85 significant coupling events across 33 genes in the 12-tissue atlas. Wee1 is coupled in 10/12 tissues (the most broadly conserved circadian output), and Nampt in 8/12 tissues.
 
 \vspace{0.3cm}
 
@@ -30,6 +30,18 @@ We submit for your consideration the manuscript entitled ``\textbf{A 12-Tissue A
 \vspace{0.3cm}
 
 \textbf{Clinical relevance.} The near-universal coupling of Wee1 across tissues predicts that Wee1 inhibitor efficacy (e.g., adavosertib, in active clinical trials) should be strongly time-of-day dependent. Tissue-specific coupling programs suggest that chronotherapy strategies must be tailored to target tissue.
+
+\vspace{0.3cm}
+
+\textbf{Honest limitations.} We note several important limitations: (1) statistical coupling does not prove direct causal regulation---BMAL1 may act through intermediary transcription factors such as DBP and TEF; (2) the genome-wide scan was performed only in liver, and other tissues may show different coupling landscapes; (3) the FDR threshold at $\alpha = 0.05$ may be liberal for discovery claims; (4) the 53-gene curated panel was selected from prior knowledge, introducing potential bias; (5) AR(2) assumes linearity and stationarity, which may not hold for all genes; and (6) mRNA-level analysis cannot capture post-translational circadian regulation.
+
+\vspace{0.3cm}
+
+\textbf{Companion paper.} This manuscript extends the AR(2) eigenvalue framework described in a companion paper (Whiteside, ``AR(2) Eigenvalue Modulus as a Measure of Temporal Persistence in Gene Expression,'' submitted 2026), which establishes the core method validated across 4 species, 12 tissues, and 35 independent time series.
+
+\vspace{0.3cm}
+
+\textbf{Data and code availability.} All results and the interactive analysis tool are available at \url{https://par2-discovery-engine.replit.app}. Source data are publicly available from NCBI GEO (GSE54650).
 
 \vspace{0.3cm}
 

@@ -14,6 +14,9 @@ import {
   ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
   BarChart, Bar, Cell, ComposedChart, Line, ReferenceLine, ReferenceArea, Label,
 } from "recharts";
+import { useLoadedReport } from "@/hooks/useLoadedReport";
+import LoadedReportBanner from "@/components/LoadedReportBanner";
+import GeneTooltip from "@/components/GeneTooltip";
 
 interface CorrelationResult {
   rho: number;
@@ -159,7 +162,7 @@ const CustomScatterTooltip = ({ active, payload }: any) => {
   const d = payload[0].payload;
   return (
     <div className="bg-gray-900 border border-gray-700 rounded-lg p-3 text-sm shadow-xl" data-testid="scatter-tooltip">
-      <div className="font-bold text-white">{d.gene}</div>
+      <div className="font-bold text-white"><GeneTooltip gene={d.gene}>{d.gene}</GeneTooltip></div>
       <div className="text-gray-400 capitalize">{d.geneType} gene {d.tissue ? `• ${d.tissue}` : ''}</div>
       <div className="mt-1 space-y-0.5">
         <div className="text-blue-300">|λ| = {d.eigenvalue?.toFixed(4)}</div>
@@ -187,6 +190,7 @@ export function CrossMetricIndependenceImpl() {
   const [showCrossSpecies, setShowCrossSpecies] = useState(false);
   const [scanDataset, setScanDataset] = useState('GSE54650_Liver_circadian');
   const [scanSort, setScanSort] = useState<'dampingRate' | 'naturalPeriod' | 'eigenvalue'>('dampingRate');
+  const { report, hasReport, geneSet } = useLoadedReport();
   const SCAN_DATASETS = useMemo(() => [
     { value: 'GSE54650_Liver_circadian', label: 'Mouse Liver' },
     { value: 'GSE54650_Kidney_circadian', label: 'Mouse Kidney' },
@@ -454,6 +458,15 @@ export function CrossMetricIndependenceImpl() {
           </div>
         </div>
 
+        {hasReport && report && (
+          <LoadedReportBanner
+            title={report.title}
+            summary={report.summary}
+            geneCount={report.geneCount}
+            sourcePage={report.sourcePage}
+          />
+        )}
+
         <PaperCrossLinks currentPage="/cross-metric-independence" />
 
         <div className="rounded-lg bg-slate-800/30 border border-slate-700/50 p-4">
@@ -628,8 +641,8 @@ export function CrossMetricIndependenceImpl() {
                             <ResponsiveContainer width="100%" height="100%">
                               <ScatterChart margin={{ top: 5, right: 10, bottom: 25, left: 35 }}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                                <XAxis type="number" dataKey="dampingRate" domain={[0, 'auto']} stroke="#6B7280" tick={{ fill: '#9CA3AF', fontSize: 8 }} label={{ value: 'Damping', position: 'bottom', offset: 10, fill: '#9CA3AF', fontSize: 8 }} />
-                                <YAxis type="number" dataKey="naturalPeriod" domain={[0, 'auto']} stroke="#6B7280" tick={{ fill: '#9CA3AF', fontSize: 8 }} label={{ value: 'Period (h)', angle: -90, position: 'insideLeft', offset: -20, fill: '#9CA3AF', fontSize: 8 }} />
+                                <XAxis type="number" dataKey="dampingRate" domain={[0, 'auto']} stroke="#4b5563" tick={{ fill: '#6b7280', fontSize: 8 }} label={{ value: 'Damping', position: 'bottom', offset: 10, fill: '#6b7280', fontSize: 8 }} />
+                                <YAxis type="number" dataKey="naturalPeriod" domain={[0, 'auto']} stroke="#4b5563" tick={{ fill: '#6b7280', fontSize: 8 }} label={{ value: 'Period (h)', angle: -90, position: 'insideLeft', offset: -20, fill: '#6b7280', fontSize: 8 }} />
                                 <ReferenceArea x1={0} x2={0.5} y1={20} y2={28} fill="#22c55e" fillOpacity={0.08} stroke="#22c55e" strokeOpacity={0.2} strokeDasharray="4 4" />
                                 <ReferenceLine y={24} stroke="#facc15" strokeDasharray="6 3" strokeOpacity={0.4} />
                                 <Tooltip content={({ payload }: any) => {
@@ -637,7 +650,7 @@ export function CrossMetricIndependenceImpl() {
                                   const d = payload[0].payload;
                                   return (
                                     <div className="bg-gray-900 border border-gray-700 rounded p-1.5 text-[10px] shadow-lg">
-                                      <div className="font-medium text-white">{d.gene}</div>
+                                      <div className="font-medium text-white"><GeneTooltip gene={d.gene}>{d.gene}</GeneTooltip></div>
                                       <div className="text-gray-400">ζ={d.dampingRate?.toFixed(3)}, T={d.naturalPeriod?.toFixed(1)}h</div>
                                     </div>
                                   );
@@ -779,7 +792,7 @@ export function CrossMetricIndependenceImpl() {
                   <tbody>
                     {selectedGeneProfiles.map(p => (
                       <tr key={p.gene} className="border-b border-gray-800/50 hover:bg-cyan-950/10">
-                        <td className="py-2 px-3 font-bold text-cyan-300">{p.gene}</td>
+                        <td className="py-2 px-3 font-bold text-cyan-300"><GeneTooltip gene={p.gene}>{p.gene}</GeneTooltip></td>
                         <td className="py-2 px-3">
                           <Badge variant="outline" className={p.geneType === 'clock' ? 'text-blue-400 border-blue-800' : 'text-amber-400 border-amber-800'}>
                             {p.geneType}
@@ -915,15 +928,15 @@ export function CrossMetricIndependenceImpl() {
                         type="number"
                         name="|λ|"
                         domain={[0, 1]}
-                        label={{ value: "Eigenvalue Modulus |λ|", position: "bottom", offset: 20, fill: "#94a3b8" }}
-                        tick={{ fill: '#94a3b8' }}
+                        label={{ value: "Eigenvalue Modulus |λ|", position: "bottom", offset: 20, fill: "#64748b" }}
+                        tick={{ fill: '#64748b' }}
                       />
                       <YAxis
                         dataKey="networkDegree"
                         type="number"
                         name="Network Degree"
-                        label={{ value: "STRING Network Degree", angle: -90, position: "insideLeft", offset: -5, fill: "#94a3b8" }}
-                        tick={{ fill: '#94a3b8' }}
+                        label={{ value: "STRING Network Degree", angle: -90, position: "insideLeft", offset: -5, fill: "#64748b" }}
+                        tick={{ fill: '#64748b' }}
                       />
                       <Tooltip content={<CustomScatterTooltip />} />
                       <Legend />
@@ -997,15 +1010,15 @@ export function CrossMetricIndependenceImpl() {
                         type="number"
                         name="|λ|"
                         domain={[0, 1]}
-                        label={{ value: "Eigenvalue Modulus |λ|", position: "bottom", offset: 20, fill: "#94a3b8" }}
-                        tick={{ fill: '#94a3b8' }}
+                        label={{ value: "Eigenvalue Modulus |λ|", position: "bottom", offset: 20, fill: "#64748b" }}
+                        tick={{ fill: '#64748b' }}
                       />
                       <YAxis
                         dataKey="amplitude"
                         type="number"
                         name="Amplitude"
-                        label={{ value: "Cosinor Amplitude", angle: -90, position: "insideLeft", offset: -5, fill: "#94a3b8" }}
-                        tick={{ fill: '#94a3b8' }}
+                        label={{ value: "Cosinor Amplitude", angle: -90, position: "insideLeft", offset: -5, fill: "#64748b" }}
+                        tick={{ fill: '#64748b' }}
                       />
                       <Tooltip content={<CustomScatterTooltip />} />
                       <Legend />
@@ -1074,10 +1087,10 @@ export function CrossMetricIndependenceImpl() {
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data.chromatinBoxData} margin={{ top: 10, right: 30, bottom: 20, left: 20 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                      <XAxis dataKey="state" tick={{ fill: '#94a3b8' }} />
+                      <XAxis dataKey="state" tick={{ fill: '#64748b' }} />
                       <YAxis
-                        label={{ value: "Mean |λ|", angle: -90, position: "insideLeft", fill: "#94a3b8" }}
-                        tick={{ fill: '#94a3b8' }}
+                        label={{ value: "Mean |λ|", angle: -90, position: "insideLeft", fill: "#64748b" }}
+                        tick={{ fill: '#64748b' }}
                         domain={[0, 1]}
                       />
                       <Tooltip
@@ -1192,14 +1205,14 @@ export function CrossMetricIndependenceImpl() {
                       <XAxis
                         type="number"
                         domain={[0, 1]}
-                        tick={{ fill: '#94a3b8', fontSize: 11 }}
-                        label={{ value: "Mean |λ|", position: "bottom", offset: -5, fill: "#94a3b8" }}
+                        tick={{ fill: '#64748b', fontSize: 11 }}
+                        label={{ value: "Mean |λ|", position: "bottom", offset: -5, fill: "#64748b" }}
                       />
                       <YAxis
                         dataKey="category"
                         type="category"
                         width={135}
-                        tick={{ fill: '#94a3b8', fontSize: 11 }}
+                        tick={{ fill: '#64748b', fontSize: 11 }}
                       />
                       <Tooltip
                         formatter={(value: number) => value.toFixed(4)}
@@ -1272,22 +1285,22 @@ export function CrossMetricIndependenceImpl() {
                       <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
                       <XAxis
                         dataKey="gene"
-                        tick={{ fill: '#94a3b8', fontSize: 10 }}
+                        tick={{ fill: '#64748b', fontSize: 10 }}
                         angle={-45}
                         textAnchor="end"
                         height={80}
                       />
                       <YAxis
                         yAxisId="left"
-                        label={{ value: "Mean |λ|", angle: -90, position: "insideLeft", fill: "#94a3b8" }}
-                        tick={{ fill: '#94a3b8' }}
+                        label={{ value: "Mean |λ|", angle: -90, position: "insideLeft", fill: "#64748b" }}
+                        tick={{ fill: '#64748b' }}
                         domain={[0, 1]}
                       />
                       <YAxis
                         yAxisId="right"
                         orientation="right"
-                        label={{ value: "CV", angle: 90, position: "insideRight", fill: "#94a3b8" }}
-                        tick={{ fill: '#94a3b8' }}
+                        label={{ value: "CV", angle: 90, position: "insideRight", fill: "#64748b" }}
+                        tick={{ fill: '#64748b' }}
                       />
                       <Tooltip
                         contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }}
@@ -1325,7 +1338,7 @@ export function CrossMetricIndependenceImpl() {
                     <tbody>
                       {filteredConservation.map(g => (
                         <tr key={g.gene} className={`border-b border-gray-800/50 ${highlightedSet.has(g.gene) ? 'bg-cyan-950/30 ring-1 ring-cyan-700/50' : 'hover:bg-gray-800/30'}`}>
-                          <td className={`py-2 px-3 font-medium ${highlightedSet.has(g.gene) ? 'text-cyan-300' : 'text-white'}`}>{g.gene}</td>
+                          <td className={`py-2 px-3 font-medium ${highlightedSet.has(g.gene) ? 'text-cyan-300' : 'text-white'}`}><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></td>
                           <td className="py-2 px-3">
                             <Badge variant="outline" className={g.geneType === 'clock' ? 'text-blue-400 border-blue-800' : 'text-amber-400 border-amber-800'}>
                               {g.geneType}
@@ -1412,16 +1425,16 @@ export function CrossMetricIndependenceImpl() {
                             type="number"
                             name="φ₁"
                             domain={[-1.5, 2]}
-                            label={{ value: "φ₁ (AR(2) coefficient 1)", position: "bottom", offset: 20, fill: "#94a3b8" }}
-                            tick={{ fill: '#94a3b8' }}
+                            label={{ value: "φ₁ (AR(2) coefficient 1)", position: "bottom", offset: 20, fill: "#64748b" }}
+                            tick={{ fill: '#64748b' }}
                           />
                           <YAxis
                             dataKey="phi2"
                             type="number"
                             name="φ₂"
                             domain={[-1, 0.5]}
-                            label={{ value: "φ₂ (AR(2) coefficient 2)", angle: -90, position: "insideLeft", offset: -5, fill: "#94a3b8" }}
-                            tick={{ fill: '#94a3b8' }}
+                            label={{ value: "φ₂ (AR(2) coefficient 2)", angle: -90, position: "insideLeft", offset: -5, fill: "#64748b" }}
+                            tick={{ fill: '#64748b' }}
                           />
                           <Tooltip
                             content={({ active, payload }: any) => {
@@ -1429,7 +1442,7 @@ export function CrossMetricIndependenceImpl() {
                               const d = payload[0].payload;
                               return (
                                 <div className="bg-gray-900 border border-gray-700 rounded-lg p-3 text-sm shadow-xl">
-                                  <div className="font-bold text-white">{d.gene}</div>
+                                  <div className="font-bold text-white"><GeneTooltip gene={d.gene}>{d.gene}</GeneTooltip></div>
                                   <div className="text-gray-400 capitalize">{d.geneType} gene - {d.tissue}</div>
                                   <div className={`text-xs font-medium mt-1 ${d.isComplex ? 'text-rose-400' : 'text-sky-400'}`}>
                                     {d.isComplex ? 'Oscillatory (complex roots)' : 'Overdamped (real roots)'}
@@ -1669,24 +1682,24 @@ export function CrossMetricIndependenceImpl() {
                                   <XAxis
                                     type="number" dataKey="dampingRate" name="Damping Rate"
                                     domain={[0, 'auto']}
-                                    label={{ value: 'Damping Rate (-ln r)', position: 'bottom', offset: 20, fill: '#9CA3AF', fontSize: 11 }}
-                                    stroke="#6B7280" tick={{ fill: '#9CA3AF', fontSize: 10 }}
+                                    label={{ value: 'Damping Rate (-ln r)', position: 'bottom', offset: 20, fill: '#6b7280', fontSize: 11 }}
+                                    stroke="#4b5563" tick={{ fill: '#6b7280', fontSize: 10 }}
                                   />
                                   <YAxis
                                     type="number" dataKey="naturalPeriod" name="Natural Period"
                                     domain={[0, 'auto']}
-                                    label={{ value: 'Natural Period (hours)', angle: -90, position: 'insideLeft', offset: -35, fill: '#9CA3AF', fontSize: 11 }}
-                                    stroke="#6B7280" tick={{ fill: '#9CA3AF', fontSize: 10 }}
+                                    label={{ value: 'Natural Period (hours)', angle: -90, position: 'insideLeft', offset: -35, fill: '#6b7280', fontSize: 11 }}
+                                    stroke="#4b5563" tick={{ fill: '#6b7280', fontSize: 10 }}
                                   />
                                   <ReferenceArea x1={0} x2={0.5} y1={20} y2={28} fill="#22c55e" fillOpacity={0.08} stroke="#22c55e" strokeOpacity={0.2} strokeDasharray="4 4" />
-                                  <ReferenceLine y={24} stroke="#facc15" strokeDasharray="6 3" strokeOpacity={0.5} label={{ value: '24h', position: 'right', fill: '#facc15', fontSize: 9 }} />
+                                  <ReferenceLine y={24} stroke="#facc15" strokeDasharray="6 3" strokeOpacity={0.5} label={{ value: '24h', position: 'right', fill: '#ca8a04', fontSize: 9 }} />
                                   <Tooltip
                                     content={({ payload }: any) => {
                                       if (!payload?.[0]) return null;
                                       const d = payload[0].payload;
                                       return (
                                         <div className="bg-gray-900 border border-gray-700 rounded p-2 text-xs shadow-lg">
-                                          <div className="font-medium text-white">{d.gene}</div>
+                                          <div className="font-medium text-white"><GeneTooltip gene={d.gene}>{d.gene}</GeneTooltip></div>
                                           <div className="text-gray-400">{d.tissue} · {d.geneType} · {d.primaryCategory || 'Other'}</div>
                                           <div className="mt-1 space-y-0.5">
                                             <div>Damping rate: <span className="text-violet-400">{d.dampingRate?.toFixed(3)}</span></div>
@@ -1709,7 +1722,7 @@ export function CrossMetricIndependenceImpl() {
                                   ))}
                                   <Legend
                                     verticalAlign="top" align="right" iconSize={8}
-                                    wrapperStyle={{ fontSize: '10px', color: '#9CA3AF' }}
+                                    wrapperStyle={{ fontSize: '10px', color: '#6b7280' }}
                                   />
                                 </ScatterChart>
                               </ResponsiveContainer>
@@ -1845,16 +1858,16 @@ export function CrossMetricIndependenceImpl() {
                                       <ResponsiveContainer width="100%" height="95%">
                                         <ScatterChart margin={{ top: 5, right: 15, bottom: 35, left: 45 }}>
                                           <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                                          <XAxis type="number" dataKey="dampingRate" domain={[0, 'auto']} stroke="#6B7280" tick={{ fill: '#9CA3AF', fontSize: 9 }} label={{ value: 'Damping Rate', position: 'bottom', offset: 18, fill: '#9CA3AF', fontSize: 10 }} />
-                                          <YAxis type="number" dataKey="naturalPeriod" domain={[0, 'auto']} stroke="#6B7280" tick={{ fill: '#9CA3AF', fontSize: 9 }} label={{ value: 'Natural Period (h)', angle: -90, position: 'insideLeft', offset: -30, fill: '#9CA3AF', fontSize: 10 }} />
+                                          <XAxis type="number" dataKey="dampingRate" domain={[0, 'auto']} stroke="#4b5563" tick={{ fill: '#6b7280', fontSize: 9 }} label={{ value: 'Damping Rate', position: 'bottom', offset: 18, fill: '#6b7280', fontSize: 10 }} />
+                                          <YAxis type="number" dataKey="naturalPeriod" domain={[0, 'auto']} stroke="#4b5563" tick={{ fill: '#6b7280', fontSize: 9 }} label={{ value: 'Natural Period (h)', angle: -90, position: 'insideLeft', offset: -30, fill: '#6b7280', fontSize: 10 }} />
                                           <ReferenceArea x1={0} x2={0.5} y1={20} y2={28} fill="#22c55e" fillOpacity={0.12} stroke="#22c55e" strokeOpacity={0.3} strokeDasharray="4 4" />
-                                          <ReferenceLine y={24} stroke="#facc15" strokeDasharray="6 3" strokeOpacity={0.5} label={{ value: '24h', position: 'right', fill: '#facc15', fontSize: 9 }} />
+                                          <ReferenceLine y={24} stroke="#facc15" strokeDasharray="6 3" strokeOpacity={0.5} label={{ value: '24h', position: 'right', fill: '#ca8a04', fontSize: 9 }} />
                                           <Tooltip content={({ payload }: any) => {
                                             if (!payload?.[0]) return null;
                                             const d = payload[0].payload;
                                             return (
                                               <div className="bg-gray-900 border border-gray-700 rounded p-2 text-xs shadow-lg">
-                                                <div className="font-medium text-white">{d.gene}</div>
+                                                <div className="font-medium text-white"><GeneTooltip gene={d.gene}>{d.gene}</GeneTooltip></div>
                                                 <div className="text-gray-400">{d.geneType} · {d.classification}</div>
                                                 <div className="mt-1 space-y-0.5">
                                                   <div>Damping: <span className="text-violet-400">{d.dampingRate?.toFixed(3)}</span></div>
@@ -1866,7 +1879,7 @@ export function CrossMetricIndependenceImpl() {
                                           }} />
                                           <Scatter name="Background" data={scanData.allOscillatory?.filter((p: any) => !(p.naturalPeriod >= 20 && p.naturalPeriod <= 28 && p.dampingRate < 0.5))} fill="#374151" fillOpacity={0.3} />
                                           <Scatter name="Resonance zone" data={scanData.resonanceZone?.genes} fill="#22c55e" fillOpacity={0.8} />
-                                          <Legend verticalAlign="top" align="right" iconSize={8} wrapperStyle={{ fontSize: '10px', color: '#9CA3AF' }} />
+                                          <Legend verticalAlign="top" align="right" iconSize={8} wrapperStyle={{ fontSize: '10px', color: '#6b7280' }} />
                                         </ScatterChart>
                                       </ResponsiveContainer>
                                     </div>
@@ -1894,7 +1907,7 @@ export function CrossMetricIndependenceImpl() {
                                           <tbody className="divide-y divide-gray-800/50">
                                             {sortedResonance.slice(0, 100).map((g: any, i: number) => (
                                               <tr key={`${g.gene}-${i}`} className="hover:bg-gray-800/30">
-                                                <td className="py-1 px-2 text-white font-medium">{g.gene}</td>
+                                                <td className="py-1 px-2 text-white font-medium"><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></td>
                                                 <td className="py-1 px-2 text-center">
                                                   <span className={`px-1 py-0.5 rounded text-[9px] ${g.geneType === 'clock' ? 'bg-orange-900/30 text-orange-300' : g.geneType === 'target' ? 'bg-indigo-900/30 text-indigo-300' : 'bg-gray-700/50 text-gray-400'}`}>{g.geneType}</span>
                                                 </td>

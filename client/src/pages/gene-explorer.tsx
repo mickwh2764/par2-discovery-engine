@@ -10,6 +10,7 @@ import {
 import { Search, Plus, X, Loader2, ArrowLeft, ArrowRight, BarChart3, GitCompare, Sparkles, TrendingUp } from "lucide-react";
 import { Link } from "wouter";
 import HowTo from "@/components/HowTo";
+import GeneTooltip from "@/components/GeneTooltip";
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 
 const SPECIES_COLORS: Record<string, string> = {
@@ -144,7 +145,7 @@ function GeneTrackerSection() {
                 <div className="flex flex-wrap items-center gap-4">
                   <div>
                     <span className="text-xs text-slate-400 uppercase tracking-wider">Gene</span>
-                    <p className="text-lg font-bold text-white font-mono" data-testid="text-tracker-gene-name">{data.gene}</p>
+                    <p className="text-lg font-bold text-white font-mono" data-testid="text-tracker-gene-name"><GeneTooltip gene={data.gene}>{data.gene}</GeneTooltip></p>
                   </div>
                   <Badge className="bg-cyan-900/50 text-cyan-300 border-cyan-700" data-testid="badge-tracker-category">
                     {data.geneCategory}
@@ -174,11 +175,11 @@ function GeneTrackerSection() {
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={chartData} layout="vertical" margin={{ left: 140, right: 20, top: 10, bottom: 10 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                    <XAxis type="number" tick={{ fill: '#94a3b8', fontSize: 11 }} />
-                    <YAxis type="category" dataKey="name" tick={{ fill: '#94a3b8', fontSize: 11 }} width={130} />
+                    <XAxis type="number" tick={{ fill: '#64748b', fontSize: 11 }} />
+                    <YAxis type="category" dataKey="name" tick={{ fill: '#64748b', fontSize: 11 }} width={130} />
                     <Tooltip
                       contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }}
-                      labelStyle={{ color: '#e2e8f0' }}
+                      labelStyle={{ color: '#334155' }}
                       itemStyle={{ color: '#94a3b8' }}
                     />
                     {data.summary.meanEigenvalue != null && (
@@ -350,11 +351,11 @@ function ComparisonResults({ genes }: { genes: string[] }) {
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} margin={{ left: 10, right: 20, top: 10, bottom: 60 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-              <XAxis dataKey="name" tick={{ fill: '#94a3b8', fontSize: 10 }} angle={-30} textAnchor="end" height={70} />
-              <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} label={{ value: "|λ| Eigenvalue", angle: -90, position: "insideLeft", fill: "#94a3b8", fontSize: 12 }} />
+              <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 10 }} angle={-30} textAnchor="end" height={70} />
+              <YAxis tick={{ fill: '#64748b', fontSize: 11 }} label={{ value: "|λ| Eigenvalue", angle: -90, position: "insideLeft", fill: "#64748b", fontSize: 12 }} />
               <Tooltip
                 contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }}
-                labelStyle={{ color: '#e2e8f0' }}
+                labelStyle={{ color: '#334155' }}
               />
               <Legend wrapperStyle={{ paddingTop: 10 }} />
               {allData.map((gd, i) => (
@@ -421,7 +422,7 @@ function ComparisonResults({ genes }: { genes: string[] }) {
             <tbody>
               {allData.map((gd, i) => (
                 <tr key={gd.gene} className="border-b border-slate-700" data-testid={`row-comparison-${gd.gene}`}>
-                  <td className="px-3 py-2 text-white font-mono font-bold" style={{ color: COMPARISON_COLORS[i] }}>{gd.gene}</td>
+                  <td className="px-3 py-2 text-white font-mono font-bold" style={{ color: COMPARISON_COLORS[i] }}><GeneTooltip gene={gd.gene}>{gd.gene}</GeneTooltip></td>
                   <td className="px-3 py-2">
                     <Badge className="bg-slate-800 text-slate-300 border-slate-600 text-xs">{gd.geneCategory}</Badge>
                   </td>
@@ -601,7 +602,7 @@ function FibonacciEnrichmentSection() {
                       return (
                         <tr key={i} className={`border-b border-slate-700/50 ${isKnown ? 'bg-amber-500/5' : ''}`} data-testid={`row-annotation-${i}`}>
                           <td className="px-3 py-2 text-slate-400 font-mono text-xs">{i + 1}</td>
-                          <td className="px-3 py-2 text-white font-mono font-bold">{row.gene}</td>
+                          <td className="px-3 py-2 text-white font-mono font-bold"><GeneTooltip gene={row.gene}>{row.gene}</GeneTooltip></td>
                           <td className="px-3 py-2 text-white font-mono">{row.eigenvalue.toFixed(4)}</td>
                           <td className="px-3 py-2 text-slate-300 font-mono">{row.dPhi.toFixed(4)}</td>
                           <td className="px-3 py-2">

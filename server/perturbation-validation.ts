@@ -438,7 +438,7 @@ export async function runPerturbationValidation(): Promise<PerturbationValidatio
 
   const result: PerturbationValidationResult = {
     timestamp: new Date().toISOString(),
-    version: '2.2.0',
+    version: '2.3.0',
     comparisons,
     overallSummary: {
       totalComparisons: comparisons.length,

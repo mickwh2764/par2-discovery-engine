@@ -1,0 +1,60 @@
+Gene,Pathway,DiscoveryMethod,Citation,Year,Finding
+Fasn,Lipid Metabolism,Microarray + qPCR,"Panda et al., Cell 2002",2002,"Rhythmic expression in liver, peak at CT14-18"
+Hmgcr,Lipid Metabolism,Microarray,"Panda et al., Cell 2002",2002,Cholesterol synthesis enzyme with circadian expression
+Scd1,Lipid Metabolism,RNA-seq time series,"Zhang et al., PNAS 2014",2014,"Rhythmic in liver, stearoyl-CoA desaturase"
+Hmgcs2,Lipid Metabolism,Metabolomics + qPCR,"Adamovich et al., Cell Metab 2014",2014,Ketogenesis enzyme under BMAL1 control
+Acaca,Lipid Metabolism,ChIP-seq,"Koike et al., Science 2012",2012,"Direct BMAL1 target, acetyl-CoA carboxylase"
+Ppara,Lipid Metabolism,Knockout + Microarray,"Yang et al., Cell 2006",2006,"Nuclear receptor under clock control, fatty acid oxidation"
+Srebf1,Lipid Metabolism,ChIP-seq + CRISPR,"Guan et al., Genes Dev 2018",2018,SREBP1 transcription factor rhythmic in liver
+Cpt1a,Lipid Metabolism,Metabolic flux + qPCR,"Peek et al., Science 2013",2013,"Mitochondrial fatty acid import, circadian"
+Elovl5,Lipid Metabolism,Lipidomics,"Adamovich et al., Cell Metab 2014",2014,Fatty acid elongase with rhythmic expression
+Fads1,Lipid Metabolism,Lipidomics,"Adamovich et al., Cell Metab 2014",2014,"Fatty acid desaturase, circadian control"
+Wee1,Cell Cycle,Promoter analysis + qPCR,"Matsuo et al., Science 2003",2003,"Clock-controlled cell cycle gate, BMAL1 target"
+Cdk1,Cell Cycle,Flow cytometry + Western,"Matsuo et al., Science 2003",2003,CDK1 activity gated by circadian WEE1
+Ccnb1,Cell Cycle,Immunohistochemistry,"Grechez-Cassiau et al., JBC 2008",2008,Cyclin B1 expression rhythmic in proliferating cells
+Cdkn1a,Cell Cycle,ChIP + reporter assay,"Grechez-Cassiau et al., MCB 2008",2008,p21 under direct BMAL1 transcriptional control
+Ccnd1,Cell Cycle,Knockout mouse,"Fu et al., Cell 2002",2002,Cyclin D1 deregulated in Per2 mutants
+Tp53,Cell Cycle,Protein stability assay,"Gotoh et al., Mol Cell 2016",2016,p53 stability oscillates with circadian period
+Chek2,Cell Cycle,Phosphoproteomics,"Kang et al., PNAS 2009",2009,"CHK2 phosphorylation rhythmic, clock-controlled DNA damage response"
+Xpa,DNA Repair,Excision repair assay,"Kang et al., PNAS 2009",2009,"XPA rhythmic, peak NER activity at evening"
+Xpc,DNA Repair,qPCR + Western,"Kang et al., PNAS 2009",2009,XPC expression under CRY1 control
+Ercc1,DNA Repair,Excision assay,"Sancar et al., Chem Rev 2010",2010,Excision repair gene with circadian expression
+Ogg1,DNA Repair,Chromatin immunoprecipitation,"Manzella et al., PNAS 2020",2020,Base excision repair oscillates with clock
+Ddb2,DNA Repair,UV damage + time course,"Gaddameedhi et al., PNAS 2011",2011,"DDB2 rhythmic, mediates circadian UV sensitivity"
+Cyp7a1,Xenobiotic / Drug Metabolism,Bile acid measurement,"Noshiro et al., JBC 2007",2007,"Rate-limiting bile acid synthesis, under REV-ERB control"
+Cyp2e1,Xenobiotic / Drug Metabolism,Pharmacokinetics,"Zhang et al., Drug Metab Dispos 2018",2018,Circadian variation in drug metabolism capacity
+Cyp3a11,Xenobiotic / Drug Metabolism,Microarray + ChIP,"Gachon et al., Cell 2006",2006,DBP/TEF/HLF-driven rhythmic drug metabolism
+Cyp1a2,Xenobiotic / Drug Metabolism,Activity assay,"Gachon et al., Cell 2006",2006,PAR bZIP-controlled rhythmic expression
+Abcb1a,Xenobiotic / Drug Metabolism,Drug efflux assay,"Murakami et al., Gastro 2008",2008,P-glycoprotein transport rhythmic
+Gstm1,Xenobiotic / Drug Metabolism,Microarray,"Panda et al., Cell 2002",2002,Glutathione transferase with rhythmic expression
+G6pc,Gluconeogenesis / Glycolysis,Hepatocyte glucose output,"Lamia et al., PNAS 2008",2008,Glucose-6-phosphatase under CRY1/2 control
+Pck1,Gluconeogenesis / Glycolysis,Glucose clamp + qPCR,"Zhang et al., Nat Med 2010",2010,"PEPCK rhythmic, gluconeogenic enzyme"
+Gck,Gluconeogenesis / Glycolysis,Enzymatic activity,"Lamia et al., PNAS 2008",2008,Glucokinase activity cycles with clock
+Sirt1,Chromatin / Epigenetic,NAD+ oscillation,"Nakahata et al., Cell 2009",2009,SIRT1 deacetylase activity rhythmic via NAD+ cycling
+Hdac3,Chromatin / Epigenetic,ChIP-seq,"Feng et al., Science 2011",2011,HDAC3 recruitment by REV-ERB to metabolic genes
+Ezh2,Chromatin / Epigenetic,Histone mark profiling,"Koike et al., Science 2012",2012,H3K27me3 marks oscillate at clock-controlled loci
+Ep300,Chromatin / Epigenetic,Co-IP + ChIP,"Etchegaray et al., Nature 2003",2003,p300/CBP recruited rhythmically by CLOCK
+Ndufs1,Mitochondrial / OXPHOS,Respirometry,"Peek et al., Science 2013",2013,"Complex I subunit, mitochondrial respiration rhythmic"
+Cs,Mitochondrial / OXPHOS,Metabolomics,"Peek et al., Science 2013",2013,"Citrate synthase, TCA cycle entry point oscillates"
+Atp5b,Mitochondrial / OXPHOS,Blue-native gel,"Neufeld-Cohen et al., PNAS 2016",2016,ATP synthase subunit rhythmic in liver
+Atf4,Unfolded Protein Response,Ribosome profiling,"Janich et al., Genome Res 2015",2015,UPR transcription factor rhythmically translated
+Xbp1,Unfolded Protein Response,Splicing assay,"Cretenet et al., Cell Metab 2010",2010,XBP1 splicing oscillates with circadian period
+Hspa5,Unfolded Protein Response,Proteomics,"Mauvoisin et al., PNAS 2014",2014,BiP/GRP78 chaperone with rhythmic protein levels
+Becn1,Autophagy,Autophagic flux,"Ma et al., J Cell Biol 2011",2011,"Beclin-1 expression rhythmic, autophagy peaks at night"
+Map1lc3b,Autophagy,LC3-II turnover,"Ma et al., J Cell Biol 2011",2011,LC3 lipidation cycles with circadian period
+Tfeb,Autophagy,Nuclear translocation,"Pastore et al., Nat Cell Biol 2019",2019,"TFEB nuclear entry rhythmic, drives lysosomal biogenesis"
+Nfe2l2,Oxidative Stress,ROS measurement + qPCR,"Pekovic-Vaughan et al., Nat Med 2014",2014,"NRF2 circadian, controls rhythmic antioxidant defense"
+Sod2,Oxidative Stress,Activity assay,"Krishnan et al., Cell Metab 2012",2012,MnSOD rhythmic via BMAL1-SIRT3 axis
+Cat,Oxidative Stress,Enzyme kinetics,"Patel et al., Free Radic Biol Med 2014",2014,Catalase activity oscillates in liver
+Gpx1,Oxidative Stress,Microarray,"Panda et al., Cell 2002",2002,Glutathione peroxidase rhythmic in liver
+Mtor,mTOR / Growth Signaling,Phospho-Western,"Khapre et al., J Biol Chem 2014",2014,"mTOR signaling rhythmic, tied to feeding"
+Foxo1,mTOR / Growth Signaling,ChIP-seq,"Chaves et al., PLoS Biol 2014",2014,FOXO1 nuclear localization cycles with clock
+Igf1,mTOR / Growth Signaling,Serum time series,"Barandas et al., Chronobiol Int 2012",2012,IGF-1 levels circadian in serum
+Tnf,Immune / Inflammatory,ELISA time course,"Gibbs et al., PNAS 2012",2012,TNF-alpha secretion time-of-day dependent
+Il6,Immune / Inflammatory,Cytokine profiling,"Gibbs et al., Nat Med 2014",2014,IL-6 production gated by macrophage clock
+Tlr4,Immune / Inflammatory,Flow cytometry,"Silver et al., Immunity 2012",2012,TLR4 surface expression rhythmic on macrophages
+Nfkb1,Immune / Inflammatory,Reporter assay,"Spengler et al., FASEB J 2012",2012,NF-kB activity gated by REV-ERB
+Got1,Amino Acid Metabolism,Metabolomics,"Eckel-Mahan et al., Cell 2012",2012,"Aminotransferase rhythmic, amino acid cycling"
+Mat1a,Amino Acid Metabolism,SAM measurement,"Koronowski et al., Cell Metab 2019",2019,"Methionine adenosyltransferase, methyl-donor cycling"
+Bcl2,Apoptosis,Western + TUNEL,"Lee et al., Genes Dev 2013",2013,"BCL-2 expression rhythmic, apoptosis time-gated"
+Casp3,Apoptosis,Caspase activity assay,"Gaddameedhi et al., PNAS 2011",2011,Apoptotic sensitivity varies with time of day

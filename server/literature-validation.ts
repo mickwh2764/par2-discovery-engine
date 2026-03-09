@@ -224,7 +224,7 @@ export function runLiteratureValidation(datasetPath: string, clockPredictor: str
       literatureCitation: '',
       literatureYear: 0,
       literatureFinding: '',
-      pathway: 'Novel Discovery',
+      pathway: 'Novel Candidate',
       convergenceType: 'novel_par2'
     });
   }

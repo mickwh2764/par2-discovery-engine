@@ -202,8 +202,8 @@ function TuringDetailPanel({ details }: { details: any }) {
         <ResponsiveContainer width="100%" height={280}>
           <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-            <XAxis dataKey="eigenvalue" tick={{ fill: '#94a3b8', fontSize: 11 }} label={{ value: '|lambda|', fill: '#94a3b8', position: 'bottom', offset: -5 }} />
-            <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} label={{ value: 'Amplitude', fill: '#94a3b8', angle: -90, position: 'insideLeft' }} />
+            <XAxis dataKey="eigenvalue" tick={{ fill: '#64748b', fontSize: 11 }} label={{ value: '|lambda|', fill: '#64748b', position: 'bottom', offset: -5 }} />
+            <YAxis tick={{ fill: '#64748b', fontSize: 11 }} label={{ value: 'Amplitude', fill: '#64748b', angle: -90, position: 'insideLeft' }} />
             <Tooltip content={<CustomTooltip />} />
             <ReferenceLine x={0.618} stroke="#f59e0b" strokeDasharray="5 5" label={{ value: 'phi=0.618', fill: '#f59e0b', fontSize: 11 }} />
             <Line type="monotone" dataKey="amplitude" stroke="#60a5fa" strokeWidth={2} dot={{ fill: '#60a5fa', r: 3 }} name="Pattern Amplitude" />
@@ -309,9 +309,9 @@ function FisherDetailPanel({ details }: { details: any }) {
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-            <XAxis dataKey="eigenvalue" tick={{ fill: '#94a3b8', fontSize: 11 }} label={{ value: '|lambda|', fill: '#94a3b8', position: 'bottom', offset: -5 }} />
-            <YAxis yAxisId="left" tick={{ fill: '#94a3b8', fontSize: 11 }} label={{ value: 'Fisher Info', fill: '#94a3b8', angle: -90, position: 'insideLeft' }} />
-            <YAxis yAxisId="right" orientation="right" tick={{ fill: '#94a3b8', fontSize: 11 }} label={{ value: 'Efficiency', fill: '#94a3b8', angle: 90, position: 'insideRight' }} />
+            <XAxis dataKey="eigenvalue" tick={{ fill: '#64748b', fontSize: 11 }} label={{ value: '|lambda|', fill: '#64748b', position: 'bottom', offset: -5 }} />
+            <YAxis yAxisId="left" tick={{ fill: '#64748b', fontSize: 11 }} label={{ value: 'Fisher Info', fill: '#64748b', angle: -90, position: 'insideLeft' }} />
+            <YAxis yAxisId="right" orientation="right" tick={{ fill: '#64748b', fontSize: 11 }} label={{ value: 'Efficiency', fill: '#64748b', angle: 90, position: 'insideRight' }} />
             <Tooltip content={<CustomTooltip />} />
             <Legend />
             <ReferenceLine x={0.56} stroke="#f59e0b" strokeDasharray="5 5" yAxisId="left" label={{ value: 'Peak', fill: '#f59e0b', fontSize: 11 }} />
@@ -404,8 +404,8 @@ function NetworkDetailPanel({ details }: { details: any }) {
         <ResponsiveContainer width="100%" height={300}>
           <ScatterChart>
             <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-            <XAxis dataKey="eigenvalue" name="Eigenvalue" tick={{ fill: '#94a3b8', fontSize: 11 }} label={{ value: '|lambda|', fill: '#94a3b8', position: 'bottom', offset: -5 }} />
-            <YAxis dataKey="degree" name="Network Degree" tick={{ fill: '#94a3b8', fontSize: 11 }} label={{ value: 'STRING Degree', fill: '#94a3b8', angle: -90, position: 'insideLeft' }} />
+            <XAxis dataKey="eigenvalue" name="Eigenvalue" tick={{ fill: '#64748b', fontSize: 11 }} label={{ value: '|lambda|', fill: '#64748b', position: 'bottom', offset: -5 }} />
+            <YAxis dataKey="degree" name="Network Degree" tick={{ fill: '#64748b', fontSize: 11 }} label={{ value: 'STRING Degree', fill: '#64748b', angle: -90, position: 'insideLeft' }} />
             <Tooltip content={({ active, payload }: any) => {
               if (!active || !payload?.length) return null;
               const d = payload[0].payload;
@@ -572,8 +572,8 @@ function UedaDetailPanel({ details }: { details: any }) {
         <ResponsiveContainer width="100%" height={300}>
           <ScatterChart>
             <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-            <XAxis dataKey="eigenvalue" name="Eigenvalue" tick={{ fill: '#94a3b8', fontSize: 11 }} label={{ value: '|lambda|', fill: '#94a3b8', position: 'bottom', offset: -5 }} />
-            <YAxis dataKey="phaseError" name="Phase Error" tick={{ fill: '#94a3b8', fontSize: 11 }} label={{ value: 'Phase Error', fill: '#94a3b8', angle: -90, position: 'insideLeft' }} />
+            <XAxis dataKey="eigenvalue" name="Eigenvalue" tick={{ fill: '#64748b', fontSize: 11 }} label={{ value: '|lambda|', fill: '#64748b', position: 'bottom', offset: -5 }} />
+            <YAxis dataKey="phaseError" name="Phase Error" tick={{ fill: '#64748b', fontSize: 11 }} label={{ value: 'Phase Error', fill: '#64748b', angle: -90, position: 'insideLeft' }} />
             <Tooltip content={({ active, payload }: any) => {
               if (!active || !payload?.length) return null;
               const d = payload[0].payload;
@@ -893,8 +893,8 @@ export default function FrameworkBenchmarks() {
                     <ResponsiveContainer width="100%" height={300}>
                       <BarChart data={altMetricsComparison.chartData} barGap={8}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                        <XAxis dataKey="metric" tick={{ fill: '#94a3b8', fontSize: 12 }} />
-                        <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} />
+                        <XAxis dataKey="metric" tick={{ fill: '#64748b', fontSize: 12 }} />
+                        <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
                         <Tooltip content={<CustomTooltip />} />
                         <Legend />
                         <Bar dataKey="clockMean" name="Clock genes (mean)" fill="#60a5fa" radius={[4, 4, 0, 0]} />
@@ -935,8 +935,8 @@ export default function FrameworkBenchmarks() {
                       <ResponsiveContainer width="100%" height={300}>
                         <BarChart data={simByN} barGap={4}>
                           <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                          <XAxis dataKey="n" tick={{ fill: '#94a3b8', fontSize: 12 }} label={{ value: 'Timepoints', fill: '#94a3b8', position: 'bottom', offset: -5 }} />
-                          <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} label={{ value: 'Error', fill: '#94a3b8', angle: -90, position: 'insideLeft' }} />
+                          <XAxis dataKey="n" tick={{ fill: '#64748b', fontSize: 12 }} label={{ value: 'Timepoints', fill: '#64748b', position: 'bottom', offset: -5 }} />
+                          <YAxis tick={{ fill: '#64748b', fontSize: 11 }} label={{ value: 'Error', fill: '#64748b', angle: -90, position: 'insideLeft' }} />
                           <Tooltip content={<CustomTooltip />} />
                           <Legend />
                           <Bar dataKey="meanBias" name="Mean |Bias|" fill="#f59e0b" radius={[4, 4, 0, 0]} />
@@ -1343,8 +1343,8 @@ export default function FrameworkBenchmarks() {
                           <ResponsiveContainer width="100%" height={300}>
                             <RadarChart data={radarData}>
                               <PolarGrid stroke="#334155" />
-                              <PolarAngleAxis dataKey="subject" tick={{ fill: '#94a3b8', fontSize: 12 }} />
-                              <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: '#94a3b8', fontSize: 10 }} />
+                              <PolarAngleAxis dataKey="subject" tick={{ fill: '#64748b', fontSize: 12 }} />
+                              <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: '#64748b', fontSize: 10 }} />
                               <Radar name="Score" dataKey="score" stroke="#22c55e" fill="#22c55e" fillOpacity={0.15} />
                             </RadarChart>
                           </ResponsiveContainer>

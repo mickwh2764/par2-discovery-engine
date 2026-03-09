@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState, useMemo } from "react";
 import { Link } from "wouter";
 import { ArrowLeft, Loader2, Check, AlertTriangle, ChevronDown, ChevronUp, Search, ExternalLink } from "lucide-react";
+import GeneTooltip from "@/components/GeneTooltip";
 
 interface GeneProteinMapEntry {
   gene: string;
@@ -389,7 +390,7 @@ export default function GeneProteinMap() {
                   {filteredEntries.slice(0, 200).map(e => (
                     <tr key={e.gene} className="border-t border-slate-700/30 hover:bg-slate-700/20 transition-colors"
                       onMouseEnter={() => setHoveredGene(e.gene)} onMouseLeave={() => setHoveredGene(null)}>
-                      <td className="py-1 px-2 font-mono text-white">{e.gene}</td>
+                      <td className="py-1 px-2 font-mono text-white"><GeneTooltip gene={e.gene}>{e.gene}</GeneTooltip></td>
                       <td className="py-1 px-2 font-mono text-blue-400">{e.mrnaEigenvalue.toFixed(3)}</td>
                       <td className="py-1 px-2 font-mono text-teal-400">{e.proteinEigenvalue.toFixed(3)}</td>
                       <td className={`py-1 px-2 font-mono ${e.delta > 0 ? 'text-teal-400' : 'text-blue-400'}`}>

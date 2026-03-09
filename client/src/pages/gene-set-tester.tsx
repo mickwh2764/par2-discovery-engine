@@ -18,6 +18,7 @@ import {
 import HowTo from "@/components/HowTo";
 import InsightCallout from "@/components/InsightCallout";
 import DownloadResultsButton from "@/components/DownloadResultsButton";
+import GeneTooltip from "@/components/GeneTooltip";
 
 interface MatchedGene {
   gene: string;
@@ -375,11 +376,11 @@ export default function GeneSetTester() {
                     <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
                     <XAxis
                       dataKey="bin"
-                      tick={{ fill: "#94a3b8", fontSize: 11 }}
-                      label={{ value: "Eigenvalue Bin", position: "bottom", fill: "#94a3b8", fontSize: 12 }}
+                      tick={{ fill: "#64748b", fontSize: 11 }}
+                      label={{ value: "Eigenvalue Bin", position: "bottom", fill: "#64748b", fontSize: 12 }}
                       tickFormatter={(v: number) => v.toFixed(2)}
                     />
-                    <YAxis tick={{ fill: "#94a3b8", fontSize: 11 }} label={{ value: "Count", angle: -90, position: "insideLeft", fill: "#94a3b8", fontSize: 12 }} />
+                    <YAxis tick={{ fill: "#64748b", fontSize: 11 }} label={{ value: "Count", angle: -90, position: "insideLeft", fill: "#64748b", fontSize: 12 }} />
                     <Tooltip
                       contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #334155", borderRadius: "8px", fontSize: "12px" }}
                       labelFormatter={(v: number) => `Bin: ${Number(v).toFixed(3)}`}
@@ -430,7 +431,7 @@ export default function GeneSetTester() {
                     <tbody>
                       {sortedGenes.map((g) => (
                         <tr key={g.gene} className="border-b border-slate-700 hover:bg-slate-800/50" data-testid={`row-gene-${g.gene}`}>
-                          <td className="py-2 px-3 font-mono font-medium text-cyan-300">{g.gene}</td>
+                          <td className="py-2 px-3 font-mono font-medium text-cyan-300"><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></td>
                           <td className="py-2 px-3">{g.eigenvalue.toFixed(4)}</td>
                           <td className="py-2 px-3">{g.r2.toFixed(3)}</td>
                           <td className="py-2 px-3">{g.phi1.toFixed(4)}</td>

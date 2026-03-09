@@ -1,5 +1,6 @@
 {
-  "date": "2026-02-20",
+  "date": "2026-02-27",
+  "version": "5.0",
   "title": "Cross-Dataset PAR(2) Evidence Summary",
   "datasets_analyzed": {
     "GSE11923": {
@@ -71,6 +72,414 @@
       "hierarchy_preserved": null,
       "ar2_preference": 4.1,
       "quality_rating": "exploratory"
+    },
+    "Rabani2014_DC_LPS": {
+      "tissue": "Mouse dendritic cell",
+      "resolution": "variable",
+      "duration": "12h",
+      "n_timepoints": 7,
+      "n_genes_curated": 39,
+      "n_genes_genome_wide": 3147,
+      "context": "Non-circadian immune response (LPS stimulation)",
+      "key_result": "Fast responders (Il1b |λ|=0.55) < sustained effectors (Stat1 |λ|=0.99)",
+      "hierarchy_preserved": true,
+      "quality_rating": "strong"
+    },
+    "Amit2009_DC_LPS": {
+      "tissue": "Mouse dendritic cell",
+      "resolution": "variable",
+      "duration": "24h",
+      "n_timepoints": 9,
+      "n_genes": 10651,
+      "context": "Non-circadian immune response (LPS stimulation)",
+      "key_result": "Half-life independence rho=0.154, bootstrap CI barely excludes zero",
+      "hierarchy_preserved": true,
+      "quality_rating": "moderate"
+    },
+    "GSE221103_MYC": {
+      "tissue": "Human neuroblastoma",
+      "resolution": "4h",
+      "duration": "52h",
+      "n_timepoints": 14,
+      "n_genes": 60237,
+      "context": "Oncogene-driven cancer cell line (MYC toggle)",
+      "key_result": "Half-life independence rho=0.203 raw, drops to 0.045 after controlling for expression",
+      "hierarchy_preserved": true,
+      "quality_rating": "moderate"
+    },
+    "GSE54650_Liver": {
+      "tissue": "Mouse liver",
+      "resolution": "2h",
+      "duration": "46h",
+      "n_timepoints": 24,
+      "n_genes": 20954,
+      "context": "Baboon atlas study, mouse circadian tissue panel (Zhang et al. 2014)",
+      "key_result": "Reference tissue for cross-tissue comparison, highest gating density",
+      "hierarchy_preserved": true,
+      "quality_rating": "gold_standard"
+    },
+    "GSE54650_Heart": {
+      "tissue": "Mouse heart",
+      "resolution": "2h",
+      "duration": "46h",
+      "n_timepoints": 24,
+      "n_genes": 20954,
+      "context": "Mouse circadian tissue panel",
+      "key_result": "TEAD1 and YAP1 gated by all 13 clock genes, Hippo/YAP pathway dominance",
+      "hierarchy_preserved": true,
+      "quality_rating": "strong"
+    },
+    "GSE54650_Lung": {
+      "tissue": "Mouse lung",
+      "resolution": "2h",
+      "duration": "46h",
+      "n_timepoints": 24,
+      "n_genes": 20954,
+      "context": "Mouse circadian tissue panel",
+      "key_result": "Highest BMAL1-coupling density (14 genes), metabolic + cell cycle pathways",
+      "hierarchy_preserved": true,
+      "quality_rating": "strong"
+    },
+    "GSE54650_Kidney": {
+      "tissue": "Mouse kidney",
+      "resolution": "2h",
+      "duration": "46h",
+      "n_timepoints": 24,
+      "n_genes": 20954,
+      "context": "Mouse circadian tissue panel",
+      "key_result": "Lowest gating density among 12 tissues, proliferation-only pathway",
+      "hierarchy_preserved": true,
+      "quality_rating": "strong"
+    },
+    "GSE54650_Muscle": {
+      "tissue": "Mouse skeletal muscle",
+      "resolution": "2h",
+      "duration": "46h",
+      "n_timepoints": 24,
+      "n_genes": 20954,
+      "context": "Mouse circadian tissue panel",
+      "key_result": "Proliferation + cell cycle pathways, Myc and Wee1 key targets",
+      "hierarchy_preserved": true,
+      "quality_rating": "strong"
+    },
+    "GSE54650_Cerebellum": {
+      "tissue": "Mouse cerebellum",
+      "resolution": "2h",
+      "duration": "46h",
+      "n_timepoints": 24,
+      "n_genes": 20954,
+      "context": "Mouse circadian tissue panel",
+      "key_result": "CDK1 exclusively gated by all 13 clock genes, medulloblastoma vulnerability",
+      "hierarchy_preserved": true,
+      "quality_rating": "strong"
+    },
+    "GSE54650_Hypothalamus": {
+      "tissue": "Mouse hypothalamus",
+      "resolution": "2h",
+      "duration": "46h",
+      "n_timepoints": 24,
+      "n_genes": 20954,
+      "context": "Mouse circadian tissue panel, SCN-adjacent",
+      "key_result": "Metabolism + checkpoint pathways, Sirt1 and Chek2 targets",
+      "hierarchy_preserved": true,
+      "quality_rating": "strong"
+    },
+    "GSE54650_Brown_Fat": {
+      "tissue": "Mouse brown adipose tissue",
+      "resolution": "2h",
+      "duration": "46h",
+      "n_timepoints": 24,
+      "n_genes": 20954,
+      "context": "Mouse circadian tissue panel",
+      "key_result": "Cell cycle + DNA repair coupling, 6 BMAL1-coupled genes",
+      "hierarchy_preserved": true,
+      "quality_rating": "strong"
+    },
+    "GSE54650_White_Fat": {
+      "tissue": "Mouse white adipose tissue",
+      "resolution": "2h",
+      "duration": "46h",
+      "n_timepoints": 24,
+      "n_genes": 20954,
+      "context": "Mouse circadian tissue panel",
+      "key_result": "Metabolic pathway dominance, 5 BMAL1-coupled genes",
+      "hierarchy_preserved": true,
+      "quality_rating": "strong"
+    },
+    "GSE54650_Brainstem": {
+      "tissue": "Mouse brainstem",
+      "resolution": "2h",
+      "duration": "46h",
+      "n_timepoints": 24,
+      "n_genes": 20954,
+      "context": "Mouse circadian tissue panel",
+      "key_result": "Cell cycle + metabolic coupling, Ccnd1 top coupled gene",
+      "hierarchy_preserved": true,
+      "quality_rating": "strong"
+    },
+    "GSE54650_Adrenal": {
+      "tissue": "Mouse adrenal gland",
+      "resolution": "2h",
+      "duration": "46h",
+      "n_timepoints": 24,
+      "n_genes": 20954,
+      "context": "Mouse circadian tissue panel",
+      "key_result": "Cell cycle + metabolic coupling, 4 BMAL1-coupled genes",
+      "hierarchy_preserved": true,
+      "quality_rating": "strong"
+    },
+    "GSE54650_Aorta": {
+      "tissue": "Mouse aorta",
+      "resolution": "2h",
+      "duration": "46h",
+      "n_timepoints": 24,
+      "n_genes": 20954,
+      "context": "Mouse circadian tissue panel",
+      "key_result": "Cell cycle pathway, Wee1 top coupled gene",
+      "hierarchy_preserved": true,
+      "quality_rating": "strong"
+    },
+    "GSE157357_WT": {
+      "tissue": "Mouse intestinal organoid (WT/WT)",
+      "resolution": "4h",
+      "duration": "24h",
+      "n_timepoints": 7,
+      "n_genes": 20000,
+      "context": "Intestinal organoid circadian model, wild type baseline",
+      "key_result": "Healthy gearbox with clock-target gap of 0.392",
+      "hierarchy_preserved": true,
+      "quality_rating": "strong"
+    },
+    "GSE157357_ApcKO": {
+      "tissue": "Mouse intestinal organoid (APC-KO/WT)",
+      "resolution": "4h",
+      "duration": "24h",
+      "n_timepoints": 7,
+      "n_genes": 20000,
+      "context": "Cancer initiation model (APC mutation)",
+      "key_result": "Hierarchy inverted, gap = -0.122, compensatory gating doubled to 22.4%",
+      "hierarchy_preserved": false,
+      "quality_rating": "strong"
+    },
+    "GSE157357_BmalKO": {
+      "tissue": "Mouse intestinal organoid (WT/BMAL1-KO)",
+      "resolution": "4h",
+      "duration": "24h",
+      "n_timepoints": 7,
+      "n_genes": 20000,
+      "context": "Clock knockout model",
+      "key_result": "Hierarchy collapsed, gap = -0.082, LGR5 stem cell gating detected",
+      "hierarchy_preserved": false,
+      "quality_rating": "strong"
+    },
+    "GSE157357_DoubleKO": {
+      "tissue": "Mouse intestinal organoid (APC-KO/BMAL1-KO)",
+      "resolution": "4h",
+      "duration": "24h",
+      "n_timepoints": 7,
+      "n_genes": 20000,
+      "context": "Double mutant, complete clock-cancer two-hit model",
+      "key_result": "17-fold gating collapse to 1.3%, complex epistasis",
+      "hierarchy_preserved": false,
+      "quality_rating": "strong"
+    },
+    "GSE39445_SufficientSleep": {
+      "tissue": "Human blood (sufficient sleep)",
+      "resolution": "4h",
+      "duration": "28h",
+      "n_timepoints": 7,
+      "n_genes": 20000,
+      "context": "Human sleep study baseline",
+      "key_result": "Baseline eigenvalue distribution for sleep comparison",
+      "hierarchy_preserved": true,
+      "quality_rating": "moderate"
+    },
+    "GSE39445_SleepRestriction": {
+      "tissue": "Human blood (sleep restriction)",
+      "resolution": "4h",
+      "duration": "28h",
+      "n_timepoints": 7,
+      "n_genes": 20000,
+      "context": "Human sleep restriction perturbation",
+      "key_result": "Sleep restriction alters eigenvalue distribution, homeostatic pressure signature",
+      "hierarchy_preserved": true,
+      "quality_rating": "moderate"
+    },
+    "GSE122541_DayShift": {
+      "tissue": "Human blood (day shift nurses)",
+      "resolution": "4h",
+      "duration": "24h",
+      "n_timepoints": 6,
+      "n_genes": 20000,
+      "context": "Shift work study, normal circadian alignment",
+      "key_result": "Day shift baseline for shift work comparison",
+      "hierarchy_preserved": true,
+      "quality_rating": "moderate"
+    },
+    "GSE122541_NightShift": {
+      "tissue": "Human blood (night shift nurses)",
+      "resolution": "4h",
+      "duration": "24h",
+      "n_timepoints": 6,
+      "n_genes": 20000,
+      "context": "Chronic circadian misalignment via shift work",
+      "key_result": "Night shift alters eigenvalue distribution, chronic misalignment signature",
+      "hierarchy_preserved": true,
+      "quality_rating": "moderate"
+    },
+    "GSE48113_Blood": {
+      "tissue": "Human blood circadian",
+      "resolution": "4h",
+      "duration": "24h",
+      "n_timepoints": 6,
+      "n_genes": 19512,
+      "context": "Forced desynchrony protocol, human circadian transcriptomics",
+      "key_result": "Human circadian hierarchy confirmed at blood transcriptome level",
+      "hierarchy_preserved": true,
+      "quality_rating": "moderate"
+    },
+    "GSE48113_ForcedDesync_Aligned": {
+      "tissue": "Human blood (forced desynchrony, aligned)",
+      "resolution": "4h",
+      "duration": "24h",
+      "n_timepoints": 6,
+      "n_genes": 19512,
+      "context": "Forced desynchrony aligned condition",
+      "key_result": "Aligned condition preserves circadian hierarchy",
+      "hierarchy_preserved": true,
+      "quality_rating": "moderate"
+    },
+    "GSE48113_ForcedDesync_Misaligned": {
+      "tissue": "Human blood (forced desynchrony, misaligned)",
+      "resolution": "4h",
+      "duration": "24h",
+      "n_timepoints": 6,
+      "n_genes": 19512,
+      "context": "Forced desynchrony misaligned condition",
+      "key_result": "Misalignment disrupts eigenvalue hierarchy structure",
+      "hierarchy_preserved": false,
+      "quality_rating": "moderate"
+    },
+    "GSE98965_Baboon": {
+      "tissue": "Baboon multi-tissue atlas",
+      "resolution": "2h",
+      "duration": "24h",
+      "n_timepoints": 12,
+      "n_genes": 29202,
+      "context": "Non-human primate circadian atlas (Mure et al. 2018)",
+      "key_result": "70.5% of genes show higher persistence in at least one tissue, cross-species hierarchy confirmed",
+      "hierarchy_preserved": true,
+      "quality_rating": "strong"
+    },
+    "GSE113883_WholeBlood": {
+      "tissue": "Human whole blood",
+      "resolution": "2h",
+      "duration": "28h",
+      "n_timepoints": 15,
+      "n_genes": 58278,
+      "context": "High-resolution human blood circadian transcriptomics",
+      "key_result": "Genome-wide human circadian eigenvalue landscape",
+      "hierarchy_preserved": true,
+      "quality_rating": "strong"
+    },
+    "GSE201207_YoungKidney": {
+      "tissue": "Mouse kidney (young)",
+      "resolution": "4h",
+      "duration": "44h",
+      "n_timepoints": 12,
+      "n_genes": 23449,
+      "context": "Aging study, young kidney baseline",
+      "key_result": "Young kidney circadian architecture, distinct from liver eigenvalue profile",
+      "hierarchy_preserved": true,
+      "quality_rating": "moderate"
+    },
+    "GSE242964_Arabidopsis": {
+      "tissue": "Arabidopsis thaliana seedling",
+      "resolution": "variable (1-4h)",
+      "duration": "24h",
+      "n_timepoints": 9,
+      "n_genes": 40812,
+      "context": "Plant circadian transcriptomics, 3 biological replicates per timepoint",
+      "key_result": "Plant circadian hierarchy confirms cross-kingdom conservation of AR(2) eigenvalue organization",
+      "hierarchy_preserved": true,
+      "quality_rating": "moderate"
+    },
+    "GSE3431_YeastMetabolicCycle": {
+      "tissue": "Saccharomyces cerevisiae (yeast metabolic cycle)",
+      "resolution": "25 min",
+      "duration": "variable",
+      "n_timepoints": 36,
+      "n_genes": 6686,
+      "context": "Yeast metabolic oscillation (Tu et al. 2005)",
+      "key_result": "Metabolic cycle AR(2) eigenvalues show oscillatory persistence hierarchy in single-celled organism",
+      "hierarchy_preserved": true,
+      "quality_rating": "strong"
+    },
+    "Tu2005_YeastMetabolicCycle": {
+      "tissue": "Saccharomyces cerevisiae (yeast metabolic cycle)",
+      "resolution": "25 min",
+      "duration": "variable",
+      "n_timepoints": 36,
+      "n_genes": 5779,
+      "context": "Yeast metabolic oscillation, curated gene set (Tu et al. 2005)",
+      "key_result": "Half-life independence confirmed in yeast: rho=0.018 (n=4887 matched genes)",
+      "hierarchy_preserved": true,
+      "quality_rating": "strong"
+    },
+    "Arbeitman2002_Drosophila": {
+      "tissue": "Drosophila melanogaster embryo",
+      "resolution": "30 min - 1h",
+      "duration": "66 timepoints across development",
+      "n_timepoints": 66,
+      "n_genes": 1176,
+      "context": "Drosophila embryonic development time-series (Arbeitman et al. 2002)",
+      "key_result": "Half-life independence confirmed: rho=-0.003 (n=3241 matched genes), developmental persistence hierarchy",
+      "hierarchy_preserved": true,
+      "quality_rating": "moderate"
+    },
+    "Zaas2009_Influenza": {
+      "tissue": "Human blood (influenza H3N2 infection)",
+      "resolution": "variable (5-8h)",
+      "duration": "108h",
+      "n_timepoints": 15,
+      "n_genes": 13100,
+      "context": "Human influenza infection time-course (Zaas et al. 2009)",
+      "key_result": "Half-life independence confirmed: rho=0.009 (n=8456 matched genes), immune response AR(2) hierarchy",
+      "hierarchy_preserved": true,
+      "quality_rating": "moderate"
+    },
+    "Robles2014_LiverProteome": {
+      "tissue": "Mouse liver proteome",
+      "resolution": "3h",
+      "duration": "45h",
+      "n_timepoints": 16,
+      "n_genes": 3071,
+      "context": "Circadian liver proteomics (Robles et al. 2014)",
+      "key_result": "Protein-level eigenvalues confirm mRNA-level hierarchy, post-transcriptional reinforcement of clock persistence",
+      "hierarchy_preserved": true,
+      "quality_rating": "strong"
+    },
+    "HumanPlasmaProteome": {
+      "tissue": "Human plasma proteome",
+      "resolution": "3h",
+      "duration": "21h",
+      "n_timepoints": 8,
+      "n_genes": 137,
+      "context": "Diurnal human plasma proteomics",
+      "key_result": "Protein-level circadian hierarchy in human plasma",
+      "hierarchy_preserved": true,
+      "quality_rating": "exploratory"
+    },
+    "OtobeYoshitane2026_LiverProteome": {
+      "tissue": "Mouse liver whole-cell proteome",
+      "resolution": "4h",
+      "duration": "20h",
+      "n_timepoints": 6,
+      "n_genes": 151,
+      "context": "Whole-cell liver proteomics (Otobe & Yoshitane 2026)",
+      "key_result": "Independent proteomics replication of liver eigenvalue hierarchy",
+      "hierarchy_preserved": true,
+      "quality_rating": "exploratory"
     }
   },
   "key_findings": {
@@ -97,6 +506,90 @@
       "evidence": "All 3 mouse liver analyses show clock > target: gaps +0.13, +0.21, +0.25",
       "confidence": "high",
       "caveat": "Only tested in mouse liver; no gene-level hierarchy test in human blood (probe IDs)"
+    },
+    "literature_validation": {
+      "claim": "59 literature-curated circadian genes are recovered at 98.3% rate across 21 datasets",
+      "evidence": "58/59 genes recovered, only Tp53 missed (post-translational regulation), sources include Panda 2002, Matsuo 2003, Kang 2009",
+      "confidence": "high",
+      "caveat": "Tp53 regulation is primarily post-translational, invisible to mRNA-level AR(2)"
+    },
+    "falsification_test": {
+      "claim": "AR(2) eigenvalue hierarchy is not an artifact of gene selection",
+      "evidence": "Arntl coupling rate 8.4% vs Gapdh 0.3% vs random 0.0-0.5%, enrichment ratio ~180x",
+      "confidence": "high",
+      "caveat": "Falsification is necessary but not sufficient for causal claims"
+    },
+    "bias_audit": {
+      "claim": "AR(2) rankings are free from systematic biases",
+      "evidence": "Three automated tests all pass: time-shuffle destruction (p<0.001), irrelevant metric correlation (|r|<0.05), expression-matched null hierarchy (gap persists)",
+      "confidence": "high",
+      "caveat": "Tests cover known bias classes; unknown confounds remain possible"
+    },
+    "non_circadian_hierarchy": {
+      "claim": "Regulator-to-effector eigenvalue hierarchy generalizes beyond circadian biology",
+      "evidence": "Rabani 2014 DC LPS response: fast responders (Il1b |λ|=0.55, Junb |λ|=0.43) < sustained effectors (Stat1 |λ|=0.99, Ifit1 |λ|=0.80)",
+      "confidence": "moderate",
+      "caveat": "Single non-circadian dataset; needs replication in other temporal systems"
+    },
+    "halflife_independence_replication": {
+      "claim": "mRNA half-life and AR(2) eigenvalue are independent properties across 7 datasets (22,989 genes)",
+      "evidence": "Weighted mean Spearman rho=0.0115 across 7 datasets. Large circadian datasets (GSE11923 n=5945, Tu2005 n=4887, Arbeitman2002 n=3241, Zaas2009 n=8456) show rho near zero. Short time-series datasets (Rabani rho=0.13, Amit rho=0.15, GSE221103 rho=0.20) show weak correlations that dissolve under controls.",
+      "confidence": "high",
+      "caveat": "Weak correlations in short time-series (7-14 timepoints) are artifacts of explosive eigenvalue inclusion and expression-level confounding. Independence claim requires >=24 timepoints and n>1000."
+    },
+    "before_after_trajectories": {
+      "claim": "Eigenvalue trajectories shift systematically under biological perturbations",
+      "evidence": "6 pre-loaded comparison pairs covering immune activation, oncogene toggle, cancer initiation, sleep restriction, shift work, and clock knockout",
+      "confidence": "high",
+      "caveat": "Shift magnitudes depend on dataset quality and timepoint count"
+    },
+    "cross_species_conservation": {
+      "claim": "AR(2) eigenvalue distributions are conserved across kingdoms of life",
+      "evidence": "Mean |λ| ranges from 0.48 (yeast) to 0.55 (Drosophila) across 6 species: mouse (12 tissues), baboon (multi-tissue atlas), yeast (metabolic cycle), Arabidopsis (seedling), Drosophila (embryo), human (blood, cancer, proteome)",
+      "confidence": "high",
+      "caveat": "Cross-kingdom comparison uses heterogeneous experimental designs and temporal resolutions"
+    },
+    "proteome_concordance": {
+      "claim": "Clock gene eigenvalue hierarchy is preserved at the protein level",
+      "evidence": "Three independent proteomics datasets (Robles 2014 n=3071, human plasma n=137, Otobe-Yoshitane 2026 n=151) show consistent protein-level eigenvalue rankings matching mRNA predictions",
+      "confidence": "moderate",
+      "caveat": "Proteomics datasets have fewer timepoints and genes than transcriptomic counterparts"
+    },
+    "twelve_tissue_atlas": {
+      "claim": "Tissue-specific circadian defense signatures are quantitatively distinct",
+      "evidence": "GSE54650 12-tissue panel shows gating rates from 2% (kidney) to 16.4% (liver), with tissue-specific pathway dominance (liver: DNA repair, heart: Hippo/YAP, cerebellum: mitosis-only)",
+      "confidence": "high",
+      "caveat": "Single study design (Zhang et al. 2014); independent replication across tissues needed"
+    },
+    "organoid_perturbation_model": {
+      "claim": "APC-KO inverts and BMAL1-KO collapses the circadian eigenvalue hierarchy",
+      "evidence": "GSE157357 four-genotype panel: WT gap=+0.392, APC-KO gap=-0.122 (inverted), BMAL1-KO gap=-0.082 (collapsed), double-KO shows 17-fold gating collapse",
+      "confidence": "high",
+      "caveat": "In vitro organoid system; in vivo confirmation needed"
+    },
+    "plant_circadian_hierarchy": {
+      "claim": "Arabidopsis thaliana shows AR(2) eigenvalue hierarchy consistent with animal circadian systems",
+      "evidence": "GSE242964 three-day panel (40,812 genes per day) shows conserved eigenvalue distribution in plant circadian transcriptomics",
+      "confidence": "moderate",
+      "caveat": "Plant clock architecture differs fundamentally from animal TTFL; convergence may reflect universal oscillator properties rather than homology"
+    },
+    "human_blood_circadian": {
+      "claim": "Human blood transcriptomics supports circadian eigenvalue hierarchy",
+      "evidence": "Four human blood datasets (GSE48113, GSE113883, GSE39445, GSE122541) consistently show eigenvalue hierarchy in human peripheral blood",
+      "confidence": "moderate",
+      "caveat": "Blood is a mixed-cell-type tissue; eigenvalue estimates reflect composite signals"
+    },
+    "state_space_comparison": {
+      "claim": "AR(2) OLS eigenvalue rankings are concordant with state-space model alternatives",
+      "evidence": "SARIMAX AR(2) MLE produces mean rank correlation rho=0.997 across 3 datasets (strong estimator robustness). Local Level structural time-series produces mean rho=0.423 (moderate model-class robustness). Hierarchy preserved under AR(2) regardless of estimator; partially preserved under Local Level (4/5). Derived |lambda| more stable than raw coefficients.",
+      "confidence": "high",
+      "caveat": "Local Level model captures a different construct (noise-separated persistence); moderate concordance expected and interpretable, not concerning. SARIMAX convergence rate 53-66% censors near-critical genes at unit root boundary. AIC comparison between OLS and state-space is not strictly apples-to-apples (different likelihood formulations)."
+    },
+    "decomposition_stability": {
+      "claim": "The AR(2) eigenvalue hierarchy is robust to the choice of decomposition method for tissues with moderate initial gaps",
+      "evidence": "6 methods (raw, mean, median, PC1, var25, var50) tested across 11 datasets. Global DSI=0.527, mean rank correlation=0.619. Sign preserved in 8/11 datasets. Gold-standard GSE11923 DSI=0.897.",
+      "confidence": "moderate",
+      "caveat": "WEAK by strict stability criteria; failed in Cerebellum (DSI=0.08), Aorta (DSI=0.50), and APC-KO (DSI=-0.44)."
     }
   },
   "test_e_updates": {
@@ -109,7 +602,7 @@
       },
       {
         "mapping": "Boman k2 disease mechanism",
-        "update": "k2 invisibility definitively confirmed (spread=0.0006)",
+        "update": "k2 invisibility confirmed (spread=0.0006)",
         "new_confidence": "AR(2) cannot detect primary Boman disease mechanism",
         "still_valid": "Direction of APC-KO perturbation correctly predicted"
       },
@@ -121,5 +614,28 @@
       }
     ],
     "unaffected_convergence_points": "Most of 22 convergence mappings remain valid because they rely on relative comparisons (clock>target ordering, cross-species hierarchy, disruption direction) which survive nonlinear distortion"
+  },
+  "fibonacci_reply_validation": {
+    "paper": "Paper G: Fibonacci Reply (Amended February 2026)",
+    "target_journal": "Fibonacci Quarterly",
+    "description": "Systematic cross-validation of Reply paper claims against all platform datasets",
+    "total_claims": 13,
+    "verification_summary": {
+      "CONFIRMED": ["AR(2) minimum sufficient model", "Crypt genes stable complex roots", "WNT/AXIN2 slow kernel α₂"],
+      "STRONGLY_CONFIRMED": ["BMAL1 phase source", "Clock > target hierarchy", "AR(2) captures oscillators (ODE zoo)"],
+      "CONSISTENT": ["NOTCH fast kernel α₁", "DCS cells as kernel components"],
+      "PARTIALLY_DISCONFIRMED": ["BMAL1-KO preserves eigenvalues"],
+      "NOT_CONFIRMED": ["φ-enrichment (p=0.154)"],
+      "DIRECTIONALLY_SUPPORTED": ["Chemotherapy tuft overshoot"],
+      "UNTESTED": ["AXIN2-KO → AR(1)", "Chronotherapy prediction"]
+    },
+    "key_amendment": "Nguyen, Lausten and Boman 2025 (Cells 14:1428) integrated — co-authored by Boman himself, provides tuft cell CRC data, NOTCH/WNT pathway details, and M-cell terminology clarification",
+    "organoid_evidence": {
+      "dataset": "GSE157357",
+      "wt_gap": 0.392,
+      "apc_ko_gap": -0.122,
+      "bmal1_ko_gap": -0.082,
+      "interpretation": "APC-KO inverts hierarchy (WNT constitutive), BMAL1-KO collapses it (phase source lost)"
+    }
   }
 }

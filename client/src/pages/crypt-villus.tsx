@@ -227,8 +227,8 @@ function ThetaHistogram({ bins, phyllotaxisAngle }: { bins: { center: number; co
     <ResponsiveContainer width="100%" height={200}>
       <BarChart data={bins} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
         <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-        <XAxis dataKey="center" tick={{ fill: '#94a3b8', fontSize: 10 }} label={{ value: 'θ (degrees)', position: 'insideBottom', offset: -3, fill: '#94a3b8', fontSize: 10 }} />
-        <YAxis tick={{ fill: '#94a3b8', fontSize: 10 }} />
+        <XAxis dataKey="center" tick={{ fill: '#64748b', fontSize: 10 }} label={{ value: 'θ (degrees)', position: 'insideBottom', offset: -3, fill: '#64748b', fontSize: 10 }} />
+        <YAxis tick={{ fill: '#64748b', fontSize: 10 }} />
         <Tooltip contentStyle={{ background: '#1e293b', border: '1px solid #475569', fontSize: 11 }} />
         <ReferenceLine x={phyllotaxisAngle} stroke="#eab308" strokeDasharray="5 3" label={{ value: '137.5°', fill: '#eab308', fontSize: 10, position: 'top' }} />
         <Bar dataKey="count" fill="#3b82f6" radius={[2, 2, 0, 0]} />
@@ -303,8 +303,8 @@ function PerturbationTest({ data }: { data: SpatialTemporalResult['test1'] }) {
           <ResponsiveContainer width="100%" height={250} className="mt-4">
             <BarChart data={barData} margin={{ top: 10, right: 10, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-              <XAxis dataKey="name" tick={{ fill: '#94a3b8', fontSize: 10 }} />
-              <YAxis tick={{ fill: '#94a3b8', fontSize: 10 }} domain={[0, 0.9]} />
+              <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 10 }} />
+              <YAxis tick={{ fill: '#64748b', fontSize: 10 }} domain={[0, 0.9]} />
               <Tooltip contentStyle={{ background: '#1e293b', border: '1px solid #475569', fontSize: 11 }} />
               <Bar dataKey="clockEig" name="Clock |λ|" fill="#60a5fa" radius={[3, 3, 0, 0]} />
               <Bar dataKey="targetEig" name="Target |λ|" fill="#fbbf24" radius={[3, 3, 0, 0]} />
@@ -436,8 +436,8 @@ function TissueTest({ data }: { data: SpatialTemporalResult['test2'] }) {
           <ResponsiveContainer width="100%" height={250} className="mt-4">
             <BarChart data={barData} margin={{ top: 10, right: 10, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-              <XAxis dataKey="name" tick={{ fill: '#94a3b8', fontSize: 9 }} angle={-30} textAnchor="end" height={60} />
-              <YAxis tick={{ fill: '#94a3b8', fontSize: 10 }} label={{ value: 'Gap (Clock - Target)', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 10 }} />
+              <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 9 }} angle={-30} textAnchor="end" height={60} />
+              <YAxis tick={{ fill: '#64748b', fontSize: 10 }} label={{ value: 'Gap (Clock - Target)', angle: -90, position: 'insideLeft', fill: '#64748b', fontSize: 10 }} />
               <Tooltip contentStyle={{ background: '#1e293b', border: '1px solid #475569', fontSize: 11 }} formatter={(v: number) => v.toFixed(4)} />
               <Bar dataKey="gap" radius={[3, 3, 0, 0]}>
                 {barData.map((d, i) => <Cell key={i} fill={d.fill} />)}

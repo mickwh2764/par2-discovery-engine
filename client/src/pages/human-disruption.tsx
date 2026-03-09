@@ -375,8 +375,8 @@ export default function HumanDisruption() {
                   <ResponsiveContainer width="100%" height={300}>
                     <BarChart data={comparisonChartData} margin={{ top: 10, right: 30, bottom: 10, left: 10 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                      <XAxis dataKey="study" stroke="#9ca3af" tick={{ fontSize: 12 }} />
-                      <YAxis stroke="#9ca3af" domain={['auto', 'auto']} label={{ value: 'Clock - Target Gap', angle: -90, position: 'insideLeft', fill: '#9ca3af', fontSize: 12 }} />
+                      <XAxis dataKey="study" stroke="#6b7280" tick={{ fontSize: 12 }} />
+                      <YAxis stroke="#6b7280" domain={['auto', 'auto']} label={{ value: 'Clock - Target Gap', angle: -90, position: 'insideLeft', fill: '#6b7280', fontSize: 12 }} />
                       <Tooltip content={<CustomTooltip />} />
                       <ReferenceLine y={0} stroke="#ef4444" strokeDasharray="3 3" />
                       <Bar dataKey="control" name="Control" fill="#60a5fa" radius={[4, 4, 0, 0]} />
@@ -404,8 +404,8 @@ export default function HumanDisruption() {
                   <ResponsiveContainer width="100%" height={200}>
                     <BarChart data={effectSizeData} layout="vertical" margin={{ top: 5, right: 30, bottom: 5, left: 100 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                      <XAxis type="number" stroke="#9ca3af" tickFormatter={(v: number) => `${(v * 100).toFixed(0)}%`} />
-                      <YAxis type="category" dataKey="study" stroke="#9ca3af" tick={{ fontSize: 12 }} width={90} />
+                      <XAxis type="number" stroke="#6b7280" tickFormatter={(v: number) => `${(v * 100).toFixed(0)}%`} />
+                      <YAxis type="category" dataKey="study" stroke="#6b7280" tick={{ fontSize: 12 }} width={90} />
                       <Tooltip content={({ active, payload }: any) => {
                         if (!active || !payload?.length) return null;
                         const d = payload[0].payload;
@@ -580,8 +580,8 @@ export default function HumanDisruption() {
                             <ResponsiveContainer width="100%" height={180}>
                               <LineChart data={getSlopeChartData(pair)} margin={{ top: 10, right: 30, bottom: 10, left: 20 }}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                                <XAxis dataKey="condition" stroke="#9ca3af" tick={{ fontSize: 11 }} />
-                                <YAxis stroke="#9ca3af" domain={['auto', 'auto']} tick={{ fontSize: 11 }} label={{ value: 'Mean |λ|', angle: -90, position: 'insideLeft', fill: '#9ca3af', fontSize: 11 }} />
+                                <XAxis dataKey="condition" stroke="#6b7280" tick={{ fontSize: 11 }} />
+                                <YAxis stroke="#6b7280" domain={['auto', 'auto']} tick={{ fontSize: 11 }} label={{ value: 'Mean |λ|', angle: -90, position: 'insideLeft', fill: '#6b7280', fontSize: 11 }} />
                                 <Tooltip content={<CustomTooltip />} />
                                 <Line type="monotone" dataKey="clockEV" name="Clock Mean |λ|" stroke="#60a5fa" strokeWidth={2} dot={{ r: 5, fill: '#60a5fa' }} />
                                 <Line type="monotone" dataKey="targetEV" name="Target Mean |λ|" stroke="#fbbf24" strokeWidth={2} dot={{ r: 5, fill: '#fbbf24' }} />

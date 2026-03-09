@@ -21,15 +21,19 @@ We submit for your consideration the manuscript entitled ``\textbf{AR(2) Eigenva
 
 \vspace{0.3cm}
 
-\textbf{Summary.} We demonstrate that the eigenvalue modulus of a second-order autoregressive model---a standard tool from econometrics and control theory---measures temporal persistence in gene expression and blindly recovers the known circadian hierarchy (clock $>$ target $>$ other) across 4 species, 12 mouse tissues, and 37 datasets. The method requires no biological labels: two coefficients fitted by ordinary least squares produce a single number per gene that captures how much the gene's past determines its future.
+\textbf{Summary.} We demonstrate that the eigenvalue modulus of a second-order autoregressive model---a standard tool from econometrics and control theory---measures temporal persistence in gene expression and blindly recovers the known circadian hierarchy (clock $>$ target $>$ other) across 4 species, 12 mouse tissues, and 36 tissue- or condition-level time series from 10 independent GEO datasets.
 
 \vspace{0.3cm}
 
-\textbf{Significance.} No single metric has previously captured circadian hierarchy from expression data alone. The eigenvalue modulus connects gene expression to the same mathematical framework used by three Nobel Prize-winning discoveries (Sims 2011 in economics, Hasselmann 2021 in climate science). The eleven-analysis robustness suite, ODE model validation, cross-species replication, and BMAL1-knockout causal validation provide comprehensive evidence that the metric is biologically meaningful.
+\textbf{Significance.} No single metric has previously captured circadian hierarchy from expression data alone. Existing tools (JTK\_CYCLE, cosinor, RAIN) detect \textit{rhythmicity}; our eigenvalue modulus measures \textit{persistence}---a complementary dynamical property. We go beyond standard validation with five lines of evidence: (1) an eleven-analysis robustness suite including BMAL1-knockout causal validation; (2) cross-referencing against 59 literature-validated circadian genes (98.3\% recovery); (3) a Popper-faithful falsification test showing $\sim$180-fold enrichment of BMAL1 coupling over housekeeping controls; (4) three automated bias audits confirming the hierarchy depends on temporal order, not confounds; and (5) extension to non-circadian biology (dendritic cell immune response) validating the principle beyond circadian rhythms. The eigenvalue modulus is independent of mRNA half-life ($\rho = 0.012$ across 22,989 genes), confirming it measures a genuinely novel property.
 
 \vspace{0.3cm}
 
-\textbf{Reproducibility.} All source datasets are publicly available from NCBI GEO. Complete AR(2) results for all genes across all datasets are provided as supplementary files. The PAR(2) Discovery Engine web application provides interactive access to all results.
+\textbf{Reproducibility.} All 10 source datasets are publicly available from NCBI GEO. Complete AR(2) results for all genes are provided as supplementary files. An interactive web application (\url{https://par2-discovery-engine.replit.app}) provides access to all results and allows users to upload their own data.
+
+\vspace{0.3cm}
+
+\textbf{Limitations acknowledged.} We are transparent about the method's boundaries: baboon replication is partial (7/8 directionally correct, 4/8 bootstrap-significant, consistent with the 12-timepoint limitation); the fine-grained nine-category hierarchy beyond the clock--other gap is suggestive rather than definitive; and we recommend $N \geq 16$ timepoints for robust results. Twelve limitations are discussed in the manuscript.
 
 \vspace{0.3cm}
 

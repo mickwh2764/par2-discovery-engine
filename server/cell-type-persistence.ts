@@ -75,6 +75,14 @@ export interface CellTypePersistenceResult {
     quantitativeEvidence: string;
     novelInsight: string;
   }[];
+  multiTissueResults?: Array<{
+    tissue: string;
+    datasetId: string;
+    nGenesTotal: number;
+    nMarkersFound: number;
+    cellTypeRanking: CellTypeRanking[];
+    clockBaseline: number;
+  }>;
 }
 
 const CELL_TYPE_MARKERS: Record<string, { ensemblId: string; cellType: string; category: string }> = {
@@ -356,7 +364,7 @@ function buildBomanFindings(ranking: CellTypeRanking[], driftSummary: CellTypeDr
       quantitativeEvidence: tuft
         ? `DCLK1 at |λ| = ${tuft.meanEigenvalue.toFixed(4)} (unit root boundary) provides a mechanistic explanation: maximally persistent dynamics are inherently resistant to transient perturbations.`
         : 'Tuft data not available.',
-      novelInsight: 'The AR(2) framework predicts chemoresistance from dynamics alone — genes near the unit root will persist through transient perturbations like chemotherapy cycles.',
+      novelInsight: 'The AR(2) framework suggests a possible association between persistence dynamics and chemoresistance — genes near the unit root may persist through transient perturbations like chemotherapy cycles. This hypothesis requires experimental validation.',
     },
     {
       finding: 'Clock genes drive downstream targets (Gearbox Hypothesis)',
@@ -447,7 +455,41 @@ export function runCellTypePersistenceAnalysis(): CellTypePersistenceResult {
   const allMarkerNames = Object.keys(CELL_TYPE_MARKERS);
   const foundNames = hughesResults.map(r => r.gene);
   const missingMarkers = allMarkerNames.filter(m => !foundNames.includes(m));
-  
+
+  const multiTissueDatasets = [
+    { name: 'Kidney', file: 'datasets/GSE54650_Kidney_circadian.csv' },
+    { name: 'Heart', file: 'datasets/GSE54650_Heart_circadian.csv' },
+    { name: 'Lung', file: 'datasets/GSE54650_Lung_circadian.csv' },
+    { name: 'Muscle', file: 'datasets/GSE54650_Muscle_circadian.csv' },
+    { name: 'Liver (2h)', file: 'datasets/GSE54650_Liver_circadian.csv' }
+  ];
+
+  const multiTissueResults: Array<{
+    tissue: string;
+    datasetId: string;
+    nGenesTotal: number;
+    nMarkersFound: number;
+    cellTypeRanking: CellTypeRanking[];
+    clockBaseline: number;
+  }> = [];
+
+  for (const ds of multiTissueDatasets) {
+    if (fs.existsSync(ds.file)) {
+      const data = readDataset(ds.file, 'symbol');
+      const { results } = analyzeDataset(data, 'symbol');
+      const { ranking, clockBaseline } = buildRanking(results);
+      
+      multiTissueResults.push({
+        tissue: ds.name,
+        datasetId: ds.file.split('/').pop()?.replace('.csv', '') || ds.name,
+        nGenesTotal: data.size,
+        nMarkersFound: results.length,
+        cellTypeRanking: ranking,
+        clockBaseline
+      });
+    }
+  }
+
   return {
     dataset: 'Mouse Liver 48h (Hughes et al.)',
     datasetId: 'GSE11923',
@@ -467,5 +509,6 @@ export function runCellTypePersistenceAnalysis(): CellTypePersistenceResult {
     },
     threeLayerHierarchy: threeLayer,
     bomanFindings,
+    multiTissueResults,
   };
 }

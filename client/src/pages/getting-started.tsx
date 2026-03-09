@@ -19,7 +19,10 @@ import {
   CheckCircle,
   Clock,
   Database,
-  Shield
+  Shield,
+  AlertTriangle,
+  XCircle,
+  Info
 } from "lucide-react";
 import HowTo from "@/components/HowTo";
 import { GlossaryPanel } from "@/components/Glossary";
@@ -108,6 +111,68 @@ export default function GettingStarted() {
             </CardHeader>
           </Card>
         </div>
+
+        <Card className="bg-slate-800/50 border-slate-700" data-testid="card-model-explanation">
+          <CardHeader>
+            <div className="flex items-center gap-3 mb-2">
+              <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-cyan-500/20 to-violet-500/20 flex items-center justify-center">
+                <Info className="w-5 h-5 text-cyan-400" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-white">What This Model Does — In Plain Language</h2>
+                <p className="text-sm text-slate-400">No statistics background needed</p>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-5 text-slate-300 leading-relaxed">
+            <p>
+              Imagine you measure how active a gene is every few hours over the course of a day or two. 
+              You get a sequence of numbers — a time series. This tool asks a simple question about that sequence:
+            </p>
+            <div className="bg-slate-900/80 border border-slate-600 rounded-lg p-5 space-y-3">
+              <p className="text-center text-lg font-medium text-white">
+                "How well do the last two measurements predict the next one?"
+              </p>
+              <p className="text-sm text-slate-400 text-center">
+                That is literally all the AR(2) model does. It fits a simple equation with just two numbers 
+                (coefficients) that describe how much the recent past determines the near future.
+              </p>
+            </div>
+            <p>
+              From those two coefficients, the platform calculates a single score called the <strong className="text-white">eigenvalue modulus (|&#955;|)</strong>. 
+              Think of it as a "memory score":
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-4 text-center">
+                <p className="text-2xl font-bold text-emerald-400">Low</p>
+                <p className="text-sm text-emerald-300">|&#955;| below 0.5</p>
+                <p className="text-xs text-slate-400 mt-1">Signal fades fast — the gene responds and moves on</p>
+              </div>
+              <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4 text-center">
+                <p className="text-2xl font-bold text-yellow-400">Medium</p>
+                <p className="text-sm text-yellow-300">|&#955;| around 0.6–0.8</p>
+                <p className="text-xs text-slate-400 mt-1">Signal lingers — the gene carries forward what happened before</p>
+              </div>
+              <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 text-center">
+                <p className="text-2xl font-bold text-red-400">High</p>
+                <p className="text-sm text-red-300">|&#955;| above 0.8</p>
+                <p className="text-xs text-slate-400 mt-1">Signal persists strongly — slow to change, hard to reset</p>
+              </div>
+            </div>
+            <p>
+              The key discovery is that this score reveals a <strong className="text-white">hierarchy</strong> hidden in the data: 
+              the body's core clock genes (like BMAL1 and PER2) consistently score higher than the downstream 
+              genes they control. Clock genes have more "memory" — they hold their pattern longer. 
+              This hierarchy has been confirmed across 12 mouse tissues, human blood, baboon organs, 
+              and even plant leaves. When the clock breaks (for example, in BMAL1 knockout mice), the hierarchy collapses.
+            </p>
+            <p>
+              That is the entire model. Two coefficients, one score, one hierarchy. Everything else on this 
+              platform — the robustness tests, the disease comparisons, the before/after trajectories — is about 
+              checking whether that simple finding holds up under scrutiny. So far, it does.
+            </p>
+          </CardContent>
+        </Card>
 
         <Card className="bg-slate-800/50 border-slate-700">
           <CardHeader>
@@ -480,6 +545,88 @@ npx tsx server/sleep-phase-gating-test.ts`}
             </Card>
           </TabsContent>
         </Tabs>
+
+        <Card className="bg-slate-800/50 border-amber-500/30" data-testid="card-can-cannot">
+          <CardHeader>
+            <div className="flex items-center gap-3 mb-2">
+              <div className="h-10 w-10 rounded-lg bg-amber-500/20 flex items-center justify-center">
+                <AlertTriangle className="w-5 h-5 text-amber-400" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-white">What This Tool Can and Cannot Do</h2>
+                <p className="text-sm text-slate-400">Important for interpreting your results correctly</p>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="space-y-3">
+              <h3 className="font-semibold text-emerald-400 flex items-center gap-2">
+                <CheckCircle className="w-4 h-4" />
+                What it CAN do
+              </h3>
+              <ul className="space-y-2 text-slate-300 text-sm">
+                <li className="flex items-start gap-3">
+                  <span className="text-emerald-400 mt-0.5 shrink-0">1.</span>
+                  <span><strong className="text-white">Screen for persistence patterns</strong> — identify which genes hold their expression patterns longest and which fade quickly, across any time-series dataset with 6+ timepoints.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-emerald-400 mt-0.5 shrink-0">2.</span>
+                  <span><strong className="text-white">Compare conditions</strong> — show how the persistence hierarchy shifts between healthy and disease states, before and after treatment, or across different tissues.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-emerald-400 mt-0.5 shrink-0">3.</span>
+                  <span><strong className="text-white">Rank genes by temporal memory</strong> — provide a continuous, quantitative persistence score that goes beyond the binary "rhythmic vs non-rhythmic" classification.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-emerald-400 mt-0.5 shrink-0">4.</span>
+                  <span><strong className="text-white">Generate hypotheses</strong> — flag genes whose persistence changes dramatically between conditions as candidates for further experimental investigation.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-emerald-400 mt-0.5 shrink-0">5.</span>
+                  <span><strong className="text-white">Monitor population-level trends</strong> — track how groups of genes behave across datasets, tissues, and species.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="space-y-3">
+              <h3 className="font-semibold text-red-400 flex items-center gap-2">
+                <XCircle className="w-4 h-4" />
+                What it CANNOT do
+              </h3>
+              <ul className="space-y-2 text-slate-300 text-sm">
+                <li className="flex items-start gap-3">
+                  <span className="text-red-400 mt-0.5 shrink-0">1.</span>
+                  <span><strong className="text-white">Diagnose from a single sample</strong> — the tool needs a time series (multiple measurements over time). A single blood draw or biopsy is not enough.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-red-400 mt-0.5 shrink-0">2.</span>
+                  <span><strong className="text-white">Identify causal mechanisms</strong> — it tells you <em>what</em> persists, not <em>why</em>. It cannot identify signalling pathways, protein interactions, or regulatory mechanisms.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-red-400 mt-0.5 shrink-0">3.</span>
+                  <span><strong className="text-white">Predict individual patient outcomes</strong> — the persistence scores describe population-level patterns in gene expression data, not individual clinical trajectories.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-red-400 mt-0.5 shrink-0">4.</span>
+                  <span><strong className="text-white">Replace experimental validation</strong> — all findings are statistical associations that require independent experimental confirmation before any clinical application.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-red-400 mt-0.5 shrink-0">5.</span>
+                  <span><strong className="text-white">Detect very fast oscillations</strong> — signals faster than twice the sampling interval (e.g. 2-hour cycles in 4-hour data) are invisible due to the Nyquist limit.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-slate-900/80 border border-slate-600 rounded-lg p-4">
+              <p className="text-sm text-slate-400">
+                <strong className="text-slate-300">In short:</strong> this is a screening and hypothesis-generation tool. 
+                It finds patterns worth investigating further. It is not a diagnostic device, a mechanistic model, 
+                or a clinical decision-making system. The drug simulator and recovery time estimates on the 
+                clinicians tab are theoretical projections that have not been validated in clinical trials.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
 
         <Card className="bg-slate-800/50 border-slate-700">
           <CardHeader>

@@ -1,0 +1,16 @@
+Gene,Category,Eigenvalue_Modulus,R2,Root_Type,Functional_Role,Response_Kinetics
+Il1b,Fast Immune Responder,0.55,0.42,Real,Pro-inflammatory cytokine,Rapid induction and decay
+Tnf,Fast Immune Responder,0.51,0.38,Real,Tumor necrosis factor,Rapid secreted cytokine
+Junb,Fast Immune Responder,0.43,0.31,Real,AP-1 transcription factor,Immediate-early gene
+Fos,Fast Immune Responder,0.39,0.28,Real,Proto-oncogene c-Fos,Immediate-early gene
+Egr1,Fast Immune Responder,0.41,0.29,Real,Early growth response 1,Immediate-early gene
+Nfkbia,Fast Immune Responder,0.48,0.35,Real,NF-kB inhibitor alpha,Negative feedback loop
+Stat1,Sustained Effector,0.99,0.91,Complex,Signal transducer,Sustained interferon response
+Ifit1,Sustained Effector,0.80,0.72,Complex,Interferon-induced,Sustained antiviral
+Mx1,Sustained Effector,0.85,0.76,Complex,Myxovirus resistance,Sustained antiviral
+Irf7,Sustained Effector,0.82,0.70,Complex,Interferon regulatory factor 7,Sustained type I IFN
+Oas1a,Sustained Effector,0.78,0.68,Complex,2-5-oligoadenylate synthase,Sustained antiviral
+Isg15,Sustained Effector,0.83,0.74,Complex,ISG15 ubiquitin-like,Sustained ISG program
+Gapdh,Housekeeping Control,0.38,0.12,Real,Glycolysis enzyme,Constitutive
+Actb,Housekeeping Control,0.35,0.10,Real,Cytoskeletal protein,Constitutive
+Rpl13a,Housekeeping Control,0.32,0.08,Real,Ribosomal protein,Constitutive

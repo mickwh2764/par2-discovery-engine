@@ -265,11 +265,11 @@ export default function ProteomeValidation() {
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={hierarchyBarData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                  <XAxis dataKey="category" stroke="#94a3b8" />
-                  <YAxis stroke="#94a3b8" label={{ value: "Mean |λ|", angle: -90, position: "insideLeft", fill: "#94a3b8" }} />
+                  <XAxis dataKey="category" stroke="#64748b" />
+                  <YAxis stroke="#64748b" label={{ value: "Mean |λ|", angle: -90, position: "insideLeft", fill: "#64748b" }} />
                   <Tooltip
                     contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #475569", borderRadius: "8px" }}
-                    labelStyle={{ color: "#e2e8f0" }}
+                    labelStyle={{ color: "#334155" }}
                     formatter={(value: number, name: string) => [value.toFixed(4), name]}
                   />
                   <Bar dataKey="mean" name="Mean |λ|" radius={[6, 6, 0, 0]}>
@@ -345,13 +345,13 @@ export default function ProteomeValidation() {
                   <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
                   <XAxis
                     dataKey="gene"
-                    stroke="#94a3b8"
+                    stroke="#64748b"
                     angle={-45}
                     textAnchor="end"
                     height={80}
                     fontSize={10}
                   />
-                  <YAxis stroke="#94a3b8" label={{ value: "|λ|", angle: -90, position: "insideLeft", fill: "#94a3b8" }} />
+                  <YAxis stroke="#64748b" label={{ value: "|λ|", angle: -90, position: "insideLeft", fill: "#64748b" }} />
                   <Tooltip
                     contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #475569", borderRadius: "8px" }}
                     formatter={(value: number, _: string, props: any) => [
@@ -393,16 +393,16 @@ export default function ProteomeValidation() {
                     <XAxis
                       dataKey="mrnaEigenvalue"
                       name="mRNA |λ|"
-                      stroke="#94a3b8"
-                      label={{ value: "mRNA Eigenvalue |λ|", position: "insideBottom", offset: -10, fill: "#94a3b8" }}
+                      stroke="#64748b"
+                      label={{ value: "mRNA Eigenvalue |λ|", position: "insideBottom", offset: -10, fill: "#64748b" }}
                       type="number"
                       domain={[0, 'auto']}
                     />
                     <YAxis
                       dataKey="proteinEigenvalue"
                       name="Protein |λ|"
-                      stroke="#94a3b8"
-                      label={{ value: "Protein |λ|", angle: -90, position: "insideLeft", fill: "#94a3b8" }}
+                      stroke="#64748b"
+                      label={{ value: "Protein |λ|", angle: -90, position: "insideLeft", fill: "#64748b" }}
                       type="number"
                       domain={[0, 'auto']}
                     />

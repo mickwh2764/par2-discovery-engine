@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import DownloadResultsButton, { downloadAsCSV } from "@/components/DownloadResultsButton";
 import PaperCrossLinks from "@/components/PaperCrossLinks";
+import GeneTooltip from "@/components/GeneTooltip";
 
 interface ValidationGene {
   gene: string;
@@ -65,8 +66,21 @@ interface ValidationResponse {
 }
 
 const DATASETS = [
-  { value: 'GSE54650_Liver_circadian.csv', label: 'Zhang 2014 - Liver (2h/12pt)' },
-  { value: 'GSE11923_Liver_1h_48h_genes.csv', label: 'Hughes 2009 - Liver (1h/48pt)' },
+  { value: 'GSE54650_Liver_circadian.csv', label: 'Zhang 2014 - Liver (2h/12pt)', category: 'Circadian' },
+  { value: 'GSE11923_Liver_1h_48h_genes.csv', label: 'Hughes 2009 - Liver (1h/48pt)', category: 'Circadian' },
+  { value: 'GSE54650_Heart_circadian.csv', label: 'Zhang 2014 - Heart', category: 'Circadian' },
+  { value: 'GSE54650_Kidney_circadian.csv', label: 'Zhang 2014 - Kidney', category: 'Circadian' },
+  { value: 'GSE54650_Lung_circadian.csv', label: 'Zhang 2014 - Lung', category: 'Circadian' },
+  { value: 'GSE54650_Hypothalamus_circadian.csv', label: 'Zhang 2014 - Hypothalamus', category: 'Circadian' },
+  { value: 'GSE54650_Brown_Fat_circadian.csv', label: 'Zhang 2014 - Brown Fat', category: 'Circadian' },
+  { value: 'Amit2009_DC_LPS_TimeCourse.csv', label: 'Amit 2009 - DC LPS (Immune)', category: 'Immune' },
+  { value: 'Rabani2014_DendriticCell_LPS_Full.csv', label: 'Rabani 2014 - DC LPS (Immune)', category: 'Immune' },
+  { value: 'Rabani2014_DendriticCell_Mock_TimeSeries.csv', label: 'Rabani 2014 - DC Mock (Immune)', category: 'Immune' },
+  { value: 'Zaas2009_InfluenzaH3N2_Human.csv', label: 'Zaas 2009 - Influenza H3N2 (Human)', category: 'Human Disease' },
+  { value: 'GSE221103_Neuroblastoma_MYC_ON.csv', label: 'MYC-ON Neuroblastoma (Cancer)', category: 'Disease' },
+  { value: 'GSE221103_Neuroblastoma_MYC_OFF.csv', label: 'MYC-OFF Neuroblastoma (Recovery)', category: 'Disease' },
+  { value: 'GSE157357_Organoid_WT-WT_circadian.csv', label: 'Organoid WT (GSE157357)', category: 'Disease' },
+  { value: 'GSE157357_Organoid_ApcKO-WT_circadian.csv', label: 'Organoid ApcKO (GSE157357)', category: 'Disease' },
 ];
 
 function FunnelStep({ number, label, value, color, width, detail }: {
@@ -117,6 +131,17 @@ function PathwayNode({ pathway, confirmed, total, rate, isSelected, onClick }: {
   );
 }
 
+interface MultiDatasetResult {
+  totalGenes: number;
+  totalRecovered: number;
+  recoveryRate: number;
+  datasetsScanned: number;
+  datasetSummaries: { name: string; category: string; totalGenes: number; genesRecovered: number }[];
+  geneEvidence: Record<string, { pathway: string; datasets: { name: string; category: string; eigenvalue: number; percentile: number; r2: number }[] }>;
+  pathwaySummary: Record<string, { total: number; recovered: number; genes: string[] }>;
+  missedGenes: { gene: string; pathway: string; reason: string }[];
+}
+
 export default function LiteratureValidationPage() {
   const [dataset, setDataset] = useState(DATASETS[0].value);
   const [searchTerm, setSearchTerm] = useState('');
@@ -124,6 +149,18 @@ export default function LiteratureValidationPage() {
   const [selectedPathway, setSelectedPathway] = useState<string | null>(null);
   const [showAllFalsification, setShowAllFalsification] = useState(false);
   const [expandedGene, setExpandedGene] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<'single' | 'multi'>('single');
+
+  const { data: multiData, isLoading: multiLoading } = useQuery<MultiDatasetResult>({
+    queryKey: ['/api/literature-validation/multi-dataset'],
+    queryFn: async () => {
+      const res = await fetch('/api/literature-validation/multi-dataset');
+      if (!res.ok) throw new Error('Multi-dataset analysis failed');
+      return res.json();
+    },
+    staleTime: 600000,
+    enabled: viewMode === 'multi',
+  });
 
   const { data, isLoading, error } = useQuery<ValidationResponse>({
     queryKey: ['/api/literature-validation/analyze', dataset],
@@ -140,7 +177,7 @@ export default function LiteratureValidationPage() {
     return data.validationMap
       .filter(g => {
         if (filterType !== 'all' && g.convergenceType !== filterType) return false;
-        if (selectedPathway && g.pathway !== selectedPathway && g.pathway !== 'Novel Discovery') return false;
+        if (selectedPathway && g.pathway !== selectedPathway && g.pathway !== 'Novel Candidate') return false;
         if (searchTerm && !g.gene.toLowerCase().includes(searchTerm.toLowerCase()) &&
             !g.pathway.toLowerCase().includes(searchTerm.toLowerCase()) &&
             !g.literatureCitation.toLowerCase().includes(searchTerm.toLowerCase())) return false;
@@ -153,7 +190,7 @@ export default function LiteratureValidationPage() {
     const cs = data.convergenceSummary;
     return [
       { name: 'Confirmed by PAR(2)', value: cs.confirmedByPAR2, fill: '#22c55e' },
-      { name: 'Literature Only', value: cs.literatureOnlyMissed, fill: '#94a3b8' },
+      { name: 'Literature Only', value: cs.literatureOnlyMissed, fill: '#64748b' },
     ];
   }, [data]);
 
@@ -233,7 +270,135 @@ export default function LiteratureValidationPage() {
 
         <PaperCrossLinks currentPage="/literature-validation" />
 
-        {isLoading && (
+        <div className="flex gap-2 mb-6" data-testid="view-mode-toggle">
+          <Button
+            variant={viewMode === 'single' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setViewMode('single')}
+            className={viewMode === 'single' ? 'bg-emerald-600 hover:bg-emerald-500' : 'border-slate-700'}
+            data-testid="button-single-dataset"
+          >
+            <Microscope className="h-4 w-4 mr-1" /> Single Dataset
+          </Button>
+          <Button
+            variant={viewMode === 'multi' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setViewMode('multi')}
+            className={viewMode === 'multi' ? 'bg-cyan-600 hover:bg-cyan-500' : 'border-slate-700'}
+            data-testid="button-multi-dataset"
+          >
+            <Target className="h-4 w-4 mr-1" /> Multi-Dataset Scan (21 datasets)
+          </Button>
+        </div>
+
+        {viewMode === 'multi' && (
+          <>
+            {multiLoading && (
+              <div className="flex flex-col items-center justify-center py-32 gap-4" data-testid="status-multi-loading">
+                <Loader2 className="w-12 h-12 animate-spin text-cyan-400" />
+                <div className="text-center">
+                  <p className="text-slate-300 font-semibold">Scanning 21 datasets for literature gene recovery...</p>
+                  <p className="text-slate-400 text-sm mt-1">Circadian tissues, immune, disease, and proteome datasets</p>
+                </div>
+              </div>
+            )}
+            {multiData && (
+              <div className="space-y-6 mb-8">
+                <Card className="bg-gradient-to-br from-cyan-900/30 to-slate-900/80 border-cyan-700/50">
+                  <CardHeader>
+                    <CardTitle className="text-xl flex items-center gap-2" data-testid="text-multi-title">
+                      <Target className="h-5 w-5 text-cyan-400" />
+                      Multi-Dataset Literature Gene Recovery
+                    </CardTitle>
+                    <CardDescription className="text-slate-400">
+                      Scanning {multiData.datasetsScanned} datasets across circadian, immune, disease, and proteome contexts
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                      <div className="text-center p-4 rounded-lg bg-slate-800/60 border border-slate-700">
+                        <div className="text-3xl font-bold text-cyan-400" data-testid="text-multi-recovery-rate">{multiData.recoveryRate}%</div>
+                        <div className="text-xs text-slate-400 mt-1">Overall Recovery</div>
+                      </div>
+                      <div className="text-center p-4 rounded-lg bg-slate-800/60 border border-slate-700">
+                        <div className="text-3xl font-bold text-emerald-400" data-testid="text-multi-recovered">{multiData.totalRecovered}/{multiData.totalGenes}</div>
+                        <div className="text-xs text-slate-400 mt-1">Genes Recovered</div>
+                      </div>
+                      <div className="text-center p-4 rounded-lg bg-slate-800/60 border border-slate-700">
+                        <div className="text-3xl font-bold text-amber-400" data-testid="text-multi-datasets">{multiData.datasetsScanned}</div>
+                        <div className="text-xs text-slate-400 mt-1">Datasets Scanned</div>
+                      </div>
+                      <div className="text-center p-4 rounded-lg bg-slate-800/60 border border-slate-700">
+                        <div className="text-3xl font-bold text-red-400" data-testid="text-multi-missed">{multiData.missedGenes.length}</div>
+                        <div className="text-xs text-slate-400 mt-1">Genes Missed</div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      <div>
+                        <h4 className="text-sm font-semibold text-slate-300 mb-3">Pathway Recovery</h4>
+                        <div className="space-y-2">
+                          {Object.entries(multiData.pathwaySummary)
+                            .sort(([,a], [,b]) => (b.recovered/b.total) - (a.recovered/a.total))
+                            .map(([pathway, stats]) => (
+                            <div key={pathway} className="flex items-center gap-2" data-testid={`pathway-${pathway}`}>
+                              <div className="w-28 text-xs text-slate-400 truncate">{pathway}</div>
+                              <div className="flex-1 h-5 bg-slate-800 rounded-full overflow-hidden">
+                                <div
+                                  className="h-full rounded-full transition-all"
+                                  style={{
+                                    width: `${(stats.recovered / stats.total) * 100}%`,
+                                    backgroundColor: stats.recovered === stats.total ? '#22c55e' : stats.recovered > 0 ? '#f59e0b' : '#ef4444'
+                                  }}
+                                />
+                              </div>
+                              <div className="text-xs text-slate-300 w-14 text-right">{stats.recovered}/{stats.total}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div>
+                        <h4 className="text-sm font-semibold text-slate-300 mb-3">Dataset Coverage</h4>
+                        <div className="space-y-1 max-h-64 overflow-y-auto">
+                          {multiData.datasetSummaries.map((ds, i) => (
+                            <div key={i} className="flex items-center gap-2 text-xs p-1.5 rounded hover:bg-slate-800/50" data-testid={`dataset-summary-${i}`}>
+                              <Badge variant="outline" className={`text-[10px] px-1.5 ${
+                                ds.category === 'Circadian' ? 'border-emerald-600 text-emerald-400' :
+                                ds.category === 'Immune' ? 'border-amber-600 text-amber-400' :
+                                ds.category === 'Disease' ? 'border-red-600 text-red-400' :
+                                'border-purple-600 text-purple-400'
+                              }`}>{ds.category}</Badge>
+                              <span className="text-slate-300 flex-1 truncate">{ds.name}</span>
+                              <span className="text-slate-400">{ds.genesRecovered} genes</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {multiData.missedGenes.length > 0 && (
+                      <div className="mt-6 p-4 rounded-lg bg-slate-800/40 border border-slate-700/50">
+                        <h4 className="text-sm font-semibold text-slate-300 mb-2">Missed Genes (with explanations)</h4>
+                        <div className="space-y-1">
+                          {multiData.missedGenes.map((g, i) => (
+                            <div key={i} className="flex items-center gap-2 text-xs" data-testid={`missed-gene-${g.gene}`}>
+                              <Badge variant="outline" className="border-red-700 text-red-400 text-[10px]">{g.pathway}</Badge>
+                              <GeneTooltip gene={g.gene}><span className="text-white font-medium">{g.gene}</span></GeneTooltip>
+                              <span className="text-slate-400">{g.reason}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+          </>
+        )}
+
+        {viewMode === 'single' && isLoading && (
           <div className="flex flex-col items-center justify-center py-32 gap-4" data-testid="status-loading">
             <Loader2 className="w-12 h-12 animate-spin text-emerald-400" />
             <div className="text-center">
@@ -243,7 +408,7 @@ export default function LiteratureValidationPage() {
           </div>
         )}
 
-        {error && (
+        {viewMode === 'single' && error && (
           <Card className="bg-red-900/30 border-red-700">
             <CardContent className="p-6">
               <p className="text-red-400" data-testid="status-error">Analysis failed: {(error as Error).message}</p>
@@ -251,7 +416,7 @@ export default function LiteratureValidationPage() {
           </Card>
         )}
 
-        {data && (
+        {viewMode === 'single' && data && (
           <>
             {/* ========== SECTION 1: THE STORY - Discovery Funnel ========== */}
             <Card className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border-slate-700 mb-8 overflow-hidden">
@@ -427,8 +592,8 @@ export default function LiteratureValidationPage() {
                   <ResponsiveContainer width="100%" height={Math.min(400, falsificationChartData.length * 34 + 40)}>
                     <BarChart data={falsificationChartData} layout="vertical" margin={{ left: 10 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                      <XAxis type="number" stroke="#94a3b8" tickFormatter={v => `${v}%`} fontSize={11} />
-                      <YAxis type="category" dataKey="gene" width={70} stroke="#94a3b8" tick={{ fontSize: 11 }} />
+                      <XAxis type="number" stroke="#64748b" tickFormatter={v => `${v}%`} fontSize={11} />
+                      <YAxis type="category" dataKey="gene" width={70} stroke="#64748b" tick={{ fontSize: 11 }} />
                       <Tooltip
                         contentStyle={{ backgroundColor: '#0f172a', border: '1px solid #334155', borderRadius: '8px', fontSize: '12px' }}
                         formatter={(value: number, name: string) => [`${value}%`, '% Genome Significant']}
@@ -473,7 +638,7 @@ export default function LiteratureValidationPage() {
                       <tbody>
                         {data.falsificationTests.map((f, i) => (
                           <tr key={i} className={`border-b border-slate-800 ${f.predictorType === 'clock' ? 'bg-emerald-900/20' : ''}`}>
-                            <td className="py-2 px-3 font-mono font-semibold">{f.predictorGene}</td>
+                            <td className="py-2 px-3 font-mono font-semibold"><GeneTooltip gene={f.predictorGene}>{f.predictorGene}</GeneTooltip></td>
                             <td className="py-2 px-3">
                               <Badge variant="outline" className={
                                 f.predictorType === 'clock' ? 'border-emerald-500 text-emerald-400' :
@@ -538,7 +703,7 @@ export default function LiteratureValidationPage() {
                           <div key={i} className={`flex items-center gap-3 p-2 rounded text-sm ${
                             g.par2Significant ? 'bg-emerald-900/20' : 'bg-slate-800/50'
                           }`}>
-                            <span className="font-mono font-semibold w-16 text-white">{g.gene}</span>
+                            <GeneTooltip gene={g.gene}><span className="font-mono font-semibold w-16 text-white">{g.gene}</span></GeneTooltip>
                             {g.par2Significant ? (
                               <CheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0" />
                             ) : (
@@ -568,8 +733,8 @@ export default function LiteratureValidationPage() {
                         margin={{ left: 10 }}
                       >
                         <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                        <XAxis type="number" stroke="#94a3b8" fontSize={11} />
-                        <YAxis type="category" dataKey="pathway" width={120} stroke="#94a3b8" tick={{ fontSize: 10 }} />
+                        <XAxis type="number" stroke="#64748b" fontSize={11} />
+                        <YAxis type="category" dataKey="pathway" width={120} stroke="#64748b" tick={{ fontSize: 10 }} />
                         <Tooltip
                           contentStyle={{ backgroundColor: '#0f172a', border: '1px solid #334155', borderRadius: '8px', fontSize: '12px' }}
                           formatter={(value: number, name: string) => [value, name === 'confirmed' ? 'PAR(2) Confirmed' : 'Literature Only']}
@@ -775,7 +940,7 @@ export default function LiteratureValidationPage() {
                         data-testid={`gene-row-${g.gene}`}
                       >
                         <div className="flex items-center gap-3">
-                          <span className="font-mono font-bold text-white w-20 flex-shrink-0">{g.gene}</span>
+                          <GeneTooltip gene={g.gene}><span className="font-mono font-bold text-white w-20 flex-shrink-0">{g.gene}</span></GeneTooltip>
                           <div className="flex-shrink-0">
                             {g.convergenceType === 'confirmed' && (
                               <Badge className="bg-emerald-600/30 text-emerald-400 text-[10px]">

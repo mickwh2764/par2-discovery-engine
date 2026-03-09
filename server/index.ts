@@ -67,9 +67,42 @@ app.use((req, res, next) => {
   next();
 });
 
+let serverReady = false;
+
+app.use((req, res, next) => {
+  if (!serverReady) {
+    if (req.path === "/" || req.path === "/__health") {
+      res.status(200).send("<!DOCTYPE html><html><body><p>Starting...</p></body></html>");
+      return;
+    }
+    res.status(503).json({ message: "Server starting up..." });
+    return;
+  }
+  next();
+});
+
+const port = parseInt(process.env.PORT || "5000", 10);
+httpServer.listen(
+  {
+    port,
+    host: "0.0.0.0",
+    reusePort: true,
+  },
+  () => {
+    log(`serving on port ${port}`);
+  },
+);
+
 (async () => {
-  await setupAuth(app);
-  registerAuthRoutes(app);
+  const authPromise = (async () => {
+    try {
+      await setupAuth(app);
+      registerAuthRoutes(app);
+      log('auth setup complete');
+    } catch (err: any) {
+      console.warn('[express] Auth setup failed (will retry later):', err.message || err);
+    }
+  })();
 
   await registerRoutes(httpServer, app);
 
@@ -80,9 +113,6 @@ app.use((req, res, next) => {
     res.status(status).json({ message });
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
   if (process.env.NODE_ENV === "production") {
     serveStatic(app);
   } else {
@@ -90,26 +120,13 @@ app.use((req, res, next) => {
     await setupVite(httpServer, app);
   }
 
-  // ALWAYS serve the app on the port specified in the environment variable PORT
-  // Other ports are firewalled. Default to 5000 if not specified.
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = parseInt(process.env.PORT || "5000", 10);
-  httpServer.listen(
-    {
-      port,
-      host: "0.0.0.0",
-      reusePort: true,
-    },
-    () => {
-      log(`serving on port ${port}`);
-      
-      if (process.env.NODE_ENV === 'production') {
-        setInterval(() => {
-          const mem = process.memoryUsage();
-          console.log(`[keepalive] heap: ${Math.round(mem.heapUsed / 1024 / 1024)}MB / ${Math.round(mem.heapTotal / 1024 / 1024)}MB, rss: ${Math.round(mem.rss / 1024 / 1024)}MB`);
-        }, 30000);
-      }
-    },
-  );
+  serverReady = true;
+  log("all routes registered, server fully ready");
+
+  if (process.env.NODE_ENV === 'production') {
+    setInterval(() => {
+      const mem = process.memoryUsage();
+      console.log(`[keepalive] heap: ${Math.round(mem.heapUsed / 1024 / 1024)}MB / ${Math.round(mem.heapTotal / 1024 / 1024)}MB, rss: ${Math.round(mem.rss / 1024 / 1024)}MB`);
+    }, 30000);
+  }
 })();

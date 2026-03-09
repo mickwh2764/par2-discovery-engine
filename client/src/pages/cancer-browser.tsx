@@ -17,6 +17,7 @@ import HowTo from "@/components/HowTo";
 import PaperCrossLinks from "@/components/PaperCrossLinks";
 import InsightCallout from "@/components/InsightCallout";
 import ViewInRootSpace from "@/components/ViewInRootSpace";
+import GeneTooltip from "@/components/GeneTooltip";
 
 interface GeneEigenvalue {
   gene: string;
@@ -261,8 +262,8 @@ export default function CancerBrowser() {
                   <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
                     <BarChart data={comparisonData} layout="vertical">
                       <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                      <XAxis type="number" domain={[-0.2, 0.5]} stroke="#94a3b8" />
-                      <YAxis type="category" dataKey="name" width={150} stroke="#94a3b8" tick={{ fontSize: 11 }} />
+                      <XAxis type="number" domain={[-0.2, 0.5]} stroke="#64748b" />
+                      <YAxis type="category" dataKey="name" width={150} stroke="#64748b" tick={{ fontSize: 11 }} />
                       <Tooltip 
                         contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569' }}
                         formatter={(value: number) => [value.toFixed(3), 'Gap']}
@@ -302,16 +303,16 @@ export default function CancerBrowser() {
                         dataKey="target" 
                         name="Target |λ|" 
                         domain={[0.2, 0.8]} 
-                        stroke="#94a3b8"
-                        label={{ value: 'Target |λ|', position: 'bottom', fill: '#94a3b8' }}
+                        stroke="#64748b"
+                        label={{ value: 'Target |λ|', position: 'bottom', fill: '#64748b' }}
                       />
                       <YAxis 
                         type="number" 
                         dataKey="clock" 
                         name="Clock |λ|" 
                         domain={[0.4, 0.9]} 
-                        stroke="#94a3b8"
-                        label={{ value: 'Clock |λ|', angle: -90, position: 'insideLeft', fill: '#94a3b8' }}
+                        stroke="#64748b"
+                        label={{ value: 'Clock |λ|', angle: -90, position: 'insideLeft', fill: '#64748b' }}
                       />
                       <Tooltip 
                         contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569' }}
@@ -320,9 +321,9 @@ export default function CancerBrowser() {
                       />
                       <ReferenceLine 
                         segment={[{ x: 0.2, y: 0.2 }, { x: 0.8, y: 0.8 }]} 
-                        stroke="#94a3b8" 
+                        stroke="#64748b" 
                         strokeDasharray="5 5"
-                        label={{ value: 'y=x', fill: '#94a3b8', fontSize: 10 }}
+                        label={{ value: 'y=x', fill: '#64748b', fontSize: 10 }}
                       />
                       <Scatter data={scatterData} shape="circle">
                         {scatterData.map((entry, index) => (
@@ -527,7 +528,7 @@ export default function CancerBrowser() {
                                 <div className="text-cyan-400 font-medium mb-2">Clock Genes</div>
                                 {result.clockGenes.map((g, i) => (
                                   <div key={i} className="flex justify-between items-center py-1 border-b border-slate-700/50">
-                                    <span>{g.gene}</span>
+                                    <span><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></span>
                                     <div className="flex items-center gap-2">
                                       <span className="text-slate-400">D: {g.displayedValue.toFixed(2)}</span>
                                       <span className={g.verified ? 'text-green-400' : 'text-yellow-400'}>
@@ -542,7 +543,7 @@ export default function CancerBrowser() {
                                 <div className="text-pink-400 font-medium mb-2">Target Genes</div>
                                 {result.targetGenes.map((g, i) => (
                                   <div key={i} className="flex justify-between items-center py-1 border-b border-slate-700/50">
-                                    <span>{g.gene}</span>
+                                    <span><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></span>
                                     <div className="flex items-center gap-2">
                                       <span className="text-slate-400">D: {g.displayedValue.toFixed(2)}</span>
                                       <span className={g.verified ? 'text-green-400' : 'text-yellow-400'}>
@@ -604,7 +605,7 @@ export default function CancerBrowser() {
                   <div className="space-y-2">
                     {selectedCohort.clockEigenvalues.map((g, i) => (
                       <div key={i} className="flex justify-between items-center">
-                        <span className="text-cyan-400">{g.gene}</span>
+                        <span className="text-cyan-400"><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></span>
                         <span className="font-mono">{g.value.toFixed(3)}</span>
                       </div>
                     ))}
@@ -615,7 +616,7 @@ export default function CancerBrowser() {
                   <div className="space-y-2">
                     {selectedCohort.targetEigenvalues.map((g, i) => (
                       <div key={i} className="flex justify-between items-center">
-                        <span className="text-pink-400">{g.gene}</span>
+                        <span className="text-pink-400"><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></span>
                         <span className="font-mono">{g.value.toFixed(3)}</span>
                       </div>
                     ))}

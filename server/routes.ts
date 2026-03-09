@@ -38,6 +38,7 @@ import { runLiteratureValidation, LITERATURE_CIRCADIAN_GENES } from "./literatur
 import { runPhaseVulnerabilityAnalysis, type PhaseVulnerabilityResult } from "./phase-vulnerability";
 import { runBaselineBenchmark } from "./baseline-comparison";
 import { runDrmrefValidation } from "./drmref-validation";
+import { runMinimalABM } from "./abm-minimal-crypt";
 import { 
   runMasterAuditor, 
   runSpatialSymmetryTest,
@@ -1100,6 +1101,134 @@ export async function registerRoutes(
     }
   });
 
+  app.get("/api/boman-simulation/generate", async (req, res) => {
+    try {
+      const { generateAllFiles } = await import('./boman-simulation');
+      const files = generateAllFiles();
+      res.json({
+        files: [
+          { name: 'boman_simulation_timeseries.csv', size: files.timeseriesCSV.length, description: 'Boman-rule crypt simulation time series (20 runs × 200 timesteps × 3 replicates)' },
+          { name: 'boman_parameter_sweep.csv', size: files.sweepCSV.length, description: 'Parameter sweep with AR(2) fits across 648 parameter combinations' },
+          { name: 'fibonacci_consistent_region.csv', size: files.fibRegionCSV.length, description: 'Fibonacci-consistent region in (φ₁,φ₂) coefficient space' },
+          { name: 'ar2_coefficient_space.csv', size: files.coefficientSpaceCSV.length, description: 'Per-compartment AR(2) coefficients with eigenvalue decomposition' },
+        ]
+      });
+    } catch (error) {
+      logger.error('Boman simulation generation error', { error: String(error) });
+      res.status(500).json({ error: 'Simulation failed', details: String(error) });
+    }
+  });
+
+  app.get("/api/boman-simulation/download/:fileType", async (req, res) => {
+    try {
+      const { generateAllFiles } = await import('./boman-simulation');
+      const files = generateAllFiles();
+      const fileType = req.params.fileType;
+
+      let csv: string;
+      let filename: string;
+
+      switch (fileType) {
+        case 'timeseries':
+          csv = files.timeseriesCSV;
+          filename = 'boman_simulation_timeseries.csv';
+          break;
+        case 'sweep':
+          csv = files.sweepCSV;
+          filename = 'boman_parameter_sweep.csv';
+          break;
+        case 'fibonacci-region':
+          csv = files.fibRegionCSV;
+          filename = 'fibonacci_consistent_region.csv';
+          break;
+        case 'coefficient-space':
+          csv = files.coefficientSpaceCSV;
+          filename = 'ar2_coefficient_space.csv';
+          break;
+        case 'all':
+          const archiver = (await import('archiver')).default;
+          const archive = archiver('zip', { zlib: { level: 9 } });
+          res.setHeader('Content-Type', 'application/zip');
+          res.setHeader('Content-Disposition', 'attachment; filename="boman_ar2_simulation_package.zip"');
+          archive.pipe(res);
+          archive.append(files.timeseriesCSV, { name: 'boman_simulation_timeseries.csv' });
+          archive.append(files.sweepCSV, { name: 'boman_parameter_sweep.csv' });
+          archive.append(files.fibRegionCSV, { name: 'fibonacci_consistent_region.csv' });
+          archive.append(files.coefficientSpaceCSV, { name: 'ar2_coefficient_space.csv' });
+
+          const readme = `# Boman-Style Crypt Simulation → AR(2) Bridge Files
+Generated: ${new Date().toISOString()}
+
+## File Descriptions
+
+### 1. boman_simulation_timeseries.csv
+Synthetic time-series from a Boman-rule crypt simulation.
+- Columns: simulation_id, time, C_cells (stem), P_cells (proliferating), D_cells (differentiated), Lgr5_like, Wnt_like, Bmal1_like, mutation_load, condition
+- 20 representative simulation runs × 200 timesteps × 3 replicates
+- Conditions: normal, normal_no_circadian, FAP-like, adenoma-like, high_wnt, low_wnt
+
+### 2. boman_parameter_sweep.csv
+Parameter sweep across 648 combinations with AR(2) fitted to each.
+- Columns: run_id, niche_size, maturation_delay, division_limit, ..., phi1_C, phi2_C, lambda_modulus_C, ..., pattern_class, fib_distance, condition
+- AR(2) fits for all 3 compartments (C=stem, P=proliferating, D=differentiated)
+- Pattern classification: normal, Fibonacci-consistent, Lucas-like, FAP-like, adenoma-like
+
+### 3. fibonacci_consistent_region.csv
+Parameterized definition of the "Fibonacci-consistent region" in (φ₁,φ₂) space.
+- Columns: phi1, phi2, region_label, distance_to_phi_family, lambda_modulus, root_type, eigenperiod, is_stable
+- Region labels: fib_core (|ratio−φ|<0.05), fib_consistent (<0.15), fib_adjacent (<0.30)
+- Covers the stable triangle where |λ|<1
+
+### 4. ar2_coefficient_space.csv
+Per-compartment AR(2) coefficients with full eigenvalue decomposition.
+- Columns: gene, dataset, phi1, phi2, root1_real, root1_imag, root2_real, root2_imag, lambda_modulus, root_type, category, fib_distance, pattern_class
+- Links simulation compartments to coefficient space for direct comparison with empirical gene data
+
+## Simulation Model
+The Boman-style crypt model implements:
+- Stem cell niche with size-dependent feedback (carrying capacity)
+- Asymmetric vs symmetric division with configurable probability
+- Transit-amplifying cell pool with maturation delay
+- Differentiated cell compartment with shedding/extrusion
+- Fibonacci-like recursion: P(t+1) depends on C(t) AND C(t-2) via maturation delay
+- Optional circadian gating (BMAL1-like 24h modulation of division rate)
+- Wnt signaling strength affecting niche regulation
+- Stochastic noise (Gaussian) on all compartments
+- Mutation accumulation for disease conditions
+
+## Key Parameters
+- k1: Stem cell division rate
+- k2: TA cell division/maturation rate
+- k3: Fibonacci recursion strength (contribution of C(t-2) to P(t+1))
+- k4: TA cell loss rate
+- k5: Differentiated cell additional loss rate
+
+## Fibonacci Connection
+The "Fibonacci-consistent region" is defined by |φ₁/φ₂| ≈ φ (golden ratio ≈ 1.618).
+This ratio emerges when the maturation delay creates a recursion where:
+  x(t) ≈ a·x(t-1) + b·x(t-2)
+with a/b ≈ φ, which is the hallmark of Fibonacci-family recurrences.
+
+## Citation
+Generated by PAR(2) Discovery Engine Boman Simulation Module.
+For use with: "Fibonacci-like temporal dynamics in intestinal crypt renewal"
+`;
+          archive.append(readme, { name: 'README.md' });
+          await archive.finalize();
+          return;
+        default:
+          return res.status(400).json({ error: 'Invalid file type. Use: timeseries, sweep, fibonacci-region, coefficient-space, or all' });
+      }
+
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.send(csv);
+    } catch (error) {
+      logger.error('Boman simulation download error', { error: String(error) });
+      res.status(500).json({ error: 'Download failed', details: String(error) });
+    }
+  });
+
   app.get("/api/drug-durability/drmref-validation", async (req, res) => {
     try {
       const result = runDrmrefValidation();
@@ -1145,6 +1274,16 @@ export async function registerRoutes(
     }
     clearAttempts(req);
     res.json({ valid });
+  });
+
+  app.get("/api/abm-minimal/run", (req, res) => {
+    try {
+      const result = runMinimalABM();
+      res.json(result);
+    } catch (error) {
+      logger.error('ABM simulation error', { error: String(error) });
+      res.status(500).json({ error: "ABM simulation failed", details: String(error) });
+    }
   });
 
   // Validation statistics - 360,000 stress test and negative control results
@@ -4086,6 +4225,32 @@ export async function registerRoutes(
           };
         }
         
+        // GSE179027 Mouse Intestinal Enteroid (Rosselot et al. 2022, subseries of GSE179028)
+        if (filename === 'GSE179027_MouseEnteroid_circadian.csv') {
+          return {
+            id: filename.replace('.csv', ''),
+            filename,
+            study: 'GSE179027',
+            type: 'enteroid',
+            tissue: 'Mouse Intestinal Enteroid',
+            condition: 'Wild-type',
+            description: 'Mouse Intestinal Enteroid - 24 Timepoints, 2h Intervals (Rosselot 2022, GSE179028)'
+          };
+        }
+
+        // GSE161566 Human Intestinal Enteroid (subseries of GSE179028)
+        if (filename === 'GSE161566_HumanEnteroid_circadian.csv') {
+          return {
+            id: filename.replace('.csv', ''),
+            filename,
+            study: 'GSE161566',
+            type: 'enteroid',
+            tissue: 'Human Intestinal Enteroid',
+            condition: 'Wild-type',
+            description: 'Human Intestinal Enteroid - 24 Timepoints, 2h Intervals (Rosselot 2022, GSE179028)'
+          };
+        }
+
         // GSE201207 Young Kidney Aging
         if (filename === 'GSE201207_Young_Kidney_Aging.csv') {
           return {
@@ -22095,6 +22260,8 @@ echo "========================================"
     { id: 'sleep-ok-vs-restricted', name: 'Sleep Restriction: Sufficient → Restricted', before: 'GSE39445_Blood_SufficientSleep_circadian.csv', after: 'GSE39445_Blood_SleepRestriction_circadian.csv', description: 'Human blood after 1 week sufficient sleep vs 1 week restricted sleep (GSE39445). Tests circadian disruption from sleep loss.' },
     { id: 'nurses-day-vs-night', name: 'Shift Work: Day-Shift → Night-Shift Nurses', before: 'GSE122541_Nurses_DayShift_circadian.csv', after: 'GSE122541_Nurses_NightShift_circadian.csv', description: 'Human PBMC from day-shift vs night-shift hospital nurses (GSE122541). Tests real-world circadian disruption.' },
     { id: 'wt-vs-bmalko', name: 'Clock Knockout: WT → BMAL1-KO Organoid', before: 'GSE157357_Organoid_WT-WT_circadian.csv', after: 'GSE157357_Organoid_WT-BmalKO_circadian.csv', description: 'Wild-type vs BMAL1-knockout organoids (GSE157357). Tests complete clock ablation effect on persistence.' },
+    { id: 'aligned-vs-misaligned', name: 'Forced Desynchrony: Aligned → Misaligned', before: 'GSE48113_ForcedDesync_Aligned_circadian.csv', after: 'GSE48113_ForcedDesync_Misaligned_circadian.csv', description: 'Human blood under forced desynchrony: circadian-aligned vs misaligned conditions (GSE48113). Tests internal desynchrony effects on gene persistence.' },
+    { id: 'apc-wt-vs-bmalko', name: 'APC-KO Clock Knockout: APC-KO+WT → APC-KO+BmalKO', before: 'GSE157357_Organoid_ApcKO-WT_circadian.csv', after: 'GSE157357_Organoid_ApcKO-BmalKO_circadian.csv', description: 'APC-mutant organoids with intact clock vs double-knockout (APC+BMAL1) organoids (GSE157357). Tests whether clock disruption further alters persistence in a cancer background.' },
   ];
 
   app.get("/api/analysis/before-after-pairs", (_req, res) => {
@@ -22743,6 +22910,90 @@ echo "========================================"
     } catch (error: any) {
       console.error("Decomposition stability error:", error);
       res.status(500).json({ error: error.message || "Decomposition stability analysis failed" });
+    }
+  });
+
+  app.get("/api/state-space-comparison", async (req, res) => {
+    try {
+      const fs = await import('fs');
+      const path = await import('path');
+      const filePath = path.join(process.cwd(), 'manuscripts', 'state_space_comparison_results.json');
+      const raw = fs.readFileSync(filePath, 'utf-8');
+      const data = JSON.parse(raw);
+      res.json(data);
+    } catch (error: any) {
+      console.error("State-space comparison error:", error);
+      res.status(500).json({ error: error.message || "State-space comparison data unavailable" });
+    }
+  });
+
+  app.get("/api/discovery/regulatory-core-scan", async (_req, res) => {
+    try {
+      const { runRegulatoryCoreScan } = await import("./regulatory-core-discovery");
+      const result = runRegulatoryCoreScan();
+      res.json({ success: true, ...result });
+    } catch (error: any) {
+      console.error('Error running regulatory core scan:', error);
+      res.status(500).json({ error: error.message || 'Failed to run regulatory core scan' });
+    }
+  });
+
+  app.get("/api/validation/category-statistical-tests", async (req, res) => {
+    try {
+      const { runCategoryStatisticalTests } = await import("./category-statistical-tests");
+      const dataset = (req.query.dataset as string) || 'liver';
+      const datasetMap: Record<string, string> = {
+        'liver': 'datasets/GSE54650_Liver_circadian.csv',
+        'liver48': 'datasets/GSE11923_Liver_1h_48h_genes.csv',
+        'kidney': 'datasets/GSE54650_Kidney_circadian.csv',
+        'heart': 'datasets/GSE54650_Heart_circadian.csv',
+        'lung': 'datasets/GSE54650_Lung_circadian.csv',
+        'adrenal': 'datasets/GSE54650_Adrenal_circadian.csv',
+        'muscle': 'datasets/GSE54650_Muscle_circadian.csv',
+        'cerebellum': 'datasets/GSE54650_Cerebellum_circadian.csv',
+        'brainstem': 'datasets/GSE54650_Brainstem_circadian.csv',
+        'hypothalamus': 'datasets/GSE54650_Hypothalamus_circadian.csv',
+        'brown_fat': 'datasets/GSE54650_Brown_Fat_circadian.csv',
+        'white_fat': 'datasets/GSE54650_White_Fat_circadian.csv',
+        'aorta': 'datasets/GSE54650_Aorta_circadian.csv',
+      };
+      const filePath = datasetMap[dataset] || datasetMap['liver'];
+      const result = runCategoryStatisticalTests(filePath);
+      res.json({ success: true, ...result });
+    } catch (error: any) {
+      console.error('Error running category statistical tests:', error);
+      res.status(500).json({ error: error.message || 'Failed to run category statistical tests' });
+    }
+  });
+
+  app.get("/api/validation/category-statistical-tests/multi-tissue", async (_req, res) => {
+    try {
+      const { runCategoryStatisticalTests } = await import("./category-statistical-tests");
+      const tissues = [
+        { id: 'liver', file: 'datasets/GSE54650_Liver_circadian.csv' },
+        { id: 'kidney', file: 'datasets/GSE54650_Kidney_circadian.csv' },
+        { id: 'heart', file: 'datasets/GSE54650_Heart_circadian.csv' },
+        { id: 'lung', file: 'datasets/GSE54650_Lung_circadian.csv' },
+        { id: 'muscle', file: 'datasets/GSE54650_Muscle_circadian.csv' },
+        { id: 'cerebellum', file: 'datasets/GSE54650_Cerebellum_circadian.csv' },
+        { id: 'brainstem', file: 'datasets/GSE54650_Brainstem_circadian.csv' },
+        { id: 'hypothalamus', file: 'datasets/GSE54650_Hypothalamus_circadian.csv' },
+        { id: 'adrenal', file: 'datasets/GSE54650_Adrenal_circadian.csv' },
+        { id: 'aorta', file: 'datasets/GSE54650_Aorta_circadian.csv' },
+        { id: 'brown_fat', file: 'datasets/GSE54650_Brown_Fat_circadian.csv' },
+        { id: 'white_fat', file: 'datasets/GSE54650_White_Fat_circadian.csv' },
+      ];
+      const results = tissues.map(t => {
+        try {
+          return { tissue: t.id, ...runCategoryStatisticalTests(t.file) };
+        } catch {
+          return { tissue: t.id, error: 'Failed to process' };
+        }
+      });
+      res.json({ success: true, tissues: results });
+    } catch (error: any) {
+      console.error('Error running multi-tissue category tests:', error);
+      res.status(500).json({ error: error.message || 'Failed to run multi-tissue category tests' });
     }
   });
 

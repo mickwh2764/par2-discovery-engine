@@ -13,6 +13,7 @@ import { Download, Dna, Activity, TrendingUp, AlertTriangle, CheckCircle2, Info,
 import { Link } from "wouter";
 import HowTo from "@/components/HowTo";
 import PaperCrossLinks from "@/components/PaperCrossLinks";
+import GeneTooltip from "@/components/GeneTooltip";
 
 const ORGANISM_COLORS: Record<string, string> = {
   'mouse': '#22d3ee',
@@ -557,7 +558,7 @@ export default function CrossContextValidation() {
                                 {species.topPairs.slice(0, 5).map((pair, i) => (
                                   <div key={i} className="flex items-center justify-between text-sm bg-muted/30 px-3 py-1.5 rounded">
                                     <span className="font-mono">
-                                      {pair.clock} → {pair.target}
+                                      <GeneTooltip gene={pair.clock}>{pair.clock}</GeneTooltip> → <GeneTooltip gene={pair.target}>{pair.target}</GeneTooltip>
                                     </span>
                                     <div className="flex items-center gap-3">
                                       <Badge variant="outline" className="font-mono">
@@ -654,8 +655,8 @@ export default function CrossContextValidation() {
                               <tbody>
                                 {species.topPairs.map((pair, i) => (
                                   <tr key={i} className="border-b border-border/50 hover:bg-muted/30">
-                                    <td className="py-2 px-2 font-mono text-cyan-400">{pair.clock}</td>
-                                    <td className="py-2 px-2 font-mono text-purple-400">{pair.target}</td>
+                                    <td className="py-2 px-2 font-mono text-cyan-400"><GeneTooltip gene={pair.clock}>{pair.clock}</GeneTooltip></td>
+                                    <td className="py-2 px-2 font-mono text-purple-400"><GeneTooltip gene={pair.target}>{pair.target}</GeneTooltip></td>
                                     <td className="py-2 px-2 text-right font-mono">
                                       <span className={pair.eigenvalue >= 0.40 && pair.eigenvalue <= 0.80 ? 'text-green-400' : 'text-muted-foreground'}>
                                         {pair.eigenvalue.toFixed(3)}
@@ -890,7 +891,7 @@ export default function CrossContextValidation() {
                             <Scatter 
                               name="Unknown" 
                               data={piG0ChartData.filter(d => d.condition === 'unknown')}
-                              fill="#9ca3af"
+                              fill="#6b7280"
                             />
                           </ScatterChart>
                         </ResponsiveContainer>
@@ -1116,11 +1117,11 @@ export default function CrossContextValidation() {
                     <ResponsiveContainer width="100%" height={400}>
                       <BarChart data={tissueBarData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                        <XAxis dataKey="tissue" tick={{ fill: '#999', fontSize: 12 }} />
-                        <YAxis tick={{ fill: '#999' }} label={{ value: 'Mean |λ|', angle: -90, position: 'insideLeft', fill: '#999' }} />
+                        <XAxis dataKey="tissue" tick={{ fill: '#6b7280', fontSize: 12 }} />
+                        <YAxis tick={{ fill: '#6b7280' }} label={{ value: 'Mean |λ|', angle: -90, position: 'insideLeft', fill: '#6b7280' }} />
                         <Tooltip
                           contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }}
-                          labelStyle={{ color: '#e2e8f0' }}
+                          labelStyle={{ color: '#334155' }}
                         />
                         <Legend />
                         <Bar dataKey="Identity" fill={LAYER_COLORS.identity} radius={[4, 4, 0, 0]} />
@@ -1140,9 +1141,9 @@ export default function CrossContextValidation() {
                     <ResponsiveContainer width="100%" height={300}>
                       <BarChart data={tissueGapData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                        <XAxis dataKey="tissue" tick={{ fill: '#999', fontSize: 12 }} />
-                        <YAxis tick={{ fill: '#999' }} label={{ value: 'Gap (Δ|λ|)', angle: -90, position: 'insideLeft', fill: '#999' }} />
-                        <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }} labelStyle={{ color: '#e2e8f0' }} />
+                        <XAxis dataKey="tissue" tick={{ fill: '#6b7280', fontSize: 12 }} />
+                        <YAxis tick={{ fill: '#6b7280' }} label={{ value: 'Gap (Δ|λ|)', angle: -90, position: 'insideLeft', fill: '#6b7280' }} />
+                        <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }} labelStyle={{ color: '#334155' }} />
                         <Legend />
                         <ReferenceLine y={0} stroke="#666" strokeDasharray="3 3" />
                         <Bar dataKey="Identity–Clock Gap" fill="#ef4444" radius={[4, 4, 0, 0]} />
@@ -1250,7 +1251,7 @@ export default function CrossContextValidation() {
                           <h4 className="font-semibold text-red-400 text-sm">{tissueDetail.identityLabel} ({tissueDetail.nIdentityFound} genes)</h4>
                           {tissueDetail.identityGenes.map(g => (
                             <div key={g.gene} className="flex justify-between text-xs bg-red-500/5 rounded px-2 py-1">
-                              <span className="text-red-300">{g.gene}</span>
+                              <span className="text-red-300"><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></span>
                               <span className="font-mono">{g.eigenvalue.toFixed(4)}</span>
                             </div>
                           ))}
@@ -1260,7 +1261,7 @@ export default function CrossContextValidation() {
                           <h4 className="font-semibold text-amber-400 text-sm">Clock Genes ({tissueDetail.nClockFound} genes)</h4>
                           {tissueDetail.clockGenes.map(g => (
                             <div key={g.gene} className="flex justify-between text-xs bg-amber-500/5 rounded px-2 py-1">
-                              <span className="text-amber-300">{g.gene}</span>
+                              <span className="text-amber-300"><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></span>
                               <span className="font-mono">{g.eigenvalue.toFixed(4)}</span>
                             </div>
                           ))}
@@ -1270,7 +1271,7 @@ export default function CrossContextValidation() {
                           <h4 className="font-semibold text-blue-400 text-sm">Proliferation ({tissueDetail.nProlifFound} genes)</h4>
                           {tissueDetail.prolifGenes.map(g => (
                             <div key={g.gene} className="flex justify-between text-xs bg-blue-500/5 rounded px-2 py-1">
-                              <span className="text-blue-300">{g.gene}</span>
+                              <span className="text-blue-300"><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></span>
                               <span className="font-mono">{g.eigenvalue.toFixed(4)}</span>
                             </div>
                           ))}
@@ -1477,7 +1478,7 @@ export default function CrossContextValidation() {
                             <div className="flex items-center gap-3">
                               <XCircle className="h-4 w-4 text-red-400 shrink-0" />
                               <span className="font-mono text-sm">
-                                {item.clockGene} → {item.targetGene}
+                                <GeneTooltip gene={item.clockGene}>{item.clockGene}</GeneTooltip> → <GeneTooltip gene={item.targetGene}>{item.targetGene}</GeneTooltip>
                               </span>
                             </div>
                             <div className="flex items-center gap-3 text-sm">
@@ -1515,7 +1516,7 @@ export default function CrossContextValidation() {
                             <div className="flex items-center gap-3">
                               <CheckCircle className="h-4 w-4 text-green-400 shrink-0" />
                               <span className="font-mono text-sm">
-                                {item.clockGene} → {item.targetGene}
+                                <GeneTooltip gene={item.clockGene}>{item.clockGene}</GeneTooltip> → <GeneTooltip gene={item.targetGene}>{item.targetGene}</GeneTooltip>
                               </span>
                             </div>
                             <div className="flex items-center gap-3 text-sm">
@@ -1561,8 +1562,8 @@ export default function CrossContextValidation() {
                         <tbody>
                           {crossContextData.allComparisons.map((comp, i) => (
                             <tr key={i} className="border-b border-border/50 hover:bg-muted/30" data-testid={`row-comparison-${i}`}>
-                              <td className="py-2 px-3 font-mono">{comp.clockGene}</td>
-                              <td className="py-2 px-3 font-mono">{comp.targetGene}</td>
+                              <td className="py-2 px-3 font-mono"><GeneTooltip gene={comp.clockGene}>{comp.clockGene}</GeneTooltip></td>
+                              <td className="py-2 px-3 font-mono"><GeneTooltip gene={comp.targetGene}>{comp.targetGene}</GeneTooltip></td>
                               <td className="py-2 px-3 text-right font-mono">
                                 {(comp.healthyRate * 100).toFixed(0)}%
                                 <span className="text-muted-foreground ml-1 text-xs">({comp.healthySignificant}/{comp.healthyTotal})</span>

@@ -15,6 +15,7 @@ const PAPER_REGISTRY: Record<string, PaperLink> = {
   "paper-c": { id: "paper-c", label: "Paper C: Coupling Atlas", color: "text-orange-400", bgColor: "bg-orange-500/10", borderColor: "border-orange-500/30" },
   "paper-d": { id: "paper-d", label: "Paper D: Perspective", color: "text-yellow-400", bgColor: "bg-yellow-500/10", borderColor: "border-yellow-500/30" },
   "paper-e": { id: "paper-e", label: "Paper E: Phase-Gated PAR(2)", color: "text-pink-400", bgColor: "bg-pink-500/10", borderColor: "border-pink-500/30" },
+  "paper-f": { id: "paper-f", label: "Paper F: Expression Persistence", color: "text-emerald-400", bgColor: "bg-emerald-500/10", borderColor: "border-emerald-500/30" },
 };
 
 export const PAGE_TO_PAPERS: Record<string, string[]> = {
@@ -30,7 +31,8 @@ export const PAGE_TO_PAPERS: Record<string, string[]> = {
   "/phase-portrait": ["paper-c", "paper-e"],
   "/genome-wide-coupling": ["paper-c"],
   "/literature-validation": ["paper-c"],
-  "/cross-metric-independence": ["paper-d"],
+  "/cross-metric-independence": ["paper-d", "paper-f"],
+  "/discovery-engine": ["paper-f"],
   "/phase-gating": ["paper-e"],
   "/cancer-browser": ["paper-a", "paper-e"],
   "/rolling-window": ["paper-a"],
@@ -77,6 +79,10 @@ export const PAPER_TO_PAGES: Record<string, { path: string; label: string }[]> =
     { path: "/cross-context-validation", label: "Cross-Context Validation" },
     { path: "/cancer-browser", label: "Cancer Browser" },
     { path: "/root-space", label: "Root-Space Geometry" },
+  ],
+  "paper-f": [
+    { path: "/cross-metric-independence", label: "Cross-Metric Independence" },
+    { path: "/discovery-engine", label: "Discovery Engine" },
   ],
 };
 

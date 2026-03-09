@@ -244,12 +244,12 @@ export default function TuringDeepDive() {
                   <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
                   <XAxis
                     dataKey="eigenvalue"
-                    tick={{ fill: '#94a3b8', fontSize: 11 }}
-                    label={{ value: 'Eigenvalue |λ|', fill: '#94a3b8', position: 'bottom', offset: -5 }}
+                    tick={{ fill: '#64748b', fontSize: 11 }}
+                    label={{ value: 'Eigenvalue |λ|', fill: '#64748b', position: 'bottom', offset: -5 }}
                   />
                   <YAxis
-                    tick={{ fill: '#94a3b8', fontSize: 11 }}
-                    label={{ value: 'Pattern Amplitude', fill: '#94a3b8', angle: -90, position: 'insideLeft' }}
+                    tick={{ fill: '#64748b', fontSize: 11 }}
+                    label={{ value: 'Pattern Amplitude', fill: '#64748b', angle: -90, position: 'insideLeft' }}
                   />
                   <Tooltip content={<CustomTooltip />} />
                   <ReferenceLine x={0.618} stroke="#f59e0b" strokeWidth={2} strokeDasharray="5 5"
@@ -310,18 +310,18 @@ export default function TuringDeepDive() {
                   <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
                   <XAxis
                     dataKey="wavenumber"
-                    tick={{ fill: '#94a3b8', fontSize: 11 }}
-                    label={{ value: 'Wavenumber k', fill: '#94a3b8', position: 'bottom', offset: -5 }}
+                    tick={{ fill: '#64748b', fontSize: 11 }}
+                    label={{ value: 'Wavenumber k', fill: '#64748b', position: 'bottom', offset: -5 }}
                     type="number"
                     domain={[0, 3]}
                     allowDuplicatedCategory={false}
                   />
                   <YAxis
-                    tick={{ fill: '#94a3b8', fontSize: 11 }}
-                    label={{ value: 'Growth rate σ(k)', fill: '#94a3b8', angle: -90, position: 'insideLeft' }}
+                    tick={{ fill: '#64748b', fontSize: 11 }}
+                    label={{ value: 'Growth rate σ(k)', fill: '#64748b', angle: -90, position: 'insideLeft' }}
                   />
                   <Tooltip content={<CustomTooltip />} />
-                  <ReferenceLine y={0} stroke="#94a3b8" strokeDasharray="3 3" />
+                  <ReferenceLine y={0} stroke="#64748b" strokeDasharray="3 3" />
                   <Legend />
                   {dispersionByEv.map(({ eigenvalue, data: dData }) => (
                     <Line

@@ -1,8 +1,9 @@
 {
   "metadata": {
-    "generated": "2025-12-01",
-    "title": "Compensatory Circadian Gating Figure Data",
-    "datasets": ["GSE54650", "GSE157357"],
+    "generated": "2026-02-27",
+    "version": "4.0",
+    "title": "PAR(2) Discovery Engine — Complete Figure Data",
+    "datasets": ["GSE54650", "GSE157357", "GSE11923", "GSE98965", "GSE3431", "GSE242964", "GSE48113", "GSE113883", "GSE39445", "GSE122541", "GSE221103", "GSE201207", "Tu2005", "Arbeitman2002", "Zaas2009", "Rabani2014", "Amit2009", "robles2014", "human_plasma_proteome", "Proteome_OtobeYoshitane2026"],
     "total_pairs_tested": 299,
     "significance_threshold": 0.05
   },
@@ -192,5 +193,423 @@
       {"gene": "Cdk6", "tissues": 4, "category": "CDK Family", "confirmed": "Novel prediction"}
     ],
     "key_finding": "Wee1 and Nampt are the two most universally clock-coupled genes, independently confirmed by published molecular biology"
+  },
+  "decomposition_stability": {
+    "title": "Decomposition Stability Analysis",
+    "date": "2026-02-28",
+    "description": "Robustness of AR(2) eigenvalue hierarchy across 6 global driver removal methods and 4 simulation benchmarks",
+    "metrics": {
+      "dsi_global": 0.527,
+      "mean_rank_correlation": 0.619,
+      "gap_preservation_rate": "8/11 datasets",
+      "verdict": "WEAK by strict criteria, but hierarchy direction preserved in all tissues with initial gap > 0.10"
+    },
+    "simulation_benchmarks": [
+      {"name": "No False Hierarchy", "status": "PASSED", "result": "Random data showed no spurious hierarchy under any decomposition method"},
+      {"name": "True Hierarchy Recovery", "status": "PASSED", "result": "Engineered hierarchy correctly recovered after driver removal"},
+      {"name": "PC1 Driver Sensitivity", "status": "PASSED", "result": "PC1 removal does not invert hierarchy sign in valid datasets"},
+      {"name": "Variance Threshold Stability", "status": "PASSED", "result": "Stable rankings between 25% and 50% variance removal"}
+    ],
+    "top_performing_datasets": [
+      {"dataset": "GSE11923 (Liver)", "dsi": 0.897, "gap_preserved": true},
+      {"dataset": "GSE157357 (WT Organoid)", "dsi": 0.891, "gap_preserved": true},
+      {"dataset": "GSE98965 (Baboon)", "dsi": 0.754, "gap_preserved": true}
+    ],
+    "failed_datasets": [
+      {"dataset": "GSE157357 (APC-KO)", "dsi": -0.443, "reason": "Initially inverted hierarchy further destabilized"},
+      {"dataset": "GSE54650 (Cerebellum)", "dsi": 0.087, "reason": "Low initial gap (0.01) near noise floor"},
+      {"dataset": "GSE54650 (Aorta)", "dsi": 0.502, "reason": "Marginal stability"}
+    ],
+    "honest_claim": "Robust to decomposition method choice for tissues with moderate-to-large initial gaps"
+  },
+  "beforeAfterTrajectory": {
+    "title": "Before/After Trajectory Comparison",
+    "date": "2026-02-26",
+    "description": "Root-space trajectory visualization showing eigenvalue shifts between paired biological conditions",
+    "pairs": [
+      {"id": "mock-vs-lps", "name": "Immune Activation", "description": "DC Mock vs LPS stimulation (Rabani 2014)", "beforeDataset": "Rabani2014_DendriticCell_Mock_TimeSeries", "afterDataset": "Rabani2014_DendriticCell_LPS_TimeSeries"},
+      {"id": "myc-on-vs-off", "name": "Oncogene Toggle", "description": "MYC-ON vs MYC-OFF neuroblastoma (GSE221103)", "beforeDataset": "GSE221103_Neuroblastoma_MYC_ON", "afterDataset": "GSE221103_Neuroblastoma_MYC_OFF"},
+      {"id": "wt-vs-apc", "name": "Cancer Initiation", "description": "WT vs APC-Mutant intestinal organoids (GSE157357)", "beforeDataset": "GSE157357_Organoid_WT-WT", "afterDataset": "GSE157357_Organoid_ApcKO-WT"},
+      {"id": "sleep-ok-vs-restricted", "name": "Sleep Restriction", "description": "Sufficient sleep vs sleep restriction in human blood (GSE39445)", "beforeDataset": "GSE39445_Blood_SufficientSleep", "afterDataset": "GSE39445_Blood_SleepRestriction"},
+      {"id": "nurses-day-vs-night", "name": "Shift Work", "description": "Day shift vs night shift nurses (GSE122541)", "beforeDataset": "GSE122541_Nurses_DayShift", "afterDataset": "GSE122541_Nurses_NightShift"},
+      {"id": "wt-vs-bmalko", "name": "Clock Knockout", "description": "WT vs BMAL1-KO intestinal organoids (GSE157357)", "beforeDataset": "GSE157357_Organoid_WT-WT", "afterDataset": "GSE157357_Organoid_WT-BmalKO"}
+    ],
+    "shift_calculation": "Per-gene eigenvalue difference (afterEigenvalue - beforeEigenvalue) with regime change classification"
+  },
+  "healthScore": {
+    "title": "Circadian Health Score",
+    "date": "2026-02-26",
+    "description": "Composite 0-100 score summarizing circadian regulatory integrity of a dataset",
+    "methodology": {
+      "score_range": [0, 100],
+      "components": [
+        {"name": "Gearbox Gap", "weight": 0.4, "description": "Eigenvalue separation between clock genes and targets"},
+        {"name": "Hierarchy Rate", "weight": 0.3, "description": "Fraction of clock genes with higher eigenvalue than target mean"},
+        {"name": "Model Fit", "weight": 0.15, "description": "Mean AR(2) R-squared across genes"},
+        {"name": "Gene Coverage", "weight": 0.15, "description": "Fraction of expected circadian genes detected in dataset"}
+      ]
+    },
+    "grades": {
+      "A": {"range": ">=80", "label": "Excellent"},
+      "B": {"range": ">=60", "label": "Good"},
+      "C": {"range": ">=40", "label": "Moderate"},
+      "D": {"range": ">=20", "label": "Poor"},
+      "F": {"range": "<20", "label": "Failing"}
+    }
+  },
+  "volatileGenes": {
+    "title": "Most Volatile Genes",
+    "date": "2026-02-26",
+    "description": "Cross-dataset eigenvalue variance ranking to identify genes with unstable regulatory persistence",
+    "formula": "volatility_score = sigma_eigenvalue * sqrt(n_datasets)",
+    "methodology": "For each gene appearing in multiple datasets, compute standard deviation of eigenvalue magnitudes across datasets, then scale by sqrt(n) to reward genes measured in more contexts",
+    "visualization": "Sparkline showing per-dataset eigenvalue for top volatile genes"
+  },
+  "literatureValidation": {
+    "title": "Literature Validation & Falsification",
+    "date": "2026-02-26",
+    "description": "59-gene curated database from peer-reviewed circadian publications used for validation and falsification testing",
+    "gene_count": 59,
+    "sources": ["Panda 2002", "Matsuo 2003", "Kang 2009", "Ramsey 2009", "Oishi 2005", "Kosir 2010", "Adamovich 2014"],
+    "multi_dataset_scan": {
+      "datasets_scanned": 21,
+      "genes_recovered": 58,
+      "recovery_rate": 98.3,
+      "only_missed": "Tp53 (post-translational regulation)"
+    },
+    "falsification_test": {
+      "enrichment_ratio": 180,
+      "arntl_rate": 8.4,
+      "gapdh_rate": 0.3,
+      "random_rate": "0.0-0.5",
+      "verdict": "PASSED",
+      "criteria": ">3x enrichment ratio and <30% overlap with random"
+    }
+  },
+  "biasAudit": {
+    "title": "Bias Audit",
+    "date": "2026-02-26",
+    "description": "Three automated tests to verify AR(2) eigenvalue rankings are not artifacts",
+    "tests": [
+      {"name": "Time-Shuffle Destruction", "description": "Verifies eigenvalue rankings depend on temporal order by shuffling timepoints", "pass_criterion": "Shuffled rankings uncorrelated with original (p < 0.001)"},
+      {"name": "Irrelevant Metric Correlation", "description": "Checks for spurious correlations with gene name length, file position, alphabetical order", "pass_criterion": "No significant correlation (|r| < 0.05) with any irrelevant metric"},
+      {"name": "Expression-Matched Null Hierarchy", "description": "Permutation test (N=200) checking if clock-target gap survives after expression-level matching", "pass_criterion": "Clock-target gap persists after matching for mean expression level"}
+    ],
+    "overall_verdict_system": {
+      "Green": "All 3 tests pass",
+      "Yellow": "1 test marginal",
+      "Red": "Any test fails"
+    }
+  },
+  "nonCircadianRabani": {
+    "title": "Non-Circadian Validation (Rabani 2014)",
+    "date": "2026-02-26",
+    "description": "Dendritic cell LPS immune response validates AR(2) hierarchy in non-circadian temporal context",
+    "dataset": "GSE59784",
+    "curated_genes": 39,
+    "genome_wide_genes": 3147,
+    "key_finding": "Fast immune responders show systematically lower persistence than sustained effectors",
+    "exemplar_genes": {
+      "fast_responders": [
+        {"gene": "Il1b", "eigenvalue": 0.55, "role": "Pro-inflammatory cytokine"},
+        {"gene": "Junb", "eigenvalue": 0.43, "role": "AP-1 transcription factor"}
+      ],
+      "sustained_effectors": [
+        {"gene": "Stat1", "eigenvalue": 0.99, "role": "Interferon signaling"},
+        {"gene": "Ifit1", "eigenvalue": 0.80, "role": "Interferon-induced"}
+      ]
+    },
+    "interpretation": "Regulator-to-effector hierarchy validated outside circadian biology"
+  },
+  "edgeCaseDiagnostics": {
+    "title": "Edge Case Diagnostics Framework",
+    "date": "2026-02-26",
+    "description": "Six reliability checks applied per gene to flag unreliable AR(2) fits",
+    "checks": [
+      {"name": "Trend Detection", "method": "Slope normalization to detect non-stationary trend"},
+      {"name": "ADF Unit Root Test", "method": "Augmented Dickey-Fuller test for stationarity"},
+      {"name": "AR(2) vs AR(3) Model Order", "method": "AIC comparison to verify AR(2) is sufficient"},
+      {"name": "Ljung-Box Residual Whiteness", "method": "Tests that AR(2) residuals are white noise"},
+      {"name": "Residual Asymmetry", "method": "Shark-fin detection for asymmetric residual patterns"},
+      {"name": "Confidence Scoring", "method": "Composite 0-100 score aggregating all checks"}
+    ],
+    "confidence_ratings": {
+      "High": ">=75",
+      "Moderate": "50-74",
+      "Low": "25-49",
+      "Unreliable": "<25"
+    }
+  },
+  "rollingWindow": {
+    "title": "Rolling Window Stability Analysis",
+    "date": "2026-02-26",
+    "description": "Sub-window eigenvalue stability analysis to test AR(2) stationarity assumptions",
+    "default_window": "50% of total timepoints",
+    "metrics": ["Coefficient of variation (CV) across windows", "Chow test for structural breaks"],
+    "stability_categories": {
+      "STABLE": "Over 75% of genes have CV < 0.15",
+      "MARGINAL": "50-75% of genes have CV < 0.15",
+      "UNSTABLE": "Under 50% of genes have CV < 0.15"
+    }
+  },
+  "figure_halflife_replication": {
+    "title": "Half-Life Independence Replication",
+    "date": "2026-02-27",
+    "description": "Non-circadian replication of mRNA half-life vs AR(2) eigenvalue independence across 7 datasets",
+    "scatter_data": [
+      {
+        "dataset": "Rabani2014_DC_LPS",
+        "species": "Mouse",
+        "context": "Dendritic cell LPS immune response",
+        "timepoints": 7,
+        "total_genes": 3147,
+        "matched_genes": 85,
+        "spearman_rho": 0.130,
+        "p_value": 0.015,
+        "bootstrap_CI": [-0.100, 0.354],
+        "rho_after_controls": -0.040,
+        "control_method": "Exclude explosive eigenvalues"
+      },
+      {
+        "dataset": "Amit2009_DC_LPS",
+        "species": "Mouse",
+        "context": "Dendritic cell LPS immune response",
+        "timepoints": 9,
+        "total_genes": 10651,
+        "matched_genes": 190,
+        "spearman_rho": 0.154,
+        "p_value": 0.003,
+        "bootstrap_CI": [0.011, 0.294],
+        "rho_after_controls": null,
+        "control_method": "Exclude explosive eigenvalues"
+      },
+      {
+        "dataset": "GSE221103_MYC_ON",
+        "species": "Human",
+        "context": "Neuroblastoma MYC-ON",
+        "timepoints": 14,
+        "total_genes": 60237,
+        "matched_genes": 178,
+        "spearman_rho": 0.203,
+        "p_value": 0.001,
+        "bootstrap_CI": [0.061, 0.345],
+        "rho_after_controls": 0.045,
+        "control_method": "Partial correlation controlling expression"
+      }
+    ],
+    "quintile_analysis": {
+      "description": "Genes binned by mRNA half-life quintile, eigenvalue plotted per quintile",
+      "finding": "No monotonic trend in eigenvalue across half-life quintiles in any dataset"
+    },
+    "robustness_summary": {
+      "total_tests": 11,
+      "tests": [
+        "Bootstrap CI",
+        "Permutation test",
+        "Explosive eigenvalue exclusion",
+        "Expression-level partial correlation",
+        "Time-shuffle destruction",
+        "R-squared > 0.5 filter",
+        "Rank-based correlation",
+        "Leave-one-out stability",
+        "Quintile analysis",
+        "Cross-dataset meta-analysis",
+        "Weighted mean rho"
+      ],
+      "key_results": {
+        "rabani_bootstrap_CI_includes_zero": true,
+        "rabani_permutation_p": 0.24,
+        "rabani_rho_excluding_explosive": -0.04,
+        "rabani_time_shuffle_destruction_ratio": 0.99,
+        "rabani_time_shuffle_verdict": "FAIL",
+        "rabani_high_rsq_rho": 0.46,
+        "rabani_high_rsq_n": 54,
+        "amit_bootstrap_CI_barely_excludes_zero": true,
+        "amit_permutation_p": 0.034,
+        "gse221103_partial_rho_controlling_expression": 0.045,
+        "gse221103_permutation_p": 0.007
+      }
+    },
+    "combined_evidence_table": {
+      "total_datasets": 7,
+      "total_genes": 22989,
+      "weighted_mean_rho": 0.0115,
+      "datasets": [
+        {"name": "GSE11923", "species": "Mouse", "context": "Circadian liver", "timepoints": 48, "matched": 5945, "rho": 0.006},
+        {"name": "Tu2005", "species": "Yeast", "context": "Metabolic cycle", "timepoints": 36, "matched": 4887, "rho": 0.018},
+        {"name": "Arbeitman2002", "species": "Drosophila", "context": "Development", "timepoints": 66, "matched": 3241, "rho": -0.003},
+        {"name": "Zaas2009", "species": "Human", "context": "Influenza", "timepoints": 16, "matched": 8456, "rho": 0.009},
+        {"name": "Rabani2014", "species": "Mouse", "context": "DC LPS", "timepoints": 7, "matched": 85, "rho": 0.130},
+        {"name": "Amit2009", "species": "Mouse", "context": "DC LPS", "timepoints": 9, "matched": 190, "rho": 0.154},
+        {"name": "GSE221103", "species": "Human", "context": "Neuroblastoma", "timepoints": 14, "matched": 178, "rho": 0.203}
+      ]
+    },
+    "honest_claim": "Independence holds with adequate temporal resolution (>=24 timepoints, n>1000); weak correlations in short time-series are artifacts of explosive eigenvalue inclusion and expression-level confounding"
+  },
+  "fibonacciReplyValidation": {
+    "title": "Fibonacci Reply Paper — Platform Cross-Validation",
+    "date": "2026-02-26",
+    "paper": "Paper G: A Phase-Gated AR(2) Framework for Colonic Crypt Renewal",
+    "target_journal": "Fibonacci Quarterly",
+    "claims_tested": 13,
+    "claims_confirmed": 3,
+    "claims_strongly_confirmed": 3,
+    "claims_consistent": 2,
+    "claims_partially_disconfirmed": 1,
+    "claims_directionally_supported": 1,
+    "claims_not_confirmed": 1,
+    "claims_untested": 2,
+    "claims_total_check": "3+3+2+1+1+1+2=13",
+    "amendments_made": 6,
+    "organoid_perturbation": [
+      {"genotype": "WT", "clock_eigenvalue": 0.723, "target_eigenvalue": 0.331, "gap": 0.392, "status": "Healthy gearbox"},
+      {"genotype": "APC-KO", "clock_eigenvalue": 0.530, "target_eigenvalue": 0.652, "gap": -0.122, "status": "Hierarchy inverted"},
+      {"genotype": "BMAL1-KO", "clock_eigenvalue": 0.45, "target_eigenvalue": 0.53, "gap": -0.082, "status": "Hierarchy collapsed"},
+      {"genotype": "APC-KO/BMAL1-KO", "clock_eigenvalue": null, "target_eigenvalue": null, "gap": 0.046, "status": "Complex epistasis"}
+    ],
+    "tuft_cell_data": {
+      "dclk1_eigenvalue": 0.9999,
+      "stability": "Near-critical",
+      "readout_type": "Delayed, accumulative",
+      "crc_pattern": "Bidirectional: reduced in tumours, upregulated post-FOLFIRI",
+      "source": "Nguyen, Lausten and Boman 2025 (Cells 14:1428)"
+    },
+    "phi_enrichment": {
+      "p_value": 0.154,
+      "significant": false,
+      "genes_near_phi": [
+        {"gene": "Per2", "eigenvalue": 0.6185, "tissue": "Cerebellum"},
+        {"gene": "Hes1", "eigenvalue": 0.6188, "tissue": "Hypothalamus"},
+        {"gene": "Wee1", "eigenvalue": 0.6151, "tissue": "Liver"}
+      ]
+    },
+    "nguyen_2025_integration": {
+      "citation": "Nguyen AL, Lausten MA, Boman BM. Cells 2025;14(18):1428",
+      "boman_coauthor": true,
+      "findings_integrated": 9,
+      "key_additions": ["Bidirectional tuft CRC pattern", "NOTCH-tuft suppression mechanism", "M-cell terminology", "EEC co-upregulation post-FOLFIRI", "Cellular plasticity caveat"]
+    }
+  },
+  "figure7_cross_species_eigenvalue_atlas": {
+    "title": "Cross-Species Eigenvalue Atlas: Mouse, Baboon, Yeast, Arabidopsis, Drosophila, Human",
+    "date": "2026-02-27",
+    "description": "AR(2) eigenvalue distributions across 6 species and multiple tissue/context types",
+    "species_data": [
+      {"species": "Mouse", "datasets": 16, "tissues": ["Liver", "Heart", "Lung", "Kidney", "Muscle", "Brown Fat", "White Fat", "Cerebellum", "Hypothalamus", "Brainstem", "Adrenal", "Aorta"], "total_genes": 20955, "representative_mean_lambda": 0.53, "source": "GSE54650, GSE11923"},
+      {"species": "Baboon", "datasets": 1, "tissues": ["Multi-tissue atlas"], "total_genes": 29202, "representative_mean_lambda": 0.51, "source": "GSE98965"},
+      {"species": "Yeast", "datasets": 2, "tissues": ["Metabolic cycle"], "total_genes": 6686, "representative_mean_lambda": 0.48, "source": "GSE3431, Tu2005"},
+      {"species": "Arabidopsis", "datasets": 3, "tissues": ["Whole seedling"], "total_genes": 40812, "representative_mean_lambda": 0.50, "source": "GSE242964"},
+      {"species": "Drosophila", "datasets": 1, "tissues": ["Embryo development"], "total_genes": 1176, "representative_mean_lambda": 0.55, "source": "Arbeitman2002"},
+      {"species": "Human", "datasets": 7, "tissues": ["Blood", "Neuroblastoma", "Plasma proteome"], "total_genes": 58278, "representative_mean_lambda": 0.52, "source": "GSE48113, GSE113883, GSE39445, GSE122541, GSE221103"}
+    ],
+    "key_finding": "AR(2) eigenvalue distributions are remarkably conserved across kingdoms of life, with mean |λ| consistently in the 0.48-0.55 range"
+  },
+  "figure8_proteome_validation": {
+    "title": "mRNA-Protein Concordance: AR(2) Eigenvalue Comparison Across Molecular Layers",
+    "date": "2026-02-27",
+    "description": "Comparison of AR(2) eigenvalue estimates between mRNA and protein expression for matched genes",
+    "datasets": [
+      {"name": "Robles 2014 Liver Proteome", "source": "robles2014_liver_proteome_circadian", "genes": 3071, "timepoints": 16, "resolution": "3h", "duration": "45h", "layer": "Protein"},
+      {"name": "Human Plasma Proteome Diurnal", "source": "human_plasma_proteome_diurnal_2025", "genes": 137, "timepoints": 8, "resolution": "3h", "duration": "21h", "layer": "Protein"},
+      {"name": "Otobe-Yoshitane 2026 Liver Whole Cell", "source": "Proteome_Liver_WholeCell_OtobeYoshitane2026", "genes": 151, "timepoints": 6, "resolution": "4h", "duration": "20h", "layer": "Protein"},
+      {"name": "GSE11923 Liver mRNA", "source": "GSE11923_Liver_1h_48h", "genes": 21510, "timepoints": 48, "resolution": "1h", "duration": "48h", "layer": "mRNA"}
+    ],
+    "key_finding": "Clock gene hierarchy (high eigenvalue) is preserved at the protein level, supporting post-transcriptional reinforcement of circadian persistence"
+  },
+  "figure9_gene_set_hypothesis_tester": {
+    "title": "Gene Set Hypothesis Tester: Permutation-Based Enrichment",
+    "date": "2026-02-27",
+    "description": "Custom gene list testing against genome-wide eigenvalue distribution using 10,000 permutations",
+    "methodology": {
+      "permutations": 10000,
+      "effect_size": "Cohen's d using pooled SD",
+      "test_type": "One-sided",
+      "p_value_formula": "(countExtreme + 1) / (nPermutations + 1)"
+    },
+    "example_results": [
+      {"gene_set": "Core clock genes (Arntl, Clock, Per1, Per2, Cry1, Cry2, Nr1d1, Nr1d2)", "n_genes": 8, "mean_eigenvalue": 0.77, "genome_mean": 0.53, "cohens_d": 1.2, "p_value": 0.0001},
+      {"gene_set": "DNA damage response (ATM, ATR, Chek1, Chek2, Wee1, Tp53)", "n_genes": 6, "mean_eigenvalue": 0.65, "genome_mean": 0.53, "cohens_d": 0.6, "p_value": 0.012},
+      {"gene_set": "Housekeeping genes (Gapdh, Actb, Rpl13a, B2m)", "n_genes": 4, "mean_eigenvalue": 0.52, "genome_mean": 0.53, "cohens_d": -0.05, "p_value": 0.55}
+    ]
+  },
+  "figure10_disease_screen": {
+    "title": "Disease Perturbation Screen: Eigenvalue Shifts Under Pathological Conditions",
+    "date": "2026-02-27",
+    "description": "Systematic comparison of eigenvalue distributions between healthy and disease/perturbation states",
+    "perturbation_pairs": [
+      {"pair": "Sufficient Sleep vs Sleep Restriction", "source": "GSE39445", "direction": "Restriction increases mean |λ|", "interpretation": "Homeostatic pressure buildup"},
+      {"pair": "Day Shift vs Night Shift Nurses", "source": "GSE122541", "direction": "Night shift alters eigenvalue distribution", "interpretation": "Chronic circadian misalignment"},
+      {"pair": "Aligned vs Misaligned Circadian", "source": "GSE48113", "direction": "Misalignment disrupts hierarchy", "interpretation": "Forced desynchrony protocol"},
+      {"pair": "WT vs APC-KO Organoids", "source": "GSE157357", "direction": "APC-KO inverts clock-target hierarchy", "interpretation": "Cancer initiation signature"},
+      {"pair": "WT vs BMAL1-KO Organoids", "source": "GSE157357", "direction": "BMAL1-KO collapses hierarchy", "interpretation": "Phase source removal"},
+      {"pair": "MYC-ON vs MYC-OFF Neuroblastoma", "source": "GSE221103", "direction": "MYC-ON increases explosive eigenvalue fraction", "interpretation": "Oncogene-driven instability"}
+    ]
+  },
+  "figure11_wearable_cgm_analysis": {
+    "title": "Wearable & CGM Data Analysis: Personal Circadian Health Monitoring",
+    "date": "2026-02-27",
+    "description": "AR(2) analysis applied to continuous glucose monitoring (CGM) and wearable heart rate data",
+    "sample_data_sources": [
+      {"type": "CGM", "device": "Dexcom G6", "source": "dexcom_g6_cgm_real.csv", "resolution": "5 min"},
+      {"type": "CGM", "device": "Libre", "source": "libre_cgm_sprague.csv", "resolution": "15 min"},
+      {"type": "Heart Rate", "device": "Apple Watch", "source": "apple_watch_hr_physionet.csv", "resolution": "variable"},
+      {"type": "Heart Rate", "device": "Fitbit", "source": "fitbit_hr_5min_fitabase.csv", "resolution": "5 min"},
+      {"type": "Steps", "device": "Fitbit", "source": "fitbit_steps_hourly_fitabase.csv", "resolution": "1 hour"}
+    ],
+    "key_finding": "AR(2) eigenvalue analysis of personal time-series data produces interpretable circadian health metrics consistent with genomic-level findings"
+  },
+  "figure12_persistence_landscape": {
+    "title": "Persistence Landscape: Genome-Wide Eigenvalue Distribution",
+    "date": "2026-02-27",
+    "description": "3D landscape visualization of eigenvalue magnitude distributions across datasets and tissues",
+    "visualization_type": "Interactive heatmap/landscape with tissue on x-axis, eigenvalue bins on y-axis, density on z-axis",
+    "datasets_included": 21,
+    "key_finding": "Universal bimodal distribution: majority of genes cluster near |λ|=0.5 (neutral persistence), with clock genes forming a distinct high-persistence peak near |λ|=0.75-0.85"
+  },
+  "figure13_convergence_map": {
+    "title": "Convergence Map: 22 Cross-Platform Evidence Points",
+    "date": "2026-02-27",
+    "description": "Network diagram showing how 22 independent lines of evidence converge on core PAR(2) claims",
+    "evidence_categories": [
+      {"category": "Core Model", "count": 5, "examples": ["AR(2) minimum sufficient", "Clock > target hierarchy", "Eigenvalue independence from half-life"]},
+      {"category": "Cross-Species", "count": 4, "examples": ["Mouse 12-tissue atlas", "Baboon multi-tissue", "Yeast metabolic cycle", "Arabidopsis circadian"]},
+      {"category": "Perturbation", "count": 6, "examples": ["APC-KO inversion", "BMAL1-KO collapse", "Sleep restriction", "Shift work", "MYC toggle", "LPS immune response"]},
+      {"category": "Validation Controls", "count": 4, "examples": ["Literature 59-gene recovery", "Falsification test", "Bias audit", "Time-shuffle destruction"]},
+      {"category": "Multi-Layer", "count": 3, "examples": ["mRNA-protein concordance", "Translational amplification", "Proteome replication"]}
+    ]
+  },
+  "figure14_aging_kidney": {
+    "title": "Aging Kidney AR(2) Analysis",
+    "date": "2026-02-27",
+    "description": "Young kidney circadian eigenvalue analysis from GSE201207",
+    "dataset": "GSE201207",
+    "tissue": "Mouse kidney",
+    "timepoints": 12,
+    "resolution": "4h",
+    "duration": "44h",
+    "n_genes": 23449,
+    "key_finding": "Kidney circadian architecture shows distinct eigenvalue distribution compared to liver, with lower overall coupling density"
+  },
+  "figure15_cancer_browser": {
+    "title": "Cancer Biology Browser: Multi-Dataset Cancer Gene Analysis",
+    "date": "2026-02-27",
+    "description": "Interactive browser for exploring eigenvalue profiles of cancer-related genes across all available datasets",
+    "cancer_gene_categories": [
+      {"category": "Tumor Suppressors", "genes": ["Tp53", "Rb1", "Apc", "Brca1", "Pten"], "typical_eigenvalue_range": [0.4, 0.7]},
+      {"category": "Oncogenes", "genes": ["Myc", "Kras", "Braf", "Egfr", "Her2"], "typical_eigenvalue_range": [0.5, 0.8]},
+      {"category": "Cell Cycle", "genes": ["Ccnb1", "Ccnd1", "Cdk1", "Cdk4", "Wee1"], "typical_eigenvalue_range": [0.5, 0.9]},
+      {"category": "DNA Repair", "genes": ["Atm", "Atr", "Chek1", "Chek2", "Rad51"], "typical_eigenvalue_range": [0.4, 0.7]}
+    ]
+  },
+  "figure16_framework_benchmarks": {
+    "title": "Framework Benchmarks: AR(2) vs Alternative Models",
+    "date": "2026-02-27",
+    "description": "Systematic comparison of AR(2) against AR(1), AR(3), ARMA, and JTK_CYCLE across all datasets",
+    "benchmarks": [
+      {"comparison": "AR(2) vs AR(1)", "metric": "AIC preference", "result": "AR(2) preferred in 95.6% of genes (GSE11923, gold standard)"},
+      {"comparison": "AR(2) vs AR(3)", "metric": "AIC preference", "result": "AR(2) preferred in majority; AR(3) adds <2% explanatory power"},
+      {"comparison": "AR(2) vs JTK_CYCLE", "metric": "Discovery overlap", "result": "AR(2) detects non-sinusoidal oscillators missed by JTK_CYCLE"},
+      {"comparison": "AR(2) eigenvalue vs amplitude", "metric": "Spearman correlation", "result": "Low correlation confirms orthogonality of persistence and amplitude metrics"}
+    ]
   }
 }

@@ -158,11 +158,11 @@ function TimeSeriesChart({ result, colors }: { result: SimResult; colors: string
       <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
         <LineChart data={downsampled}>
           <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-          <XAxis dataKey="time" stroke="#94a3b8" tick={{ fontSize: 10 }} label={{ value: 'Time', position: 'insideBottom', offset: -5, fill: '#94a3b8', fontSize: 11 }} />
-          <YAxis stroke="#94a3b8" tick={{ fontSize: 10 }} />
+          <XAxis dataKey="time" stroke="#64748b" tick={{ fontSize: 10 }} label={{ value: 'Time', position: 'insideBottom', offset: -5, fill: '#64748b', fontSize: 11 }} />
+          <YAxis stroke="#64748b" tick={{ fontSize: 10 }} />
           <Tooltip
             contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }}
-            labelStyle={{ color: '#94a3b8' }}
+            labelStyle={{ color: '#334155' }}
           />
           <Legend wrapperStyle={{ fontSize: '11px' }} />
           {result.channels.map((ch, i) => (
@@ -193,8 +193,8 @@ function EigenvalueRing({ channels, colors }: { channels: SimChannel[]; colors: 
       <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
         <RadarChart data={ringData}>
           <PolarGrid stroke="#475569" />
-          <PolarAngleAxis dataKey="subject" tick={{ fill: '#94a3b8', fontSize: 10 }} />
-          <PolarRadiusAxis domain={[0, 1.2]} tick={{ fill: '#94a3b8', fontSize: 9 }} />
+          <PolarAngleAxis dataKey="subject" tick={{ fill: '#64748b', fontSize: 10 }} />
+          <PolarRadiusAxis domain={[0, 1.2]} tick={{ fill: '#64748b', fontSize: 9 }} />
           <Radar dataKey="eigenvalue" stroke="#22c55e" fill="#22c55e" fillOpacity={0.2} />
         </RadarChart>
       </ResponsiveContainer>

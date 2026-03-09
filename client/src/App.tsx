@@ -13,6 +13,7 @@ import ManuscriptDownload from "@/pages/manuscript-download";
 import CancerBrowser from "@/pages/cancer-browser";
 import DiscoveryEngine from "@/pages/discovery-engine";
 import ValidationSuite from "@/pages/validation-suite";
+import ValidationSummary from "@/pages/validation-summary";
 import ModelZoo from "@/pages/model-zoo";
 import GenomeWide from "@/pages/genome-wide";
 import SharedAnalysis from "@/pages/shared-analysis";
@@ -38,7 +39,6 @@ import PersistenceLandscape from "@/pages/persistence-landscape";
 import GeneProteinMap from "@/pages/gene-protein-map";
 import ManuscriptValidation from "@/pages/manuscript-validation";
 import FrameworkBenchmarks from "@/pages/framework-benchmarks";
-import TuringDeepDive from "@/pages/turing-deep-dive";
 import PhaseGating from "@/pages/phase-gating";
 import PhasePortrait from "@/pages/phase-portrait";
 import GenomeWideCoupling from "@/pages/genome-wide-coupling";
@@ -49,6 +49,15 @@ import GeneSearchPalette from "@/components/GeneSearchPalette";
 
 import CrossMetricIndependence from "@/pages/cross-metric-independence";
 import ProteomeValidation from "@/pages/proteome-validation";
+import ReportLibrary from "@/pages/report-library";
+import HalfLifeReplication from "@/pages/halflife-replication";
+import DecompositionStability from "@/pages/decomposition-stability";
+import StateSpaceComparison from "@/pages/state-space-comparison";
+import CategoryTests from "@/pages/category-tests";
+import RegulatoryDiscovery from "@/pages/regulatory-discovery";
+import ABMDemo from "@/pages/abm-demo";
+import OscillatorTaxonomy from "@/pages/oscillator-taxonomy";
+import BomanSimulation from "@/pages/boman-simulation";
 
 import { useEffect } from "react";
 import { useLocation } from "wouter";
@@ -73,6 +82,7 @@ function Router() {
       <Route path="/cancer-browser" component={CancerBrowser} />
       <Route path="/discovery-engine" component={DiscoveryEngine} />
       <Route path="/validation-suite" component={ValidationSuite} />
+      <Route path="/validation-summary" component={ValidationSummary} />
       <Route path="/model-zoo" component={ModelZoo} />
       <Route path="/genome-wide" component={GenomeWide} />
       <Route path="/root-space" component={RootSpace} />
@@ -96,13 +106,22 @@ function Router() {
       <Route path="/gene-protein-map" component={GeneProteinMap} />
       <Route path="/manuscript-validation" component={ManuscriptValidation} />
       <Route path="/framework-benchmarks" component={FrameworkBenchmarks} />
-      <Route path="/turing-deep-dive" component={TuringDeepDive} />
+      <Route path="/turing-deep-dive">{() => <Redirect to="/dashboard" />}</Route>
       <Route path="/phase-gating" component={PhaseGating} />
       <Route path="/phase-portrait" component={PhasePortrait} />
       <Route path="/genome-wide-coupling" component={GenomeWideCoupling} />
       <Route path="/literature-validation" component={LiteratureValidation} />
       <Route path="/cross-metric-independence" component={CrossMetricIndependence} />
       <Route path="/proteome-validation" component={ProteomeValidation} />
+      <Route path="/reports" component={ReportLibrary} />
+      <Route path="/halflife-replication" component={HalfLifeReplication} />
+      <Route path="/decomposition-stability" component={DecompositionStability} />
+      <Route path="/state-space-comparison" component={StateSpaceComparison} />
+      <Route path="/category-tests" component={CategoryTests} />
+      <Route path="/regulatory-discovery" component={RegulatoryDiscovery} />
+      <Route path="/abm-minimal" component={ABMDemo} />
+      <Route path="/oscillator-taxonomy" component={OscillatorTaxonomy} />
+      <Route path="/boman-simulation" component={BomanSimulation} />
 
       <Route path="/shared/:id" component={SharedAnalysis} />
 
@@ -123,8 +142,8 @@ function Router() {
   );
 }
 
-const SUBMISSION_TIMESTAMP = "February 20, 2026 — 23:59 UTC";
-const VERSION = "2.2.0";
+const SUBMISSION_TIMESTAMP = "February 27, 2026 — 20:30 UTC";
+const VERSION = "2.3.0";
 
 function SubmissionFooter() {
   return (

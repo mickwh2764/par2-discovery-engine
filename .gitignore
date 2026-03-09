@@ -46,3 +46,15 @@ COMPREHENSIVE_ANALYSIS_REPORT.json
 .env
 .env.local
 generated-icon.png
+
+# Python virtual environment (Replit tooling)
+.pythonlibs/
+
+# Replit system files
+.replit
+replit.nix
+.breakpoints
+.deployignore
+
+# Package lock (regenerated on install)
+package-lock.json

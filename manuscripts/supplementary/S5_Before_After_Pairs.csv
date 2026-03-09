@@ -1,0 +1,7 @@
+PairId,PairName,Description,BeforeDataset,AfterDataset
+immune-activation,Immune Activation (DC Mock vs LPS),Dendritic cell response to lipopolysaccharide stimulation (Rabani 2014),Rabani2014_DendriticCell_Mock_TimeSeries.csv,Rabani2014_DendriticCell_LPS_TimeSeries.csv
+oncogene-toggle,Oncogene Toggle (MYC-ON vs MYC-OFF),Neuroblastoma MYC oncogene activation/deactivation (GSE221103),GSE221103_Neuroblastoma_MYC_ON.csv,GSE221103_Neuroblastoma_MYC_OFF.csv
+cancer-initiation,Cancer Initiation (WT vs APC-Mutant),Intestinal organoid APC mutation modeling cancer initiation (GSE157357),GSE157357_Organoid_WT-WT_circadian.csv,GSE157357_Organoid_ApcKO-WT_circadian.csv
+sleep-restriction,Sleep Restriction (Sufficient vs Restricted),Human blood transcriptome under sleep restriction (GSE39445),GSE39445_Blood_SufficientSleep_circadian.csv,GSE39445_Blood_SleepRestriction_circadian.csv
+shift-work,Shift Work (Nurses Day vs Night),Nurse shift worker circadian disruption (GSE122541),GSE122541_Nurses_DayShift_circadian.csv,GSE122541_Nurses_NightShift_circadian.csv
+clock-knockout,Clock Knockout (WT vs BMAL1-KO),Organoid BMAL1 clock gene knockout (GSE157357),GSE157357_Organoid_WT-WT_circadian.csv,GSE157357_Organoid_WT-BmalKO_circadian.csv

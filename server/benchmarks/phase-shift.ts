@@ -6,10 +6,10 @@
  * 2. Checking if eigenvalue |λ| remains stable (~0.537-0.689 per Jan 2026 audit)
  * 3. Checking if Granger causality BREAKS (flips to false)
  * 
- * If eigenvalue stays but causality breaks, this proves that
+ * If eigenvalue stays but causality breaks, this supports the interpretation that
  * the phase relationship (not just correlation) drives the biology.
  * 
- * This is the "knockout blow" for proving temporal specificity.
+ * This test provides evidence for temporal specificity.
  */
 
 interface PhaseShiftResult {

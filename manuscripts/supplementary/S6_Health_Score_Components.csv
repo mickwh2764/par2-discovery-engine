@@ -1,0 +1,5 @@
+Component,Weight,Description,Scoring
+Gearbox Gap,0.40,Separation between clock gene eigenvalues and target gene eigenvalues,Higher gap = stronger circadian hierarchy = higher score
+Hierarchy Rate,0.30,Fraction of genes following the expected regulator > effector eigenvalue ordering,Higher rate = more consistent hierarchy = higher score
+Model Fit,0.15,Average R-squared of AR(2) model fits across analyzed genes,Higher R-squared = better temporal model fit = higher score
+Gene Coverage,0.15,Fraction of literature-validated circadian genes detected in the dataset,Higher coverage = more complete dataset = higher score

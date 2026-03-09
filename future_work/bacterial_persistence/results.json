@@ -1,0 +1,787 @@
+{
+  "dataset": {
+    "geoId": "GSE67402",
+    "title": "E. coli K-12 MG1655 glucose starvation time course",
+    "organism": "Escherichia coli",
+    "source": "Houser et al., PLoS Comput Biol 2015",
+    "timepoints": [
+      3,
+      4,
+      5,
+      6,
+      8,
+      24,
+      48,
+      168,
+      336
+    ],
+    "timepointLabels": [
+      "3h",
+      "4h",
+      "5h",
+      "6h",
+      "8h",
+      "24h",
+      "48h",
+      "168h (1wk)",
+      "336h (2wk)"
+    ],
+    "nReplicates": 3,
+    "nGenes": 3946,
+    "nTotal": 4486,
+    "stationaryRate": 89.29622086444897
+  },
+  "distribution": {
+    "mean": 0.7737807620484206,
+    "median": 0.7844813479980813,
+    "std": 0.1384503961212191,
+    "q25": 0.6841774988525119,
+    "q75": 0.8791147081041014,
+    "min": 0,
+    "max": 0.9996990017018567,
+    "histogram": [
+      {
+        "bin": "0.0-0.1",
+        "count": 14,
+        "fraction": 0.0035478966041561076
+      },
+      {
+        "bin": "0.1-0.2",
+        "count": 1,
+        "fraction": 0.00025342118601115053
+      },
+      {
+        "bin": "0.2-0.3",
+        "count": 4,
+        "fraction": 0.0010136847440446021
+      },
+      {
+        "bin": "0.3-0.4",
+        "count": 19,
+        "fraction": 0.00481500253421186
+      },
+      {
+        "bin": "0.4-0.5",
+        "count": 52,
+        "fraction": 0.013177901672579827
+      },
+      {
+        "bin": "0.5-0.6",
+        "count": 319,
+        "fraction": 0.08084135833755703
+      },
+      {
+        "bin": "0.6-0.7",
+        "count": 704,
+        "fraction": 0.17840851495184998
+      },
+      {
+        "bin": "0.7-0.8",
+        "count": 1025,
+        "fraction": 0.25975671566142927
+      },
+      {
+        "bin": "0.8-0.9",
+        "count": 1000,
+        "fraction": 0.25342118601115055
+      },
+      {
+        "bin": "0.9-1.0",
+        "count": 808,
+        "fraction": 0.20476431829700964
+      }
+    ]
+  },
+  "starvationAnalysis": {
+    "highPersistence": {
+      "meanMaintenance": 1.9707735954923038,
+      "medianMaintenance": 1.0950882712812446,
+      "fractionMaintained50": 0.7482233502538072,
+      "nGenes": 985,
+      "meanEigenvalue": 0.7742762078202486
+    },
+    "lowPersistence": {
+      "meanMaintenance": 1.233774271106892,
+      "medianMaintenance": 0.30310880829015546,
+      "fractionMaintained50": 0.40040650406504064,
+      "nGenes": 984,
+      "meanEigenvalue": 0.7753168998394062
+    },
+    "difference": 0.7369993243854118,
+    "permutationPValue": 0,
+    "bootstrapCI": [
+      -0.38321320724786734,
+      0.2618037547179626
+    ],
+    "pearsonR": -0.006495955257001356,
+    "spearmanR": -0.02120304078336854
+  },
+  "decileAnalysis": [
+    {
+      "decile": 1,
+      "meanEigenvalue": 0.5163613730446316,
+      "meanMaintenance": 1.3142753745274736,
+      "fractionMaintained50": 0.5318066157760815
+    },
+    {
+      "decile": 2,
+      "meanEigenvalue": 0.6317158441730302,
+      "meanMaintenance": 1.0471280324358223,
+      "fractionMaintained50": 0.49363867684478374
+    },
+    {
+      "decile": 3,
+      "meanEigenvalue": 0.6850769320210595,
+      "meanMaintenance": 1.582904752812493,
+      "fractionMaintained50": 0.49363867684478374
+    },
+    {
+      "decile": 4,
+      "meanEigenvalue": 0.7289844027692409,
+      "meanMaintenance": 1.3633881478678038,
+      "fractionMaintained50": 0.49363867684478374
+    },
+    {
+      "decile": 5,
+      "meanEigenvalue": 0.7668299135126733,
+      "meanMaintenance": 1.2196547818957364,
+      "fractionMaintained50": 0.455470737913486
+    },
+    {
+      "decile": 6,
+      "meanEigenvalue": 0.8027543594936949,
+      "meanMaintenance": 1.1912922350083073,
+      "fractionMaintained50": 0.46564885496183206
+    },
+    {
+      "decile": 7,
+      "meanEigenvalue": 0.8397436078252745,
+      "meanMaintenance": 1.1480272890137662,
+      "fractionMaintained50": 0.4351145038167939
+    },
+    {
+      "decile": 8,
+      "meanEigenvalue": 0.8789817641564605,
+      "meanMaintenance": 1.2350676403356187,
+      "fractionMaintained50": 0.48346055979643765
+    },
+    {
+      "decile": 9,
+      "meanEigenvalue": 0.9216157832153116,
+      "meanMaintenance": 1.077420002709398,
+      "fractionMaintained50": 0.44529262086513993
+    },
+    {
+      "decile": 10,
+      "meanEigenvalue": 0.9702649045604733,
+      "meanMaintenance": 1.362465638001031,
+      "fractionMaintained50": 0.4875
+    }
+  ],
+  "topGenes": [
+    {
+      "geneId": "ECB_01335",
+      "eigenvalue": 0.848335189958236,
+      "r2": -0.5828059811855264,
+      "beta1": 0.7439646338216914,
+      "beta2": 0.2556573922706566,
+      "isComplex": false,
+      "meanExpr": 1.037037037037037,
+      "maintenanceRatio": 4.5,
+      "log2FC": 1.1699250014423124
+    },
+    {
+      "geneId": "ECB_01652",
+      "eigenvalue": 0.7146218940748278,
+      "r2": -0.9799835823825185,
+      "beta1": 0.5332120202179671,
+      "beta2": 0.46598219971272226,
+      "isComplex": false,
+      "meanExpr": 220.74074074074076,
+      "maintenanceRatio": 3.2073490813648293,
+      "log2FC": 1.6736035331687766
+    },
+    {
+      "geneId": "ECB_04001",
+      "eigenvalue": 0.7497998811618183,
+      "r2": 0.2816025779929645,
+      "beta1": 1.3039892289572086,
+      "beta2": -0.3046569815782188,
+      "isComplex": false,
+      "meanExpr": 18.74074074074074,
+      "maintenanceRatio": 9.044117647058822,
+      "log2FC": 3.0186156781673468
+    },
+    {
+      "geneId": "ECB_03019",
+      "eigenvalue": 0.7274900264409745,
+      "r2": -0.6803224275353565,
+      "beta1": 0.5608174824230849,
+      "beta2": 0.4374413792003518,
+      "isComplex": false,
+      "meanExpr": 15.037037037037035,
+      "maintenanceRatio": 1.9852941176470589,
+      "log2FC": 0.9442122218142531
+    },
+    {
+      "geneId": "ECB_00339",
+      "eigenvalue": 0.7785415019705659,
+      "r2": 0.09641213152623895,
+      "beta1": 0.9721739106575733,
+      "beta2": 0.026495476599323296,
+      "isComplex": false,
+      "meanExpr": 23.25925925925926,
+      "maintenanceRatio": 9.036144578313253,
+      "log2FC": 3.0443941193584534
+    },
+    {
+      "geneId": "ECB_00399",
+      "eigenvalue": 0.7957914074802086,
+      "r2": 0.2604871952305531,
+      "beta1": 1.2388960661993091,
+      "beta2": -0.24010236717626637,
+      "isComplex": false,
+      "meanExpr": 109.62962962962963,
+      "maintenanceRatio": 5.803763440860215,
+      "log2FC": 2.5179088853930143
+    },
+    {
+      "geneId": "ECB_02711",
+      "eigenvalue": 0.8814052300910438,
+      "r2": -0.331093149987552,
+      "beta1": 0.6940719002819102,
+      "beta2": 0.3036664471685709,
+      "isComplex": false,
+      "meanExpr": 9.444444444444445,
+      "maintenanceRatio": 6.204545454545454,
+      "log2FC": 2.411630897835594
+    },
+    {
+      "geneId": "ECB_00569",
+      "eigenvalue": 0,
+      "r2": -0.6420306918438159,
+      "beta1": 0.35484999252412214,
+      "beta2": 0.6418208114842332,
+      "isComplex": false,
+      "meanExpr": 3.999999999999999,
+      "maintenanceRatio": 1.5833333333333333,
+      "log2FC": 0.5525410230287786
+    },
+    {
+      "geneId": "ECB_03405",
+      "eigenvalue": 0.6679845638583848,
+      "r2": -0.868034575787842,
+      "beta1": 0.4153147253290894,
+      "beta2": 0.581457669622343,
+      "isComplex": false,
+      "meanExpr": 17.51851851851852,
+      "maintenanceRatio": 1.869047619047619,
+      "log2FC": 0.8568750579014028
+    },
+    {
+      "geneId": "ECB_r00009",
+      "eigenvalue": 0.5870176473560825,
+      "r2": -0.038867646537495526,
+      "beta1": 1.2588833839967324,
+      "beta2": -0.26079720489815783,
+      "isComplex": false,
+      "meanExpr": 55393.333333333336,
+      "maintenanceRatio": 5.898375870069605,
+      "log2FC": 2.5597619465960135
+    },
+    {
+      "geneId": "ECB_02753",
+      "eigenvalue": 0.8094172698969495,
+      "r2": -0.8221150051291424,
+      "beta1": 0.5933005963490714,
+      "beta2": 0.4027761254969081,
+      "isComplex": false,
+      "meanExpr": 28.81481481481482,
+      "maintenanceRatio": 1.988095238095238,
+      "log2FC": 0.9664474402889733
+    },
+    {
+      "geneId": "ECB_02766",
+      "eigenvalue": 0.8508299271635291,
+      "r2": -0.6213608879353805,
+      "beta1": 0.7087022523760315,
+      "beta2": 0.287690437949809,
+      "isComplex": false,
+      "meanExpr": 77.74074074074075,
+      "maintenanceRatio": 2.4726027397260273,
+      "log2FC": 1.2943723723668008
+    },
+    {
+      "geneId": "ECB_02214",
+      "eigenvalue": 0.7470583455984735,
+      "r2": -0.4372695798005377,
+      "beta1": 0.9570311811334825,
+      "beta2": 0.03954919928760752,
+      "isComplex": false,
+      "meanExpr": 1153.5925925925926,
+      "maintenanceRatio": 1.7802403204272366,
+      "log2FC": 0.8315658084127606
+    },
+    {
+      "geneId": "ECB_r00005",
+      "eigenvalue": 0.8056025481421084,
+      "r2": -0.07339361264593336,
+      "beta1": 1.2314343339143186,
+      "beta2": -0.23407372997042927,
+      "isComplex": false,
+      "meanExpr": 69086.85185185185,
+      "maintenanceRatio": 5.522062329331195,
+      "log2FC": 2.4647464004509376
+    },
+    {
+      "geneId": "ECB_01502",
+      "eigenvalue": 0.6913719164338088,
+      "r2": 0.1743007725977067,
+      "beta1": 0.9880936861060237,
+      "beta2": 0.007974502720985727,
+      "isComplex": false,
+      "meanExpr": 4.888888888888889,
+      "maintenanceRatio": 5.82,
+      "log2FC": 2.1840001866540355
+    },
+    {
+      "geneId": "ECB_04023",
+      "eigenvalue": 0.9213036763760407,
+      "r2": -0.8386755648802271,
+      "beta1": 0.6047611569069636,
+      "beta2": 0.3897231638962159,
+      "isComplex": false,
+      "meanExpr": 28.81481481481482,
+      "maintenanceRatio": 1.914,
+      "log2FC": 0.9124501209504191
+    },
+    {
+      "geneId": "ECB_01061",
+      "eigenvalue": 0.41289505936747634,
+      "r2": -0.2886360754658239,
+      "beta1": 0.9412403496515366,
+      "beta2": 0.054481119816142766,
+      "isComplex": false,
+      "meanExpr": 44.62962962962963,
+      "maintenanceRatio": 2.914529914529915,
+      "log2FC": 1.5193741590935794
+    },
+    {
+      "geneId": "ECB_00097",
+      "eigenvalue": 0.7915346190971191,
+      "r2": -0.4822153881909652,
+      "beta1": 0.7041613195988888,
+      "beta2": 0.29055829711919456,
+      "isComplex": false,
+      "meanExpr": 3364.8888888888887,
+      "maintenanceRatio": 1.036971912451992,
+      "log2FC": 0.052366109174454105
+    },
+    {
+      "geneId": "ECB_04251",
+      "eigenvalue": 0.8558265123719297,
+      "r2": -0.6555291392768436,
+      "beta1": 0.28272241430036726,
+      "beta2": 0.7100680075971458,
+      "isComplex": false,
+      "meanExpr": 38.88888888888889,
+      "maintenanceRatio": 1.6032786885245904,
+      "log2FC": 0.6653811831764542
+    },
+    {
+      "geneId": "ECB_03448",
+      "eigenvalue": 0.8796923745998024,
+      "r2": -0.27715173258261183,
+      "beta1": 0.8556914097317985,
+      "beta2": 0.13943332644681386,
+      "isComplex": false,
+      "meanExpr": 22.85185185185185,
+      "maintenanceRatio": 4.058219178082192,
+      "log2FC": 1.956296521901839
+    },
+    {
+      "geneId": "ECB_01537",
+      "eigenvalue": 0.6969334749008218,
+      "r2": -0.04183924672924788,
+      "beta1": 0.8871586050681946,
+      "beta2": 0.10794721250361876,
+      "isComplex": false,
+      "meanExpr": 1.4444444444444444,
+      "maintenanceRatio": 3.75,
+      "log2FC": 1.291231297664446
+    },
+    {
+      "geneId": "ECB_r00002",
+      "eigenvalue": 0.7486956438305439,
+      "r2": -0.03474609811356366,
+      "beta1": 1.2665313758565118,
+      "beta2": -0.2697842377301673,
+      "isComplex": false,
+      "meanExpr": 43806.370370370365,
+      "maintenanceRatio": 6.139291664095761,
+      "log2FC": 2.6174017717798908
+    },
+    {
+      "geneId": "ECB_00134",
+      "eigenvalue": 0.8257873243937619,
+      "r2": -0.4077143902773803,
+      "beta1": 0.7663167760681546,
+      "beta2": 0.22815567986568777,
+      "isComplex": false,
+      "meanExpr": 19.74074074074074,
+      "maintenanceRatio": 2.597560975609756,
+      "log2FC": 1.330243363099366
+    },
+    {
+      "geneId": "ECB_r00012",
+      "eigenvalue": 0.7040527937830113,
+      "r2": -0.03504991437620375,
+      "beta1": 1.2671425735106887,
+      "beta2": -0.2705073575564995,
+      "isComplex": false,
+      "meanExpr": 44519.18518518519,
+      "maintenanceRatio": 6.149317091177556,
+      "log2FC": 2.619757488667154
+    },
+    {
+      "geneId": "ECB_00887",
+      "eigenvalue": 0.6508659432274776,
+      "r2": -0.8371395869786729,
+      "beta1": 0.6889477762447769,
+      "beta2": 0.3050063810099985,
+      "isComplex": false,
+      "meanExpr": 890,
+      "maintenanceRatio": 1.719176511067783,
+      "log2FC": 0.7810952172289534
+    },
+    {
+      "geneId": "ECB_r00015",
+      "eigenvalue": 0.7073387863650655,
+      "r2": -0.02921686362884679,
+      "beta1": 1.2791584584079057,
+      "beta2": -0.2825240200960155,
+      "isComplex": false,
+      "meanExpr": 44644.666666666664,
+      "maintenanceRatio": 5.8976139601139606,
+      "log2FC": 2.559491595433191
+    },
+    {
+      "geneId": "ECB_r00021",
+      "eigenvalue": 0.769426600132069,
+      "r2": -0.02546242646381347,
+      "beta1": 1.2847521188232298,
+      "beta2": -0.2881768060707508,
+      "isComplex": false,
+      "meanExpr": 44578.7037037037,
+      "maintenanceRatio": 6.090473300970874,
+      "log2FC": 2.6058960390617143
+    },
+    {
+      "geneId": "ECB_04182",
+      "eigenvalue": 0.4861706409932894,
+      "r2": -0.2511062392087773,
+      "beta1": 0.7637899304759388,
+      "beta2": 0.23022276682188536,
+      "isComplex": false,
+      "meanExpr": 9.629629629629628,
+      "maintenanceRatio": 3.659090909090909,
+      "log2FC": 1.7398481026993278
+    },
+    {
+      "geneId": "ECB_r00018",
+      "eigenvalue": 0.6622966396281738,
+      "r2": -0.00046620248566009437,
+      "beta1": 1.3000886951604105,
+      "beta2": -0.303579657700729,
+      "isComplex": false,
+      "meanExpr": 42663.555555555555,
+      "maintenanceRatio": 5.97196261682243,
+      "log2FC": 2.577531831370384
+    },
+    {
+      "geneId": "ECB_02139",
+      "eigenvalue": 0.8936285655459328,
+      "r2": -0.5638920487134944,
+      "beta1": 0.667439542060179,
+      "beta2": 0.3258474488002812,
+      "isComplex": false,
+      "meanExpr": 2.6296296296296293,
+      "maintenanceRatio": 1.74,
+      "log2FC": 0.6267826764157833
+    }
+  ],
+  "bottomGenes": [
+    {
+      "geneId": "ECB_00988",
+      "eigenvalue": 0.7987556794574946,
+      "r2": -0.1569643589592551,
+      "meanExpr": 0.18518518518518517,
+      "maintenanceRatio": 6,
+      "log2FC": 0.584962500721156
+    },
+    {
+      "geneId": "ECB_02806",
+      "eigenvalue": 0.8770831285680689,
+      "r2": -0.5312499999999998,
+      "meanExpr": 0.18518518518518517,
+      "maintenanceRatio": 1.5,
+      "log2FC": 0.12553088208385882
+    },
+    {
+      "geneId": "ECB_02946",
+      "eigenvalue": 0.9843537645198277,
+      "r2": -0.2834694636487738,
+      "meanExpr": 0.6666666666666666,
+      "maintenanceRatio": 2.75,
+      "log2FC": 0.765534746362977
+    },
+    {
+      "geneId": "ECB_00028",
+      "eigenvalue": 0.6482857414018313,
+      "r2": -0.12313456965622671,
+      "meanExpr": 2.5185185185185186,
+      "maintenanceRatio": 1.026315789473684,
+      "log2FC": 0.030373649043518695
+    },
+    {
+      "geneId": "ECB_03326",
+      "eigenvalue": 0.934723467630721,
+      "r2": -0.512734822542597,
+      "meanExpr": 0.5925925925925926,
+      "maintenanceRatio": 0.125,
+      "log2FC": -0.9999999999999997
+    },
+    {
+      "geneId": "ECB_01905",
+      "eigenvalue": 0.9608559422856537,
+      "r2": -0.2255784667820051,
+      "meanExpr": 0.6666666666666667,
+      "maintenanceRatio": 1.3333333333333333,
+      "log2FC": 0.22239242133644774
+    },
+    {
+      "geneId": "ECB_00729",
+      "eigenvalue": 0.9688511929969622,
+      "r2": -0.7335646237977083,
+      "meanExpr": 0.7037037037037037,
+      "maintenanceRatio": 19.5,
+      "log2FC": 1.510961919277379
+    },
+    {
+      "geneId": "ECB_00791",
+      "eigenvalue": 0.7421835935982981,
+      "r2": -0.2027951361641649,
+      "meanExpr": 0.18518518518518517,
+      "maintenanceRatio": 1,
+      "log2FC": 0
+    },
+    {
+      "geneId": "ECB_00297",
+      "eigenvalue": 0.6779441896902079,
+      "r2": -0.2656189296626541,
+      "meanExpr": 1.4074074074074074,
+      "maintenanceRatio": 2.769230769230769,
+      "log2FC": 1.0324214776923775
+    },
+    {
+      "geneId": "ECB_03004",
+      "eigenvalue": 0.7691616759203254,
+      "r2": -0.27669500533399005,
+      "meanExpr": 0.5555555555555556,
+      "maintenanceRatio": 2.6999999999999997,
+      "log2FC": 0.6844981742720706
+    },
+    {
+      "geneId": "ECB_02004",
+      "eigenvalue": 0.7590048631783098,
+      "r2": -0.17456315015031643,
+      "meanExpr": 1.962962962962963,
+      "maintenanceRatio": 4.75,
+      "log2FC": 1.6520766965796934
+    },
+    {
+      "geneId": "ECB_00835",
+      "eigenvalue": 0.9744716894711549,
+      "r2": -0.4694328594779307,
+      "meanExpr": 0.5925925925925926,
+      "maintenanceRatio": 0.8999999999999999,
+      "log2FC": -0.05246741989413554
+    },
+    {
+      "geneId": "ECB_01439",
+      "eigenvalue": 0.8997400146639762,
+      "r2": -0.5657635897550721,
+      "meanExpr": 0.18518518518518517,
+      "maintenanceRatio": 2.25,
+      "log2FC": 0.295455883526171
+    },
+    {
+      "geneId": "ECB_03360",
+      "eigenvalue": 0.5,
+      "r2": -0.20277149550695017,
+      "meanExpr": 0.5555555555555556,
+      "maintenanceRatio": 1.3125000000000002,
+      "log2FC": 0.1979393776119091
+    },
+    {
+      "geneId": "ECB_02984",
+      "eigenvalue": 0.8875339942259226,
+      "r2": -0.6280847343155584,
+      "meanExpr": 1.4814814814814814,
+      "maintenanceRatio": 2.4375,
+      "log2FC": 0.7454271729144023
+    },
+    {
+      "geneId": "ECB_02861",
+      "eigenvalue": 0.40629994982869433,
+      "r2": -0.2544243245565161,
+      "meanExpr": 0.3703703703703704,
+      "maintenanceRatio": 1,
+      "log2FC": 0
+    },
+    {
+      "geneId": "ECB_00021",
+      "eigenvalue": 0.6813565046248607,
+      "r2": -0.16666666666666652,
+      "meanExpr": 0.3333333333333333,
+      "maintenanceRatio": 1.8750000000000002,
+      "log2FC": 0.3439544012173614
+    },
+    {
+      "geneId": "ECB_00022",
+      "eigenvalue": 0.9393657172315373,
+      "r2": -0.16666666666666696,
+      "meanExpr": 0.07407407407407407,
+      "maintenanceRatio": 0,
+      "log2FC": null
+    },
+    {
+      "geneId": "ECB_01233",
+      "eigenvalue": 0,
+      "r2": -0.16666666666666696,
+      "meanExpr": 0.037037037037037035,
+      "maintenanceRatio": null,
+      "log2FC": null
+    },
+    {
+      "geneId": "ECB_01288",
+      "eigenvalue": 0.6502789500062253,
+      "r2": -0.16666666666666674,
+      "meanExpr": 0.2592592592592593,
+      "maintenanceRatio": 9,
+      "log2FC": 0.8479969065549499
+    },
+    {
+      "geneId": "ECB_01332",
+      "eigenvalue": 0.8966647294030765,
+      "r2": 0,
+      "meanExpr": 0.037037037037037035,
+      "maintenanceRatio": 0,
+      "log2FC": null
+    },
+    {
+      "geneId": "ECB_01540",
+      "eigenvalue": 0.6770047766371872,
+      "r2": -0.40000000000000036,
+      "meanExpr": 0.18518518518518517,
+      "maintenanceRatio": 0.5,
+      "log2FC": -0.19264507794239571
+    },
+    {
+      "geneId": "ECB_01960",
+      "eigenvalue": 0,
+      "r2": -0.16666666666666696,
+      "meanExpr": 0.037037037037037035,
+      "maintenanceRatio": null,
+      "log2FC": null
+    },
+    {
+      "geneId": "ECB_01997",
+      "eigenvalue": 0.8059129814051831,
+      "r2": -0.16666666666666696,
+      "meanExpr": 0.07407407407407407,
+      "maintenanceRatio": 1.5,
+      "log2FC": 0.070389327891398
+    },
+    {
+      "geneId": "ECB_02006",
+      "eigenvalue": 0.6996873548865686,
+      "r2": -0.16666666666666652,
+      "meanExpr": 0.2222222222222222,
+      "maintenanceRatio": 7.500000000000001,
+      "log2FC": 0.7224660244710912
+    },
+    {
+      "geneId": "ECB_03294",
+      "eigenvalue": 0.4729768548360678,
+      "r2": -0.16666666666666696,
+      "meanExpr": 0.07407407407407407,
+      "maintenanceRatio": 1.5,
+      "log2FC": 0.070389327891398
+    },
+    {
+      "geneId": "ECB_03459",
+      "eigenvalue": 0.6356304388495283,
+      "r2": -0.40000000000000036,
+      "meanExpr": 0.1111111111111111,
+      "maintenanceRatio": 1.5,
+      "log2FC": 0.070389327891398
+    },
+    {
+      "geneId": "ECB_03969",
+      "eigenvalue": 0.6906629453364644,
+      "r2": -0.16666666666666652,
+      "meanExpr": 0.2222222222222222,
+      "maintenanceRatio": 0.75,
+      "log2FC": -0.11547721741993608
+    },
+    {
+      "geneId": "ECB_04188",
+      "eigenvalue": 0.7517487411477924,
+      "r2": -0.2984284971595441,
+      "meanExpr": 0.2222222222222222,
+      "maintenanceRatio": 6,
+      "log2FC": 0.584962500721156
+    },
+    {
+      "geneId": "RF02064.1",
+      "eigenvalue": 0.7253499436070978,
+      "r2": -0.16666666666666696,
+      "meanExpr": 0.07407407407407407,
+      "maintenanceRatio": 1.5,
+      "log2FC": 0.070389327891398
+    }
+  ],
+  "expressionQuintiles": [
+    {
+      "label": "Very Low",
+      "meanEigenvalue": 0.7631744380132457,
+      "nGenes": 789,
+      "meanExpression": 1.7334647702201598
+    },
+    {
+      "label": "Low",
+      "meanEigenvalue": 0.7762089317640254,
+      "nGenes": 789,
+      "meanExpression": 8.602544242594956
+    },
+    {
+      "label": "Medium",
+      "meanEigenvalue": 0.7688417199240652,
+      "nGenes": 789,
+      "meanExpression": 28.41261794113506
+    },
+    {
+      "label": "High",
+      "meanEigenvalue": 0.7790327472841817,
+      "nGenes": 789,
+      "meanExpression": 88.28174435525504
+    },
+    {
+      "label": "Very High",
+      "meanEigenvalue": 0.7816360172930331,
+      "nGenes": 790,
+      "meanExpression": 2204.55550867323
+    }
+  ]
+}

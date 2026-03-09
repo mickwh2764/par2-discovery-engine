@@ -659,7 +659,7 @@ export async function runStationarityValidation(): Promise<StationarityValidatio
 
   const result: StationarityValidationResult = {
     timestamp: new Date().toISOString(),
-    version: '2.2.0',
+    version: '2.3.0',
     datasets,
     overallSummary: {
       totalDatasets: datasets.length,

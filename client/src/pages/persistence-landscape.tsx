@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo, useRef, useEffect, useState } from "react";
 import { Link } from "wouter";
 import { ArrowLeft, Loader2, ChevronRight, AlertTriangle, Check, Shield, Pill, FlaskConical } from "lucide-react";
+import GeneTooltip from "@/components/GeneTooltip";
 
 interface GenePoint {
   gene: string;
@@ -754,7 +755,7 @@ export default function PersistenceLandscape() {
                             <div className="space-y-1">
                               {ds.clockProteins.map(p => (
                                 <div key={p.gene} className="flex items-center justify-between">
-                                  <span className="text-[10px] text-slate-400 font-mono">{p.gene}</span>
+                                  <GeneTooltip gene={p.gene}><span className="text-[10px] text-slate-400 font-mono">{p.gene}</span></GeneTooltip>
                                   <div className="flex items-center gap-1">
                                     <div className="w-16 bg-slate-700 rounded-full h-1">
                                       <div className="h-1 rounded-full bg-cyan-400" style={{ width: `${Math.min(p.eigenvalue * 100, 100)}%` }} />
@@ -773,7 +774,7 @@ export default function PersistenceLandscape() {
                             <div className="space-y-1">
                               {ds.targetProteins.map(p => (
                                 <div key={p.gene} className="flex items-center justify-between">
-                                  <span className="text-[10px] text-slate-400 font-mono">{p.gene}</span>
+                                  <GeneTooltip gene={p.gene}><span className="text-[10px] text-slate-400 font-mono">{p.gene}</span></GeneTooltip>
                                   <div className="flex items-center gap-1">
                                     <div className="w-16 bg-slate-700 rounded-full h-1">
                                       <div className="h-1 rounded-full bg-pink-400" style={{ width: `${Math.min(p.eigenvalue * 100, 100)}%` }} />
@@ -849,7 +850,7 @@ export default function PersistenceLandscape() {
                       <div className="space-y-1.5">
                         {proteomicsData.concordance.matchedGenes.map(m => (
                           <div key={m.gene} className="flex items-center gap-2 text-[10px]">
-                            <span className={`font-mono w-12 ${m.type === 'clock' ? 'text-cyan-400' : 'text-pink-400'}`}>{m.gene}</span>
+                            <GeneTooltip gene={m.gene}><span className={`font-mono w-12 ${m.type === 'clock' ? 'text-cyan-400' : 'text-pink-400'}`}>{m.gene}</span></GeneTooltip>
                             <div className="flex-1 flex items-center gap-1">
                               <span className="text-slate-400 w-10 text-right">mRNA</span>
                               <div className="flex-1 bg-slate-700 rounded-full h-1.5 relative">
@@ -1063,7 +1064,7 @@ export default function PersistenceLandscape() {
                       {topDrugTargets.map((t, i) => (
                         <div key={i} className="flex items-center gap-2 text-xs">
                           <span className="text-slate-400 w-4 text-right">{i + 1}.</span>
-                          <span className="text-white font-semibold w-16">{t.gene}</span>
+                          <GeneTooltip gene={t.gene}><span className="text-white font-semibold w-16">{t.gene}</span></GeneTooltip>
                           <div className="flex-1 bg-slate-800 rounded-full h-1.5">
                             <div className="h-1.5 rounded-full bg-purple-500" style={{ width: `${t.eigenvalue * 100}%` }} />
                           </div>

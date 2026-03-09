@@ -1,0 +1,5 @@
+Genotype,Dataset,Clock_Eigenvalue_Mean,Target_Eigenvalue_Mean,Gap,Hierarchy_Preserved,DCLK1_Eigenvalue,Interpretation,Kernel_Status
+WT,GSE157357,0.723,0.331,0.392,TRUE,0.9999,Healthy gearbox: clock > target,Both kernels active and phase-gated
+APC-KO,GSE157357,0.530,0.652,-0.122,FALSE,,Hierarchy inverted: constitutive WNT activation removes α₂ periodicity,α₂ constitutive (WNT always on)
+BMAL1-KO,GSE157357,0.450,0.530,-0.082,FALSE,,Hierarchy collapsed: phase source required for differential persistence,Kernels present but ungated
+APC-KO/BMAL1-KO,GSE157357,,,0.046,FALSE,,Complex epistasis between WNT and circadian pathways,Both kernels disrupted

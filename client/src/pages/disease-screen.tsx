@@ -18,6 +18,7 @@ import PaperCrossLinks from "@/components/PaperCrossLinks";
 import InsightCallout from "@/components/InsightCallout";
 import ExportReport from "@/components/ExportReport";
 import DownloadResultsButton from "@/components/DownloadResultsButton";
+import GeneTooltip from "@/components/GeneTooltip";
 
 interface DiseasePair {
   id: number;
@@ -187,7 +188,7 @@ function TrajectoryMap({ highlights }: { highlights: ShiftEntry[] }) {
               className="cursor-pointer"
               data-testid={`trajectory-gene-${idx}`}
             >
-              <line x1={hx} y1={hy} x2={dx} y2={dy} stroke="#94a3b8" strokeWidth="1.5" markerEnd="url(#arrowhead)" opacity="0.7" />
+              <line x1={hx} y1={hy} x2={dx} y2={dy} stroke="#64748b" strokeWidth="1.5" markerEnd="url(#arrowhead)" opacity="0.7" />
               <circle cx={hx} cy={hy} r={3} fill="#22c55e" />
               <circle cx={dx} cy={dy} r={3} fill="#ef4444" />
             </g>
@@ -199,7 +200,7 @@ function TrajectoryMap({ highlights }: { highlights: ShiftEntry[] }) {
           <text x={25} y={22} fill="#94a3b8" fontSize="10">Healthy</text>
           <circle cx={15} cy={38} r={4} fill="#ef4444" />
           <text x={25} y={42} fill="#94a3b8" fontSize="10">Disease</text>
-          <line x1={10} y1={58} x2={30} y2={58} stroke="#94a3b8" strokeWidth="1.5" markerEnd="url(#arrowhead)" />
+          <line x1={10} y1={58} x2={30} y2={58} stroke="#64748b" strokeWidth="1.5" markerEnd="url(#arrowhead)" />
           <text x={38} y={62} fill="#94a3b8" fontSize="10">Trajectory</text>
         </g>
       </svg>
@@ -526,7 +527,7 @@ export default function DiseaseScreen() {
                       <tbody>
                         {screenData.highlights.map((h, idx) => (
                           <tr key={idx} className="border-b border-slate-700 hover:bg-slate-800/50" data-testid={`row-highlight-${idx}`}>
-                            <td className="p-3 font-mono font-medium">{h.gene}</td>
+                            <td className="p-3 font-mono font-medium"><GeneTooltip gene={h.gene}>{h.gene}</GeneTooltip></td>
                             <td className="p-3">{geneTypeBadge(h.geneType)}</td>
                             <td className="p-3 text-center font-mono">{Math.abs(h.healthyEigenvalue).toFixed(4)}</td>
                             <td className="p-3 text-center font-mono">{Math.abs(h.diseaseEigenvalue).toFixed(4)}</td>
@@ -598,11 +599,11 @@ export default function DiseaseScreen() {
                       <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
                       <XAxis
                         dataKey="center"
-                        stroke="#94a3b8"
+                        stroke="#64748b"
                         tick={{ fontSize: 11 }}
-                        label={{ value: "Shift (Disease − Healthy)", position: "insideBottom", offset: -15, fill: "#94a3b8", fontSize: 12 }}
+                        label={{ value: "Shift (Disease − Healthy)", position: "insideBottom", offset: -15, fill: "#64748b", fontSize: 12 }}
                       />
-                      <YAxis stroke="#94a3b8" label={{ value: "Gene Count", angle: -90, position: "insideLeft", fill: "#94a3b8", fontSize: 12 }} />
+                      <YAxis stroke="#64748b" label={{ value: "Gene Count", angle: -90, position: "insideLeft", fill: "#64748b", fontSize: 12 }} />
                       <Tooltip content={<CustomTooltip />} />
                       <ReferenceLine x={0} stroke="#ef4444" strokeDasharray="3 3" />
                       <Bar dataKey="count" name="Genes" radius={[2, 2, 0, 0]}>
@@ -634,10 +635,10 @@ export default function DiseaseScreen() {
                     <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
                       <BarChart data={screenData.categoryStats} layout="vertical" margin={{ top: 5, right: 20, bottom: 5, left: 100 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                        <XAxis type="number" stroke="#94a3b8" />
-                        <YAxis type="category" dataKey="category" stroke="#94a3b8" tick={{ fontSize: 11 }} width={90} />
+                        <XAxis type="number" stroke="#64748b" />
+                        <YAxis type="category" dataKey="category" stroke="#64748b" tick={{ fontSize: 11 }} width={90} />
                         <Tooltip content={<CustomTooltip />} />
-                        <ReferenceLine x={0} stroke="#94a3b8" strokeDasharray="3 3" />
+                        <ReferenceLine x={0} stroke="#64748b" strokeDasharray="3 3" />
                         <Bar dataKey="meanShift" name="Mean Shift" radius={[0, 4, 4, 0]}>
                           {screenData.categoryStats.map((entry, idx) => (
                             <Cell key={idx} fill={entry.meanShift >= 0 ? "#34d399" : "#f87171"} opacity={0.8} />
@@ -694,7 +695,7 @@ export default function DiseaseScreen() {
                     <tbody>
                       {sortedShifts.map((s, idx) => (
                         <tr key={idx} className="border-b border-slate-700 hover:bg-slate-800/50" data-testid={`row-ranking-${idx}`}>
-                          <td className="p-3 font-mono font-medium">{s.gene}</td>
+                          <td className="p-3 font-mono font-medium"><GeneTooltip gene={s.gene}>{s.gene}</GeneTooltip></td>
                           <td className="p-3">{categoryBadge(s.geneCategory)}</td>
                           <td className="p-3 text-center font-mono">{Math.abs(s.healthyEigenvalue).toFixed(4)}</td>
                           <td className="p-3 text-center font-mono">{Math.abs(s.diseaseEigenvalue).toFixed(4)}</td>
@@ -765,11 +766,11 @@ export default function DiseaseScreen() {
                                 margin={{ top: 5, right: 120, bottom: 5, left: 120 }}
                               >
                                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                                <XAxis type="number" stroke="#94a3b8" />
-                                <YAxis type="category" dataKey="label" stroke="#94a3b8" tick={{ fontSize: 11 }} width={110} />
+                                <XAxis type="number" stroke="#64748b" />
+                                <YAxis type="category" dataKey="label" stroke="#64748b" tick={{ fontSize: 11 }} width={110} />
                                 <Tooltip content={<CustomTooltip />} />
-                                <ReferenceLine x={0} stroke="#94a3b8" strokeDasharray="3 3" />
-                                <Bar dataKey="observedMeanShift" name="Observed Mean Shift" radius={[0, 4, 4, 0]} label={{ position: "right", fill: "#94a3b8", fontSize: 10, formatter: (_: any, __: any, index: number) => robustnessData.categoryPermutations[index]?.pValue < 0.001 ? "***" : robustnessData.categoryPermutations[index]?.pValue < 0.01 ? "**" : robustnessData.categoryPermutations[index]?.pValue < 0.05 ? "*" : "" }}>
+                                <ReferenceLine x={0} stroke="#64748b" strokeDasharray="3 3" />
+                                <Bar dataKey="observedMeanShift" name="Observed Mean Shift" radius={[0, 4, 4, 0]} label={{ position: "right", fill: "#64748b", fontSize: 10, formatter: (_: any, __: any, index: number) => robustnessData.categoryPermutations[index]?.pValue < 0.001 ? "***" : robustnessData.categoryPermutations[index]?.pValue < 0.01 ? "**" : robustnessData.categoryPermutations[index]?.pValue < 0.05 ? "*" : "" }}>
                                   {robustnessData.categoryPermutations.map((cp, idx) => (
                                     <Cell key={idx} fill={cp.observedMeanShift >= 0 ? "#34d399" : "#f87171"} opacity={0.8} />
                                   ))}
@@ -817,7 +818,7 @@ export default function DiseaseScreen() {
                               <tbody>
                                 {sortedBootstrapShifts.map((bs, idx) => (
                                   <tr key={idx} className="border-b border-slate-700 hover:bg-slate-800/50" data-testid={`row-bootstrap-${idx}`}>
-                                    <td className="p-3 font-mono font-medium">{bs.gene}</td>
+                                    <td className="p-3 font-mono font-medium"><GeneTooltip gene={bs.gene}>{bs.gene}</GeneTooltip></td>
                                     <td className="p-3">{categoryBadge(bs.category)}</td>
                                     <td className="p-3 text-center font-mono">
                                       <span className={bs.pointEstimate > 0 ? "text-emerald-400" : "text-red-400"}>
@@ -879,7 +880,7 @@ export default function DiseaseScreen() {
                               <tbody>
                                 {robustnessData.fdr.highlightQValues.map((fq, idx) => (
                                   <tr key={idx} className="border-b border-slate-700 hover:bg-slate-800/50" data-testid={`row-fdr-${idx}`}>
-                                    <td className="p-3 font-mono font-medium">{fq.gene}</td>
+                                    <td className="p-3 font-mono font-medium"><GeneTooltip gene={fq.gene}>{fq.gene}</GeneTooltip></td>
                                     <td className="p-3 text-center font-mono text-muted-foreground">
                                       {fq.pValue < 0.001 ? fq.pValue.toExponential(2) : fq.pValue.toFixed(4)}
                                     </td>
@@ -970,7 +971,7 @@ export default function DiseaseScreen() {
                                 <tbody>
                                   {robustnessData.diagnosticsSummary.highlightDiagnostics.map((d, idx) => (
                                     <tr key={idx} className="border-b border-slate-700 hover:bg-slate-800/50" data-testid={`row-diagnostic-${idx}`}>
-                                      <td className="p-3 font-mono font-medium">{d.gene}</td>
+                                      <td className="p-3 font-mono font-medium"><GeneTooltip gene={d.gene}>{d.gene}</GeneTooltip></td>
                                       <td className="p-3 text-center">
                                         <Badge className="bg-emerald-900/50 text-emerald-300 border-emerald-700">{d.healthyConfidence}</Badge>
                                       </td>

@@ -1,0 +1,233 @@
+=== FULL PROBE ANNOTATION + RE-ANALYSIS ===
+
+Annotated probes: 30724 out of 41139 lines
+Patients with 4 timepoints: 7
+Total probes in expression data: 29284
+Expression probes with gene annotation: 23638 (80.7%)
+
+Valid stationary AR(2) fits: 23197
+With gene annotation: 19097 (82.3%)
+
+Unique genes with eigenvalue estimates: 13328
+
+======================================================================
+FULL-ANNOTATION CATEGORY ANALYSIS
+======================================================================
+
+Category                    Genes Found   Mean |λ|   vs Global   Direction
+---------------------------------------------------------------------------
+Global mean |λ| (all 23197 probes): 0.7007
+
+Core Clock                    23/25    0.7255     +0.0248    ABOVE
+CDK4/6 Pathway                19/20    0.7429     +0.0421    ABOVE
+Proliferation                 21/26    0.8877     +0.1870    ABOVE
+CDK4/6i Resistance            24/27    0.7403     +0.0396    ABOVE
+Estrogen Signaling            11/14    0.6663     -0.0344    BELOW
+Oncogenes                     11/19    0.7152     +0.0144    ABOVE
+Tumor Suppressors             20/22    0.6945     -0.0062    BELOW
+Apoptosis                     18/20    0.7049     +0.0042    ABOVE
+DNA Damage Repair             17/17    0.7679     +0.0672    ABOVE
+Immune Markers                10/20    0.7674     +0.0667    ABOVE
+
+
+--- KEY CATEGORY DETAILS ---
+
+
+Core Clock (mean |λ| = 0.7255):
+  CRY2         |λ|=0.971  Δtreat=+0.495 ↑  (2 probes)
+  FBXW11       |λ|=0.896  Δtreat=+0.399 ↑  (2 probes)
+  CSNK1E       |λ|=0.889  Δtreat=+0.404 ↑  (3 probes)
+  FBXL3        |λ|=0.858  Δtreat=+0.169 →  (1 probes)
+  PER2         |λ|=0.843  Δtreat=+0.427 ↑  (2 probes)
+  NR1D1        |λ|=0.828  Δtreat=+0.585 ↑  (2 probes)
+  NR1D2        |λ|=0.825  Δtreat=+0.380 ↑  (2 probes)
+  RORB         |λ|=0.784  Δtreat=+0.590 ↑  (1 probes)
+  CRY1         |λ|=0.740  Δtreat=+0.016 →  (2 probes)
+  RORC         |λ|=0.725  Δtreat=+0.557 ↑  (1 probes)
+  DBP          |λ|=0.716  Δtreat=+0.041 →  (2 probes)
+  ARNTL2       |λ|=0.709  Δtreat=-0.317 ↓  (3 probes)
+  BHLHE40      |λ|=0.705  Δtreat=+0.073 →  (1 probes)
+  PER3         |λ|=0.687  Δtreat=+0.368 ↑  (3 probes)
+  CLOCK        |λ|=0.681  Δtreat=+0.436 ↑  (1 probes)
+  CSNK1D       |λ|=0.672  Δtreat=+0.431 ↑  (2 probes)
+  PER1         |λ|=0.659  Δtreat=+0.784 ↑  (1 probes)
+  CIART        |λ|=0.654  Δtreat=-0.179 →  (2 probes)
+  ARNTL        |λ|=0.632  Δtreat=+0.103 →  (1 probes)
+  HLF          |λ|=0.614  Δtreat=+1.147 ↑  (1 probes)
+  NFIL3        |λ|=0.540  Δtreat=-0.024 →  (1 probes)
+  TEF          |λ|=0.537  Δtreat=-0.088 →  (1 probes)
+  RORA         |λ|=0.520  Δtreat=+0.446 ↑  (1 probes)
+
+CDK4/6 Pathway (mean |λ| = 0.7429):
+  E2F2         |λ|=0.991  Δtreat=-1.179 ↓  (2 probes)
+  CDKN2C       |λ|=0.934  Δtreat=-0.294 ↓  (1 probes)
+  E2F1         |λ|=0.916  Δtreat=-1.394 ↓  (1 probes)
+  E2F3         |λ|=0.895  Δtreat=+0.030 →  (1 probes)
+  CDKN2D       |λ|=0.874  Δtreat=-0.317 ↓  (1 probes)
+  E2F5         |λ|=0.823  Δtreat=-0.367 ↓  (1 probes)
+  E2F4         |λ|=0.820  Δtreat=+0.029 →  (2 probes)
+  RBL1         |λ|=0.813  Δtreat=-0.791 ↓  (1 probes)
+  CDKN2A       |λ|=0.788  Δtreat=-0.447 ↓  (2 probes)
+  CCND1        |λ|=0.764  Δtreat=-0.209 ↓  (3 probes)
+  CCND3        |λ|=0.731  Δtreat=-0.042 →  (2 probes)
+  CDKN1C       |λ|=0.724  Δtreat=+0.685 ↑  (1 probes)
+  CCND2        |λ|=0.627  Δtreat=+0.343 ↑  (3 probes)
+  CDKN1A       |λ|=0.590  Δtreat=-0.409 ↓  (2 probes)
+  RB1          |λ|=0.583  Δtreat=-0.033 →  (2 probes)
+  CDKN1B       |λ|=0.576  Δtreat=-0.333 ↓  (2 probes)
+  RBL2         |λ|=0.563  Δtreat=+0.020 →  (2 probes)
+  CDK4         |λ|=0.557  Δtreat=-0.355 ↓  (1 probes)
+  CDK6         |λ|=0.548  Δtreat=+0.388 ↑  (2 probes)
+
+CDK4/6i Resistance (mean |λ| = 0.7403):
+  CCNE1        |λ|=0.927  Δtreat=-0.956 ↓  (1 probes)
+  PTEN         |λ|=0.871  Δtreat=+0.084 →  (3 probes)
+  FGFR1        |λ|=0.854  Δtreat=+0.214 ↑  (4 probes)
+  MYCN         |λ|=0.851  Δtreat=+0.083 →  (2 probes)
+  AKT1         |λ|=0.850  Δtreat=+0.150 →  (1 probes)
+  MYC          |λ|=0.810  Δtreat=-0.106 →  (1 probes)
+  MTOR         |λ|=0.802  Δtreat=+0.170 →  (1 probes)
+  PIK3CA       |λ|=0.795  Δtreat=+0.081 →  (1 probes)
+  FGFR3        |λ|=0.763  Δtreat=-0.820 ↓  (1 probes)
+  FGFR2        |λ|=0.763  Δtreat=+0.210 ↑  (1 probes)
+  MAPK1        |λ|=0.746  Δtreat=-0.089 →  (2 probes)
+  HRAS         |λ|=0.742  Δtreat=-0.039 →  (1 probes)
+  MAPK3        |λ|=0.739  Δtreat=-0.284 ↓  (1 probes)
+  TSC2         |λ|=0.733  Δtreat=+0.680 ↑  (1 probes)
+  MAP2K1       |λ|=0.721  Δtreat=+0.270 ↑  (1 probes)
+  CDK2         |λ|=0.709  Δtreat=-0.700 ↓  (1 probes)
+  AKT3         |λ|=0.699  Δtreat=-0.030 →  (1 probes)
+  BRAF         |λ|=0.694  Δtreat=+0.051 →  (1 probes)
+  AKT2         |λ|=0.684  Δtreat=+0.346 ↑  (3 probes)
+  RAF1         |λ|=0.677  Δtreat=+0.409 ↑  (1 probes)
+  NRAS         |λ|=0.651  Δtreat=-0.683 ↓  (1 probes)
+  TSC1         |λ|=0.646  Δtreat=+0.843 ↑  (1 probes)
+  KRAS         |λ|=0.601  Δtreat=+0.460 ↑  (3 probes)
+  PIK3CB       |λ|=0.441  Δtreat=-0.224 ↓  (1 probes)
+
+Proliferation (mean |λ| = 0.8877):
+  AURKB        |λ|=0.997  Δtreat=-0.910 ↓  (1 probes)
+  CDK1         |λ|=0.993  Δtreat=-3.566 ↓  (1 probes)
+  BIRC5        |λ|=0.990  Δtreat=-3.284 ↓  (1 probes)
+  MCM6         |λ|=0.980  Δtreat=-0.828 ↓  (1 probes)
+  CCNB2        |λ|=0.978  Δtreat=-2.010 ↓  (1 probes)
+  CCNA2        |λ|=0.943  Δtreat=-3.284 ↓  (1 probes)
+  BUB1B        |λ|=0.934  Δtreat=-3.020 ↓  (1 probes)
+  CENPE        |λ|=0.923  Δtreat=-1.813 ↓  (1 probes)
+  TTK          |λ|=0.915  Δtreat=-2.584 ↓  (1 probes)
+  TPX2         |λ|=0.908  Δtreat=-1.821 ↓  (1 probes)
+  PLK1         |λ|=0.892  Δtreat=-0.507 ↓  (2 probes)
+  CDC20        |λ|=0.891  Δtreat=-1.306 ↓  (1 probes)
+  TOP2A        |λ|=0.888  Δtreat=-3.280 ↓  (1 probes)
+  FOXM1        |λ|=0.864  Δtreat=-1.870 ↓  (1 probes)
+  CCNB1        |λ|=0.857  Δtreat=-2.201 ↓  (1 probes)
+  AURKA        |λ|=0.846  Δtreat=-1.257 ↓  (1 probes)
+  KIF11        |λ|=0.841  Δtreat=-1.750 ↓  (1 probes)
+  CENPF        |λ|=0.839  Δtreat=-2.363 ↓  (1 probes)
+  MCM2         |λ|=0.806  Δtreat=-0.753 ↓  (1 probes)
+  PCNA         |λ|=0.764  Δtreat=-0.979 ↓  (1 probes)
+  MCM3         |λ|=0.593  Δtreat=-0.412 ↓  (1 probes)
+
+Oncogenes (mean |λ| = 0.7152):
+  KIT          |λ|=0.840  Δtreat=+0.660 ↑  (1 probes)
+  MET          |λ|=0.812  Δtreat=+0.879 ↑  (2 probes)
+  IGF1R        |λ|=0.806  Δtreat=-0.161 →  (2 probes)
+  ERBB3        |λ|=0.804  Δtreat=+0.291 ↑  (3 probes)
+  PDGFRB       |λ|=0.804  Δtreat=+0.108 →  (1 probes)
+  JAK2         |λ|=0.731  Δtreat=+0.346 ↑  (1 probes)
+  STAT3        |λ|=0.702  Δtreat=+0.402 ↑  (3 probes)
+  ABL1         |λ|=0.658  Δtreat=+0.182 →  (4 probes)
+  ERBB2        |λ|=0.615  Δtreat=+0.703 ↑  (1 probes)
+  EGFR         |λ|=0.604  Δtreat=+0.391 ↑  (1 probes)
+  SRC          |λ|=0.491  Δtreat=-0.213 ↓  (1 probes)
+
+
+======================================================================
+PERMUTATION TESTS WITH FULL GENE SETS (5000 permutations)
+======================================================================
+
+Category                    n    Obs |λ|   Null Mean   Z-score   p-value     Verdict
+-----------------------------------------------------------------------------------------------
+Core Clock                    23  0.7255    0.7217      +0.16     0.8884      not significant
+CDK4/6 Pathway                19  0.7429    0.7209      +0.82     0.4184      not significant
+Proliferation                 21  0.8877    0.7211      +6.51     0.0000      *** HIGHLY SIG ***
+CDK4/6i Resistance            24  0.7403    0.7214      +0.78     0.4440      not significant
+Estrogen Signaling            11  0.6663    0.7215      -1.55     0.1304      not significant
+Oncogenes                     11  0.7152    0.7206      -0.15     0.8636      not significant
+Tumor Suppressors             20  0.6945    0.7209      -1.00     0.3192      not significant
+Apoptosis                     18  0.7049    0.7210      -0.58     0.5620      not significant
+DNA Damage Repair             17  0.7679    0.7218      +1.58     0.1068      not significant
+Immune Markers                10  0.7674    0.7212      +1.24     0.2104      not significant
+
+
+======================================================================
+PAIRWISE CATEGORY COMPARISONS (5000 permutations)
+======================================================================
+
+Comparison                                 Diff      p-value    Verdict
+--------------------------------------------------------------------------------
+CDK4/6 Pathway vs Core Clock                +0.0174    0.6846     not significant
+CDK4/6 Pathway vs CDK4/6i Resistance        +0.0025    0.9432     not significant
+Core Clock vs CDK4/6i Resistance            -0.0148    0.6532     not significant
+Oncogenes vs Core Clock                     -0.0103    0.8026     not significant
+Proliferation vs Core Clock                 +0.1622    0.0000     ** SIGNIFICANT **
+Tumor Suppressors vs Proliferation          -0.1932    0.0000     ** SIGNIFICANT **
+CDK4/6 Pathway vs Proliferation             -0.1449    0.0004     ** SIGNIFICANT **
+
+
+======================================================================
+BOOTSTRAP 95% CIs FOR CATEGORIES (1000 resamples)
+======================================================================
+
+Category                    Mean |λ|   95% CI                Width
+----------------------------------------------------------------------
+Core Clock                   0.7255     [0.6552, 0.7995]     0.1443
+CDK4/6 Pathway               0.7429     [0.6521, 0.8204]     0.1683
+Proliferation                0.8877     [0.8026, 0.9178]     0.1152
+CDK4/6i Resistance           0.7403     [0.6555, 0.8094]     0.1539
+Estrogen Signaling           0.6663     [0.5816, 0.7838]     0.2022
+Oncogenes                    0.7152     [0.6452, 0.7934]     0.1482
+Tumor Suppressors            0.6945     [0.6199, 0.8049]     0.1850
+Apoptosis                    0.7049     [0.6203, 0.7816]     0.1614
+DNA Damage Repair            0.7679     [0.6398, 0.8411]     0.2013
+Immune Markers               0.7674     [0.6965, 0.8381]     0.1415
+
+
+======================================================================
+TREATMENT MAINTENANCE BY CATEGORY
+======================================================================
+
+For genes changed by treatment (|Δ| > 0.1), what % of change persists to surgery?
+
+Core Clock                    18 genes changed  Mean maintenance: 99.5%
+CDK4/6 Pathway                14 genes changed  Mean maintenance: 70.3%
+Proliferation                 21 genes changed  Mean maintenance: 41.7%
+CDK4/6i Resistance            17 genes changed  Mean maintenance: 48.6%
+Estrogen Signaling             9 genes changed  Mean maintenance: 74.3%
+Oncogenes                     11 genes changed  Mean maintenance: 45.1%
+Tumor Suppressors             14 genes changed  Mean maintenance: 77.5%
+Apoptosis                      8 genes changed  Mean maintenance: 96.8%
+DNA Damage Repair             13 genes changed  Mean maintenance: 64.9%
+Immune Markers                 9 genes changed  Mean maintenance: -29.8%
+
+
+======================================================================
+VALIDATION SUMMARY
+======================================================================
+
+Probes annotated: 19097/23197 (82.3%)
+Unique genes: 13328
+Global mean |λ|: 0.7007
+
+Category                    Genes   Mean |λ|   Perm p     Bootstrap 95% CI        Pass?
+-----------------------------------------------------------------------------------------------
+Core Clock                    23     0.7255     0.8884     z=+0.16                    NO
+CDK4/6 Pathway                19     0.7429     0.4184     z=+0.82                    NO
+Proliferation                 21     0.8877     0.0000     z=+6.51                    YES
+CDK4/6i Resistance            24     0.7403     0.4440     z=+0.78                    NO
+Estrogen Signaling            11     0.6663     0.1304     z=-1.55                    NO
+Oncogenes                     11     0.7152     0.8636     z=-0.15                    NO
+Tumor Suppressors             20     0.6945     0.3192     z=-1.00                    NO
+Apoptosis                     18     0.7049     0.5620     z=-0.58                    NO
+DNA Damage Repair             17     0.7679     0.1068     z=+1.58                    NO
+Immune Markers                10     0.7674     0.2104     z=+1.24                    NO

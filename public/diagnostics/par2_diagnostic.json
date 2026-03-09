@@ -1,0 +1,135 @@
+{
+  "generated": "2025-12-03T19:43:50.264Z",
+  "systemStatus": {
+    "server": "RUNNING",
+    "database": "CONNECTED",
+    "par2Engine": "OPERATIONAL",
+    "proteomics": "OPERATIONAL"
+  },
+  "validation": {
+    "passRate": "100%",
+    "passed": 10,
+    "failed": 0
+  },
+  "embeddedDatasets": {
+    "count": 16,
+    "tissues": [
+      "Adrenal",
+      "Aorta",
+      "Brainstem",
+      "Brown Fat",
+      "Cerebellum",
+      "Heart",
+      "Hypothalamus",
+      "Kidney",
+      "Liver",
+      "Lung",
+      "Muscle",
+      "White Fat",
+      "Intestinal Organoid",
+      "Intestinal Organoid",
+      "Intestinal Organoid",
+      "Intestinal Organoid"
+    ]
+  },
+  "batchAnalysis": {
+    "status": "completed",
+    "tissuesAnalyzed": 12,
+    "significantBonferroni": 42,
+    "significantFDR": 0,
+    "totalPairsTested": 1824,
+    "discoveryRate": "2.30%",
+    "perTissue": [
+      {
+        "tissue": "Adrenal",
+        "significant": 8,
+        "significantFDR": 0,
+        "total": 152,
+        "rate": "5.3%"
+      },
+      {
+        "tissue": "Aorta",
+        "significant": 6,
+        "significantFDR": 0,
+        "total": 152,
+        "rate": "3.9%"
+      },
+      {
+        "tissue": "Brainstem",
+        "significant": 8,
+        "significantFDR": 0,
+        "total": 152,
+        "rate": "5.3%"
+      },
+      {
+        "tissue": "Brown Fat",
+        "significant": 4,
+        "significantFDR": 0,
+        "total": 152,
+        "rate": "2.6%"
+      },
+      {
+        "tissue": "Cerebellum",
+        "significant": 1,
+        "significantFDR": 0,
+        "total": 152,
+        "rate": "0.7%"
+      },
+      {
+        "tissue": "Heart",
+        "significant": 6,
+        "significantFDR": 0,
+        "total": 152,
+        "rate": "3.9%"
+      },
+      {
+        "tissue": "Hypothalamus",
+        "significant": 0,
+        "significantFDR": 0,
+        "total": 152,
+        "rate": "0.0%"
+      },
+      {
+        "tissue": "Kidney",
+        "significant": 0,
+        "significantFDR": 0,
+        "total": 152,
+        "rate": "0.0%"
+      },
+      {
+        "tissue": "Liver",
+        "significant": 3,
+        "significantFDR": 0,
+        "total": 152,
+        "rate": "2.0%"
+      },
+      {
+        "tissue": "Lung",
+        "significant": 0,
+        "significantFDR": 0,
+        "total": 152,
+        "rate": "0.0%"
+      },
+      {
+        "tissue": "Muscle",
+        "significant": 0,
+        "significantFDR": 0,
+        "total": 152,
+        "rate": "0.0%"
+      },
+      {
+        "tissue": "White Fat",
+        "significant": 6,
+        "significantFDR": 0,
+        "total": 152,
+        "rate": "3.9%"
+      }
+    ]
+  },
+  "databaseStats": {
+    "transcriptomicsRuns": 311,
+    "transcriptomicsCompleted": 305,
+    "proteomicsRuns": 9,
+    "proteomicsCompleted": 2
+  }
+}

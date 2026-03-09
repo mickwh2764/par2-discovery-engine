@@ -1,0 +1,22 @@
+{
+  "timestamp": "2025-12-28T15:24:02.976Z",
+  "standard": {
+    "falsePositiveRate": 0.006,
+    "falsePositives": 3,
+    "totalSimulations": 500,
+    "meanPValue": 0.4688685917426046,
+    "medianPValue": 0.5,
+    "modulus": {
+      "mean": 0.46324875524318937,
+      "std": 0.1560460651860682,
+      "percentAboveOne": 0
+    },
+    "conclusion": "✓ FPR at or below nominal level - methodology validated"
+  },
+  "highNoise": {
+    "falsePositiveRate": 0,
+    "falsePositives": 0,
+    "totalSimulations": 200,
+    "conclusion": "✓ FPR at or below nominal level - methodology validated"
+  }
+}

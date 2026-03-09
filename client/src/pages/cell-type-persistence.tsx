@@ -21,6 +21,7 @@ import PaperCrossLinks from "@/components/PaperCrossLinks";
 import InsightCallout from "@/components/InsightCallout";
 import ViewInRootSpace from "@/components/ViewInRootSpace";
 import DownloadResultsButton, { downloadAsCSV } from "@/components/DownloadResultsButton";
+import GeneTooltipPopover from "@/components/GeneTooltip";
 
 interface GeneResult {
   gene: string;
@@ -413,8 +414,8 @@ export default function CellTypePersistence() {
                   <XAxis
                     type="number"
                     domain={[0.5, 1.05]}
-                    tick={{ fill: '#9ca3af', fontSize: 12 }}
-                    label={{ value: 'Mean Eigenvalue |λ|', position: 'bottom', fill: '#9ca3af', fontSize: 13 }}
+                    tick={{ fill: '#6b7280', fontSize: 12 }}
+                    label={{ value: 'Mean Eigenvalue |λ|', position: 'bottom', fill: '#6b7280', fontSize: 13 }}
                   />
                   <YAxis
                     type="category"
@@ -503,8 +504,8 @@ export default function CellTypePersistence() {
                   <XAxis
                     type="number"
                     domain={[0.7, 1.05]}
-                    tick={{ fill: '#9ca3af', fontSize: 12 }}
-                    label={{ value: 'Eigenvalue |λ|', position: 'bottom', fill: '#9ca3af' }}
+                    tick={{ fill: '#6b7280', fontSize: 12 }}
+                    label={{ value: 'Eigenvalue |λ|', position: 'bottom', fill: '#6b7280' }}
                   />
                   <YAxis
                     type="category"
@@ -551,7 +552,7 @@ export default function CellTypePersistence() {
                 <tbody>
                   {(showAllGenes ? filteredGeneData : filteredGeneData.slice(0, 20)).map((g, i) => (
                     <tr key={g.gene} className="border-b border-gray-700/50 hover:bg-gray-800/30" data-testid={`row-gene-${i}`}>
-                      <td className="py-2 px-3 font-medium text-white">{g.gene}</td>
+                      <td className="py-2 px-3 font-medium text-white"><GeneTooltipPopover gene={g.gene}>{g.gene}</GeneTooltipPopover></td>
                       <td className="py-2 px-3">
                         <Badge
                           className="text-xs"
@@ -629,7 +630,7 @@ export default function CellTypePersistence() {
               </svg>
               {hoveredGene && (
                 <div className="absolute top-4 right-4 bg-gray-900 border border-gray-700 rounded-lg p-3 shadow-xl text-sm pointer-events-none" data-testid="tooltip-root-space">
-                  <p className="font-bold text-white">{hoveredGene.gene}</p>
+                  <p className="font-bold text-white"><GeneTooltipPopover gene={hoveredGene.gene}>{hoveredGene.gene}</GeneTooltipPopover></p>
                   <p className="text-gray-300">{hoveredGene.cellTypeCategory}</p>
                   <p className="text-blue-300">|λ| = {hoveredGene.eigenvalue.toFixed(4)}</p>
                   <p className="text-gray-400">φ₁ = {hoveredGene.phi1.toFixed(3)}, φ₂ = {hoveredGene.phi2.toFixed(3)}</p>
@@ -712,8 +713,8 @@ export default function CellTypePersistence() {
                         <div className="h-[120px]">
                           <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={ct.genes} margin={{ left: 0, right: 5, top: 5, bottom: 5 }}>
-                              <XAxis dataKey="gene" tick={{ fill: '#9ca3af', fontSize: 9 }} angle={-45} textAnchor="end" height={40} />
-                              <YAxis domain={[0.7, 1.05]} tick={{ fill: '#9ca3af', fontSize: 10 }} width={35} />
+                              <XAxis dataKey="gene" tick={{ fill: '#6b7280', fontSize: 9 }} angle={-45} textAnchor="end" height={40} />
+                              <YAxis domain={[0.7, 1.05]} tick={{ fill: '#6b7280', fontSize: 10 }} width={35} />
                               <Bar dataKey="eigenvalue" fill={CELL_TYPE_COLORS[ct.cellType] || '#94a3b8'} radius={[2, 2, 0, 0]} />
                             </BarChart>
                           </ResponsiveContainer>
@@ -721,7 +722,7 @@ export default function CellTypePersistence() {
                         <div className="mt-2 space-y-1">
                           {ct.genes.map(g => (
                             <div key={g.gene} className="flex justify-between text-xs">
-                              <span className="text-gray-300">{g.gene}</span>
+                              <span className="text-gray-300"><GeneTooltipPopover gene={g.gene}>{g.gene}</GeneTooltipPopover></span>
                               <span className="text-gray-400 font-mono">{g.eigenvalue.toFixed(4)}</span>
                             </div>
                           ))}
@@ -779,8 +780,8 @@ export default function CellTypePersistence() {
                     <CartesianGrid strokeDasharray="3 3" stroke="#374151" horizontal={false} />
                     <XAxis
                       type="number"
-                      tick={{ fill: '#9ca3af', fontSize: 12 }}
-                      label={{ value: 'Eigenvalue Drift (APC-KO minus WT)', position: 'bottom', fill: '#9ca3af' }}
+                      tick={{ fill: '#6b7280', fontSize: 12 }}
+                      label={{ value: 'Eigenvalue Drift (APC-KO minus WT)', position: 'bottom', fill: '#6b7280' }}
                     />
                     <YAxis
                       type="category"
@@ -842,7 +843,7 @@ export default function CellTypePersistence() {
                   <tbody>
                     {data.cancerComparison.perGeneDrift.map((g, i) => (
                       <tr key={g.gene} className="border-b border-gray-700/50 hover:bg-gray-800/30" data-testid={`row-drift-${i}`}>
-                        <td className="py-2 px-3 font-medium text-white">{g.gene}</td>
+                        <td className="py-2 px-3 font-medium text-white"><GeneTooltipPopover gene={g.gene}>{g.gene}</GeneTooltipPopover></td>
                         <td className="py-2 px-3 text-gray-400">{g.cellType}</td>
                         <td className="py-2 px-3 text-right font-mono text-green-400">{g.wtEigenvalue.toFixed(4)}</td>
                         <td className="py-2 px-3 text-right font-mono text-red-400">{g.cancerEigenvalue.toFixed(4)}</td>

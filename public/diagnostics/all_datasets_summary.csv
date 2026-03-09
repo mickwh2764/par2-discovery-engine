@@ -1,0 +1,22 @@
+Dataset,Study,Type,TotalPairs,SignificantBonf,SignificantFDR,TopFinding,TopEffectSize,Status
+ApcKO-BmalKO,GSE157357 (Organoids),organoid,152,0,0,N/A,N/A,completed
+ApcKO-WT,GSE157357 (Organoids),organoid,152,11,0,Arntl->Ccnb1,1.394,completed
+WT-BmalKO,GSE157357 (Organoids),organoid,152,1,0,Arntl->Lgr5,1.138,completed
+WT-WT,GSE157357 (Organoids),organoid,152,13,0,Cry1->Tead1,1.819,completed
+CCD,GSE17739 (Kidney),kidney,152,0,0,N/A,N/A,completed
+DCT,GSE17739 (Kidney),kidney,152,0,0,N/A,N/A,completed
+MYC_OFF,GSE221103 (Neuroblastoma),cancer,152,0,0,N/A,N/A,completed
+MYC_ON,GSE221103 (Neuroblastoma),cancer,152,15,8,Arntl->Pparg,10.860,completed
+Adrenal,GSE54650 (Hughes Atlas),tissue,152,8,0,Cry2->Wee1,2.889,completed
+Aorta,GSE54650 (Hughes Atlas),tissue,152,6,0,Cry1->Wee1,2.426,completed
+Brainstem,GSE54650 (Hughes Atlas),tissue,152,8,0,Cry1->Tead1,1.318,completed
+Brown_Fat,GSE54650 (Hughes Atlas),tissue,152,4,0,Arntl->Yap1,2.224,completed
+Cerebellum,GSE54650 (Hughes Atlas),tissue,152,1,0,Nr1d1->Cdk1,0.851,completed
+Heart,GSE54650 (Hughes Atlas),tissue,152,6,0,Nr1d1->Tead1,3.158,completed
+Hypothalamus,GSE54650 (Hughes Atlas),tissue,152,0,0,N/A,N/A,completed
+Kidney,GSE54650 (Hughes Atlas),tissue,152,0,0,N/A,N/A,completed
+Liver,GSE54650 (Hughes Atlas),tissue,152,3,0,Cry2->Wee1,1.004,completed
+Lung,GSE54650 (Hughes Atlas),tissue,152,0,0,N/A,N/A,completed
+Muscle,GSE54650 (Hughes Atlas),tissue,152,0,0,N/A,N/A,completed
+White_Fat,GSE54650 (Hughes Atlas),tissue,152,6,0,Cry2->Bax,0.930,completed
+Basal,GSE59396 (Lung),inflammation,152,0,0,N/A,N/A,completed

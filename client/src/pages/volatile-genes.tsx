@@ -15,6 +15,7 @@ import InsightCallout from "@/components/InsightCallout";
 import ViewInRootSpace from "@/components/ViewInRootSpace";
 import EvidenceLink from "@/components/EvidenceLink";
 import DownloadResultsButton, { downloadAsCSV } from "@/components/DownloadResultsButton";
+import GeneTooltip from "@/components/GeneTooltip";
 
 interface VolatileGene {
   gene: string;
@@ -61,7 +62,7 @@ function MiniSparkline({ eigenvalues }: { eigenvalues: VolatileGene["eigenvalues
   const lineD = points.map((p, i) => `${i === 0 ? "M" : "L"}${p.x},${p.y}`).join(" ");
   return (
     <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} className="inline-block" data-testid="sparkline">
-      <path d={lineD} fill="none" stroke="#94a3b8" strokeWidth="1" />
+      <path d={lineD} fill="none" stroke="#64748b" strokeWidth="1" />
       {points.map((p, i) => (
         <circle key={i} cx={p.x} cy={p.y} r={1.5} fill="#3b82f6" />
       ))}
@@ -85,11 +86,11 @@ function ExpandedDetail({ gene }: { gene: VolatileGene }) {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ left: 10, right: 10, top: 5, bottom: 50 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis dataKey="name" tick={{ fill: "#94a3b8", fontSize: 10 }} angle={-30} textAnchor="end" height={60} />
-                <YAxis tick={{ fill: "#94a3b8", fontSize: 10 }} />
+                <XAxis dataKey="name" tick={{ fill: "#64748b", fontSize: 10 }} angle={-30} textAnchor="end" height={60} />
+                <YAxis tick={{ fill: "#64748b", fontSize: 10 }} />
                 <Tooltip
                   contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #475569", borderRadius: "8px" }}
-                  labelStyle={{ color: "#e2e8f0" }}
+                  labelStyle={{ color: "#334155" }}
                 />
                 <Bar dataKey="eigenvalue" name="|λ|">
                   {chartData.map((_, i) => (
@@ -152,7 +153,7 @@ export default function VolatileGenes() {
     ? [
         { name: "Clock", volatility: Number(data.clockVolatility?.toFixed(4) ?? 0), fill: "#3b82f6" },
         { name: "Target", volatility: Number(data.targetVolatility?.toFixed(4) ?? 0), fill: "#f59e0b" },
-        { name: "Other", volatility: Number(data.otherVolatility?.toFixed(4) ?? 0), fill: "#94a3b8" },
+        { name: "Other", volatility: Number(data.otherVolatility?.toFixed(4) ?? 0), fill: "#64748b" },
       ]
     : [];
 
@@ -280,11 +281,11 @@ export default function VolatileGenes() {
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={categoryChartData} margin={{ left: 10, right: 10, top: 5, bottom: 5 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                      <XAxis dataKey="name" tick={{ fill: "#94a3b8", fontSize: 12 }} />
-                      <YAxis tick={{ fill: "#94a3b8", fontSize: 11 }} />
+                      <XAxis dataKey="name" tick={{ fill: "#64748b", fontSize: 12 }} />
+                      <YAxis tick={{ fill: "#64748b", fontSize: 11 }} />
                       <Tooltip
                         contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #475569", borderRadius: "8px" }}
-                        labelStyle={{ color: "#e2e8f0" }}
+                        labelStyle={{ color: "#334155" }}
                       />
                       <Bar dataKey="volatility" name="Mean Volatility">
                         {categoryChartData.map((entry, i) => (
@@ -366,7 +367,7 @@ export default function VolatileGenes() {
                           >
                             <td className="px-3 py-2 text-slate-400 font-mono text-xs">{idx + 1}</td>
                             <td className="px-3 py-2 text-white font-bold font-mono flex items-center gap-1.5">
-                              {gene.gene}
+                              <GeneTooltip gene={gene.gene}>{gene.gene}</GeneTooltip>
                               {isExpanded ? <ChevronUp className="h-3 w-3 text-slate-400" /> : <ChevronDown className="h-3 w-3 text-slate-400" />}
                             </td>
                             <td className="px-3 py-2">

@@ -10,7 +10,8 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell,
 } from "recharts";
-import { ArrowLeft, Globe, BarChart3, Users, Activity, MapPin, Clock, Eye, Download, Trash2, CalendarDays, X, Upload } from "lucide-react";
+import { ArrowLeft, Globe, BarChart3, Users, Activity, MapPin, Clock, Eye, Download, Trash2, CalendarDays, X, Upload, UserX, Route, Layers, Monitor, Smartphone, Tablet, LogIn, LogOut, TrendingDown } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 
 interface AnalyticsSummary {
   totalVisits: number;
@@ -29,7 +30,44 @@ interface AnalyticsSummary {
     createdAt: string;
   }>;
   visitsByDay: Record<string, number>;
+  trafficSources: Record<string, number>;
 }
+
+interface AnalyticsSession {
+  id: string;
+  userAgent: string;
+  country: string | null;
+  city: string | null;
+  pages: string[];
+  eventCount: number;
+  uploads: number;
+  analyses: number;
+  firstSeen: string;
+  lastSeen: string;
+  durationMinutes: number;
+  tier: 'bounce' | 'browser' | 'engaged' | 'power';
+  isSelf: boolean;
+}
+
+interface EngagementSummary {
+  bounce: number;
+  browser: number;
+  engaged: number;
+  power: number;
+  totalSessions: number;
+}
+
+interface EnhancedData {
+  sessions: AnalyticsSession[];
+  engagement: EngagementSummary;
+}
+
+const TIER_CONFIG = {
+  bounce: { label: 'Bounce', desc: '1 page only', color: 'text-slate-400', bg: 'bg-slate-500/10', border: 'border-slate-500/30' },
+  browser: { label: 'Browser', desc: '2-5 pages', color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/30' },
+  engaged: { label: 'Engaged', desc: '6+ pages', color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/30' },
+  power: { label: 'Power User', desc: 'Uploaded data or ran analysis', color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/30' },
+};
 
 const DATE_RANGES = [
   { label: "Today", days: 1 },
@@ -40,6 +78,25 @@ const DATE_RANGES = [
 ];
 
 const PIE_COLORS = ["#06b6d4", "#8b5cf6", "#f59e0b", "#10b981", "#ef4444", "#ec4899", "#64748b", "#14b8a6"];
+
+function parseDevice(ua: string): 'Mobile' | 'Tablet' | 'Desktop' {
+  if (/Mobile|Android.*Mobile|iPhone|iPod/i.test(ua)) return 'Mobile';
+  if (/iPad|Android(?!.*Mobile)|Tablet/i.test(ua)) return 'Tablet';
+  return 'Desktop';
+}
+
+function parseBrowser(ua: string): string {
+  if (/Edg\//i.test(ua)) return 'Edge';
+  if (/OPR\//i.test(ua) || /Opera/i.test(ua)) return 'Opera';
+  if (/Chrome\//i.test(ua) && !/Edg/i.test(ua)) return 'Chrome';
+  if (/Safari\//i.test(ua) && !/Chrome/i.test(ua)) return 'Safari';
+  if (/Firefox\//i.test(ua)) return 'Firefox';
+  if (/HeadlessChrome/i.test(ua)) return 'Bot';
+  return 'Other';
+}
+
+const DEVICE_ICONS: Record<string, typeof Monitor> = { Desktop: Monitor, Mobile: Smartphone, Tablet: Tablet };
+const DEVICE_COLORS: Record<string, string> = { Desktop: '#3b82f6', Mobile: '#10b981', Tablet: '#f59e0b' };
 
 interface AnalysisResult {
   channel: string;
@@ -189,23 +246,38 @@ export default function Analytics() {
   const [dayLoading, setDayLoading] = useState(false);
   const [clearing, setClearing] = useState(false);
   const [confirmClear, setConfirmClear] = useState(false);
+  const [excludeSelf, setExcludeSelf] = useState(true);
+  const [enhanced, setEnhanced] = useState<EnhancedData | null>(null);
+  const [expandedSession, setExpandedSession] = useState<string | null>(null);
 
-  const loadAnalytics = async () => {
+  const loadAnalytics = async (selfFilter?: boolean) => {
     setLoading(true);
     setError("");
+    const filterSelf = selfFilter !== undefined ? selfFilter : excludeSelf;
     try {
-      const res = await fetch("/api/analytics/summary", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
-      });
-      if (!res.ok) {
+      const [summaryRes, enhancedRes] = await Promise.all([
+        fetch("/api/analytics/summary", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ password, excludeSelf: filterSelf }),
+        }),
+        fetch("/api/analytics/enhanced", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ password, excludeSelf: filterSelf }),
+        }),
+      ]);
+      if (!summaryRes.ok) {
         setError("Invalid password");
         setLoading(false);
         return;
       }
-      const summary = await res.json();
+      const summary = await summaryRes.json();
       setData(summary);
+      if (enhancedRes.ok) {
+        const enh = await enhancedRes.json();
+        setEnhanced(enh);
+      }
       setAuthenticated(true);
     } catch {
       setError("Failed to load analytics");
@@ -230,7 +302,9 @@ export default function Analytics() {
           visitsByPage: {},
           recentVisits: [],
           visitsByDay: {},
+          trafficSources: {},
         });
+        setEnhanced({ sessions: [], engagement: { bounce: 0, browser: 0, engaged: 0, power: 0, totalSessions: 0 } });
         setSelectedDay(null);
         setConfirmClear(false);
       }
@@ -367,6 +441,18 @@ export default function Analytics() {
             </p>
           </div>
           <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mr-2 px-3 py-1.5 rounded-lg bg-slate-800/50 border border-slate-700/50" data-testid="toggle-exclude-self">
+              <UserX size={14} className={excludeSelf ? 'text-amber-400' : 'text-slate-500'} />
+              <span className="text-xs text-slate-400 whitespace-nowrap">Exclude my traffic</span>
+              <Switch
+                checked={excludeSelf}
+                onCheckedChange={(checked) => {
+                  setExcludeSelf(checked);
+                  loadAnalytics(checked);
+                }}
+                data-testid="switch-exclude-self"
+              />
+            </div>
             <Button variant="outline" size="sm" className="gap-2" onClick={exportCSV} data-testid="button-export-csv">
               <Download size={14} />
               Export CSV
@@ -397,7 +483,7 @@ export default function Analytics() {
 
         {data && (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
               <Card data-testid="card-total-visits">
                 <CardContent className="pt-6">
                   <div className="flex items-center gap-3">
@@ -445,9 +531,26 @@ export default function Analytics() {
                     </div>
                     <div>
                       <p className="text-2xl font-bold">
-                        {new Set(data.recentVisits.map(v => v.createdAt.split('T')[0])).size}
+                        {enhanced ? enhanced.sessions.length : new Set(data.recentVisits.map(v => v.createdAt.split('T')[0])).size}
                       </p>
-                      <p className="text-xs text-muted-foreground">Active Days</p>
+                      <p className="text-xs text-muted-foreground">{enhanced ? 'Total Sessions' : 'Active Days'}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card data-testid="card-bounce-rate">
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-lg bg-red-500/10 flex items-center justify-center">
+                      <TrendingDown size={20} className="text-red-500" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold">
+                        {enhanced && enhanced.engagement.totalSessions > 0
+                          ? ((enhanced.engagement.bounce / enhanced.engagement.totalSessions) * 100).toFixed(0) + '%'
+                          : '—'}
+                      </p>
+                      <p className="text-xs text-muted-foreground">Bounce Rate</p>
                     </div>
                   </div>
                 </CardContent>
@@ -483,12 +586,12 @@ export default function Analytics() {
                       <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
                       <XAxis
                         dataKey="day"
-                        tick={{ fill: "#94a3b8", fontSize: 10 }}
+                        tick={{ fill: "#64748b", fontSize: 10 }}
                         angle={-45}
                         textAnchor="end"
                         height={50}
                       />
-                      <YAxis tick={{ fill: "#94a3b8", fontSize: 11 }} allowDecimals={false} />
+                      <YAxis tick={{ fill: "#64748b", fontSize: 11 }} allowDecimals={false} />
                       <Tooltip
                         contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #334155", borderRadius: "8px", fontSize: "12px" }}
                         labelFormatter={(_, payload) => payload?.[0]?.payload?.fullDay || ""}
@@ -557,6 +660,353 @@ export default function Analytics() {
               </Card>
             )}
 
+            {enhanced && (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <Card data-testid="card-engagement-tiers">
+                  <CardHeader>
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <Layers size={16} />
+                      Engagement Depth
+                      <span className="text-xs font-normal text-muted-foreground ml-1">
+                        ({enhanced.engagement.totalSessions} sessions)
+                      </span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {enhanced.engagement.totalSessions === 0 ? (
+                      <p className="text-sm text-muted-foreground text-center py-4">No sessions recorded yet</p>
+                    ) : (
+                      <div className="space-y-3">
+                        {(['power', 'engaged', 'browser', 'bounce'] as const).map(tier => {
+                          const cfg = TIER_CONFIG[tier];
+                          const count = enhanced.engagement[tier];
+                          const pct = enhanced.engagement.totalSessions > 0
+                            ? ((count / enhanced.engagement.totalSessions) * 100).toFixed(0) : '0';
+                          return (
+                            <div key={tier} className="space-y-1" data-testid={`tier-${tier}`}>
+                              <div className="flex items-center justify-between text-sm">
+                                <div className="flex items-center gap-2">
+                                  <span className={`px-2 py-0.5 rounded text-xs font-medium border ${cfg.bg} ${cfg.border} ${cfg.color}`}>
+                                    {cfg.label}
+                                  </span>
+                                  <span className="text-xs text-muted-foreground">{cfg.desc}</span>
+                                </div>
+                                <span className="font-mono text-slate-300">{count} ({pct}%)</span>
+                              </div>
+                              <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                                <div
+                                  className={`h-full rounded-full transition-all ${
+                                    tier === 'power' ? 'bg-amber-500' :
+                                    tier === 'engaged' ? 'bg-emerald-500' :
+                                    tier === 'browser' ? 'bg-blue-500' : 'bg-slate-500'
+                                  }`}
+                                  style={{ width: `${Math.max(2, parseFloat(pct))}%` }}
+                                />
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+
+                <Card data-testid="card-session-stats">
+                  <CardHeader>
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <Route size={16} />
+                      Session Overview
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {enhanced.sessions.length === 0 ? (
+                      <p className="text-sm text-muted-foreground text-center py-4">No sessions recorded yet</p>
+                    ) : (
+                      <div className="space-y-3">
+                        <div className="grid grid-cols-2 gap-3">
+                          <div className="bg-slate-800/50 rounded-lg p-3 text-center">
+                            <p className="text-2xl font-bold text-white">{enhanced.sessions.length}</p>
+                            <p className="text-xs text-muted-foreground">Total Sessions</p>
+                          </div>
+                          <div className="bg-slate-800/50 rounded-lg p-3 text-center">
+                            <p className="text-2xl font-bold text-white">
+                              {enhanced.sessions.length > 0
+                                ? (enhanced.sessions.reduce((a, s) => a + s.pages.length, 0) / enhanced.sessions.length).toFixed(1)
+                                : '0'}
+                            </p>
+                            <p className="text-xs text-muted-foreground">Avg Pages/Session</p>
+                          </div>
+                          <div className="bg-slate-800/50 rounded-lg p-3 text-center">
+                            <p className="text-2xl font-bold text-white">
+                              {enhanced.sessions.length > 0
+                                ? Math.round(enhanced.sessions.reduce((a, s) => a + s.durationMinutes, 0) / enhanced.sessions.length)
+                                : 0} min
+                            </p>
+                            <p className="text-xs text-muted-foreground">Avg Duration</p>
+                          </div>
+                          <div className="bg-slate-800/50 rounded-lg p-3 text-center">
+                            <p className="text-2xl font-bold text-white">
+                              {enhanced.sessions.reduce((a, s) => a + s.uploads, 0)}
+                            </p>
+                            <p className="text-xs text-muted-foreground">Total Uploads</p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+
+            {enhanced && enhanced.sessions.length > 0 && (
+              <Card data-testid="card-visitor-sessions">
+                <CardHeader>
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <Route size={16} />
+                    Visitor Sessions
+                    <span className="text-xs font-normal text-muted-foreground ml-1">
+                      (most recent {Math.min(enhanced.sessions.length, 100)})
+                    </span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-1.5 max-h-[500px] overflow-y-auto">
+                    {enhanced.sessions.map((session) => {
+                      const cfg = TIER_CONFIG[session.tier];
+                      const isExpanded = expandedSession === session.id;
+                      return (
+                        <div key={session.id} className="border border-border/30 rounded-lg">
+                          <div
+                            className="flex items-center gap-3 text-xs p-3 cursor-pointer hover:bg-slate-800/30 transition"
+                            onClick={() => setExpandedSession(isExpanded ? null : session.id)}
+                            data-testid={`session-row-${session.id}`}
+                          >
+                            <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium border shrink-0 ${cfg.bg} ${cfg.border} ${cfg.color}`}>
+                              {cfg.label}
+                            </span>
+                            <span className="text-slate-300 shrink-0">
+                              {session.pages.length} page{session.pages.length !== 1 ? 's' : ''}
+                            </span>
+                            <span className="text-muted-foreground shrink-0">
+                              {session.durationMinutes > 0 ? `${session.durationMinutes} min` : '<1 min'}
+                            </span>
+                            {session.uploads > 0 && (
+                              <span className="text-amber-400 shrink-0">
+                                {session.uploads} upload{session.uploads !== 1 ? 's' : ''}
+                              </span>
+                            )}
+                            {session.country && (
+                              <span className="text-muted-foreground shrink-0">
+                                {session.city ? `${session.city}, ` : ''}{session.country}
+                              </span>
+                            )}
+                            <span className="ml-auto text-muted-foreground whitespace-nowrap shrink-0">
+                              {new Date(session.firstSeen).toLocaleDateString()} {new Date(session.firstSeen).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </span>
+                            <span className="text-muted-foreground">{isExpanded ? '▲' : '▼'}</span>
+                          </div>
+                          {isExpanded && (
+                            <div className="px-3 pb-3 space-y-2">
+                              <div className="flex flex-wrap gap-1.5">
+                                {session.pages.map((page, i) => (
+                                  <span key={i} className="inline-flex items-center gap-1 text-[11px]">
+                                    {i > 0 && <span className="text-slate-600">→</span>}
+                                    <span className="font-mono text-cyan-400 bg-cyan-500/10 px-1.5 py-0.5 rounded">{page}</span>
+                                  </span>
+                                ))}
+                              </div>
+                              <div className="flex gap-4 text-[11px] text-muted-foreground">
+                                <span>{session.eventCount} total events</span>
+                                <span>UA: {session.userAgent.slice(0, 60)}...</span>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {enhanced && enhanced.sessions.length > 0 && (() => {
+              const deviceCounts: Record<string, number> = {};
+              const browserCounts: Record<string, number> = {};
+              const entryCounts: Record<string, number> = {};
+              const exitCounts: Record<string, number> = {};
+              const hourlyCounts: number[] = new Array(24).fill(0);
+
+              enhanced.sessions.forEach(s => {
+                const device = parseDevice(s.userAgent);
+                deviceCounts[device] = (deviceCounts[device] || 0) + 1;
+                const browser = parseBrowser(s.userAgent);
+                browserCounts[browser] = (browserCounts[browser] || 0) + 1;
+                if (s.pages.length > 0) {
+                  const entry = s.pages[0];
+                  entryCounts[entry] = (entryCounts[entry] || 0) + 1;
+                  const exit = s.pages[s.pages.length - 1];
+                  exitCounts[exit] = (exitCounts[exit] || 0) + 1;
+                }
+                try {
+                  const hour = new Date(s.firstSeen).getHours();
+                  hourlyCounts[hour]++;
+                } catch {}
+              });
+
+              const deviceData = Object.entries(deviceCounts).sort((a, b) => b[1] - a[1]).map(([name, value]) => ({ name, value }));
+              const browserData = Object.entries(browserCounts).sort((a, b) => b[1] - a[1]).map(([name, value]) => ({ name, value }));
+              const entryData = Object.entries(entryCounts).sort((a, b) => b[1] - a[1]).slice(0, 8);
+              const exitData = Object.entries(exitCounts).sort((a, b) => b[1] - a[1]).slice(0, 8);
+              const hourlyData = hourlyCounts.map((count, hour) => ({
+                hour: `${hour.toString().padStart(2, '0')}:00`,
+                sessions: count,
+              }));
+              const totalSessions = enhanced.sessions.length;
+
+              return (
+                <>
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    <Card data-testid="card-device-breakdown">
+                      <CardHeader>
+                        <CardTitle className="text-base flex items-center gap-2">
+                          <Monitor size={16} />
+                          Device Breakdown
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-3">
+                          {deviceData.map(d => {
+                            const pct = ((d.value / totalSessions) * 100).toFixed(0);
+                            const DevIcon = DEVICE_ICONS[d.name] || Monitor;
+                            return (
+                              <div key={d.name} className="space-y-1" data-testid={`device-${d.name.toLowerCase()}`}>
+                                <div className="flex items-center justify-between text-sm">
+                                  <div className="flex items-center gap-2">
+                                    <DevIcon size={14} style={{ color: DEVICE_COLORS[d.name] || '#64748b' }} />
+                                    <span>{d.name}</span>
+                                  </div>
+                                  <span className="font-mono text-muted-foreground">{d.value} ({pct}%)</span>
+                                </div>
+                                <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                                  <div
+                                    className="h-full rounded-full transition-all"
+                                    style={{ width: `${Math.max(3, parseFloat(pct))}%`, backgroundColor: DEVICE_COLORS[d.name] || '#64748b' }}
+                                  />
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card data-testid="card-browser-breakdown">
+                      <CardHeader>
+                        <CardTitle className="text-base flex items-center gap-2">
+                          <Globe size={16} />
+                          Browser Breakdown
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-2">
+                          {browserData.map((b, i) => {
+                            const pct = ((b.value / totalSessions) * 100).toFixed(0);
+                            return (
+                              <div key={b.name} className="flex items-center justify-between text-sm" data-testid={`browser-${b.name.toLowerCase()}`}>
+                                <div className="flex items-center gap-2">
+                                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: PIE_COLORS[i % PIE_COLORS.length] }} />
+                                  <span>{b.name}</span>
+                                </div>
+                                <span className="font-mono text-muted-foreground">{b.value} ({pct}%)</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card data-testid="card-hourly-pattern">
+                      <CardHeader>
+                        <CardTitle className="text-base flex items-center gap-2">
+                          <Clock size={16} />
+                          Hourly Traffic Pattern
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <ResponsiveContainer width="100%" height={180} minWidth={1} minHeight={1}>
+                          <BarChart data={hourlyData} margin={{ top: 5, right: 5, bottom: 20, left: 5 }}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                            <XAxis dataKey="hour" tick={{ fill: "#64748b", fontSize: 9 }} angle={-45} textAnchor="end" height={40} interval={2} />
+                            <YAxis tick={{ fill: "#64748b", fontSize: 10 }} allowDecimals={false} width={25} />
+                            <Tooltip contentStyle={{ backgroundColor: "#fff", border: "1px solid #e2e8f0", borderRadius: "8px", fontSize: "12px" }} />
+                            <Bar dataKey="sessions" fill="#8b5cf6" radius={[2, 2, 0, 0]} name="Sessions" />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <Card data-testid="card-entry-pages">
+                      <CardHeader>
+                        <CardTitle className="text-base flex items-center gap-2">
+                          <LogIn size={16} />
+                          Top Entry Pages
+                          <span className="text-xs font-normal text-muted-foreground ml-1">where visitors land first</span>
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-2">
+                          {entryData.map(([page, count]) => {
+                            const pct = ((count / totalSessions) * 100).toFixed(0);
+                            return (
+                              <div key={page} className="flex items-center justify-between text-sm">
+                                <span className="font-mono text-xs truncate max-w-48">{page || '/'}</span>
+                                <div className="flex items-center gap-2">
+                                  <div className="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                    <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${Math.max(4, parseFloat(pct))}%` }} />
+                                  </div>
+                                  <span className="font-mono text-muted-foreground text-xs w-16 text-right">{count} ({pct}%)</span>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card data-testid="card-exit-pages">
+                      <CardHeader>
+                        <CardTitle className="text-base flex items-center gap-2">
+                          <LogOut size={16} />
+                          Top Exit Pages
+                          <span className="text-xs font-normal text-muted-foreground ml-1">where visitors leave</span>
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-2">
+                          {exitData.map(([page, count]) => {
+                            const pct = ((count / totalSessions) * 100).toFixed(0);
+                            return (
+                              <div key={page} className="flex items-center justify-between text-sm">
+                                <span className="font-mono text-xs truncate max-w-48">{page || '/'}</span>
+                                <div className="flex items-center gap-2">
+                                  <div className="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                    <div className="h-full bg-red-400 rounded-full" style={{ width: `${Math.max(4, parseFloat(pct))}%` }} />
+                                  </div>
+                                  <span className="font-mono text-muted-foreground text-xs w-16 text-right">{count} ({pct}%)</span>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </>
+              );
+            })()}
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <Card data-testid="card-visits-by-country">
                 <CardHeader>
@@ -574,8 +1024,8 @@ export default function Analytics() {
                         <ResponsiveContainer width="100%" height={220} minWidth={1} minHeight={1}>
                           <BarChart data={countryChartData} layout="vertical" margin={{ top: 5, right: 20, bottom: 5, left: 60 }}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#334155" horizontal={false} />
-                            <XAxis type="number" tick={{ fill: "#94a3b8", fontSize: 11 }} allowDecimals={false} />
-                            <YAxis type="category" dataKey="country" tick={{ fill: "#94a3b8", fontSize: 11 }} width={55} />
+                            <XAxis type="number" tick={{ fill: "#64748b", fontSize: 11 }} allowDecimals={false} />
+                            <YAxis type="category" dataKey="country" tick={{ fill: "#64748b", fontSize: 11 }} width={55} />
                             <Tooltip contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #334155", borderRadius: "8px", fontSize: "12px" }} />
                             <Bar dataKey="visits" fill="#8b5cf6" radius={[0, 3, 3, 0]} name="Visits" />
                           </BarChart>
@@ -612,8 +1062,8 @@ export default function Analytics() {
                     <ResponsiveContainer width="100%" height={250} minWidth={1} minHeight={1}>
                       <BarChart data={pageChartData} layout="vertical" margin={{ top: 5, right: 20, bottom: 5, left: 80 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#334155" horizontal={false} />
-                        <XAxis type="number" tick={{ fill: "#94a3b8", fontSize: 11 }} allowDecimals={false} />
-                        <YAxis type="category" dataKey="page" tick={{ fill: "#94a3b8", fontSize: 10 }} width={75} />
+                        <XAxis type="number" tick={{ fill: "#64748b", fontSize: 11 }} allowDecimals={false} />
+                        <YAxis type="category" dataKey="page" tick={{ fill: "#64748b", fontSize: 10 }} width={75} />
                         <Tooltip
                           contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #334155", borderRadius: "8px", fontSize: "12px" }}
                           labelFormatter={(_, payload) => payload?.[0]?.payload?.fullPage || ""}
@@ -625,6 +1075,58 @@ export default function Analytics() {
                 </CardContent>
               </Card>
             </div>
+
+            {data.trafficSources && Object.keys(data.trafficSources).length > 0 && (
+              <Card data-testid="card-traffic-sources">
+                <CardHeader>
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <Globe size={16} />
+                    Traffic Sources
+                    <span className="text-xs font-normal text-muted-foreground ml-1">
+                      ({Object.values(data.trafficSources).reduce((a, b) => a + b, 0)} tracked visits)
+                    </span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    {Object.entries(data.trafficSources)
+                      .sort(([, a], [, b]) => b - a)
+                      .slice(0, 15)
+                      .map(([source, count]) => {
+                        const total = Object.values(data.trafficSources).reduce((a, b) => a + b, 0);
+                        const pct = total > 0 ? ((count / total) * 100).toFixed(1) : '0';
+                        const isTwitter = source.includes('t.co') || source === 'twitter' || source === 'x';
+                        const isGoogle = source.includes('google');
+                        const isLinkedIn = source.includes('linkedin');
+                        const isGitHub = source.includes('github');
+                        return (
+                          <div key={source} className="flex items-center gap-3 text-sm">
+                            <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${
+                              isTwitter ? 'bg-sky-500/10 text-sky-400' :
+                              isGoogle ? 'bg-red-500/10 text-red-400' :
+                              isLinkedIn ? 'bg-blue-500/10 text-blue-400' :
+                              isGitHub ? 'bg-purple-500/10 text-purple-400' :
+                              'bg-slate-500/10 text-slate-400'
+                            }`}>
+                              {isTwitter ? 'Twitter/X' : isGoogle ? 'Google' : isLinkedIn ? 'LinkedIn' : isGitHub ? 'GitHub' : 'Web'}
+                            </span>
+                            <span className="text-slate-300 font-mono text-xs truncate max-w-48">{source}</span>
+                            <div className="flex-1 mx-2">
+                              <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                <div
+                                  className="h-full bg-cyan-500 rounded-full"
+                                  style={{ width: `${Math.max(4, parseFloat(pct))}%` }}
+                                />
+                              </div>
+                            </div>
+                            <span className="text-muted-foreground text-xs whitespace-nowrap">{count} ({pct}%)</span>
+                          </div>
+                        );
+                      })}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
             <Card data-testid="card-recent-activity">
               <CardHeader>

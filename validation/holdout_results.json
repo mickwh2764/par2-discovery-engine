@@ -1,0 +1,87 @@
+{
+  "predictions": [
+    {
+      "id": "pred_001",
+      "dataset": "GSE221103_MYC_comparison",
+      "hypothesis": "MYC oncogene activation leads to higher explosive dynamics rate",
+      "prediction": {
+        "type": "explosive_rate",
+        "condition": "MYC-ON",
+        "comparison": "higher than control",
+        "control_condition": "MYC-OFF",
+        "expected_range": [
+          3,
+          10
+        ]
+      },
+      "registered_date": "2025-12-28T15:21:30.196Z",
+      "verified": true
+    },
+    {
+      "id": "pred_002",
+      "dataset": "GSE157357_APC_organoids",
+      "hypothesis": "APC tumor suppressor loss increases temporal instability",
+      "prediction": {
+        "type": "explosive_rate",
+        "condition": "APC-KO",
+        "comparison": "higher than control",
+        "control_condition": "Wild-Type",
+        "expected_range": [
+          1.5,
+          5
+        ]
+      },
+      "registered_date": "2025-12-28T15:21:30.197Z",
+      "verified": true
+    },
+    {
+      "id": "pred_003",
+      "dataset": "Any_healthy_tissue",
+      "hypothesis": "Healthy tissue should have stable dynamics (|λ| < 1)",
+      "prediction": {
+        "type": "explosive_rate",
+        "expected_range": [
+          0,
+          0.5
+        ]
+      },
+      "registered_date": "2025-12-28T15:21:30.197Z",
+      "verified": true
+    },
+    {
+      "id": "pred_004",
+      "dataset": "Clock_gene_targets",
+      "hypothesis": "Known clock-controlled genes show significant phase gating",
+      "prediction": {
+        "type": "significant_gating",
+        "expected_value": 0.6
+      },
+      "registered_date": "2025-12-28T15:21:30.197Z",
+      "verified": true,
+      "outcome": "inconclusive",
+      "actual_result": "Needs PAR(2) results analysis"
+    },
+    {
+      "id": "pred_005",
+      "dataset": "Cancer_signature_genes",
+      "hypothesis": "Cell cycle genes under MYC control show elevated |λ|",
+      "prediction": {
+        "type": "modulus_range",
+        "condition": "MYC-ON",
+        "expected_range": [
+          0.8,
+          1.5
+        ]
+      },
+      "registered_date": "2025-12-28T15:21:30.197Z",
+      "verified": true,
+      "outcome": "inconclusive",
+      "actual_result": "Needs detailed modulus analysis"
+    }
+  ],
+  "datasets_held_out": [
+    "Future_GSE_datasets",
+    "User_uploaded_data"
+  ],
+  "analysis_timestamp": "2025-12-28T15:26:19.122Z"
+}

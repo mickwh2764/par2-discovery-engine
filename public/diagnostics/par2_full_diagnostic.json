@@ -1,0 +1,707 @@
+{
+  "generatedAt": "2025-12-04T07:55:10.893Z",
+  "validation": {
+    "passed": true,
+    "passRate": 1,
+    "positiveControls": 5,
+    "negativeControls": 5
+  },
+  "summary": {
+    "totalDatasets": 21,
+    "completedDatasets": 21,
+    "failedDatasets": 0,
+    "totalPairsTested": 3192,
+    "totalSignificantBonf": 82,
+    "totalSignificantFDR": 8
+  },
+  "byStudy": [
+    {
+      "study": "GSE157357 (Organoids)",
+      "datasets": 4,
+      "totalSignificantBonf": 25,
+      "totalSignificantFDR": 0
+    },
+    {
+      "study": "GSE17739 (Kidney)",
+      "datasets": 2,
+      "totalSignificantBonf": 0,
+      "totalSignificantFDR": 0
+    },
+    {
+      "study": "GSE221103 (Neuroblastoma)",
+      "datasets": 2,
+      "totalSignificantBonf": 15,
+      "totalSignificantFDR": 8
+    },
+    {
+      "study": "GSE54650 (Hughes Atlas)",
+      "datasets": 12,
+      "totalSignificantBonf": 42,
+      "totalSignificantFDR": 0
+    },
+    {
+      "study": "GSE59396 (Lung)",
+      "datasets": 1,
+      "totalSignificantBonf": 0,
+      "totalSignificantFDR": 0
+    }
+  ],
+  "results": [
+    {
+      "datasetId": "GSE157357_Organoid_ApcKO-BmalKO_circadian",
+      "datasetName": "ApcKO-BmalKO",
+      "study": "GSE157357 (Organoids)",
+      "type": "organoid",
+      "runId": "7131d6c4-bcf4-4471-bf8d-fde7bfb7a785",
+      "totalPairs": 152,
+      "significantBonf": 0,
+      "significantFDR": 0,
+      "topFindings": [],
+      "status": "completed"
+    },
+    {
+      "datasetId": "GSE157357_Organoid_ApcKO-WT_circadian",
+      "datasetName": "ApcKO-WT",
+      "study": "GSE157357 (Organoids)",
+      "type": "organoid",
+      "runId": "df676337-5f85-49f8-a7ad-94cbdff521df",
+      "totalPairs": 152,
+      "significantBonf": 11,
+      "significantFDR": 0,
+      "topFindings": [
+        {
+          "clockGene": "Arntl",
+          "targetGene": "Ccnb1",
+          "pValue": 0.011998740145604536,
+          "qValue": 0.2615725351741789,
+          "effectSize": 1.3940854895912458,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Per2",
+          "targetGene": "Ccnb1",
+          "pValue": 0.03434942973179389,
+          "qValue": 0.39787830188462964,
+          "effectSize": 1.3940854895912458,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Cry1",
+          "targetGene": "Ccnb1",
+          "pValue": 0.04015285615349473,
+          "qValue": 0.39787830188462964,
+          "effectSize": 1.3940854895912425,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Clock",
+          "targetGene": "Ccnb1",
+          "pValue": 0.0054266487672469665,
+          "qValue": 0.2615725351741789,
+          "effectSize": 1.3940854895912413,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Nr1d1",
+          "targetGene": "Ccnb1",
+          "pValue": 0.010473531146754311,
+          "qValue": 0.2615725351741789,
+          "effectSize": 1.3940854895912413,
+          "effectInterpretation": "large"
+        }
+      ],
+      "status": "completed"
+    },
+    {
+      "datasetId": "GSE157357_Organoid_WT-BmalKO_circadian",
+      "datasetName": "WT-BmalKO",
+      "study": "GSE157357 (Organoids)",
+      "type": "organoid",
+      "runId": "bad3d37c-125d-4095-b1fa-900b34149351",
+      "totalPairs": 152,
+      "significantBonf": 1,
+      "significantFDR": 0,
+      "topFindings": [
+        {
+          "clockGene": "Arntl",
+          "targetGene": "Lgr5",
+          "pValue": 0.047959396908352936,
+          "qValue": 0.781128365281586,
+          "effectSize": 1.1384637617407178,
+          "effectInterpretation": "large"
+        }
+      ],
+      "status": "completed"
+    },
+    {
+      "datasetId": "GSE157357_Organoid_WT-WT_circadian",
+      "datasetName": "WT-WT",
+      "study": "GSE157357 (Organoids)",
+      "type": "organoid",
+      "runId": "d4de729e-876d-4d95-9959-801b6e7c25fc",
+      "totalPairs": 152,
+      "significantBonf": 13,
+      "significantFDR": 0,
+      "topFindings": [
+        {
+          "clockGene": "Cry1",
+          "targetGene": "Tead1",
+          "pValue": 0.016619420463335643,
+          "qValue": 0.16213950732924792,
+          "effectSize": 1.8189226453253198,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Per2",
+          "targetGene": "Tead1",
+          "pValue": 0.023290349737162153,
+          "qValue": 0.16213950732924792,
+          "effectSize": 1.8189226453253198,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Per1",
+          "targetGene": "Tead1",
+          "pValue": 0.018085895377033978,
+          "qValue": 0.16213950732924792,
+          "effectSize": 1.8189226453253189,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Clock",
+          "targetGene": "Tead1",
+          "pValue": 0.028387574167675567,
+          "qValue": 0.16213950732924792,
+          "effectSize": 1.8189226453253189,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Nr1d2",
+          "targetGene": "Tead1",
+          "pValue": 0.018452041109998873,
+          "qValue": 0.16213950732924792,
+          "effectSize": 1.8189226453253189,
+          "effectInterpretation": "large"
+        }
+      ],
+      "status": "completed"
+    },
+    {
+      "datasetId": "GSE17739_Kidney_CCD",
+      "datasetName": "CCD",
+      "study": "GSE17739 (Kidney)",
+      "type": "kidney",
+      "runId": "94e753a3-9f0c-441e-a2aa-55d4b2338980",
+      "totalPairs": 152,
+      "significantBonf": 0,
+      "significantFDR": 0,
+      "topFindings": [],
+      "status": "completed"
+    },
+    {
+      "datasetId": "GSE17739_Kidney_DCT",
+      "datasetName": "DCT",
+      "study": "GSE17739 (Kidney)",
+      "type": "kidney",
+      "runId": "2535f08a-1a69-4b2a-8992-bc6d995ded45",
+      "totalPairs": 152,
+      "significantBonf": 0,
+      "significantFDR": 0,
+      "topFindings": [],
+      "status": "completed"
+    },
+    {
+      "datasetId": "GSE221103_Neuroblastoma_MYC_OFF",
+      "datasetName": "MYC_OFF",
+      "study": "GSE221103 (Neuroblastoma)",
+      "type": "cancer",
+      "runId": "6afdd581-061e-45d8-841a-7d22a972fb87",
+      "totalPairs": 152,
+      "significantBonf": 0,
+      "significantFDR": 0,
+      "topFindings": [],
+      "status": "completed"
+    },
+    {
+      "datasetId": "GSE221103_Neuroblastoma_MYC_ON",
+      "datasetName": "MYC_ON",
+      "study": "GSE221103 (Neuroblastoma)",
+      "type": "cancer",
+      "runId": "bb13c699-48cb-4f50-8651-0688cd34c830",
+      "totalPairs": 152,
+      "significantBonf": 15,
+      "significantFDR": 8,
+      "topFindings": [
+        {
+          "clockGene": "Arntl",
+          "targetGene": "Pparg",
+          "pValue": 0.003488682971162227,
+          "qValue": 0.04541996332586188,
+          "effectSize": 10.860358230608835,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Nr1d1",
+          "targetGene": "Pparg",
+          "pValue": 0.003572356666079024,
+          "qValue": 0.04541996332586188,
+          "effectSize": 10.860358230608687,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Per2",
+          "targetGene": "Pparg",
+          "pValue": 0.0033313658693892023,
+          "qValue": 0.04541996332586188,
+          "effectSize": 10.860358230608467,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Nr1d2",
+          "targetGene": "Pparg",
+          "pValue": 0.0033659167896109565,
+          "qValue": 0.04541996332586188,
+          "effectSize": 10.860358230608467,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Clock",
+          "targetGene": "Pparg",
+          "pValue": 0.004162807130095203,
+          "qValue": 0.04631122932230913,
+          "effectSize": 10.860358230608394,
+          "effectInterpretation": "large"
+        }
+      ],
+      "status": "completed"
+    },
+    {
+      "datasetId": "GSE54650_Adrenal_circadian",
+      "datasetName": "Adrenal",
+      "study": "GSE54650 (Hughes Atlas)",
+      "type": "tissue",
+      "runId": "176635c7-abc8-45b9-89f3-974a317c0a72",
+      "totalPairs": 152,
+      "significantBonf": 8,
+      "significantFDR": 0,
+      "topFindings": [
+        {
+          "clockGene": "Cry2",
+          "targetGene": "Wee1",
+          "pValue": 0.011088233572619899,
+          "qValue": 0.10164214108234908,
+          "effectSize": 2.8885245113270006,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Per2",
+          "targetGene": "Wee1",
+          "pValue": 0.007083036140680399,
+          "qValue": 0.07791339754748439,
+          "effectSize": 2.8885245113270006,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Per1",
+          "targetGene": "Wee1",
+          "pValue": 0.00409796392381967,
+          "qValue": 0.05634700395252046,
+          "effectSize": 2.8885245113269877,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Nr1d1",
+          "targetGene": "Wee1",
+          "pValue": 0.014719616705415994,
+          "qValue": 0.11565413125683996,
+          "effectSize": 2.8885245113269877,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Arntl",
+          "targetGene": "Wee1",
+          "pValue": 0.0028697187998902862,
+          "qValue": 0.05634700395252046,
+          "effectSize": 2.8885245113269815,
+          "effectInterpretation": "large"
+        }
+      ],
+      "status": "completed"
+    },
+    {
+      "datasetId": "GSE54650_Aorta_circadian",
+      "datasetName": "Aorta",
+      "study": "GSE54650 (Hughes Atlas)",
+      "type": "tissue",
+      "runId": "4987895d-8b8f-44d6-8c8e-347aad2cb566",
+      "totalPairs": 152,
+      "significantBonf": 6,
+      "significantFDR": 0,
+      "topFindings": [
+        {
+          "clockGene": "Cry1",
+          "targetGene": "Wee1",
+          "pValue": 0.03939895544124905,
+          "qValue": 0.5253194058833207,
+          "effectSize": 2.4260053502852865,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Clock",
+          "targetGene": "Wee1",
+          "pValue": 0.035614708340865775,
+          "qValue": 0.5253194058833207,
+          "effectSize": 2.426005350285282,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Cry2",
+          "targetGene": "Wee1",
+          "pValue": 0.03707669256725765,
+          "qValue": 0.5253194058833207,
+          "effectSize": 2.426005350285282,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Nr1d2",
+          "targetGene": "Wee1",
+          "pValue": 0.036440546682855235,
+          "qValue": 0.5253194058833207,
+          "effectSize": 2.426005350285282,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Nr1d1",
+          "targetGene": "Wee1",
+          "pValue": 0.015032716898848442,
+          "qValue": 0.5253194058833207,
+          "effectSize": 2.426005350285282,
+          "effectInterpretation": "large"
+        }
+      ],
+      "status": "completed"
+    },
+    {
+      "datasetId": "GSE54650_Brainstem_circadian",
+      "datasetName": "Brainstem",
+      "study": "GSE54650 (Hughes Atlas)",
+      "type": "tissue",
+      "runId": "62103020-856d-474f-8282-dea12686641b",
+      "totalPairs": 152,
+      "significantBonf": 8,
+      "significantFDR": 0,
+      "topFindings": [
+        {
+          "clockGene": "Cry1",
+          "targetGene": "Tead1",
+          "pValue": 0.019228777400338792,
+          "qValue": 0.16677078183183758,
+          "effectSize": 1.3175518000458477,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Per1",
+          "targetGene": "Tead1",
+          "pValue": 0.021195211728567642,
+          "qValue": 0.16677078183183758,
+          "effectSize": 1.3175518000458433,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Nr1d1",
+          "targetGene": "Tead1",
+          "pValue": 0.02224781639230944,
+          "qValue": 0.16677078183183758,
+          "effectSize": 1.3175518000458433,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Arntl",
+          "targetGene": "Tead1",
+          "pValue": 0.024001142592143587,
+          "qValue": 0.16677078183183758,
+          "effectSize": 1.3175518000458275,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Clock",
+          "targetGene": "Tead1",
+          "pValue": 0.024005463850879316,
+          "qValue": 0.16677078183183758,
+          "effectSize": 1.3175518000458237,
+          "effectInterpretation": "large"
+        }
+      ],
+      "status": "completed"
+    },
+    {
+      "datasetId": "GSE54650_Brown_Fat_circadian",
+      "datasetName": "Brown_Fat",
+      "study": "GSE54650 (Hughes Atlas)",
+      "type": "tissue",
+      "runId": "9d86063f-7065-4aa0-8534-d858b161775f",
+      "totalPairs": 152,
+      "significantBonf": 4,
+      "significantFDR": 0,
+      "topFindings": [
+        {
+          "clockGene": "Arntl",
+          "targetGene": "Yap1",
+          "pValue": 0.03837109085571999,
+          "qValue": 0.42260555455076204,
+          "effectSize": 2.2239788686441457,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Per1",
+          "targetGene": "Yap1",
+          "pValue": 0.03814155315206236,
+          "qValue": 0.42260555455076204,
+          "effectSize": 2.2239788686441457,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Nr1d2",
+          "targetGene": "Chek2",
+          "pValue": 0.030426610086687234,
+          "qValue": 0.42260555455076204,
+          "effectSize": 0.9488378420777696,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Per1",
+          "targetGene": "Chek2",
+          "pValue": 0.03695766367968645,
+          "qValue": 0.42260555455076204,
+          "effectSize": 0.9488378420777673,
+          "effectInterpretation": "large"
+        }
+      ],
+      "status": "completed"
+    },
+    {
+      "datasetId": "GSE54650_Cerebellum_circadian",
+      "datasetName": "Cerebellum",
+      "study": "GSE54650 (Hughes Atlas)",
+      "type": "tissue",
+      "runId": "121e75f0-0bf8-468a-9b6b-b573e4cf0be8",
+      "totalPairs": 152,
+      "significantBonf": 1,
+      "significantFDR": 0,
+      "topFindings": [
+        {
+          "clockGene": "Nr1d1",
+          "targetGene": "Cdk1",
+          "pValue": 0.043826025438677085,
+          "qValue": 0.781244755396472,
+          "effectSize": 0.8506768164810787,
+          "effectInterpretation": "large"
+        }
+      ],
+      "status": "completed"
+    },
+    {
+      "datasetId": "GSE54650_Heart_circadian",
+      "datasetName": "Heart",
+      "study": "GSE54650 (Hughes Atlas)",
+      "type": "tissue",
+      "runId": "f901a07d-277e-4fa1-92e5-d50198a112a6",
+      "totalPairs": 152,
+      "significantBonf": 6,
+      "significantFDR": 0,
+      "topFindings": [
+        {
+          "clockGene": "Nr1d1",
+          "targetGene": "Tead1",
+          "pValue": 0.024235625784537085,
+          "qValue": 0.4771782761312845,
+          "effectSize": 3.1578196017494955,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Arntl",
+          "targetGene": "Tead1",
+          "pValue": 0.041044901699589964,
+          "qValue": 0.4771782761312845,
+          "effectSize": 3.157819601749489,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Cry1",
+          "targetGene": "Tead1",
+          "pValue": 0.037121473965646246,
+          "qValue": 0.4771782761312845,
+          "effectSize": 3.1578196017494826,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Clock",
+          "targetGene": "Tead1",
+          "pValue": 0.02888981653294387,
+          "qValue": 0.4771782761312845,
+          "effectSize": 3.157819601749476,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Cry2",
+          "targetGene": "Tead1",
+          "pValue": 0.025946105071494863,
+          "qValue": 0.4771782761312845,
+          "effectSize": 3.157819601749457,
+          "effectInterpretation": "large"
+        }
+      ],
+      "status": "completed"
+    },
+    {
+      "datasetId": "GSE54650_Hypothalamus_circadian",
+      "datasetName": "Hypothalamus",
+      "study": "GSE54650 (Hughes Atlas)",
+      "type": "tissue",
+      "runId": "8e773fbb-ce76-4acb-a757-61ca3ac42e19",
+      "totalPairs": 152,
+      "significantBonf": 0,
+      "significantFDR": 0,
+      "topFindings": [],
+      "status": "completed"
+    },
+    {
+      "datasetId": "GSE54650_Kidney_circadian",
+      "datasetName": "Kidney",
+      "study": "GSE54650 (Hughes Atlas)",
+      "type": "tissue",
+      "runId": "45d27569-6302-4735-a8d5-e5f6b5c804b2",
+      "totalPairs": 152,
+      "significantBonf": 0,
+      "significantFDR": 0,
+      "topFindings": [],
+      "status": "completed"
+    },
+    {
+      "datasetId": "GSE54650_Liver_circadian",
+      "datasetName": "Liver",
+      "study": "GSE54650 (Hughes Atlas)",
+      "type": "tissue",
+      "runId": "3e0a31b6-46ac-48fb-b898-1a653c27a2d7",
+      "totalPairs": 152,
+      "significantBonf": 3,
+      "significantFDR": 0,
+      "topFindings": [
+        {
+          "clockGene": "Cry2",
+          "targetGene": "Wee1",
+          "pValue": 0.04404083144824433,
+          "qValue": 0.4795282113708043,
+          "effectSize": 1.0043818697251665,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Nr1d1",
+          "targetGene": "Wee1",
+          "pValue": 0.0417327611102527,
+          "qValue": 0.4795282113708043,
+          "effectSize": 1.0043818697251654,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Cry1",
+          "targetGene": "Wee1",
+          "pValue": 0.04178408635206221,
+          "qValue": 0.4795282113708043,
+          "effectSize": 1.0043818697251654,
+          "effectInterpretation": "large"
+        }
+      ],
+      "status": "completed"
+    },
+    {
+      "datasetId": "GSE54650_Lung_circadian",
+      "datasetName": "Lung",
+      "study": "GSE54650 (Hughes Atlas)",
+      "type": "tissue",
+      "runId": "da145024-9a0a-43bb-b881-e6db466fa230",
+      "totalPairs": 152,
+      "significantBonf": 0,
+      "significantFDR": 0,
+      "topFindings": [],
+      "status": "completed"
+    },
+    {
+      "datasetId": "GSE54650_Muscle_circadian",
+      "datasetName": "Muscle",
+      "study": "GSE54650 (Hughes Atlas)",
+      "type": "tissue",
+      "runId": "0e30f4b5-6c73-41aa-8811-78f0f1680f8f",
+      "totalPairs": 152,
+      "significantBonf": 0,
+      "significantFDR": 0,
+      "topFindings": [],
+      "status": "completed"
+    },
+    {
+      "datasetId": "GSE54650_White_Fat_circadian",
+      "datasetName": "White_Fat",
+      "study": "GSE54650 (Hughes Atlas)",
+      "type": "tissue",
+      "runId": "84949899-71b2-43a1-beed-c6897bdf0ff1",
+      "totalPairs": 152,
+      "significantBonf": 6,
+      "significantFDR": 0,
+      "topFindings": [
+        {
+          "clockGene": "Cry2",
+          "targetGene": "Bax",
+          "pValue": 0.03374542430292493,
+          "qValue": 0.3243292522799166,
+          "effectSize": 0.9300523233813504,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Cry1",
+          "targetGene": "Bax",
+          "pValue": 0.0360365835866574,
+          "qValue": 0.3243292522799166,
+          "effectSize": 0.9300523233813498,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Arntl",
+          "targetGene": "Bax",
+          "pValue": 0.025445635830826596,
+          "qValue": 0.3243292522799166,
+          "effectSize": 0.9300523233813416,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Per1",
+          "targetGene": "Bax",
+          "pValue": 0.032396637918834514,
+          "qValue": 0.3243292522799166,
+          "effectSize": 0.9300523233813393,
+          "effectInterpretation": "large"
+        },
+        {
+          "clockGene": "Clock",
+          "targetGene": "Bax",
+          "pValue": 0.023415203482763935,
+          "qValue": 0.3243292522799166,
+          "effectSize": 0.9300523233813369,
+          "effectInterpretation": "large"
+        }
+      ],
+      "status": "completed"
+    },
+    {
+      "datasetId": "GSE59396_Lung_Basal",
+      "datasetName": "Basal",
+      "study": "GSE59396 (Lung)",
+      "type": "inflammation",
+      "runId": "d934a8a8-c3df-4cc5-9b4a-f85695b8a637",
+      "totalPairs": 152,
+      "significantBonf": 0,
+      "significantFDR": 0,
+      "topFindings": [],
+      "status": "completed"
+    }
+  ]
+}

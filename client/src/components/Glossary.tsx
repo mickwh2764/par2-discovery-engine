@@ -39,6 +39,7 @@ const GLOSSARY: Record<string, string> = {
   "confidence score": "A 0–100 rating of how trustworthy the analysis result is, based on multiple quality checks.",
   "implied period": "If the signal oscillates, this estimates the cycle length in time units (e.g. ~24 for a circadian rhythm).",
   "white noise": "Random fluctuations with no pattern — what good residuals should look like after the model removes the signal.",
+  "half-life": "Expression persistence half-life — how long a gene's expression pattern sustains above half its peak change. This is NOT the same as mRNA molecular half-life (how fast the molecule degrades). A gene can have a short-lived mRNA but high expression persistence if it is continuously retranscribed.",
 };
 
 export function Term({ children }: { children: string }) {

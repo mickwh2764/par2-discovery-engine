@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { downloadAsCSV } from "@/components/DownloadResultsButton";
 import PaperCrossLinks from "@/components/PaperCrossLinks";
+import GeneTooltip from "@/components/GeneTooltip";
 
 interface GeneNode {
   gene: string;
@@ -88,10 +89,6 @@ interface PortraitData {
 
 const OTHER_DATASETS = [
   { id: "GSE11923_Liver_1h_48h_genes.csv", label: "Mouse Liver (Hughes 2009, 1h res)" },
-  { id: "GSE70499_Liver_Bmal1WT_circadian.csv", label: "Mouse Liver BMAL1-WT (Koike 2012)" },
-  { id: "GSE30411_Liver_WT_2h_48h_genes.csv", label: "Mouse Liver (Panda 2002)" },
-  { id: "GSE93903_Liver_Young_circadian.csv", label: "Mouse Liver Young (Sato 2017)" },
-  { id: "GSE93903_Liver_Old_circadian.csv", label: "Mouse Liver Old (Sato 2017)" },
 ];
 
 type LinkLayer = 'coupling' | 'known' | 'opposition';
@@ -506,7 +503,7 @@ function GeneDetailPanel({ gene, genes, links, knownInteractions }: {
       <div className="flex items-center gap-3">
         <div className="w-4 h-4 rounded-full" style={{ backgroundColor: geneData.color }} />
         <div>
-          <h3 className="text-lg font-bold text-white font-mono">{gene}</h3>
+          <h3 className="text-lg font-bold text-white font-mono"><GeneTooltip gene={gene}>{gene}</GeneTooltip></h3>
           <p className="text-xs text-slate-400">{geneData.description}</p>
         </div>
       </div>
@@ -576,9 +573,9 @@ function GeneDetailPanel({ gene, genes, links, knownInteractions }: {
           </div>
           {relatedCouplings.map((link, i) => (
             <div key={i} className="flex items-center gap-2 text-xs py-1 border-b border-slate-800 last:border-0">
-              <span className="font-mono text-white">{link.source}</span>
+              <span className="font-mono text-white"><GeneTooltip gene={link.source}>{link.source}</GeneTooltip></span>
               <ChevronRight size={10} className="text-cyan-400" />
-              <span className="font-mono text-white">{link.target}</span>
+              <span className="font-mono text-white"><GeneTooltip gene={link.target}>{link.target}</GeneTooltip></span>
               <span className={`ml-auto font-mono ${link.significant ? 'text-emerald-400' : 'text-slate-400'}`}>
                 p={link.pValue.toFixed(3)}
               </span>
@@ -598,9 +595,9 @@ function GeneDetailPanel({ gene, genes, links, knownInteractions }: {
             return (
               <div key={i} className="text-xs py-2 border-b border-slate-800 last:border-0">
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-white">{ki.source}</span>
+                  <span className="font-mono text-white"><GeneTooltip gene={ki.source}>{ki.source}</GeneTooltip></span>
                   <span className={`${typeColor} font-medium`}>{ki.type}</span>
-                  <span className="font-mono text-white">{ki.target}</span>
+                  <span className="font-mono text-white"><GeneTooltip gene={ki.target}>{ki.target}</GeneTooltip></span>
                 </div>
                 <p className="text-slate-400 mt-1">{ki.description}</p>
                 <p className="text-slate-400 text-[10px] mt-0.5">{ki.evidence}</p>

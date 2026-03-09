@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -7,12 +7,13 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell
 } from "recharts";
 import {
-  ArrowLeft, Upload, Loader2, GitCompare
+  ArrowLeft, Upload, Loader2, GitCompare, Zap
 } from "lucide-react";
 import { Link } from "wouter";
 import HowTo from "@/components/HowTo";
 import InsightCallout from "@/components/InsightCallout";
 import DownloadResultsButton from "@/components/DownloadResultsButton";
+import GeneTooltip from "@/components/GeneTooltip";
 
 interface TrajectoryGene {
   gene: string;
@@ -97,7 +98,7 @@ function TrajectoryMap({ genes }: { genes: TrajectoryGene[] }) {
               className="cursor-pointer"
               data-testid={`trajectory-gene-${idx}`}
             >
-              <line x1={bx} y1={by} x2={ax} y2={ay} stroke="#94a3b8" strokeWidth="1.5" markerEnd="url(#arrowhead-ba)" opacity="0.7" />
+              <line x1={bx} y1={by} x2={ax} y2={ay} stroke="#64748b" strokeWidth="1.5" markerEnd="url(#arrowhead-ba)" opacity="0.7" />
               <circle cx={bx} cy={by} r={3} fill="#22c55e" />
               <circle cx={ax} cy={ay} r={3} fill="#ef4444" />
             </g>
@@ -109,7 +110,7 @@ function TrajectoryMap({ genes }: { genes: TrajectoryGene[] }) {
           <text x={25} y={22} fill="#94a3b8" fontSize="10">Before</text>
           <circle cx={15} cy={38} r={4} fill="#ef4444" />
           <text x={25} y={42} fill="#94a3b8" fontSize="10">After</text>
-          <line x1={10} y1={58} x2={30} y2={58} stroke="#94a3b8" strokeWidth="1.5" markerEnd="url(#arrowhead-ba)" />
+          <line x1={10} y1={58} x2={30} y2={58} stroke="#64748b" strokeWidth="1.5" markerEnd="url(#arrowhead-ba)" />
           <text x={38} y={62} fill="#94a3b8" fontSize="10">Trajectory</text>
         </g>
       </svg>
@@ -119,7 +120,7 @@ function TrajectoryMap({ genes }: { genes: TrajectoryGene[] }) {
           style={{ left: tooltipPos.x, top: tooltipPos.y, transform: "translate(-50%, -100%)" }}
           data-testid="trajectory-tooltip"
         >
-          <div className="font-bold text-white">{hoveredGene.gene}</div>
+          <div className="font-bold text-white"><GeneTooltip gene={hoveredGene.gene}>{hoveredGene.gene}</GeneTooltip></div>
           <div className="text-emerald-400">Before |λ|: {Math.abs(hoveredGene.beforeEigenvalue).toFixed(4)}</div>
           <div className="text-red-400">After |λ|: {Math.abs(hoveredGene.afterEigenvalue).toFixed(4)}</div>
           <div className="text-cyan-400">Shift: {hoveredGene.shift > 0 ? "+" : ""}{hoveredGene.shift.toFixed(4)}</div>
@@ -130,6 +131,12 @@ function TrajectoryMap({ genes }: { genes: TrajectoryGene[] }) {
   );
 }
 
+interface PreloadedPair {
+  id: string;
+  name: string;
+  description: string;
+}
+
 export default function BeforeAfter() {
   const [beforeFile, setBeforeFile] = useState<File | null>(null);
   const [afterFile, setAfterFile] = useState<File | null>(null);
@@ -137,6 +144,17 @@ export default function BeforeAfter() {
   const afterRef = useRef<HTMLInputElement>(null);
   const [sortField, setSortField] = useState<SortField>("shift");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
+  const [selectedPairId, setSelectedPairId] = useState<string | null>(null);
+  const [activeSource, setActiveSource] = useState<'upload' | 'preloaded' | null>(null);
+
+  const { data: preloadedPairs } = useQuery<PreloadedPair[]>({
+    queryKey: ['before-after-pairs'],
+    queryFn: async () => {
+      const res = await fetch('/api/analysis/before-after-pairs');
+      if (!res.ok) throw new Error('Failed to fetch pairs');
+      return res.json();
+    },
+  });
 
   const mutation = useMutation({
     mutationFn: async (formData: FormData) => {
@@ -149,15 +167,33 @@ export default function BeforeAfter() {
     },
   });
 
+  const preloadedMutation = useMutation({
+    mutationFn: async (pairId: string) => {
+      const res = await fetch(`/api/analysis/before-after-preloaded/${pairId}`);
+      if (!res.ok) throw new Error(await res.text());
+      return res.json() as Promise<TrajectoryResult>;
+    },
+  });
+
   const handleCompare = () => {
     if (!beforeFile || !afterFile) return;
     const fd = new FormData();
     fd.append('before', beforeFile);
     fd.append('after', afterFile);
+    setActiveSource('upload');
     mutation.mutate(fd);
   };
 
-  const result = mutation.data;
+  const handlePreloaded = (pairId: string) => {
+    setSelectedPairId(pairId);
+    setActiveSource('preloaded');
+    preloadedMutation.mutate(pairId);
+  };
+
+  const result = activeSource === 'upload' ? mutation.data
+    : activeSource === 'preloaded' ? preloadedMutation.data
+    : (mutation.data || preloadedMutation.data);
+  const isLoading = mutation.isPending || preloadedMutation.isPending;
 
   const sortedShifts = useMemo(() => {
     if (!result?.topShifts) return [];
@@ -238,9 +274,9 @@ export default function BeforeAfter() {
               </p>
             </div>
           </div>
-          {mutation.data && (
+          {result && (
             <DownloadResultsButton
-              data={mutation.data.allTrajectories.map(g => ({
+              data={result.allTrajectories.map(g => ({
                 gene: g.gene,
                 beforeEigenvalue: g.beforeEigenvalue,
                 afterEigenvalue: g.afterEigenvalue,
@@ -269,11 +305,50 @@ export default function BeforeAfter() {
           ]}
         />
 
+        {preloadedPairs && preloadedPairs.length > 0 && (
+          <Card className="border-slate-700" data-testid="card-preloaded-pairs">
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Zap className="h-5 w-5 text-amber-400" />
+                Pre-loaded Comparison Pairs
+              </CardTitle>
+              <p className="text-sm text-slate-400">
+                Ready-to-run comparisons using platform datasets. Click any pair to instantly analyze.
+              </p>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {preloadedPairs.map((pair) => (
+                  <button
+                    key={pair.id}
+                    onClick={() => handlePreloaded(pair.id)}
+                    disabled={isLoading}
+                    className={`text-left p-4 rounded-lg border transition-all hover:scale-[1.02] ${
+                      selectedPairId === pair.id && preloadedMutation.data
+                        ? 'border-cyan-500/60 bg-cyan-500/10'
+                        : 'border-slate-700 hover:border-slate-600 bg-slate-800/30 hover:bg-slate-800/60'
+                    }`}
+                    data-testid={`button-pair-${pair.id}`}
+                  >
+                    <div className="font-medium text-sm text-white mb-1">{pair.name}</div>
+                    <div className="text-xs text-slate-400 leading-relaxed">{pair.description}</div>
+                    {selectedPairId === pair.id && preloadedMutation.isPending && (
+                      <div className="mt-2 flex items-center gap-1 text-xs text-cyan-400">
+                        <Loader2 className="h-3 w-3 animate-spin" /> Analyzing...
+                      </div>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         <Card className="border-slate-700" data-testid="card-upload">
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
               <Upload className="h-5 w-5 text-cyan-400" />
-              Upload Files
+              Upload Your Own Files
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -328,7 +403,7 @@ export default function BeforeAfter() {
             <div className="mt-4 flex justify-center">
               <Button
                 onClick={handleCompare}
-                disabled={!beforeFile || !afterFile || mutation.isPending}
+                disabled={!beforeFile || !afterFile || isLoading}
                 className="gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white px-8"
                 data-testid="button-compare"
               >
@@ -345,9 +420,9 @@ export default function BeforeAfter() {
                 )}
               </Button>
             </div>
-            {mutation.isError && (
+            {(mutation.isError || preloadedMutation.isError) && (
               <div className="mt-4 p-3 rounded-lg bg-red-900/30 border border-red-700 text-red-300 text-sm" data-testid="error-message">
-                {(mutation.error as Error).message}
+                {((mutation.error || preloadedMutation.error) as Error)?.message}
               </div>
             )}
           </CardContent>
@@ -421,7 +496,7 @@ export default function BeforeAfter() {
                     <tbody>
                       {sortedShifts.map((g, idx) => (
                         <tr key={idx} className="border-b border-slate-700 hover:bg-slate-800/50" data-testid={`row-shift-${idx}`}>
-                          <td className="p-3 font-mono font-medium text-center">{g.gene}</td>
+                          <td className="p-3 font-mono font-medium text-center"><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></td>
                           <td className="p-3 text-center font-mono">{Math.abs(g.beforeEigenvalue).toFixed(4)}</td>
                           <td className="p-3 text-center font-mono">{Math.abs(g.afterEigenvalue).toFixed(4)}</td>
                           <td className="p-3 text-center font-mono">
@@ -455,8 +530,8 @@ export default function BeforeAfter() {
                   <ResponsiveContainer width="100%" height={250} minWidth={1} minHeight={1}>
                     <BarChart data={shiftDistribution}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                      <XAxis dataKey="center" tick={{ fill: '#94a3b8', fontSize: 10 }} tickFormatter={(v) => v.toFixed(2)} />
-                      <YAxis tick={{ fill: '#94a3b8', fontSize: 10 }} />
+                      <XAxis dataKey="center" tick={{ fill: '#64748b', fontSize: 10 }} tickFormatter={(v) => v.toFixed(2)} />
+                      <YAxis tick={{ fill: '#64748b', fontSize: 10 }} />
                       <Tooltip
                         content={({ active, payload }) => {
                           if (!active || !payload?.length) return null;
