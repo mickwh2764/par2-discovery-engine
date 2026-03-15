@@ -13,8 +13,8 @@ pip install par2-circadian
 Or install from source:
 
 ```bash
-git clone https://github.com/mwhiteside/par2-circadian.git
-cd par2-circadian
+git clone https://github.com/mickwh2764/par2-discovery-engine.git
+cd par2-discovery-engine/par2-python-package
 pip install .
 ```
 

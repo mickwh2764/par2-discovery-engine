@@ -33,4 +33,4 @@ par2 = "par2.cli:main"
 
 [project.urls]
 Homepage = "https://par2-discovery-engine.replit.app"
-Repository = "https://github.com/mwhiteside/par2-circadian"
+Repository = "https://github.com/mickwh2764/par2-discovery-engine"
