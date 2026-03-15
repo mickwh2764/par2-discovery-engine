@@ -1,0 +1,9 @@
+Gene,Lambda,Category,Patient_Quartile_Split,ESR1_Correlation,Clinical_Role,Notes
+RB1,0.571,Resistance,+2.06,0.287,Loss predicts palbociclib resistance,Highest persistence among resistance genes
+ESR1,0.545,Sensitivity,+1.42,1.000,ER-positive marker,Reference sensitivity gene
+CCND1,0.523,Sensitivity,+1.18,0.195,CDK4/6 pathway amplification,Palbociclib target pathway
+CCNE1,0.402,Resistance,+0.87,0.160,Amplification bypasses CDK4/6,Consistent with Turner 2019 biomarker
+PIK3CA,0.489,Resistance,+0.92,0.134,PI3K pathway activation,Common resistance mechanism
+FGFR1,0.456,Resistance,+0.74,0.098,FGFR amplification,Alternative growth signalling
+Resistance_Median,0.416,Resistance,-,-,-,Lower persistence than sensitivity genes
+Sensitivity_Median,0.545,Sensitivity,-,-,-,Higher persistence (p=0.305 not significant)

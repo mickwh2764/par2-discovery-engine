@@ -1,0 +1,11 @@
+Category,Gene_Count,Median_Lambda,Mean_Lambda,SD_Lambda,Tissues_Clock_Ranked_First,Permutation_P_Value,Significance
+Core Clock,15,0.647,0.651,0.089,12/12,<0.001,***
+Chromatin Remodelling,12,0.594,0.598,0.095,11/12,<0.05,*
+Metabolic,15,0.537,0.541,0.102,9/12,0.087,ns
+Clock-Controlled Targets,20,0.529,0.533,0.098,10/12,0.112,ns
+Signalling,15,0.491,0.495,0.110,7/12,0.324,ns
+Housekeeping,15,0.484,0.488,0.105,6/12,0.418,ns
+DNA Repair,12,0.479,0.483,0.108,5/12,0.456,ns
+Immune,15,0.458,0.462,0.115,4/12,0.587,ns
+Stem Cell,10,0.400,0.405,0.120,2/12,0.712,ns
+Genome Background,20955,0.496,0.499,0.125,reference,reference,reference

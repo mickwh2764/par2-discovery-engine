@@ -1,0 +1,7 @@
+Dataset,Total_Oscillatory,Resonance_Zone_Count,Percent,Clock_In_RZ,Target_In_RZ,Novel_In_RZ
+GSE54650_Kidney_circadian,8141,97,1.19%,12,1,84
+GSE54650_Lung_circadian,7433,82,1.10%,11,1,70
+GSE54650_Adrenal_circadian,8778,10,0.11%,6,1,3
+GSE48113_Human_Blood_Circadian,8486,1,0.01%,0,0,1
+GSE54650_Liver_circadian,6291,114,1.81%,5,1,108
+GSE54650_Heart_circadian,10278,39,0.38%,9,1,29

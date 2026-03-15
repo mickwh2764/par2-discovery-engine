@@ -1,0 +1,4 @@
+Metric_Pair,Partial_Rho,Controlling_For
+eigenvalue_amplitude_controllingNetwork,0.6705,
+eigenvalue_network_controllingAmplitude,-0.1682,
+note,Partial correlations control for confounding effects between metrics,

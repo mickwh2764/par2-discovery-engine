@@ -1,0 +1,663 @@
+{
+  "dataset": "Mouse Liver (Hughes Atlas)",
+  "datasetId": "GSE54650_Liver_circadian",
+  "description": "Mouse Liver - Hughes Circadian Atlas 2h sampling (GSE54650)",
+  "totalGenesAnalyzed": 20955,
+  "genomeWideDistribution": {
+    "mean": 0.4859,
+    "median": 0.4963,
+    "q25": 0.3629,
+    "q75": 0.6153,
+    "q90": 0.7021,
+    "q95": 0.7455,
+    "q99": 0.8148,
+    "min": 0.0189,
+    "max": 0.9625
+  },
+  "clockGenes": {
+    "n": 13,
+    "meanEigenvalue": 0.6924,
+    "meanPercentile": 83.5,
+    "genes": [
+      {
+        "gene": "Nr1d2",
+        "eigenvalue": 0.8564,
+        "percentile": 99.7,
+        "confidence": "High",
+        "adfStationary": true
+      },
+      {
+        "gene": "Nr1d1",
+        "eigenvalue": 0.8112,
+        "percentile": 98.9,
+        "confidence": "Moderate",
+        "adfStationary": false
+      },
+      {
+        "gene": "Clock",
+        "eigenvalue": 0.8104,
+        "percentile": 98.8,
+        "confidence": "Moderate",
+        "adfStationary": true
+      },
+      {
+        "gene": "Dbp",
+        "eigenvalue": 0.7917,
+        "percentile": 98.1,
+        "confidence": "High",
+        "adfStationary": true
+      },
+      {
+        "gene": "Arntl",
+        "eigenvalue": 0.7671,
+        "percentile": 96.7,
+        "confidence": "Moderate",
+        "adfStationary": true
+      },
+      {
+        "gene": "Cry1",
+        "eigenvalue": 0.7595,
+        "percentile": 96.2,
+        "confidence": "Moderate",
+        "adfStationary": true
+      },
+      {
+        "gene": "Rorc",
+        "eigenvalue": 0.7092,
+        "percentile": 91,
+        "confidence": "Moderate",
+        "adfStationary": true
+      },
+      {
+        "gene": "Tef",
+        "eigenvalue": 0.6573,
+        "percentile": 82.8,
+        "confidence": "Moderate",
+        "adfStationary": true
+      },
+      {
+        "gene": "Per2",
+        "eigenvalue": 0.636,
+        "percentile": 79,
+        "confidence": "Moderate",
+        "adfStationary": false
+      },
+      {
+        "gene": "Cry2",
+        "eigenvalue": 0.5832,
+        "percentile": 67.8,
+        "confidence": "Moderate",
+        "adfStationary": false
+      },
+      {
+        "gene": "Per1",
+        "eigenvalue": 0.5738,
+        "percentile": 65.8,
+        "confidence": "Moderate",
+        "adfStationary": true
+      },
+      {
+        "gene": "Npas2",
+        "eigenvalue": 0.5597,
+        "percentile": 63,
+        "confidence": "Moderate",
+        "adfStationary": true
+      },
+      {
+        "gene": "Per3",
+        "eigenvalue": 0.4861,
+        "percentile": 47.9,
+        "confidence": "Moderate",
+        "adfStationary": true
+      }
+    ]
+  },
+  "targetGenes": {
+    "n": 22,
+    "meanEigenvalue": 0.5083,
+    "meanPercentile": 53.5,
+    "genes": [
+      {
+        "gene": "Mdm2",
+        "eigenvalue": 0.7228,
+        "percentile": 92.7,
+        "confidence": "Moderate",
+        "adfStationary": false
+      },
+      {
+        "gene": "Trp53",
+        "eigenvalue": 0.7145,
+        "percentile": 91.6,
+        "confidence": "Moderate",
+        "adfStationary": false
+      },
+      {
+        "gene": "Atm",
+        "eigenvalue": 0.6341,
+        "percentile": 78.6,
+        "confidence": "Moderate",
+        "adfStationary": false
+      },
+      {
+        "gene": "Wee1",
+        "eigenvalue": 0.6151,
+        "percentile": 75,
+        "confidence": "Moderate",
+        "adfStationary": false
+      },
+      {
+        "gene": "Cdk1",
+        "eigenvalue": 0.6005,
+        "percentile": 72,
+        "confidence": "Moderate",
+        "adfStationary": false
+      },
+      {
+        "gene": "Ccnd1",
+        "eigenvalue": 0.5868,
+        "percentile": 68.7,
+        "confidence": "Moderate",
+        "adfStationary": false
+      },
+      {
+        "gene": "Apc",
+        "eigenvalue": 0.5755,
+        "percentile": 66.1,
+        "confidence": "Low",
+        "adfStationary": false
+      },
+      {
+        "gene": "Lgr5",
+        "eigenvalue": 0.5723,
+        "percentile": 65.4,
+        "confidence": "Low",
+        "adfStationary": false
+      },
+      {
+        "gene": "Ctnnb1",
+        "eigenvalue": 0.5649,
+        "percentile": 64.1,
+        "confidence": "Low",
+        "adfStationary": false
+      },
+      {
+        "gene": "Sirt1",
+        "eigenvalue": 0.5632,
+        "percentile": 63.7,
+        "confidence": "Low",
+        "adfStationary": false
+      },
+      {
+        "gene": "Bcl2",
+        "eigenvalue": 0.5556,
+        "percentile": 62.1,
+        "confidence": "Low",
+        "adfStationary": false
+      },
+      {
+        "gene": "Pparg",
+        "eigenvalue": 0.5014,
+        "percentile": 51.1,
+        "confidence": "Moderate",
+        "adfStationary": true
+      },
+      {
+        "gene": "Hif1a",
+        "eigenvalue": 0.4684,
+        "percentile": 44.4,
+        "confidence": "Low",
+        "adfStationary": true
+      },
+      {
+        "gene": "Mcm6",
+        "eigenvalue": 0.4608,
+        "percentile": 43,
+        "confidence": "Moderate",
+        "adfStationary": false
+      },
+      {
+        "gene": "Mki67",
+        "eigenvalue": 0.4398,
+        "percentile": 38.7,
+        "confidence": "Low",
+        "adfStationary": false
+      },
+      {
+        "gene": "Ccne2",
+        "eigenvalue": 0.4259,
+        "percentile": 36.1,
+        "confidence": "High",
+        "adfStationary": true
+      },
+      {
+        "gene": "Myc",
+        "eigenvalue": 0.4163,
+        "percentile": 34.2,
+        "confidence": "Low",
+        "adfStationary": false
+      },
+      {
+        "gene": "Chek2",
+        "eigenvalue": 0.4058,
+        "percentile": 32.3,
+        "confidence": "Low",
+        "adfStationary": false
+      },
+      {
+        "gene": "Ccnb1",
+        "eigenvalue": 0.404,
+        "percentile": 32,
+        "confidence": "Low",
+        "adfStationary": false
+      },
+      {
+        "gene": "Ccne1",
+        "eigenvalue": 0.4017,
+        "percentile": 31.6,
+        "confidence": "Moderate",
+        "adfStationary": true
+      },
+      {
+        "gene": "Bax",
+        "eigenvalue": 0.3916,
+        "percentile": 29.8,
+        "confidence": "Moderate",
+        "adfStationary": true
+      },
+      {
+        "gene": "Axin2",
+        "eigenvalue": 0.1605,
+        "percentile": 3.2,
+        "confidence": "Low",
+        "adfStationary": false
+      }
+    ]
+  },
+  "gearboxResult": {
+    "gap": 0.1842,
+    "hierarchyPreserved": true,
+    "clockAboveMedian": "12/13",
+    "clockAbove75thPercentile": "9/13",
+    "clockAbove90thPercentile": "7/13",
+    "interpretation": "Clock genes (mean percentile: 83.5th) rank significantly higher than the genome-wide distribution. The gearbox hierarchy emerges without curated selection."
+  },
+  "statisticalTests": {
+    "wilcoxonClockVsGenome": {
+      "U": 227395,
+      "z": 4.1859,
+      "p": 2.8415961128791523e-05,
+      "nA": 13,
+      "nB": 20942
+    },
+    "wilcoxonClockVsTarget": {
+      "U": 245,
+      "z": 3.4822,
+      "p": 0.0004973612834260344,
+      "nA": 13,
+      "nB": 22
+    },
+    "permutationTest": {
+      "observedGap": 0.1842,
+      "nPermutations": 10000,
+      "pValue": 0.0007,
+      "significant": true,
+      "interpretation": "The observed clock-target gap (0.1842) is unlikely to arise by chance (p=0.0007). The gearbox hierarchy is not an artifact of panel selection."
+    }
+  },
+  "histogram": [
+    {
+      "binStart": 0.0189,
+      "binEnd": 0.0661,
+      "count": 60,
+      "clockCount": 0,
+      "targetCount": 0
+    },
+    {
+      "binStart": 0.0661,
+      "binEnd": 0.1133,
+      "count": 189,
+      "clockCount": 0,
+      "targetCount": 0
+    },
+    {
+      "binStart": 0.1133,
+      "binEnd": 0.1605,
+      "count": 421,
+      "clockCount": 0,
+      "targetCount": 1
+    },
+    {
+      "binStart": 0.1605,
+      "binEnd": 0.2077,
+      "count": 641,
+      "clockCount": 0,
+      "targetCount": 0
+    },
+    {
+      "binStart": 0.2077,
+      "binEnd": 0.2548,
+      "count": 932,
+      "clockCount": 0,
+      "targetCount": 0
+    },
+    {
+      "binStart": 0.2548,
+      "binEnd": 0.302,
+      "count": 1118,
+      "clockCount": 0,
+      "targetCount": 0
+    },
+    {
+      "binStart": 0.302,
+      "binEnd": 0.3492,
+      "count": 1422,
+      "clockCount": 0,
+      "targetCount": 0
+    },
+    {
+      "binStart": 0.3492,
+      "binEnd": 0.3964,
+      "count": 1640,
+      "clockCount": 0,
+      "targetCount": 1
+    },
+    {
+      "binStart": 0.3964,
+      "binEnd": 0.4436,
+      "count": 1840,
+      "clockCount": 0,
+      "targetCount": 6
+    },
+    {
+      "binStart": 0.4436,
+      "binEnd": 0.4907,
+      "count": 1957,
+      "clockCount": 1,
+      "targetCount": 2
+    },
+    {
+      "binStart": 0.4907,
+      "binEnd": 0.5379,
+      "count": 2043,
+      "clockCount": 0,
+      "targetCount": 1
+    },
+    {
+      "binStart": 0.5379,
+      "binEnd": 0.5851,
+      "count": 2044,
+      "clockCount": 3,
+      "targetCount": 5
+    },
+    {
+      "binStart": 0.5851,
+      "binEnd": 0.6323,
+      "count": 2079,
+      "clockCount": 0,
+      "targetCount": 3
+    },
+    {
+      "binStart": 0.6323,
+      "binEnd": 0.6795,
+      "count": 1754,
+      "clockCount": 2,
+      "targetCount": 1
+    },
+    {
+      "binStart": 0.6795,
+      "binEnd": 0.7266,
+      "count": 1353,
+      "clockCount": 1,
+      "targetCount": 2
+    },
+    {
+      "binStart": 0.7266,
+      "binEnd": 0.7738,
+      "count": 851,
+      "clockCount": 2,
+      "targetCount": 0
+    },
+    {
+      "binStart": 0.7738,
+      "binEnd": 0.821,
+      "count": 438,
+      "clockCount": 3,
+      "targetCount": 0
+    },
+    {
+      "binStart": 0.821,
+      "binEnd": 0.8682,
+      "count": 140,
+      "clockCount": 1,
+      "targetCount": 0
+    },
+    {
+      "binStart": 0.8682,
+      "binEnd": 0.9154,
+      "count": 28,
+      "clockCount": 0,
+      "targetCount": 0
+    },
+    {
+      "binStart": 0.9154,
+      "binEnd": 0.9625,
+      "count": 4,
+      "clockCount": 0,
+      "targetCount": 0
+    }
+  ],
+  "stabilityFiltered": {
+    "description": "Primary analysis restricted to stable AR(2) fits (|\u03bb| < 1.0). Genes with eigenvalue modulus \u2265 1.0 are flagged as non-stationary and excluded.",
+    "totalGenesRetained": 20955,
+    "totalGenesExcluded": 0,
+    "percentRetained": 100,
+    "clockGenesRetained": 13,
+    "clockGenesExcluded": 0,
+    "targetGenesRetained": 22,
+    "targetGenesExcluded": 0,
+    "filteredMeanAll": 0.4859,
+    "filteredMeanClock": 0.6924,
+    "filteredMeanTarget": 0.5083,
+    "filteredGap": 0.1842,
+    "filteredClockPercentile": 83.5,
+    "filteredTargetPercentile": 53.5,
+    "filteredHierarchyPreserved": true,
+    "filteredWilcoxonClockVsGenome": {
+      "U": 227395,
+      "z": 4.1859,
+      "p": 2.8415961128791523e-05,
+      "nA": 13,
+      "nB": 20942
+    },
+    "filteredWilcoxonClockVsTarget": {
+      "U": 245,
+      "z": 3.4822,
+      "p": 0.0004973612834260344,
+      "nA": 13,
+      "nB": 22
+    },
+    "filteredPermutationP": 0.001,
+    "filteredPermutationSignificant": true,
+    "clockGenes": [
+      {
+        "gene": "Nr1d2",
+        "eigenvalue": 0.8564,
+        "percentile": 99.7
+      },
+      {
+        "gene": "Nr1d1",
+        "eigenvalue": 0.8112,
+        "percentile": 98.9
+      },
+      {
+        "gene": "Clock",
+        "eigenvalue": 0.8104,
+        "percentile": 98.8
+      },
+      {
+        "gene": "Dbp",
+        "eigenvalue": 0.7917,
+        "percentile": 98.1
+      },
+      {
+        "gene": "Arntl",
+        "eigenvalue": 0.7671,
+        "percentile": 96.7
+      },
+      {
+        "gene": "Cry1",
+        "eigenvalue": 0.7595,
+        "percentile": 96.2
+      },
+      {
+        "gene": "Rorc",
+        "eigenvalue": 0.7092,
+        "percentile": 91
+      },
+      {
+        "gene": "Tef",
+        "eigenvalue": 0.6573,
+        "percentile": 82.8
+      },
+      {
+        "gene": "Per2",
+        "eigenvalue": 0.636,
+        "percentile": 79
+      },
+      {
+        "gene": "Cry2",
+        "eigenvalue": 0.5832,
+        "percentile": 67.8
+      },
+      {
+        "gene": "Per1",
+        "eigenvalue": 0.5738,
+        "percentile": 65.8
+      },
+      {
+        "gene": "Npas2",
+        "eigenvalue": 0.5597,
+        "percentile": 63
+      },
+      {
+        "gene": "Per3",
+        "eigenvalue": 0.4861,
+        "percentile": 47.9
+      }
+    ],
+    "targetGenes": [
+      {
+        "gene": "Mdm2",
+        "eigenvalue": 0.7228,
+        "percentile": 92.7
+      },
+      {
+        "gene": "Trp53",
+        "eigenvalue": 0.7145,
+        "percentile": 91.6
+      },
+      {
+        "gene": "Atm",
+        "eigenvalue": 0.6341,
+        "percentile": 78.6
+      },
+      {
+        "gene": "Wee1",
+        "eigenvalue": 0.6151,
+        "percentile": 75
+      },
+      {
+        "gene": "Cdk1",
+        "eigenvalue": 0.6005,
+        "percentile": 72
+      },
+      {
+        "gene": "Ccnd1",
+        "eigenvalue": 0.5868,
+        "percentile": 68.7
+      },
+      {
+        "gene": "Apc",
+        "eigenvalue": 0.5755,
+        "percentile": 66.1
+      },
+      {
+        "gene": "Lgr5",
+        "eigenvalue": 0.5723,
+        "percentile": 65.4
+      },
+      {
+        "gene": "Ctnnb1",
+        "eigenvalue": 0.5649,
+        "percentile": 64.1
+      },
+      {
+        "gene": "Sirt1",
+        "eigenvalue": 0.5632,
+        "percentile": 63.7
+      },
+      {
+        "gene": "Bcl2",
+        "eigenvalue": 0.5556,
+        "percentile": 62.1
+      },
+      {
+        "gene": "Pparg",
+        "eigenvalue": 0.5014,
+        "percentile": 51.1
+      },
+      {
+        "gene": "Hif1a",
+        "eigenvalue": 0.4684,
+        "percentile": 44.4
+      },
+      {
+        "gene": "Mcm6",
+        "eigenvalue": 0.4608,
+        "percentile": 43
+      },
+      {
+        "gene": "Mki67",
+        "eigenvalue": 0.4398,
+        "percentile": 38.7
+      },
+      {
+        "gene": "Ccne2",
+        "eigenvalue": 0.4259,
+        "percentile": 36.1
+      },
+      {
+        "gene": "Myc",
+        "eigenvalue": 0.4163,
+        "percentile": 34.2
+      },
+      {
+        "gene": "Chek2",
+        "eigenvalue": 0.4058,
+        "percentile": 32.3
+      },
+      {
+        "gene": "Ccnb1",
+        "eigenvalue": 0.404,
+        "percentile": 32
+      },
+      {
+        "gene": "Ccne1",
+        "eigenvalue": 0.4017,
+        "percentile": 31.6
+      },
+      {
+        "gene": "Bax",
+        "eigenvalue": 0.3916,
+        "percentile": 29.8
+      },
+      {
+        "gene": "Axin2",
+        "eigenvalue": 0.1605,
+        "percentile": 3.2
+      }
+    ],
+    "unstableGenes": []
+  },
+  "downloadUrl": "/api/download/genome-wide-report?dataset=GSE54650_Liver_circadian"
+}

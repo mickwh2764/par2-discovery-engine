@@ -1,0 +1,3980 @@
+{
+  "GSE54650_Liver_circadian": {
+    "dataset": "Mouse Liver (Hughes Atlas)",
+    "datasetId": "GSE54650_Liver_circadian",
+    "description": "Mouse Liver - Hughes Circadian Atlas 2h sampling (GSE54650)",
+    "totalGenes": 20955,
+    "clockGenes": {
+      "count": 13,
+      "meanEigenvalue": 0.6924,
+      "genes": [
+        {
+          "gene": "Npas2",
+          "eigenvalue": 0.5597,
+          "r2": 0.5377,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.1851
+        },
+        {
+          "gene": "Per2",
+          "eigenvalue": 0.636,
+          "r2": 0.7152,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2533
+        },
+        {
+          "gene": "Cry1",
+          "eigenvalue": 0.7595,
+          "r2": 0.7794,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.4788
+        },
+        {
+          "gene": "Per1",
+          "eigenvalue": 0.5738,
+          "r2": 0.5098,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.815
+        },
+        {
+          "gene": "Nr1d1",
+          "eigenvalue": 0.8112,
+          "r2": 0.7278,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.5319
+        },
+        {
+          "gene": "Nr1d2",
+          "eigenvalue": 0.8564,
+          "r2": 0.8496,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.6418
+        },
+        {
+          "gene": "Tef",
+          "eigenvalue": 0.6573,
+          "r2": 0.6844,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.5378
+        },
+        {
+          "gene": "Cry2",
+          "eigenvalue": 0.5832,
+          "r2": 0.2057,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.4927
+        },
+        {
+          "gene": "Rorc",
+          "eigenvalue": 0.7092,
+          "r2": 0.6815,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.2049
+        },
+        {
+          "gene": "Per3",
+          "eigenvalue": 0.4861,
+          "r2": 0.5894,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.6767
+        },
+        {
+          "gene": "Clock",
+          "eigenvalue": 0.8104,
+          "r2": 0.8139,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.7612
+        },
+        {
+          "gene": "Dbp",
+          "eigenvalue": 0.7917,
+          "r2": 0.7524,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.3811
+        },
+        {
+          "gene": "Arntl",
+          "eigenvalue": 0.7671,
+          "r2": 0.7867,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.5502
+        }
+      ]
+    },
+    "targetGenes": {
+      "count": 22,
+      "meanEigenvalue": 0.5083,
+      "genes": [
+        {
+          "gene": "Bcl2",
+          "eigenvalue": 0.5556,
+          "r2": 0.0827,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.6841
+        },
+        {
+          "gene": "Mcm6",
+          "eigenvalue": 0.4608,
+          "r2": 0.3592,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.3956
+        },
+        {
+          "gene": "Sirt1",
+          "eigenvalue": 0.5632,
+          "r2": 0.0912,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2146
+        },
+        {
+          "gene": "Cdk1",
+          "eigenvalue": 0.6005,
+          "r2": 0.1162,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2974
+        },
+        {
+          "gene": "Lgr5",
+          "eigenvalue": 0.5723,
+          "r2": 0.0883,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.9077
+        },
+        {
+          "gene": "Mdm2",
+          "eigenvalue": 0.7228,
+          "r2": 0.2336,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.3839
+        },
+        {
+          "gene": "Trp53",
+          "eigenvalue": 0.7145,
+          "r2": 0.366,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.7598
+        },
+        {
+          "gene": "Axin2",
+          "eigenvalue": 0.1605,
+          "r2": 0.064,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.7747
+        },
+        {
+          "gene": "Hif1a",
+          "eigenvalue": 0.4684,
+          "r2": 0.044,
+          "confidence": "Low",
+          "adfStationary": true,
+          "adfTestStatistic": -3.5569
+        },
+        {
+          "gene": "Ccnb1",
+          "eigenvalue": 0.404,
+          "r2": 0.0407,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.7174
+        },
+        {
+          "gene": "Myc",
+          "eigenvalue": 0.4163,
+          "r2": 0.1063,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.4115
+        },
+        {
+          "gene": "Apc",
+          "eigenvalue": 0.5755,
+          "r2": 0.1004,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.8254
+        },
+        {
+          "gene": "Ccne2",
+          "eigenvalue": 0.4259,
+          "r2": 0.3195,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.0919
+        },
+        {
+          "gene": "Chek2",
+          "eigenvalue": 0.4058,
+          "r2": 0.0501,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2957
+        },
+        {
+          "gene": "Pparg",
+          "eigenvalue": 0.5014,
+          "r2": 0.0782,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.0013
+        },
+        {
+          "gene": "Wee1",
+          "eigenvalue": 0.6151,
+          "r2": 0.6277,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.402
+        },
+        {
+          "gene": "Ccne1",
+          "eigenvalue": 0.4017,
+          "r2": 0.4022,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -2.9708
+        },
+        {
+          "gene": "Bax",
+          "eigenvalue": 0.3916,
+          "r2": 0.1974,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.6705
+        },
+        {
+          "gene": "Mki67",
+          "eigenvalue": 0.4398,
+          "r2": 0.0368,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.9358
+        },
+        {
+          "gene": "Ccnd1",
+          "eigenvalue": 0.5868,
+          "r2": 0.1361,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.9879
+        },
+        {
+          "gene": "Ctnnb1",
+          "eigenvalue": 0.5649,
+          "r2": 0.0793,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.8294
+        },
+        {
+          "gene": "Atm",
+          "eigenvalue": 0.6341,
+          "r2": 0.1381,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.6371
+        }
+      ]
+    },
+    "otherGenes": {
+      "count": 20920,
+      "meanEigenvalue": 0.4857
+    },
+    "gearboxGap": 0.1842,
+    "hierarchyPreserved": true,
+    "adfStationarityPassRate": 28.1,
+    "downloadUrl": "/api/processed-tables/download/GSE54650_Liver_circadian"
+  },
+  "GSE54650_Heart_circadian": {
+    "dataset": "Mouse Heart (Hughes Atlas)",
+    "datasetId": "GSE54650_Heart_circadian",
+    "description": "Mouse Heart - Hughes Circadian Atlas 2h sampling (GSE54650)",
+    "totalGenes": 20955,
+    "clockGenes": {
+      "count": 13,
+      "meanEigenvalue": 0.721,
+      "genes": [
+        {
+          "gene": "Npas2",
+          "eigenvalue": 0.7665,
+          "r2": 0.765,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.2384
+        },
+        {
+          "gene": "Per2",
+          "eigenvalue": 0.7796,
+          "r2": 0.7875,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.5659
+        },
+        {
+          "gene": "Cry1",
+          "eigenvalue": 0.5848,
+          "r2": 0.5528,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.0133
+        },
+        {
+          "gene": "Per1",
+          "eigenvalue": 0.6381,
+          "r2": 0.5701,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.2714
+        },
+        {
+          "gene": "Nr1d1",
+          "eigenvalue": 0.8402,
+          "r2": 0.8074,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.3231
+        },
+        {
+          "gene": "Nr1d2",
+          "eigenvalue": 0.7049,
+          "r2": 0.7279,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.3734
+        },
+        {
+          "gene": "Tef",
+          "eigenvalue": 0.7322,
+          "r2": 0.791,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.7949
+        },
+        {
+          "gene": "Cry2",
+          "eigenvalue": 0.5249,
+          "r2": 0.5621,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.1321
+        },
+        {
+          "gene": "Rorc",
+          "eigenvalue": 0.735,
+          "r2": 0.7082,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.8877
+        },
+        {
+          "gene": "Per3",
+          "eigenvalue": 0.7767,
+          "r2": 0.816,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.9231
+        },
+        {
+          "gene": "Clock",
+          "eigenvalue": 0.7112,
+          "r2": 0.7489,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.286
+        },
+        {
+          "gene": "Dbp",
+          "eigenvalue": 0.8524,
+          "r2": 0.8489,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -4.1149
+        },
+        {
+          "gene": "Arntl",
+          "eigenvalue": 0.7262,
+          "r2": 0.8007,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.1983
+        }
+      ]
+    },
+    "targetGenes": {
+      "count": 22,
+      "meanEigenvalue": 0.4578,
+      "genes": [
+        {
+          "gene": "Bcl2",
+          "eigenvalue": 0.5287,
+          "r2": 0.2869,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.1148
+        },
+        {
+          "gene": "Mcm6",
+          "eigenvalue": 0.6297,
+          "r2": 0.2876,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.4486
+        },
+        {
+          "gene": "Sirt1",
+          "eigenvalue": 0.5011,
+          "r2": 0.0692,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.1685
+        },
+        {
+          "gene": "Cdk1",
+          "eigenvalue": 0.2044,
+          "r2": 0.1013,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.0278
+        },
+        {
+          "gene": "Lgr5",
+          "eigenvalue": 0.3744,
+          "r2": 0.0577,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.5099
+        },
+        {
+          "gene": "Mdm2",
+          "eigenvalue": 0.4241,
+          "r2": 0.072,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.6765
+        },
+        {
+          "gene": "Trp53",
+          "eigenvalue": 0.7596,
+          "r2": 0.3725,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.8771
+        },
+        {
+          "gene": "Axin2",
+          "eigenvalue": 0.4464,
+          "r2": 0.0329,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.2512
+        },
+        {
+          "gene": "Hif1a",
+          "eigenvalue": 0.3076,
+          "r2": 0.1865,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.605
+        },
+        {
+          "gene": "Ccnb1",
+          "eigenvalue": 0.3949,
+          "r2": 0.0245,
+          "confidence": "Low",
+          "adfStationary": true,
+          "adfTestStatistic": -3.3725
+        },
+        {
+          "gene": "Myc",
+          "eigenvalue": 0.1971,
+          "r2": 0.0383,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.3793
+        },
+        {
+          "gene": "Apc",
+          "eigenvalue": 0.6259,
+          "r2": 0.146,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2424
+        },
+        {
+          "gene": "Ccne2",
+          "eigenvalue": 0.1995,
+          "r2": 0.0587,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.1862
+        },
+        {
+          "gene": "Chek2",
+          "eigenvalue": 0.5147,
+          "r2": 0.1332,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.1046
+        },
+        {
+          "gene": "Pparg",
+          "eigenvalue": 0.56,
+          "r2": 0.1685,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.6392
+        },
+        {
+          "gene": "Wee1",
+          "eigenvalue": 0.6708,
+          "r2": 0.6885,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.7579
+        },
+        {
+          "gene": "Ccne1",
+          "eigenvalue": 0.4863,
+          "r2": 0.1391,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.6778
+        },
+        {
+          "gene": "Bax",
+          "eigenvalue": 0.268,
+          "r2": 0.1428,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.9487
+        },
+        {
+          "gene": "Mki67",
+          "eigenvalue": 0.5233,
+          "r2": 0.1843,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.0709
+        },
+        {
+          "gene": "Ccnd1",
+          "eigenvalue": 0.2038,
+          "r2": 0.0663,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2101
+        },
+        {
+          "gene": "Ctnnb1",
+          "eigenvalue": 0.6622,
+          "r2": 0.2619,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.5572
+        },
+        {
+          "gene": "Atm",
+          "eigenvalue": 0.5897,
+          "r2": 0.2068,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.72
+        }
+      ]
+    },
+    "otherGenes": {
+      "count": 20920,
+      "meanEigenvalue": 0.435
+    },
+    "gearboxGap": 0.2631,
+    "hierarchyPreserved": true,
+    "adfStationarityPassRate": 20.1,
+    "downloadUrl": "/api/processed-tables/download/GSE54650_Heart_circadian"
+  },
+  "GSE54650_Kidney_circadian": {
+    "dataset": "Mouse Kidney (Hughes Atlas)",
+    "datasetId": "GSE54650_Kidney_circadian",
+    "description": "Mouse Kidney - Hughes Circadian Atlas 2h sampling (GSE54650)",
+    "totalGenes": 20955,
+    "clockGenes": {
+      "count": 13,
+      "meanEigenvalue": 0.8131,
+      "genes": [
+        {
+          "gene": "Npas2",
+          "eigenvalue": 0.7903,
+          "r2": 0.8406,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.7946
+        },
+        {
+          "gene": "Per2",
+          "eigenvalue": 0.8357,
+          "r2": 0.8453,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.9742
+        },
+        {
+          "gene": "Cry1",
+          "eigenvalue": 0.805,
+          "r2": 0.8067,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.9791
+        },
+        {
+          "gene": "Per1",
+          "eigenvalue": 0.5902,
+          "r2": 0.5401,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.3386
+        },
+        {
+          "gene": "Nr1d1",
+          "eigenvalue": 0.8823,
+          "r2": 0.862,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.4237
+        },
+        {
+          "gene": "Nr1d2",
+          "eigenvalue": 0.8788,
+          "r2": 0.8891,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -5.1406
+        },
+        {
+          "gene": "Tef",
+          "eigenvalue": 0.8756,
+          "r2": 0.8838,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -5.8766
+        },
+        {
+          "gene": "Cry2",
+          "eigenvalue": 0.6726,
+          "r2": 0.7236,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.0486
+        },
+        {
+          "gene": "Rorc",
+          "eigenvalue": 0.9589,
+          "r2": 0.9347,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.4462
+        },
+        {
+          "gene": "Per3",
+          "eigenvalue": 0.8339,
+          "r2": 0.8504,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.5859
+        },
+        {
+          "gene": "Clock",
+          "eigenvalue": 0.6559,
+          "r2": 0.6662,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.3776
+        },
+        {
+          "gene": "Dbp",
+          "eigenvalue": 0.8922,
+          "r2": 0.8743,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.3281
+        },
+        {
+          "gene": "Arntl",
+          "eigenvalue": 0.8986,
+          "r2": 0.9129,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.9258
+        }
+      ]
+    },
+    "targetGenes": {
+      "count": 22,
+      "meanEigenvalue": 0.5122,
+      "genes": [
+        {
+          "gene": "Bcl2",
+          "eigenvalue": 0.6984,
+          "r2": 0.4001,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.864
+        },
+        {
+          "gene": "Mcm6",
+          "eigenvalue": 0.3409,
+          "r2": 0.0195,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.1609
+        },
+        {
+          "gene": "Sirt1",
+          "eigenvalue": 0.4575,
+          "r2": 0.0377,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.3231
+        },
+        {
+          "gene": "Cdk1",
+          "eigenvalue": 0.5959,
+          "r2": 0.1507,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.2541
+        },
+        {
+          "gene": "Lgr5",
+          "eigenvalue": 0.6437,
+          "r2": 0.1356,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.7538
+        },
+        {
+          "gene": "Mdm2",
+          "eigenvalue": 0.4635,
+          "r2": 0.0749,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.6646
+        },
+        {
+          "gene": "Trp53",
+          "eigenvalue": 0.5849,
+          "r2": 0.1006,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.5846
+        },
+        {
+          "gene": "Axin2",
+          "eigenvalue": 0.4265,
+          "r2": 0.0563,
+          "confidence": "Low",
+          "adfStationary": true,
+          "adfTestStatistic": -3.3797
+        },
+        {
+          "gene": "Hif1a",
+          "eigenvalue": 0.3909,
+          "r2": 0.3919,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.8726
+        },
+        {
+          "gene": "Ccnb1",
+          "eigenvalue": 0.3914,
+          "r2": 0.0952,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.8878
+        },
+        {
+          "gene": "Myc",
+          "eigenvalue": 0.7047,
+          "r2": 0.2252,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.8298
+        },
+        {
+          "gene": "Apc",
+          "eigenvalue": 0.4752,
+          "r2": 0.0367,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.8057
+        },
+        {
+          "gene": "Ccne2",
+          "eigenvalue": 0.1975,
+          "r2": 0.0256,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2284
+        },
+        {
+          "gene": "Chek2",
+          "eigenvalue": 0.1939,
+          "r2": 0.0022,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.7239
+        },
+        {
+          "gene": "Pparg",
+          "eigenvalue": 0.6468,
+          "r2": 0.1561,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.4265
+        },
+        {
+          "gene": "Wee1",
+          "eigenvalue": 0.6353,
+          "r2": 0.696,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.7923
+        },
+        {
+          "gene": "Ccne1",
+          "eigenvalue": 0.5752,
+          "r2": 0.1174,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.4301
+        },
+        {
+          "gene": "Bax",
+          "eigenvalue": 0.6733,
+          "r2": 0.3366,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.5579
+        },
+        {
+          "gene": "Mki67",
+          "eigenvalue": 0.6033,
+          "r2": 0.1496,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.651
+        },
+        {
+          "gene": "Ccnd1",
+          "eigenvalue": 0.5275,
+          "r2": 0.4218,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.4544
+        },
+        {
+          "gene": "Ctnnb1",
+          "eigenvalue": 0.5325,
+          "r2": 0.4231,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.8719
+        },
+        {
+          "gene": "Atm",
+          "eigenvalue": 0.5105,
+          "r2": 0.0873,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.0052
+        }
+      ]
+    },
+    "otherGenes": {
+      "count": 20920,
+      "meanEigenvalue": 0.4565
+    },
+    "gearboxGap": 0.3008,
+    "hierarchyPreserved": true,
+    "adfStationarityPassRate": 17.3,
+    "downloadUrl": "/api/processed-tables/download/GSE54650_Kidney_circadian"
+  },
+  "GSE54650_Lung_circadian": {
+    "dataset": "Mouse Lung (Hughes Atlas)",
+    "datasetId": "GSE54650_Lung_circadian",
+    "description": "Mouse Lung - Hughes Circadian Atlas 2h sampling (GSE54650)",
+    "totalGenes": 20955,
+    "clockGenes": {
+      "count": 13,
+      "meanEigenvalue": 0.8386,
+      "genes": [
+        {
+          "gene": "Npas2",
+          "eigenvalue": 0.7963,
+          "r2": 0.8359,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.6538
+        },
+        {
+          "gene": "Per2",
+          "eigenvalue": 0.888,
+          "r2": 0.8855,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.8645
+        },
+        {
+          "gene": "Cry1",
+          "eigenvalue": 0.8478,
+          "r2": 0.807,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.2898
+        },
+        {
+          "gene": "Per1",
+          "eigenvalue": 0.5214,
+          "r2": 0.4874,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.3068
+        },
+        {
+          "gene": "Nr1d1",
+          "eigenvalue": 0.8736,
+          "r2": 0.8556,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -4.0661
+        },
+        {
+          "gene": "Nr1d2",
+          "eigenvalue": 0.8704,
+          "r2": 0.8826,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -5.2619
+        },
+        {
+          "gene": "Tef",
+          "eigenvalue": 0.9296,
+          "r2": 0.9313,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -4.3637
+        },
+        {
+          "gene": "Cry2",
+          "eigenvalue": 0.7818,
+          "r2": 0.7798,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.8134
+        },
+        {
+          "gene": "Rorc",
+          "eigenvalue": 0.9151,
+          "r2": 0.9017,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -7.0052
+        },
+        {
+          "gene": "Per3",
+          "eigenvalue": 0.936,
+          "r2": 0.941,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -5.3871
+        },
+        {
+          "gene": "Clock",
+          "eigenvalue": 0.824,
+          "r2": 0.7724,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.9215
+        },
+        {
+          "gene": "Dbp",
+          "eigenvalue": 0.8938,
+          "r2": 0.8713,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.9108
+        },
+        {
+          "gene": "Arntl",
+          "eigenvalue": 0.8234,
+          "r2": 0.8685,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.4171
+        }
+      ]
+    },
+    "targetGenes": {
+      "count": 22,
+      "meanEigenvalue": 0.518,
+      "genes": [
+        {
+          "gene": "Bcl2",
+          "eigenvalue": 0.5314,
+          "r2": 0.1034,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.4799
+        },
+        {
+          "gene": "Mcm6",
+          "eigenvalue": 0.7539,
+          "r2": 0.3375,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.988
+        },
+        {
+          "gene": "Sirt1",
+          "eigenvalue": 0.6204,
+          "r2": 0.367,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.906
+        },
+        {
+          "gene": "Cdk1",
+          "eigenvalue": 0.1693,
+          "r2": 0.0056,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.5585
+        },
+        {
+          "gene": "Lgr5",
+          "eigenvalue": 0.6355,
+          "r2": 0.1413,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.378
+        },
+        {
+          "gene": "Mdm2",
+          "eigenvalue": 0.4626,
+          "r2": 0.1515,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.6312
+        },
+        {
+          "gene": "Trp53",
+          "eigenvalue": 0.3861,
+          "r2": 0.0621,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.4931
+        },
+        {
+          "gene": "Axin2",
+          "eigenvalue": 0.5614,
+          "r2": 0.4519,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.5779
+        },
+        {
+          "gene": "Hif1a",
+          "eigenvalue": 0.5158,
+          "r2": 0.0597,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.4297
+        },
+        {
+          "gene": "Ccnb1",
+          "eigenvalue": 0.537,
+          "r2": 0.1088,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.4792
+        },
+        {
+          "gene": "Myc",
+          "eigenvalue": 0.2937,
+          "r2": 0.0534,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.5697
+        },
+        {
+          "gene": "Apc",
+          "eigenvalue": 0.563,
+          "r2": 0.1909,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.8488
+        },
+        {
+          "gene": "Ccne2",
+          "eigenvalue": 0.3838,
+          "r2": 0.3396,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.9309
+        },
+        {
+          "gene": "Chek2",
+          "eigenvalue": 0.3846,
+          "r2": 0.2048,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.0709
+        },
+        {
+          "gene": "Pparg",
+          "eigenvalue": 0.2984,
+          "r2": 0.1596,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.7017
+        },
+        {
+          "gene": "Wee1",
+          "eigenvalue": 0.8828,
+          "r2": 0.8449,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -5.134
+        },
+        {
+          "gene": "Ccne1",
+          "eigenvalue": 0.6254,
+          "r2": 0.1216,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.5727
+        },
+        {
+          "gene": "Bax",
+          "eigenvalue": 0.5336,
+          "r2": 0.0931,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.3356
+        },
+        {
+          "gene": "Mki67",
+          "eigenvalue": 0.4952,
+          "r2": 0.0783,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.8164
+        },
+        {
+          "gene": "Ccnd1",
+          "eigenvalue": 0.4145,
+          "r2": 0.3904,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.8246
+        },
+        {
+          "gene": "Ctnnb1",
+          "eigenvalue": 0.685,
+          "r2": 0.2687,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.3914
+        },
+        {
+          "gene": "Atm",
+          "eigenvalue": 0.662,
+          "r2": 0.1552,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.3717
+        }
+      ]
+    },
+    "otherGenes": {
+      "count": 20920,
+      "meanEigenvalue": 0.4856
+    },
+    "gearboxGap": 0.3206,
+    "hierarchyPreserved": true,
+    "adfStationarityPassRate": 12.4,
+    "downloadUrl": "/api/processed-tables/download/GSE54650_Lung_circadian"
+  },
+  "GSE54650_Muscle_circadian": {
+    "dataset": "Mouse Muscle (Hughes Atlas)",
+    "datasetId": "GSE54650_Muscle_circadian",
+    "description": "Mouse Muscle - Hughes Circadian Atlas 2h sampling (GSE54650)",
+    "totalGenes": 20955,
+    "clockGenes": {
+      "count": 13,
+      "meanEigenvalue": 0.6359,
+      "genes": [
+        {
+          "gene": "Npas2",
+          "eigenvalue": 0.655,
+          "r2": 0.6431,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.1298
+        },
+        {
+          "gene": "Per2",
+          "eigenvalue": 0.779,
+          "r2": 0.7531,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.013
+        },
+        {
+          "gene": "Cry1",
+          "eigenvalue": 0.3808,
+          "r2": 0.3857,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.527
+        },
+        {
+          "gene": "Per1",
+          "eigenvalue": 0.5509,
+          "r2": 0.4646,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.7837
+        },
+        {
+          "gene": "Nr1d1",
+          "eigenvalue": 0.7793,
+          "r2": 0.7065,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.0233
+        },
+        {
+          "gene": "Nr1d2",
+          "eigenvalue": 0.6579,
+          "r2": 0.6219,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.241
+        },
+        {
+          "gene": "Tef",
+          "eigenvalue": 0.5629,
+          "r2": 0.3898,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.4638
+        },
+        {
+          "gene": "Cry2",
+          "eigenvalue": 0.5277,
+          "r2": 0.4899,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.3913
+        },
+        {
+          "gene": "Rorc",
+          "eigenvalue": 0.4887,
+          "r2": 0.0937,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.5684
+        },
+        {
+          "gene": "Per3",
+          "eigenvalue": 0.7634,
+          "r2": 0.758,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.6729
+        },
+        {
+          "gene": "Clock",
+          "eigenvalue": 0.6844,
+          "r2": 0.7054,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.0911
+        },
+        {
+          "gene": "Dbp",
+          "eigenvalue": 0.7276,
+          "r2": 0.7452,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.7173
+        },
+        {
+          "gene": "Arntl",
+          "eigenvalue": 0.7085,
+          "r2": 0.7402,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.2472
+        }
+      ]
+    },
+    "targetGenes": {
+      "count": 22,
+      "meanEigenvalue": 0.4621,
+      "genes": [
+        {
+          "gene": "Bcl2",
+          "eigenvalue": 0.3807,
+          "r2": 0.3284,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.9164
+        },
+        {
+          "gene": "Mcm6",
+          "eigenvalue": 0.4957,
+          "r2": 0.0539,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.6962
+        },
+        {
+          "gene": "Sirt1",
+          "eigenvalue": 0.303,
+          "r2": 0.1229,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2963
+        },
+        {
+          "gene": "Cdk1",
+          "eigenvalue": 0.5604,
+          "r2": 0.093,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.8453
+        },
+        {
+          "gene": "Lgr5",
+          "eigenvalue": 0.5852,
+          "r2": 0.1804,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.9085
+        },
+        {
+          "gene": "Mdm2",
+          "eigenvalue": 0.4656,
+          "r2": 0.0455,
+          "confidence": "Low",
+          "adfStationary": true,
+          "adfTestStatistic": -3.2877
+        },
+        {
+          "gene": "Trp53",
+          "eigenvalue": 0.7424,
+          "r2": 0.2642,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.7396
+        },
+        {
+          "gene": "Axin2",
+          "eigenvalue": 0.4793,
+          "r2": 0.121,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.1017
+        },
+        {
+          "gene": "Hif1a",
+          "eigenvalue": 0.4939,
+          "r2": 0.2021,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.0637
+        },
+        {
+          "gene": "Ccnb1",
+          "eigenvalue": 0.6704,
+          "r2": 0.3017,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.0717
+        },
+        {
+          "gene": "Myc",
+          "eigenvalue": 0.4923,
+          "r2": 0.3684,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.8986
+        },
+        {
+          "gene": "Apc",
+          "eigenvalue": 0.5199,
+          "r2": 0.1269,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -2.9933
+        },
+        {
+          "gene": "Ccne2",
+          "eigenvalue": 0.3271,
+          "r2": 0.1108,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.4804
+        },
+        {
+          "gene": "Chek2",
+          "eigenvalue": 0.618,
+          "r2": 0.2054,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.1505
+        },
+        {
+          "gene": "Pparg",
+          "eigenvalue": 0.2731,
+          "r2": 0.1162,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.1812
+        },
+        {
+          "gene": "Wee1",
+          "eigenvalue": 0.5408,
+          "r2": 0.478,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.5443
+        },
+        {
+          "gene": "Ccne1",
+          "eigenvalue": 0.0646,
+          "r2": 0.0003,
+          "confidence": "Low",
+          "adfStationary": true,
+          "adfTestStatistic": -4.1451
+        },
+        {
+          "gene": "Bax",
+          "eigenvalue": 0.5935,
+          "r2": 0.1013,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.369
+        },
+        {
+          "gene": "Mki67",
+          "eigenvalue": 0.4287,
+          "r2": 0.0296,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.4625
+        },
+        {
+          "gene": "Ccnd1",
+          "eigenvalue": 0.4319,
+          "r2": 0.0546,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.3511
+        },
+        {
+          "gene": "Ctnnb1",
+          "eigenvalue": 0.3659,
+          "r2": 0.1273,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.7221
+        },
+        {
+          "gene": "Atm",
+          "eigenvalue": 0.3343,
+          "r2": 0.0527,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.9102
+        }
+      ]
+    },
+    "otherGenes": {
+      "count": 20920,
+      "meanEigenvalue": 0.4491
+    },
+    "gearboxGap": 0.1737,
+    "hierarchyPreserved": true,
+    "adfStationarityPassRate": 44.9,
+    "downloadUrl": "/api/processed-tables/download/GSE54650_Muscle_circadian"
+  },
+  "GSE54650_Adrenal_circadian": {
+    "dataset": "Mouse Adrenal (Hughes Atlas)",
+    "datasetId": "GSE54650_Adrenal_circadian",
+    "description": "Mouse Adrenal - Hughes Circadian Atlas 2h sampling (GSE54650)",
+    "totalGenes": 20955,
+    "clockGenes": {
+      "count": 13,
+      "meanEigenvalue": 0.734,
+      "genes": [
+        {
+          "gene": "Npas2",
+          "eigenvalue": 0.9042,
+          "r2": 0.9346,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.2879
+        },
+        {
+          "gene": "Per2",
+          "eigenvalue": 0.6307,
+          "r2": 0.4428,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.7084
+        },
+        {
+          "gene": "Cry1",
+          "eigenvalue": 0.5769,
+          "r2": 0.5729,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.0042
+        },
+        {
+          "gene": "Per1",
+          "eigenvalue": 0.5766,
+          "r2": 0.2782,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.4521
+        },
+        {
+          "gene": "Nr1d1",
+          "eigenvalue": 0.8068,
+          "r2": 0.7809,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.6248
+        },
+        {
+          "gene": "Nr1d2",
+          "eigenvalue": 0.8775,
+          "r2": 0.8669,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -5.0598
+        },
+        {
+          "gene": "Tef",
+          "eigenvalue": 0.795,
+          "r2": 0.8132,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.8861
+        },
+        {
+          "gene": "Cry2",
+          "eigenvalue": 0.6203,
+          "r2": 0.122,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.6029
+        },
+        {
+          "gene": "Rorc",
+          "eigenvalue": 0.6711,
+          "r2": 0.458,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.0997
+        },
+        {
+          "gene": "Per3",
+          "eigenvalue": 0.7859,
+          "r2": 0.7954,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.5591
+        },
+        {
+          "gene": "Clock",
+          "eigenvalue": 0.6429,
+          "r2": 0.4046,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.6549
+        },
+        {
+          "gene": "Dbp",
+          "eigenvalue": 0.8133,
+          "r2": 0.7861,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.3126
+        },
+        {
+          "gene": "Arntl",
+          "eigenvalue": 0.8408,
+          "r2": 0.8419,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.9142
+        }
+      ]
+    },
+    "targetGenes": {
+      "count": 22,
+      "meanEigenvalue": 0.3472,
+      "genes": [
+        {
+          "gene": "Bcl2",
+          "eigenvalue": 0.4069,
+          "r2": 0.0629,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.8595
+        },
+        {
+          "gene": "Mcm6",
+          "eigenvalue": 0.2735,
+          "r2": 0.1417,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2828
+        },
+        {
+          "gene": "Sirt1",
+          "eigenvalue": 0.4439,
+          "r2": 0.0376,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.1322
+        },
+        {
+          "gene": "Cdk1",
+          "eigenvalue": 0.3729,
+          "r2": 0.0552,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.292
+        },
+        {
+          "gene": "Lgr5",
+          "eigenvalue": 0.344,
+          "r2": 0.0165,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.4397
+        },
+        {
+          "gene": "Mdm2",
+          "eigenvalue": 0.1906,
+          "r2": 0.0046,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.884
+        },
+        {
+          "gene": "Trp53",
+          "eigenvalue": 0.1818,
+          "r2": 0.0104,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.5877
+        },
+        {
+          "gene": "Axin2",
+          "eigenvalue": 0.3876,
+          "r2": 0.0313,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.7473
+        },
+        {
+          "gene": "Hif1a",
+          "eigenvalue": 0.2349,
+          "r2": 0.015,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.3896
+        },
+        {
+          "gene": "Ccnb1",
+          "eigenvalue": 0.6338,
+          "r2": 0.1244,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.9881
+        },
+        {
+          "gene": "Myc",
+          "eigenvalue": 0.4478,
+          "r2": 0.0376,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.0321
+        },
+        {
+          "gene": "Apc",
+          "eigenvalue": 0.3566,
+          "r2": 0.0305,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.914
+        },
+        {
+          "gene": "Ccne2",
+          "eigenvalue": 0.148,
+          "r2": 0.0023,
+          "confidence": "Low",
+          "adfStationary": true,
+          "adfTestStatistic": -5.0279
+        },
+        {
+          "gene": "Chek2",
+          "eigenvalue": 0.3885,
+          "r2": 0.0244,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.2474
+        },
+        {
+          "gene": "Pparg",
+          "eigenvalue": 0.3579,
+          "r2": 0.1212,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.7309
+        },
+        {
+          "gene": "Wee1",
+          "eigenvalue": 0.6807,
+          "r2": 0.7326,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.5079
+        },
+        {
+          "gene": "Ccne1",
+          "eigenvalue": 0.2075,
+          "r2": 0.0017,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.3253
+        },
+        {
+          "gene": "Bax",
+          "eigenvalue": 0.1958,
+          "r2": 0.0044,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.5633
+        },
+        {
+          "gene": "Mki67",
+          "eigenvalue": 0.1365,
+          "r2": 0.0179,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.7913
+        },
+        {
+          "gene": "Ccnd1",
+          "eigenvalue": 0.4758,
+          "r2": 0.093,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.381
+        },
+        {
+          "gene": "Ctnnb1",
+          "eigenvalue": 0.2879,
+          "r2": 0.1793,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -2.9936
+        },
+        {
+          "gene": "Atm",
+          "eigenvalue": 0.4861,
+          "r2": 0.0838,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.827
+        }
+      ]
+    },
+    "otherGenes": {
+      "count": 20920,
+      "meanEigenvalue": 0.4267
+    },
+    "gearboxGap": 0.3868,
+    "hierarchyPreserved": true,
+    "adfStationarityPassRate": 29.4,
+    "downloadUrl": "/api/processed-tables/download/GSE54650_Adrenal_circadian"
+  },
+  "GSE54650_Aorta_circadian": {
+    "dataset": "Mouse Aorta (Hughes Atlas)",
+    "datasetId": "GSE54650_Aorta_circadian",
+    "description": "Mouse Aorta - Hughes Circadian Atlas 2h sampling (GSE54650)",
+    "totalGenes": 20955,
+    "clockGenes": {
+      "count": 13,
+      "meanEigenvalue": 0.6924,
+      "genes": [
+        {
+          "gene": "Npas2",
+          "eigenvalue": 0.4844,
+          "r2": 0.4881,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.6196
+        },
+        {
+          "gene": "Per2",
+          "eigenvalue": 0.8153,
+          "r2": 0.7716,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -6.1496
+        },
+        {
+          "gene": "Cry1",
+          "eigenvalue": 0.6657,
+          "r2": 0.6407,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.6385
+        },
+        {
+          "gene": "Per1",
+          "eigenvalue": 0.4997,
+          "r2": 0.4331,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.3499
+        },
+        {
+          "gene": "Nr1d1",
+          "eigenvalue": 0.8493,
+          "r2": 0.8328,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.6648
+        },
+        {
+          "gene": "Nr1d2",
+          "eigenvalue": 0.8312,
+          "r2": 0.8405,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.2223
+        },
+        {
+          "gene": "Tef",
+          "eigenvalue": 0.8254,
+          "r2": 0.8253,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.3163
+        },
+        {
+          "gene": "Cry2",
+          "eigenvalue": 0.3957,
+          "r2": 0.3686,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.865
+        },
+        {
+          "gene": "Rorc",
+          "eigenvalue": 0.447,
+          "r2": 0.2972,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2289
+        },
+        {
+          "gene": "Per3",
+          "eigenvalue": 0.9125,
+          "r2": 0.9159,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -4.7918
+        },
+        {
+          "gene": "Clock",
+          "eigenvalue": 0.6888,
+          "r2": 0.7392,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.8091
+        },
+        {
+          "gene": "Dbp",
+          "eigenvalue": 0.8031,
+          "r2": 0.7853,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.0987
+        },
+        {
+          "gene": "Arntl",
+          "eigenvalue": 0.7826,
+          "r2": 0.8378,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.7256
+        }
+      ]
+    },
+    "targetGenes": {
+      "count": 22,
+      "meanEigenvalue": 0.4295,
+      "genes": [
+        {
+          "gene": "Bcl2",
+          "eigenvalue": 0.1995,
+          "r2": 0.0694,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2575
+        },
+        {
+          "gene": "Mcm6",
+          "eigenvalue": 0.558,
+          "r2": 0.0787,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -0.6718
+        },
+        {
+          "gene": "Sirt1",
+          "eigenvalue": 0.2572,
+          "r2": 0.0101,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.1579
+        },
+        {
+          "gene": "Cdk1",
+          "eigenvalue": 0.719,
+          "r2": 0.2665,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.9521
+        },
+        {
+          "gene": "Lgr5",
+          "eigenvalue": 0.3428,
+          "r2": 0.0317,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.7194
+        },
+        {
+          "gene": "Mdm2",
+          "eigenvalue": 0.4215,
+          "r2": 0.0273,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.766
+        },
+        {
+          "gene": "Trp53",
+          "eigenvalue": 0.2979,
+          "r2": 0.0514,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.4002
+        },
+        {
+          "gene": "Axin2",
+          "eigenvalue": 0.6212,
+          "r2": 0.18,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.471
+        },
+        {
+          "gene": "Hif1a",
+          "eigenvalue": 0.3063,
+          "r2": 0.0873,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.4598
+        },
+        {
+          "gene": "Ccnb1",
+          "eigenvalue": 0.7437,
+          "r2": 0.2653,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.0127
+        },
+        {
+          "gene": "Myc",
+          "eigenvalue": 0.2628,
+          "r2": 0.011,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.5714
+        },
+        {
+          "gene": "Apc",
+          "eigenvalue": 0.451,
+          "r2": 0.042,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -2.983
+        },
+        {
+          "gene": "Ccne2",
+          "eigenvalue": 0.7107,
+          "r2": 0.2808,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.7028
+        },
+        {
+          "gene": "Chek2",
+          "eigenvalue": 0.5205,
+          "r2": 0.0792,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.4391
+        },
+        {
+          "gene": "Pparg",
+          "eigenvalue": 0.3873,
+          "r2": 0.0223,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.2291
+        },
+        {
+          "gene": "Wee1",
+          "eigenvalue": 0.702,
+          "r2": 0.7093,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.8883
+        },
+        {
+          "gene": "Ccne1",
+          "eigenvalue": 0.1188,
+          "r2": 0.0003,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.5118
+        },
+        {
+          "gene": "Bax",
+          "eigenvalue": 0.5139,
+          "r2": 0.1169,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.1078
+        },
+        {
+          "gene": "Mki67",
+          "eigenvalue": 0.1817,
+          "r2": 0.0015,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.6663
+        },
+        {
+          "gene": "Ccnd1",
+          "eigenvalue": 0.5469,
+          "r2": 0.0679,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.51
+        },
+        {
+          "gene": "Ctnnb1",
+          "eigenvalue": 0.1054,
+          "r2": 0.0029,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.8844
+        },
+        {
+          "gene": "Atm",
+          "eigenvalue": 0.4806,
+          "r2": 0.067,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.3195
+        }
+      ]
+    },
+    "otherGenes": {
+      "count": 20920,
+      "meanEigenvalue": 0.4187
+    },
+    "gearboxGap": 0.2629,
+    "hierarchyPreserved": true,
+    "adfStationarityPassRate": 35.7,
+    "downloadUrl": "/api/processed-tables/download/GSE54650_Aorta_circadian"
+  },
+  "GSE54650_Brainstem_circadian": {
+    "dataset": "Mouse Brainstem (Hughes Atlas)",
+    "datasetId": "GSE54650_Brainstem_circadian",
+    "description": "Mouse Brainstem - Hughes Circadian Atlas 2h sampling (GSE54650)",
+    "totalGenes": 20955,
+    "clockGenes": {
+      "count": 13,
+      "meanEigenvalue": 0.5799,
+      "genes": [
+        {
+          "gene": "Npas2",
+          "eigenvalue": 0.5715,
+          "r2": 0.5719,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.7086
+        },
+        {
+          "gene": "Per2",
+          "eigenvalue": 0.6271,
+          "r2": 0.6632,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.3308
+        },
+        {
+          "gene": "Cry1",
+          "eigenvalue": 0.2484,
+          "r2": 0.2167,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.1123
+        },
+        {
+          "gene": "Per1",
+          "eigenvalue": 0.5585,
+          "r2": 0.512,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.6979
+        },
+        {
+          "gene": "Nr1d1",
+          "eigenvalue": 0.793,
+          "r2": 0.7759,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.6782
+        },
+        {
+          "gene": "Nr1d2",
+          "eigenvalue": 0.6156,
+          "r2": 0.6157,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.8033
+        },
+        {
+          "gene": "Tef",
+          "eigenvalue": 0.6347,
+          "r2": 0.2441,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.524
+        },
+        {
+          "gene": "Cry2",
+          "eigenvalue": 0.2444,
+          "r2": 0.0193,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.325
+        },
+        {
+          "gene": "Rorc",
+          "eigenvalue": 0.6172,
+          "r2": 0.1965,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.8907
+        },
+        {
+          "gene": "Per3",
+          "eigenvalue": 0.6158,
+          "r2": 0.622,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.2748
+        },
+        {
+          "gene": "Clock",
+          "eigenvalue": 0.6291,
+          "r2": 0.1358,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2548
+        },
+        {
+          "gene": "Dbp",
+          "eigenvalue": 0.828,
+          "r2": 0.8446,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.9431
+        },
+        {
+          "gene": "Arntl",
+          "eigenvalue": 0.555,
+          "r2": 0.648,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.26
+        }
+      ]
+    },
+    "targetGenes": {
+      "count": 22,
+      "meanEigenvalue": 0.4178,
+      "genes": [
+        {
+          "gene": "Bcl2",
+          "eigenvalue": 0.697,
+          "r2": 0.3261,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.1698
+        },
+        {
+          "gene": "Mcm6",
+          "eigenvalue": 0.4701,
+          "r2": 0.0471,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.3918
+        },
+        {
+          "gene": "Sirt1",
+          "eigenvalue": 0.2183,
+          "r2": 0.0029,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.0087
+        },
+        {
+          "gene": "Cdk1",
+          "eigenvalue": 0.667,
+          "r2": 0.1493,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.8564
+        },
+        {
+          "gene": "Lgr5",
+          "eigenvalue": 0.5674,
+          "r2": 0.1796,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.7791
+        },
+        {
+          "gene": "Mdm2",
+          "eigenvalue": 0.6511,
+          "r2": 0.2056,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2746
+        },
+        {
+          "gene": "Trp53",
+          "eigenvalue": 0.3105,
+          "r2": 0.0088,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.8618
+        },
+        {
+          "gene": "Axin2",
+          "eigenvalue": 0.3738,
+          "r2": 0.03,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.0556
+        },
+        {
+          "gene": "Hif1a",
+          "eigenvalue": 0.4222,
+          "r2": 0.0337,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.1032
+        },
+        {
+          "gene": "Ccnb1",
+          "eigenvalue": 0.2382,
+          "r2": 0.0087,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.9592
+        },
+        {
+          "gene": "Myc",
+          "eigenvalue": 0.2422,
+          "r2": 0.0427,
+          "confidence": "Low",
+          "adfStationary": true,
+          "adfTestStatistic": -3.4786
+        },
+        {
+          "gene": "Apc",
+          "eigenvalue": 0.7256,
+          "r2": 0.2496,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.0456
+        },
+        {
+          "gene": "Ccne2",
+          "eigenvalue": 0.5093,
+          "r2": 0.0669,
+          "confidence": "Low",
+          "adfStationary": true,
+          "adfTestStatistic": -4.2785
+        },
+        {
+          "gene": "Chek2",
+          "eigenvalue": 0.2304,
+          "r2": 0.0056,
+          "confidence": "Low",
+          "adfStationary": true,
+          "adfTestStatistic": -3.2761
+        },
+        {
+          "gene": "Pparg",
+          "eigenvalue": 0.3886,
+          "r2": 0.0249,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2495
+        },
+        {
+          "gene": "Wee1",
+          "eigenvalue": 0.3302,
+          "r2": 0.0287,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.6265
+        },
+        {
+          "gene": "Ccne1",
+          "eigenvalue": 0.4295,
+          "r2": 0.0304,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.6879
+        },
+        {
+          "gene": "Bax",
+          "eigenvalue": 0.1355,
+          "r2": 0.0298,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.4829
+        },
+        {
+          "gene": "Mki67",
+          "eigenvalue": 0.3815,
+          "r2": 0.0213,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -2.9725
+        },
+        {
+          "gene": "Ccnd1",
+          "eigenvalue": 0.6293,
+          "r2": 0.232,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.5514
+        },
+        {
+          "gene": "Ctnnb1",
+          "eigenvalue": 0.3167,
+          "r2": 0.0899,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.8376
+        },
+        {
+          "gene": "Atm",
+          "eigenvalue": 0.2581,
+          "r2": 0.016,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2931
+        }
+      ]
+    },
+    "otherGenes": {
+      "count": 20920,
+      "meanEigenvalue": 0.4358
+    },
+    "gearboxGap": 0.162,
+    "hierarchyPreserved": true,
+    "adfStationarityPassRate": 20.7,
+    "downloadUrl": "/api/processed-tables/download/GSE54650_Brainstem_circadian"
+  },
+  "GSE54650_Brown_Fat_circadian": {
+    "dataset": "Mouse Brown Fat (Hughes Atlas)",
+    "datasetId": "GSE54650_Brown_Fat_circadian",
+    "description": "Mouse Brown Fat - Hughes Circadian Atlas 2h sampling (GSE54650)",
+    "totalGenes": 20955,
+    "clockGenes": {
+      "count": 13,
+      "meanEigenvalue": 0.6738,
+      "genes": [
+        {
+          "gene": "Npas2",
+          "eigenvalue": 0.8216,
+          "r2": 0.828,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.9466
+        },
+        {
+          "gene": "Per2",
+          "eigenvalue": 0.7941,
+          "r2": 0.7546,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.9682
+        },
+        {
+          "gene": "Cry1",
+          "eigenvalue": 0.6263,
+          "r2": 0.3991,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.6744
+        },
+        {
+          "gene": "Per1",
+          "eigenvalue": 0.4225,
+          "r2": 0.3253,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.1671
+        },
+        {
+          "gene": "Nr1d1",
+          "eigenvalue": 0.8493,
+          "r2": 0.8329,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -4.0056
+        },
+        {
+          "gene": "Nr1d2",
+          "eigenvalue": 0.7734,
+          "r2": 0.7786,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.7906
+        },
+        {
+          "gene": "Tef",
+          "eigenvalue": 0.7024,
+          "r2": 0.6963,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -2.9988
+        },
+        {
+          "gene": "Cry2",
+          "eigenvalue": 0.2981,
+          "r2": 0.2799,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2094
+        },
+        {
+          "gene": "Rorc",
+          "eigenvalue": 0.4978,
+          "r2": 0.5429,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.8032
+        },
+        {
+          "gene": "Per3",
+          "eigenvalue": 0.8067,
+          "r2": 0.8281,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.9412
+        },
+        {
+          "gene": "Clock",
+          "eigenvalue": 0.5762,
+          "r2": 0.6853,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.2246
+        },
+        {
+          "gene": "Dbp",
+          "eigenvalue": 0.8723,
+          "r2": 0.8611,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.6456
+        },
+        {
+          "gene": "Arntl",
+          "eigenvalue": 0.7179,
+          "r2": 0.802,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.4143
+        }
+      ]
+    },
+    "targetGenes": {
+      "count": 22,
+      "meanEigenvalue": 0.41,
+      "genes": [
+        {
+          "gene": "Bcl2",
+          "eigenvalue": 0.3429,
+          "r2": 0.0485,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.8566
+        },
+        {
+          "gene": "Mcm6",
+          "eigenvalue": 0.4311,
+          "r2": 0.0334,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.0724
+        },
+        {
+          "gene": "Sirt1",
+          "eigenvalue": 0.5631,
+          "r2": 0.1624,
+          "confidence": "Low",
+          "adfStationary": true,
+          "adfTestStatistic": -4.6312
+        },
+        {
+          "gene": "Cdk1",
+          "eigenvalue": 0.5537,
+          "r2": 0.3024,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.818
+        },
+        {
+          "gene": "Lgr5",
+          "eigenvalue": 0.2946,
+          "r2": 0.014,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.6316
+        },
+        {
+          "gene": "Mdm2",
+          "eigenvalue": 0.203,
+          "r2": 0.0103,
+          "confidence": "Low",
+          "adfStationary": true,
+          "adfTestStatistic": -4.5287
+        },
+        {
+          "gene": "Trp53",
+          "eigenvalue": 0.3811,
+          "r2": 0.0974,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.1537
+        },
+        {
+          "gene": "Axin2",
+          "eigenvalue": 0.455,
+          "r2": 0.0474,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.5813
+        },
+        {
+          "gene": "Hif1a",
+          "eigenvalue": 0.3767,
+          "r2": 0.045,
+          "confidence": "Low",
+          "adfStationary": true,
+          "adfTestStatistic": -4.954
+        },
+        {
+          "gene": "Ccnb1",
+          "eigenvalue": 0.5265,
+          "r2": 0.0967,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.8629
+        },
+        {
+          "gene": "Myc",
+          "eigenvalue": 0.5491,
+          "r2": 0.1016,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.3532
+        },
+        {
+          "gene": "Apc",
+          "eigenvalue": 0.4568,
+          "r2": 0.1823,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.1081
+        },
+        {
+          "gene": "Ccne2",
+          "eigenvalue": 0.2583,
+          "r2": 0.0135,
+          "confidence": "Low",
+          "adfStationary": true,
+          "adfTestStatistic": -5.0807
+        },
+        {
+          "gene": "Chek2",
+          "eigenvalue": 0.4617,
+          "r2": 0.0465,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.6265
+        },
+        {
+          "gene": "Pparg",
+          "eigenvalue": 0.5522,
+          "r2": 0.0775,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.5768
+        },
+        {
+          "gene": "Wee1",
+          "eigenvalue": 0.7942,
+          "r2": 0.8015,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.7125
+        },
+        {
+          "gene": "Ccne1",
+          "eigenvalue": 0.3979,
+          "r2": 0.0307,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.374
+        },
+        {
+          "gene": "Bax",
+          "eigenvalue": 0.1819,
+          "r2": 0.0679,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.135
+        },
+        {
+          "gene": "Mki67",
+          "eigenvalue": 0.312,
+          "r2": 0.0458,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -2.9894
+        },
+        {
+          "gene": "Ccnd1",
+          "eigenvalue": 0.3008,
+          "r2": 0.0112,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.5761
+        },
+        {
+          "gene": "Ctnnb1",
+          "eigenvalue": 0.3803,
+          "r2": 0.2942,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2574
+        },
+        {
+          "gene": "Atm",
+          "eigenvalue": 0.2467,
+          "r2": 0.1437,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.2919
+        }
+      ]
+    },
+    "otherGenes": {
+      "count": 20920,
+      "meanEigenvalue": 0.4205
+    },
+    "gearboxGap": 0.2638,
+    "hierarchyPreserved": true,
+    "adfStationarityPassRate": 34.5,
+    "downloadUrl": "/api/processed-tables/download/GSE54650_Brown_Fat_circadian"
+  },
+  "GSE54650_Cerebellum_circadian": {
+    "dataset": "Mouse Cerebellum (Hughes Atlas)",
+    "datasetId": "GSE54650_Cerebellum_circadian",
+    "description": "Mouse Cerebellum - Hughes Circadian Atlas 2h sampling (GSE54650)",
+    "totalGenes": 20955,
+    "clockGenes": {
+      "count": 13,
+      "meanEigenvalue": 0.575,
+      "genes": [
+        {
+          "gene": "Npas2",
+          "eigenvalue": 0.5086,
+          "r2": 0.1985,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.823
+        },
+        {
+          "gene": "Per2",
+          "eigenvalue": 0.6185,
+          "r2": 0.6462,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.3349
+        },
+        {
+          "gene": "Cry1",
+          "eigenvalue": 0.6458,
+          "r2": 0.172,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.3567
+        },
+        {
+          "gene": "Per1",
+          "eigenvalue": 0.5148,
+          "r2": 0.45,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.2177
+        },
+        {
+          "gene": "Nr1d1",
+          "eigenvalue": 0.4713,
+          "r2": 0.5927,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -6.0791
+        },
+        {
+          "gene": "Nr1d2",
+          "eigenvalue": 0.4703,
+          "r2": 0.5262,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.7396
+        },
+        {
+          "gene": "Tef",
+          "eigenvalue": 0.6588,
+          "r2": 0.6443,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.8836
+        },
+        {
+          "gene": "Cry2",
+          "eigenvalue": 0.4217,
+          "r2": 0.5869,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.7009
+        },
+        {
+          "gene": "Rorc",
+          "eigenvalue": 0.565,
+          "r2": 0.4921,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2754
+        },
+        {
+          "gene": "Per3",
+          "eigenvalue": 0.7844,
+          "r2": 0.7753,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.3451
+        },
+        {
+          "gene": "Clock",
+          "eigenvalue": 0.6079,
+          "r2": 0.6075,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.1827
+        },
+        {
+          "gene": "Dbp",
+          "eigenvalue": 0.5652,
+          "r2": 0.6678,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -6.4926
+        },
+        {
+          "gene": "Arntl",
+          "eigenvalue": 0.6424,
+          "r2": 0.7028,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.2315
+        }
+      ]
+    },
+    "targetGenes": {
+      "count": 22,
+      "meanEigenvalue": 0.4894,
+      "genes": [
+        {
+          "gene": "Bcl2",
+          "eigenvalue": 0.6444,
+          "r2": 0.2236,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2562
+        },
+        {
+          "gene": "Mcm6",
+          "eigenvalue": 0.6545,
+          "r2": 0.1229,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2578
+        },
+        {
+          "gene": "Sirt1",
+          "eigenvalue": 0.507,
+          "r2": 0.3534,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.7666
+        },
+        {
+          "gene": "Cdk1",
+          "eigenvalue": 0.4031,
+          "r2": 0.0176,
+          "confidence": "Unreliable",
+          "adfStationary": false,
+          "adfTestStatistic": -2.7088
+        },
+        {
+          "gene": "Lgr5",
+          "eigenvalue": 0.501,
+          "r2": 0.112,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.1584
+        },
+        {
+          "gene": "Mdm2",
+          "eigenvalue": 0.3941,
+          "r2": 0.0571,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.0606
+        },
+        {
+          "gene": "Trp53",
+          "eigenvalue": 0.3492,
+          "r2": 0.0175,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.4675
+        },
+        {
+          "gene": "Axin2",
+          "eigenvalue": 0.4718,
+          "r2": 0.1456,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.2738
+        },
+        {
+          "gene": "Hif1a",
+          "eigenvalue": 0.1625,
+          "r2": 0.079,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2217
+        },
+        {
+          "gene": "Ccnb1",
+          "eigenvalue": 0.6822,
+          "r2": 0.2561,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.8209
+        },
+        {
+          "gene": "Myc",
+          "eigenvalue": 0.6573,
+          "r2": 0.1901,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.0783
+        },
+        {
+          "gene": "Apc",
+          "eigenvalue": 0.3169,
+          "r2": 0.0136,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.0889
+        },
+        {
+          "gene": "Ccne2",
+          "eigenvalue": 0.7565,
+          "r2": 0.279,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -0.4486
+        },
+        {
+          "gene": "Chek2",
+          "eigenvalue": 0.4577,
+          "r2": 0.0403,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.4579
+        },
+        {
+          "gene": "Pparg",
+          "eigenvalue": 0.4695,
+          "r2": 0.0513,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.1601
+        },
+        {
+          "gene": "Wee1",
+          "eigenvalue": 0.4535,
+          "r2": 0.2534,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.5001
+        },
+        {
+          "gene": "Ccne1",
+          "eigenvalue": 0.5121,
+          "r2": 0.0854,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.5613
+        },
+        {
+          "gene": "Bax",
+          "eigenvalue": 0.5357,
+          "r2": 0.1177,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.0399
+        },
+        {
+          "gene": "Mki67",
+          "eigenvalue": 0.5813,
+          "r2": 0.1337,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.2485
+        },
+        {
+          "gene": "Ccnd1",
+          "eigenvalue": 0.4117,
+          "r2": 0.193,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.9325
+        },
+        {
+          "gene": "Ctnnb1",
+          "eigenvalue": 0.3142,
+          "r2": 0.151,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.8071
+        },
+        {
+          "gene": "Atm",
+          "eigenvalue": 0.5312,
+          "r2": 0.0567,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.0171
+        }
+      ]
+    },
+    "otherGenes": {
+      "count": 20920,
+      "meanEigenvalue": 0.4384
+    },
+    "gearboxGap": 0.0856,
+    "hierarchyPreserved": true,
+    "adfStationarityPassRate": 20.9,
+    "downloadUrl": "/api/processed-tables/download/GSE54650_Cerebellum_circadian"
+  },
+  "GSE54650_Hypothalamus_circadian": {
+    "dataset": "Mouse Hypothalamus (Hughes Atlas)",
+    "datasetId": "GSE54650_Hypothalamus_circadian",
+    "description": "Mouse Hypothalamus - Hughes Circadian Atlas 2h sampling (GSE54650)",
+    "totalGenes": 20955,
+    "clockGenes": {
+      "count": 13,
+      "meanEigenvalue": 0.4819,
+      "genes": [
+        {
+          "gene": "Npas2",
+          "eigenvalue": 0.3439,
+          "r2": 0.0692,
+          "confidence": "Low",
+          "adfStationary": true,
+          "adfTestStatistic": -3.1263
+        },
+        {
+          "gene": "Per2",
+          "eigenvalue": 0.5373,
+          "r2": 0.5544,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.8555
+        },
+        {
+          "gene": "Cry1",
+          "eigenvalue": 0.4597,
+          "r2": 0.0943,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2578
+        },
+        {
+          "gene": "Per1",
+          "eigenvalue": 0.3725,
+          "r2": 0.4165,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.8136
+        },
+        {
+          "gene": "Nr1d1",
+          "eigenvalue": 0.6323,
+          "r2": 0.3662,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.1414
+        },
+        {
+          "gene": "Nr1d2",
+          "eigenvalue": 0.6034,
+          "r2": 0.4621,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.438
+        },
+        {
+          "gene": "Tef",
+          "eigenvalue": 0.2752,
+          "r2": 0.0083,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.1958
+        },
+        {
+          "gene": "Cry2",
+          "eigenvalue": 0.2633,
+          "r2": 0.1095,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.9758
+        },
+        {
+          "gene": "Rorc",
+          "eigenvalue": 0.308,
+          "r2": 0.0624,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2333
+        },
+        {
+          "gene": "Per3",
+          "eigenvalue": 0.7754,
+          "r2": 0.5807,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.7627
+        },
+        {
+          "gene": "Clock",
+          "eigenvalue": 0.4989,
+          "r2": 0.0949,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.8626
+        },
+        {
+          "gene": "Dbp",
+          "eigenvalue": 0.5127,
+          "r2": 0.5597,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.2768
+        },
+        {
+          "gene": "Arntl",
+          "eigenvalue": 0.6823,
+          "r2": 0.7145,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.2248
+        }
+      ]
+    },
+    "targetGenes": {
+      "count": 22,
+      "meanEigenvalue": 0.4188,
+      "genes": [
+        {
+          "gene": "Bcl2",
+          "eigenvalue": 0.2071,
+          "r2": 0.0534,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.7193
+        },
+        {
+          "gene": "Mcm6",
+          "eigenvalue": 0.4124,
+          "r2": 0.0415,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -5.1027
+        },
+        {
+          "gene": "Sirt1",
+          "eigenvalue": 0.6174,
+          "r2": 0.1078,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.1716
+        },
+        {
+          "gene": "Cdk1",
+          "eigenvalue": 0.3584,
+          "r2": 0.0305,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.8857
+        },
+        {
+          "gene": "Lgr5",
+          "eigenvalue": 0.2496,
+          "r2": 0.023,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.4943
+        },
+        {
+          "gene": "Mdm2",
+          "eigenvalue": 0.4712,
+          "r2": 0.0421,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2082
+        },
+        {
+          "gene": "Trp53",
+          "eigenvalue": 0.5925,
+          "r2": 0.1455,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -2.9945
+        },
+        {
+          "gene": "Axin2",
+          "eigenvalue": 0.5474,
+          "r2": 0.0784,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -0.7864
+        },
+        {
+          "gene": "Hif1a",
+          "eigenvalue": 0.3038,
+          "r2": 0.034,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.6794
+        },
+        {
+          "gene": "Ccnb1",
+          "eigenvalue": 0.3562,
+          "r2": 0.0721,
+          "confidence": "Low",
+          "adfStationary": true,
+          "adfTestStatistic": -4.5733
+        },
+        {
+          "gene": "Myc",
+          "eigenvalue": 0.5208,
+          "r2": 0.0917,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.9514
+        },
+        {
+          "gene": "Apc",
+          "eigenvalue": 0.7293,
+          "r2": 0.2635,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -1.6876
+        },
+        {
+          "gene": "Ccne2",
+          "eigenvalue": 0.5828,
+          "r2": 0.0933,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.9082
+        },
+        {
+          "gene": "Chek2",
+          "eigenvalue": 0.1226,
+          "r2": 0.0351,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.6906
+        },
+        {
+          "gene": "Pparg",
+          "eigenvalue": 0.5335,
+          "r2": 0.0727,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.8846
+        },
+        {
+          "gene": "Wee1",
+          "eigenvalue": 0.3007,
+          "r2": 0.0664,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.1885
+        },
+        {
+          "gene": "Ccne1",
+          "eigenvalue": 0.0764,
+          "r2": 0.0039,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.0768
+        },
+        {
+          "gene": "Bax",
+          "eigenvalue": 0.4335,
+          "r2": 0.0667,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.5586
+        },
+        {
+          "gene": "Mki67",
+          "eigenvalue": 0.4424,
+          "r2": 0.0418,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.1006
+        },
+        {
+          "gene": "Ccnd1",
+          "eigenvalue": 0.5916,
+          "r2": 0.1707,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.4683
+        },
+        {
+          "gene": "Ctnnb1",
+          "eigenvalue": 0.5347,
+          "r2": 0.1002,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.8097
+        },
+        {
+          "gene": "Atm",
+          "eigenvalue": 0.2282,
+          "r2": 0.0342,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.3628
+        }
+      ]
+    },
+    "otherGenes": {
+      "count": 20920,
+      "meanEigenvalue": 0.4016
+    },
+    "gearboxGap": 0.0632,
+    "hierarchyPreserved": true,
+    "adfStationarityPassRate": 19.3,
+    "downloadUrl": "/api/processed-tables/download/GSE54650_Hypothalamus_circadian"
+  },
+  "GSE54650_White_Fat_circadian": {
+    "dataset": "Mouse White Fat (Hughes Atlas)",
+    "datasetId": "GSE54650_White_Fat_circadian",
+    "description": "Mouse White Fat - Hughes Circadian Atlas 2h sampling (GSE54650)",
+    "totalGenes": 20955,
+    "clockGenes": {
+      "count": 13,
+      "meanEigenvalue": 0.6969,
+      "genes": [
+        {
+          "gene": "Npas2",
+          "eigenvalue": 0.8625,
+          "r2": 0.8618,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.3723
+        },
+        {
+          "gene": "Per2",
+          "eigenvalue": 0.5906,
+          "r2": 0.6394,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.298
+        },
+        {
+          "gene": "Cry1",
+          "eigenvalue": 0.6775,
+          "r2": 0.6379,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.5823
+        },
+        {
+          "gene": "Per1",
+          "eigenvalue": 0.4126,
+          "r2": 0.3827,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.6128
+        },
+        {
+          "gene": "Nr1d1",
+          "eigenvalue": 0.7994,
+          "r2": 0.7906,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -5.4307
+        },
+        {
+          "gene": "Nr1d2",
+          "eigenvalue": 0.821,
+          "r2": 0.8365,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -6.7426
+        },
+        {
+          "gene": "Tef",
+          "eigenvalue": 0.5968,
+          "r2": 0.6774,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.4243
+        },
+        {
+          "gene": "Cry2",
+          "eigenvalue": 0.5338,
+          "r2": 0.3786,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.4068
+        },
+        {
+          "gene": "Rorc",
+          "eigenvalue": 0.5846,
+          "r2": 0.4952,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.5671
+        },
+        {
+          "gene": "Per3",
+          "eigenvalue": 0.8092,
+          "r2": 0.8207,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.9072
+        },
+        {
+          "gene": "Clock",
+          "eigenvalue": 0.7991,
+          "r2": 0.7917,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.2009
+        },
+        {
+          "gene": "Dbp",
+          "eigenvalue": 0.6882,
+          "r2": 0.6937,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.0059
+        },
+        {
+          "gene": "Arntl",
+          "eigenvalue": 0.8851,
+          "r2": 0.8974,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -5.7466
+        }
+      ]
+    },
+    "targetGenes": {
+      "count": 22,
+      "meanEigenvalue": 0.4089,
+      "genes": [
+        {
+          "gene": "Bcl2",
+          "eigenvalue": 0.4058,
+          "r2": 0.1043,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.642
+        },
+        {
+          "gene": "Mcm6",
+          "eigenvalue": 0.5543,
+          "r2": 0.1544,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.7006
+        },
+        {
+          "gene": "Sirt1",
+          "eigenvalue": 0.3556,
+          "r2": 0.0267,
+          "confidence": "Low",
+          "adfStationary": true,
+          "adfTestStatistic": -4.2812
+        },
+        {
+          "gene": "Cdk1",
+          "eigenvalue": 0.2449,
+          "r2": 0.0057,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.1083
+        },
+        {
+          "gene": "Lgr5",
+          "eigenvalue": 0.389,
+          "r2": 0.0211,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.3892
+        },
+        {
+          "gene": "Mdm2",
+          "eigenvalue": 0.3292,
+          "r2": 0.0195,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.4332
+        },
+        {
+          "gene": "Trp53",
+          "eigenvalue": 0.1694,
+          "r2": 0.0791,
+          "confidence": "Low",
+          "adfStationary": true,
+          "adfTestStatistic": -3.7718
+        },
+        {
+          "gene": "Axin2",
+          "eigenvalue": 0.2157,
+          "r2": 0.0452,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -1.9606
+        },
+        {
+          "gene": "Hif1a",
+          "eigenvalue": 0.6316,
+          "r2": 0.4434,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.1515
+        },
+        {
+          "gene": "Ccnb1",
+          "eigenvalue": 0.4548,
+          "r2": 0.3472,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.7454
+        },
+        {
+          "gene": "Myc",
+          "eigenvalue": 0.5201,
+          "r2": 0.0723,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.656
+        },
+        {
+          "gene": "Apc",
+          "eigenvalue": 0.296,
+          "r2": 0.0084,
+          "confidence": "Low",
+          "adfStationary": true,
+          "adfTestStatistic": -3.3007
+        },
+        {
+          "gene": "Ccne2",
+          "eigenvalue": 0.2627,
+          "r2": 0.0692,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.0963
+        },
+        {
+          "gene": "Chek2",
+          "eigenvalue": 0.5779,
+          "r2": 0.2362,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.8739
+        },
+        {
+          "gene": "Pparg",
+          "eigenvalue": 0.1726,
+          "r2": 0.001,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.113
+        },
+        {
+          "gene": "Wee1",
+          "eigenvalue": 0.7318,
+          "r2": 0.7578,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.1979
+        },
+        {
+          "gene": "Ccne1",
+          "eigenvalue": 0.3736,
+          "r2": 0.1536,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.7746
+        },
+        {
+          "gene": "Bax",
+          "eigenvalue": 0.5297,
+          "r2": 0.102,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.4837
+        },
+        {
+          "gene": "Mki67",
+          "eigenvalue": 0.3557,
+          "r2": 0.0305,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.2861
+        },
+        {
+          "gene": "Ccnd1",
+          "eigenvalue": 0.4643,
+          "r2": 0.0768,
+          "confidence": "Low",
+          "adfStationary": true,
+          "adfTestStatistic": -3.3644
+        },
+        {
+          "gene": "Ctnnb1",
+          "eigenvalue": 0.41,
+          "r2": 0.0372,
+          "confidence": "Low",
+          "adfStationary": false,
+          "adfTestStatistic": -2.6169
+        },
+        {
+          "gene": "Atm",
+          "eigenvalue": 0.5505,
+          "r2": 0.0822,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.1995
+        }
+      ]
+    },
+    "otherGenes": {
+      "count": 20920,
+      "meanEigenvalue": 0.4128
+    },
+    "gearboxGap": 0.2881,
+    "hierarchyPreserved": true,
+    "adfStationarityPassRate": 20.4,
+    "downloadUrl": "/api/processed-tables/download/GSE54650_White_Fat_circadian"
+  },
+  "GSE48113_Human_Blood_Circadian": {
+    "dataset": "Human Blood (Archer 2014)",
+    "datasetId": "GSE48113_Human_Blood_Circadian",
+    "description": "Human Blood Transcriptome - Forced desynchrony protocol (GSE48113)",
+    "totalGenes": 19225,
+    "clockGenes": {
+      "count": 13,
+      "meanEigenvalue": 0.3506,
+      "genes": [
+        {
+          "gene": "ARNTL",
+          "eigenvalue": 0.3307,
+          "r2": 0.018,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.3733
+        },
+        {
+          "gene": "CLOCK",
+          "eigenvalue": 0.1357,
+          "r2": 0.0142,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -6.2186
+        },
+        {
+          "gene": "CRY1",
+          "eigenvalue": 0.381,
+          "r2": 0.0556,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -5.8626
+        },
+        {
+          "gene": "CRY2",
+          "eigenvalue": 0.1274,
+          "r2": 0.0039,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -6.0703
+        },
+        {
+          "gene": "DBP",
+          "eigenvalue": 0.5584,
+          "r2": 0.1539,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -5.0672
+        },
+        {
+          "gene": "NPAS2",
+          "eigenvalue": 0.3081,
+          "r2": 0.0179,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -5.8438
+        },
+        {
+          "gene": "NR1D1",
+          "eigenvalue": 0.5025,
+          "r2": 0.0557,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -5.2288
+        },
+        {
+          "gene": "NR1D2",
+          "eigenvalue": 0.5285,
+          "r2": 0.1381,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -3.8093
+        },
+        {
+          "gene": "PER1",
+          "eigenvalue": 0.4261,
+          "r2": 0.0567,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -3.3776
+        },
+        {
+          "gene": "PER2",
+          "eigenvalue": 0.3672,
+          "r2": 0.0332,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -5.1599
+        },
+        {
+          "gene": "PER3",
+          "eigenvalue": 0.3758,
+          "r2": 0.0194,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.2929
+        },
+        {
+          "gene": "RORC",
+          "eigenvalue": 0.1874,
+          "r2": 0.0029,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -6.2462
+        },
+        {
+          "gene": "TEF",
+          "eigenvalue": 0.3288,
+          "r2": 0.0559,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.1421
+        }
+      ]
+    },
+    "targetGenes": {
+      "count": 22,
+      "meanEigenvalue": 0.2697,
+      "genes": [
+        {
+          "gene": "APC",
+          "eigenvalue": 0.2402,
+          "r2": 0.0034,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -5.2118
+        },
+        {
+          "gene": "ATM",
+          "eigenvalue": 0.2271,
+          "r2": 0.0319,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -6.1709
+        },
+        {
+          "gene": "AXIN2",
+          "eigenvalue": 0.1771,
+          "r2": 0.0591,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.6945
+        },
+        {
+          "gene": "BAX",
+          "eigenvalue": 0.3654,
+          "r2": 0.0177,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -7.9602
+        },
+        {
+          "gene": "BCL2",
+          "eigenvalue": 0.4856,
+          "r2": 0.137,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -5.0455
+        },
+        {
+          "gene": "CCNB1",
+          "eigenvalue": 0.1775,
+          "r2": 0.1176,
+          "confidence": "High",
+          "adfStationary": true,
+          "adfTestStatistic": -5.7047
+        },
+        {
+          "gene": "CCND1",
+          "eigenvalue": 0.1992,
+          "r2": 0.0313,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -5.4275
+        },
+        {
+          "gene": "CCNE1",
+          "eigenvalue": 0.229,
+          "r2": 0.0435,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -5.5724
+        },
+        {
+          "gene": "CCNE2",
+          "eigenvalue": 0.305,
+          "r2": 0.0159,
+          "confidence": "Moderate",
+          "adfStationary": false,
+          "adfTestStatistic": -2.7709
+        },
+        {
+          "gene": "CDK1",
+          "eigenvalue": 0.4187,
+          "r2": 0.0586,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -5.818
+        },
+        {
+          "gene": "CDKN1A",
+          "eigenvalue": 0.0767,
+          "r2": 0.0018,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -6.4521
+        },
+        {
+          "gene": "CHEK2",
+          "eigenvalue": 0.2223,
+          "r2": 0.0055,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -7.1518
+        },
+        {
+          "gene": "CTNNB1",
+          "eigenvalue": 0.1944,
+          "r2": 0.0015,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -6.239
+        },
+        {
+          "gene": "HIF1A",
+          "eigenvalue": 0.4268,
+          "r2": 0.0357,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.9145
+        },
+        {
+          "gene": "MCM6",
+          "eigenvalue": 0.4564,
+          "r2": 0.0793,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.7177
+        },
+        {
+          "gene": "MDM2",
+          "eigenvalue": 0.3997,
+          "r2": 0.0786,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.5017
+        },
+        {
+          "gene": "MKI67",
+          "eigenvalue": 0.2866,
+          "r2": 0.0092,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -6.2028
+        },
+        {
+          "gene": "MYC",
+          "eigenvalue": 0.1194,
+          "r2": 0.0009,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -5.7034
+        },
+        {
+          "gene": "PPARG",
+          "eigenvalue": 0.2912,
+          "r2": 0.0113,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -6.0302
+        },
+        {
+          "gene": "SIRT1",
+          "eigenvalue": 0.1258,
+          "r2": 0.0482,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -5.9326
+        },
+        {
+          "gene": "TP53",
+          "eigenvalue": 0.1395,
+          "r2": 0.0033,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -6.0104
+        },
+        {
+          "gene": "WEE1",
+          "eigenvalue": 0.3693,
+          "r2": 0.0708,
+          "confidence": "Moderate",
+          "adfStationary": true,
+          "adfTestStatistic": -4.8116
+        }
+      ]
+    },
+    "otherGenes": {
+      "count": 19190,
+      "meanEigenvalue": 0.3038
+    },
+    "gearboxGap": 0.0809,
+    "hierarchyPreserved": true,
+    "adfStationarityPassRate": 94.7,
+    "downloadUrl": "/api/processed-tables/download/GSE48113_Human_Blood_Circadian"
+  }
+}

@@ -1,0 +1,152 @@
+{
+  "results": [
+    {
+      "modelName": "FitzHugh-Nagumo (oscillatory, I=0.5)",
+      "variables": [
+        "Membrane Potential",
+        "Recovery Variable"
+      ],
+      "results": [
+        {
+          "variable": "Membrane Potential",
+          "eigenvalue": 0.9549,
+          "phi1": 1.8955,
+          "phi2": -0.9118,
+          "r2": 0.9971,
+          "stability": "Near-Critical",
+          "isPhysicallyPlausible": true,
+          "note": "Oscillatory regime \u2014 expect persistent eigenvalue \u2014 CONFIRMED (|\u03bb|=0.955 in [0.5,1.05])"
+        },
+        {
+          "variable": "Recovery Variable",
+          "eigenvalue": 0.9967,
+          "phi1": 1.986,
+          "phi2": -0.9934,
+          "r2": 0.9999,
+          "stability": "Near-Critical",
+          "isPhysicallyPlausible": true,
+          "note": "Recovery tracks membrane \u2014 co-oscillation expected \u2014 CONFIRMED (|\u03bb|=0.997 in [0.5,1.05])"
+        }
+      ],
+      "overallPlausible": true
+    },
+    {
+      "modelName": "Goodwin Oscillator (n=10)",
+      "variables": [
+        "mRNA",
+        "Protein",
+        "Inhibitor"
+      ],
+      "results": [
+        {
+          "variable": "mRNA",
+          "eigenvalue": 0.959,
+          "phi1": 1.7103,
+          "phi2": -0.9197,
+          "r2": 0.9691,
+          "stability": "Near-Critical",
+          "isPhysicallyPlausible": true,
+          "note": "mRNA driven by inhibitor feedback \u2014 CONFIRMED (|\u03bb|=0.959 in [0.3,1.05])"
+        },
+        {
+          "variable": "Inhibitor",
+          "eigenvalue": 0.9961,
+          "phi1": 1.8241,
+          "phi2": -0.9923,
+          "r2": 0.9976,
+          "stability": "Near-Critical",
+          "isPhysicallyPlausible": true,
+          "note": "Inhibitor \u2014 Gearbox: should show \u2265 mRNA persistence \u2014 CONFIRMED (|\u03bb|=0.996 in [0.3,1.05])"
+        }
+      ],
+      "overallPlausible": true
+    },
+    {
+      "modelName": "Van der Pol (\u03bc=1.0, near-sinusoidal)",
+      "variables": [
+        "Position",
+        "Velocity"
+      ],
+      "results": [
+        {
+          "variable": "Position",
+          "eigenvalue": 0.9908,
+          "phi1": 1.9423,
+          "phi2": -0.9816,
+          "r2": 0.9986,
+          "stability": "Near-Critical",
+          "isPhysicallyPlausible": true,
+          "note": "Limit cycle oscillator \u2014 expect near-critical \u2014 CONFIRMED (|\u03bb|=0.991 in [0.7,1.05])"
+        }
+      ],
+      "overallPlausible": true
+    },
+    {
+      "modelName": "Lotka-Volterra (balanced)",
+      "variables": [
+        "Prey",
+        "Predator"
+      ],
+      "results": [
+        {
+          "variable": "Prey",
+          "eigenvalue": 0.9881,
+          "phi1": 1.9488,
+          "phi2": -0.9764,
+          "r2": 0.9989,
+          "stability": "Near-Critical",
+          "isPhysicallyPlausible": true,
+          "note": "Neutrally stable center \u2014 expect near-critical \u2014 CONFIRMED (|\u03bb|=0.988 in [0.7,1.05])"
+        },
+        {
+          "variable": "Predator",
+          "eigenvalue": 0.9929,
+          "phi1": 1.9644,
+          "phi2": -0.9858,
+          "r2": 0.9994,
+          "stability": "Near-Critical",
+          "isPhysicallyPlausible": true,
+          "note": "Predator tracks prey \u2014 co-oscillation \u2014 CONFIRMED (|\u03bb|=0.993 in [0.7,1.05])"
+        }
+      ],
+      "overallPlausible": true
+    },
+    {
+      "modelName": "Tyson-Novak Cell Cycle (healthy)",
+      "variables": [
+        "Cyclin",
+        "CDK",
+        "APC"
+      ],
+      "results": [
+        {
+          "variable": "Cyclin",
+          "eigenvalue": 0.9849,
+          "phi1": 1.9423,
+          "phi2": -0.9701,
+          "r2": 0.9983,
+          "stability": "Near-Critical",
+          "isPhysicallyPlausible": true,
+          "note": "Cyclin oscillation \u2014 healthy cell cycle \u2014 CONFIRMED (|\u03bb|=0.985 in [0.3,1.05])"
+        },
+        {
+          "variable": "CDK",
+          "eigenvalue": 0.9065,
+          "phi1": 1.7697,
+          "phi2": -0.8217,
+          "r2": 0.9813,
+          "stability": "Near-Critical",
+          "isPhysicallyPlausible": true,
+          "note": "CDK activation tracks cyclin \u2014 CONFIRMED (|\u03bb|=0.906 in [0.3,1.05])"
+        }
+      ],
+      "overallPlausible": true
+    }
+  ],
+  "summary": {
+    "totalModels": 5,
+    "passed": 5,
+    "passRate": 100,
+    "verdict": "ALL_PASS"
+  }
+}

@@ -1,0 +1,9 @@
+Clock_Gene,Tissues_Significant,Tissue_List,Mean_Effect_Size_f2,Cross_Tissue_FPR,Confidence_Tier
+Per1,5,"Liver,Kidney,Heart,Lung,Adrenal",2.41,<2%,HIGH
+Per2,6,"Liver,Kidney,Heart,Lung,Muscle,Adrenal",2.58,<2%,HIGH
+Cry1,4,"Liver,Heart,Lung,Adrenal",2.12,<2%,HIGH
+Cry2,5,"Liver,Kidney,Heart,Lung,Brown Fat",2.35,<2%,HIGH
+Arntl,6,"Liver,Kidney,Heart,Lung,Muscle,Adrenal",2.67,<2%,HIGH
+Clock,4,"Liver,Heart,Lung,Adrenal",2.08,<2%,HIGH
+Nr1d1,5,"Liver,Kidney,Heart,Muscle,Adrenal",2.44,<2%,HIGH
+Nr1d2,4,"Liver,Heart,Lung,Muscle",2.19,<2%,HIGH

@@ -1,0 +1,137 @@
+# PAR(2) Discovery Engine - Dual License
+
+Copyright (c) 2024-2025 PAR(2) Discovery Engine Contributors
+
+## PATENT NOTICE
+
+The PAR(2) (Phase-Amplitude-Relationship) methodology and associated statistical 
+equations described in this software are the subject of a **pending patent 
+application in the United Kingdom**. The patent covers the core hypothesis, 
+mathematical formulations, and analytical methods used by this software.
+
+**Territorial Scope**: The pending patent application is filed in the United Kingdom.
+Patent protection may not extend to other jurisdictions. Users outside the UK should
+consult with legal counsel regarding IP status in their jurisdiction. The authors
+reserve the right to file additional patent applications in other territories.
+
+---
+
+## DUAL LICENSING MODEL
+
+This software is available under **two separate license options** depending on 
+your intended use:
+
+### OPTION A: Academic & Research License (Non-Commercial)
+
+**FREE for non-commercial, academic, and research use.**
+
+If you are affiliated with a non-profit institution, academic laboratory, 
+university, or are a student conducting research, you may use this software 
+free of charge under the following conditions:
+
+1. **Non-Commercial Use Only**: You may NOT use this software, its outputs, 
+   or the underlying PAR(2) methodology for any commercial purpose, including 
+   but not limited to:
+   - Selling the software or services based on it
+   - Using results in commercial drug development
+   - Incorporating into proprietary products
+   - Contract research for commercial entities
+
+2. **Attribution Required**: Any publications, presentations, or derivative 
+   works using this software must cite the original manuscript:
+   
+   > PAR(2) Discovery Engine: Circadian Gating Analysis Software (2024).
+   > Available at: [repository URL]. DOI: [pending publication]
+   
+   (Updated citation details will be provided upon peer-reviewed publication)
+   
+3. **No Redistribution**: You may not redistribute or sublicense this software 
+   to third parties. Direct them to obtain their own license.
+
+4. **Patent License**: Under this academic license, you are granted a 
+   limited, non-exclusive, non-transferable license to use the patented 
+   PAR(2) methodology solely for non-commercial research purposes.
+
+5. **Modifications**: If you modify the software, you must clearly mark your 
+   changes and may not remove this license notice.
+
+### OPTION B: Commercial License
+
+**REQUIRED for any commercial use.**
+
+If you are a pharmaceutical company, biotechnology firm, contract research 
+organization (CRO), or any entity seeking to use this software or the PAR(2) 
+methodology for commercial purposes, you must obtain a Commercial License.
+
+Commercial use includes but is not limited to:
+- Drug discovery and development
+- Chronotherapy optimization for commercial products
+- Integration into commercial software platforms
+- Fee-based services using PAR(2) analysis
+- Any use generating direct or indirect revenue
+
+**To obtain a Commercial License, contact:**
+
+📧 Email: mickwh@msn.com
+🔗 Website: See repository contact information
+
+**What Commercial Licenses Include:**
+- Explicit patent license for the PAR(2) methodology (UK territory)
+- Right to use the software and method for revenue-generating activities
+- Technical support options (negotiable)
+- Custom integration assistance (negotiable)
+- Terms and fees negotiated based on use case and scale
+
+---
+
+## THIRD-PARTY COMPONENTS
+
+This software incorporates the following open-source libraries, which retain 
+their original licenses. These components may be redistributed under their 
+respective licenses independently of this dual-license:
+
+| Component | License |
+|-----------|---------|
+| React | MIT License |
+| Express.js | MIT License |
+| Drizzle ORM | Apache 2.0 License (see NOTICE file) |
+| Recharts | MIT License |
+| Radix UI | MIT License |
+| TailwindCSS | MIT License |
+
+The "no redistribution" clause in the Academic License (Option A) applies only 
+to the PAR(2)-specific code and methodology, not to these third-party components 
+which retain their original redistribution rights.
+
+---
+
+## WARRANTY DISCLAIMER
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+
+THE AUTHORS AND COPYRIGHT HOLDERS SHALL NOT BE LIABLE FOR ANY CLAIM, DAMAGES 
+OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+DEALINGS IN THE SOFTWARE.
+
+---
+
+## SCIENTIFIC DISCLAIMER
+
+PAR(2) is an exploratory statistical method for hypothesis generation. Results 
+should be validated using peer-reviewed methods (JTK_CYCLE, MetaCycle, RAIN) 
+and independent experiments before publication. See the application's Help 
+documentation for cross-validation guidance.
+
+---
+
+## CONTACT
+
+For licensing inquiries, technical questions, or collaboration opportunities:
+
+📧 mickwh@msn.com
+🌐 See repository for current contact information
+
+Last updated: December 2025

@@ -1,0 +1,5 @@
+Comparison,Spearman_Rho,P_Value,N,Interpretation
+|λ| vs Network Degree,-0.2888,1.00e+00,144,Independent
+|λ| vs Cosinor Amplitude,0.6934,2.83e-22,144,Moderate
+|λ| vs AR(2) R²,0.8307,4.19e-38,144,Strong
+|λ| vs H3K4me3,0.0794,1.00e+00,144,Independent

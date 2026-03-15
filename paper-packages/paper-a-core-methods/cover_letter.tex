@@ -1,0 +1,53 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{hyperref}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\today
+
+\vspace{1cm}
+
+Dear Editor,
+
+\vspace{0.5cm}
+
+We submit for your consideration the manuscript entitled ``\textbf{AR(2) Eigenvalue Modulus as a Measure of Temporal Persistence in Gene Expression: Circadian Hierarchy Emerges from Two Coefficients}'' for publication in \textit{PLOS Computational Biology}.
+
+\vspace{0.3cm}
+
+\textbf{Summary.} We demonstrate that the eigenvalue modulus of a second-order autoregressive model---a standard tool from econometrics and control theory---measures temporal persistence in gene expression and blindly recovers the known circadian hierarchy (clock $>$ target $>$ other) across 4 species, 12 mouse tissues, and 36 tissue- or condition-level time series from 10 independent GEO datasets.
+
+\vspace{0.3cm}
+
+\textbf{Significance.} No single metric has previously captured circadian hierarchy from expression data alone. Existing tools (JTK\_CYCLE, cosinor, RAIN) detect \textit{rhythmicity}; our eigenvalue modulus measures \textit{persistence}---a complementary dynamical property. We go beyond standard validation with five lines of evidence: (1) a twelve-analysis robustness suite including BMAL1-knockout causal validation; (2) cross-referencing against 59 literature-validated circadian genes (98.3\% recovery); (3) a Popper-faithful falsification test showing $\sim$180-fold enrichment of BMAL1 coupling over housekeeping controls; (4) three automated bias audits confirming the hierarchy depends on temporal order, not confounds; and (5) extension to non-circadian biology (dendritic cell immune response) validating the principle beyond circadian rhythms. The eigenvalue modulus is independent of mRNA half-life ($\rho = 0.012$ across 22,989 genes), confirming it measures a genuinely novel property.
+
+\vspace{0.3cm}
+
+\textbf{Reproducibility.} All 10 source datasets are publicly available from NCBI GEO. Complete AR(2) results for all genes are provided as supplementary files. An interactive web application (\url{https://par2-discovery-engine.replit.app}) provides access to all results and allows users to upload their own data.
+
+\vspace{0.3cm}
+
+\textbf{Limitations acknowledged.} We are transparent about the method's boundaries: baboon replication is partial (7/8 directionally correct, 4/8 bootstrap-significant, consistent with the 12-timepoint limitation); the fine-grained nine-category hierarchy beyond the clock--other gap is suggestive rather than definitive; and we recommend $N \geq 16$ timepoints for robust results. Twelve limitations are discussed in the manuscript.
+
+\vspace{0.3cm}
+
+This manuscript has not been submitted elsewhere and all work is original.
+
+\vspace{0.5cm}
+
+Sincerely,
+
+\vspace{0.5cm}
+
+Michael Whiteside \\
+Independent Researcher, United Kingdom \\
+mickwh@msn.com \\
+ORCID: 0009-0000-0643-5791
+
+\end{document}

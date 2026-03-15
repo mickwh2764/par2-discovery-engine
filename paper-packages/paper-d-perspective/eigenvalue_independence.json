@@ -1,0 +1,3783 @@
+{
+  "dataset": "Mouse Liver (Hughes Atlas)",
+  "datasetId": "GSE54650_Liver_circadian",
+  "totalGenes": 20955,
+  "stableGenes": 20955,
+  "correlations": {
+    "eigenvalue_vs_rSquared": {
+      "spearman": 0.7661,
+      "pValue": 1e-300,
+      "n": 20955
+    },
+    "eigenvalue_vs_amplitude": {
+      "spearman": 0.2608,
+      "pValue": 1e-300,
+      "n": 20955
+    },
+    "rSquared_vs_amplitude": {
+      "spearman": 0.3566,
+      "pValue": 1e-300,
+      "n": 20955
+    }
+  },
+  "clockGenesSummary": {
+    "n": 13,
+    "meanEigenvalue": 0.6924,
+    "meanRSquared": 0.6641,
+    "meanAmplitude": 550.7236
+  },
+  "targetGenesSummary": {
+    "n": 22,
+    "meanEigenvalue": 0.5083,
+    "meanRSquared": 0.1708,
+    "meanAmplitude": 53.0664
+  },
+  "scatterData": [
+    {
+      "gene": "Npas2",
+      "geneType": "clock",
+      "eigenvalue": 0.5597,
+      "rSquared": 0.5377,
+      "amplitude": 210.7828
+    },
+    {
+      "gene": "Per2",
+      "geneType": "clock",
+      "eigenvalue": 0.636,
+      "rSquared": 0.7152,
+      "amplitude": 394.6816
+    },
+    {
+      "gene": "Bcl2",
+      "geneType": "target",
+      "eigenvalue": 0.5556,
+      "rSquared": 0.0827,
+      "amplitude": 4.8006
+    },
+    {
+      "gene": "Mcm6",
+      "geneType": "target",
+      "eigenvalue": 0.4608,
+      "rSquared": 0.3592,
+      "amplitude": 16.563
+    },
+    {
+      "gene": "Sirt1",
+      "geneType": "target",
+      "eigenvalue": 0.5632,
+      "rSquared": 0.0912,
+      "amplitude": 17.2145
+    },
+    {
+      "gene": "Cdk1",
+      "geneType": "target",
+      "eigenvalue": 0.6005,
+      "rSquared": 0.1162,
+      "amplitude": 10.3654
+    },
+    {
+      "gene": "Cry1",
+      "geneType": "clock",
+      "eigenvalue": 0.7595,
+      "rSquared": 0.7794,
+      "amplitude": 236.7024
+    },
+    {
+      "gene": "Lgr5",
+      "geneType": "target",
+      "eigenvalue": 0.5723,
+      "rSquared": 0.0883,
+      "amplitude": 65.705
+    },
+    {
+      "gene": "Mdm2",
+      "geneType": "target",
+      "eigenvalue": 0.7228,
+      "rSquared": 0.2336,
+      "amplitude": 61.3533
+    },
+    {
+      "gene": "Per1",
+      "geneType": "clock",
+      "eigenvalue": 0.5738,
+      "rSquared": 0.5098,
+      "amplitude": 191.199
+    },
+    {
+      "gene": "Trp53",
+      "geneType": "target",
+      "eigenvalue": 0.7145,
+      "rSquared": 0.366,
+      "amplitude": 79.4795
+    },
+    {
+      "gene": "Axin2",
+      "geneType": "target",
+      "eigenvalue": 0.1605,
+      "rSquared": 0.064,
+      "amplitude": 11.4946
+    },
+    {
+      "gene": "Nr1d1",
+      "geneType": "clock",
+      "eigenvalue": 0.8112,
+      "rSquared": 0.7278,
+      "amplitude": 1541.8413
+    },
+    {
+      "gene": "Hif1a",
+      "geneType": "target",
+      "eigenvalue": 0.4684,
+      "rSquared": 0.044,
+      "amplitude": 8.5794
+    },
+    {
+      "gene": "Ccnb1",
+      "geneType": "target",
+      "eigenvalue": 0.404,
+      "rSquared": 0.0407,
+      "amplitude": 9.1144
+    },
+    {
+      "gene": "Nr1d2",
+      "geneType": "clock",
+      "eigenvalue": 0.8564,
+      "rSquared": 0.8496,
+      "amplitude": 805.4163
+    },
+    {
+      "gene": "Myc",
+      "geneType": "target",
+      "eigenvalue": 0.4163,
+      "rSquared": 0.1063,
+      "amplitude": 149.2074
+    },
+    {
+      "gene": "Tef",
+      "geneType": "clock",
+      "eigenvalue": 0.6573,
+      "rSquared": 0.6844,
+      "amplitude": 382.0375
+    },
+    {
+      "gene": "Apc",
+      "geneType": "target",
+      "eigenvalue": 0.5755,
+      "rSquared": 0.1004,
+      "amplitude": 40.7677
+    },
+    {
+      "gene": "Cry2",
+      "geneType": "clock",
+      "eigenvalue": 0.5832,
+      "rSquared": 0.2057,
+      "amplitude": 99.7394
+    },
+    {
+      "gene": "Rorc",
+      "geneType": "clock",
+      "eigenvalue": 0.7092,
+      "rSquared": 0.6815,
+      "amplitude": 1497.8866
+    },
+    {
+      "gene": "Ccne2",
+      "geneType": "target",
+      "eigenvalue": 0.4259,
+      "rSquared": 0.3195,
+      "amplitude": 9.8135
+    },
+    {
+      "gene": "Per3",
+      "geneType": "clock",
+      "eigenvalue": 0.4861,
+      "rSquared": 0.5894,
+      "amplitude": 252.4726
+    },
+    {
+      "gene": "Chek2",
+      "geneType": "target",
+      "eigenvalue": 0.4058,
+      "rSquared": 0.0501,
+      "amplitude": 4.7569
+    },
+    {
+      "gene": "Clock",
+      "geneType": "clock",
+      "eigenvalue": 0.8104,
+      "rSquared": 0.8139,
+      "amplitude": 462.9082
+    },
+    {
+      "gene": "Pparg",
+      "geneType": "target",
+      "eigenvalue": 0.5014,
+      "rSquared": 0.0782,
+      "amplitude": 7.066
+    },
+    {
+      "gene": "Dbp",
+      "geneType": "clock",
+      "eigenvalue": 0.7917,
+      "rSquared": 0.7524,
+      "amplitude": 738.9822
+    },
+    {
+      "gene": "Wee1",
+      "geneType": "target",
+      "eigenvalue": 0.6151,
+      "rSquared": 0.6277,
+      "amplitude": 309.228
+    },
+    {
+      "gene": "Arntl",
+      "geneType": "clock",
+      "eigenvalue": 0.7671,
+      "rSquared": 0.7867,
+      "amplitude": 344.7566
+    },
+    {
+      "gene": "Ccne1",
+      "geneType": "target",
+      "eigenvalue": 0.4017,
+      "rSquared": 0.4022,
+      "amplitude": 41.4279
+    },
+    {
+      "gene": "Bax",
+      "geneType": "target",
+      "eigenvalue": 0.3916,
+      "rSquared": 0.1974,
+      "amplitude": 2.415
+    },
+    {
+      "gene": "Mki67",
+      "geneType": "target",
+      "eigenvalue": 0.4398,
+      "rSquared": 0.0368,
+      "amplitude": 1.8997
+    },
+    {
+      "gene": "Ccnd1",
+      "geneType": "target",
+      "eigenvalue": 0.5868,
+      "rSquared": 0.1361,
+      "amplitude": 183.273
+    },
+    {
+      "gene": "Ctnnb1",
+      "geneType": "target",
+      "eigenvalue": 0.5649,
+      "rSquared": 0.0793,
+      "amplitude": 107.33
+    },
+    {
+      "gene": "Atm",
+      "geneType": "target",
+      "eigenvalue": 0.6341,
+      "rSquared": 0.1381,
+      "amplitude": 25.6057
+    },
+    {
+      "gene": "Gm2889",
+      "geneType": "other",
+      "eigenvalue": 0.4389,
+      "rSquared": 0.047,
+      "amplitude": 27.9552
+    },
+    {
+      "gene": "Gm10568",
+      "geneType": "other",
+      "eigenvalue": 0.5682,
+      "rSquared": 0.0974,
+      "amplitude": 3.4377
+    },
+    {
+      "gene": "Lypla1",
+      "geneType": "other",
+      "eigenvalue": 0.6155,
+      "rSquared": 0.1109,
+      "amplitude": 100.8961
+    },
+    {
+      "gene": "Tcea1",
+      "geneType": "other",
+      "eigenvalue": 0.2818,
+      "rSquared": 0.0059,
+      "amplitude": 42.3137
+    },
+    {
+      "gene": "Atp6v1h",
+      "geneType": "other",
+      "eigenvalue": 0.6277,
+      "rSquared": 0.1381,
+      "amplitude": 23.9263
+    },
+    {
+      "gene": "Oprk1",
+      "geneType": "other",
+      "eigenvalue": 0.7876,
+      "rSquared": 0.3125,
+      "amplitude": 2.4006
+    },
+    {
+      "gene": "Rb1cc1",
+      "geneType": "other",
+      "eigenvalue": 0.4183,
+      "rSquared": 0.0376,
+      "amplitude": 58.3753
+    },
+    {
+      "gene": "Fam150a",
+      "geneType": "other",
+      "eigenvalue": 0.2566,
+      "rSquared": 0.0095,
+      "amplitude": 1.1114
+    },
+    {
+      "gene": "St18",
+      "geneType": "other",
+      "eigenvalue": 0.3794,
+      "rSquared": 0.0201,
+      "amplitude": 1.5433
+    },
+    {
+      "gene": "Pcmtd1",
+      "geneType": "other",
+      "eigenvalue": 0.6134,
+      "rSquared": 0.1043,
+      "amplitude": 139.2964
+    },
+    {
+      "gene": "Gm30414",
+      "geneType": "other",
+      "eigenvalue": 0.5229,
+      "rSquared": 0.07,
+      "amplitude": 0.9556
+    },
+    {
+      "gene": "Rrs1",
+      "geneType": "other",
+      "eigenvalue": 0.4219,
+      "rSquared": 0.028,
+      "amplitude": 8.1622
+    },
+    {
+      "gene": "Adhfe1",
+      "geneType": "other",
+      "eigenvalue": 0.4445,
+      "rSquared": 0.2172,
+      "amplitude": 303.6599
+    },
+    {
+      "gene": "3110035E14Rik",
+      "geneType": "other",
+      "eigenvalue": 0.4607,
+      "rSquared": 0.0697,
+      "amplitude": 0.5751
+    },
+    {
+      "gene": "Sgk3",
+      "geneType": "other",
+      "eigenvalue": 0.5754,
+      "rSquared": 0.0982,
+      "amplitude": 43.4819
+    },
+    {
+      "gene": "Mcmdc2",
+      "geneType": "other",
+      "eigenvalue": 0.4295,
+      "rSquared": 0.1595,
+      "amplitude": 0.2427
+    },
+    {
+      "gene": "Cspp1",
+      "geneType": "other",
+      "eigenvalue": 0.5984,
+      "rSquared": 0.1549,
+      "amplitude": 6.3752
+    },
+    {
+      "gene": "Prex2",
+      "geneType": "other",
+      "eigenvalue": 0.7288,
+      "rSquared": 0.2361,
+      "amplitude": 36.9528
+    },
+    {
+      "gene": "A830018L16Rik",
+      "geneType": "other",
+      "eigenvalue": 0.6356,
+      "rSquared": 0.1382,
+      "amplitude": 1.8196
+    },
+    {
+      "gene": "Sulf1",
+      "geneType": "other",
+      "eigenvalue": 0.2249,
+      "rSquared": 0.0043,
+      "amplitude": 0.7505
+    },
+    {
+      "gene": "Xkr9",
+      "geneType": "other",
+      "eigenvalue": 0.5604,
+      "rSquared": 0.1264,
+      "amplitude": 83.3092
+    },
+    {
+      "gene": "Gm9947",
+      "geneType": "other",
+      "eigenvalue": 0.3818,
+      "rSquared": 0.0198,
+      "amplitude": 0.8132
+    },
+    {
+      "gene": "Rpl5",
+      "geneType": "other",
+      "eigenvalue": 0.6818,
+      "rSquared": 0.3213,
+      "amplitude": 247.9033
+    },
+    {
+      "gene": "Kcnb2",
+      "geneType": "other",
+      "eigenvalue": 0.7739,
+      "rSquared": 0.3065,
+      "amplitude": 2.704
+    },
+    {
+      "gene": "Terf1",
+      "geneType": "other",
+      "eigenvalue": 0.4999,
+      "rSquared": 0.0559,
+      "amplitude": 41.3171
+    },
+    {
+      "gene": "Rdh10",
+      "geneType": "other",
+      "eigenvalue": 0.4042,
+      "rSquared": 0.0616,
+      "amplitude": 62.0519
+    },
+    {
+      "gene": "Tmem70",
+      "geneType": "other",
+      "eigenvalue": 0.322,
+      "rSquared": 0.0336,
+      "amplitude": 26.9383
+    },
+    {
+      "gene": "Ly96",
+      "geneType": "other",
+      "eigenvalue": 0.6407,
+      "rSquared": 0.6128,
+      "amplitude": 126.8009
+    },
+    {
+      "gene": "Gdap1",
+      "geneType": "other",
+      "eigenvalue": 0.3254,
+      "rSquared": 0.0308,
+      "amplitude": 1.0615
+    },
+    {
+      "gene": "Pi15",
+      "geneType": "other",
+      "eigenvalue": 0.2994,
+      "rSquared": 0.0334,
+      "amplitude": 1.5595
+    },
+    {
+      "gene": "Crispld1",
+      "geneType": "other",
+      "eigenvalue": 0.7546,
+      "rSquared": 0.2795,
+      "amplitude": 5.6158
+    },
+    {
+      "gene": "Tfap2d",
+      "geneType": "other",
+      "eigenvalue": 0.7797,
+      "rSquared": 0.3137,
+      "amplitude": 1.5796
+    },
+    {
+      "gene": "Tfap2b",
+      "geneType": "other",
+      "eigenvalue": 0.5808,
+      "rSquared": 0.1123,
+      "amplitude": 0.919
+    },
+    {
+      "gene": "Iars",
+      "geneType": "other",
+      "eigenvalue": 0.5888,
+      "rSquared": 0.2058,
+      "amplitude": 130.0783
+    },
+    {
+      "gene": "Mir206",
+      "geneType": "other",
+      "eigenvalue": 0.3107,
+      "rSquared": 0.0365,
+      "amplitude": 0.2617
+    },
+    {
+      "gene": "Il17a",
+      "geneType": "other",
+      "eigenvalue": 0.1574,
+      "rSquared": 0.0251,
+      "amplitude": 0.9505
+    },
+    {
+      "gene": "Paqr8",
+      "geneType": "other",
+      "eigenvalue": 0.391,
+      "rSquared": 0.0285,
+      "amplitude": 1.73
+    },
+    {
+      "gene": "Efhc1",
+      "geneType": "other",
+      "eigenvalue": 0.4998,
+      "rSquared": 0.0656,
+      "amplitude": 1.8247
+    },
+    {
+      "gene": "Tmem14a",
+      "geneType": "other",
+      "eigenvalue": 0.6542,
+      "rSquared": 0.3067,
+      "amplitude": 27.4773
+    },
+    {
+      "gene": "Gsta3",
+      "geneType": "other",
+      "eigenvalue": 0.44,
+      "rSquared": 0.4174,
+      "amplitude": 471.1913
+    },
+    {
+      "gene": "Cetn4",
+      "geneType": "other",
+      "eigenvalue": 0.4038,
+      "rSquared": 0.1773,
+      "amplitude": 6.1912
+    },
+    {
+      "gene": "Khdc1a",
+      "geneType": "other",
+      "eigenvalue": 0.2645,
+      "rSquared": 0.0054,
+      "amplitude": 0.405
+    },
+    {
+      "gene": "Mir30a",
+      "geneType": "other",
+      "eigenvalue": 0.1307,
+      "rSquared": 0.0074,
+      "amplitude": 21.4035
+    },
+    {
+      "gene": "Mir30c-2",
+      "geneType": "other",
+      "eigenvalue": 0.3011,
+      "rSquared": 0.0083,
+      "amplitude": 2.2065
+    },
+    {
+      "gene": "B3gat2",
+      "geneType": "other",
+      "eigenvalue": 0.475,
+      "rSquared": 0.0789,
+      "amplitude": 4.3063
+    },
+    {
+      "gene": "Sdhaf4",
+      "geneType": "other",
+      "eigenvalue": 0.7675,
+      "rSquared": 0.3022,
+      "amplitude": 6.8083
+    },
+    {
+      "gene": "Col9a1",
+      "geneType": "other",
+      "eigenvalue": 0.7766,
+      "rSquared": 0.3278,
+      "amplitude": 3.6081
+    },
+    {
+      "gene": "Lmbrd1",
+      "geneType": "other",
+      "eigenvalue": 0.6309,
+      "rSquared": 0.1164,
+      "amplitude": 48.1182
+    },
+    {
+      "gene": "Gm9884",
+      "geneType": "other",
+      "eigenvalue": 0.555,
+      "rSquared": 0.1248,
+      "amplitude": 2.0484
+    },
+    {
+      "gene": "Cdk10",
+      "geneType": "other",
+      "eigenvalue": 0.3762,
+      "rSquared": 0.0661,
+      "amplitude": 6.8249
+    },
+    {
+      "gene": "Lgsn",
+      "geneType": "other",
+      "eigenvalue": 0.692,
+      "rSquared": 0.1723,
+      "amplitude": 3.2721
+    },
+    {
+      "gene": "Pih1d3",
+      "geneType": "other",
+      "eigenvalue": 0.5307,
+      "rSquared": 0.0881,
+      "amplitude": 1.3786
+    },
+    {
+      "gene": "Paox",
+      "geneType": "other",
+      "eigenvalue": 0.4642,
+      "rSquared": 0.2116,
+      "amplitude": 83.5463
+    },
+    {
+      "gene": "Khdrbs2",
+      "geneType": "other",
+      "eigenvalue": 0.482,
+      "rSquared": 0.061,
+      "amplitude": 1.2861
+    },
+    {
+      "gene": "1700001G17Rik",
+      "geneType": "other",
+      "eigenvalue": 0.4986,
+      "rSquared": 0.0802,
+      "amplitude": 1.847
+    },
+    {
+      "gene": "Rab23",
+      "geneType": "other",
+      "eigenvalue": 0.6338,
+      "rSquared": 0.1353,
+      "amplitude": 25.9865
+    },
+    {
+      "gene": "Dst",
+      "geneType": "other",
+      "eigenvalue": 0.701,
+      "rSquared": 0.2459,
+      "amplitude": 37.8891
+    },
+    {
+      "gene": "Imp4",
+      "geneType": "other",
+      "eigenvalue": 0.5677,
+      "rSquared": 0.1481,
+      "amplitude": 72.7713
+    },
+    {
+      "gene": "D1Ertd448e",
+      "geneType": "other",
+      "eigenvalue": 0.493,
+      "rSquared": 0.4476,
+      "amplitude": 58.1979
+    },
+    {
+      "gene": "Ptpn18",
+      "geneType": "other",
+      "eigenvalue": 0.3884,
+      "rSquared": 0.0427,
+      "amplitude": 0.6888
+    },
+    {
+      "gene": "Prss39",
+      "geneType": "other",
+      "eigenvalue": 0.4048,
+      "rSquared": 0.0274,
+      "amplitude": 1.0377
+    },
+    {
+      "gene": "Cfc1",
+      "geneType": "other",
+      "eigenvalue": 0.3116,
+      "rSquared": 0.0174,
+      "amplitude": 2.5278
+    },
+    {
+      "gene": "Amer3",
+      "geneType": "other",
+      "eigenvalue": 0.3816,
+      "rSquared": 0.1423,
+      "amplitude": 0.7395
+    },
+    {
+      "gene": "C230030N03Rik",
+      "geneType": "other",
+      "eigenvalue": 0.7171,
+      "rSquared": 0.1943,
+      "amplitude": 4.2421
+    },
+    {
+      "gene": "Arhgef4",
+      "geneType": "other",
+      "eigenvalue": 0.3667,
+      "rSquared": 0.0181,
+      "amplitude": 4.3038
+    },
+    {
+      "gene": "Plekhb2",
+      "geneType": "other",
+      "eigenvalue": 0.6485,
+      "rSquared": 0.1521,
+      "amplitude": 54.2379
+    },
+    {
+      "gene": "Hs6st1",
+      "geneType": "other",
+      "eigenvalue": 0.3283,
+      "rSquared": 0.1798,
+      "amplitude": 124.4042
+    },
+    {
+      "gene": "Arid5a",
+      "geneType": "other",
+      "eigenvalue": 0.5426,
+      "rSquared": 0.1566,
+      "amplitude": 1.853
+    },
+    {
+      "gene": "Fer1l5",
+      "geneType": "other",
+      "eigenvalue": 0.6099,
+      "rSquared": 0.1129,
+      "amplitude": 0.4597
+    },
+    {
+      "gene": "Cnnm4",
+      "geneType": "other",
+      "eigenvalue": 0.6625,
+      "rSquared": 0.1845,
+      "amplitude": 15.1561
+    },
+    {
+      "gene": "Cnnm3",
+      "geneType": "other",
+      "eigenvalue": 0.6588,
+      "rSquared": 0.3903,
+      "amplitude": 30.9802
+    },
+    {
+      "gene": "Cox5b",
+      "geneType": "other",
+      "eigenvalue": 0.747,
+      "rSquared": 0.3824,
+      "amplitude": 213.9359
+    },
+    {
+      "gene": "Zap70",
+      "geneType": "other",
+      "eigenvalue": 0.3924,
+      "rSquared": 0.057,
+      "amplitude": 1.5149
+    },
+    {
+      "gene": "Vwa3b",
+      "geneType": "other",
+      "eigenvalue": 0.7724,
+      "rSquared": 0.3013,
+      "amplitude": 5.9546
+    },
+    {
+      "gene": "Cnga3",
+      "geneType": "other",
+      "eigenvalue": 0.6876,
+      "rSquared": 0.1969,
+      "amplitude": 1.407
+    },
+    {
+      "gene": "Inpp4a",
+      "geneType": "other",
+      "eigenvalue": 0.36,
+      "rSquared": 0.0978,
+      "amplitude": 21.9023
+    },
+    {
+      "gene": "Unc50",
+      "geneType": "other",
+      "eigenvalue": 0.6003,
+      "rSquared": 0.1128,
+      "amplitude": 83.9184
+    },
+    {
+      "gene": "Lipt1",
+      "geneType": "other",
+      "eigenvalue": 0.4722,
+      "rSquared": 0.0736,
+      "amplitude": 19.1083
+    },
+    {
+      "gene": "Mrpl30",
+      "geneType": "other",
+      "eigenvalue": 0.3755,
+      "rSquared": 0.1272,
+      "amplitude": 64.8123
+    },
+    {
+      "gene": "Eif5b",
+      "geneType": "other",
+      "eigenvalue": 0.6596,
+      "rSquared": 0.1746,
+      "amplitude": 15.7364
+    },
+    {
+      "gene": "Nms",
+      "geneType": "other",
+      "eigenvalue": 0.5117,
+      "rSquared": 0.1826,
+      "amplitude": 2.6058
+    },
+    {
+      "gene": "Pdcl3",
+      "geneType": "other",
+      "eigenvalue": 0.6517,
+      "rSquared": 0.2191,
+      "amplitude": 46.3713
+    },
+    {
+      "gene": "Cnot11",
+      "geneType": "other",
+      "eigenvalue": 0.6898,
+      "rSquared": 0.3606,
+      "amplitude": 14.3773
+    },
+    {
+      "gene": "Map4k4",
+      "geneType": "other",
+      "eigenvalue": 0.7356,
+      "rSquared": 0.323,
+      "amplitude": 24.6696
+    },
+    {
+      "gene": "Il1r2",
+      "geneType": "other",
+      "eigenvalue": 0.211,
+      "rSquared": 0.0027,
+      "amplitude": 1.351
+    },
+    {
+      "gene": "Il1r1",
+      "geneType": "other",
+      "eigenvalue": 0.5541,
+      "rSquared": 0.1003,
+      "amplitude": 110.7351
+    },
+    {
+      "gene": "Il1rl2",
+      "geneType": "other",
+      "eigenvalue": 0.2603,
+      "rSquared": 0.01,
+      "amplitude": 0.3893
+    },
+    {
+      "gene": "Il1rl1",
+      "geneType": "other",
+      "eigenvalue": 0.5057,
+      "rSquared": 0.0565,
+      "amplitude": 1.5833
+    },
+    {
+      "gene": "Il18r1",
+      "geneType": "other",
+      "eigenvalue": 0.118,
+      "rSquared": 0.0116,
+      "amplitude": 0.3491
+    },
+    {
+      "gene": "Il18rap",
+      "geneType": "other",
+      "eigenvalue": 0.2879,
+      "rSquared": 0.006,
+      "amplitude": 1.7364
+    },
+    {
+      "gene": "Slc9a4",
+      "geneType": "other",
+      "eigenvalue": 0.3124,
+      "rSquared": 0.0899,
+      "amplitude": 0.5968
+    },
+    {
+      "gene": "Slc9a2",
+      "geneType": "other",
+      "eigenvalue": 0.6337,
+      "rSquared": 0.123,
+      "amplitude": 1.2541
+    },
+    {
+      "gene": "Tmem182",
+      "geneType": "other",
+      "eigenvalue": 0.5384,
+      "rSquared": 0.0768,
+      "amplitude": 10.8452
+    },
+    {
+      "gene": "Gm9915",
+      "geneType": "other",
+      "eigenvalue": 0.5566,
+      "rSquared": 0.2543,
+      "amplitude": 1.1147
+    },
+    {
+      "gene": "Pou3f3",
+      "geneType": "other",
+      "eigenvalue": 0.5233,
+      "rSquared": 0.0657,
+      "amplitude": 3.5569
+    },
+    {
+      "gene": "Mrps9",
+      "geneType": "other",
+      "eigenvalue": 0.6086,
+      "rSquared": 0.1155,
+      "amplitude": 21.3822
+    },
+    {
+      "gene": "Gpr45",
+      "geneType": "other",
+      "eigenvalue": 0.8565,
+      "rSquared": 0.2621,
+      "amplitude": 1.9135
+    },
+    {
+      "gene": "8430432A02Rik",
+      "geneType": "other",
+      "eigenvalue": 0.518,
+      "rSquared": 0.0968,
+      "amplitude": 2.3231
+    },
+    {
+      "gene": "AI597479",
+      "geneType": "other",
+      "eigenvalue": 0.6421,
+      "rSquared": 0.1334,
+      "amplitude": 15.7488
+    },
+    {
+      "gene": "Nck2",
+      "geneType": "other",
+      "eigenvalue": 0.4424,
+      "rSquared": 0.0476,
+      "amplitude": 3.5079
+    },
+    {
+      "gene": "1500015O10Rik",
+      "geneType": "other",
+      "eigenvalue": 0.4589,
+      "rSquared": 0.0405,
+      "amplitude": 2.2615
+    },
+    {
+      "gene": "Tpp2",
+      "geneType": "other",
+      "eigenvalue": 0.7658,
+      "rSquared": 0.3202,
+      "amplitude": 26.5818
+    },
+    {
+      "gene": "Bivm",
+      "geneType": "other",
+      "eigenvalue": 0.6041,
+      "rSquared": 0.1767,
+      "amplitude": 36.3694
+    },
+    {
+      "gene": "Ercc5",
+      "geneType": "other",
+      "eigenvalue": 0.5176,
+      "rSquared": 0.1464,
+      "amplitude": 42.9514
+    },
+    {
+      "gene": "Gulp1",
+      "geneType": "other",
+      "eigenvalue": 0.3082,
+      "rSquared": 0.0099,
+      "amplitude": 0.8621
+    },
+    {
+      "gene": "Col3a1",
+      "geneType": "other",
+      "eigenvalue": 0.4333,
+      "rSquared": 0.2094,
+      "amplitude": 17.6893
+    },
+    {
+      "gene": "Wdr75",
+      "geneType": "other",
+      "eigenvalue": 0.3008,
+      "rSquared": 0.076,
+      "amplitude": 9.8461
+    },
+    {
+      "gene": "Rpl23a",
+      "geneType": "other",
+      "eigenvalue": 0.3058,
+      "rSquared": 0.0912,
+      "amplitude": 19.4886
+    },
+    {
+      "gene": "Dnah7b",
+      "geneType": "other",
+      "eigenvalue": 0.4207,
+      "rSquared": 0.0211,
+      "amplitude": 3.1309
+    },
+    {
+      "gene": "Dnah7c",
+      "geneType": "other",
+      "eigenvalue": 0.3827,
+      "rSquared": 0.0485,
+      "amplitude": 2.0445
+    },
+    {
+      "gene": "Tmeff2",
+      "geneType": "other",
+      "eigenvalue": 0.4577,
+      "rSquared": 0.0412,
+      "amplitude": 7.1036
+    },
+    {
+      "gene": "Sdpr",
+      "geneType": "other",
+      "eigenvalue": 0.7291,
+      "rSquared": 0.246,
+      "amplitude": 7.2745
+    },
+    {
+      "gene": "Stat4",
+      "geneType": "other",
+      "eigenvalue": 0.5726,
+      "rSquared": 0.1291,
+      "amplitude": 1.669
+    },
+    {
+      "gene": "Stat1",
+      "geneType": "other",
+      "eigenvalue": 0.5068,
+      "rSquared": 0.0486,
+      "amplitude": 77.5097
+    },
+    {
+      "gene": "Tmem194b",
+      "geneType": "other",
+      "eigenvalue": 0.4358,
+      "rSquared": 0.1332,
+      "amplitude": 1.1344
+    },
+    {
+      "gene": "Hibch",
+      "geneType": "other",
+      "eigenvalue": 0.6485,
+      "rSquared": 0.1405,
+      "amplitude": 78.1489
+    },
+    {
+      "gene": "Mstn",
+      "geneType": "other",
+      "eigenvalue": 0.4567,
+      "rSquared": 0.0405,
+      "amplitude": 4.6034
+    },
+    {
+      "gene": "Ormdl1",
+      "geneType": "other",
+      "eigenvalue": 0.6092,
+      "rSquared": 0.1198,
+      "amplitude": 48.7549
+    },
+    {
+      "gene": "Osgepl1",
+      "geneType": "other",
+      "eigenvalue": 0.6768,
+      "rSquared": 0.1408,
+      "amplitude": 33.253
+    },
+    {
+      "gene": "Ccdc150",
+      "geneType": "other",
+      "eigenvalue": 0.1989,
+      "rSquared": 0.0964,
+      "amplitude": 0.7942
+    },
+    {
+      "gene": "Coq10b",
+      "geneType": "other",
+      "eigenvalue": 0.7465,
+      "rSquared": 0.678,
+      "amplitude": 435.1906
+    },
+    {
+      "gene": "Hspe1",
+      "geneType": "other",
+      "eigenvalue": 0.4517,
+      "rSquared": 0.4167,
+      "amplitude": 341.5185
+    },
+    {
+      "gene": "Mob4",
+      "geneType": "other",
+      "eigenvalue": 0.3968,
+      "rSquared": 0.0836,
+      "amplitude": 12.8101
+    },
+    {
+      "gene": "Gm10561",
+      "geneType": "other",
+      "eigenvalue": 0.2279,
+      "rSquared": 0.1784,
+      "amplitude": 0.5251
+    },
+    {
+      "gene": "Mars2",
+      "geneType": "other",
+      "eigenvalue": 0.3119,
+      "rSquared": 0.027,
+      "amplitude": 13.4846
+    },
+    {
+      "gene": "Plcl1",
+      "geneType": "other",
+      "eigenvalue": 0.4108,
+      "rSquared": 0.0297,
+      "amplitude": 3.3013
+    },
+    {
+      "gene": "1700066M21Rik",
+      "geneType": "other",
+      "eigenvalue": 0.3821,
+      "rSquared": 0.0216,
+      "amplitude": 17.8837
+    },
+    {
+      "gene": "9430016H08Rik",
+      "geneType": "other",
+      "eigenvalue": 0.4967,
+      "rSquared": 0.0538,
+      "amplitude": 19.5357
+    },
+    {
+      "gene": "Spats2l",
+      "geneType": "other",
+      "eigenvalue": 0.559,
+      "rSquared": 0.1276,
+      "amplitude": 3.5652
+    },
+    {
+      "gene": "Sgol2a",
+      "geneType": "other",
+      "eigenvalue": 0.4755,
+      "rSquared": 0.0454,
+      "amplitude": 3.3309
+    },
+    {
+      "gene": "Aox1",
+      "geneType": "other",
+      "eigenvalue": 0.1822,
+      "rSquared": 0.0011,
+      "amplitude": 154.8992
+    },
+    {
+      "gene": "Aox3",
+      "geneType": "other",
+      "eigenvalue": 0.5614,
+      "rSquared": 0.1736,
+      "amplitude": 509.127
+    },
+    {
+      "gene": "Aox4",
+      "geneType": "other",
+      "eigenvalue": 0.3354,
+      "rSquared": 0.2144,
+      "amplitude": 0.6026
+    },
+    {
+      "gene": "Aox2",
+      "geneType": "other",
+      "eigenvalue": 0.5251,
+      "rSquared": 0.211,
+      "amplitude": 1.2612
+    },
+    {
+      "gene": "Bzw1",
+      "geneType": "other",
+      "eigenvalue": 0.5032,
+      "rSquared": 0.0572,
+      "amplitude": 55.208
+    },
+    {
+      "gene": "Nif3l1",
+      "geneType": "other",
+      "eigenvalue": 0.417,
+      "rSquared": 0.0349,
+      "amplitude": 76.5873
+    },
+    {
+      "gene": "Ndufb3",
+      "geneType": "other",
+      "eigenvalue": 0.4722,
+      "rSquared": 0.2983,
+      "amplitude": 41.2975
+    },
+    {
+      "gene": "Cbx3",
+      "geneType": "other",
+      "eigenvalue": 0.3368,
+      "rSquared": 0.0303,
+      "amplitude": 31.149
+    },
+    {
+      "gene": "Cflar",
+      "geneType": "other",
+      "eigenvalue": 0.2866,
+      "rSquared": 0.0288,
+      "amplitude": 50.019
+    },
+    {
+      "gene": "Casp8",
+      "geneType": "other",
+      "eigenvalue": 0.7358,
+      "rSquared": 0.2562,
+      "amplitude": 23.9858
+    },
+    {
+      "gene": "Stradb",
+      "geneType": "other",
+      "eigenvalue": 0.6025,
+      "rSquared": 0.1096,
+      "amplitude": 41.4225
+    },
+    {
+      "gene": "G730003C15Rik",
+      "geneType": "other",
+      "eigenvalue": 0.4803,
+      "rSquared": 0.0501,
+      "amplitude": 3.1859
+    },
+    {
+      "gene": "Cdk15",
+      "geneType": "other",
+      "eigenvalue": 0.2132,
+      "rSquared": 0.0023,
+      "amplitude": 2.0101
+    },
+    {
+      "gene": "Fzd7",
+      "geneType": "other",
+      "eigenvalue": 0.5812,
+      "rSquared": 0.1226,
+      "amplitude": 66.681
+    },
+    {
+      "gene": "Gm973",
+      "geneType": "other",
+      "eigenvalue": 0.2675,
+      "rSquared": 0.0978,
+      "amplitude": 0.7526
+    },
+    {
+      "gene": "Nop58",
+      "geneType": "other",
+      "eigenvalue": 0.3951,
+      "rSquared": 0.0224,
+      "amplitude": 39.5543
+    },
+    {
+      "gene": "Bmpr2",
+      "geneType": "other",
+      "eigenvalue": 0.5547,
+      "rSquared": 0.0761,
+      "amplitude": 26.9579
+    },
+    {
+      "gene": "Fam117b",
+      "geneType": "other",
+      "eigenvalue": 0.5682,
+      "rSquared": 0.1241,
+      "amplitude": 14.6589
+    },
+    {
+      "gene": "Carf",
+      "geneType": "other",
+      "eigenvalue": 0.7427,
+      "rSquared": 0.2521,
+      "amplitude": 7.108
+    },
+    {
+      "gene": "Nbeal1",
+      "geneType": "other",
+      "eigenvalue": 0.716,
+      "rSquared": 0.2176,
+      "amplitude": 51.8441
+    },
+    {
+      "gene": "Cyp20a1",
+      "geneType": "other",
+      "eigenvalue": 0.787,
+      "rSquared": 0.3281,
+      "amplitude": 34.343
+    },
+    {
+      "gene": "Abi2",
+      "geneType": "other",
+      "eigenvalue": 0.7638,
+      "rSquared": 0.2475,
+      "amplitude": 6.7198
+    },
+    {
+      "gene": "Eif4a1",
+      "geneType": "other",
+      "eigenvalue": 0.3756,
+      "rSquared": 0.1243,
+      "amplitude": 272.8983
+    },
+    {
+      "gene": "Cd28",
+      "geneType": "other",
+      "eigenvalue": 0.2361,
+      "rSquared": 0.0085,
+      "amplitude": 2.0454
+    },
+    {
+      "gene": "Ctla4",
+      "geneType": "other",
+      "eigenvalue": 0.6634,
+      "rSquared": 0.1352,
+      "amplitude": 1.0173
+    },
+    {
+      "gene": "Icos",
+      "geneType": "other",
+      "eigenvalue": 0.5189,
+      "rSquared": 0.1085,
+      "amplitude": 1.7251
+    },
+    {
+      "gene": "Pard3b",
+      "geneType": "other",
+      "eigenvalue": 0.6031,
+      "rSquared": 0.0825,
+      "amplitude": 7.07
+    },
+    {
+      "gene": "Nrp2",
+      "geneType": "other",
+      "eigenvalue": 0.4559,
+      "rSquared": 0.0373,
+      "amplitude": 30.1326
+    },
+    {
+      "gene": "Eef1b2",
+      "geneType": "other",
+      "eigenvalue": 0.6714,
+      "rSquared": 0.1641,
+      "amplitude": 106.1354
+    },
+    {
+      "gene": "Snora41",
+      "geneType": "other",
+      "eigenvalue": 0.403,
+      "rSquared": 0.1602,
+      "amplitude": 2.2599
+    },
+    {
+      "gene": "Zdbf2",
+      "geneType": "other",
+      "eigenvalue": 0.4342,
+      "rSquared": 0.0355,
+      "amplitude": 1.9843
+    },
+    {
+      "gene": "Adam23",
+      "geneType": "other",
+      "eigenvalue": 0.7113,
+      "rSquared": 0.2531,
+      "amplitude": 73.8217
+    },
+    {
+      "gene": "Fastkd2",
+      "geneType": "other",
+      "eigenvalue": 0.7437,
+      "rSquared": 0.2751,
+      "amplitude": 18.5671
+    },
+    {
+      "gene": "Gm13749",
+      "geneType": "other",
+      "eigenvalue": 0.4259,
+      "rSquared": 0.0318,
+      "amplitude": 1.3428
+    },
+    {
+      "gene": "Creb1",
+      "geneType": "other",
+      "eigenvalue": 0.5774,
+      "rSquared": 0.1484,
+      "amplitude": 37.764
+    },
+    {
+      "gene": "Ccnyl1",
+      "geneType": "other",
+      "eigenvalue": 0.7597,
+      "rSquared": 0.2596,
+      "amplitude": 16.6602
+    },
+    {
+      "gene": "Pikfyve",
+      "geneType": "other",
+      "eigenvalue": 0.4541,
+      "rSquared": 0.1902,
+      "amplitude": 14.7252
+    },
+    {
+      "gene": "Pth2r",
+      "geneType": "other",
+      "eigenvalue": 0.433,
+      "rSquared": 0.0321,
+      "amplitude": 1.3378
+    },
+    {
+      "gene": "Crygf",
+      "geneType": "other",
+      "eigenvalue": 0.4646,
+      "rSquared": 0.0464,
+      "amplitude": 0.9108
+    },
+    {
+      "gene": "Unc80",
+      "geneType": "other",
+      "eigenvalue": 0.6456,
+      "rSquared": 0.1699,
+      "amplitude": 3.4681
+    },
+    {
+      "gene": "Rpe",
+      "geneType": "other",
+      "eigenvalue": 0.6971,
+      "rSquared": 0.2134,
+      "amplitude": 43.4328
+    },
+    {
+      "gene": "Cps1",
+      "geneType": "other",
+      "eigenvalue": 0.4244,
+      "rSquared": 0.1813,
+      "amplitude": 228.7965
+    },
+    {
+      "gene": "Spag16",
+      "geneType": "other",
+      "eigenvalue": 0.4149,
+      "rSquared": 0.0269,
+      "amplitude": 2.1109
+    },
+    {
+      "gene": "Vwc2l",
+      "geneType": "other",
+      "eigenvalue": 0.7134,
+      "rSquared": 0.2151,
+      "amplitude": 3.5933
+    },
+    {
+      "gene": "Atic",
+      "geneType": "other",
+      "eigenvalue": 0.5638,
+      "rSquared": 0.3386,
+      "amplitude": 87.8255
+    },
+    {
+      "gene": "Apol7d",
+      "geneType": "other",
+      "eigenvalue": 0.5135,
+      "rSquared": 0.0888,
+      "amplitude": 1.0818
+    },
+    {
+      "gene": "Rpl21",
+      "geneType": "other",
+      "eigenvalue": 0.62,
+      "rSquared": 0.1244,
+      "amplitude": 128.9912
+    },
+    {
+      "gene": "Tmem169",
+      "geneType": "other",
+      "eigenvalue": 0.4989,
+      "rSquared": 0.0371,
+      "amplitude": 0.5653
+    },
+    {
+      "gene": "Xrcc5",
+      "geneType": "other",
+      "eigenvalue": 0.7712,
+      "rSquared": 0.2832,
+      "amplitude": 60.3207
+    },
+    {
+      "gene": "Smarcal1",
+      "geneType": "other",
+      "eigenvalue": 0.7715,
+      "rSquared": 0.3174,
+      "amplitude": 44.8123
+    },
+    {
+      "gene": "Igfbp2",
+      "geneType": "other",
+      "eigenvalue": 0.6768,
+      "rSquared": 0.203,
+      "amplitude": 243.0306
+    },
+    {
+      "gene": "Rufy4",
+      "geneType": "other",
+      "eigenvalue": 0.3164,
+      "rSquared": 0.0677,
+      "amplitude": 1.1448
+    },
+    {
+      "gene": "Cxcr2",
+      "geneType": "other",
+      "eigenvalue": 0.0721,
+      "rSquared": 0.0202,
+      "amplitude": 1.3373
+    },
+    {
+      "gene": "Arpc2",
+      "geneType": "other",
+      "eigenvalue": 0.4204,
+      "rSquared": 0.0398,
+      "amplitude": 34.2856
+    },
+    {
+      "gene": "Gpbar1",
+      "geneType": "other",
+      "eigenvalue": 0.619,
+      "rSquared": 0.1283,
+      "amplitude": 7.9504
+    },
+    {
+      "gene": "Pnkd",
+      "geneType": "other",
+      "eigenvalue": 0.7018,
+      "rSquared": 0.7348,
+      "amplitude": 284.7672
+    },
+    {
+      "gene": "Catip",
+      "geneType": "other",
+      "eigenvalue": 0.4737,
+      "rSquared": 0.0515,
+      "amplitude": 0.5409
+    },
+    {
+      "gene": "Slc11a1",
+      "geneType": "other",
+      "eigenvalue": 0.202,
+      "rSquared": 0.0063,
+      "amplitude": 28.2757
+    },
+    {
+      "gene": "Ctdsp1",
+      "geneType": "other",
+      "eigenvalue": 0.6416,
+      "rSquared": 0.163,
+      "amplitude": 217.6999
+    },
+    {
+      "gene": "Mir26b",
+      "geneType": "other",
+      "eigenvalue": 0.5557,
+      "rSquared": 0.0957,
+      "amplitude": 2.809
+    },
+    {
+      "gene": "Vil1",
+      "geneType": "other",
+      "eigenvalue": 0.2919,
+      "rSquared": 0.0518,
+      "amplitude": 1.2526
+    },
+    {
+      "gene": "Cnot9",
+      "geneType": "other",
+      "eigenvalue": 0.6593,
+      "rSquared": 0.1631,
+      "amplitude": 54.9819
+    },
+    {
+      "gene": "Plcd4",
+      "geneType": "other",
+      "eigenvalue": 0.4564,
+      "rSquared": 0.159,
+      "amplitude": 0.5786
+    },
+    {
+      "gene": "Bcs1l",
+      "geneType": "other",
+      "eigenvalue": 0.7262,
+      "rSquared": 0.2419,
+      "amplitude": 83.8675
+    },
+    {
+      "gene": "Stk36",
+      "geneType": "other",
+      "eigenvalue": 0.3826,
+      "rSquared": 0.0201,
+      "amplitude": 3.2684
+    },
+    {
+      "gene": "Ttll4",
+      "geneType": "other",
+      "eigenvalue": 0.4944,
+      "rSquared": 0.0588,
+      "amplitude": 22.7037
+    },
+    {
+      "gene": "Cyp27a1",
+      "geneType": "other",
+      "eigenvalue": 0.417,
+      "rSquared": 0.0325,
+      "amplitude": 217.9419
+    },
+    {
+      "gene": "Wnt6",
+      "geneType": "other",
+      "eigenvalue": 0.2278,
+      "rSquared": 0.0183,
+      "amplitude": 2.1558
+    },
+    {
+      "gene": "Wnt10a",
+      "geneType": "other",
+      "eigenvalue": 0.1945,
+      "rSquared": 0.0233,
+      "amplitude": 6.5801
+    },
+    {
+      "gene": "Cdk5r2",
+      "geneType": "other",
+      "eigenvalue": 0.1755,
+      "rSquared": 0.0065,
+      "amplitude": 4.3752
+    },
+    {
+      "gene": "Fam134a",
+      "geneType": "other",
+      "eigenvalue": 0.4317,
+      "rSquared": 0.0369,
+      "amplitude": 13.0119
+    },
+    {
+      "gene": "Zfand2b",
+      "geneType": "other",
+      "eigenvalue": 0.3058,
+      "rSquared": 0.201,
+      "amplitude": 8.4014
+    },
+    {
+      "gene": "Ankzf1",
+      "geneType": "other",
+      "eigenvalue": 0.7448,
+      "rSquared": 0.2577,
+      "amplitude": 12.1874
+    },
+    {
+      "gene": "Stk16",
+      "geneType": "other",
+      "eigenvalue": 0.5898,
+      "rSquared": 0.1259,
+      "amplitude": 140.3197
+    },
+    {
+      "gene": "Des",
+      "geneType": "other",
+      "eigenvalue": 0.3548,
+      "rSquared": 0.1006,
+      "amplitude": 3.2331
+    },
+    {
+      "gene": "Speg",
+      "geneType": "other",
+      "eigenvalue": 0.3959,
+      "rSquared": 0.0426,
+      "amplitude": 1.7828
+    },
+    {
+      "gene": "Gmppa",
+      "geneType": "other",
+      "eigenvalue": 0.2481,
+      "rSquared": 0.0656,
+      "amplitude": 22.9585
+    },
+    {
+      "gene": "Asic4",
+      "geneType": "other",
+      "eigenvalue": 0.2981,
+      "rSquared": 0.0108,
+      "amplitude": 3.3033
+    },
+    {
+      "gene": "Tmem198",
+      "geneType": "other",
+      "eigenvalue": 0.4674,
+      "rSquared": 0.0546,
+      "amplitude": 2.0922
+    },
+    {
+      "gene": "Stk11ip",
+      "geneType": "other",
+      "eigenvalue": 0.6556,
+      "rSquared": 0.1511,
+      "amplitude": 6.7498
+    },
+    {
+      "gene": "Slc4a3",
+      "geneType": "other",
+      "eigenvalue": 0.5647,
+      "rSquared": 0.0996,
+      "amplitude": 1.7497
+    },
+    {
+      "gene": "Gm33152",
+      "geneType": "other",
+      "eigenvalue": 0.3869,
+      "rSquared": 0.0185,
+      "amplitude": 4.0187
+    },
+    {
+      "gene": "Sgpp2",
+      "geneType": "other",
+      "eigenvalue": 0.2585,
+      "rSquared": 0.0154,
+      "amplitude": 1.6399
+    },
+    {
+      "gene": "Mogat1",
+      "geneType": "other",
+      "eigenvalue": 0.1671,
+      "rSquared": 0.0301,
+      "amplitude": 1.0734
+    },
+    {
+      "gene": "Kcne4",
+      "geneType": "other",
+      "eigenvalue": 0.487,
+      "rSquared": 0.0832,
+      "amplitude": 1.4446
+    },
+    {
+      "gene": "Gm10555",
+      "geneType": "other",
+      "eigenvalue": 0.3704,
+      "rSquared": 0.2295,
+      "amplitude": 0.2681
+    },
+    {
+      "gene": "Mrpl44",
+      "geneType": "other",
+      "eigenvalue": 0.5274,
+      "rSquared": 0.0695,
+      "amplitude": 6.1145
+    },
+    {
+      "gene": "9830004L10Rik",
+      "geneType": "other",
+      "eigenvalue": 0.409,
+      "rSquared": 0.0292,
+      "amplitude": 0.3268
+    },
+    {
+      "gene": "Nyap2",
+      "geneType": "other",
+      "eigenvalue": 0.5597,
+      "rSquared": 0.1241,
+      "amplitude": 0.6877
+    },
+    {
+      "gene": "Irs1",
+      "geneType": "other",
+      "eigenvalue": 0.5067,
+      "rSquared": 0.1638,
+      "amplitude": 29.7549
+    },
+    {
+      "gene": "Rhbdd1",
+      "geneType": "other",
+      "eigenvalue": 0.5876,
+      "rSquared": 0.1039,
+      "amplitude": 36.135
+    },
+    {
+      "gene": "Col4a3",
+      "geneType": "other",
+      "eigenvalue": 0.5998,
+      "rSquared": 0.1082,
+      "amplitude": 3.9398
+    },
+    {
+      "gene": "Mff",
+      "geneType": "other",
+      "eigenvalue": 0.7072,
+      "rSquared": 0.1891,
+      "amplitude": 87.5452
+    },
+    {
+      "gene": "Agfg1",
+      "geneType": "other",
+      "eigenvalue": 0.4124,
+      "rSquared": 0.1667,
+      "amplitude": 52.8704
+    },
+    {
+      "gene": "Ccl20",
+      "geneType": "other",
+      "eigenvalue": 0.4807,
+      "rSquared": 0.0478,
+      "amplitude": 6.3794
+    },
+    {
+      "gene": "Daw1",
+      "geneType": "other",
+      "eigenvalue": 0.496,
+      "rSquared": 0.0616,
+      "amplitude": 0.259
+    },
+    {
+      "gene": "Fbxo36",
+      "geneType": "other",
+      "eigenvalue": 0.5482,
+      "rSquared": 0.1515,
+      "amplitude": 70.4799
+    },
+    {
+      "gene": "Rpl19",
+      "geneType": "other",
+      "eigenvalue": 0.7749,
+      "rSquared": 0.2984,
+      "amplitude": 104.071
+    },
+    {
+      "gene": "A530040E14Rik",
+      "geneType": "other",
+      "eigenvalue": 0.4637,
+      "rSquared": 0.0656,
+      "amplitude": 9.4935
+    },
+    {
+      "gene": "G530012D18Rik",
+      "geneType": "other",
+      "eigenvalue": 0.6613,
+      "rSquared": 0.1758,
+      "amplitude": 4.9126
+    },
+    {
+      "gene": "Sp100",
+      "geneType": "other",
+      "eigenvalue": 0.5239,
+      "rSquared": 0.0675,
+      "amplitude": 33.1211
+    },
+    {
+      "gene": "Cab39",
+      "geneType": "other",
+      "eigenvalue": 0.4266,
+      "rSquared": 0.0297,
+      "amplitude": 19.4809
+    },
+    {
+      "gene": "Itm2c",
+      "geneType": "other",
+      "eigenvalue": 0.5878,
+      "rSquared": 0.1226,
+      "amplitude": 42.9342
+    },
+    {
+      "gene": "4933407L21Rik",
+      "geneType": "other",
+      "eigenvalue": 0.597,
+      "rSquared": 0.1158,
+      "amplitude": 2.9427
+    },
+    {
+      "gene": "Spata3",
+      "geneType": "other",
+      "eigenvalue": 0.2193,
+      "rSquared": 0.0415,
+      "amplitude": 0.5904
+    },
+    {
+      "gene": "2810459M11Rik",
+      "geneType": "other",
+      "eigenvalue": 0.561,
+      "rSquared": 0.1993,
+      "amplitude": 87.041
+    },
+    {
+      "gene": "Psmd1",
+      "geneType": "other",
+      "eigenvalue": 0.5032,
+      "rSquared": 0.1871,
+      "amplitude": 229.7443
+    },
+    {
+      "gene": "Armc9",
+      "geneType": "other",
+      "eigenvalue": 0.4306,
+      "rSquared": 0.2283,
+      "amplitude": 18.2985
+    },
+    {
+      "gene": "B3gnt7",
+      "geneType": "other",
+      "eigenvalue": 0.7034,
+      "rSquared": 0.1946,
+      "amplitude": 5.9507
+    },
+    {
+      "gene": "C130036L24Rik",
+      "geneType": "other",
+      "eigenvalue": 0.6854,
+      "rSquared": 0.1923,
+      "amplitude": 2.1953
+    },
+    {
+      "gene": "1700019O17Rik",
+      "geneType": "other",
+      "eigenvalue": 0.5555,
+      "rSquared": 0.1289,
+      "amplitude": 0.9066
+    },
+    {
+      "gene": "Cops7b",
+      "geneType": "other",
+      "eigenvalue": 0.6969,
+      "rSquared": 0.1768,
+      "amplitude": 56.8004
+    },
+    {
+      "gene": "Dis3l2",
+      "geneType": "other",
+      "eigenvalue": 0.6455,
+      "rSquared": 0.1769,
+      "amplitude": 39.2214
+    },
+    {
+      "gene": "Akp3",
+      "geneType": "other",
+      "eigenvalue": 0.3175,
+      "rSquared": 0.0222,
+      "amplitude": 0.6737
+    },
+    {
+      "gene": "Prss56",
+      "geneType": "other",
+      "eigenvalue": 0.0851,
+      "rSquared": 0.0107,
+      "amplitude": 1.5994
+    },
+    {
+      "gene": "Chrnd",
+      "geneType": "other",
+      "eigenvalue": 0.2146,
+      "rSquared": 0.0148,
+      "amplitude": 1.7924
+    },
+    {
+      "gene": "Chrng",
+      "geneType": "other",
+      "eigenvalue": 0.5989,
+      "rSquared": 0.3077,
+      "amplitude": 1.6072
+    },
+    {
+      "gene": "Eif4e2",
+      "geneType": "other",
+      "eigenvalue": 0.6827,
+      "rSquared": 0.1884,
+      "amplitude": 37.8333
+    },
+    {
+      "gene": "Efhd1",
+      "geneType": "other",
+      "eigenvalue": 0.5455,
+      "rSquared": 0.0987,
+      "amplitude": 1.4213
+    },
+    {
+      "gene": "Gigyf2",
+      "geneType": "other",
+      "eigenvalue": 0.2039,
+      "rSquared": 0.0253,
+      "amplitude": 20.3485
+    },
+    {
+      "gene": "Neu2",
+      "geneType": "other",
+      "eigenvalue": 0.3683,
+      "rSquared": 0.3474,
+      "amplitude": 27.849
+    },
+    {
+      "gene": "3110079O15Rik",
+      "geneType": "other",
+      "eigenvalue": 0.3788,
+      "rSquared": 0.0328,
+      "amplitude": 2.2804
+    },
+    {
+      "gene": "Inpp5d",
+      "geneType": "other",
+      "eigenvalue": 0.5217,
+      "rSquared": 0.0837,
+      "amplitude": 6.4724
+    },
+    {
+      "gene": "Atg16l1",
+      "geneType": "other",
+      "eigenvalue": 0.6372,
+      "rSquared": 0.1551,
+      "amplitude": 30.2275
+    },
+    {
+      "gene": "5830472F04Rik",
+      "geneType": "other",
+      "eigenvalue": 0.3822,
+      "rSquared": 0.0192,
+      "amplitude": 2.2264
+    },
+    {
+      "gene": "Sag",
+      "geneType": "other",
+      "eigenvalue": 0.3281,
+      "rSquared": 0.0533,
+      "amplitude": 1.2684
+    },
+    {
+      "gene": "Dgkd",
+      "geneType": "other",
+      "eigenvalue": 0.7178,
+      "rSquared": 0.2531,
+      "amplitude": 33.2202
+    },
+    {
+      "gene": "Mroh2a",
+      "geneType": "other",
+      "eigenvalue": 0.5953,
+      "rSquared": 0.1641,
+      "amplitude": 0.4733
+    },
+    {
+      "gene": "Trpm8",
+      "geneType": "other",
+      "eigenvalue": 0.2741,
+      "rSquared": 0.0285,
+      "amplitude": 1.8354
+    },
+    {
+      "gene": "Spp2",
+      "geneType": "other",
+      "eigenvalue": 0.7894,
+      "rSquared": 0.4234,
+      "amplitude": 36.9866
+    },
+    {
+      "gene": "Sh3bp4",
+      "geneType": "other",
+      "eigenvalue": 0.3588,
+      "rSquared": 0.0333,
+      "amplitude": 3.5657
+    },
+    {
+      "gene": "Agap1",
+      "geneType": "other",
+      "eigenvalue": 0.6539,
+      "rSquared": 0.1525,
+      "amplitude": 36.5687
+    },
+    {
+      "gene": "Ackr3",
+      "geneType": "other",
+      "eigenvalue": 0.5237,
+      "rSquared": 0.1037,
+      "amplitude": 0.7495
+    },
+    {
+      "gene": "Cops8",
+      "geneType": "other",
+      "eigenvalue": 0.505,
+      "rSquared": 0.0766,
+      "amplitude": 59.687
+    },
+    {
+      "gene": "Gm9991",
+      "geneType": "other",
+      "eigenvalue": 0.543,
+      "rSquared": 0.0799,
+      "amplitude": 2.8726
+    },
+    {
+      "gene": "Mlph",
+      "geneType": "other",
+      "eigenvalue": 0.7157,
+      "rSquared": 0.2325,
+      "amplitude": 1.0744
+    },
+    {
+      "gene": "Prlh",
+      "geneType": "other",
+      "eigenvalue": 0.7882,
+      "rSquared": 0.3151,
+      "amplitude": 12.2936
+    },
+    {
+      "gene": "Lrrfip1",
+      "geneType": "other",
+      "eigenvalue": 0.5894,
+      "rSquared": 0.1252,
+      "amplitude": 22.9084
+    },
+    {
+      "gene": "Rbm44",
+      "geneType": "other",
+      "eigenvalue": 0.8909,
+      "rSquared": 0.3784,
+      "amplitude": 1.1091
+    },
+    {
+      "gene": "Ramp1",
+      "geneType": "other",
+      "eigenvalue": 0.3498,
+      "rSquared": 0.243,
+      "amplitude": 0.5648
+    },
+    {
+      "gene": "Ube2f",
+      "geneType": "other",
+      "eigenvalue": 0.359,
+      "rSquared": 0.0789,
+      "amplitude": 24.9285
+    },
+    {
+      "gene": "Scly",
+      "geneType": "other",
+      "eigenvalue": 0.7231,
+      "rSquared": 0.2596,
+      "amplitude": 124.4785
+    },
+    {
+      "gene": "Espnl",
+      "geneType": "other",
+      "eigenvalue": 0.5369,
+      "rSquared": 0.104,
+      "amplitude": 6.2874
+    },
+    {
+      "gene": "Klhl30",
+      "geneType": "other",
+      "eigenvalue": 0.2872,
+      "rSquared": 0.0065,
+      "amplitude": 2.2855
+    },
+    {
+      "gene": "Fam132b",
+      "geneType": "other",
+      "eigenvalue": 0.6607,
+      "rSquared": 0.1504,
+      "amplitude": 2.8564
+    },
+    {
+      "gene": "Traf3ip1",
+      "geneType": "other",
+      "eigenvalue": 0.3137,
+      "rSquared": 0.009,
+      "amplitude": 2.5818
+    },
+    {
+      "gene": "Asb1",
+      "geneType": "other",
+      "eigenvalue": 0.5226,
+      "rSquared": 0.0638,
+      "amplitude": 9.4224
+    },
+    {
+      "gene": "Twist2",
+      "geneType": "other",
+      "eigenvalue": 0.3375,
+      "rSquared": 0.0148,
+      "amplitude": 0.5234
+    },
+    {
+      "gene": "Olfr1413",
+      "geneType": "other",
+      "eigenvalue": 0.6391,
+      "rSquared": 0.1372,
+      "amplitude": 3.9137
+    },
+    {
+      "gene": "Olfr1412",
+      "geneType": "other",
+      "eigenvalue": 0.8117,
+      "rSquared": 0.3626,
+      "amplitude": 4.3249
+    },
+    {
+      "gene": "Olfr1411",
+      "geneType": "other",
+      "eigenvalue": 0.7294,
+      "rSquared": 0.27,
+      "amplitude": 3.6629
+    },
+    {
+      "gene": "Olfr1410",
+      "geneType": "other",
+      "eigenvalue": 0.7785,
+      "rSquared": 0.3017,
+      "amplitude": 3.2899
+    },
+    {
+      "gene": "Olfr12",
+      "geneType": "other",
+      "eigenvalue": 0.5137,
+      "rSquared": 0.0584,
+      "amplitude": 1.9731
+    },
+    {
+      "gene": "Gpr35",
+      "geneType": "other",
+      "eigenvalue": 0.6141,
+      "rSquared": 0.1599,
+      "amplitude": 1.3925
+    },
+    {
+      "gene": "Gpc1",
+      "geneType": "other",
+      "eigenvalue": 0.3423,
+      "rSquared": 0.0472,
+      "amplitude": 10.1003
+    },
+    {
+      "gene": "Mir149",
+      "geneType": "other",
+      "eigenvalue": 0.5137,
+      "rSquared": 0.1695,
+      "amplitude": 1.2774
+    },
+    {
+      "gene": "Dusp28",
+      "geneType": "other",
+      "eigenvalue": 0.422,
+      "rSquared": 0.0302,
+      "amplitude": 8.7944
+    },
+    {
+      "gene": "Rnpepl1",
+      "geneType": "other",
+      "eigenvalue": 0.4475,
+      "rSquared": 0.2184,
+      "amplitude": 17.6305
+    },
+    {
+      "gene": "Capn10",
+      "geneType": "other",
+      "eigenvalue": 0.318,
+      "rSquared": 0.0281,
+      "amplitude": 7.8753
+    },
+    {
+      "gene": "Aqp12",
+      "geneType": "other",
+      "eigenvalue": 0.7032,
+      "rSquared": 0.2202,
+      "amplitude": 5.6767
+    },
+    {
+      "gene": "Agxt",
+      "geneType": "other",
+      "eigenvalue": 0.6936,
+      "rSquared": 0.3684,
+      "amplitude": 364.2329
+    },
+    {
+      "gene": "Crocc2",
+      "geneType": "other",
+      "eigenvalue": 0.2476,
+      "rSquared": 0.0366,
+      "amplitude": 4.0924
+    },
+    {
+      "gene": "Sned1",
+      "geneType": "other",
+      "eigenvalue": 0.5019,
+      "rSquared": 0.0527,
+      "amplitude": 10.8744
+    },
+    {
+      "gene": "Ppp1r7",
+      "geneType": "other",
+      "eigenvalue": 0.4537,
+      "rSquared": 0.1965,
+      "amplitude": 74.7486
+    },
+    {
+      "gene": "Ano7",
+      "geneType": "other",
+      "eigenvalue": 0.5995,
+      "rSquared": 0.211,
+      "amplitude": 1.6311
+    },
+    {
+      "gene": "Sept2",
+      "geneType": "other",
+      "eigenvalue": 0.5428,
+      "rSquared": 0.0873,
+      "amplitude": 122.4367
+    },
+    {
+      "gene": "Farp2",
+      "geneType": "other",
+      "eigenvalue": 0.3655,
+      "rSquared": 0.2257,
+      "amplitude": 3.762
+    },
+    {
+      "gene": "Bok",
+      "geneType": "other",
+      "eigenvalue": 0.3764,
+      "rSquared": 0.3222,
+      "amplitude": 32.9597
+    },
+    {
+      "gene": "Atg4b",
+      "geneType": "other",
+      "eigenvalue": 0.4556,
+      "rSquared": 0.0343,
+      "amplitude": 26.9022
+    },
+    {
+      "gene": "Ing5",
+      "geneType": "other",
+      "eigenvalue": 0.8379,
+      "rSquared": 0.393,
+      "amplitude": 15.4256
+    },
+    {
+      "gene": "D2hgdh",
+      "geneType": "other",
+      "eigenvalue": 0.7067,
+      "rSquared": 0.2489,
+      "amplitude": 42.5934
+    },
+    {
+      "gene": "Gm6086",
+      "geneType": "other",
+      "eigenvalue": 0.513,
+      "rSquared": 0.0674,
+      "amplitude": 1.3173
+    },
+    {
+      "gene": "Neu4",
+      "geneType": "other",
+      "eigenvalue": 0.4842,
+      "rSquared": 0.0867,
+      "amplitude": 0.4233
+    },
+    {
+      "gene": "Fam174a",
+      "geneType": "other",
+      "eigenvalue": 0.6011,
+      "rSquared": 0.1347,
+      "amplitude": 14.6467
+    },
+    {
+      "gene": "Rpl18a",
+      "geneType": "other",
+      "eigenvalue": 0.696,
+      "rSquared": 0.2773,
+      "amplitude": 416.7535
+    },
+    {
+      "gene": "Hnrnpf",
+      "geneType": "other",
+      "eigenvalue": 0.5209,
+      "rSquared": 0.0683,
+      "amplitude": 69.8283
+    },
+    {
+      "gene": "Gin1",
+      "geneType": "other",
+      "eigenvalue": 0.3654,
+      "rSquared": 0.0201,
+      "amplitude": 35.2178
+    },
+    {
+      "gene": "Slco6d1",
+      "geneType": "other",
+      "eigenvalue": 0.3221,
+      "rSquared": 0.0102,
+      "amplitude": 2.3609
+    },
+    {
+      "gene": "Cntnap5b",
+      "geneType": "other",
+      "eigenvalue": 0.6316,
+      "rSquared": 0.1584,
+      "amplitude": 2.0711
+    },
+    {
+      "gene": "Cdh20",
+      "geneType": "other",
+      "eigenvalue": 0.7361,
+      "rSquared": 0.256,
+      "amplitude": 1.7714
+    },
+    {
+      "gene": "Capza1",
+      "geneType": "other",
+      "eigenvalue": 0.3321,
+      "rSquared": 0.0586,
+      "amplitude": 101.6467
+    },
+    {
+      "gene": "2310035C23Rik",
+      "geneType": "other",
+      "eigenvalue": 0.7786,
+      "rSquared": 0.2982,
+      "amplitude": 73.5212
+    },
+    {
+      "gene": "Zfp706",
+      "geneType": "other",
+      "eigenvalue": 0.6363,
+      "rSquared": 0.2169,
+      "amplitude": 200.4128
+    },
+    {
+      "gene": "Tnfrsf11a",
+      "geneType": "other",
+      "eigenvalue": 0.4567,
+      "rSquared": 0.0675,
+      "amplitude": 1.2625
+    },
+    {
+      "gene": "Zcchc2",
+      "geneType": "other",
+      "eigenvalue": 0.6597,
+      "rSquared": 0.1562,
+      "amplitude": 49.6011
+    },
+    {
+      "gene": "Phlpp1",
+      "geneType": "other",
+      "eigenvalue": 0.5637,
+      "rSquared": 0.0997,
+      "amplitude": 54.1804
+    },
+    {
+      "gene": "D630008O14Rik",
+      "geneType": "other",
+      "eigenvalue": 0.517,
+      "rSquared": 0.0798,
+      "amplitude": 1.6572
+    },
+    {
+      "gene": "Serpinb5",
+      "geneType": "other",
+      "eigenvalue": 0.3098,
+      "rSquared": 0.0085,
+      "amplitude": 1.5243
+    },
+    {
+      "gene": "Serpinb12",
+      "geneType": "other",
+      "eigenvalue": 0.2108,
+      "rSquared": 0.0392,
+      "amplitude": 0.8484
+    },
+    {
+      "gene": "Serpinb13",
+      "geneType": "other",
+      "eigenvalue": 0.3548,
+      "rSquared": 0.0147,
+      "amplitude": 0.2231
+    },
+    {
+      "gene": "Serpinb11",
+      "geneType": "other",
+      "eigenvalue": 0.5366,
+      "rSquared": 0.0959,
+      "amplitude": 1.2038
+    },
+    {
+      "gene": "Serpinb7",
+      "geneType": "other",
+      "eigenvalue": 0.2817,
+      "rSquared": 0.0067,
+      "amplitude": 1.6986
+    },
+    {
+      "gene": "Serpinb2",
+      "geneType": "other",
+      "eigenvalue": 0.3303,
+      "rSquared": 0.0112,
+      "amplitude": 8.2625
+    },
+    {
+      "gene": "Serpinb10",
+      "geneType": "other",
+      "eigenvalue": 0.4789,
+      "rSquared": 0.0552,
+      "amplitude": 0.9658
+    },
+    {
+      "gene": "Serpinb8",
+      "geneType": "other",
+      "eigenvalue": 0.0956,
+      "rSquared": 0.0007,
+      "amplitude": 5.9775
+    },
+    {
+      "gene": "Cdh7",
+      "geneType": "other",
+      "eigenvalue": 0.5772,
+      "rSquared": 0.0989,
+      "amplitude": 3.6583
+    },
+    {
+      "gene": "Cntnap5a",
+      "geneType": "other",
+      "eigenvalue": 0.5071,
+      "rSquared": 0.0751,
+      "amplitude": 1.3874
+    },
+    {
+      "gene": "Nifk",
+      "geneType": "other",
+      "eigenvalue": 0.3973,
+      "rSquared": 0.0218,
+      "amplitude": 86.2375
+    },
+    {
+      "gene": "Clasp1",
+      "geneType": "other",
+      "eigenvalue": 0.6928,
+      "rSquared": 0.1638,
+      "amplitude": 26.5394
+    },
+    {
+      "gene": "Tfcp2l1",
+      "geneType": "other",
+      "eigenvalue": 0.3613,
+      "rSquared": 0.1487,
+      "amplitude": 20.9636
+    },
+    {
+      "gene": "Tmem185b",
+      "geneType": "other",
+      "eigenvalue": 0.3791,
+      "rSquared": 0.0608,
+      "amplitude": 13.0474
+    },
+    {
+      "gene": "Sctr",
+      "geneType": "other",
+      "eigenvalue": 0.3197,
+      "rSquared": 0.1346,
+      "amplitude": 0.5244
+    },
+    {
+      "gene": "3110009E18Rik",
+      "geneType": "other",
+      "eigenvalue": 0.2174,
+      "rSquared": 0.0374,
+      "amplitude": 0.3064
+    },
+    {
+      "gene": "C1ql2",
+      "geneType": "other",
+      "eigenvalue": 0.5249,
+      "rSquared": 0.165,
+      "amplitude": 1.6365
+    },
+    {
+      "gene": "En1",
+      "geneType": "other",
+      "eigenvalue": 0.1588,
+      "rSquared": 0.0327,
+      "amplitude": 2.5707
+    },
+    {
+      "gene": "Ccdc93",
+      "geneType": "other",
+      "eigenvalue": 0.3499,
+      "rSquared": 0.03,
+      "amplitude": 12.247
+    },
+    {
+      "gene": "Gm10543",
+      "geneType": "other",
+      "eigenvalue": 0.3277,
+      "rSquared": 0.012,
+      "amplitude": 1.3535
+    },
+    {
+      "gene": "Slc35f5",
+      "geneType": "other",
+      "eigenvalue": 0.4583,
+      "rSquared": 0.3182,
+      "amplitude": 264.7782
+    },
+    {
+      "gene": "Gpr39",
+      "geneType": "other",
+      "eigenvalue": 0.5592,
+      "rSquared": 0.0976,
+      "amplitude": 25.0485
+    },
+    {
+      "gene": "Mgat5",
+      "geneType": "other",
+      "eigenvalue": 0.671,
+      "rSquared": 0.2949,
+      "amplitude": 49.0536
+    },
+    {
+      "gene": "Acmsd",
+      "geneType": "other",
+      "eigenvalue": 0.634,
+      "rSquared": 0.6772,
+      "amplitude": 416.8112
+    },
+    {
+      "gene": "Ccnt2",
+      "geneType": "other",
+      "eigenvalue": 0.6731,
+      "rSquared": 0.1894,
+      "amplitude": 26.8343
+    },
+    {
+      "gene": "Rab3gap1",
+      "geneType": "other",
+      "eigenvalue": 0.7482,
+      "rSquared": 0.3406,
+      "amplitude": 16.9184
+    },
+    {
+      "gene": "Rpl28",
+      "geneType": "other",
+      "eigenvalue": 0.6658,
+      "rSquared": 0.4571,
+      "amplitude": 485.3889
+    },
+    {
+      "gene": "R3hdm1",
+      "geneType": "other",
+      "eigenvalue": 0.6887,
+      "rSquared": 0.1902,
+      "amplitude": 29.331
+    },
+    {
+      "gene": "Mir128-1",
+      "geneType": "other",
+      "eigenvalue": 0.4047,
+      "rSquared": 0.303,
+      "amplitude": 6.9491
+    },
+    {
+      "gene": "Ubxn4",
+      "geneType": "other",
+      "eigenvalue": 0.5054,
+      "rSquared": 0.0771,
+      "amplitude": 174.9471
+    },
+    {
+      "gene": "Thsd7b",
+      "geneType": "other",
+      "eigenvalue": 0.4578,
+      "rSquared": 0.0373,
+      "amplitude": 1.1898
+    },
+    {
+      "gene": "Yod1",
+      "geneType": "other",
+      "eigenvalue": 0.3136,
+      "rSquared": 0.1199,
+      "amplitude": 81.793
+    },
+    {
+      "gene": "AA986860",
+      "geneType": "other",
+      "eigenvalue": 0.4491,
+      "rSquared": 0.0361,
+      "amplitude": 5.5783
+    },
+    {
+      "gene": "Fcamr",
+      "geneType": "other",
+      "eigenvalue": 0.3378,
+      "rSquared": 0.0099,
+      "amplitude": 3.5026
+    },
+    {
+      "gene": "Pigr",
+      "geneType": "other",
+      "eigenvalue": 0.4624,
+      "rSquared": 0.0327,
+      "amplitude": 214.7248
+    },
+    {
+      "gene": "Fcmr",
+      "geneType": "other",
+      "eigenvalue": 0.4618,
+      "rSquared": 0.0381,
+      "amplitude": 2.5248
+    },
+    {
+      "gene": "Il10",
+      "geneType": "other",
+      "eigenvalue": 0.4931,
+      "rSquared": 0.1218,
+      "amplitude": 0.559
+    },
+    {
+      "gene": "Eif2d",
+      "geneType": "other",
+      "eigenvalue": 0.5873,
+      "rSquared": 0.0895,
+      "amplitude": 27.6474
+    },
+    {
+      "gene": "Fam72a",
+      "geneType": "other",
+      "eigenvalue": 0.5952,
+      "rSquared": 0.2622,
+      "amplitude": 2.6728
+    },
+    {
+      "gene": "Avpr1b",
+      "geneType": "other",
+      "eigenvalue": 0.3796,
+      "rSquared": 0.2418,
+      "amplitude": 0.6518
+    },
+    {
+      "gene": "Ctse",
+      "geneType": "other",
+      "eigenvalue": 0.2779,
+      "rSquared": 0.0951,
+      "amplitude": 0.3134
+    },
+    {
+      "gene": "Rab7b",
+      "geneType": "other",
+      "eigenvalue": 0.2259,
+      "rSquared": 0.0072,
+      "amplitude": 1.4239
+    },
+    {
+      "gene": "Slc26a9",
+      "geneType": "other",
+      "eigenvalue": 0.3808,
+      "rSquared": 0.0198,
+      "amplitude": 1.2776
+    },
+    {
+      "gene": "Pm20d1",
+      "geneType": "other",
+      "eigenvalue": 0.5326,
+      "rSquared": 0.1711,
+      "amplitude": 212.9123
+    },
+    {
+      "gene": "Slc41a1",
+      "geneType": "other",
+      "eigenvalue": 0.2591,
+      "rSquared": 0.0747,
+      "amplitude": 8.0336
+    },
+    {
+      "gene": "Rab29",
+      "geneType": "other",
+      "eigenvalue": 0.6612,
+      "rSquared": 0.2925,
+      "amplitude": 50.4866
+    },
+    {
+      "gene": "Nucks1",
+      "geneType": "other",
+      "eigenvalue": 0.5694,
+      "rSquared": 0.5084,
+      "amplitude": 173.1687
+    },
+    {
+      "gene": "Slc45a3",
+      "geneType": "other",
+      "eigenvalue": 0.7011,
+      "rSquared": 0.6817,
+      "amplitude": 260.1846
+    },
+    {
+      "gene": "Elk4",
+      "geneType": "other",
+      "eigenvalue": 0.5674,
+      "rSquared": 0.0982,
+      "amplitude": 22.9219
+    },
+    {
+      "gene": "Lemd1",
+      "geneType": "other",
+      "eigenvalue": 0.757,
+      "rSquared": 0.3699,
+      "amplitude": 0.3721
+    },
+    {
+      "gene": "Mir135b",
+      "geneType": "other",
+      "eigenvalue": 0.3191,
+      "rSquared": 0.0377,
+      "amplitude": 0.8026
+    },
+    {
+      "gene": "Klhdc8a",
+      "geneType": "other",
+      "eigenvalue": 0.562,
+      "rSquared": 0.2834,
+      "amplitude": 7.9385
+    },
+    {
+      "gene": "Nuak2",
+      "geneType": "other",
+      "eigenvalue": 0.1553,
+      "rSquared": 0.0048,
+      "amplitude": 40.6913
+    },
+    {
+      "gene": "Dstyk",
+      "geneType": "other",
+      "eigenvalue": 0.6734,
+      "rSquared": 0.1951,
+      "amplitude": 14.7873
+    },
+    {
+      "gene": "Rbbp5",
+      "geneType": "other",
+      "eigenvalue": 0.3143,
+      "rSquared": 0.1332,
+      "amplitude": 32.0105
+    },
+    {
+      "gene": "Tmem81",
+      "geneType": "other",
+      "eigenvalue": 0.6134,
+      "rSquared": 0.1443,
+      "amplitude": 3.5213
+    },
+    {
+      "gene": "Gm10538",
+      "geneType": "other",
+      "eigenvalue": 0.735,
+      "rSquared": 0.249,
+      "amplitude": 3.1457
+    },
+    {
+      "gene": "Lrrn2",
+      "geneType": "other",
+      "eigenvalue": 0.4889,
+      "rSquared": 0.0396,
+      "amplitude": 5.9
+    },
+    {
+      "gene": "Pik3c2b",
+      "geneType": "other",
+      "eigenvalue": 0.3855,
+      "rSquared": 0.021,
+      "amplitude": 10.8694
+    },
+    {
+      "gene": "Ppp1r15b",
+      "geneType": "other",
+      "eigenvalue": 0.3282,
+      "rSquared": 0.2195,
+      "amplitude": 36.5121
+    },
+    {
+      "gene": "Plekha6",
+      "geneType": "other",
+      "eigenvalue": 0.3082,
+      "rSquared": 0.0863,
+      "amplitude": 64.434
+    },
+    {
+      "gene": "Golt1a",
+      "geneType": "other",
+      "eigenvalue": 0.4467,
+      "rSquared": 0.0628,
+      "amplitude": 23.2634
+    },
+    {
+      "gene": "Kiss1",
+      "geneType": "other",
+      "eigenvalue": 0.1643,
+      "rSquared": 0.0022,
+      "amplitude": 5.3694
+    },
+    {
+      "gene": "Etnk2",
+      "geneType": "other",
+      "eigenvalue": 0.4473,
+      "rSquared": 0.5131,
+      "amplitude": 593.4641
+    },
+    {
+      "gene": "Gm10537",
+      "geneType": "other",
+      "eigenvalue": 0.7278,
+      "rSquared": 0.1912,
+      "amplitude": 4.2526
+    },
+    {
+      "gene": "Fmod",
+      "geneType": "other",
+      "eigenvalue": 0.4679,
+      "rSquared": 0.2011,
+      "amplitude": 1.2453
+    },
+    {
+      "gene": "Chit1",
+      "geneType": "other",
+      "eigenvalue": 0.4634,
+      "rSquared": 0.056,
+      "amplitude": 0.3677
+    },
+    {
+      "gene": "Chil1",
+      "geneType": "other",
+      "eigenvalue": 0.4509,
+      "rSquared": 0.0551,
+      "amplitude": 0.212
+    },
+    {
+      "gene": "Mybph",
+      "geneType": "other",
+      "eigenvalue": 0.8669,
+      "rSquared": 0.4277,
+      "amplitude": 5.7731
+    },
+    {
+      "gene": "Myog",
+      "geneType": "other",
+      "eigenvalue": 0.4186,
+      "rSquared": 0.025,
+      "amplitude": 1.3256
+    },
+    {
+      "gene": "4933406M09Rik",
+      "geneType": "other",
+      "eigenvalue": 0.4434,
+      "rSquared": 0.0558,
+      "amplitude": 1.1794
+    },
+    {
+      "gene": "Cyb5r1",
+      "geneType": "other",
+      "eigenvalue": 0.6618,
+      "rSquared": 0.136,
+      "amplitude": 20.4593
+    },
+    {
+      "gene": "Adipor1",
+      "geneType": "other",
+      "eigenvalue": 0.5698,
+      "rSquared": 0.0879,
+      "amplitude": 52.6543
+    },
+    {
+      "gene": "Klhl12",
+      "geneType": "other",
+      "eigenvalue": 0.7408,
+      "rSquared": 0.2592,
+      "amplitude": 11.4005
+    },
+    {
+      "gene": "Rabif",
+      "geneType": "other",
+      "eigenvalue": 0.3105,
+      "rSquared": 0.0209,
+      "amplitude": 24.2917
+    },
+    {
+      "gene": "Kdm5b",
+      "geneType": "other",
+      "eigenvalue": 0.6829,
+      "rSquared": 0.2072,
+      "amplitude": 80.1849
+    },
+    {
+      "gene": "Syt2",
+      "geneType": "other",
+      "eigenvalue": 0.3748,
+      "rSquared": 0.0218,
+      "amplitude": 1.9551
+    },
+    {
+      "gene": "Ube2t",
+      "geneType": "other",
+      "eigenvalue": 0.522,
+      "rSquared": 0.0681,
+      "amplitude": 0.6185
+    },
+    {
+      "gene": "Gm10535",
+      "geneType": "other",
+      "eigenvalue": 0.655,
+      "rSquared": 0.1384,
+      "amplitude": 5.0767
+    },
+    {
+      "gene": "Ptpn7",
+      "geneType": "other",
+      "eigenvalue": 0.4275,
+      "rSquared": 0.0494,
+      "amplitude": 2.6739
+    },
+    {
+      "gene": "Arl8a",
+      "geneType": "other",
+      "eigenvalue": 0.6272,
+      "rSquared": 0.092,
+      "amplitude": 63.8811
+    },
+    {
+      "gene": "Lmod1",
+      "geneType": "other",
+      "eigenvalue": 0.1222,
+      "rSquared": 0.0162,
+      "amplitude": 1.3895
+    },
+    {
+      "gene": "Gm4793",
+      "geneType": "other",
+      "eigenvalue": 0.333,
+      "rSquared": 0.0175,
+      "amplitude": 2.7201
+    },
+    {
+      "gene": "Csrp1",
+      "geneType": "other",
+      "eigenvalue": 0.4125,
+      "rSquared": 0.0334,
+      "amplitude": 28.9915
+    },
+    {
+      "gene": "Phlda3",
+      "geneType": "other",
+      "eigenvalue": 0.5987,
+      "rSquared": 0.139,
+      "amplitude": 3.5777
+    },
+    {
+      "gene": "Tnni1",
+      "geneType": "other",
+      "eigenvalue": 0.5473,
+      "rSquared": 0.095,
+      "amplitude": 0.9623
+    },
+    {
+      "gene": "Lad1",
+      "geneType": "other",
+      "eigenvalue": 0.4826,
+      "rSquared": 0.3866,
+      "amplitude": 33.5248
+    },
+    {
+      "gene": "Tnnt2",
+      "geneType": "other",
+      "eigenvalue": 0.4274,
+      "rSquared": 0.0342,
+      "amplitude": 1.9667
+    },
+    {
+      "gene": "Tmem9",
+      "geneType": "other",
+      "eigenvalue": 0.5357,
+      "rSquared": 0.1141,
+      "amplitude": 3.0319
+    },
+    {
+      "gene": "Ascl5",
+      "geneType": "other",
+      "eigenvalue": 0.5442,
+      "rSquared": 0.1195,
+      "amplitude": 3.6063
+    },
+    {
+      "gene": "Cacna1s",
+      "geneType": "other",
+      "eigenvalue": 0.21,
+      "rSquared": 0.0036,
+      "amplitude": 1.722
+    },
+    {
+      "gene": "Kif21b",
+      "geneType": "other",
+      "eigenvalue": 0.2141,
+      "rSquared": 0.0042,
+      "amplitude": 2.5971
+    },
+    {
+      "gene": "Ddx59",
+      "geneType": "other",
+      "eigenvalue": 0.4109,
+      "rSquared": 0.0332,
+      "amplitude": 5.245
+    },
+    {
+      "gene": "Kif14",
+      "geneType": "other",
+      "eigenvalue": 0.394,
+      "rSquared": 0.0467,
+      "amplitude": 0.2187
+    },
+    {
+      "gene": "Zfp281",
+      "geneType": "other",
+      "eigenvalue": 0.5303,
+      "rSquared": 0.1446,
+      "amplitude": 74.2769
+    },
+    {
+      "gene": "Hmbs",
+      "geneType": "other",
+      "eigenvalue": 0.7042,
+      "rSquared": 0.155,
+      "amplitude": 87.3231
+    },
+    {
+      "gene": "A130050O07Rik",
+      "geneType": "other",
+      "eigenvalue": 0.2712,
+      "rSquared": 0.0831,
+      "amplitude": 0.9738
+    },
+    {
+      "gene": "Mir181a-1",
+      "geneType": "other",
+      "eigenvalue": 0.495,
+      "rSquared": 0.0635,
+      "amplitude": 0.2932
+    },
+    {
+      "gene": "Mir181b-1",
+      "geneType": "other",
+      "eigenvalue": 0.4921,
+      "rSquared": 0.0746,
+      "amplitude": 1.6494
+    },
+    {
+      "gene": "Atp6v1g3",
+      "geneType": "other",
+      "eigenvalue": 0.3059,
+      "rSquared": 0.0083,
+      "amplitude": 6.2182
+    },
+    {
+      "gene": "Zbtb41",
+      "geneType": "other",
+      "eigenvalue": 0.3274,
+      "rSquared": 0.0619,
+      "amplitude": 27.7619
+    },
+    {
+      "gene": "Aspm",
+      "geneType": "other",
+      "eigenvalue": 0.5508,
+      "rSquared": 0.074,
+      "amplitude": 2.9589
+    },
+    {
+      "gene": "F13b",
+      "geneType": "other",
+      "eigenvalue": 0.4846,
+      "rSquared": 0.1041,
+      "amplitude": 206.2687
+    },
+    {
+      "gene": "Kcnt2",
+      "geneType": "other",
+      "eigenvalue": 0.5699,
+      "rSquared": 0.1967,
+      "amplitude": 2.6567
+    },
+    {
+      "gene": "B3galt2",
+      "geneType": "other",
+      "eigenvalue": 0.211,
+      "rSquared": 0.0096,
+      "amplitude": 4.4908
+    },
+    {
+      "gene": "Uchl5",
+      "geneType": "other",
+      "eigenvalue": 0.6962,
+      "rSquared": 0.1952,
+      "amplitude": 32.0809
+    },
+    {
+      "gene": "Brinp3",
+      "geneType": "other",
+      "eigenvalue": 0.4439,
+      "rSquared": 0.0352,
+      "amplitude": 2.6592
+    },
+    {
+      "gene": "Ptgs2",
+      "geneType": "other",
+      "eigenvalue": 0.1528,
+      "rSquared": 0.0042,
+      "amplitude": 1.9156
+    },
+    {
+      "gene": "Pdc",
+      "geneType": "other",
+      "eigenvalue": 0.7246,
+      "rSquared": 0.2605,
+      "amplitude": 1.7276
+    },
+    {
+      "gene": "Tpr",
+      "geneType": "other",
+      "eigenvalue": 0.7534,
+      "rSquared": 0.2123,
+      "amplitude": 67.7202
+    },
+    {
+      "gene": "3110040M04Rik",
+      "geneType": "other",
+      "eigenvalue": 0.5961,
+      "rSquared": 0.1033,
+      "amplitude": 8.2697
+    },
+    {
+      "gene": "Ivns1abp",
+      "geneType": "other",
+      "eigenvalue": 0.5401,
+      "rSquared": 0.5357,
+      "amplitude": 221.9661
+    },
+    {
+      "gene": "Trmt1l",
+      "geneType": "other",
+      "eigenvalue": 0.6136,
+      "rSquared": 0.1221,
+      "amplitude": 73.847
+    },
+    {
+      "gene": "Fam129a",
+      "geneType": "other",
+      "eigenvalue": 0.6181,
+      "rSquared": 0.1613,
+      "amplitude": 12.986
+    },
+    {
+      "gene": "Edem3",
+      "geneType": "other",
+      "eigenvalue": 0.326,
+      "rSquared": 0.0105,
+      "amplitude": 92.296
+    },
+    {
+      "gene": "Colgalt2",
+      "geneType": "other",
+      "eigenvalue": 0.5471,
+      "rSquared": 0.1663,
+      "amplitude": 2.8462
+    },
+    {
+      "gene": "Apobec4",
+      "geneType": "other",
+      "eigenvalue": 0.0831,
+      "rSquared": 0.0007,
+      "amplitude": 0.2041
+    },
+    {
+      "gene": "Ncf2",
+      "geneType": "other",
+      "eigenvalue": 0.4045,
+      "rSquared": 0.0233,
+      "amplitude": 2.2002
+    },
+    {
+      "gene": "Nmnat2",
+      "geneType": "other",
+      "eigenvalue": 0.2732,
+      "rSquared": 0.1192,
+      "amplitude": 10.5892
+    },
+    {
+      "gene": "Shcbp1l",
+      "geneType": "other",
+      "eigenvalue": 0.2663,
+      "rSquared": 0.2457,
+      "amplitude": 0.293
+    },
+    {
+      "gene": "Rgs8",
+      "geneType": "other",
+      "eigenvalue": 0.5622,
+      "rSquared": 0.1169,
+      "amplitude": 0.7182
+    },
+    {
+      "gene": "Rgs16",
+      "geneType": "other",
+      "eigenvalue": 0.2616,
+      "rSquared": 0.184,
+      "amplitude": 618.3865
+    },
+    {
+      "gene": "Rnasel",
+      "geneType": "other",
+      "eigenvalue": 0.5568,
+      "rSquared": 0.1052,
+      "amplitude": 1.3945
+    },
+    {
+      "gene": "Teddm1b",
+      "geneType": "other",
+      "eigenvalue": 0.369,
+      "rSquared": 0.0169,
+      "amplitude": 9.101
+    },
+    {
+      "gene": "Teddm1a",
+      "geneType": "other",
+      "eigenvalue": 0.4048,
+      "rSquared": 0.0854,
+      "amplitude": 0.0728
+    },
+    {
+      "gene": "Glul",
+      "geneType": "other",
+      "eigenvalue": 0.585,
+      "rSquared": 0.4925,
+      "amplitude": 403.6703
+    },
+    {
+      "gene": "Zfp648",
+      "geneType": "other",
+      "eigenvalue": 0.3833,
+      "rSquared": 0.0888,
+      "amplitude": 0.7546
+    },
+    {
+      "gene": "Stx6",
+      "geneType": "other",
+      "eigenvalue": 0.4908,
+      "rSquared": 0.13,
+      "amplitude": 29.1016
+    },
+    {
+      "gene": "Acbd6",
+      "geneType": "other",
+      "eigenvalue": 0.336,
+      "rSquared": 0.0213,
+      "amplitude": 8.4492
+    },
+    {
+      "gene": "Tor1aip2",
+      "geneType": "other",
+      "eigenvalue": 0.6141,
+      "rSquared": 0.2586,
+      "amplitude": 69.7596
+    },
+    {
+      "gene": "Nphs2",
+      "geneType": "other",
+      "eigenvalue": 0.7279,
+      "rSquared": 0.2322,
+      "amplitude": 2.9838
+    },
+    {
+      "gene": "Abl2",
+      "geneType": "other",
+      "eigenvalue": 0.4462,
+      "rSquared": 0.0358,
+      "amplitude": 8.0633
+    },
+    {
+      "gene": "2810417H13Rik",
+      "geneType": "other",
+      "eigenvalue": 0.2561,
+      "rSquared": 0.0104,
+      "amplitude": 3.9208
+    },
+    {
+      "gene": "Angptl1",
+      "geneType": "other",
+      "eigenvalue": 0.3106,
+      "rSquared": 0.0156,
+      "amplitude": 0.8717
+    },
+    {
+      "gene": "Gm10531",
+      "geneType": "other",
+      "eigenvalue": 0.6248,
+      "rSquared": 0.1456,
+      "amplitude": 0.7231
+    },
+    {
+      "gene": "2810025M15Rik",
+      "geneType": "other",
+      "eigenvalue": 0.0591,
+      "rSquared": 0.0048,
+      "amplitude": 7.9542
+    },
+    {
+      "gene": "BC026585",
+      "geneType": "other",
+      "eigenvalue": 0.4253,
+      "rSquared": 0.1481,
+      "amplitude": 80.9076
+    },
+    {
+      "gene": "Sec16b",
+      "geneType": "other",
+      "eigenvalue": 0.5634,
+      "rSquared": 0.0993,
+      "amplitude": 37.4719
+    },
+    {
+      "gene": "Astn1",
+      "geneType": "other",
+      "eigenvalue": 0.7753,
+      "rSquared": 0.3023,
+      "amplitude": 2.8529
+    },
+    {
+      "gene": "Mir488",
+      "geneType": "other",
+      "eigenvalue": 0.4825,
+      "rSquared": 0.1462,
+      "amplitude": 0.3419
+    },
+    {
+      "gene": "Rfwd2",
+      "geneType": "other",
+      "eigenvalue": 0.5411,
+      "rSquared": 0.0741,
+      "amplitude": 6.5321
+    },
+    {
+      "gene": "Tnr",
+      "geneType": "other",
+      "eigenvalue": 0.2311,
+      "rSquared": 0.0094,
+      "amplitude": 2.693
+    },
+    {
+      "gene": "Gm10530",
+      "geneType": "other",
+      "eigenvalue": 0.5031,
+      "rSquared": 0.0603,
+      "amplitude": 3.6598
+    },
+    {
+      "gene": "4930523C07Rik",
+      "geneType": "other",
+      "eigenvalue": 0.5333,
+      "rSquared": 0.0832,
+      "amplitude": 48.6636
+    },
+    {
+      "gene": "Mrps14",
+      "geneType": "other",
+      "eigenvalue": 0.4237,
+      "rSquared": 0.0431,
+      "amplitude": 15.141
+    },
+    {
+      "gene": "Rc3h1",
+      "geneType": "other",
+      "eigenvalue": 0.2711,
+      "rSquared": 0.097,
+      "amplitude": 63.8123
+    },
+    {
+      "gene": "Serpinc1",
+      "geneType": "other",
+      "eigenvalue": 0.5085,
+      "rSquared": 0.3128,
+      "amplitude": 221.572
+    },
+    {
+      "gene": "Gas5",
+      "geneType": "other",
+      "eigenvalue": 0.4912,
+      "rSquared": 0.0466,
+      "amplitude": 22.4226
+    },
+    {
+      "gene": "Snord47",
+      "geneType": "other",
+      "eigenvalue": 0.6088,
+      "rSquared": 0.0627,
+      "amplitude": 42.1745
+    },
+    {
+      "gene": "Cenpl",
+      "geneType": "other",
+      "eigenvalue": 0.6476,
+      "rSquared": 0.1775,
+      "amplitude": 6.0454
+    },
+    {
+      "gene": "Ankrd45",
+      "geneType": "other",
+      "eigenvalue": 0.4038,
+      "rSquared": 0.0802,
+      "amplitude": 0.7391
+    },
+    {
+      "gene": "Tnfsf4",
+      "geneType": "other",
+      "eigenvalue": 0.1835,
+      "rSquared": 0.0038,
+      "amplitude": 0.7739
+    },
+    {
+      "gene": "Tnfsf18",
+      "geneType": "other",
+      "eigenvalue": 0.3108,
+      "rSquared": 0.0098,
+      "amplitude": 1.9111
+    },
+    {
+      "gene": "Pigc",
+      "geneType": "other",
+      "eigenvalue": 0.5068,
+      "rSquared": 0.1633,
+      "amplitude": 11.387
+    },
+    {
+      "gene": "Dnm3os",
+      "geneType": "other",
+      "eigenvalue": 0.5338,
+      "rSquared": 0.0715,
+      "amplitude": 1.3507
+    },
+    {
+      "gene": "Gm10176",
+      "geneType": "other",
+      "eigenvalue": 0.7542,
+      "rSquared": 0.2786,
+      "amplitude": 4.6656
+    },
+    {
+      "gene": "Vamp4",
+      "geneType": "other",
+      "eigenvalue": 0.4896,
+      "rSquared": 0.1177,
+      "amplitude": 3.4707
+    },
+    {
+      "gene": "Myoc",
+      "geneType": "other",
+      "eigenvalue": 0.4453,
+      "rSquared": 0.0312,
+      "amplitude": 0.5858
+    },
+    {
+      "gene": "Kifap3",
+      "geneType": "other",
+      "eigenvalue": 0.3795,
+      "rSquared": 0.2059,
+      "amplitude": 9.2326
+    },
+    {
+      "gene": "Scyl3",
+      "geneType": "other",
+      "eigenvalue": 0.6055,
+      "rSquared": 0.1258,
+      "amplitude": 42.1409
+    },
+    {
+      "gene": "Mettl18",
+      "geneType": "other",
+      "eigenvalue": 0.5358,
+      "rSquared": 0.1339,
+      "amplitude": 7.4451
+    },
+    {
+      "gene": "Sele",
+      "geneType": "other",
+      "eigenvalue": 0.5821,
+      "rSquared": 0.134,
+      "amplitude": 4.1816
+    },
+    {
+      "gene": "Sell",
+      "geneType": "other",
+      "eigenvalue": 0.6802,
+      "rSquared": 0.2516,
+      "amplitude": 7.5206
+    },
+    {
+      "gene": "Selp",
+      "geneType": "other",
+      "eigenvalue": 0.2465,
+      "rSquared": 0.0149,
+      "amplitude": 0.8768
+    },
+    {
+      "gene": "F5",
+      "geneType": "other",
+      "eigenvalue": 0.6014,
+      "rSquared": 0.1155,
+      "amplitude": 276.176
+    },
+    {
+      "gene": "Slc19a2",
+      "geneType": "other",
+      "eigenvalue": 0.4933,
+      "rSquared": 0.1936,
+      "amplitude": 229.1928
+    },
+    {
+      "gene": "Ccdc181",
+      "geneType": "other",
+      "eigenvalue": 0.7487,
+      "rSquared": 0.2365,
+      "amplitude": 9.201
+    },
+    {
+      "gene": "Nme7",
+      "geneType": "other",
+      "eigenvalue": 0.8327,
+      "rSquared": 0.2913,
+      "amplitude": 36.0046
+    },
+    {
+      "gene": "Dpt",
+      "geneType": "other",
+      "eigenvalue": 0.5046,
+      "rSquared": 0.0529,
+      "amplitude": 4.9078
+    },
+    {
+      "gene": "Gpr161",
+      "geneType": "other",
+      "eigenvalue": 0.6686,
+      "rSquared": 0.1721,
+      "amplitude": 2.4993
+    },
+    {
+      "gene": "Mpc2",
+      "geneType": "other",
+      "eigenvalue": 0.7806,
+      "rSquared": 0.3083,
+      "amplitude": 34.8512
+    },
+    {
+      "gene": "Adcy10",
+      "geneType": "other",
+      "eigenvalue": 0.6125,
+      "rSquared": 0.1394,
+      "amplitude": 0.0773
+    },
+    {
+      "gene": "Creg1",
+      "geneType": "other",
+      "eigenvalue": 0.4535,
+      "rSquared": 0.373,
+      "amplitude": 273.8234
+    },
+    {
+      "gene": "Cd247",
+      "geneType": "other",
+      "eigenvalue": 0.2141,
+      "rSquared": 0.0024,
+      "amplitude": 1.3638
+    },
+    {
+      "gene": "Gpa33",
+      "geneType": "other",
+      "eigenvalue": 0.7158,
+      "rSquared": 0.2165,
+      "amplitude": 2.2493
+    },
+    {
+      "gene": "Ildr2",
+      "geneType": "other",
+      "eigenvalue": 0.2877,
+      "rSquared": 0.0244,
+      "amplitude": 47.3915
+    },
+    {
+      "gene": "Tada1",
+      "geneType": "other",
+      "eigenvalue": 0.4432,
+      "rSquared": 0.0358,
+      "amplitude": 32.154
+    },
+    {
+      "gene": "Fam78b",
+      "geneType": "other",
+      "eigenvalue": 0.3716,
+      "rSquared": 0.0546,
+      "amplitude": 2.2491
+    },
+    {
+      "gene": "Tmco1",
+      "geneType": "other",
+      "eigenvalue": 0.7034,
+      "rSquared": 0.2386,
+      "amplitude": 41.0039
+    },
+    {
+      "gene": "Aldh9a1",
+      "geneType": "other",
+      "eigenvalue": 0.3627,
+      "rSquared": 0.0149,
+      "amplitude": 157.7448
+    },
+    {
+      "gene": "Rxrg",
+      "geneType": "other",
+      "eigenvalue": 0.4742,
+      "rSquared": 0.2154,
+      "amplitude": 53.5657
+    },
+    {
+      "gene": "Lmx1a",
+      "geneType": "other",
+      "eigenvalue": 0.7205,
+      "rSquared": 0.2474,
+      "amplitude": 1.0499
+    },
+    {
+      "gene": "Rgs5",
+      "geneType": "other",
+      "eigenvalue": 0.6396,
+      "rSquared": 0.1434,
+      "amplitude": 21.0272
+    }
+  ],
+  "interpretation": "Eigenvalue |\u03bb| shows moderate-to-strong correlation with R\u00b2 (\u03c1=0.7661) and/or amplitude (\u03c1=0.2608). Partial redundancy exists, but the metrics are not identical \u2014 |\u03bb| still captures unique variance in temporal dynamics."
+}

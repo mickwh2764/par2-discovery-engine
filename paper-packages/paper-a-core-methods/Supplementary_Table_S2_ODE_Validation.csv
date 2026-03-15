@@ -1,0 +1,6 @@
+Model_Name,AR2_Eigenvalue,ODE_Jacobian_Eigenvalue,Recovery_Ratio,Root_Type,Description
+Goodwin Oscillator (n=10),0.98,1.00,0.98,Complex,Sustained negative-feedback oscillation
+Leloup-Goldbeter Circadian,0.96,0.98,0.98,Complex,Mammalian circadian TTFL with slight damping
+FitzHugh-Nagumo (I=0.5),0.82,0.85,0.96,Complex,Excitable neural membrane dynamics
+Lotka-Volterra (balanced),0.97,1.00,0.97,Complex,Conservative predator-prey oscillation
+Tyson-Novak Cell Cycle,0.88,0.90,0.98,Complex,Eukaryotic cell cycle with hysteresis

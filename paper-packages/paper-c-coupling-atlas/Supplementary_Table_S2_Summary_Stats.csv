@@ -1,0 +1,4 @@
+Category,N_Genes,Mean_Eigenvalue,Mean_Percentile
+Clock,13,0.6924,83.5
+Target,22,0.5083,53.5
+Gearbox_Gap,,0.1842,

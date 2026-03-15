@@ -1,0 +1,6092 @@
+{
+  "title": "Multi-Species Gearbox Validation Panel",
+  "summary": "Clock > Target eigenvalue hierarchy tested across 14 dataset-level analyses from 4 species. Hierarchy preserved in 12/14 at aggregate level (86%). Note: tissue-level resolution varies (e.g. baboon: 8/14 tissues = 57%).",
+  "totalSpecies": 4,
+  "totalDatasets": 14,
+  "hierarchyPreservedCount": 12,
+  "fractionPreserved": 0.86,
+  "stabilityFilteredHierarchyCount": 11,
+  "stabilityNote": "Stability filter excludes AR(2) fits with |\u03bb| >= 1.0 (non-stationary). Both all-genes and stable-only results reported for transparency.",
+  "orthologyVersion": "1.0",
+  "orthologySource": "Curated from Ensembl Compara 112 / OrthoDB v11 / MGI",
+  "orthologySummary": {
+    "totalOrthologGroups": 39,
+    "clockGroups": 25,
+    "targetGroups": 14,
+    "plantSpecificGroups": 12,
+    "mammalianGroups": 27,
+    "crossSpeciesComparisons": [
+      {
+        "species1": "Mus musculus",
+        "species2": "Homo sapiens",
+        "sharedOrthologGroups": [
+          "NR1D2",
+          "PER2",
+          "DBP",
+          "CLOCK",
+          "NPAS2",
+          "PER3",
+          "TEF",
+          "ARNTL",
+          "RORC",
+          "CRY2",
+          "BAX",
+          "CCND1",
+          "CCNB1",
+          "CRY1",
+          "PER1",
+          "NR1D1",
+          "BCL2",
+          "CDK1",
+          "AXIN2"
+        ],
+        "count": 19,
+        "matchMethod": "Formal 1:1 orthology (Ensembl Compara 112 / OrthoDB v11 / MGI)"
+      },
+      {
+        "species1": "Mus musculus",
+        "species2": "Papio anubis",
+        "sharedOrthologGroups": [
+          "PER2",
+          "CCND1",
+          "CCNB1",
+          "CRY1",
+          "PER1"
+        ],
+        "count": 5,
+        "matchMethod": "Formal 1:1 orthology (Ensembl Compara 112 / OrthoDB v11 / MGI)"
+      },
+      {
+        "species1": "Mus musculus",
+        "species2": "Arabidopsis thaliana",
+        "sharedOrthologGroups": [
+          "CRY2",
+          "CRY1"
+        ],
+        "count": 2,
+        "matchMethod": "Formal 1:1 orthology (Ensembl Compara 112 / OrthoDB v11 / MGI)"
+      },
+      {
+        "species1": "Homo sapiens",
+        "species2": "Papio anubis",
+        "sharedOrthologGroups": [
+          "CRY1",
+          "PER2",
+          "CCND1",
+          "CCNB1",
+          "PER1"
+        ],
+        "count": 5,
+        "matchMethod": "Formal 1:1 orthology (Ensembl Compara 112 / OrthoDB v11 / MGI)"
+      },
+      {
+        "species1": "Homo sapiens",
+        "species2": "Arabidopsis thaliana",
+        "sharedOrthologGroups": [
+          "CRY1",
+          "CRY2"
+        ],
+        "count": 2,
+        "matchMethod": "Formal 1:1 orthology (Ensembl Compara 112 / OrthoDB v11 / MGI)"
+      },
+      {
+        "species1": "Papio anubis",
+        "species2": "Arabidopsis thaliana",
+        "sharedOrthologGroups": [
+          "CRY1"
+        ],
+        "count": 1,
+        "matchMethod": "Formal 1:1 orthology (Ensembl Compara 112 / OrthoDB v11 / MGI)"
+      }
+    ],
+    "note": "Gene comparisons across species now use formal 1:1 orthology assignments rather than string matching. Mouse Per1 \u2194 Human PER1 are confirmed 1:1 orthologs via Ensembl Compara, not just case-insensitive name matches."
+  },
+  "results": [
+    {
+      "species": "Mus musculus",
+      "dataset": "Mouse Liver (Hughes 2009, GSE11923)",
+      "datasetId": "GSE11923_Liver_1h_48h_genes",
+      "clockN": 13,
+      "targetN": 23,
+      "clockMeanEV": 0.7742,
+      "targetMeanEV": 0.5195,
+      "gap": 0.2547,
+      "hierarchyPreserved": true,
+      "adfStationarityPassRate": 38.9,
+      "clockGenes": [
+        {
+          "gene": "Nr1d2",
+          "eigenvalue": 0.8111,
+          "adfStationary": true
+        },
+        {
+          "gene": "Per2",
+          "eigenvalue": 0.868,
+          "adfStationary": false
+        },
+        {
+          "gene": "Dbp",
+          "eigenvalue": 0.7708,
+          "adfStationary": true
+        },
+        {
+          "gene": "Clock",
+          "eigenvalue": 0.8573,
+          "adfStationary": false
+        },
+        {
+          "gene": "Npas2",
+          "eigenvalue": 0.7218,
+          "adfStationary": true
+        },
+        {
+          "gene": "Per3",
+          "eigenvalue": 0.7177,
+          "adfStationary": false
+        },
+        {
+          "gene": "Tef",
+          "eigenvalue": 0.7345,
+          "adfStationary": false
+        },
+        {
+          "gene": "Arntl",
+          "eigenvalue": 0.8946,
+          "adfStationary": false
+        },
+        {
+          "gene": "Rorc",
+          "eigenvalue": 0.8703,
+          "adfStationary": true
+        },
+        {
+          "gene": "Cry2",
+          "eigenvalue": 0.6802,
+          "adfStationary": false
+        }
+      ],
+      "targetGenes": [
+        {
+          "gene": "Hif1a",
+          "eigenvalue": 0.6015,
+          "adfStationary": false
+        },
+        {
+          "gene": "Mcm6",
+          "eigenvalue": 0.4019,
+          "adfStationary": false
+        },
+        {
+          "gene": "Ccne1",
+          "eigenvalue": 0.4638,
+          "adfStationary": false
+        },
+        {
+          "gene": "Wee1",
+          "eigenvalue": 0.8489,
+          "adfStationary": false
+        },
+        {
+          "gene": "Bax",
+          "eigenvalue": 0.344,
+          "adfStationary": true
+        },
+        {
+          "gene": "Ccnd1",
+          "eigenvalue": 0.3892,
+          "adfStationary": true
+        },
+        {
+          "gene": "Sirt1",
+          "eigenvalue": 0.4064,
+          "adfStationary": false
+        },
+        {
+          "gene": "Ccnb1",
+          "eigenvalue": 0.8939,
+          "adfStationary": false
+        },
+        {
+          "gene": "Pparg",
+          "eigenvalue": 0.2834,
+          "adfStationary": true
+        },
+        {
+          "gene": "Ctnnb1",
+          "eigenvalue": 0.699,
+          "adfStationary": false
+        }
+      ],
+      "stabilityFiltered": {
+        "stableClockN": 13,
+        "stableTargetN": 23,
+        "unstableClockN": 0,
+        "unstableTargetN": 0,
+        "stableClockMeanEV": 0.7742,
+        "stableTargetMeanEV": 0.5195,
+        "stableGap": 0.2547,
+        "stableHierarchyPreserved": true,
+        "unstableGenes": []
+      },
+      "orthologyMapping": {
+        "matchedGenes": [
+          {
+            "gene": "Nr1d2",
+            "orthologGroup": "NR1D2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Per2",
+            "orthologGroup": "PER2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Dbp",
+            "orthologGroup": "DBP",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Clock",
+            "orthologGroup": "CLOCK",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Npas2",
+            "orthologGroup": "NPAS2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Per3",
+            "orthologGroup": "PER3",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Tef",
+            "orthologGroup": "TEF",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Arntl",
+            "orthologGroup": "ARNTL",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Rorc",
+            "orthologGroup": "RORC",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Cry2",
+            "orthologGroup": "CRY2",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Wee1",
+            "orthologGroup": "WEE1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Bax",
+            "orthologGroup": "BAX",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Ccnd1",
+            "orthologGroup": "CCND1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Ccnb1",
+            "orthologGroup": "CCNB1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Ctnnb1",
+            "orthologGroup": "CTNNB1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          }
+        ],
+        "totalMatched": 15,
+        "matchedWithMultiSpeciesOrthologs": 15
+      },
+      "orthologNormalizedGap": 0.1576
+    },
+    {
+      "species": "Mus musculus",
+      "dataset": "Mouse Liver (Hughes Atlas, GSE54650)",
+      "datasetId": "GSE54650_Liver_circadian",
+      "clockN": 13,
+      "targetN": 22,
+      "clockMeanEV": 0.6924,
+      "targetMeanEV": 0.5083,
+      "gap": 0.1842,
+      "hierarchyPreserved": true,
+      "adfStationarityPassRate": 42.9,
+      "clockGenes": [
+        {
+          "gene": "Npas2",
+          "eigenvalue": 0.5597,
+          "adfStationary": true
+        },
+        {
+          "gene": "Per2",
+          "eigenvalue": 0.636,
+          "adfStationary": false
+        },
+        {
+          "gene": "Cry1",
+          "eigenvalue": 0.7595,
+          "adfStationary": true
+        },
+        {
+          "gene": "Per1",
+          "eigenvalue": 0.5738,
+          "adfStationary": true
+        },
+        {
+          "gene": "Nr1d1",
+          "eigenvalue": 0.8112,
+          "adfStationary": false
+        },
+        {
+          "gene": "Nr1d2",
+          "eigenvalue": 0.8564,
+          "adfStationary": true
+        },
+        {
+          "gene": "Tef",
+          "eigenvalue": 0.6573,
+          "adfStationary": true
+        },
+        {
+          "gene": "Cry2",
+          "eigenvalue": 0.5832,
+          "adfStationary": false
+        },
+        {
+          "gene": "Rorc",
+          "eigenvalue": 0.7092,
+          "adfStationary": true
+        },
+        {
+          "gene": "Per3",
+          "eigenvalue": 0.4861,
+          "adfStationary": true
+        }
+      ],
+      "targetGenes": [
+        {
+          "gene": "Bcl2",
+          "eigenvalue": 0.5556,
+          "adfStationary": false
+        },
+        {
+          "gene": "Mcm6",
+          "eigenvalue": 0.4608,
+          "adfStationary": false
+        },
+        {
+          "gene": "Sirt1",
+          "eigenvalue": 0.5632,
+          "adfStationary": false
+        },
+        {
+          "gene": "Cdk1",
+          "eigenvalue": 0.6005,
+          "adfStationary": false
+        },
+        {
+          "gene": "Lgr5",
+          "eigenvalue": 0.5723,
+          "adfStationary": false
+        },
+        {
+          "gene": "Mdm2",
+          "eigenvalue": 0.7228,
+          "adfStationary": false
+        },
+        {
+          "gene": "Trp53",
+          "eigenvalue": 0.7145,
+          "adfStationary": false
+        },
+        {
+          "gene": "Axin2",
+          "eigenvalue": 0.1605,
+          "adfStationary": false
+        },
+        {
+          "gene": "Hif1a",
+          "eigenvalue": 0.4684,
+          "adfStationary": true
+        },
+        {
+          "gene": "Ccnb1",
+          "eigenvalue": 0.404,
+          "adfStationary": false
+        }
+      ],
+      "stabilityFiltered": {
+        "stableClockN": 13,
+        "stableTargetN": 22,
+        "unstableClockN": 0,
+        "unstableTargetN": 0,
+        "stableClockMeanEV": 0.6924,
+        "stableTargetMeanEV": 0.5083,
+        "stableGap": 0.1841,
+        "stableHierarchyPreserved": true,
+        "unstableGenes": []
+      },
+      "orthologyMapping": {
+        "matchedGenes": [
+          {
+            "gene": "Npas2",
+            "orthologGroup": "NPAS2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Per2",
+            "orthologGroup": "PER2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Cry1",
+            "orthologGroup": "CRY1",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Per1",
+            "orthologGroup": "PER1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Nr1d1",
+            "orthologGroup": "NR1D1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Nr1d2",
+            "orthologGroup": "NR1D2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Tef",
+            "orthologGroup": "TEF",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Cry2",
+            "orthologGroup": "CRY2",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Rorc",
+            "orthologGroup": "RORC",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Per3",
+            "orthologGroup": "PER3",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Bcl2",
+            "orthologGroup": "BCL2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Cdk1",
+            "orthologGroup": "CDK1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Lgr5",
+            "orthologGroup": "LGR5",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Mdm2",
+            "orthologGroup": "MDM2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Trp53",
+            "orthologGroup": "TP53",
+            "confidence": "high",
+            "source": "Ensembl Compara 112 / MGI",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Axin2",
+            "orthologGroup": "AXIN2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "Ccnb1",
+            "orthologGroup": "CCNB1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          }
+        ],
+        "totalMatched": 17,
+        "matchedWithMultiSpeciesOrthologs": 17
+      },
+      "orthologNormalizedGap": 0.1304
+    },
+    {
+      "species": "Homo sapiens",
+      "dataset": "Human Whole Blood (Ruben 2018, GSE113883)",
+      "datasetId": "GSE113883_Human_WholeBlood",
+      "clockN": 13,
+      "targetN": 23,
+      "clockMeanEV": 0.6999,
+      "targetMeanEV": 0.7286,
+      "gap": -0.0287,
+      "hierarchyPreserved": false,
+      "adfStationarityPassRate": 2.8,
+      "clockGenes": [
+        {
+          "gene": "CRY1",
+          "eigenvalue": 0.9556,
+          "adfStationary": false
+        },
+        {
+          "gene": "PER3",
+          "eigenvalue": 0.7252,
+          "adfStationary": false
+        },
+        {
+          "gene": "DBP",
+          "eigenvalue": 0.096,
+          "adfStationary": false
+        },
+        {
+          "gene": "CRY2",
+          "eigenvalue": 0.752,
+          "adfStationary": false
+        },
+        {
+          "gene": "NR1D1",
+          "eigenvalue": 0.502,
+          "adfStationary": false
+        },
+        {
+          "gene": "PER2",
+          "eigenvalue": 1.0737,
+          "adfStationary": false
+        },
+        {
+          "gene": "ARNTL",
+          "eigenvalue": 0.8854,
+          "adfStationary": false
+        },
+        {
+          "gene": "CLOCK",
+          "eigenvalue": 0.8807,
+          "adfStationary": false
+        },
+        {
+          "gene": "RORC",
+          "eigenvalue": 0.6168,
+          "adfStationary": false
+        },
+        {
+          "gene": "TEF",
+          "eigenvalue": 0.6249,
+          "adfStationary": false
+        }
+      ],
+      "targetGenes": [
+        {
+          "gene": "MCM6",
+          "eigenvalue": 0.428,
+          "adfStationary": false
+        },
+        {
+          "gene": "BAX",
+          "eigenvalue": 0.6948,
+          "adfStationary": false
+        },
+        {
+          "gene": "SIRT1",
+          "eigenvalue": 0.9558,
+          "adfStationary": false
+        },
+        {
+          "gene": "HIF1A",
+          "eigenvalue": 0.9781,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCNE1",
+          "eigenvalue": 0.7085,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCND1",
+          "eigenvalue": 0.5393,
+          "adfStationary": false
+        },
+        {
+          "gene": "CDKN1A",
+          "eigenvalue": 0.5024,
+          "adfStationary": false
+        },
+        {
+          "gene": "PPARG",
+          "eigenvalue": 0.1063,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCNB1",
+          "eigenvalue": 0.6415,
+          "adfStationary": false
+        },
+        {
+          "gene": "APC",
+          "eigenvalue": 1.0449,
+          "adfStationary": false
+        }
+      ],
+      "stabilityFiltered": {
+        "stableClockN": 12,
+        "stableTargetN": 21,
+        "unstableClockN": 1,
+        "unstableTargetN": 2,
+        "stableClockMeanEV": 0.6687,
+        "stableTargetMeanEV": 0.6995,
+        "stableGap": -0.0308,
+        "stableHierarchyPreserved": false,
+        "unstableGenes": [
+          {
+            "gene": "PER2",
+            "geneType": "clock",
+            "eigenvalue": 1.0737
+          },
+          {
+            "gene": "APC",
+            "geneType": "target",
+            "eigenvalue": 1.0449
+          },
+          {
+            "gene": "CTNNB1",
+            "geneType": "target",
+            "eigenvalue": 1.0234
+          }
+        ]
+      },
+      "orthologyMapping": {
+        "matchedGenes": [
+          {
+            "gene": "CRY1",
+            "orthologGroup": "CRY1",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "PER3",
+            "orthologGroup": "PER3",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "DBP",
+            "orthologGroup": "DBP",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CRY2",
+            "orthologGroup": "CRY2",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "NR1D1",
+            "orthologGroup": "NR1D1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "PER2",
+            "orthologGroup": "PER2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "ARNTL",
+            "orthologGroup": "ARNTL",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CLOCK",
+            "orthologGroup": "CLOCK",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "RORC",
+            "orthologGroup": "RORC",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "TEF",
+            "orthologGroup": "TEF",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "BAX",
+            "orthologGroup": "BAX",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CCND1",
+            "orthologGroup": "CCND1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CDKN1A",
+            "orthologGroup": "CDKN1A",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CCNB1",
+            "orthologGroup": "CCNB1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "APC",
+            "orthologGroup": "APC",
+            "confidence": "high",
+            "source": "Ensembl Compara 112 / MGI",
+            "hasMultiSpeciesOrthologs": true
+          }
+        ],
+        "totalMatched": 15,
+        "matchedWithMultiSpeciesOrthologs": 15
+      },
+      "orthologNormalizedGap": 0.0266
+    },
+    {
+      "species": "Homo sapiens",
+      "dataset": "Human Blood (Archer 2014, GSE48113)",
+      "datasetId": "GSE48113_Human_Blood_Circadian",
+      "clockN": 13,
+      "targetN": 22,
+      "clockMeanEV": 0.3506,
+      "targetMeanEV": 0.2697,
+      "gap": 0.0809,
+      "hierarchyPreserved": true,
+      "adfStationarityPassRate": 97.1,
+      "clockGenes": [
+        {
+          "gene": "ARNTL",
+          "eigenvalue": 0.3307,
+          "adfStationary": true
+        },
+        {
+          "gene": "CLOCK",
+          "eigenvalue": 0.1357,
+          "adfStationary": true
+        },
+        {
+          "gene": "CRY1",
+          "eigenvalue": 0.381,
+          "adfStationary": true
+        },
+        {
+          "gene": "CRY2",
+          "eigenvalue": 0.1274,
+          "adfStationary": true
+        },
+        {
+          "gene": "DBP",
+          "eigenvalue": 0.5584,
+          "adfStationary": true
+        },
+        {
+          "gene": "NPAS2",
+          "eigenvalue": 0.3081,
+          "adfStationary": true
+        },
+        {
+          "gene": "NR1D1",
+          "eigenvalue": 0.5025,
+          "adfStationary": true
+        },
+        {
+          "gene": "NR1D2",
+          "eigenvalue": 0.5285,
+          "adfStationary": true
+        },
+        {
+          "gene": "PER1",
+          "eigenvalue": 0.4261,
+          "adfStationary": true
+        },
+        {
+          "gene": "PER2",
+          "eigenvalue": 0.3672,
+          "adfStationary": true
+        }
+      ],
+      "targetGenes": [
+        {
+          "gene": "APC",
+          "eigenvalue": 0.2402,
+          "adfStationary": true
+        },
+        {
+          "gene": "ATM",
+          "eigenvalue": 0.2271,
+          "adfStationary": true
+        },
+        {
+          "gene": "AXIN2",
+          "eigenvalue": 0.1771,
+          "adfStationary": true
+        },
+        {
+          "gene": "BAX",
+          "eigenvalue": 0.3654,
+          "adfStationary": true
+        },
+        {
+          "gene": "BCL2",
+          "eigenvalue": 0.4856,
+          "adfStationary": true
+        },
+        {
+          "gene": "CCNB1",
+          "eigenvalue": 0.1775,
+          "adfStationary": true
+        },
+        {
+          "gene": "CCND1",
+          "eigenvalue": 0.1992,
+          "adfStationary": true
+        },
+        {
+          "gene": "CCNE1",
+          "eigenvalue": 0.229,
+          "adfStationary": true
+        },
+        {
+          "gene": "CCNE2",
+          "eigenvalue": 0.305,
+          "adfStationary": false
+        },
+        {
+          "gene": "CDK1",
+          "eigenvalue": 0.4187,
+          "adfStationary": true
+        }
+      ],
+      "stabilityFiltered": {
+        "stableClockN": 13,
+        "stableTargetN": 22,
+        "unstableClockN": 0,
+        "unstableTargetN": 0,
+        "stableClockMeanEV": 0.3506,
+        "stableTargetMeanEV": 0.2697,
+        "stableGap": 0.0809,
+        "stableHierarchyPreserved": true,
+        "unstableGenes": []
+      },
+      "orthologyMapping": {
+        "matchedGenes": [
+          {
+            "gene": "ARNTL",
+            "orthologGroup": "ARNTL",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CLOCK",
+            "orthologGroup": "CLOCK",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CRY1",
+            "orthologGroup": "CRY1",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CRY2",
+            "orthologGroup": "CRY2",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "DBP",
+            "orthologGroup": "DBP",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "NPAS2",
+            "orthologGroup": "NPAS2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "NR1D1",
+            "orthologGroup": "NR1D1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "NR1D2",
+            "orthologGroup": "NR1D2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "PER1",
+            "orthologGroup": "PER1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "PER2",
+            "orthologGroup": "PER2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "APC",
+            "orthologGroup": "APC",
+            "confidence": "high",
+            "source": "Ensembl Compara 112 / MGI",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "AXIN2",
+            "orthologGroup": "AXIN2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "BAX",
+            "orthologGroup": "BAX",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "BCL2",
+            "orthologGroup": "BCL2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CCNB1",
+            "orthologGroup": "CCNB1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CCND1",
+            "orthologGroup": "CCND1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CDK1",
+            "orthologGroup": "CDK1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          }
+        ],
+        "totalMatched": 17,
+        "matchedWithMultiSpeciesOrthologs": 17
+      },
+      "orthologNormalizedGap": 0.0717
+    },
+    {
+      "species": "Homo sapiens",
+      "dataset": "Human Blood Aligned (Archer 2014, GSE48113)",
+      "datasetId": "GSE48113_ForcedDesync_Aligned",
+      "clockN": 13,
+      "targetN": 22,
+      "clockMeanEV": 0.6615,
+      "targetMeanEV": 0.678,
+      "gap": -0.0165,
+      "hierarchyPreserved": false,
+      "adfStationarityPassRate": 0,
+      "clockGenes": [
+        {
+          "gene": "ARNTL",
+          "eigenvalue": 0.9707,
+          "adfStationary": false
+        },
+        {
+          "gene": "CLOCK",
+          "eigenvalue": 0.652,
+          "adfStationary": false
+        },
+        {
+          "gene": "CRY1",
+          "eigenvalue": 0.6538,
+          "adfStationary": false
+        },
+        {
+          "gene": "CRY2",
+          "eigenvalue": 0.8089,
+          "adfStationary": false
+        },
+        {
+          "gene": "DBP",
+          "eigenvalue": 0.3947,
+          "adfStationary": false
+        },
+        {
+          "gene": "NPAS2",
+          "eigenvalue": 0.4423,
+          "adfStationary": false
+        },
+        {
+          "gene": "NR1D1",
+          "eigenvalue": 0.7926,
+          "adfStationary": false
+        },
+        {
+          "gene": "NR1D2",
+          "eigenvalue": 0.8932,
+          "adfStationary": false
+        },
+        {
+          "gene": "PER1",
+          "eigenvalue": 0.3977,
+          "adfStationary": false
+        },
+        {
+          "gene": "PER2",
+          "eigenvalue": 0.5804,
+          "adfStationary": false
+        }
+      ],
+      "targetGenes": [
+        {
+          "gene": "APC",
+          "eigenvalue": 0.7937,
+          "adfStationary": false
+        },
+        {
+          "gene": "ATM",
+          "eigenvalue": 0.926,
+          "adfStationary": false
+        },
+        {
+          "gene": "AXIN2",
+          "eigenvalue": 0.8958,
+          "adfStationary": false
+        },
+        {
+          "gene": "BAX",
+          "eigenvalue": 0.6692,
+          "adfStationary": false
+        },
+        {
+          "gene": "BCL2",
+          "eigenvalue": 0.7055,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCNB1",
+          "eigenvalue": 0.9558,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCND1",
+          "eigenvalue": 0.6437,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCNE1",
+          "eigenvalue": 1.1078,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCNE2",
+          "eigenvalue": 0.5757,
+          "adfStationary": false
+        },
+        {
+          "gene": "CDK1",
+          "eigenvalue": 0.8645,
+          "adfStationary": false
+        }
+      ],
+      "stabilityFiltered": {
+        "stableClockN": 13,
+        "stableTargetN": 21,
+        "unstableClockN": 0,
+        "unstableTargetN": 1,
+        "stableClockMeanEV": 0.6615,
+        "stableTargetMeanEV": 0.6575,
+        "stableGap": 0.004,
+        "stableHierarchyPreserved": true,
+        "unstableGenes": [
+          {
+            "gene": "CCNE1",
+            "geneType": "target",
+            "eigenvalue": 1.1078
+          }
+        ]
+      },
+      "orthologyMapping": {
+        "matchedGenes": [
+          {
+            "gene": "ARNTL",
+            "orthologGroup": "ARNTL",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CLOCK",
+            "orthologGroup": "CLOCK",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CRY1",
+            "orthologGroup": "CRY1",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CRY2",
+            "orthologGroup": "CRY2",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "DBP",
+            "orthologGroup": "DBP",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "NPAS2",
+            "orthologGroup": "NPAS2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "NR1D1",
+            "orthologGroup": "NR1D1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "NR1D2",
+            "orthologGroup": "NR1D2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "PER1",
+            "orthologGroup": "PER1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "PER2",
+            "orthologGroup": "PER2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "APC",
+            "orthologGroup": "APC",
+            "confidence": "high",
+            "source": "Ensembl Compara 112 / MGI",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "AXIN2",
+            "orthologGroup": "AXIN2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "BAX",
+            "orthologGroup": "BAX",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "BCL2",
+            "orthologGroup": "BCL2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CCNB1",
+            "orthologGroup": "CCNB1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CCND1",
+            "orthologGroup": "CCND1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CDK1",
+            "orthologGroup": "CDK1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          }
+        ],
+        "totalMatched": 17,
+        "matchedWithMultiSpeciesOrthologs": 17
+      },
+      "orthologNormalizedGap": -0.1311
+    },
+    {
+      "species": "Homo sapiens",
+      "dataset": "Human Blood Misaligned (Archer 2014, GSE48113)",
+      "datasetId": "GSE48113_ForcedDesync_Misaligned",
+      "clockN": 13,
+      "targetN": 20,
+      "clockMeanEV": 0.7089,
+      "targetMeanEV": 0.6434,
+      "gap": 0.0654,
+      "hierarchyPreserved": true,
+      "adfStationarityPassRate": 27.3,
+      "clockGenes": [
+        {
+          "gene": "ARNTL",
+          "eigenvalue": 0.6795,
+          "adfStationary": false
+        },
+        {
+          "gene": "CLOCK",
+          "eigenvalue": 0.5988,
+          "adfStationary": true
+        },
+        {
+          "gene": "CRY1",
+          "eigenvalue": 0.5189,
+          "adfStationary": false
+        },
+        {
+          "gene": "CRY2",
+          "eigenvalue": 1.0643,
+          "adfStationary": false
+        },
+        {
+          "gene": "DBP",
+          "eigenvalue": 1.0093,
+          "adfStationary": false
+        },
+        {
+          "gene": "NPAS2",
+          "eigenvalue": 0.915,
+          "adfStationary": false
+        },
+        {
+          "gene": "NR1D1",
+          "eigenvalue": 0.6118,
+          "adfStationary": false
+        },
+        {
+          "gene": "NR1D2",
+          "eigenvalue": 0.666,
+          "adfStationary": true
+        },
+        {
+          "gene": "PER1",
+          "eigenvalue": 0.6621,
+          "adfStationary": true
+        },
+        {
+          "gene": "PER2",
+          "eigenvalue": 0.7288,
+          "adfStationary": false
+        }
+      ],
+      "targetGenes": [
+        {
+          "gene": "APC",
+          "eigenvalue": 0.5584,
+          "adfStationary": true
+        },
+        {
+          "gene": "ATM",
+          "eigenvalue": 0.8083,
+          "adfStationary": false
+        },
+        {
+          "gene": "AXIN2",
+          "eigenvalue": 0.7859,
+          "adfStationary": false
+        },
+        {
+          "gene": "BAX",
+          "eigenvalue": 0.8033,
+          "adfStationary": false
+        },
+        {
+          "gene": "BCL2",
+          "eigenvalue": 0.4284,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCNB1",
+          "eigenvalue": 0.247,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCND1",
+          "eigenvalue": 0.5989,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCNE1",
+          "eigenvalue": 0.7113,
+          "adfStationary": false
+        },
+        {
+          "gene": "CDK1",
+          "eigenvalue": 0.8581,
+          "adfStationary": true
+        },
+        {
+          "gene": "CDKN1A",
+          "eigenvalue": 0.9202,
+          "adfStationary": true
+        }
+      ],
+      "stabilityFiltered": {
+        "stableClockN": 11,
+        "stableTargetN": 20,
+        "unstableClockN": 2,
+        "unstableTargetN": 0,
+        "stableClockMeanEV": 0.6493,
+        "stableTargetMeanEV": 0.6434,
+        "stableGap": 0.0059,
+        "stableHierarchyPreserved": true,
+        "unstableGenes": [
+          {
+            "gene": "CRY2",
+            "geneType": "clock",
+            "eigenvalue": 1.0643
+          },
+          {
+            "gene": "DBP",
+            "geneType": "clock",
+            "eigenvalue": 1.0093
+          }
+        ]
+      },
+      "orthologyMapping": {
+        "matchedGenes": [
+          {
+            "gene": "ARNTL",
+            "orthologGroup": "ARNTL",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CLOCK",
+            "orthologGroup": "CLOCK",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CRY1",
+            "orthologGroup": "CRY1",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CRY2",
+            "orthologGroup": "CRY2",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "DBP",
+            "orthologGroup": "DBP",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "NPAS2",
+            "orthologGroup": "NPAS2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "NR1D1",
+            "orthologGroup": "NR1D1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "NR1D2",
+            "orthologGroup": "NR1D2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "PER1",
+            "orthologGroup": "PER1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "PER2",
+            "orthologGroup": "PER2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "APC",
+            "orthologGroup": "APC",
+            "confidence": "high",
+            "source": "Ensembl Compara 112 / MGI",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "AXIN2",
+            "orthologGroup": "AXIN2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "BAX",
+            "orthologGroup": "BAX",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "BCL2",
+            "orthologGroup": "BCL2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CCNB1",
+            "orthologGroup": "CCNB1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CCND1",
+            "orthologGroup": "CCND1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CDK1",
+            "orthologGroup": "CDK1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CDKN1A",
+            "orthologGroup": "CDKN1A",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          }
+        ],
+        "totalMatched": 18,
+        "matchedWithMultiSpeciesOrthologs": 18
+      },
+      "orthologNormalizedGap": 0.0954
+    },
+    {
+      "species": "Homo sapiens",
+      "dataset": "Human Blood Sufficient Sleep (Moller-Levet 2013, GSE39445)",
+      "datasetId": "GSE39445_Blood_SufficientSleep",
+      "clockN": 13,
+      "targetN": 23,
+      "clockMeanEV": 0.6511,
+      "targetMeanEV": 0.535,
+      "gap": 0.1161,
+      "hierarchyPreserved": true,
+      "adfStationarityPassRate": 22.2,
+      "clockGenes": [
+        {
+          "gene": "ARNTL",
+          "eigenvalue": 0.5081,
+          "adfStationary": false
+        },
+        {
+          "gene": "CLOCK",
+          "eigenvalue": 0.6516,
+          "adfStationary": false
+        },
+        {
+          "gene": "CRY1",
+          "eigenvalue": 0.6689,
+          "adfStationary": false
+        },
+        {
+          "gene": "CRY2",
+          "eigenvalue": 0.6684,
+          "adfStationary": false
+        },
+        {
+          "gene": "DBP",
+          "eigenvalue": 0.3821,
+          "adfStationary": false
+        },
+        {
+          "gene": "NPAS2",
+          "eigenvalue": 0.5032,
+          "adfStationary": false
+        },
+        {
+          "gene": "NR1D1",
+          "eigenvalue": 0.9485,
+          "adfStationary": false
+        },
+        {
+          "gene": "NR1D2",
+          "eigenvalue": 0.7979,
+          "adfStationary": false
+        },
+        {
+          "gene": "PER1",
+          "eigenvalue": 0.2511,
+          "adfStationary": false
+        },
+        {
+          "gene": "PER2",
+          "eigenvalue": 0.6188,
+          "adfStationary": false
+        }
+      ],
+      "targetGenes": [
+        {
+          "gene": "APC",
+          "eigenvalue": 0.7778,
+          "adfStationary": false
+        },
+        {
+          "gene": "ATM",
+          "eigenvalue": 0.4244,
+          "adfStationary": false
+        },
+        {
+          "gene": "AXIN2",
+          "eigenvalue": 0.6268,
+          "adfStationary": false
+        },
+        {
+          "gene": "BAX",
+          "eigenvalue": 0.2706,
+          "adfStationary": true
+        },
+        {
+          "gene": "BCL2",
+          "eigenvalue": 0.6422,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCNB1",
+          "eigenvalue": 0.4447,
+          "adfStationary": true
+        },
+        {
+          "gene": "CCND1",
+          "eigenvalue": 0.4057,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCNE1",
+          "eigenvalue": 0.612,
+          "adfStationary": true
+        },
+        {
+          "gene": "CCNE2",
+          "eigenvalue": 0.3682,
+          "adfStationary": true
+        },
+        {
+          "gene": "CDK1",
+          "eigenvalue": 0.843,
+          "adfStationary": false
+        }
+      ],
+      "stabilityFiltered": {
+        "stableClockN": 13,
+        "stableTargetN": 23,
+        "unstableClockN": 0,
+        "unstableTargetN": 0,
+        "stableClockMeanEV": 0.6511,
+        "stableTargetMeanEV": 0.535,
+        "stableGap": 0.1161,
+        "stableHierarchyPreserved": true,
+        "unstableGenes": []
+      },
+      "orthologyMapping": {
+        "matchedGenes": [
+          {
+            "gene": "ARNTL",
+            "orthologGroup": "ARNTL",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CLOCK",
+            "orthologGroup": "CLOCK",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CRY1",
+            "orthologGroup": "CRY1",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CRY2",
+            "orthologGroup": "CRY2",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "DBP",
+            "orthologGroup": "DBP",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "NPAS2",
+            "orthologGroup": "NPAS2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "NR1D1",
+            "orthologGroup": "NR1D1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "NR1D2",
+            "orthologGroup": "NR1D2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "PER1",
+            "orthologGroup": "PER1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "PER2",
+            "orthologGroup": "PER2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "APC",
+            "orthologGroup": "APC",
+            "confidence": "high",
+            "source": "Ensembl Compara 112 / MGI",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "AXIN2",
+            "orthologGroup": "AXIN2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "BAX",
+            "orthologGroup": "BAX",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "BCL2",
+            "orthologGroup": "BCL2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CCNB1",
+            "orthologGroup": "CCNB1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CCND1",
+            "orthologGroup": "CCND1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CDK1",
+            "orthologGroup": "CDK1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          }
+        ],
+        "totalMatched": 17,
+        "matchedWithMultiSpeciesOrthologs": 17
+      },
+      "orthologNormalizedGap": 0.0269
+    },
+    {
+      "species": "Homo sapiens",
+      "dataset": "Human Blood Sleep Restriction (Moller-Levet 2013, GSE39445)",
+      "datasetId": "GSE39445_Blood_SleepRestriction",
+      "clockN": 13,
+      "targetN": 23,
+      "clockMeanEV": 0.6525,
+      "targetMeanEV": 0.565,
+      "gap": 0.0875,
+      "hierarchyPreserved": true,
+      "adfStationarityPassRate": 8.3,
+      "clockGenes": [
+        {
+          "gene": "ARNTL",
+          "eigenvalue": 0.9365,
+          "adfStationary": false
+        },
+        {
+          "gene": "CLOCK",
+          "eigenvalue": 0.745,
+          "adfStationary": true
+        },
+        {
+          "gene": "CRY1",
+          "eigenvalue": 0.1809,
+          "adfStationary": false
+        },
+        {
+          "gene": "CRY2",
+          "eigenvalue": 0.3792,
+          "adfStationary": false
+        },
+        {
+          "gene": "DBP",
+          "eigenvalue": 0.3001,
+          "adfStationary": false
+        },
+        {
+          "gene": "NPAS2",
+          "eigenvalue": 0.8563,
+          "adfStationary": false
+        },
+        {
+          "gene": "NR1D1",
+          "eigenvalue": 0.8426,
+          "adfStationary": false
+        },
+        {
+          "gene": "NR1D2",
+          "eigenvalue": 0.8842,
+          "adfStationary": false
+        },
+        {
+          "gene": "PER1",
+          "eigenvalue": 0.8194,
+          "adfStationary": false
+        },
+        {
+          "gene": "PER2",
+          "eigenvalue": 0.8238,
+          "adfStationary": false
+        }
+      ],
+      "targetGenes": [
+        {
+          "gene": "APC",
+          "eigenvalue": 0.327,
+          "adfStationary": false
+        },
+        {
+          "gene": "ATM",
+          "eigenvalue": 0.6928,
+          "adfStationary": false
+        },
+        {
+          "gene": "AXIN2",
+          "eigenvalue": 0.6373,
+          "adfStationary": false
+        },
+        {
+          "gene": "BAX",
+          "eigenvalue": 0.6788,
+          "adfStationary": false
+        },
+        {
+          "gene": "BCL2",
+          "eigenvalue": 0.6302,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCNB1",
+          "eigenvalue": 0.7024,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCND1",
+          "eigenvalue": 0.6138,
+          "adfStationary": true
+        },
+        {
+          "gene": "CCNE1",
+          "eigenvalue": 0.6854,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCNE2",
+          "eigenvalue": 0.8125,
+          "adfStationary": false
+        },
+        {
+          "gene": "CDK1",
+          "eigenvalue": 0.7119,
+          "adfStationary": false
+        }
+      ],
+      "stabilityFiltered": {
+        "stableClockN": 13,
+        "stableTargetN": 23,
+        "unstableClockN": 0,
+        "unstableTargetN": 0,
+        "stableClockMeanEV": 0.6525,
+        "stableTargetMeanEV": 0.565,
+        "stableGap": 0.0875,
+        "stableHierarchyPreserved": true,
+        "unstableGenes": []
+      },
+      "orthologyMapping": {
+        "matchedGenes": [
+          {
+            "gene": "ARNTL",
+            "orthologGroup": "ARNTL",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CLOCK",
+            "orthologGroup": "CLOCK",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CRY1",
+            "orthologGroup": "CRY1",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CRY2",
+            "orthologGroup": "CRY2",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "DBP",
+            "orthologGroup": "DBP",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "NPAS2",
+            "orthologGroup": "NPAS2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "NR1D1",
+            "orthologGroup": "NR1D1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "NR1D2",
+            "orthologGroup": "NR1D2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "PER1",
+            "orthologGroup": "PER1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "PER2",
+            "orthologGroup": "PER2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "APC",
+            "orthologGroup": "APC",
+            "confidence": "high",
+            "source": "Ensembl Compara 112 / MGI",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "AXIN2",
+            "orthologGroup": "AXIN2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "BAX",
+            "orthologGroup": "BAX",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "BCL2",
+            "orthologGroup": "BCL2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CCNB1",
+            "orthologGroup": "CCNB1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CCND1",
+            "orthologGroup": "CCND1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CDK1",
+            "orthologGroup": "CDK1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          }
+        ],
+        "totalMatched": 17,
+        "matchedWithMultiSpeciesOrthologs": 17
+      },
+      "orthologNormalizedGap": 0.0623
+    },
+    {
+      "species": "Homo sapiens",
+      "dataset": "Human PBMC Day-Shift Nurses (Gamble 2019, GSE122541)",
+      "datasetId": "GSE122541_Nurses_DayShift",
+      "clockN": 13,
+      "targetN": 23,
+      "clockMeanEV": 0.6787,
+      "targetMeanEV": 0.6364,
+      "gap": 0.0423,
+      "hierarchyPreserved": true,
+      "adfStationarityPassRate": 22.2,
+      "clockGenes": [
+        {
+          "gene": "ARNTL",
+          "eigenvalue": 0.5064,
+          "adfStationary": false
+        },
+        {
+          "gene": "CLOCK",
+          "eigenvalue": 0.9054,
+          "adfStationary": true
+        },
+        {
+          "gene": "CRY1",
+          "eigenvalue": 0.9799,
+          "adfStationary": true
+        },
+        {
+          "gene": "CRY2",
+          "eigenvalue": 0.3605,
+          "adfStationary": false
+        },
+        {
+          "gene": "DBP",
+          "eigenvalue": 0.6111,
+          "adfStationary": false
+        },
+        {
+          "gene": "NPAS2",
+          "eigenvalue": 0.6006,
+          "adfStationary": false
+        },
+        {
+          "gene": "NR1D1",
+          "eigenvalue": 0.4713,
+          "adfStationary": false
+        },
+        {
+          "gene": "NR1D2",
+          "eigenvalue": 0.8818,
+          "adfStationary": false
+        },
+        {
+          "gene": "PER1",
+          "eigenvalue": 1.6805,
+          "adfStationary": false
+        },
+        {
+          "gene": "PER2",
+          "eigenvalue": 0.2101,
+          "adfStationary": false
+        }
+      ],
+      "targetGenes": [
+        {
+          "gene": "APC",
+          "eigenvalue": 0.6867,
+          "adfStationary": false
+        },
+        {
+          "gene": "ATM",
+          "eigenvalue": 0.9992,
+          "adfStationary": true
+        },
+        {
+          "gene": "AXIN2",
+          "eigenvalue": 0.8299,
+          "adfStationary": true
+        },
+        {
+          "gene": "BAX",
+          "eigenvalue": 0.8519,
+          "adfStationary": true
+        },
+        {
+          "gene": "BCL2",
+          "eigenvalue": 0.9377,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCNB1",
+          "eigenvalue": 1.0037,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCND1",
+          "eigenvalue": 0.2283,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCNE1",
+          "eigenvalue": 0.612,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCNE2",
+          "eigenvalue": 0.298,
+          "adfStationary": false
+        },
+        {
+          "gene": "CDK1",
+          "eigenvalue": 0.3877,
+          "adfStationary": false
+        }
+      ],
+      "stabilityFiltered": {
+        "stableClockN": 12,
+        "stableTargetN": 22,
+        "unstableClockN": 1,
+        "unstableTargetN": 1,
+        "stableClockMeanEV": 0.5952,
+        "stableTargetMeanEV": 0.6197,
+        "stableGap": -0.0245,
+        "stableHierarchyPreserved": false,
+        "unstableGenes": [
+          {
+            "gene": "PER1",
+            "geneType": "clock",
+            "eigenvalue": 1.6805
+          },
+          {
+            "gene": "CCNB1",
+            "geneType": "target",
+            "eigenvalue": 1.0037
+          }
+        ]
+      },
+      "orthologyMapping": {
+        "matchedGenes": [
+          {
+            "gene": "ARNTL",
+            "orthologGroup": "ARNTL",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CLOCK",
+            "orthologGroup": "CLOCK",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CRY1",
+            "orthologGroup": "CRY1",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CRY2",
+            "orthologGroup": "CRY2",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "DBP",
+            "orthologGroup": "DBP",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "NPAS2",
+            "orthologGroup": "NPAS2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "NR1D1",
+            "orthologGroup": "NR1D1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "NR1D2",
+            "orthologGroup": "NR1D2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "PER1",
+            "orthologGroup": "PER1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "PER2",
+            "orthologGroup": "PER2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "APC",
+            "orthologGroup": "APC",
+            "confidence": "high",
+            "source": "Ensembl Compara 112 / MGI",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "AXIN2",
+            "orthologGroup": "AXIN2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "BAX",
+            "orthologGroup": "BAX",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "BCL2",
+            "orthologGroup": "BCL2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CCNB1",
+            "orthologGroup": "CCNB1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CCND1",
+            "orthologGroup": "CCND1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CDK1",
+            "orthologGroup": "CDK1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          }
+        ],
+        "totalMatched": 17,
+        "matchedWithMultiSpeciesOrthologs": 17
+      },
+      "orthologNormalizedGap": 0.0171
+    },
+    {
+      "species": "Homo sapiens",
+      "dataset": "Human PBMC Night-Shift Nurses (Gamble 2019, GSE122541)",
+      "datasetId": "GSE122541_Nurses_NightShift",
+      "clockN": 13,
+      "targetN": 23,
+      "clockMeanEV": 0.5796,
+      "targetMeanEV": 0.5724,
+      "gap": 0.0072,
+      "hierarchyPreserved": true,
+      "adfStationarityPassRate": 19.4,
+      "clockGenes": [
+        {
+          "gene": "ARNTL",
+          "eigenvalue": 0.8595,
+          "adfStationary": true
+        },
+        {
+          "gene": "CLOCK",
+          "eigenvalue": 0.5025,
+          "adfStationary": false
+        },
+        {
+          "gene": "CRY1",
+          "eigenvalue": 0.2377,
+          "adfStationary": false
+        },
+        {
+          "gene": "CRY2",
+          "eigenvalue": 0.292,
+          "adfStationary": false
+        },
+        {
+          "gene": "DBP",
+          "eigenvalue": 0.603,
+          "adfStationary": false
+        },
+        {
+          "gene": "NPAS2",
+          "eigenvalue": 0.7778,
+          "adfStationary": true
+        },
+        {
+          "gene": "NR1D1",
+          "eigenvalue": 0.7635,
+          "adfStationary": false
+        },
+        {
+          "gene": "NR1D2",
+          "eigenvalue": 0.2668,
+          "adfStationary": false
+        },
+        {
+          "gene": "PER1",
+          "eigenvalue": 0.6792,
+          "adfStationary": false
+        },
+        {
+          "gene": "PER2",
+          "eigenvalue": 0.8871,
+          "adfStationary": false
+        }
+      ],
+      "targetGenes": [
+        {
+          "gene": "APC",
+          "eigenvalue": 0.8819,
+          "adfStationary": false
+        },
+        {
+          "gene": "ATM",
+          "eigenvalue": 0.4787,
+          "adfStationary": false
+        },
+        {
+          "gene": "AXIN2",
+          "eigenvalue": 0.6591,
+          "adfStationary": false
+        },
+        {
+          "gene": "BAX",
+          "eigenvalue": 0.1672,
+          "adfStationary": false
+        },
+        {
+          "gene": "BCL2",
+          "eigenvalue": 0.4856,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCNB1",
+          "eigenvalue": 0.7647,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCND1",
+          "eigenvalue": 0.6511,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCNE1",
+          "eigenvalue": 0.3488,
+          "adfStationary": true
+        },
+        {
+          "gene": "CCNE2",
+          "eigenvalue": 0.4384,
+          "adfStationary": true
+        },
+        {
+          "gene": "CDK1",
+          "eigenvalue": 0.4554,
+          "adfStationary": false
+        }
+      ],
+      "stabilityFiltered": {
+        "stableClockN": 13,
+        "stableTargetN": 23,
+        "unstableClockN": 0,
+        "unstableTargetN": 0,
+        "stableClockMeanEV": 0.5796,
+        "stableTargetMeanEV": 0.5724,
+        "stableGap": 0.0072,
+        "stableHierarchyPreserved": true,
+        "unstableGenes": []
+      },
+      "orthologyMapping": {
+        "matchedGenes": [
+          {
+            "gene": "ARNTL",
+            "orthologGroup": "ARNTL",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CLOCK",
+            "orthologGroup": "CLOCK",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CRY1",
+            "orthologGroup": "CRY1",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CRY2",
+            "orthologGroup": "CRY2",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "DBP",
+            "orthologGroup": "DBP",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "NPAS2",
+            "orthologGroup": "NPAS2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "NR1D1",
+            "orthologGroup": "NR1D1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "NR1D2",
+            "orthologGroup": "NR1D2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "PER1",
+            "orthologGroup": "PER1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "PER2",
+            "orthologGroup": "PER2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "APC",
+            "orthologGroup": "APC",
+            "confidence": "high",
+            "source": "Ensembl Compara 112 / MGI",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "AXIN2",
+            "orthologGroup": "AXIN2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "BAX",
+            "orthologGroup": "BAX",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "BCL2",
+            "orthologGroup": "BCL2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CCNB1",
+            "orthologGroup": "CCNB1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CCND1",
+            "orthologGroup": "CCND1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CDK1",
+            "orthologGroup": "CDK1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          }
+        ],
+        "totalMatched": 17,
+        "matchedWithMultiSpeciesOrthologs": 17
+      },
+      "orthologNormalizedGap": 0.0062
+    },
+    {
+      "species": "Papio anubis",
+      "dataset": "Baboon Multi-tissue (Mure 2018, GSE98965)",
+      "datasetId": "GSE98965_baboon_FPKM",
+      "clockN": 112,
+      "targetN": 251,
+      "clockMeanEV": 0.5507,
+      "targetMeanEV": 0.5486,
+      "gap": 0.0021,
+      "hierarchyPreserved": true,
+      "nTissues": 14,
+      "nTissuesWithHierarchy": 8,
+      "fractionPreserved": 0.57,
+      "pValue": 0.8091755668553287,
+      "adfStationarityPassRate": 9.9,
+      "clockGenes": [
+        {
+          "gene": "PER1",
+          "eigenvalue": 0.5812,
+          "tissue": "Lung",
+          "adfStationary": false
+        },
+        {
+          "gene": "PER2",
+          "eigenvalue": 0.7911,
+          "tissue": "Lung",
+          "adfStationary": false
+        },
+        {
+          "gene": "CRY1",
+          "eigenvalue": 0.4543,
+          "tissue": "Lung",
+          "adfStationary": false
+        },
+        {
+          "gene": "PER1",
+          "eigenvalue": 0.7282,
+          "tissue": "Hippocampus",
+          "adfStationary": false
+        },
+        {
+          "gene": "PER2",
+          "eigenvalue": 0.7681,
+          "tissue": "Hippocampus",
+          "adfStationary": false
+        },
+        {
+          "gene": "CRY1",
+          "eigenvalue": 0.4904,
+          "tissue": "Hippocampus",
+          "adfStationary": false
+        },
+        {
+          "gene": "PER1",
+          "eigenvalue": 0.2008,
+          "tissue": "White Adipose",
+          "adfStationary": false
+        },
+        {
+          "gene": "PER2",
+          "eigenvalue": 0.4929,
+          "tissue": "White Adipose",
+          "adfStationary": false
+        },
+        {
+          "gene": "CRY1",
+          "eigenvalue": 0.4992,
+          "tissue": "White Adipose",
+          "adfStationary": false
+        }
+      ],
+      "targetGenes": [
+        {
+          "gene": "MYC",
+          "eigenvalue": 0.4276,
+          "tissue": "Lung",
+          "adfStationary": true
+        },
+        {
+          "gene": "CCND1",
+          "eigenvalue": 0.5846,
+          "tissue": "Lung",
+          "adfStationary": false
+        },
+        {
+          "gene": "CCNB1",
+          "eigenvalue": 0.4435,
+          "tissue": "Lung",
+          "adfStationary": false
+        },
+        {
+          "gene": "MYC",
+          "eigenvalue": 0.5928,
+          "tissue": "Hippocampus",
+          "adfStationary": true
+        },
+        {
+          "gene": "CCND1",
+          "eigenvalue": 0.5012,
+          "tissue": "Hippocampus",
+          "adfStationary": false
+        },
+        {
+          "gene": "CCNB1",
+          "eigenvalue": 0.5173,
+          "tissue": "Hippocampus",
+          "adfStationary": false
+        },
+        {
+          "gene": "MYC",
+          "eigenvalue": 0.3696,
+          "tissue": "White Adipose",
+          "adfStationary": false
+        },
+        {
+          "gene": "CCND1",
+          "eigenvalue": 0.499,
+          "tissue": "White Adipose",
+          "adfStationary": false
+        },
+        {
+          "gene": "CCNB1",
+          "eigenvalue": 0.4812,
+          "tissue": "White Adipose",
+          "adfStationary": false
+        }
+      ],
+      "stabilityFiltered": {
+        "note": "Stability filtering not available for externally-validated datasets. Baboon results use a separate external validation module without per-gene eigenvalueModulus access."
+      },
+      "orthologyMapping": {
+        "matchedGenes": [
+          {
+            "gene": "PER1",
+            "orthologGroup": "PER1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "PER2",
+            "orthologGroup": "PER2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CRY1",
+            "orthologGroup": "CRY1",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "PER1",
+            "orthologGroup": "PER1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "PER2",
+            "orthologGroup": "PER2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CRY1",
+            "orthologGroup": "CRY1",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "PER1",
+            "orthologGroup": "PER1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "PER2",
+            "orthologGroup": "PER2",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CRY1",
+            "orthologGroup": "CRY1",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "MYC",
+            "orthologGroup": "MYC",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CCND1",
+            "orthologGroup": "CCND1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CCNB1",
+            "orthologGroup": "CCNB1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "MYC",
+            "orthologGroup": "MYC",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CCND1",
+            "orthologGroup": "CCND1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CCNB1",
+            "orthologGroup": "CCNB1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "MYC",
+            "orthologGroup": "MYC",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CCND1",
+            "orthologGroup": "CCND1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "CCNB1",
+            "orthologGroup": "CCNB1",
+            "confidence": "high",
+            "source": "Ensembl Compara 112",
+            "hasMultiSpeciesOrthologs": true
+          }
+        ],
+        "totalMatched": 18,
+        "matchedWithMultiSpeciesOrthologs": 18
+      },
+      "orthologNormalizedGap": 0.0655
+    },
+    {
+      "species": "Arabidopsis thaliana",
+      "dataset": "Arabidopsis Early (Day A) (Redmond 2024, GSE242964)",
+      "datasetId": "GSE242964_GSE242964_Arabidopsis_DayA_CT-header",
+      "clockN": 14,
+      "targetN": 40798,
+      "clockMeanEV": 0.7019,
+      "targetMeanEV": 0.4189,
+      "gap": 0.283,
+      "hierarchyPreserved": true,
+      "adfStationarityPassRate": 7.1,
+      "note": "All genes processed from same matrix. Clock genes identified by symbol (CCA1, LHY, TOC1, PRR, GI, ELF, CRY, PHY). No outlier filtering applied \u2014 raw comparison.",
+      "clockGenes": [
+        {
+          "gene": "LHY",
+          "eigenvalue": 0.7851,
+          "adfStationary": false
+        },
+        {
+          "gene": "CRY2",
+          "eigenvalue": 0.8348,
+          "adfStationary": false
+        },
+        {
+          "gene": "PHYA",
+          "eigenvalue": 0.7843,
+          "adfStationary": false
+        },
+        {
+          "gene": "GI",
+          "eigenvalue": 0.5199,
+          "adfStationary": false
+        },
+        {
+          "gene": "PRR3",
+          "eigenvalue": 0.6962,
+          "adfStationary": false
+        },
+        {
+          "gene": "PHYB",
+          "eigenvalue": 0.6804,
+          "adfStationary": false
+        },
+        {
+          "gene": "ELF3",
+          "eigenvalue": 0.9298,
+          "adfStationary": false
+        },
+        {
+          "gene": "PRR9",
+          "eigenvalue": 0.736,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCA1",
+          "eigenvalue": 0.8447,
+          "adfStationary": false
+        },
+        {
+          "gene": "CRY1",
+          "eigenvalue": 0.5568,
+          "adfStationary": false
+        }
+      ],
+      "targetGenes": [
+        {
+          "gene": "AT3G50625.1",
+          "eigenvalue": 1.7368,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT1G40117.1",
+          "eigenvalue": 1.5084,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT1G02681.1",
+          "eigenvalue": 1.5021,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT5G10630.1",
+          "eigenvalue": 1.3961,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT3G54730.4",
+          "eigenvalue": 1.3612,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT1G65346.1",
+          "eigenvalue": 1.3555,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT1G05410.2",
+          "eigenvalue": 1.3406,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT3G01870.1",
+          "eigenvalue": 1.3262,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT4G00320.1",
+          "eigenvalue": 1.326,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT2G34500.1",
+          "eigenvalue": 1.3251,
+          "adfStationary": false
+        }
+      ],
+      "stabilityFiltered": {
+        "stableClockN": 14,
+        "stableTargetN": 40652,
+        "unstableClockN": 0,
+        "unstableTargetN": 146,
+        "stableClockMeanEV": 0.7019,
+        "stableTargetMeanEV": 0.4166,
+        "stableGap": 0.2853,
+        "stableHierarchyPreserved": true,
+        "unstableGenes": [
+          {
+            "gene": "AT3G50625.1",
+            "geneType": "other",
+            "eigenvalue": 1.7368
+          },
+          {
+            "gene": "AT1G40117.1",
+            "geneType": "other",
+            "eigenvalue": 1.5084
+          },
+          {
+            "gene": "AT1G02681.1",
+            "geneType": "other",
+            "eigenvalue": 1.5021
+          },
+          {
+            "gene": "AT5G10630.1",
+            "geneType": "other",
+            "eigenvalue": 1.3961
+          },
+          {
+            "gene": "AT3G54730.4",
+            "geneType": "other",
+            "eigenvalue": 1.3612
+          },
+          {
+            "gene": "AT1G65346.1",
+            "geneType": "other",
+            "eigenvalue": 1.3555
+          },
+          {
+            "gene": "AT1G05410.2",
+            "geneType": "other",
+            "eigenvalue": 1.3406
+          },
+          {
+            "gene": "AT3G01870.1",
+            "geneType": "other",
+            "eigenvalue": 1.3262
+          },
+          {
+            "gene": "AT4G00320.1",
+            "geneType": "other",
+            "eigenvalue": 1.326
+          },
+          {
+            "gene": "AT2G34500.1",
+            "geneType": "other",
+            "eigenvalue": 1.3251
+          },
+          {
+            "gene": "AT1G31930.1",
+            "geneType": "other",
+            "eigenvalue": 1.3129
+          },
+          {
+            "gene": "AT1G51270.2",
+            "geneType": "other",
+            "eigenvalue": 1.2964
+          },
+          {
+            "gene": "AT3G44093.1",
+            "geneType": "other",
+            "eigenvalue": 1.2148
+          },
+          {
+            "gene": "AT5G42610.1",
+            "geneType": "other",
+            "eigenvalue": 1.1909
+          },
+          {
+            "gene": "AT1G35750.1",
+            "geneType": "other",
+            "eigenvalue": 1.1349
+          },
+          {
+            "gene": "AT5G50790.1",
+            "geneType": "other",
+            "eigenvalue": 1.1072
+          },
+          {
+            "gene": "AT5G22210.1",
+            "geneType": "other",
+            "eigenvalue": 1.0992
+          },
+          {
+            "gene": "AT2G31200.1",
+            "geneType": "other",
+            "eigenvalue": 1.0913
+          },
+          {
+            "gene": "AT1G75730.2",
+            "geneType": "other",
+            "eigenvalue": 1.089
+          },
+          {
+            "gene": "AT1G49300.1",
+            "geneType": "other",
+            "eigenvalue": 1.0815
+          },
+          {
+            "gene": "AT3G50360.1",
+            "geneType": "other",
+            "eigenvalue": 1.0806
+          },
+          {
+            "gene": "AT1G19510.1",
+            "geneType": "other",
+            "eigenvalue": 1.0797
+          },
+          {
+            "gene": "AT4G14020.1",
+            "geneType": "other",
+            "eigenvalue": 1.0777
+          },
+          {
+            "gene": "AT2G40670.2",
+            "geneType": "other",
+            "eigenvalue": 1.0759
+          },
+          {
+            "gene": "AT1G23149.1",
+            "geneType": "other",
+            "eigenvalue": 1.0731
+          },
+          {
+            "gene": "AT5G01240.2",
+            "geneType": "other",
+            "eigenvalue": 1.0642
+          },
+          {
+            "gene": "AT4G34710.1",
+            "geneType": "other",
+            "eigenvalue": 1.0622
+          },
+          {
+            "gene": "AT1G75750.2",
+            "geneType": "other",
+            "eigenvalue": 1.0607
+          },
+          {
+            "gene": "AT2G30990.1",
+            "geneType": "other",
+            "eigenvalue": 1.0562
+          },
+          {
+            "gene": "AT1G70990.1",
+            "geneType": "other",
+            "eigenvalue": 1.052
+          },
+          {
+            "gene": "AT5G60270.1",
+            "geneType": "other",
+            "eigenvalue": 1.0459
+          },
+          {
+            "gene": "AT5G38650.1",
+            "geneType": "other",
+            "eigenvalue": 1.0433
+          },
+          {
+            "gene": "AT3G48990.1",
+            "geneType": "other",
+            "eigenvalue": 1.0393
+          },
+          {
+            "gene": "AT3G57520.1",
+            "geneType": "other",
+            "eigenvalue": 1.0391
+          },
+          {
+            "gene": "AT2G17390.1",
+            "geneType": "other",
+            "eigenvalue": 1.0381
+          },
+          {
+            "gene": "AT3G48360.1",
+            "geneType": "other",
+            "eigenvalue": 1.0372
+          },
+          {
+            "gene": "AT2G38170.1",
+            "geneType": "other",
+            "eigenvalue": 1.037
+          },
+          {
+            "gene": "AT5G66110.1",
+            "geneType": "other",
+            "eigenvalue": 1.0369
+          },
+          {
+            "gene": "AT2G46580.1",
+            "geneType": "other",
+            "eigenvalue": 1.0369
+          },
+          {
+            "gene": "AT5G55200.1",
+            "geneType": "other",
+            "eigenvalue": 1.0342
+          },
+          {
+            "gene": "AT3G10450.1",
+            "geneType": "other",
+            "eigenvalue": 1.0342
+          },
+          {
+            "gene": "AT5G50210.1",
+            "geneType": "other",
+            "eigenvalue": 1.0335
+          },
+          {
+            "gene": "AT5G20140.1",
+            "geneType": "other",
+            "eigenvalue": 1.032
+          },
+          {
+            "gene": "AT5G50915.1",
+            "geneType": "other",
+            "eigenvalue": 1.0264
+          },
+          {
+            "gene": "AT2G30910.2",
+            "geneType": "other",
+            "eigenvalue": 1.0249
+          },
+          {
+            "gene": "AT3G15180.1",
+            "geneType": "other",
+            "eigenvalue": 1.0241
+          },
+          {
+            "gene": "AT5G48180.1",
+            "geneType": "other",
+            "eigenvalue": 1.0237
+          },
+          {
+            "gene": "AT3G47930.1",
+            "geneType": "other",
+            "eigenvalue": 1.0223
+          },
+          {
+            "gene": "AT3G16360.1",
+            "geneType": "other",
+            "eigenvalue": 1.0217
+          },
+          {
+            "gene": "AT3G27380.1",
+            "geneType": "other",
+            "eigenvalue": 1.0168
+          },
+          {
+            "gene": "AT5G44130.1",
+            "geneType": "other",
+            "eigenvalue": 1.0155
+          },
+          {
+            "gene": "AT5G50190.1",
+            "geneType": "other",
+            "eigenvalue": 1.0141
+          },
+          {
+            "gene": "AT2G01320.1",
+            "geneType": "other",
+            "eigenvalue": 1.014
+          },
+          {
+            "gene": "AT5G66310.1",
+            "geneType": "other",
+            "eigenvalue": 1.0128
+          },
+          {
+            "gene": "AT3G60820.1",
+            "geneType": "other",
+            "eigenvalue": 1.0126
+          },
+          {
+            "gene": "AT3G45740.1",
+            "geneType": "other",
+            "eigenvalue": 1.012
+          },
+          {
+            "gene": "AT3G24200.1",
+            "geneType": "other",
+            "eigenvalue": 1.0119
+          },
+          {
+            "gene": "AT1G51390.1",
+            "geneType": "other",
+            "eigenvalue": 1.0109
+          },
+          {
+            "gene": "AT2G47510.2",
+            "geneType": "other",
+            "eigenvalue": 1.0101
+          },
+          {
+            "gene": "AT2G35890.1",
+            "geneType": "other",
+            "eigenvalue": 1.0092
+          },
+          {
+            "gene": "AT2G27030.1",
+            "geneType": "other",
+            "eigenvalue": 1.0069
+          },
+          {
+            "gene": "AT2G05840.1",
+            "geneType": "other",
+            "eigenvalue": 1.0055
+          },
+          {
+            "gene": "AT3G29280.1",
+            "geneType": "other",
+            "eigenvalue": 1.0052
+          },
+          {
+            "gene": "ATMG01020.1",
+            "geneType": "other",
+            "eigenvalue": 1.0052
+          },
+          {
+            "gene": "AT2G40100.1",
+            "geneType": "other",
+            "eigenvalue": 1.005
+          },
+          {
+            "gene": "AT5G17530.2",
+            "geneType": "other",
+            "eigenvalue": 1.0048
+          },
+          {
+            "gene": "AT2G04842.1",
+            "geneType": "other",
+            "eigenvalue": 1.0046
+          },
+          {
+            "gene": "AT1G12780.1",
+            "geneType": "other",
+            "eigenvalue": 1.0038
+          },
+          {
+            "gene": "AT4G31300.1",
+            "geneType": "other",
+            "eigenvalue": 1.0032
+          },
+          {
+            "gene": "AT3G08010.1",
+            "geneType": "other",
+            "eigenvalue": 1.0031
+          },
+          {
+            "gene": "AT5G62050.1",
+            "geneType": "other",
+            "eigenvalue": 1.001
+          },
+          {
+            "gene": "AT1G08920.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G18270.3",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G19390.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G27270.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G28455.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G29970.3",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G34610.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G37050.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G43810.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G45090.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G48325.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G56630.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G62530.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G62980.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G65440.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G74830.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G04035.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G05185.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G06562.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G06820.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G10080.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G14820.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G19770.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G23570.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G26410.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G35140.3",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G36916.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G46662.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G47030.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G47280.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G19663.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G25190.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G28620.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G29220.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G47270.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G52080.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G52705.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G66658.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G06700.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G12140.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G16020.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G16267.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G16820.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G19920.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G26930.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G27510.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G28380.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G01390.3",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G05490.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G07475.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G07510.3",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G18280.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G24550.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G28510.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G28610.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G28643.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G28662.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G29337.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G30218.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G32306.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G32482.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G33422.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G34602.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G35145.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G36080.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G46200.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G48410.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G50070.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G54070.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G54600.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G58784.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G61060.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G66030.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "ATMG00300.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "ATMG00490.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          }
+        ]
+      },
+      "orthologyMapping": {
+        "matchedGenes": [
+          {
+            "gene": "LHY",
+            "orthologGroup": "LHY",
+            "confidence": "high",
+            "source": "TAIR / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": false
+          },
+          {
+            "gene": "CRY2",
+            "orthologGroup": "CRY2",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "GI",
+            "orthologGroup": "GI",
+            "confidence": "high",
+            "source": "TAIR / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": false
+          },
+          {
+            "gene": "PRR3",
+            "orthologGroup": "PRR3",
+            "confidence": "high",
+            "source": "TAIR / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": false
+          },
+          {
+            "gene": "ELF3",
+            "orthologGroup": "ELF3",
+            "confidence": "high",
+            "source": "TAIR / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": false
+          },
+          {
+            "gene": "PRR9",
+            "orthologGroup": "PRR9",
+            "confidence": "high",
+            "source": "TAIR / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": false
+          },
+          {
+            "gene": "CCA1",
+            "orthologGroup": "CCA1",
+            "confidence": "high",
+            "source": "TAIR / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": false
+          },
+          {
+            "gene": "CRY1",
+            "orthologGroup": "CRY1",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          }
+        ],
+        "totalMatched": 8,
+        "matchedWithMultiSpeciesOrthologs": 2,
+        "note": "CCA1/LHY/TOC1/PRR/GI/ELF/ZTL/LUX are plant-specific clock genes with no mammalian orthologs. Only CRY1/CRY2 have confirmed mammalian orthologs (Ensembl Compara 112 / OrthoDB v11)."
+      },
+      "orthologNormalizedGap": null
+    },
+    {
+      "species": "Arabidopsis thaliana",
+      "dataset": "Arabidopsis Mid (Day B) (Redmond 2024, GSE242964)",
+      "datasetId": "GSE242964_GSE242964_Arabidopsis_DayB_CT-header",
+      "clockN": 14,
+      "targetN": 40798,
+      "clockMeanEV": 0.5352,
+      "targetMeanEV": 0.4112,
+      "gap": 0.124,
+      "hierarchyPreserved": true,
+      "adfStationarityPassRate": 5.1,
+      "note": "All genes processed from same matrix. Clock genes identified by symbol (CCA1, LHY, TOC1, PRR, GI, ELF, CRY, PHY). No outlier filtering applied \u2014 raw comparison.",
+      "clockGenes": [
+        {
+          "gene": "LHY",
+          "eigenvalue": 0.5433,
+          "adfStationary": false
+        },
+        {
+          "gene": "CRY2",
+          "eigenvalue": 0.5845,
+          "adfStationary": false
+        },
+        {
+          "gene": "PHYA",
+          "eigenvalue": 0.5517,
+          "adfStationary": false
+        },
+        {
+          "gene": "GI",
+          "eigenvalue": 0.4554,
+          "adfStationary": false
+        },
+        {
+          "gene": "PRR3",
+          "eigenvalue": 0.3605,
+          "adfStationary": false
+        },
+        {
+          "gene": "PHYB",
+          "eigenvalue": 0.2962,
+          "adfStationary": false
+        },
+        {
+          "gene": "ELF3",
+          "eigenvalue": 0.8213,
+          "adfStationary": false
+        },
+        {
+          "gene": "PRR9",
+          "eigenvalue": 0.4993,
+          "adfStationary": false
+        },
+        {
+          "gene": "CCA1",
+          "eigenvalue": 0.3882,
+          "adfStationary": true
+        },
+        {
+          "gene": "CRY1",
+          "eigenvalue": 0.799,
+          "adfStationary": false
+        }
+      ],
+      "targetGenes": [
+        {
+          "gene": "AT1G02990.2",
+          "eigenvalue": 4.8839,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT5G57970.2",
+          "eigenvalue": 1.477,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT1G07660.2",
+          "eigenvalue": 1.4714,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT4G03290.1",
+          "eigenvalue": 1.4564,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT4G37420.1",
+          "eigenvalue": 1.4308,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT1G76480.2",
+          "eigenvalue": 1.4004,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT2G26410.1",
+          "eigenvalue": 1.4001,
+          "adfStationary": true
+        },
+        {
+          "gene": "AT5G11360.1",
+          "eigenvalue": 1.3997,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT2G04500.1",
+          "eigenvalue": 1.3972,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT1G23920.1",
+          "eigenvalue": 1.3969,
+          "adfStationary": false
+        }
+      ],
+      "stabilityFiltered": {
+        "stableClockN": 14,
+        "stableTargetN": 40565,
+        "unstableClockN": 0,
+        "unstableTargetN": 233,
+        "stableClockMeanEV": 0.5352,
+        "stableTargetMeanEV": 0.4073,
+        "stableGap": 0.1279,
+        "stableHierarchyPreserved": true,
+        "unstableGenes": [
+          {
+            "gene": "AT1G02990.2",
+            "geneType": "other",
+            "eigenvalue": 4.8839
+          },
+          {
+            "gene": "AT5G57970.2",
+            "geneType": "other",
+            "eigenvalue": 1.477
+          },
+          {
+            "gene": "AT1G07660.2",
+            "geneType": "other",
+            "eigenvalue": 1.4714
+          },
+          {
+            "gene": "AT4G03290.1",
+            "geneType": "other",
+            "eigenvalue": 1.4564
+          },
+          {
+            "gene": "AT4G37420.1",
+            "geneType": "other",
+            "eigenvalue": 1.4308
+          },
+          {
+            "gene": "AT1G76480.2",
+            "geneType": "other",
+            "eigenvalue": 1.4004
+          },
+          {
+            "gene": "AT2G26410.1",
+            "geneType": "other",
+            "eigenvalue": 1.4001
+          },
+          {
+            "gene": "AT5G11360.1",
+            "geneType": "other",
+            "eigenvalue": 1.3997
+          },
+          {
+            "gene": "AT2G04500.1",
+            "geneType": "other",
+            "eigenvalue": 1.3972
+          },
+          {
+            "gene": "AT1G23920.1",
+            "geneType": "other",
+            "eigenvalue": 1.3969
+          },
+          {
+            "gene": "AT2G30240.1",
+            "geneType": "other",
+            "eigenvalue": 1.3968
+          },
+          {
+            "gene": "AT3G01900.1",
+            "geneType": "other",
+            "eigenvalue": 1.3906
+          },
+          {
+            "gene": "AT4G20095.1",
+            "geneType": "other",
+            "eigenvalue": 1.3856
+          },
+          {
+            "gene": "AT1G12670.1",
+            "geneType": "other",
+            "eigenvalue": 1.358
+          },
+          {
+            "gene": "AT5G56840.1",
+            "geneType": "other",
+            "eigenvalue": 1.2934
+          },
+          {
+            "gene": "AT3G50460.1",
+            "geneType": "other",
+            "eigenvalue": 1.2773
+          },
+          {
+            "gene": "AT2G41730.1",
+            "geneType": "other",
+            "eigenvalue": 1.2772
+          },
+          {
+            "gene": "AT4G15030.2",
+            "geneType": "other",
+            "eigenvalue": 1.2456
+          },
+          {
+            "gene": "AT1G51030.1",
+            "geneType": "other",
+            "eigenvalue": 1.2378
+          },
+          {
+            "gene": "AT1G51913.1",
+            "geneType": "other",
+            "eigenvalue": 1.2274
+          },
+          {
+            "gene": "AT1G75050.1",
+            "geneType": "other",
+            "eigenvalue": 1.2246
+          },
+          {
+            "gene": "AT2G47150.1",
+            "geneType": "other",
+            "eigenvalue": 1.2185
+          },
+          {
+            "gene": "AT1G59865.2",
+            "geneType": "other",
+            "eigenvalue": 1.2181
+          },
+          {
+            "gene": "AT3G12900.1",
+            "geneType": "other",
+            "eigenvalue": 1.2165
+          },
+          {
+            "gene": "AT4G01593.1",
+            "geneType": "other",
+            "eigenvalue": 1.2162
+          },
+          {
+            "gene": "AT5G43900.3",
+            "geneType": "other",
+            "eigenvalue": 1.2065
+          },
+          {
+            "gene": "AT4G11070.1",
+            "geneType": "other",
+            "eigenvalue": 1.1946
+          },
+          {
+            "gene": "AT3G61390.1",
+            "geneType": "other",
+            "eigenvalue": 1.1943
+          },
+          {
+            "gene": "AT2G07684.1",
+            "geneType": "other",
+            "eigenvalue": 1.1896
+          },
+          {
+            "gene": "AT4G18080.1",
+            "geneType": "other",
+            "eigenvalue": 1.1835
+          },
+          {
+            "gene": "AT1G36370.1",
+            "geneType": "other",
+            "eigenvalue": 1.1704
+          },
+          {
+            "gene": "AT2G44460.1",
+            "geneType": "other",
+            "eigenvalue": 1.167
+          },
+          {
+            "gene": "AT5G41280.1",
+            "geneType": "other",
+            "eigenvalue": 1.1663
+          },
+          {
+            "gene": "AT2G17695.3",
+            "geneType": "other",
+            "eigenvalue": 1.155
+          },
+          {
+            "gene": "AT3G03670.1",
+            "geneType": "other",
+            "eigenvalue": 1.1526
+          },
+          {
+            "gene": "AT1G72240.1",
+            "geneType": "other",
+            "eigenvalue": 1.1427
+          },
+          {
+            "gene": "AT1G28460.1",
+            "geneType": "other",
+            "eigenvalue": 1.1425
+          },
+          {
+            "gene": "AT2G46610.1",
+            "geneType": "other",
+            "eigenvalue": 1.1394
+          },
+          {
+            "gene": "AT4G33960.1",
+            "geneType": "other",
+            "eigenvalue": 1.1392
+          },
+          {
+            "gene": "AT4G02170.1",
+            "geneType": "other",
+            "eigenvalue": 1.1358
+          },
+          {
+            "gene": "AT1G29810.1",
+            "geneType": "other",
+            "eigenvalue": 1.1345
+          },
+          {
+            "gene": "AT2G29250.1",
+            "geneType": "other",
+            "eigenvalue": 1.1233
+          },
+          {
+            "gene": "AT1G12030.1",
+            "geneType": "other",
+            "eigenvalue": 1.1231
+          },
+          {
+            "gene": "AT1G69680.1",
+            "geneType": "other",
+            "eigenvalue": 1.1228
+          },
+          {
+            "gene": "AT1G20860.1",
+            "geneType": "other",
+            "eigenvalue": 1.1224
+          },
+          {
+            "gene": "AT5G58980.1",
+            "geneType": "other",
+            "eigenvalue": 1.1213
+          },
+          {
+            "gene": "AT1G76210.1",
+            "geneType": "other",
+            "eigenvalue": 1.1183
+          },
+          {
+            "gene": "AT4G35640.1",
+            "geneType": "other",
+            "eigenvalue": 1.1115
+          },
+          {
+            "gene": "AT4G34380.1",
+            "geneType": "other",
+            "eigenvalue": 1.1114
+          },
+          {
+            "gene": "AT4G22030.1",
+            "geneType": "other",
+            "eigenvalue": 1.111
+          },
+          {
+            "gene": "AT1G70080.1",
+            "geneType": "other",
+            "eigenvalue": 1.1107
+          },
+          {
+            "gene": "AT2G37025.2",
+            "geneType": "other",
+            "eigenvalue": 1.1043
+          },
+          {
+            "gene": "AT1G53635.1",
+            "geneType": "other",
+            "eigenvalue": 1.0985
+          },
+          {
+            "gene": "AT4G23420.2",
+            "geneType": "other",
+            "eigenvalue": 1.0981
+          },
+          {
+            "gene": "AT5G18290.1",
+            "geneType": "other",
+            "eigenvalue": 1.0981
+          },
+          {
+            "gene": "AT5G43500.1",
+            "geneType": "other",
+            "eigenvalue": 1.0949
+          },
+          {
+            "gene": "AT5G37260.1",
+            "geneType": "other",
+            "eigenvalue": 1.0935
+          },
+          {
+            "gene": "AT5G52710.1",
+            "geneType": "other",
+            "eigenvalue": 1.0933
+          },
+          {
+            "gene": "AT5G40670.1",
+            "geneType": "other",
+            "eigenvalue": 1.0913
+          },
+          {
+            "gene": "AT3G21781.1",
+            "geneType": "other",
+            "eigenvalue": 1.0895
+          },
+          {
+            "gene": "AT1G63340.1",
+            "geneType": "other",
+            "eigenvalue": 1.0894
+          },
+          {
+            "gene": "AT1G65390.1",
+            "geneType": "other",
+            "eigenvalue": 1.0885
+          },
+          {
+            "gene": "AT5G48850.1",
+            "geneType": "other",
+            "eigenvalue": 1.0876
+          },
+          {
+            "gene": "AT1G12020.1",
+            "geneType": "other",
+            "eigenvalue": 1.0859
+          },
+          {
+            "gene": "AT2G41980.1",
+            "geneType": "other",
+            "eigenvalue": 1.0817
+          },
+          {
+            "gene": "AT1G59950.1",
+            "geneType": "other",
+            "eigenvalue": 1.0752
+          },
+          {
+            "gene": "AT1G52120.1",
+            "geneType": "other",
+            "eigenvalue": 1.0712
+          },
+          {
+            "gene": "AT1G80940.2",
+            "geneType": "other",
+            "eigenvalue": 1.0704
+          },
+          {
+            "gene": "AT4G25330.1",
+            "geneType": "other",
+            "eigenvalue": 1.0692
+          },
+          {
+            "gene": "AT2G17710.1",
+            "geneType": "other",
+            "eigenvalue": 1.0688
+          },
+          {
+            "gene": "AT5G22380.1",
+            "geneType": "other",
+            "eigenvalue": 1.0683
+          },
+          {
+            "gene": "AT1G48140.1",
+            "geneType": "other",
+            "eigenvalue": 1.0681
+          },
+          {
+            "gene": "AT3G14870.2",
+            "geneType": "other",
+            "eigenvalue": 1.0657
+          },
+          {
+            "gene": "AT1G55520.2",
+            "geneType": "other",
+            "eigenvalue": 1.0656
+          },
+          {
+            "gene": "AT2G47140.1",
+            "geneType": "other",
+            "eigenvalue": 1.0647
+          },
+          {
+            "gene": "AT3G05165.2",
+            "geneType": "other",
+            "eigenvalue": 1.0646
+          },
+          {
+            "gene": "AT2G37370.1",
+            "geneType": "other",
+            "eigenvalue": 1.0642
+          },
+          {
+            "gene": "AT4G16566.1",
+            "geneType": "other",
+            "eigenvalue": 1.0632
+          },
+          {
+            "gene": "AT2G43590.1",
+            "geneType": "other",
+            "eigenvalue": 1.0602
+          },
+          {
+            "gene": "AT3G16560.1",
+            "geneType": "other",
+            "eigenvalue": 1.0599
+          },
+          {
+            "gene": "AT2G32440.1",
+            "geneType": "other",
+            "eigenvalue": 1.0594
+          },
+          {
+            "gene": "AT2G18250.1",
+            "geneType": "other",
+            "eigenvalue": 1.0586
+          },
+          {
+            "gene": "AT3G62210.1",
+            "geneType": "other",
+            "eigenvalue": 1.0576
+          },
+          {
+            "gene": "AT3G01600.1",
+            "geneType": "other",
+            "eigenvalue": 1.0568
+          },
+          {
+            "gene": "AT3G59600.1",
+            "geneType": "other",
+            "eigenvalue": 1.0544
+          },
+          {
+            "gene": "AT3G02800.1",
+            "geneType": "other",
+            "eigenvalue": 1.0537
+          },
+          {
+            "gene": "AT1G51035.1",
+            "geneType": "other",
+            "eigenvalue": 1.0535
+          },
+          {
+            "gene": "AT2G29220.1",
+            "geneType": "other",
+            "eigenvalue": 1.0512
+          },
+          {
+            "gene": "AT1G75730.1",
+            "geneType": "other",
+            "eigenvalue": 1.0502
+          },
+          {
+            "gene": "AT2G46580.1",
+            "geneType": "other",
+            "eigenvalue": 1.0497
+          },
+          {
+            "gene": "AT5G50330.2",
+            "geneType": "other",
+            "eigenvalue": 1.0496
+          },
+          {
+            "gene": "AT1G13580.3",
+            "geneType": "other",
+            "eigenvalue": 1.0487
+          },
+          {
+            "gene": "AT5G19630.1",
+            "geneType": "other",
+            "eigenvalue": 1.0484
+          },
+          {
+            "gene": "AT2G40670.2",
+            "geneType": "other",
+            "eigenvalue": 1.0472
+          },
+          {
+            "gene": "AT5G15410.2",
+            "geneType": "other",
+            "eigenvalue": 1.0466
+          },
+          {
+            "gene": "AT4G04880.1",
+            "geneType": "other",
+            "eigenvalue": 1.0448
+          },
+          {
+            "gene": "AT1G54340.1",
+            "geneType": "other",
+            "eigenvalue": 1.042
+          },
+          {
+            "gene": "AT4G36860.1",
+            "geneType": "other",
+            "eigenvalue": 1.0418
+          },
+          {
+            "gene": "AT1G64980.1",
+            "geneType": "other",
+            "eigenvalue": 1.0415
+          },
+          {
+            "gene": "AT5G48180.1",
+            "geneType": "other",
+            "eigenvalue": 1.0411
+          },
+          {
+            "gene": "ATMG00890.1",
+            "geneType": "other",
+            "eigenvalue": 1.041
+          },
+          {
+            "gene": "AT2G18770.1",
+            "geneType": "other",
+            "eigenvalue": 1.0396
+          },
+          {
+            "gene": "AT5G11950.1",
+            "geneType": "other",
+            "eigenvalue": 1.037
+          },
+          {
+            "gene": "AT2G27580.2",
+            "geneType": "other",
+            "eigenvalue": 1.0364
+          },
+          {
+            "gene": "AT3G03100.1",
+            "geneType": "other",
+            "eigenvalue": 1.0326
+          },
+          {
+            "gene": "AT2G36720.1",
+            "geneType": "other",
+            "eigenvalue": 1.0323
+          },
+          {
+            "gene": "AT3G62400.2",
+            "geneType": "other",
+            "eigenvalue": 1.0304
+          },
+          {
+            "gene": "AT2G42080.1",
+            "geneType": "other",
+            "eigenvalue": 1.0299
+          },
+          {
+            "gene": "AT4G14410.1",
+            "geneType": "other",
+            "eigenvalue": 1.029
+          },
+          {
+            "gene": "AT3G10810.1",
+            "geneType": "other",
+            "eigenvalue": 1.0256
+          },
+          {
+            "gene": "AT3G58220.2",
+            "geneType": "other",
+            "eigenvalue": 1.0239
+          },
+          {
+            "gene": "AT1G23730.1",
+            "geneType": "other",
+            "eigenvalue": 1.0221
+          },
+          {
+            "gene": "AT2G40815.1",
+            "geneType": "other",
+            "eigenvalue": 1.0218
+          },
+          {
+            "gene": "AT5G48870.1",
+            "geneType": "other",
+            "eigenvalue": 1.0215
+          },
+          {
+            "gene": "AT5G26220.1",
+            "geneType": "other",
+            "eigenvalue": 1.0215
+          },
+          {
+            "gene": "AT1G17780.1",
+            "geneType": "other",
+            "eigenvalue": 1.0201
+          },
+          {
+            "gene": "AT2G40800.1",
+            "geneType": "other",
+            "eigenvalue": 1.0196
+          },
+          {
+            "gene": "AT5G08010.1",
+            "geneType": "other",
+            "eigenvalue": 1.0191
+          },
+          {
+            "gene": "AT3G49580.1",
+            "geneType": "other",
+            "eigenvalue": 1.0172
+          },
+          {
+            "gene": "AT3G58200.1",
+            "geneType": "other",
+            "eigenvalue": 1.0166
+          },
+          {
+            "gene": "AT3G57710.1",
+            "geneType": "other",
+            "eigenvalue": 1.0157
+          },
+          {
+            "gene": "AT4G14790.1",
+            "geneType": "other",
+            "eigenvalue": 1.0154
+          },
+          {
+            "gene": "AT5G63150.1",
+            "geneType": "other",
+            "eigenvalue": 1.0151
+          },
+          {
+            "gene": "AT4G33950.2",
+            "geneType": "other",
+            "eigenvalue": 1.0145
+          },
+          {
+            "gene": "AT3G51510.1",
+            "geneType": "other",
+            "eigenvalue": 1.0143
+          },
+          {
+            "gene": "AT5G05987.1",
+            "geneType": "other",
+            "eigenvalue": 1.0141
+          },
+          {
+            "gene": "AT3G14870.1",
+            "geneType": "other",
+            "eigenvalue": 1.014
+          },
+          {
+            "gene": "AT5G18840.1",
+            "geneType": "other",
+            "eigenvalue": 1.0132
+          },
+          {
+            "gene": "AT3G05165.3",
+            "geneType": "other",
+            "eigenvalue": 1.0121
+          },
+          {
+            "gene": "AT5G61090.1",
+            "geneType": "other",
+            "eigenvalue": 1.012
+          },
+          {
+            "gene": "AT3G08010.1",
+            "geneType": "other",
+            "eigenvalue": 1.0096
+          },
+          {
+            "gene": "AT4G35650.1",
+            "geneType": "other",
+            "eigenvalue": 1.0088
+          },
+          {
+            "gene": "AT5G25120.1",
+            "geneType": "other",
+            "eigenvalue": 1.0081
+          },
+          {
+            "gene": "AT2G41905.1",
+            "geneType": "other",
+            "eigenvalue": 1.0079
+          },
+          {
+            "gene": "AT2G43280.1",
+            "geneType": "other",
+            "eigenvalue": 1.0069
+          },
+          {
+            "gene": "AT5G38550.1",
+            "geneType": "other",
+            "eigenvalue": 1.0049
+          },
+          {
+            "gene": "AT1G19990.1",
+            "geneType": "other",
+            "eigenvalue": 1.0046
+          },
+          {
+            "gene": "AT3G27390.1",
+            "geneType": "other",
+            "eigenvalue": 1.0038
+          },
+          {
+            "gene": "AT5G14105.1",
+            "geneType": "other",
+            "eigenvalue": 1.0023
+          },
+          {
+            "gene": "AT1G49970.1",
+            "geneType": "other",
+            "eigenvalue": 1.0019
+          },
+          {
+            "gene": "AT1G05510.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G06190.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G11820.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G15560.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G27780.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G28660.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G28695.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G29025.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G29075.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G29820.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G33580.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G36992.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G37063.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G41690.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G42360.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G53325.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G53580.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G58007.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G60095.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G60120.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G65820.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G67280.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G71920.3",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G05240.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G07813.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G10070.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G10270.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G10400.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G13250.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G14790.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G16020.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G19890.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G21230.3",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G21980.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G28700.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G36695.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G39670.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G42180.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G47030.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G01329.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G07490.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G07820.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G10790.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G10900.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G13710.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G14250.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G19210.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G22640.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G25727.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G28840.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G29450.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G32300.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G43890.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G44350.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G44460.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G47320.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G49760.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G49796.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G53200.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G54940.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G58420.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G58920.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G59695.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G62350.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G00210.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G00300.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G04590.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G05633.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G06538.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G07504.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G09875.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G19580.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G26730.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G30210.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G06839.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G08141.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G19940.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G21110.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G28880.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G29568.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G32475.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G32512.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G33025.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G33250.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G35940.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G40070.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G44640.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G46360.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G50080.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G53840.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G54370.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G57400.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "ATCG00060.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          }
+        ]
+      },
+      "orthologyMapping": {
+        "matchedGenes": [
+          {
+            "gene": "LHY",
+            "orthologGroup": "LHY",
+            "confidence": "high",
+            "source": "TAIR / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": false
+          },
+          {
+            "gene": "CRY2",
+            "orthologGroup": "CRY2",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "GI",
+            "orthologGroup": "GI",
+            "confidence": "high",
+            "source": "TAIR / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": false
+          },
+          {
+            "gene": "PRR3",
+            "orthologGroup": "PRR3",
+            "confidence": "high",
+            "source": "TAIR / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": false
+          },
+          {
+            "gene": "ELF3",
+            "orthologGroup": "ELF3",
+            "confidence": "high",
+            "source": "TAIR / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": false
+          },
+          {
+            "gene": "PRR9",
+            "orthologGroup": "PRR9",
+            "confidence": "high",
+            "source": "TAIR / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": false
+          },
+          {
+            "gene": "CCA1",
+            "orthologGroup": "CCA1",
+            "confidence": "high",
+            "source": "TAIR / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": false
+          },
+          {
+            "gene": "CRY1",
+            "orthologGroup": "CRY1",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          }
+        ],
+        "totalMatched": 8,
+        "matchedWithMultiSpeciesOrthologs": 2,
+        "note": "CCA1/LHY/TOC1/PRR/GI/ELF/ZTL/LUX are plant-specific clock genes with no mammalian orthologs. Only CRY1/CRY2 have confirmed mammalian orthologs (Ensembl Compara 112 / OrthoDB v11)."
+      },
+      "orthologNormalizedGap": null
+    },
+    {
+      "species": "Arabidopsis thaliana",
+      "dataset": "Arabidopsis Late (Day C) (Redmond 2024, GSE242964)",
+      "datasetId": "GSE242964_GSE242964_Arabidopsis_DayC_CT-header",
+      "clockN": 14,
+      "targetN": 40798,
+      "clockMeanEV": 0.6207,
+      "targetMeanEV": 0.3823,
+      "gap": 0.2384,
+      "hierarchyPreserved": true,
+      "adfStationarityPassRate": 8.5,
+      "note": "All genes processed from same matrix. Clock genes identified by symbol (CCA1, LHY, TOC1, PRR, GI, ELF, CRY, PHY). No outlier filtering applied \u2014 raw comparison.",
+      "clockGenes": [
+        {
+          "gene": "LHY",
+          "eigenvalue": 0.7236,
+          "adfStationary": false
+        },
+        {
+          "gene": "CRY2",
+          "eigenvalue": 0.5841,
+          "adfStationary": false
+        },
+        {
+          "gene": "PHYA",
+          "eigenvalue": 0.6921,
+          "adfStationary": false
+        },
+        {
+          "gene": "GI",
+          "eigenvalue": 0.4157,
+          "adfStationary": false
+        },
+        {
+          "gene": "PRR3",
+          "eigenvalue": 0.5709,
+          "adfStationary": false
+        },
+        {
+          "gene": "PHYB",
+          "eigenvalue": 0.6651,
+          "adfStationary": false
+        },
+        {
+          "gene": "ELF3",
+          "eigenvalue": 0.8734,
+          "adfStationary": false
+        },
+        {
+          "gene": "PRR9",
+          "eigenvalue": 0.6261,
+          "adfStationary": true
+        },
+        {
+          "gene": "CCA1",
+          "eigenvalue": 0.6047,
+          "adfStationary": false
+        },
+        {
+          "gene": "CRY1",
+          "eigenvalue": 0.3068,
+          "adfStationary": false
+        }
+      ],
+      "targetGenes": [
+        {
+          "gene": "AT5G08150.1",
+          "eigenvalue": 1.459,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT5G52670.1",
+          "eigenvalue": 1.4062,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT5G35470.1",
+          "eigenvalue": 1.4056,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT2G10921.1",
+          "eigenvalue": 1.3898,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT3G29210.1",
+          "eigenvalue": 1.3841,
+          "adfStationary": true
+        },
+        {
+          "gene": "AT1G12030.1",
+          "eigenvalue": 1.3587,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT2G13310.1",
+          "eigenvalue": 1.3467,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT3G23610.3",
+          "eigenvalue": 1.2436,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT4G32800.1",
+          "eigenvalue": 1.2421,
+          "adfStationary": false
+        },
+        {
+          "gene": "AT1G23770.1",
+          "eigenvalue": 1.2394,
+          "adfStationary": false
+        }
+      ],
+      "stabilityFiltered": {
+        "stableClockN": 14,
+        "stableTargetN": 40659,
+        "unstableClockN": 0,
+        "unstableTargetN": 139,
+        "stableClockMeanEV": 0.6207,
+        "stableTargetMeanEV": 0.38,
+        "stableGap": 0.2407,
+        "stableHierarchyPreserved": true,
+        "unstableGenes": [
+          {
+            "gene": "AT5G08150.1",
+            "geneType": "other",
+            "eigenvalue": 1.459
+          },
+          {
+            "gene": "AT5G52670.1",
+            "geneType": "other",
+            "eigenvalue": 1.4062
+          },
+          {
+            "gene": "AT5G35470.1",
+            "geneType": "other",
+            "eigenvalue": 1.4056
+          },
+          {
+            "gene": "AT2G10921.1",
+            "geneType": "other",
+            "eigenvalue": 1.3898
+          },
+          {
+            "gene": "AT3G29210.1",
+            "geneType": "other",
+            "eigenvalue": 1.3841
+          },
+          {
+            "gene": "AT1G12030.1",
+            "geneType": "other",
+            "eigenvalue": 1.3587
+          },
+          {
+            "gene": "AT2G13310.1",
+            "geneType": "other",
+            "eigenvalue": 1.3467
+          },
+          {
+            "gene": "AT3G23610.3",
+            "geneType": "other",
+            "eigenvalue": 1.2436
+          },
+          {
+            "gene": "AT4G32800.1",
+            "geneType": "other",
+            "eigenvalue": 1.2421
+          },
+          {
+            "gene": "AT1G23770.1",
+            "geneType": "other",
+            "eigenvalue": 1.2394
+          },
+          {
+            "gene": "AT5G21060.3",
+            "geneType": "other",
+            "eigenvalue": 1.2316
+          },
+          {
+            "gene": "AT5G35341.1",
+            "geneType": "other",
+            "eigenvalue": 1.2252
+          },
+          {
+            "gene": "AT1G63522.1",
+            "geneType": "other",
+            "eigenvalue": 1.2248
+          },
+          {
+            "gene": "AT2G25687.1",
+            "geneType": "other",
+            "eigenvalue": 1.2099
+          },
+          {
+            "gene": "AT1G74380.1",
+            "geneType": "other",
+            "eigenvalue": 1.1784
+          },
+          {
+            "gene": "AT5G55720.1",
+            "geneType": "other",
+            "eigenvalue": 1.17
+          },
+          {
+            "gene": "AT5G51550.1",
+            "geneType": "other",
+            "eigenvalue": 1.1412
+          },
+          {
+            "gene": "AT1G75310.1",
+            "geneType": "other",
+            "eigenvalue": 1.1341
+          },
+          {
+            "gene": "AT2G17230.1",
+            "geneType": "other",
+            "eigenvalue": 1.1319
+          },
+          {
+            "gene": "AT1G62420.1",
+            "geneType": "other",
+            "eigenvalue": 1.1241
+          },
+          {
+            "gene": "AT1G72416.1",
+            "geneType": "other",
+            "eigenvalue": 1.1092
+          },
+          {
+            "gene": "AT5G56840.1",
+            "geneType": "other",
+            "eigenvalue": 1.109
+          },
+          {
+            "gene": "AT1G69020.1",
+            "geneType": "other",
+            "eigenvalue": 1.1085
+          },
+          {
+            "gene": "AT1G75840.1",
+            "geneType": "other",
+            "eigenvalue": 1.1077
+          },
+          {
+            "gene": "AT2G41240.2",
+            "geneType": "other",
+            "eigenvalue": 1.1066
+          },
+          {
+            "gene": "AT4G30996.1",
+            "geneType": "other",
+            "eigenvalue": 1.1009
+          },
+          {
+            "gene": "AT3G44000.1",
+            "geneType": "other",
+            "eigenvalue": 1.0972
+          },
+          {
+            "gene": "AT1G64980.1",
+            "geneType": "other",
+            "eigenvalue": 1.0955
+          },
+          {
+            "gene": "AT5G52547.1",
+            "geneType": "other",
+            "eigenvalue": 1.0949
+          },
+          {
+            "gene": "AT4G17210.1",
+            "geneType": "other",
+            "eigenvalue": 1.0866
+          },
+          {
+            "gene": "AT4G00040.1",
+            "geneType": "other",
+            "eigenvalue": 1.0846
+          },
+          {
+            "gene": "AT1G10550.1",
+            "geneType": "other",
+            "eigenvalue": 1.078
+          },
+          {
+            "gene": "AT3G25140.1",
+            "geneType": "other",
+            "eigenvalue": 1.0776
+          },
+          {
+            "gene": "AT1G15140.2",
+            "geneType": "other",
+            "eigenvalue": 1.0755
+          },
+          {
+            "gene": "AT5G37260.1",
+            "geneType": "other",
+            "eigenvalue": 1.066
+          },
+          {
+            "gene": "AT4G08593.1",
+            "geneType": "other",
+            "eigenvalue": 1.0654
+          },
+          {
+            "gene": "AT1G22530.1",
+            "geneType": "other",
+            "eigenvalue": 1.0616
+          },
+          {
+            "gene": "AT5G36660.1",
+            "geneType": "other",
+            "eigenvalue": 1.0597
+          },
+          {
+            "gene": "AT3G57930.1",
+            "geneType": "other",
+            "eigenvalue": 1.0577
+          },
+          {
+            "gene": "AT3G32090.1",
+            "geneType": "other",
+            "eigenvalue": 1.0575
+          },
+          {
+            "gene": "AT2G14247.1",
+            "geneType": "other",
+            "eigenvalue": 1.0553
+          },
+          {
+            "gene": "AT1G06170.1",
+            "geneType": "other",
+            "eigenvalue": 1.055
+          },
+          {
+            "gene": "AT4G15800.1",
+            "geneType": "other",
+            "eigenvalue": 1.05
+          },
+          {
+            "gene": "AT1G12310.1",
+            "geneType": "other",
+            "eigenvalue": 1.048
+          },
+          {
+            "gene": "AT4G32790.1",
+            "geneType": "other",
+            "eigenvalue": 1.0456
+          },
+          {
+            "gene": "AT5G25240.1",
+            "geneType": "other",
+            "eigenvalue": 1.0449
+          },
+          {
+            "gene": "AT5G39120.1",
+            "geneType": "other",
+            "eigenvalue": 1.0436
+          },
+          {
+            "gene": "AT1G51630.1",
+            "geneType": "other",
+            "eigenvalue": 1.0358
+          },
+          {
+            "gene": "AT4G22710.1",
+            "geneType": "other",
+            "eigenvalue": 1.0356
+          },
+          {
+            "gene": "AT4G18030.1",
+            "geneType": "other",
+            "eigenvalue": 1.0353
+          },
+          {
+            "gene": "AT3G09870.1",
+            "geneType": "other",
+            "eigenvalue": 1.0338
+          },
+          {
+            "gene": "AT4G30440.1",
+            "geneType": "other",
+            "eigenvalue": 1.0312
+          },
+          {
+            "gene": "AT4G37240.1",
+            "geneType": "other",
+            "eigenvalue": 1.031
+          },
+          {
+            "gene": "AT4G32410.1",
+            "geneType": "other",
+            "eigenvalue": 1.0242
+          },
+          {
+            "gene": "AT2G47060.3",
+            "geneType": "other",
+            "eigenvalue": 1.0224
+          },
+          {
+            "gene": "AT3G18850.5",
+            "geneType": "other",
+            "eigenvalue": 1.022
+          },
+          {
+            "gene": "AT5G55230.1",
+            "geneType": "other",
+            "eigenvalue": 1.0218
+          },
+          {
+            "gene": "AT5G04480.1",
+            "geneType": "other",
+            "eigenvalue": 1.0182
+          },
+          {
+            "gene": "AT2G20500.1",
+            "geneType": "other",
+            "eigenvalue": 1.0171
+          },
+          {
+            "gene": "AT3G15220.1",
+            "geneType": "other",
+            "eigenvalue": 1.0167
+          },
+          {
+            "gene": "AT5G49990.1",
+            "geneType": "other",
+            "eigenvalue": 1.0164
+          },
+          {
+            "gene": "AT5G03120.1",
+            "geneType": "other",
+            "eigenvalue": 1.0161
+          },
+          {
+            "gene": "AT1G49970.1",
+            "geneType": "other",
+            "eigenvalue": 1.0149
+          },
+          {
+            "gene": "AT1G09140.2",
+            "geneType": "other",
+            "eigenvalue": 1.0148
+          },
+          {
+            "gene": "AT5G10050.1",
+            "geneType": "other",
+            "eigenvalue": 1.0126
+          },
+          {
+            "gene": "AT4G00180.2",
+            "geneType": "other",
+            "eigenvalue": 1.0102
+          },
+          {
+            "gene": "AT1G51940.1",
+            "geneType": "other",
+            "eigenvalue": 1.0097
+          },
+          {
+            "gene": "AT1G02960.2",
+            "geneType": "other",
+            "eigenvalue": 1.0081
+          },
+          {
+            "gene": "AT2G31370.6",
+            "geneType": "other",
+            "eigenvalue": 1.0038
+          },
+          {
+            "gene": "AT2G42880.1",
+            "geneType": "other",
+            "eigenvalue": 1.0031
+          },
+          {
+            "gene": "AT5G19780.1",
+            "geneType": "other",
+            "eigenvalue": 1.0003
+          },
+          {
+            "gene": "AT2G34770.1",
+            "geneType": "other",
+            "eigenvalue": 1.0003
+          },
+          {
+            "gene": "AT1G03810.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G18270.3",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G23170.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G23250.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G26140.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G26796.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G32850.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G35280.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G36110.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G42070.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G42230.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G43870.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G50430.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G52970.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G58250.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G58280.3",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G62305.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G65385.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G72350.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G73300.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G73600.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G75050.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT1G75920.3",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G04625.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G07260.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G12520.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G15145.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G21980.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G24710.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G32700.7",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G33090.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G33260.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G34410.3",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT2G43490.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G01322.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G13010.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G18282.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G23960.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G27380.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G27480.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G27920.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G32033.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G33166.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G42916.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G43583.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G44470.2",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G54240.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT3G55550.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G05360.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G06494.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G10260.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G10550.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G12915.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G28580.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G29980.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT4G33720.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G01440.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G01734.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G12330.3",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G12380.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G29028.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G30852.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G34431.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G34602.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G35065.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G35792.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          },
+          {
+            "gene": "AT5G56410.1",
+            "geneType": "other",
+            "eigenvalue": 1
+          }
+        ]
+      },
+      "orthologyMapping": {
+        "matchedGenes": [
+          {
+            "gene": "LHY",
+            "orthologGroup": "LHY",
+            "confidence": "high",
+            "source": "TAIR / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": false
+          },
+          {
+            "gene": "CRY2",
+            "orthologGroup": "CRY2",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          },
+          {
+            "gene": "GI",
+            "orthologGroup": "GI",
+            "confidence": "high",
+            "source": "TAIR / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": false
+          },
+          {
+            "gene": "PRR3",
+            "orthologGroup": "PRR3",
+            "confidence": "high",
+            "source": "TAIR / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": false
+          },
+          {
+            "gene": "ELF3",
+            "orthologGroup": "ELF3",
+            "confidence": "high",
+            "source": "TAIR / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": false
+          },
+          {
+            "gene": "PRR9",
+            "orthologGroup": "PRR9",
+            "confidence": "high",
+            "source": "TAIR / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": false
+          },
+          {
+            "gene": "CCA1",
+            "orthologGroup": "CCA1",
+            "confidence": "high",
+            "source": "TAIR / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": false
+          },
+          {
+            "gene": "CRY1",
+            "orthologGroup": "CRY1",
+            "confidence": "moderate",
+            "source": "Ensembl Compara 112 / OrthoDB v11",
+            "hasMultiSpeciesOrthologs": true
+          }
+        ],
+        "totalMatched": 8,
+        "matchedWithMultiSpeciesOrthologs": 2,
+        "note": "CCA1/LHY/TOC1/PRR/GI/ELF/ZTL/LUX are plant-specific clock genes with no mammalian orthologs. Only CRY1/CRY2 have confirmed mammalian orthologs (Ensembl Compara 112 / OrthoDB v11)."
+      },
+      "orthologNormalizedGap": null
+    }
+  ]
+}
