@@ -2,7 +2,7 @@
 
 **Temporal Persistence Analysis of Gene Expression via AR(2) Eigenvalue Modulus**
 
-[![Live Platform](https://img.shields.io/badge/Live-Platform-blue)](https://par2-discovery-engine.replit.app)
+[![Live Platform](https://img.shields.io/badge/Live-Platform-blue)]([https://par2-discovery-engine.replit.app](https://par-2-discovery--6tbwkcht9k.replit.app))
 
 ## Overview
 
