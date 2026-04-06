@@ -12,7 +12,7 @@ Key result: Clock genes show median |lambda| = 0.647, clock-controlled targets =
 
 ## Live Platform
 
-The interactive companion platform is available at: https://par2-discovery-engine.replit.app
+The interactive companion platform is available at: [https://par2-discovery-engine.replit.app](https://par-2-discovery--6tbwkcht9k.replit.app)
 
 Every figure and table in the manuscripts can be explored interactively on the platform.
 
