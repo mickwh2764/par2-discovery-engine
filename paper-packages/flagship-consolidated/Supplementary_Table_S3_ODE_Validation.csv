@@ -1,6 +1,0 @@
-ODE_Model,Expected_Behaviour,AR2_Lambda,AR2_Classification,Match,Notes
-Simple Harmonic Oscillator,Sustained oscillation (|lambda|=1),0.998,Critical/Oscillatory,PASS,Undamped sinusoid
-Van der Pol (mu=0.5),Limit cycle,1.012,Unstable/Oscillatory,PASS,Nonlinear limit cycle
-Goodwin (n=10),Sustained oscillation,0.987,Near-critical/Oscillatory,PASS,Negative feedback oscillator
-Repressilator,Sustained oscillation,0.995,Critical/Oscillatory,PASS,Synthetic toggle
-Damped Linear (zeta=0.3),Damped oscillation,0.741,Stable/Oscillatory,PASS,Underdamped decay

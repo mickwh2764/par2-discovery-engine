@@ -23,7 +23,7 @@ import {
   CheckCircle2, Shield, Moon, Beaker, Microscope, Bug,
   BookOpen, Info, Lock, ShieldCheck, Sparkles, ChevronDown,
   Menu, Home, Upload, Search, Award, CircleDot, BarChart3, FolderOpen, Zap, ChevronRight,
-  FileText, Compass, TestTube,
+  FileText, Compass, TestTube, Brain, Clock,
 } from "lucide-react";
 
 const NAV_GROUPS = [
@@ -41,10 +41,13 @@ const NAV_GROUPS = [
       { href: "/literature-validation", icon: BookOpen, color: "text-emerald-400", label: "Literature Validation", desc: "59 known genes — 98.3% match" },
       { href: "/model-zoo", icon: Beaker, color: "text-orange-400", label: "Model Zoo", desc: "5 ODE ground-truth models" },
       { href: "/framework-benchmarks", icon: Award, color: "text-amber-400", label: "Framework Benchmarks", desc: "vs JTK_CYCLE, cosinor, RAIN" },
+      { href: "/method-validation", icon: BarChart3, color: "text-sky-400", label: "Method Validation", desc: "Monte Carlo bias/RMSE · Tables S6 & S7" },
       { label: "Is It Robust?", href: "#robustness", icon: Target, color: "text-slate-400", isSection: true, desc: "" },
       { href: "/robustness-suite", icon: Shield, color: "text-blue-400", label: "Robustness Suite", desc: "12 statistical stress tests" },
+      { href: "/validation-suite", icon: TestTube, color: "text-amber-400", label: "Validation Suite", desc: "Edge-case diagnostics & eigenvalue independence" },
       { href: "/decomposition-stability", icon: Shield, color: "text-blue-400", label: "Decomposition Stability", desc: "Driver removal stability" },
       { href: "/validation-summary", icon: CheckCircle2, color: "text-emerald-400", label: "Validation Summary", desc: "All evidence at a glance" },
+      { href: "/core-evidence", icon: ShieldCheck, color: "text-sky-400", label: "Core Evidence", desc: "4-panel skeptic primer" },
       { href: "/manuscript-validation", icon: ShieldCheck, color: "text-emerald-400", label: "Manuscript Validation", desc: "Live reproduction of claims" },
       { label: "Try It Yourself", href: "#try", icon: Target, color: "text-slate-400", isSection: true, desc: "" },
       { href: "/discovery-engine", icon: Activity, color: "text-purple-400", label: "Discovery Engine", desc: "Upload & analyze your own data" },
@@ -65,10 +68,16 @@ const NAV_GROUPS = [
       { label: "E: Phase-Gating", href: "#paper-e", icon: Target, color: "text-slate-400", isSection: true, desc: "" },
       { href: "/phase-gating", icon: Sparkles, color: "text-fuchsia-400", label: "Phase-Gating Analysis", desc: "28,138 clock-target pairs" },
       { href: "/phase-portrait", icon: CircleDot, color: "text-violet-400", label: "Phase Portrait Explorer", desc: "24h cycle across tissues" },
+      { href: "/gse157357-analysis", icon: TestTube, color: "text-purple-400", label: "GSE157357 Organoid Explorer", desc: "4-condition pairwise · double-mutant paradox" },
+      { href: "/tcga-validation", icon: Dna, color: "text-red-400", label: "TCGA Colorectal Validation", desc: "15/15 gene concordance · ApcKO-like mechanism" },
       { label: "F: Half-Life Independence", href: "#paper-f", icon: Target, color: "text-slate-400", isSection: true, desc: "" },
       { href: "/halflife-replication", icon: Microscope, color: "text-cyan-400", label: "Half-Life Replication", desc: "ρ = 0.012 across 23k genes" },
-      { label: "G: Fibonacci & Crypt (under review)", href: "#paper-g", icon: Target, color: "text-slate-400", isSection: true, desc: "" },
+      { label: "G: Time-Domain Fibonacci Analogue (under review)", href: "#paper-g", icon: Target, color: "text-slate-400", isSection: true, desc: "" },
       { href: "/boman-simulation", icon: Beaker, color: "text-orange-400", label: "Boman Simulation", desc: "3-compartment crypt model" },
+      { href: "/boman-ode", icon: Beaker, color: "text-emerald-400", label: "ODE → AR(2) Validation", desc: "Published crypt equations → eigenvalue trajectory" },
+      { href: "/clock-target-phi", icon: Atom, color: "text-yellow-400", label: "Clock-Target 1/φ Enrichment", desc: "14 E-box targets · p=0.041 · Wee1 & Rorc" },
+      { href: "/phi-enrichment-replication", icon: GitCompare, color: "text-yellow-400", label: "1/φ Enrichment Replication", desc: "4-dataset mammalian · plant extension · Arabidopsis 3 replicates" },
+      { href: "/cross-species-phi", icon: Globe, color: "text-teal-400", label: "Cross-Species φ Prediction", desc: "Eigenvalue φ prediction across species" },
       { href: "/crypt-villus", icon: Layers, color: "text-orange-400", label: "Crypt-Villus Analysis", desc: "Gut spatial dynamics" },
       { href: "/abm-minimal", icon: Beaker, color: "text-slate-400", label: "ABM Demo", desc: "Agent-based model" },
     ],
@@ -78,9 +87,14 @@ const NAV_GROUPS = [
     color: "",
     items: [
       { label: "Disease & Cancer", href: "#disease", icon: Target, color: "text-slate-400", isSection: true, desc: "" },
+      { href: "/glial-analysis", icon: Brain, color: "text-blue-400", label: "Glial Circadian Analysis", desc: "GSE261698 · Astrocyte vs Microglia · Alzheimer's" },
       { href: "/disease-screen", icon: AlertTriangle, color: "text-yellow-400", label: "Disease Screen", desc: "Eigenvalue shifts in disease" },
       { href: "/cancer-browser", icon: Activity, color: "text-red-400", label: "Cancer Browser", desc: "Drug targets on gene dynamics" },
       { href: "/drug-durability", icon: Pill, color: "text-teal-400", label: "Drug Target Overlay", desc: "Chronotherapy candidates" },
+      { href: "/chronotherapy-predictor", icon: Clock, color: "text-orange-400", label: "Chronotherapy Predictor", desc: "AR(2)-derived optimal dosing windows" },
+      { href: "/cancer-state-swap", icon: GitCompare, color: "text-purple-400", label: "Cancer State-Swap", desc: "Identity vs Proliferation markers" },
+      { href: "/ar2-diagnostics", icon: ShieldCheck, color: "text-emerald-400", label: "AR(2) Fit Diagnostics", desc: "Category-wise quality audit (Table S8)" },
+      { href: "/supplementary-analyses", icon: ShieldCheck, color: "text-lime-400", label: "AR(1) Benchmark & Controls", desc: "AR(1) vs AR(2) + coupling controls (Table S9)" },
       { href: "/before-after", icon: GitCompare, color: "text-cyan-400", label: "Before/After Comparison", desc: "Paired condition comparisons" },
       { label: "Specialized Tests", href: "#specialized", icon: Target, color: "text-slate-400", isSection: true, desc: "" },
       { href: "/health-score", icon: Heart, color: "text-emerald-400", label: "Circadian Health Score", desc: "0-100 clock health rating" },
@@ -90,6 +104,7 @@ const NAV_GROUPS = [
       { href: "/gene-protein-map", icon: MapPin, color: "text-emerald-400", label: "Gene-Protein Map", desc: "mRNA vs protein persistence" },
       { href: "/regulatory-discovery", icon: Zap, color: "text-yellow-400", label: "Regulatory Discovery", desc: "Pathway-agnostic oscillator scan" },
       { href: "/human-disruption", icon: Moon, color: "text-indigo-400", label: "Human Disruption", desc: "Sleep & circadian disruption" },
+      { href: "/phase-sensitivity", icon: Activity, color: "text-rose-400", label: "Phase Estimation Sensitivity", desc: "Phase detection robustness analysis" },
       { href: "/yeast-validation", icon: Bug, color: "text-lime-400", label: "Yeast Validation", desc: "Metabolic cycle validation" },
       { href: "/bacterial-persistence", icon: Bug, color: "text-green-400", label: "Bacterial Persistence", desc: "Evolutionary persistence tests" },
       { href: "/proteome-validation", icon: Microscope, color: "text-cyan-400", label: "Proteome Validation", desc: "Protein-level dynamics" },
@@ -137,6 +152,23 @@ function NavDropdown({ group }: { group: typeof NAV_GROUPS[0] }) {
               </div>
             );
           }
+          if ((item as any).locked) {
+            return (
+              <DropdownMenuItem
+                key={item.href}
+                disabled
+                className="gap-3 py-2 opacity-40 cursor-not-allowed select-none"
+                data-testid={`nav-link-${item.href.slice(1)}`}
+              >
+                <item.icon size={15} className="shrink-0 text-muted-foreground" />
+                <div className="flex-1">
+                  <div className="font-medium text-sm text-muted-foreground">{item.label}</div>
+                  <div className="text-[11px] text-muted-foreground">{item.desc}</div>
+                </div>
+                <Lock size={11} className="shrink-0 text-muted-foreground" />
+              </DropdownMenuItem>
+            );
+          }
           return (
             <Link key={item.href} href={item.href}>
               <DropdownMenuItem
@@ -180,6 +212,15 @@ function MobileSidebarContent({ onClose }: { onClose: () => void }) {
                   return (
                     <div key={item.href} className="px-4 pt-2 pb-1">
                       <span className="text-[10px] font-semibold text-muted-foreground/70 uppercase tracking-wide">{item.label}</span>
+                    </div>
+                  );
+                }
+                if ((item as any).locked) {
+                  return (
+                    <div key={item.href} className="flex items-center gap-3 px-4 py-2 rounded-lg opacity-35 cursor-not-allowed select-none">
+                      <item.icon size={15} className="shrink-0 text-muted-foreground" />
+                      <span className="text-sm text-muted-foreground">{item.label}</span>
+                      <Lock size={11} className="ml-auto shrink-0 text-muted-foreground" />
                     </div>
                   );
                 }
@@ -231,6 +272,12 @@ export default function AppNavbar() {
           </div>
 
           <div className="flex items-center gap-2">
+            <Link href="/getting-started">
+              <Button size="sm" variant="ghost" className="h-8 gap-1.5 text-xs hidden lg:flex text-muted-foreground" data-testid="nav-getting-started">
+                <BookOpen size={13} />
+                Getting Started
+              </Button>
+            </Link>
             <Link href="/discovery-engine">
               <Button size="sm" variant="ghost" className="h-8 gap-1.5 text-xs hidden sm:flex" data-testid="nav-upload">
                 <Upload size={13} />

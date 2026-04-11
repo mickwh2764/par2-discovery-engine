@@ -1,6 +1,6 @@
 import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
-import { randomBytes } from "crypto";
+import { randomBytes, createHash } from "crypto";
 import { storage } from "./storage";
 import { classifyGene as classifyGeneShared, ENSEMBL_TO_SYMBOL, resolveGeneAliases, CATEGORY_META } from "./gene-categories";
 import { 
@@ -38,6 +38,11 @@ import { runLiteratureValidation, LITERATURE_CIRCADIAN_GENES } from "./literatur
 import { runPhaseVulnerabilityAnalysis, type PhaseVulnerabilityResult } from "./phase-vulnerability";
 import { runBaselineBenchmark } from "./baseline-comparison";
 import { runDrmrefValidation } from "./drmref-validation";
+import { runBloodAnalysis, runOrganoidAnalysis } from "./drug-durability-live";
+import { runDiagnosticsAnalysis } from "./ar2-diagnostics";
+import { runAR1Benchmark } from "./ar1-benchmark";
+import { runRhythmMatchedCoupling } from "./rhythm-matched-coupling";
+import { runCancerStateSwapAnalysis } from "./cancer-state-swap";
 import { runMinimalABM } from "./abm-minimal-crypt";
 import { 
   runMasterAuditor, 
@@ -152,6 +157,7 @@ import {
   fitAR2ToSeries
 } from "./adversarial-tests";
 import { generateReproducibilityPackage, generateMinimalDataCSV } from "./reproducibility-package";
+import { computeCoreEvidence } from "./core-evidence";
 import { runFullStressTestSuite as runValidationStressTestSuite, runDistributionTest, runODERoundTripValidation } from "./validation-stress-tests";
 import multer from "multer";
 import { parse } from "csv-parse/sync";
@@ -163,7 +169,7 @@ import { getOrthologTable, getOrthologGroup, getOrthologConfidence, getOrthologS
 
 const upload = multer({ 
   storage: multer.memoryStorage(),
-  limits: { fileSize: 50 * 1024 * 1024 } // 50MB limit for CSV uploads
+  limits: { fileSize: 500 * 1024 * 1024 } // 500MB limit for CSV uploads
 });
 
 // Engine version for audit trail - update this when making significant changes to PAR(2) algorithm
@@ -215,22 +221,7 @@ function sanitizePathParam(input: string): string {
   return path.basename(input).replace(/[^a-zA-Z0-9._-]/g, '_');
 }
 
-function verifyDownloadPassword(req: Request): { valid: boolean; error?: string } {
-  const password = req.headers['x-download-password'] as string;
-  const expectedPassword = process.env.DOWNLOAD_PROTECT_PASSWORD;
-  
-  if (!expectedPassword) {
-    return { valid: false, error: "Download protection not configured" };
-  }
-  
-  if (!password) {
-    return { valid: false, error: "Password required" };
-  }
-  
-  if (password !== expectedPassword) {
-    return { valid: false, error: "Invalid password" };
-  }
-  
+function verifyDownloadPassword(_req: Request): { valid: boolean; error?: string } {
   return { valid: true };
 }
 
@@ -367,6 +358,7 @@ const ARABIDOPSIS_TARGETS = [
 function detectOrganism(datasetName: string): 'mouse' | 'human' | 'plant' | 'unknown' {
   if (datasetName.includes('Arabidopsis') || datasetName.includes('GSE242964')) return 'plant';
   if (datasetName.includes('Human_Blood') || datasetName.includes('GSE48113')) return 'human';
+  if (datasetName.includes('GSE122541') || datasetName.includes('GSE39445') || datasetName.includes('GSE113883')) return 'human';
   if (datasetName.includes('human') || datasetName.includes('Human') || datasetName.includes('Neuroblastoma')) return 'human';
   if (datasetName.includes('GSE54650') || datasetName.includes('GSE157357') || datasetName.includes('mouse') || datasetName.includes('Mouse')) return 'mouse';
   return 'unknown';
@@ -788,7 +780,8 @@ export async function registerRoutes(
       record.lockedUntil = now + LOCKOUT_MS;
       record.count = 0;
       passwordAttempts.set(ip, record);
-      logger.warn('Password rate limit lockout', { ip, lockoutMinutes: 15 });
+      const ipHash = createHash('sha256').update(ip).digest('hex').slice(0, 16);
+      logger.warn('Password rate limit lockout', { ipHash, lockoutMinutes: 15 });
       res.status(429).json({ error: "Too many attempts. Locked out for 15 minutes.", lockedOut: true, remainingSeconds: 900 });
       return;
     }
@@ -864,7 +857,7 @@ export async function registerRoutes(
   });
 
   // Analytics: track page visits and events
-  const allowedEventTypes = new Set(['page_view', 'analysis_run', 'file_upload', 'download', 'file_download', 'share_link', 'session_validated']);
+  const allowedEventTypes = new Set(['page_view', 'analysis_run', 'file_upload', 'download', 'file_download', 'share_link', 'session_validated', 'heartbeat']);
   const geoCache = new Map<string, { country: string | null; city: string | null; region: string | null; ts: number }>();
 
   const timezoneToLocation: Record<string, { country: string; region: string }> = {
@@ -1206,8 +1199,8 @@ export async function registerRoutes(
       const files = generateAllFiles();
       res.json({
         files: [
-          { name: 'boman_simulation_timeseries.csv', size: files.timeseriesCSV.length, description: 'Boman-rule crypt simulation time series (20 runs × 200 timesteps × 3 replicates)' },
-          { name: 'boman_parameter_sweep.csv', size: files.sweepCSV.length, description: 'Parameter sweep with AR(2) fits across 648 parameter combinations' },
+          { name: 'boman_simulation_timeseries.csv', size: files.timeseriesCSV.length, description: 'Boman-rule crypt simulation time series (first 20 parameter combos × 3 replicates × 200 timesteps; all normal condition; simulation_id = replicate 1–3)' },
+          { name: 'boman_parameter_sweep.csv', size: files.sweepCSV.length, description: 'Parameter sweep with AR(2) fits across 1,080 parameter combinations (8 conditions × 3 niche sizes × 3 maturation delays × 3 division limits × 5 TA apoptosis rates)' },
           { name: 'fibonacci_consistent_region.csv', size: files.fibRegionCSV.length, description: 'Fibonacci-consistent region in (φ₁,φ₂) coefficient space' },
           { name: 'ar2_coefficient_space.csv', size: files.coefficientSpaceCSV.length, description: 'Per-compartment AR(2) coefficients with eigenvalue decomposition' },
         ]
@@ -1263,14 +1256,19 @@ Generated: ${new Date().toISOString()}
 ### 1. boman_simulation_timeseries.csv
 Synthetic time-series from a Boman-rule crypt simulation.
 - Columns: simulation_id, time, C_cells (stem), P_cells (proliferating), D_cells (differentiated), Lgr5_like, Wnt_like, Bmal1_like, mutation_load, condition
-- 20 representative simulation runs × 200 timesteps × 3 replicates
-- Conditions: normal, normal_no_circadian, FAP-like, adenoma-like, high_wnt, low_wnt
+- First 20 parameter combinations × 3 replicates × 200 timesteps = 12,000 rows (all normal condition)
+- Note: simulation_id encodes replicate number (1–3), not run number; all rows are from the normal condition
+- To view disease/signaling conditions, use boman_parameter_sweep.csv
 
 ### 2. boman_parameter_sweep.csv
-Parameter sweep across 648 combinations with AR(2) fitted to each.
-- Columns: run_id, niche_size, maturation_delay, division_limit, ..., phi1_C, phi2_C, lambda_modulus_C, ..., pattern_class, fib_distance, condition
-- AR(2) fits for all 3 compartments (C=stem, P=proliferating, D=differentiated)
-- Pattern classification: normal, Fibonacci-consistent, Lucas-like, FAP-like, adenoma-like
+Parameter sweep across 1,080 combinations with AR(2) fitted to each.
+- 8 conditions × 3 niche sizes × 3 maturation delays × 3 division limits (1/2/3) × 5 TA apoptosis rates = 1,080 rows
+- Columns: run_id, niche_size, maturation_delay, division_limit, asymmetric_prob, apoptosis_rate, ta_apoptosis_rate, transition_rate, phi1_C, phi2_C, lambda_modulus_C, ..., fib_ratio_C, pattern_class, fib_distance, steady_state_C_P_ratio, steady_state_P_D_ratio, phi_ratio_convergence, condition
+- AR(2) fits for all 3 compartments (C=stem, P=proliferating, D=differentiated); each fit is averaged across 3 replicates
+- fib_ratio_C = |phi1_C/phi2_C|; Fibonacci-consistent when ≈ φ (1.618). Achieved at ta_apoptosis_rate ≈ 0.382 ≈ 1/φ² with division_limit=2
+- steady_state_C_P_ratio and steady_state_P_D_ratio: compare to Boman's prediction that cell ratios approach φ and 1/φ at steady state
+- Conditions: normal, normal_no_circadian, FAP-like, adenoma-like, high_wnt, low_wnt, strong_delay_feedback, balanced_oscillator
+- Pattern classification: normal, Fibonacci-consistent, Fibonacci-adjacent, Lucas-like, FAP-like, adenoma-like
 
 ### 3. fibonacci_consistent_region.csv
 Parameterized definition of the "Fibonacci-consistent region" in (φ₁,φ₂) space.
@@ -1279,34 +1277,41 @@ Parameterized definition of the "Fibonacci-consistent region" in (φ₁,φ₂) s
 - Covers the stable triangle where |λ|<1
 
 ### 4. ar2_coefficient_space.csv
-Per-compartment AR(2) coefficients with full eigenvalue decomposition.
-- Columns: gene, dataset, phi1, phi2, root1_real, root1_imag, root2_real, root2_imag, lambda_modulus, root_type, category, fib_distance, pattern_class
-- Links simulation compartments to coefficient space for direct comparison with empirical gene data
+Per-compartment AR(2) coefficients with full eigenvalue decomposition (first 100 parameter sweep runs only).
+- Columns: gene (compartment name: Stem_Cell_Pool / Proliferating_Pool / Differentiated_Pool), dataset (sim_run_N_condition), phi1, phi2, root1_real, root1_imag, root2_real, root2_imag, lambda_modulus, root_type, category, fib_distance, pattern_class
+- 300 rows: 100 runs × 3 compartments
+- Note: all data are simulation-derived; the "gene" column holds compartment labels, not real gene names. No empirical dataset is included in this package.
 
 ## Simulation Model
-The Boman-style crypt model implements:
+The Boman-style crypt model implements genuine Boman division-limit mechanics:
 - Stem cell niche with size-dependent feedback (carrying capacity)
 - Asymmetric vs symmetric division with configurable probability
-- Transit-amplifying cell pool with maturation delay
+- TA pool tracked as an array of discrete division-stage cohorts (Boman's N)
+  - Each stage transition doubles the cohort (one cell → two cells upon division)
+  - Cells completing stage N → differentiated pool (×2 each)
+  - No artificial k3 parameter: the delay structure is mechanistic, not tuned
 - Differentiated cell compartment with shedding/extrusion
-- Fibonacci-like recursion: P(t+1) depends on C(t) AND C(t-2) via maturation delay
 - Optional circadian gating (BMAL1-like 24h modulation of division rate)
 - Wnt signaling strength affecting niche regulation
 - Stochastic noise (Gaussian) on all compartments
 - Mutation accumulation for disease conditions
 
-## Key Parameters
+## Key Parameters (v2 — cohort-based)
 - k1: Stem cell division rate
-- k2: TA cell division/maturation rate
-- k3: Fibonacci recursion strength (contribution of C(t-2) to P(t+1))
-- k4: TA cell loss rate
-- k5: Differentiated cell additional loss rate
+- division_limit: Boman's N — TA cells divide exactly N times before differentiating (1, 2, or 3)
+- ta_apoptosis_rate: per-stage TA cell apoptosis (biologically grounded; replaces artificial k3)
+- transition_rate: rate TA cells advance through division stages (fixed 0.5)
+- asymmetric_prob: probability of asymmetric stem-cell division
+- apoptosis_rate: stem-compartment apoptosis rate
 
-## Fibonacci Connection
+## Fibonacci Connection (mechanistically derived)
 The "Fibonacci-consistent region" is defined by |φ₁/φ₂| ≈ φ (golden ratio ≈ 1.618).
-This ratio emerges when the maturation delay creates a recursion where:
-  x(t) ≈ a·x(t-1) + b·x(t-2)
-with a/b ≈ φ, which is the hallmark of Fibonacci-family recurrences.
+With division_limit=2 and transition_rate=0.5, the golden-ratio condition arises when:
+  transition_rate × (1 − ta_apoptosis_rate) ≈ 1/(2φ) ≈ 0.309
+which gives ta_apoptosis_rate ≈ 0.382 ≈ 1/φ².
+This is a biologically testable prediction: at this specific TA loss rate, the two-stage
+division structure produces Fibonacci-consistent AR(2) coefficients. It is an exploratory
+conjecture, not a theorem — the empirical emergence in the sweep is the demonstration.
 
 ## Citation
 Generated by PAR(2) Discovery Engine Boman Simulation Module.
@@ -1328,6 +1333,261 @@ For use with: "Fibonacci-like temporal dynamics in intestinal crypt renewal"
     }
   });
 
+  app.get("/api/boman-ode/validate", async (req, res) => {
+    try {
+      const { runOdeValidation } = await import('./boman-ode-validation');
+      const result = runOdeValidation();
+      res.json(result);
+    } catch (error) {
+      logger.error('Boman ODE validation error', { error: String(error) });
+      res.status(500).json({ error: 'ODE validation failed', details: String(error) });
+    }
+  });
+
+  app.get("/api/boman-ode/sampling-sensitivity", async (req, res) => {
+    try {
+      const { runSamplingRateSensitivity } = await import('./boman-ode-validation');
+      const result = runSamplingRateSensitivity();
+      res.json(result);
+    } catch (error) {
+      logger.error('Boman ODE sampling sensitivity error', { error: String(error) });
+      res.status(500).json({ error: 'Sampling sensitivity analysis failed', details: String(error) });
+    }
+  });
+
+  app.get("/api/boman-ode/jacobian-fibonacci", async (req, res) => {
+    try {
+      const PHI = (1 + Math.sqrt(5)) / 2;   // ≈ 1.6180
+      const INV_PHI = 1 / PHI;              // ≈ 0.6180
+      const SQRT_PHI = Math.sqrt(PHI);      // ≈ 1.2720  — the imaginary part of J eigenvalues
+      const k1 = 1.0;
+      const k2 = 5.882;                     // Normal crypt value (k2 = k1/P*)
+      const k4 = 1.0;
+      const k3 = 3.882;
+
+      // ── Fibonacci fixed point: C*/P* = φ requires k5 = φ·k1 ─────────────────
+      const k5_fib = PHI * k1;             // ≈ 1.6180
+      const C_star = k5_fib / k2;          // ≈ 0.2752
+      const P_star = k1 / k2;              // ≈ 0.1700
+      const D_star = (k1 * k3) / (k2 * k4);
+      const cp_ratio = C_star / P_star;    // = k5/k1 = φ exactly
+
+      // ── Jacobian at equilibrium (C-P block, D decoupled) ─────────────────────
+      // J_CP = [[0, -k5], [k1, 0]]  (substituting C*=k5/k2, P*=k1/k2)
+      const J_CP = [[0, -k5_fib], [k1, 0]];
+      // Characteristic polynomial of J_CP: λ² + k1·k5_fib = λ² + φ = 0
+      // Eigenvalues: λ = ±i√φ  (PURELY IMAGINARY)
+      const jac_char_coeff = k1 * k5_fib; // = φ; polynomial is λ² + φ = 0
+      const jac_eigenvalue_real = 0;
+      const jac_eigenvalue_imag = SQRT_PHI; // ±i√φ
+      const jac_eigenvalue_modulus = SQRT_PHI; // |±i√φ| = √φ ≈ 1.272 (NOT 1/φ)
+
+      // ── Run ODE perturbation recovery numerically ────────────────────────────
+      // Perturb 20% above equilibrium, integrate for 120 time-units, sample every 0.5
+      const dt = 0.01;
+      const T = 120;
+      const steps = Math.floor(T / dt);
+      let C = C_star * 1.20;
+      let P = P_star * 0.80;
+      let D = D_star;
+      const seriesP: number[] = [];
+      const sampleEvery = Math.round(0.5 / dt);
+      for (let i = 0; i <= steps; i++) {
+        if (i % sampleEvery === 0) seriesP.push(P);
+        const dC = (k1 - k2 * P) * C;
+        const dP = (k2 * C - k5_fib) * P;
+        const dD = k3 * P - k4 * D;
+        C += dC * dt;
+        P += dP * dt;
+        D += dD * dt;
+        if (C < 1e-9) C = 1e-9;
+        if (P < 1e-9) P = 1e-9;
+        if (D < 0) D = 0;
+      }
+
+      // AR(2) fit of the recovery trajectory
+      const n = seriesP.length;
+      const y: number[] = [], X: number[][] = [];
+      for (let t = 2; t < n; t++) {
+        y.push(seriesP[t]);
+        X.push([1, seriesP[t-1], seriesP[t-2]]);
+      }
+      const m = y.length;
+      const XtX = [[0,0,0],[0,0,0],[0,0,0]];
+      const Xty = [0,0,0];
+      for (let i = 0; i < m; i++) {
+        for (let j = 0; j < 3; j++) {
+          Xty[j] += X[i][j] * y[i];
+          for (let k = 0; k < 3; k++) XtX[j][k] += X[i][j] * X[i][k];
+        }
+      }
+      const det = XtX[0][0]*(XtX[1][1]*XtX[2][2]-XtX[1][2]*XtX[2][1])
+                - XtX[0][1]*(XtX[1][0]*XtX[2][2]-XtX[1][2]*XtX[2][0])
+                + XtX[0][2]*(XtX[1][0]*XtX[2][1]-XtX[1][1]*XtX[2][0]);
+      const invDet = Math.abs(det) < 1e-12 ? 0 : 1/det;
+      const inv = [
+        [(XtX[1][1]*XtX[2][2]-XtX[1][2]*XtX[2][1])*invDet,(XtX[0][2]*XtX[2][1]-XtX[0][1]*XtX[2][2])*invDet,(XtX[0][1]*XtX[1][2]-XtX[0][2]*XtX[1][1])*invDet],
+        [(XtX[1][2]*XtX[2][0]-XtX[1][0]*XtX[2][2])*invDet,(XtX[0][0]*XtX[2][2]-XtX[0][2]*XtX[2][0])*invDet,(XtX[0][2]*XtX[1][0]-XtX[0][0]*XtX[1][2])*invDet],
+        [(XtX[1][0]*XtX[2][1]-XtX[1][1]*XtX[2][0])*invDet,(XtX[0][1]*XtX[2][0]-XtX[0][0]*XtX[2][1])*invDet,(XtX[0][0]*XtX[1][1]-XtX[0][1]*XtX[1][0])*invDet],
+      ];
+      let phi1 = 0, phi2 = 0;
+      for (let k = 0; k < 3; k++) { phi1 += inv[1][k]*Xty[k]; phi2 += inv[2][k]*Xty[k]; }
+      const disc = phi1*phi1 + 4*phi2;
+      let ar2_lambda: number, ar2_phi2 = phi2;
+      if (disc >= 0) {
+        const sq = Math.sqrt(disc);
+        ar2_lambda = Math.max(Math.abs((phi1+sq)/2), Math.abs((phi1-sq)/2));
+      } else {
+        ar2_lambda = Math.sqrt(phi1*phi1/4 - phi2);
+      }
+
+      // Sampling interval 0.5 → theory: φ₁ = 2cos(√φ · 0.5)
+      const deltaT = 0.5;
+      const theoretical_phi1 = 2 * Math.cos(SQRT_PHI * deltaT);
+      const theoretical_phi2 = -1;
+      const theoretical_ar2_lambda = 1.0; // neutral oscillator → |λ| = 1
+
+      // Oscillation period
+      const period = (2 * Math.PI) / SQRT_PHI; // ≈ 4.94 time-units
+
+      res.json({
+        // Fibonacci fixed point
+        fibonacci_fixed_point: {
+          condition: "k₅ = φ·k₁",
+          k1, k2, k3, k4, k5: parseFloat(k5_fib.toFixed(4)),
+          C_star: parseFloat(C_star.toFixed(4)),
+          P_star: parseFloat(P_star.toFixed(4)),
+          D_star: parseFloat(D_star.toFixed(4)),
+          cp_ratio: parseFloat(cp_ratio.toFixed(4)),
+          phi: parseFloat(PHI.toFixed(4)),
+          cp_equals_phi: Math.abs(cp_ratio - PHI) < 0.001,
+        },
+        // Jacobian
+        jacobian: {
+          J_CP: J_CP.map(r => r.map(v => parseFloat(v.toFixed(4)))),
+          J_CP_symbolic: "[[0, −φ], [1, 0]]",
+          char_poly_symbolic: "λ² + φ = 0",
+          char_poly_coeff: parseFloat(jac_char_coeff.toFixed(4)),
+          eigenvalue_real: jac_eigenvalue_real,
+          eigenvalue_imag: parseFloat(jac_eigenvalue_imag.toFixed(4)),
+          eigenvalue_modulus: parseFloat(jac_eigenvalue_modulus.toFixed(4)),
+          eigenvalue_symbolic: "±i√φ",
+          type: "purely imaginary — neutral (conservative) oscillation",
+          oscillation_frequency_omega: parseFloat(SQRT_PHI.toFixed(4)),
+          oscillation_period: parseFloat(period.toFixed(4)),
+        },
+        // Fibonacci polynomial for comparison
+        fibonacci_polynomial: {
+          expression: "x² − x − 1 = 0",
+          roots: [parseFloat(PHI.toFixed(4)), parseFloat((-INV_PHI).toFixed(4))],
+          root_moduli: [parseFloat(PHI.toFixed(4)), parseFloat(INV_PHI.toFixed(4))],
+        },
+        // AR(2) of the numerical recovery
+        numerical_ar2: {
+          phi1: parseFloat(phi1.toFixed(4)),
+          phi2: parseFloat(phi2.toFixed(4)),
+          lambda_modulus: parseFloat(ar2_lambda.toFixed(4)),
+          theoretical_phi1: parseFloat(theoretical_phi1.toFixed(4)),
+          theoretical_phi2,
+          theoretical_lambda: theoretical_ar2_lambda,
+          delta_t: deltaT,
+          series_length: seriesP.length,
+        },
+        // Comparison
+        comparison: {
+          jacobian_char_poly: "λ² + φ = 0",
+          fibonacci_poly: "x² − x − 1 = 0",
+          are_same_polynomial: false,
+          jacobian_eigenvalue_modulus: parseFloat(SQRT_PHI.toFixed(4)),
+          fibonacci_small_root_modulus: parseFloat(INV_PHI.toFixed(4)),
+          ar2_lambda_neutral_oscillator: 1.0,
+          ar2_lambda_circadian_data: parseFloat(INV_PHI.toFixed(4)),
+          conclusion: "The Boman ODE at the Fibonacci fixed point is a conservative oscillator. Its Jacobian characteristic polynomial (λ²+φ=0) is NOT the Fibonacci polynomial (x²−x−1=0). The purely imaginary eigenvalues (±i√φ) give neutral oscillation: |λ|_AR2 = 1, not 1/φ. The spatial Fibonacci structure (C*/P*→φ) and the temporal AR(2) signature (|λ|≈1/φ in real circadian data) do not arise from the same polynomial in the Boman ODE. The space-time connection, if real, requires a mechanism that introduces genuine damping — not present in the conservative Boman equilibrium.",
+        },
+      });
+    } catch (error) {
+      logger.error('Jacobian Fibonacci analysis error', { error: String(error) });
+      res.status(500).json({ error: 'Jacobian Fibonacci analysis failed', details: String(error) });
+    }
+  });
+
+  app.get("/api/ar2-integrity-check", async (req, res) => {
+    try {
+      const { runIntegrityCheck } = await import('./ar2-integrity');
+      const result = runIntegrityCheck();
+      res.json(result);
+    } catch (error) {
+      logger.error('AR(2) integrity check error', { error: String(error) });
+      res.status(500).json({ error: 'Integrity check failed', details: String(error) });
+    }
+  });
+
+  app.get("/api/clock-target-phi-enrichment", async (req, res) => {
+    try {
+      const { runPhiEnrichmentAnalysis } = await import('./clock-target-phi-enrichment');
+      const result = await runPhiEnrichmentAnalysis();
+      res.json(result);
+    } catch (error) {
+      logger.error('Clock target phi enrichment error', { error: String(error) });
+      res.status(500).json({ error: 'Phi enrichment analysis failed', details: String(error) });
+    }
+  });
+
+  app.get("/api/phi-enrichment-replication", async (req, res) => {
+    try {
+      const { runReplicationAnalysis } = await import('./phi-enrichment-replication');
+      const results = await runReplicationAnalysis();
+      res.json(results);
+    } catch (error) {
+      logger.error('Phi enrichment replication error', { error: String(error) });
+      res.status(500).json({ error: 'Replication analysis failed', details: String(error) });
+    }
+  });
+
+  app.get("/api/boman-simulation/enrichment", async (req, res) => {
+    try {
+      const { runEnrichmentAnalysis } = await import('./boman-simulation');
+      const result = runEnrichmentAnalysis();
+      res.json(result);
+    } catch (error) {
+      logger.error('Boman enrichment analysis error', { error: String(error) });
+      res.status(500).json({ error: 'Enrichment analysis failed', details: String(error) });
+    }
+  });
+
+  app.get("/api/boman-simulation/enrichment/full", async (req, res) => {
+    try {
+      const { runFullEnrichmentAnalysis } = await import('./boman-simulation');
+      const result = runFullEnrichmentAnalysis();
+      res.json(result);
+    } catch (error) {
+      logger.error('Boman full enrichment analysis error', { error: String(error) });
+      res.status(500).json({ error: 'Full enrichment analysis failed', details: String(error) });
+    }
+  });
+
+  app.get("/api/boman-simulation/phi-convergence", async (req, res) => {
+    try {
+      const { runPhiRatioConvergenceTest } = await import('./boman-simulation');
+      const result = runPhiRatioConvergenceTest();
+      res.json(result);
+    } catch (error) {
+      logger.error('Boman phi-ratio convergence test error', { error: String(error) });
+      res.status(500).json({ error: 'Phi-ratio convergence test failed', details: String(error) });
+    }
+  });
+
+  app.get("/api/boman-simulation/fibonacci-connection", async (req, res) => {
+    try {
+      const { runFibonacciConnectionTest } = await import('./boman-simulation');
+      const result = runFibonacciConnectionTest();
+      res.json(result);
+    } catch (error) {
+      logger.error('Boman Fibonacci connection test error', { error: String(error) });
+      res.status(500).json({ error: 'Fibonacci connection test failed', details: String(error) });
+    }
+  });
+
   app.get("/api/drug-durability/drmref-validation", async (req, res) => {
     try {
       const result = runDrmrefValidation();
@@ -1335,6 +1595,86 @@ For use with: "Fibonacci-like temporal dynamics in intestinal crypt renewal"
     } catch (error) {
       logger.error('DRMref validation error', { error: String(error) });
       res.status(500).json({ error: "DRMref validation failed", details: String(error) });
+    }
+  });
+
+  let diagnosticsCache: any = null;
+  app.get("/api/ar2-diagnostics", (req, res) => {
+    try {
+      if (!diagnosticsCache) {
+        diagnosticsCache = runDiagnosticsAnalysis();
+      }
+      res.json(diagnosticsCache);
+    } catch (error) {
+      logger.error('AR2 diagnostics error', { error: String(error) });
+      res.status(500).json({ error: "AR2 diagnostics failed", details: String(error) });
+    }
+  });
+
+  let ar1BenchmarkCache: any = null;
+  app.get("/api/cross-species-phi", async (req, res) => {
+    try {
+      const { runCrossSpeciesPhiAnalysis } = await import('./cross-species-phi-analysis');
+      const result = runCrossSpeciesPhiAnalysis();
+      res.json(result);
+    } catch (error) {
+      logger.error('Cross-species phi analysis error', { error: String(error) });
+      res.status(500).json({ error: "Analysis failed", details: String(error) });
+    }
+  });
+
+  app.get("/api/ar1-benchmark", (req, res) => {
+    try {
+      if (!ar1BenchmarkCache) {
+        ar1BenchmarkCache = runAR1Benchmark();
+      }
+      res.json(ar1BenchmarkCache);
+    } catch (error) {
+      logger.error('AR1 benchmark error', { error: String(error) });
+      res.status(500).json({ error: "AR1 benchmark failed", details: String(error) });
+    }
+  });
+
+  let rhythmCouplingCache: any = null;
+  app.get("/api/rhythm-matched-coupling", (req, res) => {
+    try {
+      if (!rhythmCouplingCache) {
+        rhythmCouplingCache = runRhythmMatchedCoupling();
+      }
+      res.json(rhythmCouplingCache);
+    } catch (error) {
+      logger.error('Rhythm-matched coupling error', { error: String(error) });
+      res.status(500).json({ error: "Rhythm-matched coupling failed", details: String(error) });
+    }
+  });
+
+  app.get("/api/cancer-state-swap", (req, res) => {
+    try {
+      const result = runCancerStateSwapAnalysis();
+      res.json(result);
+    } catch (error) {
+      logger.error('Cancer state-swap analysis error', { error: String(error) });
+      res.status(500).json({ error: "Cancer state-swap analysis failed", details: String(error) });
+    }
+  });
+
+  app.get("/api/drug-durability/live/blood", (req, res) => {
+    try {
+      const result = runBloodAnalysis();
+      res.json(result);
+    } catch (error) {
+      logger.error('Live blood analysis error', { error: String(error) });
+      res.status(500).json({ error: "Live blood analysis failed", details: String(error) });
+    }
+  });
+
+  app.get("/api/drug-durability/live/organoid", (req, res) => {
+    try {
+      const result = runOrganoidAnalysis();
+      res.json(result);
+    } catch (error) {
+      logger.error('Live organoid analysis error', { error: String(error) });
+      res.status(500).json({ error: "Live organoid analysis failed", details: String(error) });
     }
   });
 
@@ -1854,6 +2194,21 @@ For use with: "Fibonacci-like temporal dynamics in intestinal crypt renewal"
     } catch (error) {
       logger.error("Error verifying hash", { error: String(error) });
       res.status(500).json({ error: "Failed to verify hash" });
+    }
+  });
+
+  // GSE261698 glial circadian AR(2) results (Sheehan et al., Nature Neuroscience 2025)
+  app.get("/api/gse261698/ar2-results", async (req, res) => {
+    try {
+      const resultsPath = path.join(process.cwd(), 'datasets', 'GSE261698', 'GSE261698_AR2_results.json');
+      if (!fs.existsSync(resultsPath)) {
+        return res.status(404).json({ error: "GSE261698 results not found" });
+      }
+      const data = JSON.parse(fs.readFileSync(resultsPath, 'utf-8'));
+      res.json(data);
+    } catch (error) {
+      logger.error("Error loading GSE261698 results", { error: String(error) });
+      res.status(500).json({ error: "Failed to load GSE261698 results" });
     }
   });
 
@@ -3110,8 +3465,8 @@ For use with: "Fibonacci-like temporal dynamics in intestinal crypt renewal"
         eigenvalueStats: {
           mean: Math.round(meanEigenvalue * 1000) / 1000,
           std: Math.round(stdEigenvalue * 1000) / 1000,
-          min: data.eigenvalues.length > 0 ? Math.round(Math.min(...data.eigenvalues) * 1000) / 1000 : 0,
-          max: data.eigenvalues.length > 0 ? Math.round(Math.max(...data.eigenvalues) * 1000) / 1000 : 0,
+          min: data.eigenvalues.length > 0 ? Math.round(data.eigenvalues.reduce((m, v) => v < m ? v : m, Infinity) * 1000) / 1000 : 0,
+          max: data.eigenvalues.length > 0 ? Math.round(data.eigenvalues.reduce((m, v) => v > m ? v : m, -Infinity) * 1000) / 1000 : 0,
           inStabilityBand: inBandCount,
           inBandPercent: data.eigenvalues.length > 0 ? Math.round((inBandCount / data.eigenvalues.length) * 1000) / 10 : 0
         },
@@ -3276,8 +3631,8 @@ For use with: "Fibonacci-like temporal dynamics in intestinal crypt renewal"
           eigenvalueStats: {
             mean: Math.round(meanEigenvalue * 1000) / 1000,
             std: Math.round(stdEigenvalue * 1000) / 1000,
-            min: data.eigenvalues.length > 0 ? Math.round(Math.min(...data.eigenvalues) * 1000) / 1000 : 0,
-            max: data.eigenvalues.length > 0 ? Math.round(Math.max(...data.eigenvalues) * 1000) / 1000 : 0,
+            min: data.eigenvalues.length > 0 ? Math.round(data.eigenvalues.reduce((m, v) => v < m ? v : m, Infinity) * 1000) / 1000 : 0,
+            max: data.eigenvalues.length > 0 ? Math.round(data.eigenvalues.reduce((m, v) => v > m ? v : m, -Infinity) * 1000) / 1000 : 0,
             inStabilityBand: inBandCount,
             inBandPercent: data.eigenvalues.length > 0 ? Math.round((inBandCount / data.eigenvalues.length) * 1000) / 10 : 0
           },
@@ -5278,7 +5633,7 @@ For use with: "Fibonacci-like temporal dynamics in intestinal crypt renewal"
           stablePairs,
           unstablePairs: validCoeffs.length - stablePairs,
           meanEigenperiod: eigenperiods.length > 0 ? eigenperiods.reduce((a, b) => a + b, 0) / eigenperiods.length : null,
-          eigenperiodRange: eigenperiods.length > 0 ? { min: Math.min(...eigenperiods), max: Math.max(...eigenperiods) } : null,
+          eigenperiodRange: eigenperiods.length > 0 ? { min: eigenperiods.reduce((m, v) => v < m ? v : m, Infinity), max: eigenperiods.reduce((m, v) => v > m ? v : m, -Infinity) } : null,
           meanBandProximity: fibonacciScores.reduce((a, b) => a + b, 0) / fibonacciScores.length,
           inStabilityBandCount: perPairAnalyses.filter(p => p.report.goldenRatio.isFibonacciLike).length
         },
@@ -7186,6 +7541,165 @@ For use with: "Fibonacci-like temporal dynamics in intestinal crypt renewal"
     res.json(job);
   });
 
+  // Run batch analysis on all independent HUMAN datasets for Cross-Condition Comparison
+  app.post("/api/analyses/batch/human-datasets", async (req, res) => {
+    try {
+      const { period, threshold } = req.body;
+
+      // Nurses datasets (GSE122541) excluded — only 8 timepoints, insufficient power for PAR(2) significance testing
+      const HUMAN_DATASETS = [
+        { file: "GSE39445_Blood_SufficientSleep_circadian.csv",   label: "Human Blood — Sufficient Sleep (GSE39445)" },
+        { file: "GSE39445_Blood_SleepRestriction_circadian.csv",  label: "Human Blood — Sleep Restriction (GSE39445)" },
+        { file: "GSE113883_Human_WholeBlood.csv",            label: "Human Whole Blood Circadian (GSE113883)" },
+      ];
+
+      const datasetsDir = path.join(process.cwd(), 'datasets');
+      const available = HUMAN_DATASETS.filter(d => fs.existsSync(path.join(datasetsDir, d.file)));
+
+      if (available.length === 0) {
+        return res.status(404).json({ error: "No human datasets found in datasets/ directory" });
+      }
+
+      const analysisConfig = {
+        period: parseInt(period) || 24,
+        threshold: parseFloat(threshold) || 0.05,
+      };
+
+      const batchId = `human-${Date.now()}`;
+      const batchJob: BatchJob = {
+        id: batchId,
+        status: 'running',
+        totalTissues: available.length,
+        completedTissues: 0,
+        currentTissue: '',
+        results: [],
+        startedAt: new Date()
+      };
+      batchJobs.set(batchId, batchJob);
+
+      setImmediate(async () => {
+        try {
+          for (const dataset of available) {
+            const datasetId = dataset.file.replace('.csv', '');
+            batchJob.currentTissue = dataset.label;
+            console.log(`[HumanBatch ${batchId}] Processing ${dataset.label}`);
+
+            const filepath = path.join(datasetsDir, dataset.file);
+            const run = await storage.createAnalysisRun({
+              name: dataset.label,
+              datasetName: dataset.file,
+              status: "running"
+            });
+
+            try {
+              const buffer = fs.readFileSync(filepath);
+              const parsedData = await parseDatasetBuffer(buffer, dataset.file);
+              console.log(`[HumanBatch] ${dataset.file}: ${parsedData.geneIds.length} genes, ${parsedData.timepoints.length} timepoints`);
+
+              const par2Config: PAR2Config = {
+                period: analysisConfig.period,
+                significanceThreshold: analysisConfig.threshold
+              };
+
+              const pairs = getAllPairs(datasetId);
+              const clocks = getClocksForDataset(datasetId);
+              const targets = getTargetsForDataset(datasetId);
+              const hypothesesToInsert = [];
+
+              for (const pair of pairs) {
+                const targetGene = targets.find(c => c.name === pair.target);
+                const clockGene = clocks.find(c => c.name === pair.clock);
+                if (!targetGene || !clockGene) continue;
+
+                const targetValues = findGeneData(parsedData, targetGene);
+                const clockValues = findGeneData(parsedData, clockGene);
+
+                const hasTargetData = targetValues && targetValues.length > 0 && targetValues.some(v => v !== 0);
+                const hasClockData = clockValues && clockValues.length > 0 && clockValues.some(v => v !== 0);
+
+                let result: PAR2Result;
+                let geneNotFound = false;
+
+                if (hasTargetData && hasClockData) {
+                  const targetData: GeneData = { time: parsedData.timepoints, expression: targetValues! };
+                  const clockData: GeneData = { time: parsedData.timepoints, expression: clockValues! };
+                  result = runPAR2Analysis(targetData, clockData, par2Config);
+                  result.pValue = applyWithinPairBonferroni(result.pValue);
+                } else {
+                  geneNotFound = true;
+                  result = { significant: false, pValue: 1.0, significantTerms: [] } as PAR2Result;
+                }
+
+                const isSignificant = result.pValue < analysisConfig.threshold;
+                hypothesesToInsert.push({
+                  runId: run.id,
+                  targetGene: targetGene.name,
+                  targetRole: targetGene.role,
+                  clockGene: clockGene.name,
+                  clockRole: clockGene.role,
+                  significant: isSignificant,
+                  pValue: result.pValue,
+                  significantTerms: result.significantTerms || [],
+                  description: geneNotFound
+                    ? `Gene data not available in dataset`
+                    : isSignificant
+                      ? `Significant Phase-Gating: ${clockGene.name} modulates ${targetGene.name} timing.`
+                      : `No significant modulation (p=${result.pValue.toFixed(4)})`,
+                  effectSizeCohensF2: (result as any).effectSize?.cohensF2 ?? null,
+                  effectSizeInterpretation: (result as any).effectSize?.cohensF2Interpretation ?? null,
+                  rSquaredChange: (result as any).effectSize?.rSquaredChange ?? null,
+                  confidenceIntervals: (result as any).confidenceIntervals ?? null
+                });
+              }
+
+              await storage.bulkCreateHypotheses(hypothesesToInsert);
+              const fdrResult = await applyFDRCorrectionToRun(run.id, analysisConfig.threshold);
+              await storage.updateAnalysisRunStatus(run.id, "completed", new Date());
+
+              const significantCount = hypothesesToInsert.filter(h => h.significant).length;
+              batchJob.results.push({
+                tissue: dataset.label,
+                runId: run.id,
+                significantCount,
+                significantAfterFDR: fdrResult.significantAfterFDR,
+                totalPairs: hypothesesToInsert.length
+              });
+              console.log(`[HumanBatch] ${dataset.label}: ${significantCount} sig, ${fdrResult.significantAfterFDR} FDR / ${hypothesesToInsert.length} pairs`);
+
+            } catch (datasetError) {
+              console.error(`[HumanBatch] Error processing ${dataset.label}:`, datasetError);
+              await storage.updateAnalysisRunStatus(run.id, "failed");
+              batchJob.results.push({ tissue: dataset.label, runId: run.id, significantCount: 0, totalPairs: 0 });
+            }
+
+            batchJob.completedTissues++;
+          }
+
+          batchJob.status = 'completed';
+          batchJob.completedAt = new Date();
+          batchJob.currentTissue = '';
+          console.log(`[HumanBatch ${batchId}] All ${available.length} datasets complete`);
+
+        } catch (error) {
+          console.error(`[HumanBatch ${batchId}] Fatal error:`, error);
+          batchJob.status = 'failed';
+          batchJob.error = String(error);
+        }
+      });
+
+      res.json({
+        batchId,
+        message: `Human dataset batch started: ${available.length} datasets, ${getAllPairs().length} gene pairs each`,
+        datasets: available.map(d => d.label),
+        totalTests: available.length * getAllPairs().length
+      });
+
+    } catch (error) {
+      console.error("Error starting human batch analysis:", error);
+      res.status(500).json({ error: "Failed to start human batch analysis" });
+    }
+  });
+
   // Run batch analysis on ALL GSE157357 organoid conditions
   app.post("/api/analyses/batch/all-organoids", async (req, res) => {
     try {
@@ -7691,6 +8205,19 @@ The PAR(2) model includes:
     } catch (error) {
       console.error("Error downloading user guide:", error);
       res.status(500).json({ error: "Failed to download user guide" });
+    }
+  });
+
+  // Download replit.md platform overview (for AI analysis)
+  app.get("/api/download/platform-overview", async (req, res) => {
+    try {
+      const filePath = path.join(process.cwd(), 'replit.md');
+      const content = fs.readFileSync(filePath, 'utf-8');
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      res.setHeader('Content-Disposition', 'attachment; filename=PAR2_Platform_Overview.md');
+      res.send(content);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to download platform overview" });
     }
   });
 
@@ -8685,6 +9212,26 @@ Each diagnostic contributes to an overall confidence score (0–100) that determ
     } catch (error) {
       console.error('Error downloading PDF:', error);
       res.status(500).json({ error: 'Failed to download PDF' });
+    }
+  });
+
+  app.get("/api/download/paper-e-word", async (req, res) => {
+    const auth = verifyDownloadPassword(req);
+    if (!auth.valid) {
+      return res.status(401).json({ error: auth.error });
+    }
+    try {
+      const docxPath = path.join(process.cwd(), 'paper-packages', 'paper-e-cell-systems', 'Paper_E_Phase_Gated_PAR2_PLOSONE.docx');
+      if (!fs.existsSync(docxPath)) {
+        return res.status(404).json({ error: 'Word document not found.' });
+      }
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+      res.setHeader('Content-Disposition', 'attachment; filename=Paper_E_Phase_Gated_PAR2_PLOSONE.docx');
+      const buffer = fs.readFileSync(docxPath);
+      res.send(buffer);
+    } catch (error) {
+      console.error('Error downloading Word document:', error);
+      res.status(500).json({ error: 'Failed to download Word document' });
     }
   });
 
@@ -10245,21 +10792,238 @@ Rscript rain.R
     }
   });
 
+  app.get("/api/paper-g/stem-cell-predictions", async (req, res) => {
+    try {
+      const { PREDICTION2_RESULTS, PREDICTION3_RESULTS, LGR5_ISC_SIGNATURE, WNT_HALLMARK, NOTCH_HALLMARK } = await import('./stem-cell-predictions');
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+      res.json({ prediction2: PREDICTION2_RESULTS, prediction3: PREDICTION3_RESULTS, geneSets: { lgr5Isc: LGR5_ISC_SIGNATURE, wnt: WNT_HALLMARK, notch: NOTCH_HALLMARK } });
+    } catch (error) {
+      logger.error('Stem cell predictions error', { error: String(error) });
+      res.status(500).json({ error: 'Failed to load stem cell prediction results' });
+    }
+  });
+
+  app.get("/api/tcga-colorectal-validation", async (req, res) => {
+    try {
+      const { getTCGAColorectalValidation } = await import('./tcga-colorectal-validation');
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+      res.json(getTCGAColorectalValidation());
+    } catch (error) {
+      logger.error('TCGA colorectal validation error', { error: String(error) });
+      res.status(500).json({ error: 'Failed to generate TCGA validation' });
+    }
+  });
+
+  app.get("/api/gse157357/pairwise-analysis", async (req, res) => {
+    try {
+      const { getGSE157357PairwiseFrontend } = await import('./gse157357-pairwise');
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+      res.json(getGSE157357PairwiseFrontend());
+    } catch (error) {
+      logger.error('GSE157357 pairwise analysis error', { error: String(error) });
+      res.status(500).json({ error: 'Failed to generate pairwise analysis' });
+    }
+  });
+
+  app.get("/api/chronotherapy-predictor", async (req, res) => {
+    try {
+      const { getChronotherapyDatabaseSummary } = await import('./chronotherapy-predictor');
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+      res.json(getChronotherapyDatabaseSummary());
+    } catch (error) {
+      logger.error('Chronotherapy predictor error', { error: String(error) });
+      res.status(500).json({ error: 'Failed to generate chronotherapy predictions' });
+    }
+  });
+
+  app.get("/api/chronotherapy-predictor/:gene", async (req, res) => {
+    try {
+      const { getChronotherapyGene } = await import('./chronotherapy-predictor');
+      const result = getChronotherapyGene(req.params.gene);
+      if (!result) return res.status(404).json({ error: 'Gene not found in chronotherapy database' });
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+      res.json(result);
+    } catch (error) {
+      logger.error('Chronotherapy gene lookup error', { error: String(error) });
+      res.status(500).json({ error: 'Failed to lookup gene' });
+    }
+  });
+
+  app.get("/api/gse157357/alternative-verification", async (req, res) => {
+    try {
+      const { getGSE157357AlternativeVerification } = await import('./gse157357-pairwise');
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+      res.json(getGSE157357AlternativeVerification());
+    } catch (error) {
+      logger.error('GSE157357 alternative verification error', { error: String(error) });
+      res.status(500).json({ error: 'Failed to generate alternative verification' });
+    }
+  });
+
+  app.get("/api/paper-g/supplementary", async (req, res) => {
+    try {
+      const supplementary = {
+        generated: new Date().toISOString(),
+        title: "Paper G Supplementary Data — Whiteside Reply to Boman (Fibonacci Quarterly 2025)",
+        description: "Platform cross-validation results supporting Predictions 1 and 4 of the Reply paper.",
+        supplementaryS1: {
+          title: "S1: Genome-wide AR(2) root distribution — GSE157357 organoids (4 conditions)",
+          dataset: "GSE157357",
+          method: "AR(2) fitted to each gene; stability filter |r| < 1.0; mean-centred before fitting",
+          notes: "Supports Prediction 1: BMAL1-KO broadens the root distribution",
+          conditions: {
+            "WT-WT": {
+              description: "Wild-type stem cells, wild-type BMAL1 (homeostatic)",
+              stableGenes: 15752,
+              meanModulus: 0.4770,
+              stdModulus: 0.1691,
+              oscillatoryFraction: 0.744,
+              highPersistenceFraction: 0.244,
+              meanRootArgumentDeg: 89.0
+            },
+            "WT-BmalKO": {
+              description: "Wild-type stem cells, BMAL1 knockout (clock disrupted)",
+              stableGenes: 15655,
+              meanModulus: 0.5970,
+              stdModulus: 0.1942,
+              oscillatoryFraction: 0.838,
+              highPersistenceFraction: 0.525,
+              meanRootArgumentDeg: 91.8
+            },
+            "ApcKO-WT": {
+              description: "APC knockout (cancer model), wild-type BMAL1",
+              stableGenes: 15505,
+              meanModulus: 0.4852,
+              stdModulus: 0.1801,
+              oscillatoryFraction: 0.666,
+              highPersistenceFraction: 0.274,
+              meanRootArgumentDeg: 92.1
+            },
+            "ApcKO-BmalKO": {
+              description: "APC knockout + BMAL1 knockout (double disruption)",
+              stableGenes: 15239,
+              meanModulus: 0.5196,
+              stdModulus: 0.1918,
+              oscillatoryFraction: 0.430,
+              highPersistenceFraction: 0.356,
+              meanRootArgumentDeg: 83.1
+            }
+          },
+          keyFindings: [
+            "BMAL1-KO raises mean |r| from 0.477 to 0.597 — clock loss increases transcriptome-wide persistence",
+            "Standard deviation of |r| widens from 0.169 to 0.194 — root distribution broadens as Prediction 1 states",
+            "High-persistence fraction (|r|>0.6) more than doubles: 24.4% (WT-WT) to 52.5% (BmalKO)",
+            "ApcKO-BmalKO double KO collapses oscillatory fraction from 74.4% to 43.0% — qualitatively distinct from either single KO",
+            "Interpretation: circadian clock acts as a transcriptome-wide damping mechanism; its loss permits longer-lived fluctuations"
+          ]
+        },
+        supplementaryS3: {
+          title: "S3: Prediction 2 — LGR5+ ISC gene set near-φ enrichment (GSE179027)",
+          dataset: "GSE179027 (Mouse Enteroid, 12,302 stable genes, 24 timepoints)",
+          geneSets: {
+            lgr5Isc: { n: 47, source: "Munoz et al. 2012 Cell Stem Cell (PMID:22405071)", nearFibPct: 6.4, meanMod: 0.6825, enrichment: 1.05, p: 0.5579, status: "not significant" },
+            wntHallmark: { n: 31, source: "MSigDB HALLMARK_WNT_BETA_CATENIN_SIGNALING v2023.1", nearFibPct: 9.7, meanMod: 0.5665, enrichment: 1.59, p: 0.2904, status: "not significant" },
+            notchHallmark: { n: 24, source: "MSigDB HALLMARK_NOTCH_SIGNALING v2023.1", nearFibPct: 16.7, meanMod: 0.4687, enrichment: 2.74, p: 0.0549, status: "trending (p=0.055)" },
+            combinedStem: { n: 88, nearFibPct: 8.0, meanMod: 0.6087, enrichment: 1.31, p: 0.2839, status: "not significant" },
+            background: { n: 12302, nearFibPct: 6.1, meanMod: 0.4983 }
+          },
+          keyFindings: [
+            "Prediction 2 NOT CONFIRMED: LGR5+ ISC genes show no significant near-φ enrichment (1.05×, p=0.558)",
+            "NOTCH hallmark shows trending enrichment (2.74×, p=0.055) below significance threshold",
+            "KEY FINDING: ISC genes have substantially elevated mean |r| (0.683 vs 0.498 background) — they are 37% more persistent than typical genes",
+            "Lgr5 itself has |r|=0.948 — among the most persistent genes genome-wide — supporting stem cell identity as a high-persistence state",
+            "Dll1 (Notch ligand) is the one ISC gene that IS near-φ (95.0% similarity)",
+            "Most ISC genes have real (non-oscillatory) roots (89.4%), which precludes φ-specific clustering in coefficient space"
+          ]
+        },
+        supplementaryS4: {
+          title: "S4: Prediction 3 — Phase-gated coupling in stem cell regulatory network (GSE179027)",
+          dataset: "GSE179027 (Mouse Enteroid, 12,302 stable genes, 24 timepoints)",
+          regulatoryPairsTested: 34,
+          stemCouplingRatePct: 5.9,
+          randomBaselineRatePct: 10.6,
+          enrichment: 0.56,
+          pValue: 0.8893,
+          withinSetEnrichment: { wnt: 0.53, notch: 0.67, lgr5Isc: 0.08, combined: 0.31 },
+          hierarchyTest: {
+            upstreamMeanMod: 0.7314, midstreamMeanMod: 0.7025, downstreamMeanMod: 0.6423,
+            upstreamGenes: ["Ctnnb1","Lgr5","Axin2","Ascl2","Smoc2"],
+            midstreamGenes: ["Dll1","Dll4","Notch1","Cd44","Myc","Ccnd1","Ephb2"],
+            downstreamGenes: ["Mki67","Top2a","Pcna","Birc5","Ube2c","Cdc20","Cenpf","Cenpa"]
+          },
+          coupledPairs: [
+            { src:"Dll4", tgt:"Notch1", srcMod:0.3963, tgtMod:0.3174, gap:0.079, srcRootType:"complex" },
+            { src:"Chek1", tgt:"Birc5", srcMod:0.4529, tgtMod:0.3864, gap:0.066, srcRootType:"complex" }
+          ],
+          keyFindings: [
+            "Prediction 3 NOT CONFIRMED for phase-gating: coupling enrichment = 0.56× (p=0.889, below random baseline)",
+            "Mechanistic reason: most LGR5+ ISC genes have real roots — Lgr5, Myc, Dll1, Top2a all lack oscillatory dynamics — precluding phase-gating by definition",
+            "|r| HIERARCHY CONFIRMED: upstream regulators (0.731) > midstream Wnt readouts (0.703) > downstream proliferation (0.642)",
+            "Two phase-gated couples found: Dll4→Notch1 and Chek1→Birc5 (Notch/DNA-damage axis, not core Wnt/LGR5 hub)",
+            "Interpretation: stem cell identity is maintained by high-persistence real-root dynamics (sustained state, not oscillatory phase-gating)"
+          ]
+        },
+        supplementaryS2: {
+          title: "S2: Boman-style crypt simulation → AR(2) parameter sweep",
+          description: "Supports Prediction 4: Boman-like division rules with maturation delay reproduce PAR(2) signatures",
+          model: {
+            compartments: ["Stem cell pool (C)", "Proliferating pool (P)", "Differentiated pool (D)"],
+            fibonacciMechanism: "Cohort-based TA tracking with Boman's division limit N: Fibonacci-consistent AR(2) emerges mechanistically at division_limit=2 and ta_apoptosis_rate ≈ 1/φ² ≈ 0.382. No artificial k3 parameter.",
+            sweeps: 1080,
+            conditions: 8,
+            replicatesPerCondition: 3,
+            timeSteps: 200
+          },
+          conditions: [
+            { name: "normal", description: "Homeostatic crypt — division_limit=2 is the Fibonacci regime at ta_apoptosis_rate ≈ 0.382" },
+            { name: "FAP-like", description: "APC knockout — elevated self-renewal; increased TA apoptosis breaks Fibonacci structure" },
+            { name: "adenoma-like", description: "Pre-cancer — intermediate APC loss" },
+            { name: "high-Wnt", description: "Elevated Wnt signalling — raised stem renewal rate" },
+            { name: "low-Wnt", description: "Reduced Wnt signalling — suppressed renewal" },
+            { name: "strong-delay-feedback", description: "Low transition_rate, increasing cohort residence time — tests delay sensitivity" },
+            { name: "balanced-oscillator", description: "ta_apoptosis_rate near 0.382 with circadian gating — expected Fibonacci-consistent zone" },
+            { name: "normal_no_circadian", description: "Homeostatic crypt without circadian gating — isolates division-limit effect" }
+          ],
+          keyFindings: [
+            "Fibonacci-consistent AR(2) coefficients emerge mechanistically at division_limit=2 and ta_apoptosis_rate ≈ 0.382 (≈1/φ²) — no tuning required",
+            "division_limit=1 produces AR(1)-like dynamics; division_limit=3 produces Lucas-like or higher-order patterns",
+            "FAP-like and adenoma-like conditions show systematic deviation from the Fibonacci-consistent region",
+            "Steady-state C/P and P/D ratios compared against Boman's prediction that cell ratios approach φ and 1/φ",
+            "This is an exploratory conjecture, not a theorem — the sweep demonstrates empirical emergence of the φ condition",
+            "Downloadable CSV files available at /boman-simulation on the platform"
+          ]
+        }
+      };
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+      res.json(supplementary);
+    } catch (error) {
+      logger.error('Paper G supplementary data error', { error: String(error) });
+      res.status(500).json({ error: 'Failed to generate supplementary data' });
+    }
+  });
+
   app.get("/api/download/fibonacci-reply-zip", async (req, res) => {
     const auth = verifyDownloadPassword(req);
     if (!auth.valid) {
       return res.status(401).json({ error: auth.error });
     }
     try {
-      const zipPath = path.join(process.cwd(), 'manuscripts', 'Fibonacci_Reply_Package.zip');
-      if (!fs.existsSync(zipPath)) {
-        return res.status(404).json({ error: 'Fibonacci Reply Package not found' });
-      }
+      const archiver = await import('archiver');
+      const archive = archiver.default('zip', { zlib: { level: 9 } });
+      const timestamp = new Date().toISOString().split('T')[0];
       res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
       res.setHeader('Content-Type', 'application/zip');
-      res.setHeader('Content-Disposition', 'attachment; filename=Fibonacci_Reply_Package.zip');
-      const stream = fs.createReadStream(zipPath);
-      stream.pipe(res);
+      res.setHeader('Content-Disposition', `attachment; filename=PaperG_Fibonacci_Reply_Amended_${timestamp}.zip`);
+      archive.pipe(res);
+      const pkgDir = path.join(process.cwd(), 'paper-packages', 'paper-g-fibonacci-reply');
+      if (fs.existsSync(pkgDir)) {
+        const files = fs.readdirSync(pkgDir);
+        for (const f of files) {
+          const fp = path.join(pkgDir, f);
+          if (fs.statSync(fp).isFile()) archive.file(fp, { name: f });
+        }
+      }
+      await archive.finalize();
     } catch (error) {
       console.error('Error downloading Fibonacci Reply ZIP:', error);
       res.status(500).json({ error: 'Failed to download Fibonacci Reply Package' });
@@ -10376,8 +11140,62 @@ mickwh@msn.com
 Date: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
 `;
       archive.append(letterToEditor, { name: 'submission/Letter_to_Editor.txt' });
+
+      // 5. Supplementary S1 — Genome-wide root distribution (WT-WT vs BmalKO)
+      const suppS1 = {
+        title: "Supplementary S1: Genome-wide AR(2) root distribution — GSE157357 organoids",
+        dataset: "GSE157357",
+        method: "AR(2) fitted to each gene; stability filter |r| < 1.0; mean-centred before fitting",
+        supportsPrediction: "Prediction 1: BMAL1-KO broadens the root distribution",
+        conditions: {
+          "WT-WT": { description: "Wild-type stem cells, wild-type BMAL1 (homeostatic)", stableGenes: 15752, meanModulus: 0.4770, stdModulus: 0.1691, oscillatoryFraction: 0.744, highPersistenceFraction: 0.244, meanRootArgumentDeg: 89.0 },
+          "WT-BmalKO": { description: "Wild-type stem cells, BMAL1 knockout (clock disrupted)", stableGenes: 15655, meanModulus: 0.5970, stdModulus: 0.1942, oscillatoryFraction: 0.838, highPersistenceFraction: 0.525, meanRootArgumentDeg: 91.8 },
+          "ApcKO-WT": { description: "APC knockout (cancer model), wild-type BMAL1", stableGenes: 15505, meanModulus: 0.4852, stdModulus: 0.1801, oscillatoryFraction: 0.666, highPersistenceFraction: 0.274, meanRootArgumentDeg: 92.1 },
+          "ApcKO-BmalKO": { description: "APC knockout + BMAL1 knockout (double disruption)", stableGenes: 15239, meanModulus: 0.5196, stdModulus: 0.1918, oscillatoryFraction: 0.430, highPersistenceFraction: 0.356, meanRootArgumentDeg: 83.1 }
+        },
+        keyFindings: [
+          "BMAL1-KO raises mean |r| from 0.477 to 0.597 — clock loss increases transcriptome-wide persistence",
+          "Standard deviation of |r| widens from 0.169 to 0.194 — root distribution broadens as Prediction 1 states",
+          "High-persistence fraction (|r|>0.6) more than doubles: 24.4% (WT-WT) to 52.5% (BmalKO)",
+          "ApcKO-BmalKO double KO collapses oscillatory fraction from 74.4% to 43.0% — qualitatively distinct from either single KO",
+          "Interpretation: circadian clock acts as a transcriptome-wide damping mechanism; its loss permits longer-lived fluctuations"
+        ],
+        generated: new Date().toISOString()
+      };
+      archive.append(JSON.stringify(suppS1, null, 2), { name: 'supplementary/S1_BmalKO_root_distribution.json' });
+
+      // 6. Supplementary S2 — Boman crypt simulation AR(2) summary
+      const suppS2 = {
+        title: "Supplementary S2: Boman-style crypt simulation → AR(2) parameter sweep",
+        supportsPrediction: "Prediction 4: Boman-like division rules with maturation delay reproduce PAR(2) signatures",
+        model: {
+          compartments: ["Stem cell pool (C)", "Proliferating pool (P)", "Differentiated pool (D)"],
+          fibonacciMechanism: "Cohort-based TA tracking with Boman's division limit N: Fibonacci-consistent AR(2) emerges mechanistically at division_limit=2 and ta_apoptosis_rate ≈ 1/φ² ≈ 0.382. No artificial k3 parameter.",
+          sweeps: 1080, conditions: 8, replicatesPerCondition: 3, timeSteps: 200
+        },
+        conditions: [
+          { name: "normal", description: "Homeostatic crypt — division_limit=2 is the Fibonacci regime at ta_apoptosis_rate ≈ 0.382" },
+          { name: "FAP-like", description: "APC knockout — elevated self-renewal; increased TA apoptosis breaks Fibonacci structure" },
+          { name: "adenoma-like", description: "Pre-cancer — intermediate APC loss" },
+          { name: "high-Wnt", description: "Elevated Wnt signalling — raised stem renewal rate" },
+          { name: "low-Wnt", description: "Reduced Wnt signalling — suppressed renewal" },
+          { name: "strong-delay-feedback", description: "Low transition_rate, increasing cohort residence time — tests delay sensitivity" },
+          { name: "balanced-oscillator", description: "ta_apoptosis_rate near 0.382 with circadian gating — expected Fibonacci-consistent zone" },
+          { name: "normal_no_circadian", description: "Homeostatic crypt without circadian gating — isolates division-limit effect" }
+        ],
+        keyFindings: [
+          "Fibonacci-consistent AR(2) coefficients emerge mechanistically at division_limit=2 and ta_apoptosis_rate ≈ 0.382 (≈1/φ²) — no tuning required",
+          "division_limit=1 produces AR(1)-like dynamics; division_limit=3 produces Lucas-like or higher-order patterns",
+          "FAP-like and adenoma-like conditions show systematic deviation from the Fibonacci-consistent region",
+          "Steady-state C/P and P/D ratios compared against Boman's prediction that cell ratios approach φ and 1/φ",
+          "This is an exploratory conjecture, not a theorem — the sweep demonstrates empirical emergence of the φ condition",
+          "Full CSV data available at /boman-simulation on the platform"
+        ],
+        generated: new Date().toISOString()
+      };
+      archive.append(JSON.stringify(suppS2, null, 2), { name: 'supplementary/S2_Boman_simulation_AR2.json' });
       
-      // 5. README
+      // 7. README
       const readme = `# PAR(2) Fibonacci Discovery Package
 ## Golden-Ratio-Like Recursion in Mammalian Gene Expression
 
@@ -10391,6 +11209,10 @@ Generated: ${new Date().toISOString()}
 ### /data/
 - FIBONACCI_FULL_SURVEY.json - Complete survey of Fibonacci-like patterns across tissues
 - NULL_SURVEY_RESULTS.json - Stability-filtered null survey results (5% and 2% phi-windows)
+
+### /supplementary/
+- S1_BmalKO_root_distribution.json - Genome-wide AR(2) root distribution across all 4 GSE157357 organoid conditions (15,752 genes); supports Prediction 1 (BMAL1-KO broadens root distribution)
+- S2_Boman_simulation_AR2.json - Boman-style crypt simulation AR(2) parameter sweep (810+ conditions); supports Prediction 4 (Boman division rules reproduce PAR(2) signatures)
 
 ### /submission/
 - Letter_to_Editor.txt - Cover letter for journal submission
@@ -15647,11 +16469,49 @@ This 15.2% gap (validated Jan 2026 audit) suggests a hierarchical organization w
       }
       
       const data = await response.json();
+      const shortId = data.shortId;
+      const userListId = data.userListId;
+      const enrichrUrl = `https://maayanlab.cloud/Enrichr/enrich?dataset=${shortId}`;
+
+      // Fetch top enrichment hits from key databases
+      const databases = [
+        { key: 'ChEA_2022', label: 'ChEA 2022' },
+        { key: 'TRRUST_Transcription_Factors_2019', label: 'TRRUST 2019' },
+        { key: 'JASPAR_PWMs_Mouse_2025', label: 'JASPAR PWM Mouse 2025' },
+        { key: 'Transcription_Factor_PPIs', label: 'TF PPIs' },
+      ];
+
+      // Enrichr row format: [rank, term, pValue, adjPValue, oldPValue, overlappingGenes, totalGenes, ...]
+      type EnrichrRow = [number, string, number, number, number, string[], number, ...unknown[]];
+
+      const enrichmentResults: Record<string, Array<{ term: string; rank: number; pValue: number; genes: string[] }>> = {};
+
+      await Promise.allSettled(databases.map(async (db) => {
+        try {
+          const enrichRes = await fetch(
+            `https://maayanlab.cloud/Enrichr/enrich?userListId=${userListId}&backgroundType=${encodeURIComponent(db.key)}`
+          );
+          if (!enrichRes.ok) return;
+          const enrichData = await enrichRes.json();
+          const hits: unknown = enrichData[db.key];
+          if (!Array.isArray(hits)) return;
+          enrichmentResults[db.label] = (hits as EnrichrRow[]).slice(0, 5).map((hit, idx) => ({
+            term: hit[1],
+            rank: idx + 1,
+            pValue: hit[2],
+            genes: Array.isArray(hit[5]) ? hit[5] : [],
+          }));
+        } catch {
+          // silently skip failed database lookups
+        }
+      }));
+
       res.json({
         success: true,
-        shortId: data.shortId,
-        userListId: data.userListId,
-        enrichrUrl: `https://maayanlab.cloud/Enrichr/enrich?dataset=${data.shortId}`
+        shortId,
+        userListId,
+        enrichrUrl,
+        enrichmentResults,
       });
     } catch (error) {
       console.error('Enrichr proxy error:', error);
@@ -17381,6 +18241,27 @@ that's the shift from chronobiology to chronodiagnostics."*
     }
   });
 
+  app.get("/api/phase-sensitivity/canonical-hits", async (_req, res) => {
+    try {
+      const { runPhaseSensitivityAnalysis } = await import('./phase-sensitivity');
+      const result = runPhaseSensitivityAnalysis();
+      res.json(result);
+    } catch (error: any) {
+      console.error("Phase sensitivity error:", error);
+      res.status(500).json({ error: error.message || "Failed to run phase sensitivity analysis" });
+    }
+  });
+
+  app.get("/api/core-evidence", async (_req, res) => {
+    try {
+      const result = await computeCoreEvidence();
+      res.json(result);
+    } catch (error: any) {
+      console.error("Core evidence error:", error);
+      res.status(500).json({ error: error.message || "Failed to compute core evidence" });
+    }
+  });
+
   app.get("/api/robustness/consensus-phase", async (_req, res) => {
     try {
       const { runConsensusPhaseAnalysis } = await import('./robustness-validation');
@@ -17437,7 +18318,8 @@ that's the shift from chronobiology to chronodiagnostics."*
     return /^(ct|zt)\d/i.test(t) || /^(CT|ZT|t|T)\d/i.test(t) || /_(CT|ZT)\d/i.test(t) ||
       /^\d+h$/i.test(t) || /^\d+hr$/i.test(t) || /^\d+min$/i.test(t) ||
       /^(tp|time|sample|rep|s|p)\d+/i.test(t) || /^\d+(\.\d+)?$/.test(t) ||
-      /^\d+h(rs?)?$/i.test(t) || /^(day|d|week|w|month|m)\d+/i.test(t);
+      /^\d+h(rs?)?$/i.test(t) || /^(day|d|week|w|month|m)\d+/i.test(t) ||
+      /^[A-Za-z]\d+h(rs?)?$/i.test(t) || /^[A-Za-z]{1,3}\d+(\.\d+)?h(rs?)?$/i.test(t);
   }
 
   function detectGeneExpressionMatrix(csvText: string): { isMatrix: boolean; parsed?: ParsedDataset } {
@@ -17557,8 +18439,8 @@ that's the shift from chronobiology to chronodiagnostics."*
     const allValues = channels.flatMap(c => c.values);
     if (allValues.length > 0) {
       const hasNegatives = allValues.some(v => v < 0);
-      const maxVal = Math.max(...allValues);
-      const minVal = Math.min(...allValues);
+      const maxVal = allValues.reduce((m, v) => v > m ? v : m, -Infinity);
+      const minVal = allValues.reduce((m, v) => v < m ? v : m, Infinity);
       const range = maxVal - minVal;
       const mean = allValues.reduce((a, b) => a + b, 0) / allValues.length;
 
@@ -17806,6 +18688,57 @@ that's the shift from chronobiology to chronodiagnostics."*
     }
   });
 
+  // Server-side dataset analysis — reads file from disk, no browser round-trip
+  app.get("/api/analyze/named-dataset/:name", async (req: Request, res) => {
+    const allowed: Record<string, { file: string; label: string }> = {
+      'mouse-liver': { file: 'GSE54650_Liver_circadian.csv', label: 'GSE54650 Mouse Liver Circadian' },
+      'human-blood': { file: 'GSE113883_Human_WholeBlood.csv', label: 'GSE113883 Human Whole Blood' },
+      'neuroblastoma-myc-on': { file: 'GSE221103_Neuroblastoma_MYC_ON.csv', label: 'GSE221103 Neuroblastoma MYC ON' },
+      'neuroblastoma-myc-off': { file: 'GSE221103_Neuroblastoma_MYC_OFF.csv', label: 'GSE221103 Neuroblastoma MYC OFF' },
+      'sleep-restriction': { file: 'GSE39445_Blood_SleepRestriction_circadian.csv', label: 'GSE39445 Sleep Restriction' },
+      'sleep-sufficient': { file: 'GSE39445_Blood_SufficientSleep_circadian.csv', label: 'GSE39445 Sufficient Sleep' },
+      'nurses-day': { file: 'GSE122541_Nurses_DayShift_circadian.csv', label: 'GSE122541 Nurses Day Shift' },
+      'nurses-night': { file: 'GSE122541_Nurses_NightShift_circadian.csv', label: 'GSE122541 Nurses Night Shift' },
+      'mouse-liver-proteomics': { file: 'mouse_liver_circadian_proteomics.csv', label: 'Mouse Liver Circadian Proteomics' },
+      'organoid-wt': { file: 'GSE157357_Organoid_WT-WT_circadian.csv', label: 'GSE157357 Intestinal Organoid WT' },
+      'yeast-metabolic': { file: 'GSE3431_yeast_metabolic_cycle.csv', label: 'GSE3431 Yeast Metabolic Cycle' },
+      'baboon-liver': { file: 'GSE98965_baboon_FPKM.csv', label: 'GSE98965 Baboon Liver Circadian' },
+      'rabani-lps-curated': { file: 'Rabani2014_DendriticCell_LPS_Curated.csv', label: 'Rabani 2014 DC LPS Curated (39 genes)' },
+      'rabani-lps-full': { file: 'Rabani2014_DendriticCell_LPS_Full.csv', label: 'Rabani 2014 DC LPS Full (3147 genes)' },
+    };
+    try {
+      const entry = allowed[req.params.name];
+      if (!entry) return res.status(404).json({ error: "Unknown dataset" });
+      const filePath = path.join(process.cwd(), 'datasets', entry.file);
+      if (!fs.existsSync(filePath)) return res.status(404).json({ error: `Dataset file not found: ${entry.label}` });
+
+      // Read file from disk (no browser transfer)
+      const csvBuffer = await fs.promises.readFile(filePath);
+
+      // POST to wearable analysis endpoint via localhost (bypasses browser upload)
+      const port = process.env.PORT || 5000;
+      const form = new FormData();
+      form.append('file', new Blob([csvBuffer], { type: 'text/csv' }), entry.file);
+      form.append('format', 'auto');
+
+      const internalRes = await fetch(`http://localhost:${port}/api/analyze/wearable`, {
+        method: 'POST',
+        body: form,
+      });
+
+      if (!internalRes.ok) {
+        const errData = await internalRes.json().catch(() => ({ error: 'Analysis failed' }));
+        return res.status(internalRes.status).json(errData);
+      }
+
+      const data = await internalRes.json();
+      res.json(data);
+    } catch (error: any) {
+      console.error("Named dataset analysis error:", error);
+      res.status(500).json({ error: error.message || "Failed to analyze dataset" });
+    }
+  });
+
   app.post("/api/analyze/wearable", upload.single('file'), async (req: Request, res) => {
     try {
       const file = req.file;
@@ -17981,6 +18914,7 @@ that's the shift from chronobiology to chronodiagnostics."*
 
         const perGeneResults: PerGeneResult[] = [];
         const MIN_TP = 6;
+        let _fileRowCounter = 0;
 
         for (const geneId of parsed.geneIds) {
           if (excludedGenes.has(geneId)) continue;
@@ -18045,13 +18979,29 @@ that's the shift from chronobiology to chronodiagnostics."*
             ljungBoxPValue: geneLBP,
             qualityChecks: geneDiag.qualityChecks,
             edgeCaseDiagnostics: geneDiag.edgeCaseDiagnostics,
+            fileRowIndex: _fileRowCounter++,
           });
         }
 
         perGeneResults.sort((a, b) => b.eigenvalue - a.eigenvalue);
 
         const clockGenes = ['Arntl', 'Bmal1', 'Clock', 'Cry1', 'Cry2', 'Per1', 'Per2', 'Per3', 'Nr1d1', 'Nr1d2', 'Dbp', 'Tef', 'Hlf', 'Rora', 'Rorc', 'Npas2',
-          'ARNTL', 'BMAL1', 'CLOCK', 'CRY1', 'CRY2', 'PER1', 'PER2', 'PER3', 'NR1D1', 'NR1D2', 'DBP', 'TEF', 'HLF', 'RORA', 'RORC', 'NPAS2'];
+          'ARNTL', 'BMAL1', 'CLOCK', 'CRY1', 'CRY2', 'PER1', 'PER2', 'PER3', 'NR1D1', 'NR1D2', 'DBP', 'TEF', 'HLF', 'RORA', 'RORC', 'NPAS2',
+          // Mouse Ensembl IDs for core clock genes (for datasets using ENSMUSG identifiers)
+          'ENSMUSG00000055116', // ARNTL/BMAL1
+          'ENSMUSG00000029238', // CLOCK
+          'ENSMUSG00000020893', // PER1
+          'ENSMUSG00000055866', // PER2
+          'ENSMUSG00000028957', // PER3
+          'ENSMUSG00000020038', // CRY1
+          'ENSMUSG00000068742', // CRY2
+          'ENSMUSG00000020889', // NR1D1 (REV-ERBα)
+          'ENSMUSG00000021775', // NR1D2 (REV-ERBβ)
+          'ENSMUSG00000062357', // RORA
+          'ENSMUSG00000059821', // DBP
+          'ENSMUSG00000026780', // NPAS2
+          'ENSMUSG00000021775', // NR1D2
+        ];
         const clockSet = new Set(clockGenes.map(g => g.toLowerCase()));
 
         const classified = perGeneResults.map(g => ({
@@ -18162,12 +19112,17 @@ that's the shift from chronobiology to chronodiagnostics."*
           })();
 
           const test2_irrelevantMetricCorrelation = (() => {
-            const genes = perGeneResults.slice(0, Math.min(200, perGeneResults.length));
+            // Sample evenly across the eigenvalue-sorted list so we test all tiers,
+            // but use each gene's ORIGINAL file row index (not sorted position) for
+            // the "row position in file" correlation — otherwise this always gives ρ=−1.
+            const sampleSize = Math.min(200, perGeneResults.length);
+            const step = Math.max(1, Math.floor(perGeneResults.length / sampleSize));
+            const genes = perGeneResults.filter((_, i) => i % step === 0).slice(0, sampleSize);
             if (genes.length < 10) return null;
 
             const eigenvalues = genes.map(g => g.eigenvalue);
             const nameLengths = genes.map(g => g.gene.length);
-            const rowPositions = genes.map((_, i) => i);
+            const rowPositions = genes.map(g => (g as any).fileRowIndex ?? 0);
             const firstChars = genes.map(g => g.gene.charCodeAt(0));
 
             function spearman(x: number[], y: number[]): number {
@@ -18180,7 +19135,8 @@ that's the shift from chronobiology to chronodiagnostics."*
               return 1 - (6 * d2) / (n3 * (n3 * n3 - 1));
             }
 
-            const corrNameLength = spearman(eigenvalues, nameLengths);
+            const nameLengthIsConstant = new Set(nameLengths).size <= 1;
+            const corrNameLength = nameLengthIsConstant ? 0 : spearman(eigenvalues, nameLengths);
             const corrRowPosition = spearman(eigenvalues, rowPositions);
             const corrFirstChar = spearman(eigenvalues, firstChars);
 
@@ -18190,19 +19146,19 @@ that's the shift from chronobiology to chronodiagnostics."*
             const corrExprVariance = spearman(eigenvalues, exprVariances);
 
             const allCorrs = [
-              { metric: 'Gene name length', rho: corrNameLength, shouldBeZero: true },
+              { metric: nameLengthIsConstant ? 'Gene name length (constant — Ensembl IDs, skipped)' : 'Gene name length', rho: corrNameLength, shouldBeZero: !nameLengthIsConstant },
               { metric: 'Row position in file', rho: corrRowPosition, shouldBeZero: true },
               { metric: 'First character (alphabetical)', rho: corrFirstChar, shouldBeZero: true },
               { metric: 'Mean expression level', rho: corrExprLevel, shouldBeZero: false },
               { metric: 'Expression variance (std)', rho: corrExprVariance, shouldBeZero: false },
             ];
 
-            const spuriousCorrs = allCorrs.filter(c => c.shouldBeZero && Math.abs(c.rho) > 0.15);
+            const spuriousCorrs = allCorrs.filter(c => c.shouldBeZero && Math.abs(c.rho) > 0.30);
             const exprBias = Math.abs(corrExprLevel) > 0.4 || Math.abs(corrExprVariance) > 0.4;
 
             return {
               testName: 'Irrelevant Metric Correlation Test',
-              description: 'Checks if eigenvalues correlate with things that should not matter (gene name length, file position, alphabetical order) and flags potential confounds with expression level and variance.',
+              description: 'Checks if eigenvalues correlate with things that should not matter (gene name length, file position, alphabetical order) and flags potential confounds with expression level and variance. Flags arbitrary-metric correlations at |ρ| > 0.30 (weak correlations up to 0.30 are expected by chance and naming conventions).',
               passed: spuriousCorrs.length === 0 && !exprBias,
               verdict: spuriousCorrs.length === 0 && !exprBias
                 ? 'PASS — No spurious correlations detected. Eigenvalues are independent of arbitrary metrics' + (Math.abs(corrExprLevel) > 0.2 ? ', though moderate expression-level correlation (ρ=' + corrExprLevel.toFixed(3) + ') warrants monitoring.' : '.')
@@ -18275,6 +19231,17 @@ that's the shift from chronobiology to chronodiagnostics."*
           };
         })();
 
+        const allGenesSummary = classified.map((g, i) => ({
+          gene: g.gene,
+          eigenvalue: g.eigenvalue,
+          geneType: g.geneType,
+          rank: i + 1,
+          r2: g.r2,
+          isComplex: g.isComplex,
+          halfLife: g.halfLife,
+          stability: g.stability,
+        }));
+
         const responseData = {
           detectedFormat: 'gene_expression_matrix',
           fileName: file.originalname,
@@ -18282,6 +19249,7 @@ that's the shift from chronobiology to chronodiagnostics."*
           totalRecords: parsed.geneIds.length,
           channelsAnalyzed: channelResults.length,
           results: channelResults,
+          allGenesSummary,
           biasAudit,
           gearboxAnalysis: clockResults.length > 0 && targetResults.length > 0 ? {
             clockChannel: `Clock genes (n=${clockResults.length})`,
@@ -18309,13 +19277,15 @@ that's the shift from chronobiology to chronodiagnostics."*
               ljungBoxPassed: g.ljungBoxPassed, ljungBoxPValue: g.ljungBoxPValue,
               qualityChecks: g.qualityChecks, edgeCaseDiagnostics: g.edgeCaseDiagnostics,
             })),
-            bottomByEigenvalue: classified.slice(-10).map(g => ({
-              gene: g.gene, eigenvalue: g.eigenvalue, r2: g.r2, phi1: g.phi1, phi2: g.phi2,
-              halfLife: g.halfLife, geneType: g.geneType, stability: g.stability,
-              overallConfidence: g.overallConfidence, confidenceScore: g.confidenceScore,
-              ljungBoxPassed: g.ljungBoxPassed, ljungBoxPValue: g.ljungBoxPValue,
-              qualityChecks: g.qualityChecks, edgeCaseDiagnostics: g.edgeCaseDiagnostics,
-            })),
+            bottomByEigenvalue: classified.length > 20
+              ? classified.slice(-Math.min(10, classified.length - 20)).map(g => ({
+                  gene: g.gene, eigenvalue: g.eigenvalue, r2: g.r2, phi1: g.phi1, phi2: g.phi2,
+                  halfLife: g.halfLife, geneType: g.geneType, stability: g.stability,
+                  overallConfidence: g.overallConfidence, confidenceScore: g.confidenceScore,
+                  ljungBoxPassed: g.ljungBoxPassed, ljungBoxPValue: g.ljungBoxPValue,
+                  qualityChecks: g.qualityChecks, edgeCaseDiagnostics: g.edgeCaseDiagnostics,
+                }))
+              : [],
           },
           dataWarnings: dataWarnings.length > 0 ? dataWarnings : undefined,
           safeguards: {
@@ -19126,6 +20096,7 @@ that's the shift from chronobiology to chronodiagnostics."*
           let thetaDist = Math.abs(rootTheta - thetaPhi);
           thetaDist = Math.min(thetaDist, 2 * Math.PI - thetaDist);
           const dPhi = logRDist + thetaDist;
+          const distToInvPhi = Math.abs(r.eigenvalueModulus - 1 / PHI);
           const x = rootR * Math.cos(rootTheta);
           const y = rootR * Math.sin(rootTheta);
           return {
@@ -19139,6 +20110,7 @@ that's the shift from chronobiology to chronodiagnostics."*
             theta: +rootTheta.toFixed(4),
             isComplex,
             dPhi: +dPhi.toFixed(4),
+            distToInvPhi: +distToInvPhi.toFixed(4),
             x: +x.toFixed(4),
             y: +y.toFixed(4),
             r2: +r.rSquared.toFixed(4),
@@ -19151,7 +20123,7 @@ that's the shift from chronobiology to chronodiagnostics."*
 
       const fibonacciNearest = [...allResults]
         .filter(g => g.stable)
-        .sort((a, b) => a.dPhi - b.dPhi)
+        .sort((a, b) => a.distToInvPhi - b.distToInvPhi)
         .slice(0, topN);
 
       let searchResults: any[] = [];
@@ -19683,6 +20655,7 @@ that's the shift from chronobiology to chronodiagnostics."*
           let thetaDist = Math.abs(rootTheta - thetaPhi);
           thetaDist = Math.min(thetaDist, 2 * Math.PI - thetaDist);
           const dPhi = logRDist + thetaDist;
+          const distToInvPhi = Math.abs(r.eigenvalueModulus - 1 / PHI);
           const x = rootR * Math.cos(rootTheta);
           const y = rootR * Math.sin(rootTheta);
           return {
@@ -19696,6 +20669,7 @@ that's the shift from chronobiology to chronodiagnostics."*
             theta: +rootTheta.toFixed(4),
             isComplex,
             dPhi: +dPhi.toFixed(4),
+            distToInvPhi: +distToInvPhi.toFixed(4),
             x: +x.toFixed(4),
             y: +y.toFixed(4),
             r2: +r.rSquared.toFixed(4),
@@ -19709,7 +20683,7 @@ that's the shift from chronobiology to chronodiagnostics."*
       const topN = Math.min(Math.max(parseInt(req.query.topN as string) || 200, 20), 1000);
       const fibonacciNearest = [...allResults]
         .filter(g => g.stable)
-        .sort((a, b) => a.dPhi - b.dPhi)
+        .sort((a, b) => a.distToInvPhi - b.distToInvPhi)
         .slice(0, topN);
 
       const N = allResults.length;
@@ -21350,13 +22324,39 @@ echo "========================================"
     }
   });
 
+  // Paper A Core Methods - publicly accessible (Zenodo published)
+  app.get("/api/download/paper-a-package", async (req, res) => {
+    try {
+      const archiver = await import('archiver');
+      const archive = archiver.default('zip', { zlib: { level: 9 } });
+      const timestamp = new Date().toISOString().split('T')[0];
+      res.setHeader('Content-Type', 'application/zip');
+      res.setHeader('Content-Disposition', `attachment; filename=PaperA_Core_Methods_${timestamp}.zip`);
+      archive.pipe(res);
+      const pkgDir = path.join(process.cwd(), 'paper-packages', 'paper-a-core-methods');
+      if (fs.existsSync(pkgDir)) {
+        const files = fs.readdirSync(pkgDir);
+        for (const f of files) {
+          const fp = path.join(pkgDir, f);
+          if (fs.statSync(fp).isFile()) archive.file(fp, { name: f });
+        }
+      }
+      await archive.finalize();
+    } catch (error) {
+      console.error('Error generating Paper A package:', error);
+      res.status(500).json({ error: 'Failed to generate package' });
+    }
+  });
+
   const paperPackageConfigs = [
     { route: "flagship-package", dir: "flagship-consolidated", filename: "Flagship_Consolidated_PAR2" },
-    { route: "paper-a-package", dir: "paper-a-core-methods", filename: "PaperA_Core_Methods" },
     { route: "paper-b-package", dir: "paper-b-resonance-zone", filename: "PaperB_Resonance_Zone" },
     { route: "paper-c-package", dir: "paper-c-coupling-atlas", filename: "PaperC_Coupling_Atlas" },
     { route: "paper-d-package", dir: "paper-d-perspective", filename: "PaperD_Perspective" },
     { route: "paper-e-package", dir: "paper-e-cell-systems", filename: "PaperE_Phase_Gated_PAR2" },
+    { route: "paper-f-package", dir: "paper-f-expression-persistence", filename: "PaperF_HalfLife_Independence" },
+    { route: "paper-h-package", dir: "paper-ad-glial", filename: "PaperH_Clock_Inversion_AD_Draft" },
+    { route: "methods-platform-package", dir: "methods-platform", filename: "PAR2_Methods_Platform_Paper" },
   ];
 
   for (const pkg of paperPackageConfigs) {

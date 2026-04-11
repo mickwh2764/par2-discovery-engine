@@ -1,9 +1,0 @@
-Tissue,Dataset,Stable_Pairs,Near_Phi_Count,Near_Phi_Pct,Phi_Window,Null_Expectation_Pct,Fold_Enrichment,P_Value
-Hypothalamus,GSE54650,8,8,100,2%,2.1,48x,<1e-11
-Heart,GSE54650,32,32,100,5%,4.3,23x,<1e-30
-Kidney_CCD,GSE17739,8,8,100,2%,2.1,48x,<1e-11
-Liver,GSE54650,12,0,0,2%,2.1,0x,1.0
-Kidney,GSE54650,10,0,0,2%,2.1,0x,1.0
-Lung,GSE54650,8,0,0,2%,2.1,0x,1.0
-Muscle,GSE54650,6,0,0,2%,2.1,0x,1.0
-Adrenal,GSE54650,4,0,0,2%,2.1,0x,1.0
