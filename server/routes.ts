@@ -169,7 +169,7 @@ import { getOrthologTable, getOrthologGroup, getOrthologConfidence, getOrthologS
 
 const upload = multer({ 
   storage: multer.memoryStorage(),
-  limits: { fileSize: 500 * 1024 * 1024 } // 500MB limit for CSV uploads
+  limits: { fileSize: 25 * 1024 * 1024 } // 25MB limit for CSV uploads
 });
 
 // Engine version for audit trail - update this when making significant changes to PAR(2) algorithm
