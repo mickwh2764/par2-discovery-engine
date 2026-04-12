@@ -2,7 +2,7 @@
 
 **Temporal Persistence Analysis of Gene Expression via AR(2) Eigenvalue Modulus**
 
-[![Live Platform](https://img.shields.io/badge/Live-Platform-blue)]([https://par2-discovery-engine.replit.app](https://par-2-discovery--6tbwkcht9k.replit.app))
+[![Live Platform](https://img.shields.io/badge/Live-par2discovery.com-blue)](https://par2discovery.com)
 
 ## Overview
 
@@ -12,7 +12,7 @@ Key result: Clock genes show median |lambda| = 0.647, clock-controlled targets =
 
 ## Live Platform
 
-The interactive companion platform is available at: [https://par2-discovery-engine.replit.app](https://par-2-discovery--6tbwkcht9k.replit.app)
+The interactive companion platform is available at: [https://par2discovery.com](https://par2discovery.com)
 
 Every figure and table in the manuscripts can be explored interactively on the platform.
 
