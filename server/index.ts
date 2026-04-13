@@ -30,6 +30,16 @@ app.use(
 
 app.use(express.urlencoded({ extended: false }));
 
+// Block common scanner/exploit probe paths
+app.use((req, res, next) => {
+  const blocked = /^\/\.git|^\/\.env|^\/\.htaccess|^\/wp-|^\/phpmyadmin|^\/admin\.php|^\/xmlrpc\.php/i;
+  if (blocked.test(req.path)) {
+    res.status(404).end();
+    return;
+  }
+  next();
+});
+
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
     hour: "numeric",
