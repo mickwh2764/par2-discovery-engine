@@ -167,9 +167,26 @@ import archiver from "archiver";
 import { runEdgeCaseDiagnostics, runFullDiagnostics, runQualityChecks, computeConfidenceScore, computeGapUncertainty, computeAcf, computeLjungBox, fitAR2WithDiagnostics, type EdgeCaseDiagnostic, type QualityCheck as SharedQualityCheck, type DiagnosticsInput, type DiagnosticsResult } from "./edge-case-diagnostics";
 import { getOrthologTable, getOrthologGroup, getOrthologConfidence, getOrthologSource, buildCrossSpeciesComparison, isOrthologousGene, type Species as OrthologSpecies } from "./orthology-map";
 
+const ALLOWED_UPLOAD_EXTENSIONS = new Set(['.csv', '.tsv', '.txt', '.json']);
+const ALLOWED_UPLOAD_MIMETYPES = new Set([
+  'text/csv', 'text/tab-separated-values', 'text/plain', 'text/tsv',
+  'application/csv', 'application/json',
+  'application/vnd.ms-excel', // Excel saves CSVs with this type
+  'application/octet-stream'  // Some browsers send this for .csv
+]);
+
 const upload = multer({ 
   storage: multer.memoryStorage(),
-  limits: { fileSize: 25 * 1024 * 1024 } // 25MB limit for CSV uploads
+  limits: { fileSize: 25 * 1024 * 1024 }, // 25MB limit
+  fileFilter: (_req, file, cb) => {
+    const ext = '.' + (file.originalname.split('.').pop() || '').toLowerCase();
+    const mimeOk = ALLOWED_UPLOAD_MIMETYPES.has(file.mimetype) || file.mimetype.startsWith('text/');
+    const extOk = ALLOWED_UPLOAD_EXTENSIONS.has(ext);
+    if (!mimeOk && !extOk) {
+      return cb(new Error(`Invalid file type. Please upload a CSV, TSV, or TXT file.`));
+    }
+    cb(null, true);
+  }
 });
 
 // Engine version for audit trail - update this when making significant changes to PAR(2) algorithm
