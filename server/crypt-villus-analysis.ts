@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { fitAR2 as fitAR2Shared } from './ar2-shared';
 
 const PHI = (1 + Math.sqrt(5)) / 2;
 
@@ -83,39 +84,9 @@ export interface CryptVillusAnalysisResult {
 }
 
 function fitAR2(series: number[]): { phi1: number; phi2: number; eigenvalue: number; r2: number } {
-  const n = series.length;
-  if (n < 5) return { phi1: 0, phi2: 0, eigenvalue: 0, r2: 0 };
-  const mean = series.reduce((a, b) => a + b, 0) / n;
-  const y = series.map(x => x - mean);
-  const Y = y.slice(2);
-  const Y1 = y.slice(1, n - 1);
-  const Y2 = y.slice(0, n - 2);
-  let sumY1Y1 = 0, sumY2Y2 = 0, sumY1Y2 = 0, sumYY1 = 0, sumYY2 = 0;
-  for (let i = 0; i < Y.length; i++) {
-    sumY1Y1 += Y1[i] * Y1[i];
-    sumY2Y2 += Y2[i] * Y2[i];
-    sumY1Y2 += Y1[i] * Y2[i];
-    sumYY1 += Y[i] * Y1[i];
-    sumYY2 += Y[i] * Y2[i];
-  }
-  const det = sumY1Y1 * sumY2Y2 - sumY1Y2 * sumY1Y2;
-  if (Math.abs(det) < 1e-15) return { phi1: 0, phi2: 0, eigenvalue: 0, r2: 0 };
-  const phi1 = (sumYY1 * sumY2Y2 - sumYY2 * sumY1Y2) / det;
-  const phi2 = (sumYY2 * sumY1Y1 - sumYY1 * sumY1Y2) / det;
-  const disc = phi1 * phi1 + 4 * phi2;
-  let eigenvalue: number;
-  if (disc >= 0) {
-    const l1 = (phi1 + Math.sqrt(disc)) / 2;
-    const l2 = (phi1 - Math.sqrt(disc)) / 2;
-    eigenvalue = Math.max(Math.abs(l1), Math.abs(l2));
-  } else {
-    eigenvalue = Math.sqrt(-phi2);
-  }
-  const ssRes = Y.reduce((s, yi, i) => s + (yi - phi1 * Y1[i] - phi2 * Y2[i]) ** 2, 0);
-  const meanY = Y.reduce((a, b) => a + b, 0) / Y.length;
-  const ssTot = Y.reduce((s, yi) => s + (yi - meanY) ** 2, 0);
-  const r2 = ssTot > 0 ? Math.max(0, 1 - ssRes / ssTot) : 0;
-  return { phi1, phi2, eigenvalue, r2 };
+  const result = fitAR2Shared(series);
+  if (!result) return { phi1: 0, phi2: 0, eigenvalue: 0, r2: 0 };
+  return result;
 }
 
 function computeRoots(beta1: number, beta2: number): { r: number; theta: number; isComplex: boolean } {

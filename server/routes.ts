@@ -2,6 +2,7 @@ import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { randomBytes, createHash } from "crypto";
 import { storage } from "./storage";
+import { escapeHtml } from "./security";
 import { classifyGene as classifyGeneShared, ENSEMBL_TO_SYMBOL, resolveGeneAliases, CATEGORY_META } from "./gene-categories";
 import { 
   runPAR2Analysis, 
@@ -238,7 +239,21 @@ function sanitizePathParam(input: string): string {
   return path.basename(input).replace(/[^a-zA-Z0-9._-]/g, '_');
 }
 
-function verifyDownloadPassword(_req: Request): { valid: boolean; error?: string } {
+function verifyDownloadPassword(req: Request): { valid: boolean; error?: string } {
+  const expectedPassword = process.env.DOWNLOAD_PROTECT_PASSWORD;
+  if (!expectedPassword) {
+    // No password configured — downloads are open
+    return { valid: true };
+  }
+  const provided = req.headers['x-download-password'] as string
+    || req.query.dlpw as string
+    || req.body?.password;
+  if (!provided) {
+    return { valid: false, error: 'Download password required.' };
+  }
+  if (provided !== expectedPassword) {
+    return { valid: false, error: 'Invalid download password.' };
+  }
   return { valid: true };
 }
 
@@ -251,7 +266,7 @@ function generateExplosiveDynamicsDatasetSections(jsonData: any, maxGenes: numbe
       
       datasetSections += `
       <div class="dataset-section">
-        <h3>${dataset.dataset} <span class="dataset-type">(${dataset.type || 'Transcriptomics'})</span></h3>
+        <h3>${escapeHtml(dataset.dataset)} <span class="dataset-type">(${escapeHtml(dataset.type || 'Transcriptomics')})</span></h3>
         <div class="dataset-stats">
           <div class="mini-stat"><span class="val">${dataset.totalGenes?.toLocaleString()}</span><span class="lbl">Genes</span></div>
           <div class="mini-stat"><span class="val">${dataset.stableCount?.toLocaleString()}</span><span class="lbl">Stable</span></div>
@@ -267,11 +282,11 @@ function generateExplosiveDynamicsDatasetSections(jsonData: any, maxGenes: numbe
           <tbody>
             ${dataset.topExplosiveGenes.slice(0, maxGenes).map((g: any) => `
             <tr class="${g.category === 'Explosive' ? 'explosive-row' : g.category === 'Pre-explosive' ? 'preexplosive-row' : 'boundary-row'}">
-              <td><strong>${g.gene}</strong></td>
+              <td><strong>${escapeHtml(g.gene)}</strong></td>
               <td>${g.beta1?.toFixed(4)}</td>
               <td>${g.beta2?.toFixed(4)}</td>
               <td><strong>${g.modulus?.toFixed(4)}</strong></td>
-              <td>${g.category}</td>
+              <td>${escapeHtml(g.category)}</td>
               <td>${g.fibProximity?.toFixed(2)}%</td>
               <td>${g.meanExpr?.toFixed(2)}</td>
             </tr>`).join('')}
@@ -1818,253 +1833,11 @@ For use with: "Fibonacci-like temporal dynamics in intestinal crypt renewal"
   });
 
   // ============================================
-  // SCALE GUARDRAIL API ENDPOINTS
+  // SCALE GUARDRAIL API ENDPOINTS — moved to routes/guardrail.ts
   // ============================================
+  const guardrailRouter = (await import('./routes/guardrail')).default;
+  app.use('/api/guardrail', guardrailRouter);
 
-  // Get reference fingerprints for tissue comparison
-  app.get("/api/guardrail/fingerprints", (req, res) => {
-    try {
-      const fingerprints = getReferenceFingerprints();
-      res.json({
-        count: fingerprints.length,
-        fingerprints: fingerprints.map(fp => ({
-          tissue: fp.tissue,
-          organism: fp.organism,
-          platform: fp.platform,
-          datasetId: fp.datasetId,
-          nGenes: fp.nGenes,
-          lambdaMean: fp.lambdaMean,
-          lambdaStd: fp.lambdaStd,
-          lambdaRange: fp.lambdaRange
-        }))
-      });
-    } catch (error) {
-      logger.error("Error fetching fingerprints", { error: String(error) });
-      res.status(500).json({ error: "Failed to fetch fingerprints" });
-    }
-  });
-
-  // Detect scale of uploaded data
-  app.post("/api/guardrail/detect-scale", upload.single('file'), (req, res) => {
-    try {
-      if (!req.file) {
-        return res.status(400).json({ error: "No file uploaded" });
-      }
-
-      const content = req.file.buffer.toString('utf-8');
-      const lines = content.trim().split('\n');
-      const values: number[][] = lines.slice(1).map(line => 
-        line.split(',').slice(1).map(v => parseFloat(v)).filter(v => !isNaN(v))
-      );
-
-      const detection = detectScale(values);
-      
-      res.json({
-        fileName: req.file.originalname,
-        detection: {
-          scale: detection.detectedScale,
-          confidence: detection.confidence,
-          evidence: detection.evidence,
-          warnings: detection.warnings,
-          stats: detection.stats
-        },
-        recommendation: detection.detectedScale === 'log2' 
-          ? 'Data appears to be log2-transformed. No additional transform needed.'
-          : `Data appears to be ${detection.detectedScale}. Apply log2 transform for valid AR(2) comparison.`
-      });
-    } catch (error) {
-      logger.error("Error detecting scale", { error: String(error) });
-      res.status(500).json({ error: "Failed to detect scale" });
-    }
-  });
-
-  // Apply harmonized transform and get report
-  app.post("/api/guardrail/harmonize", upload.single('file'), (req, res) => {
-    try {
-      if (!req.file) {
-        return res.status(400).json({ error: "No file uploaded" });
-      }
-
-      const content = req.file.buffer.toString('utf-8');
-      const lines = content.trim().split('\n');
-      const values: number[][] = lines.slice(1).map(line => 
-        line.split(',').slice(1).map(v => parseFloat(v)).filter(v => !isNaN(v))
-      );
-
-      const forceTransform = req.body.forceTransform as 'log2' | 'none' | undefined;
-      const result = harmonizeTransform(values, req.file.originalname, forceTransform);
-      
-      res.json({
-        fileName: req.file.originalname,
-        report: result.report,
-        transformApplied: result.appliedTransform !== 'none'
-      });
-    } catch (error) {
-      logger.error("Error harmonizing data", { error: String(error) });
-      res.status(500).json({ error: "Failed to harmonize data" });
-    }
-  });
-
-  // Compare λ distribution to reference fingerprints
-  app.post("/api/guardrail/compare-fingerprint", (req, res) => {
-    try {
-      const { lambdaValues, tissue } = req.body;
-      
-      if (!lambdaValues || typeof lambdaValues !== 'object') {
-        return res.status(400).json({ error: "lambdaValues object required" });
-      }
-
-      const comparison = compareToRegistry(lambdaValues, tissue);
-      
-      res.json({
-        inputMean: Object.values(lambdaValues as Record<string, number>)
-          .filter((v): v is number => !isNaN(v))
-          .reduce((a, b) => a + b, 0) / Object.values(lambdaValues).length,
-        closestMatch: comparison.closestMatch ? {
-          tissue: comparison.closestMatch.tissue,
-          organism: comparison.closestMatch.organism,
-          datasetId: comparison.closestMatch.datasetId,
-          lambdaMean: comparison.closestMatch.lambdaMean
-        } : null,
-        similarity: comparison.similarity,
-        interpretation: comparison.similarity > 0.7 
-          ? `Strong match to ${comparison.closestMatch?.tissue} reference (${(comparison.similarity * 100).toFixed(0)}% similarity)`
-          : comparison.similarity > 0.5
-            ? `Moderate match to ${comparison.closestMatch?.tissue} reference (${(comparison.similarity * 100).toFixed(0)}% similarity)`
-            : `Weak match - may represent novel tissue/condition`,
-        allComparisons: comparison.allComparisons.map(c => ({
-          tissue: c.fingerprint.tissue,
-          organism: c.fingerprint.organism,
-          datasetId: c.fingerprint.datasetId,
-          ksStatistic: c.ksStatistic,
-          meanDiff: c.meanDiff
-        }))
-      });
-    } catch (error) {
-      logger.error("Error comparing fingerprint", { error: String(error) });
-      res.status(500).json({ error: "Failed to compare fingerprint" });
-    }
-  });
-
-  // Check for scale mixing between multiple datasets
-  app.post("/api/guardrail/check-mixing", upload.array('files', 10), (req, res) => {
-    try {
-      const files = req.files as Express.Multer.File[];
-      
-      if (!files || files.length < 2) {
-        return res.status(400).json({ error: "At least 2 files required for mixing check" });
-      }
-
-      const datasets = files.map(file => {
-        const content = file.buffer.toString('utf-8');
-        const lines = content.trim().split('\n');
-        const values: number[][] = lines.slice(1).map(line => 
-          line.split(',').slice(1).map(v => parseFloat(v)).filter(v => !isNaN(v))
-        );
-        return { name: file.originalname, values };
-      });
-
-      const result = checkScaleMixing(datasets);
-      
-      res.json({
-        compatible: result.compatible,
-        warnings: result.warnings,
-        datasets: result.details.map((d, i) => ({
-          name: datasets[i].name,
-          scale: d.detectedScale,
-          confidence: d.confidence
-        })),
-        recommendation: result.compatible 
-          ? 'All datasets on same scale - safe for cross-dataset comparison'
-          : 'SCALE MIXING DETECTED - Apply harmonized transforms before comparison'
-      });
-    } catch (error) {
-      logger.error("Error checking scale mixing", { error: String(error) });
-      res.status(500).json({ error: "Failed to check scale mixing" });
-    }
-  });
-
-  // Get reference atlas with tier classification
-  app.get("/api/guardrail/atlas", (req, res) => {
-    try {
-      const tier = req.query.tier as 'tier1' | 'tier2' | 'all' | undefined;
-      const atlas = getReferenceAtlas(tier);
-      
-      res.json({
-        tier1: {
-          tissues: atlas.tier1.map(fp => fp.tissue),
-          count: atlas.tier1.length,
-          fingerprints: atlas.tier1.map(fp => ({
-            tissue: fp.tissue,
-            lambdaMean: fp.lambdaMean,
-            lambdaStd: fp.lambdaStd,
-            lambdaRange: fp.lambdaRange,
-            clockGeneLambdas: fp.clockGeneLambdas
-          }))
-        },
-        tier2: {
-          tissues: atlas.tier2.map(fp => fp.tissue),
-          count: atlas.tier2.length,
-          fingerprints: atlas.tier2.map(fp => ({
-            tissue: fp.tissue,
-            lambdaMean: fp.lambdaMean,
-            lambdaStd: fp.lambdaStd,
-            lambdaRange: fp.lambdaRange,
-            clockGeneLambdas: fp.clockGeneLambdas
-          }))
-        },
-        summary: atlas.summary,
-        methodology: {
-          preprocessing: 'Standardized log2 transformation',
-          source: 'GSE54650 Hughes Circadian Atlas (Mouse)',
-          platform: 'Affymetrix RNA-seq normalized to log2',
-          clockGenes: ['Per1', 'Per2', 'Per3', 'Arntl', 'Clock', 'Cry1', 'Cry2', 'Nr1d1', 'Nr1d2', 'Rorc', 'Dbp', 'Tef', 'Npas2']
-        }
-      });
-    } catch (error) {
-      logger.error("Error fetching reference atlas", { error: String(error) });
-      res.status(500).json({ error: "Failed to fetch reference atlas" });
-    }
-  });
-
-  // Match dataset fingerprint to reference atlas
-  app.post("/api/guardrail/match-fingerprint", (req, res) => {
-    try {
-      const { lambdaValues, datasetName } = req.body;
-      
-      if (!lambdaValues || typeof lambdaValues !== 'object') {
-        return res.status(400).json({ error: "lambdaValues object required with gene:lambda pairs" });
-      }
-
-      const result = matchDatasetFingerprint(lambdaValues, datasetName || 'unknown');
-      
-      res.json({
-        datasetName: datasetName || 'unknown',
-        bestMatch: result.bestMatch,
-        allMatches: result.allMatches.slice(0, 6),
-        qualityFlags: result.qualityFlags,
-        recommendation: result.recommendation,
-        visualization: {
-          inputMean: Object.values(lambdaValues as Record<string, number>)
-            .filter((v): v is number => !isNaN(v))
-            .reduce((a, b) => a + b, 0) / Object.values(lambdaValues).filter(v => !isNaN(v as number)).length,
-          referenceRange: {
-            // Real data from Jan 2026 audit (33 datasets)
-            liver: 0.717,  // Liver mean from audit
-            kidney: 0.889,  // Kidney mean from audit
-            heart: 0.689,  // Heart mean from audit
-            lung: 0.782,  // Lung mean from audit
-            muscle: 0.70,  // Approximate
-            adrenal: 0.75   // Approximate
-          }
-        }
-      });
-    } catch (error) {
-      logger.error("Error matching fingerprint", { error: String(error) });
-      res.status(500).json({ error: "Failed to match fingerprint" });
-    }
-  });
-  
   // Get all analysis runs
   app.get("/api/analyses", async (req, res) => {
     try {
@@ -15326,44 +15099,12 @@ Report generated by PAR(2) Discovery Engine v1.0
   });
 
   // ============================================
-  // MASTER AUDITOR BENCHMARK ROUTES
-  // External validation against systems biology benchmarks
+  // BENCHMARK ROUTES — moved to routes/benchmarks.ts
   // ============================================
-  
-  // Run full Master Auditor benchmark suite
-  app.get("/api/benchmarks/master-auditor", (req, res) => {
-    try {
-      const result = runMasterAuditor();
-      res.json(result);
-    } catch (error) {
-      console.error('Error running Master Auditor:', error);
-      res.status(500).json({ error: 'Failed to run Master Auditor benchmark suite' });
-    }
-  });
-  
-  // Monte Carlo Simulation Study
-  app.get("/api/benchmarks/monte-carlo-simulation", (req, res) => {
-    try {
-      const quick = req.query.quick === 'true';
-      const result = runMonteCarloSimulation(quick);
-      res.json(result);
-    } catch (error) {
-      console.error('Error running Monte Carlo simulation:', error);
-      res.status(500).json({ error: 'Failed to run Monte Carlo simulation' });
-    }
-  });
+  const benchmarksRouter = (await import('./routes/benchmarks')).default;
+  app.use('/api/benchmarks', benchmarksRouter);
 
-  // Head-to-Head Method Comparison
-  app.get("/api/benchmarks/head-to-head", (req, res) => {
-    try {
-      const result = runHeadToHeadComparison();
-      res.json(result);
-    } catch (error) {
-      console.error('Error running head-to-head comparison:', error);
-      res.status(500).json({ error: 'Failed to run head-to-head comparison' });
-    }
-  });
-
+  // Turing deep-dive sits under /api/analysis, so keep it here
   app.get("/api/analysis/turing-deep-dive", (req, res) => {
     try {
       const result = computeTuringDeepDive();
@@ -15371,166 +15112,6 @@ Report generated by PAR(2) Discovery Engine v1.0
     } catch (error) {
       console.error('Error computing Turing deep dive:', error);
       res.status(500).json({ error: 'Failed to compute Turing deep dive analysis' });
-    }
-  });
-
-  // Run Turing Symmetry-Breaking benchmark
-  app.get("/api/benchmarks/turing", (req, res) => {
-    try {
-      const result = runTuringBenchmark();
-      res.json(result);
-    } catch (error) {
-      console.error('Error running Turing benchmark:', error);
-      res.status(500).json({ error: 'Failed to run Turing benchmark' });
-    }
-  });
-  
-  // Run spatial symmetry test for specific eigenvalue
-  app.get("/api/benchmarks/turing/test/:eigenvalue", (req, res) => {
-    try {
-      const eigenvalue = parseFloat(req.params.eigenvalue);
-      if (isNaN(eigenvalue) || eigenvalue < 0 || eigenvalue > 1) {
-        return res.status(400).json({ error: 'Invalid eigenvalue. Must be between 0 and 1.' });
-      }
-      const result = runSpatialSymmetryTest(eigenvalue);
-      res.json(result);
-    } catch (error) {
-      console.error('Error running spatial symmetry test:', error);
-      res.status(500).json({ error: 'Failed to run spatial symmetry test' });
-    }
-  });
-  
-  // Run Fisher Information benchmark
-  app.get("/api/benchmarks/fisher", (req, res) => {
-    try {
-      const result = runFisherBenchmark();
-      res.json(result);
-    } catch (error) {
-      console.error('Error running Fisher benchmark:', error);
-      res.status(500).json({ error: 'Failed to run Fisher Information benchmark' });
-    }
-  });
-  
-  // Analyze tissue Turing stability
-  app.post("/api/benchmarks/turing/analyze", (req, res) => {
-    try {
-      const { eigenvalue, tissue, condition } = req.body;
-      if (typeof eigenvalue !== 'number') {
-        return res.status(400).json({ error: 'Eigenvalue required' });
-      }
-      const result = analyzeTuringStability(eigenvalue, tissue || 'Unknown', condition || 'Unknown');
-      res.json(result);
-    } catch (error) {
-      console.error('Error analyzing Turing stability:', error);
-      res.status(500).json({ error: 'Failed to analyze Turing stability' });
-    }
-  });
-  
-  // Analyze information fidelity
-  app.post("/api/benchmarks/fisher/analyze", (req, res) => {
-    try {
-      const { eigenvalue, tissue, condition } = req.body;
-      if (typeof eigenvalue !== 'number') {
-        return res.status(400).json({ error: 'Eigenvalue required' });
-      }
-      const result = analyzeInformationFidelity(eigenvalue, tissue || 'Unknown', condition || 'Unknown');
-      res.json(result);
-    } catch (error) {
-      console.error('Error analyzing information fidelity:', error);
-      res.status(500).json({ error: 'Failed to analyze information fidelity' });
-    }
-  });
-  
-  // Run STRING Network benchmark with REAL eigenvalue data
-  app.get("/api/benchmarks/network", async (req, res) => {
-    try {
-      const { computeRealEigenvalueData } = await import("./benchmarks/real-eigenvalue-data");
-      const realData = computeRealEigenvalueData();
-      const eigenvalueData = realData.map((d: any) => ({ gene: d.gene, eigenvalue: d.eigenvalue }));
-      const result = runNetworkBenchmark(eigenvalueData.length > 0 ? eigenvalueData : [
-        { gene: 'Arntl', eigenvalue: 0.79 }, { gene: 'Per1', eigenvalue: 0.71 }
-      ]);
-      res.json(result);
-    } catch (error) {
-      console.error('Error running Network benchmark:', error);
-      res.status(500).json({ error: 'Failed to run STRING Network benchmark' });
-    }
-  });
-  
-  // Run Ueda Molecular Timetable benchmark with sample data
-  app.get("/api/benchmarks/ueda", async (req, res) => {
-    try {
-      const { computeRealTimeSeriesData } = await import("./benchmarks/real-eigenvalue-data");
-      const realData = computeRealTimeSeriesData();
-      const uedaInput = realData.map((d: any) => ({
-        gene: d.gene,
-        timeSeries: d.timeSeries,
-        timepoints: d.timepoints,
-        eigenvalue: d.eigenvalue
-      }));
-      const result = runUedaBenchmark(uedaInput.length > 0 ? uedaInput : [
-        { gene: 'Per1', timeSeries: [5, 8, 6, 3, 5, 8], timepoints: [0,4,8,12,16,20], eigenvalue: 0.71 }
-      ]);
-      res.json(result);
-    } catch (error) {
-      console.error('Error running Ueda benchmark:', error);
-      res.status(500).json({ error: 'Failed to run Ueda Timetable benchmark' });
-    }
-  });
-
-  // Data Sparsity Stress Test - tests robustness to missing data
-  app.get("/api/benchmarks/data-sparsity", (req, res) => {
-    try {
-      const numTrials = parseInt(req.query.trials as string) || 100;
-      const result = runDataSparsityBenchmark(numTrials);
-      res.json(result);
-    } catch (error) {
-      console.error('Error running Data Sparsity benchmark:', error);
-      res.status(500).json({ error: 'Failed to run Data Sparsity benchmark' });
-    }
-  });
-
-  // Data Sparsity at specific level
-  app.get("/api/benchmarks/data-sparsity/:level", (req, res) => {
-    try {
-      const level = parseFloat(req.params.level);
-      const numTrials = parseInt(req.query.trials as string) || 50;
-      if (isNaN(level) || level < 0 || level > 0.9) {
-        return res.status(400).json({ error: 'Sparsity level must be between 0 and 0.9' });
-      }
-      const result = analyzeSparsityAtLevel(level, numTrials);
-      res.json(result);
-    } catch (error) {
-      console.error('Error running Sparsity analysis:', error);
-      res.status(500).json({ error: 'Failed to analyze sparsity level' });
-    }
-  });
-
-  // Phase Shift Test - tests temporal specificity
-  app.get("/api/benchmarks/phase-shift", (req, res) => {
-    try {
-      const numTrials = parseInt(req.query.trials as string) || 100;
-      const result = runPhaseShiftBenchmark(numTrials);
-      res.json(result);
-    } catch (error) {
-      console.error('Error running Phase Shift benchmark:', error);
-      res.status(500).json({ error: 'Failed to run Phase Shift benchmark' });
-    }
-  });
-
-  // Phase Shift at specific hours
-  app.get("/api/benchmarks/phase-shift/:hours", (req, res) => {
-    try {
-      const hours = parseFloat(req.params.hours);
-      const numTrials = parseInt(req.query.trials as string) || 50;
-      if (isNaN(hours)) {
-        return res.status(400).json({ error: 'Shift hours must be a number' });
-      }
-      const result = analyzePhaseShift(hours, numTrials);
-      res.json(result);
-    } catch (error) {
-      console.error('Error running Phase Shift analysis:', error);
-      res.status(500).json({ error: 'Failed to analyze phase shift' });
     }
   });
 

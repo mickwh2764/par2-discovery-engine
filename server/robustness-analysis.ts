@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { fitAR2 as fitAR2Shared } from './ar2-shared';
 
 interface AR2Result {
   gene: string;
@@ -24,56 +25,9 @@ interface RobustnessResult {
 }
 
 function computeAR2(timeSeries: number[]): { eigenvalue: number; beta1: number; beta2: number; r2: number } {
-  const mean = timeSeries.reduce((a, b) => a + b, 0) / timeSeries.length;
-  const centered = timeSeries.map(v => v - mean);
-  
-  const Y: number[] = [];
-  const X1: number[] = [];
-  const X2: number[] = [];
-  
-  for (let i = 2; i < centered.length; i++) {
-    Y.push(centered[i]);
-    X1.push(centered[i - 1]);
-    X2.push(centered[i - 2]);
-  }
-  
-  const sumX1X1 = X1.reduce((a, _, i) => a + X1[i] * X1[i], 0);
-  const sumX2X2 = X2.reduce((a, _, i) => a + X2[i] * X2[i], 0);
-  const sumX1X2 = X1.reduce((a, _, i) => a + X1[i] * X2[i], 0);
-  const sumYX1 = Y.reduce((a, _, i) => a + Y[i] * X1[i], 0);
-  const sumYX2 = Y.reduce((a, _, i) => a + Y[i] * X2[i], 0);
-  
-  const det = sumX1X1 * sumX2X2 - sumX1X2 * sumX1X2;
-  if (Math.abs(det) < 1e-10) {
-    return { eigenvalue: 0, beta1: 0, beta2: 0, r2: 0 };
-  }
-  
-  const beta1 = (sumX2X2 * sumYX1 - sumX1X2 * sumYX2) / det;
-  const beta2 = (sumX1X1 * sumYX2 - sumX1X2 * sumYX1) / det;
-  
-  const discriminant = beta1 * beta1 + 4 * beta2;
-  let eigenvalue: number;
-  
-  if (discriminant >= 0) {
-    const lambda1 = (beta1 + Math.sqrt(discriminant)) / 2;
-    const lambda2 = (beta1 - Math.sqrt(discriminant)) / 2;
-    eigenvalue = Math.max(Math.abs(lambda1), Math.abs(lambda2));
-  } else {
-    eigenvalue = Math.sqrt(-beta2);
-  }
-  
-  // Calculate R²
-  const predictions: number[] = [];
-  for (let i = 2; i < centered.length; i++) {
-    predictions.push(beta1 * centered[i - 1] + beta2 * centered[i - 2]);
-  }
-  
-  const ssRes = Y.reduce((sum, y, i) => sum + Math.pow(y - predictions[i], 2), 0);
-  const yMean = Y.reduce((a, b) => a + b, 0) / Y.length;
-  const ssTot = Y.reduce((sum, y) => sum + Math.pow(y - yMean, 2), 0);
-  const r2 = ssTot > 0 ? 1 - ssRes / ssTot : 0;
-  
-  return { eigenvalue, beta1, beta2, r2 };
+  const result = fitAR2Shared(timeSeries);
+  if (!result) return { eigenvalue: 0, beta1: 0, beta2: 0, r2: 0 };
+  return { beta1: result.phi1, beta2: result.phi2, eigenvalue: result.eigenvalue, r2: result.r2 };
 }
 
 function cosinorFit(timeSeries: number[], period: number = 24): { amplitude: number; phase: number; r2: number } {

@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { classifyGene as classifyGeneMulti, ENSEMBL_TO_SYMBOL as MULTI_ENSEMBL, ALL_CATEGORIES, CATEGORY_META, type GeneCategory } from './gene-categories';
+import { fitAR2Full as fitAR2Shared, type AR2FullResult } from './ar2-shared';
 
 const CLOCK_GENES_UPPER = new Set([
   'PER1', 'PER2', 'PER3', 'CRY1', 'CRY2', 'CLOCK', 'ARNTL', 'BMAL1',
@@ -46,54 +47,9 @@ function mulberry32(seed: number) {
 }
 
 function fitAR2(series: number[]): { phi1: number; phi2: number; eigenvalue: number; r2: number; residuals: number[] } {
-  const n = series.length;
-  if (n < 5) return { phi1: 0, phi2: 0, eigenvalue: 0, r2: 0, residuals: [] };
-
-  const mean = series.reduce((a, b) => a + b, 0) / n;
-  const y = series.map(x => x - mean);
-
-  const Y = y.slice(2);
-  const Y1 = y.slice(1, n - 1);
-  const Y2 = y.slice(0, n - 2);
-
-  let sumY1Y1 = 0, sumY2Y2 = 0, sumY1Y2 = 0, sumYY1 = 0, sumYY2 = 0;
-  for (let i = 0; i < Y.length; i++) {
-    sumY1Y1 += Y1[i] * Y1[i];
-    sumY2Y2 += Y2[i] * Y2[i];
-    sumY1Y2 += Y1[i] * Y2[i];
-    sumYY1 += Y[i] * Y1[i];
-    sumYY2 += Y[i] * Y2[i];
-  }
-
-  const denom = sumY1Y1 * sumY2Y2 - sumY1Y2 * sumY1Y2;
-  if (Math.abs(denom) < 1e-10) return { phi1: 0, phi2: 0, eigenvalue: 0, r2: 0, residuals: [] };
-
-  const phi1 = (sumYY1 * sumY2Y2 - sumYY2 * sumY1Y2) / denom;
-  const phi2 = (sumYY2 * sumY1Y1 - sumYY1 * sumY1Y2) / denom;
-
-  const discriminant = phi1 * phi1 + 4 * phi2;
-  let eigenvalue: number;
-  if (discriminant < 0) {
-    eigenvalue = Math.sqrt(-phi2);
-  } else {
-    const r1 = (phi1 + Math.sqrt(discriminant)) / 2;
-    const r2val = (phi1 - Math.sqrt(discriminant)) / 2;
-    eigenvalue = Math.max(Math.abs(r1), Math.abs(r2val));
-  }
-
-  const residuals: number[] = [];
-  let ssTot = 0, ssRes = 0;
-  const yMean = Y.reduce((a, b) => a + b, 0) / Y.length;
-  for (let i = 0; i < Y.length; i++) {
-    const pred = phi1 * Y1[i] + phi2 * Y2[i];
-    const res = Y[i] - pred;
-    residuals.push(res);
-    ssRes += res * res;
-    ssTot += (Y[i] - yMean) ** 2;
-  }
-  const r2 = ssTot > 0 ? Math.max(0, 1 - ssRes / ssTot) : 0;
-
-  return { phi1, phi2, eigenvalue, r2, residuals };
+  const result = fitAR2Shared(series);
+  if (!result) return { phi1: 0, phi2: 0, eigenvalue: 0, r2: 0, residuals: [] };
+  return result;
 }
 
 function classifyGene(name: string): 'clock' | 'target' | 'other' {
