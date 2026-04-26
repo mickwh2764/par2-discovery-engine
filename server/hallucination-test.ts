@@ -1,29 +1,10 @@
 import { solveAR2Eigenvalues } from './par2-engine.ts';
+import { fitAR2 as fitAR2Shared } from './ar2-shared';
 
 function fitAR2(series: number[]): { phi1: number; phi2: number; eigenvalue: number } {
-  const n = series.length;
-  const Y = series.slice(2);
-  const Y1 = series.slice(1, n - 1);
-  const Y2 = series.slice(0, n - 2);
-  
-  let sumY1Y1 = 0, sumY2Y2 = 0, sumY1Y2 = 0;
-  let sumYY1 = 0, sumYY2 = 0;
-  
-  for (let i = 0; i < Y.length; i++) {
-    sumY1Y1 += Y1[i] * Y1[i];
-    sumY2Y2 += Y2[i] * Y2[i];
-    sumY1Y2 += Y1[i] * Y2[i];
-    sumYY1 += Y[i] * Y1[i];
-    sumYY2 += Y[i] * Y2[i];
-  }
-  
-  const denom = sumY1Y1 * sumY2Y2 - sumY1Y2 * sumY1Y2;
-  const phi1 = (sumYY1 * sumY2Y2 - sumYY2 * sumY1Y2) / denom;
-  const phi2 = (sumYY2 * sumY1Y1 - sumYY1 * sumY1Y2) / denom;
-  
-  const result = solveAR2Eigenvalues(phi1, phi2);
-  const eigenvalue = Math.max(result.modulus1, result.modulus2);
-  return { phi1, phi2, eigenvalue };
+  const result = fitAR2Shared(series);
+  if (!result) return { phi1: 0, phi2: 0, eigenvalue: 0 };
+  return { phi1: result.phi1, phi2: result.phi2, eigenvalue: result.eigenvalue };
 }
 
 console.log("=== HALLUCINATION TEST ===\n");

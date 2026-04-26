@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { ENSEMBL_TO_SYMBOL } from './gene-categories';
+import { fitAR2 as fitAR2Shared } from './ar2-shared';
 
 const YEAST_CORE_OSCILLATOR = [
   'HAP1', 'HAP2', 'HAP3', 'HAP4', 'HAP5',
@@ -52,35 +53,14 @@ function classifyYeastGene(gene: string): string {
 }
 
 function fitAR2(series: number[]) {
-  const n = series.length;
-  if (n < 5) return { phi1: 0, phi2: 0, eigenvalue: 0, r2: 0 };
-  const m = series.reduce((a, b) => a + b, 0) / n;
-  const y = series.map(x => x - m);
-  const Y = y.slice(2), Y1 = y.slice(1, n - 1), Y2 = y.slice(0, n - 2);
-  let s11 = 0, s22 = 0, s12 = 0, sy1 = 0, sy2 = 0;
-  for (let i = 0; i < Y.length; i++) {
-    s11 += Y1[i] * Y1[i]; s22 += Y2[i] * Y2[i]; s12 += Y1[i] * Y2[i];
-    sy1 += Y[i] * Y1[i]; sy2 += Y[i] * Y2[i];
-  }
-  const det = s11 * s22 - s12 * s12;
-  if (Math.abs(det) < 1e-15) return { phi1: 0, phi2: 0, eigenvalue: 0, r2: 0 };
-  const phi1 = (sy1 * s22 - sy2 * s12) / det;
-  const phi2 = (sy2 * s11 - sy1 * s12) / det;
-  const disc = phi1 * phi1 + 4 * phi2;
-  let eigenvalue: number;
-  if (disc >= 0) {
-    eigenvalue = Math.max(Math.abs((phi1 + Math.sqrt(disc)) / 2), Math.abs((phi1 - Math.sqrt(disc)) / 2));
-  } else {
-    eigenvalue = Math.sqrt(-phi2);
-  }
-  const ssRes = Y.reduce((s, yi, i) => s + (yi - phi1 * Y1[i] - phi2 * Y2[i]) ** 2, 0);
-  const ssTot = Y.reduce((s, yi) => s + yi * yi, 0);
-  const r2 = ssTot > 0 ? 1 - ssRes / ssTot : 0;
-  return { phi1, phi2, eigenvalue, r2 };
+  const result = fitAR2Shared(series);
+  if (!result) return { phi1: 0, phi2: 0, eigenvalue: 0, r2: 0 };
+  return result;
 }
 
 function avg(arr: number[]): number {
-  return arr.length > 0 ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
+  if (arr.length === 0) return 0;
+  return arr.reduce((a, b) => a + b, 0) / arr.length;
 }
 
 function std(arr: number[]): number {

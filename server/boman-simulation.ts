@@ -1,4 +1,5 @@
 import { solveAR2Eigenvalues } from './par2-engine';
+import { fitAR2 as fitAR2Shared } from './ar2-shared';
 
 /**
  * Boman-style crypt simulation with genuine division-limit mechanics.
@@ -103,39 +104,9 @@ function gaussianNoise(mean: number, std: number): number {
 }
 
 function fitAR2(series: number[]): { phi1: number; phi2: number; r2: number } {
-  if (series.length < 5) return { phi1: 0, phi2: 0, r2: 0 };
-
-  const n = series.length - 2;
-  let sumY = 0, sumX1 = 0, sumX2 = 0;
-  let sumX1X1 = 0, sumX2X2 = 0, sumX1X2 = 0;
-  let sumYX1 = 0, sumYX2 = 0, sumYY = 0;
-
-  for (let i = 2; i < series.length; i++) {
-    const y = series[i];
-    const x1 = series[i - 1];
-    const x2 = series[i - 2];
-    sumY += y; sumX1 += x1; sumX2 += x2;
-    sumX1X1 += x1 * x1; sumX2X2 += x2 * x2; sumX1X2 += x1 * x2;
-    sumYX1 += y * x1; sumYX2 += y * x2; sumYY += y * y;
-  }
-
-  const meanY = sumY / n;
-  const sYX1 = sumYX1 - n * meanY * (sumX1 / n);
-  const sYX2 = sumYX2 - n * meanY * (sumX2 / n);
-  const sX1X1 = sumX1X1 - n * (sumX1 / n) * (sumX1 / n);
-  const sX2X2 = sumX2X2 - n * (sumX2 / n) * (sumX2 / n);
-  const sX1X2 = sumX1X2 - n * (sumX1 / n) * (sumX2 / n);
-  const sYY = sumYY - n * meanY * meanY;
-
-  const det = sX1X1 * sX2X2 - sX1X2 * sX1X2;
-  if (Math.abs(det) < 1e-12) return { phi1: 0, phi2: 0, r2: 0 };
-
-  const phi1 = (sX2X2 * sYX1 - sX1X2 * sYX2) / det;
-  const phi2 = (sX1X1 * sYX2 - sX1X2 * sYX1) / det;
-  const ssRes = sYY - phi1 * sYX1 - phi2 * sYX2;
-  const r2 = sYY > 0 ? 1 - ssRes / sYY : 0;
-
-  return { phi1, phi2, r2: Math.max(0, Math.min(1, r2)) };
+  const result = fitAR2Shared(series);
+  if (!result) return { phi1: 0, phi2: 0, r2: 0 };
+  return { phi1: result.phi1, phi2: result.phi2, r2: result.r2 };
 }
 
 function classifyPattern(phi1: number, phi2: number, lambdaMod: number, condition: string): string {

@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { computeADF } from './edge-case-diagnostics';
 import { computeKPSS } from './stationarity-validation';
+import { fitAR2 as fitAR2Shared } from './ar2-shared';
 
 const CLOCK_GENES_UPPER = new Set([
   'PER1', 'PER2', 'PER3', 'CRY1', 'CRY2', 'CLOCK', 'ARNTL', 'BMAL1',
@@ -116,50 +117,9 @@ function classifyGene(name: string): 'clock' | 'target' | 'other' {
 }
 
 function fitAR2(series: number[]): { phi1: number; phi2: number; eigenvalue: number; r2: number } {
-  const n = series.length;
-  if (n < 5) return { phi1: 0, phi2: 0, eigenvalue: 0, r2: 0 };
-
-  const mean = series.reduce((a, b) => a + b, 0) / n;
-  const y = series.map(x => x - mean);
-  const Y = y.slice(2);
-  const Y1 = y.slice(1, n - 1);
-  const Y2 = y.slice(0, n - 2);
-
-  let s11 = 0, s22 = 0, s12 = 0, sy1 = 0, sy2 = 0;
-  for (let i = 0; i < Y.length; i++) {
-    s11 += Y1[i] * Y1[i];
-    s22 += Y2[i] * Y2[i];
-    s12 += Y1[i] * Y2[i];
-    sy1 += Y[i] * Y1[i];
-    sy2 += Y[i] * Y2[i];
-  }
-
-  const denom = s11 * s22 - s12 * s12;
-  if (Math.abs(denom) < 1e-10) return { phi1: 0, phi2: 0, eigenvalue: 0, r2: 0 };
-
-  const phi1 = (sy1 * s22 - sy2 * s12) / denom;
-  const phi2 = (sy2 * s11 - sy1 * s12) / denom;
-
-  const discriminant = phi1 * phi1 + 4 * phi2;
-  let eigenvalue: number;
-  if (discriminant < 0) {
-    eigenvalue = Math.sqrt(-phi2);
-  } else {
-    const r1 = (phi1 + Math.sqrt(discriminant)) / 2;
-    const r2val = (phi1 - Math.sqrt(discriminant)) / 2;
-    eigenvalue = Math.max(Math.abs(r1), Math.abs(r2val));
-  }
-
-  let ssTot = 0, ssRes = 0;
-  const yMean = Y.reduce((a, b) => a + b, 0) / Y.length;
-  for (let i = 0; i < Y.length; i++) {
-    const pred = phi1 * Y1[i] + phi2 * Y2[i];
-    ssRes += (Y[i] - pred) ** 2;
-    ssTot += (Y[i] - yMean) ** 2;
-  }
-  const r2 = ssTot > 0 ? Math.max(0, 1 - ssRes / ssTot) : 0;
-
-  return { phi1, phi2, eigenvalue, r2 };
+  const result = fitAR2Shared(series);
+  if (!result) return { phi1: 0, phi2: 0, eigenvalue: 0, r2: 0 };
+  return result;
 }
 
 function parseDatasetForPerturbation(filePath: string): GeneResult[] {

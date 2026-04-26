@@ -7,6 +7,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { fitAR2 as fitAR2Shared } from './ar2-shared';
 
 const CLOCK_GENES = ['Per1', 'Per2', 'Per3', 'Cry1', 'Cry2', 'Clock', 'Arntl', 'Nr1d1', 'Nr1d2', 'Dbp', 'Tef', 'Npas2', 'Rorc'];
 const TARGET_GENES = ['Myc', 'Ccnd1', 'Ccnb1', 'Cdk1', 'Wee1', 'Cdkn1a', 'Lgr5', 'Axin2', 'Ctnnb1', 'Apc', 'Tp53', 'Mdm2', 'Atm', 'Chek2', 'Bcl2', 'Bax', 'Pparg', 'Sirt1', 'Hif1a', 'Ccne1', 'Ccne2', 'Mcm6', 'Mki67'];
@@ -32,46 +33,9 @@ interface DatasetAudit {
 }
 
 function fitAR2(series: number[]): { phi1: number; phi2: number; eigenvalue: number; isComplex: boolean; isStable: boolean } {
-  const n = series.length;
-  if (n < 5) return { phi1: 0, phi2: 0, eigenvalue: 0, isComplex: false, isStable: true };
-  
-  const mean = series.reduce((a, b) => a + b, 0) / n;
-  const y = series.map(x => x - mean);
-  
-  const Y = y.slice(2);
-  const Y1 = y.slice(1, n - 1);
-  const Y2 = y.slice(0, n - 2);
-  
-  let sumY1Y1 = 0, sumY2Y2 = 0, sumY1Y2 = 0, sumYY1 = 0, sumYY2 = 0;
-  for (let i = 0; i < Y.length; i++) {
-    sumY1Y1 += Y1[i] * Y1[i];
-    sumY2Y2 += Y2[i] * Y2[i];
-    sumY1Y2 += Y1[i] * Y2[i];
-    sumYY1 += Y[i] * Y1[i];
-    sumYY2 += Y[i] * Y2[i];
-  }
-  
-  const denom = sumY1Y1 * sumY2Y2 - sumY1Y2 * sumY1Y2;
-  if (Math.abs(denom) < 1e-10) return { phi1: 0, phi2: 0, eigenvalue: 0, isComplex: false, isStable: true };
-  
-  const phi1 = (sumYY1 * sumY2Y2 - sumYY2 * sumY1Y2) / denom;
-  const phi2 = (sumYY2 * sumY1Y1 - sumYY1 * sumY1Y2) / denom;
-  
-  const discriminant = phi1 * phi1 + 4 * phi2;
-  const isComplex = discriminant < 0;
-  
-  let eigenvalue: number;
-  if (isComplex) {
-    eigenvalue = Math.sqrt(-phi2);
-  } else {
-    const r1 = (phi1 + Math.sqrt(discriminant)) / 2;
-    const r2 = (phi1 - Math.sqrt(discriminant)) / 2;
-    eigenvalue = Math.max(Math.abs(r1), Math.abs(r2));
-  }
-  
-  const isStable = eigenvalue < 1 && (1 - phi2 > 0) && (1 + phi1 - phi2 > 0) && (1 - phi1 - phi2 > 0);
-  
-  return { phi1, phi2, eigenvalue, isComplex, isStable };
+  const result = fitAR2Shared(series);
+  if (!result) return { phi1: 0, phi2: 0, eigenvalue: 0, isComplex: false, isStable: false };
+  return { phi1: result.phi1, phi2: result.phi2, eigenvalue: result.eigenvalue, isComplex: result.isComplex, isStable: result.eigenvalue < 1 };
 }
 
 function parseCSV(content: string): { headers: string[]; rows: Map<string, number[]> } {

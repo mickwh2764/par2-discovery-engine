@@ -1,39 +1,12 @@
 import * as fs from 'fs';
 import { parse } from 'csv-parse/sync';
 import { solveAR2Eigenvalues } from './par2-engine.ts';
+import { fitAR2 as fitAR2Shared } from './ar2-shared';
 
 function fitAR2(series: number[]): { phi1: number; phi2: number; eigenvalue: number; r2: number } {
-  const n = series.length;
-  if (n < 5) return { phi1: 0, phi2: 0, eigenvalue: 0, r2: 0 };
-  
-  const Y = series.slice(2);
-  const Y1 = series.slice(1, n - 1);
-  const Y2 = series.slice(0, n - 2);
-  
-  let sumY1Y1 = 0, sumY2Y2 = 0, sumY1Y2 = 0, sumYY1 = 0, sumYY2 = 0;
-  for (let i = 0; i < Y.length; i++) {
-    sumY1Y1 += Y1[i] * Y1[i];
-    sumY2Y2 += Y2[i] * Y2[i];
-    sumY1Y2 += Y1[i] * Y2[i];
-    sumYY1 += Y[i] * Y1[i];
-    sumYY2 += Y[i] * Y2[i];
-  }
-  
-  const denom = sumY1Y1 * sumY2Y2 - sumY1Y2 * sumY1Y2;
-  if (Math.abs(denom) < 1e-10) return { phi1: 0, phi2: 0, eigenvalue: 0, r2: 0 };
-  
-  const phi1 = (sumYY1 * sumY2Y2 - sumYY2 * sumY1Y2) / denom;
-  const phi2 = (sumYY2 * sumY1Y1 - sumYY1 * sumY1Y2) / denom;
-  
-  const result = solveAR2Eigenvalues(phi1, phi2);
-  
-  const predicted = Y1.map((y1, i) => phi1 * y1 + phi2 * Y2[i]);
-  const meanY = Y.reduce((a, b) => a + b, 0) / Y.length;
-  const ssTot = Y.reduce((sum, y) => sum + (y - meanY) ** 2, 0);
-  const ssRes = Y.reduce((sum, y, i) => sum + (y - predicted[i]) ** 2, 0);
-  const r2 = ssTot > 0 ? 1 - ssRes / ssTot : 0;
-  
-  return { phi1, phi2, eigenvalue: Math.max(result.modulus1, result.modulus2), r2 };
+  const result = fitAR2Shared(series);
+  if (!result) return { phi1: 0, phi2: 0, eigenvalue: 0, r2: 0 };
+  return result;
 }
 
 console.log("╔════════════════════════════════════════════════════════════╗");

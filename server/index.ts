@@ -3,6 +3,7 @@ import { registerRoutes } from "./routes";
 import { setupAuth, registerAuthRoutes } from "./replit_integrations/auth";
 import { serveStatic } from "./static";
 import { createServer } from "http";
+import { apiLimiter, heavyLimiter, uploadLimiter } from "./security";
 
 process.on('uncaughtException', (err) => {
   console.error('[FATAL] Uncaught exception (kept alive):', err.message);
@@ -29,6 +30,34 @@ app.use(
 );
 
 app.use(express.urlencoded({ extended: false }));
+
+// CORS — allow the frontend origin and common dev ports
+const ALLOWED_ORIGINS = new Set([
+  process.env.CORS_ORIGIN,
+  `http://localhost:${process.env.PORT || 5000}`,
+  'http://localhost:5173',
+  'http://localhost:3000',
+].filter(Boolean) as string[]);
+
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin && ALLOWED_ORIGINS.has(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Download-Password');
+  res.setHeader('Access-Control-Max-Age', '86400');
+  if (req.method === 'OPTIONS') { res.sendStatus(204); return; }
+  next();
+});
+
+// Rate limiting
+app.use('/api/download', apiLimiter);
+app.use('/api/upload', uploadLimiter);
+app.use('/api/monte-carlo', heavyLimiter);
+app.use('/api/genome-wide', heavyLimiter);
+app.use('/api/run-full-adversarial', heavyLimiter);
+app.use('/api/run-stress-test', heavyLimiter);
 
 // Block common scanner/exploit probe paths
 app.use((req, res, next) => {
