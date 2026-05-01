@@ -65,7 +65,7 @@ function generateCircadianTimeSeries(
  */
 function calculateAR2Eigenvalue(series: number[]): number {
   const result = fitAR2Shared(series, { minLength: 4 });
-  if (!result) return 0;
+  if (!result) return 0.5;
   return result.eigenvalue;
 }
 
