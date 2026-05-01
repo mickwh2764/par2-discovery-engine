@@ -12,6 +12,8 @@
  * with our PAR(2) framework.
  */
 
+import { fitAR2 as fitAR2Shared } from './ar2-shared';
+
 export interface SmallboneParameters {
   r0: number;      // Stem cell cycle rate (cells/day)
   r1: number;      // Proliferating cell cycle rate (cells/day)
@@ -366,7 +368,8 @@ export function computeEigenvalues4x4(matrix: number[][]): Array<{ real: number;
 }
 
 /**
- * Fit AR(2) model to time series and extract eigenvalue
+ * Fit AR(2) model to time series and extract eigenvalue.
+ * Delegates core fit to the canonical ar2-shared implementation.
  */
 export function fitAR2(series: number[]): { 
   phi1: number; 
@@ -374,54 +377,9 @@ export function fitAR2(series: number[]): {
   eigenvalueModulus: number;
   isComplex: boolean;
 } {
-  const n = series.length;
-  if (n < 5) {
-    return { phi1: 0, phi2: 0, eigenvalueModulus: 0.5, isComplex: false };
-  }
-  
-  // Demean the series
-  const mean = series.reduce((a, b) => a + b, 0) / n;
-  const y = series.map(v => v - mean);
-  
-  // Build design matrix for AR(2): y[t] = phi1*y[t-1] + phi2*y[t-2] + eps
-  let sumY1Y1 = 0, sumY2Y2 = 0, sumY1Y2 = 0;
-  let sumYY1 = 0, sumYY2 = 0;
-  
-  for (let t = 2; t < n; t++) {
-    sumY1Y1 += y[t - 1] * y[t - 1];
-    sumY2Y2 += y[t - 2] * y[t - 2];
-    sumY1Y2 += y[t - 1] * y[t - 2];
-    sumYY1 += y[t] * y[t - 1];
-    sumYY2 += y[t] * y[t - 2];
-  }
-  
-  // Solve normal equations
-  const det = sumY1Y1 * sumY2Y2 - sumY1Y2 * sumY1Y2;
-  if (Math.abs(det) < 1e-10) {
-    return { phi1: 0, phi2: 0, eigenvalueModulus: 0.5, isComplex: false };
-  }
-  
-  const phi1 = (sumYY1 * sumY2Y2 - sumYY2 * sumY1Y2) / det;
-  const phi2 = (sumYY2 * sumY1Y1 - sumYY1 * sumY1Y2) / det;
-  
-  // Compute eigenvalue from characteristic polynomial: λ² - φ₁λ - φ₂ = 0
-  const discriminant = phi1 * phi1 + 4 * phi2;
-  
-  let eigenvalueModulus: number;
-  let isComplex = false;
-  
-  if (discriminant < 0) {
-    // Complex conjugate roots
-    isComplex = true;
-    eigenvalueModulus = Math.sqrt(-phi2);
-  } else {
-    // Real roots
-    const lambda1 = (phi1 + Math.sqrt(discriminant)) / 2;
-    const lambda2 = (phi1 - Math.sqrt(discriminant)) / 2;
-    eigenvalueModulus = Math.max(Math.abs(lambda1), Math.abs(lambda2));
-  }
-  
-  return { phi1, phi2, eigenvalueModulus, isComplex };
+  const result = fitAR2Shared(series);
+  if (!result) return { phi1: 0, phi2: 0, eigenvalueModulus: 0.5, isComplex: false };
+  return { phi1: result.phi1, phi2: result.phi2, eigenvalueModulus: result.eigenvalue, isComplex: result.isComplex };
 }
 
 /**

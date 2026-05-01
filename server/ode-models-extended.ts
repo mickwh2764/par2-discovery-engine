@@ -8,6 +8,7 @@
 import { analyzeODEtoAR2WithTheory, getHealthyParameters, getAdenomaParameters } from './ode-boman';
 import { analyzeCondition, JOHNSTON_HEALTHY } from './ode-johnston';
 import { analyzeSmallboneToAR2, getHealthySmallboneParameters } from './ode-smallbone';
+import { fitAR2 as fitAR2Shared, computeEigenperiod } from './ar2-shared';
 import { computeWntGradientEigenvalues } from './ode-wnt-gradient';
 
 export interface ModelResult {
@@ -32,72 +33,15 @@ export interface AR2Analysis {
 }
 
 /**
- * Fit AR(2) model to time series and compute eigenvalue modulus
+ * Fit AR(2) model to time series and compute eigenvalue modulus.
+ * Delegates core fit to the canonical ar2-shared implementation.
  */
 function fitAR2(timeSeries: number[]): AR2Analysis {
-  const n = timeSeries.length;
-  if (n < 5) {
-    return { phi1: 0, phi2: 0, eigenvalueModulus: 0 };
-  }
-  
-  // Mean-center the data (critical for AR(2) fitting)
-  const mean = timeSeries.reduce((a, b) => a + b, 0) / n;
-  const centered = timeSeries.map(x => x - mean);
-  
-  // Build regression matrices for AR(2): y(t) = phi1*y(t-1) + phi2*y(t-2) + e
-  let sumY = 0, sumY1 = 0, sumY2 = 0;
-  let sumY1_2 = 0, sumY2_2 = 0, sumY1Y2 = 0;
-  let sumYY1 = 0, sumYY2 = 0;
-  
-  for (let t = 2; t < n; t++) {
-    const y = centered[t];
-    const y1 = centered[t - 1];
-    const y2 = centered[t - 2];
-    
-    sumY += y;
-    sumY1 += y1;
-    sumY2 += y2;
-    sumY1_2 += y1 * y1;
-    sumY2_2 += y2 * y2;
-    sumY1Y2 += y1 * y2;
-    sumYY1 += y * y1;
-    sumYY2 += y * y2;
-  }
-  
-  const m = n - 2;
-  
-  // Solve normal equations
-  const det = sumY1_2 * sumY2_2 - sumY1Y2 * sumY1Y2;
-  if (Math.abs(det) < 1e-10) {
-    return { phi1: 0, phi2: 0, eigenvalueModulus: 0 };
-  }
-  
-  const phi1 = (sumYY1 * sumY2_2 - sumYY2 * sumY1Y2) / det;
-  const phi2 = (sumYY2 * sumY1_2 - sumYY1 * sumY1Y2) / det;
-  
-  // Eigenvalue from characteristic equation: λ² - φ₁λ - φ₂ = 0
-  const discriminant = phi1 * phi1 + 4 * phi2;
-  let eigenvalueModulus: number;
-  let period: number | undefined;
-  
-  if (discriminant >= 0) {
-    // Real eigenvalues
-    const lambda1 = (phi1 + Math.sqrt(discriminant)) / 2;
-    const lambda2 = (phi1 - Math.sqrt(discriminant)) / 2;
-    eigenvalueModulus = Math.max(Math.abs(lambda1), Math.abs(lambda2));
-  } else {
-    // Complex conjugate eigenvalues
-    const realPart = phi1 / 2;
-    const imagPart = Math.sqrt(-discriminant) / 2;
-    eigenvalueModulus = Math.sqrt(realPart * realPart + imagPart * imagPart);
-    // Period from complex eigenvalue
-    const theta = Math.atan2(imagPart, realPart);
-    period = 2 * Math.PI / Math.abs(theta);
-  }
-  
-  const dampingRatio = eigenvalueModulus < 1 ? (1 - eigenvalueModulus) : undefined;
-  
-  return { phi1, phi2, eigenvalueModulus, period, dampingRatio };
+  const result = fitAR2Shared(timeSeries);
+  if (!result) return { phi1: 0, phi2: 0, eigenvalueModulus: 0 };
+  const period = result.isComplex ? (computeEigenperiod(result.phi1, result.phi2, 1) ?? undefined) : undefined;
+  const dampingRatio = result.eigenvalue < 1 ? (1 - result.eigenvalue) : undefined;
+  return { phi1: result.phi1, phi2: result.phi2, eigenvalueModulus: result.eigenvalue, period, dampingRatio };
 }
 
 /**

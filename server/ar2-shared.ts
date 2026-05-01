@@ -80,8 +80,9 @@ export function fitAR2(
 
   const { eigenvalue, isComplex } = computeEigenvalue(phi1, phi2);
 
-  // R²
-  const ssTot = Y.reduce((sum, y) => sum + y * y, 0);
+  // R² (always centered, matching standard statistical practice)
+  const meanY = Y.reduce((a, b) => a + b, 0) / Y.length;
+  const ssTot = Y.reduce((sum, y) => sum + (y - meanY) ** 2, 0);
   let ssRes = 0;
   for (let i = 0; i < Y.length; i++) {
     const e = Y[i] - phi1 * Y1[i] - phi2 * Y2[i];
@@ -134,7 +135,8 @@ export function fitAR2Full(
   const predictions: number[] = [];
   const residuals: number[] = [];
   let ssRes = 0;
-  const ssTot = Y.reduce((sum, y) => sum + y * y, 0);
+  const meanY = Y.reduce((a, b) => a + b, 0) / Y.length;
+  const ssTot = Y.reduce((sum, y) => sum + (y - meanY) ** 2, 0);
   for (let i = 0; i < Y.length; i++) {
     const pred = phi1 * Y1[i] + phi2 * Y2[i];
     predictions.push(pred);

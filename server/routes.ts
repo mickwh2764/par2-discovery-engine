@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { randomBytes, createHash } from "crypto";
 import { storage } from "./storage";
 import { escapeHtml } from "./security";
+import { fitAR2 as fitAR2Canonical, computeEigenvalue } from "./ar2-shared";
 import { classifyGene as classifyGeneShared, ENSEMBL_TO_SYMBOL, resolveGeneAliases, CATEGORY_META } from "./gene-categories";
 import { 
   runPAR2Analysis, 
@@ -1464,14 +1465,8 @@ For use with: "Fibonacci-like temporal dynamics in intestinal crypt renewal"
       ];
       let phi1 = 0, phi2 = 0;
       for (let k = 0; k < 3; k++) { phi1 += inv[1][k]*Xty[k]; phi2 += inv[2][k]*Xty[k]; }
-      const disc = phi1*phi1 + 4*phi2;
-      let ar2_lambda: number, ar2_phi2 = phi2;
-      if (disc >= 0) {
-        const sq = Math.sqrt(disc);
-        ar2_lambda = Math.max(Math.abs((phi1+sq)/2), Math.abs((phi1-sq)/2));
-      } else {
-        ar2_lambda = Math.sqrt(phi1*phi1/4 - phi2);
-      }
+      const { eigenvalue: ar2_lambda } = computeEigenvalue(phi1, phi2);
+      const ar2_phi2 = phi2;
 
       // Sampling interval 0.5 → theory: φ₁ = 2cos(√φ · 0.5)
       const deltaT = 0.5;
@@ -2620,15 +2615,7 @@ For use with: "Fibonacci-like temporal dynamics in intestinal crypt renewal"
               const phi1 = ci.R_n_1?.coefficient ?? 0;
               const phi2 = ci.R_n_2?.coefficient ?? 0;
               if (phi1 !== 0 || phi2 !== 0) {
-                const discriminant = phi1 * phi1 + 4 * phi2;
-                let eigenvalue = 0.5;
-                if (discriminant >= 0) {
-                  const lambda1 = (phi1 + Math.sqrt(discriminant)) / 2;
-                  const lambda2 = (phi1 - Math.sqrt(discriminant)) / 2;
-                  eigenvalue = Math.max(Math.abs(lambda1), Math.abs(lambda2));
-                } else {
-                  eigenvalue = Math.sqrt(Math.abs(phi2));
-                }
+                const { eigenvalue } = computeEigenvalue(phi1, phi2);
                 if (eigenvalue <= 2 && !isNaN(eigenvalue)) {
                   data.eigenvalues.push(eigenvalue);
                 }
@@ -3079,26 +3066,9 @@ For use with: "Fibonacci-like temporal dynamics in intestinal crypt renewal"
   let crossSpeciesFallbackCache: any = null;
 
   function fitAR2Simple(series: number[]) {
-    const n = series.length;
-    if (n < 5) return { eigenvalue: 0, phi1: 0, phi2: 0 };
-    const m = series.reduce((a, b) => a + b, 0) / n;
-    const y = series.map(x => x - m);
-    const Y = y.slice(2), Y1 = y.slice(1, n - 1), Y2 = y.slice(0, n - 2);
-    let s11 = 0, s22 = 0, s12 = 0, sy1 = 0, sy2 = 0;
-    for (let i = 0; i < Y.length; i++) {
-      s11 += Y1[i] * Y1[i]; s22 += Y2[i] * Y2[i]; s12 += Y1[i] * Y2[i];
-      sy1 += Y[i] * Y1[i]; sy2 += Y[i] * Y2[i];
-    }
-    const det = s11 * s22 - s12 * s12;
-    if (Math.abs(det) < 1e-15) return { eigenvalue: 0, phi1: 0, phi2: 0 };
-    const phi1 = (sy1 * s22 - sy2 * s12) / det;
-    const phi2 = (sy2 * s11 - sy1 * s12) / det;
-    const disc = phi1 * phi1 + 4 * phi2;
-    let eigenvalue: number;
-    if (disc >= 0) eigenvalue = Math.max(Math.abs((phi1 + Math.sqrt(disc)) / 2), Math.abs((phi1 - Math.sqrt(disc)) / 2));
-    else eigenvalue = Math.sqrt(-phi2);
-    if (eigenvalue > 2 || isNaN(eigenvalue)) return { eigenvalue: 0, phi1: 0, phi2: 0 };
-    return { eigenvalue, phi1, phi2 };
+    const result = fitAR2Canonical(series);
+    if (!result || result.eigenvalue > 2 || isNaN(result.eigenvalue)) return { eigenvalue: 0, phi1: 0, phi2: 0 };
+    return { eigenvalue: result.eigenvalue, phi1: result.phi1, phi2: result.phi2 };
   }
 
   function computeCrossSpeciesFromCSV(): any {
@@ -3371,14 +3341,7 @@ For use with: "Fibonacci-like temporal dynamics in intestinal crypt renewal"
               const phi2 = ci.R_n_2?.coefficient ?? 0;
               
               if (phi1 !== 0 || phi2 !== 0) {
-                const discriminant = phi1 * phi1 + 4 * phi2;
-                if (discriminant >= 0) {
-                  const lambda1 = (phi1 + Math.sqrt(discriminant)) / 2;
-                  const lambda2 = (phi1 - Math.sqrt(discriminant)) / 2;
-                  eigenvalue = Math.max(Math.abs(lambda1), Math.abs(lambda2));
-                } else {
-                  eigenvalue = Math.sqrt(Math.abs(phi2));
-                }
+                eigenvalue = computeEigenvalue(phi1, phi2).eigenvalue;
                 if (eigenvalue > 2 || isNaN(eigenvalue)) eigenvalue = 0.5;
               }
             } catch (e) { /* ignore parse errors */ }
@@ -3526,14 +3489,7 @@ For use with: "Fibonacci-like temporal dynamics in intestinal crypt renewal"
               const phi2 = ci.R_n_2?.coefficient ?? 0;
               
               if (phi1 !== 0 || phi2 !== 0) {
-                const discriminant = phi1 * phi1 + 4 * phi2;
-                if (discriminant >= 0) {
-                  const lambda1 = (phi1 + Math.sqrt(discriminant)) / 2;
-                  const lambda2 = (phi1 - Math.sqrt(discriminant)) / 2;
-                  eigenvalue = Math.max(Math.abs(lambda1), Math.abs(lambda2));
-                } else {
-                  eigenvalue = Math.sqrt(Math.abs(phi2));
-                }
+                eigenvalue = computeEigenvalue(phi1, phi2).eigenvalue;
                 if (eigenvalue > 2 || isNaN(eigenvalue)) eigenvalue = 0.5;
               }
             } catch (e) { /* ignore parse errors */ }
@@ -3632,14 +3588,7 @@ For use with: "Fibonacci-like temporal dynamics in intestinal crypt renewal"
               
               if (phi1 !== 0 || phi2 !== 0) {
                 hasCoefCount++;
-                const discriminant = phi1 * phi1 + 4 * phi2;
-                if (discriminant >= 0) {
-                  const lambda1 = (phi1 + Math.sqrt(discriminant)) / 2;
-                  const lambda2 = (phi1 - Math.sqrt(discriminant)) / 2;
-                  eigenvalue = Math.max(Math.abs(lambda1), Math.abs(lambda2));
-                } else {
-                  eigenvalue = Math.sqrt(Math.abs(phi2));
-                }
+                eigenvalue = computeEigenvalue(phi1, phi2).eigenvalue;
                 if (debugCount < 3) {
                   console.log(`[pi-g0] phi1=${phi1.toFixed(3)}, phi2=${phi2.toFixed(3)}, |λ|=${eigenvalue.toFixed(3)}`);
                   debugCount++;
@@ -14908,60 +14857,17 @@ Biological Interpretation:
         const geneInfo = findGene(geneName);
         if (geneInfo) {
           const series = geneInfo.values;
-          // Simple AR(2) fit
-          const n = series.length;
-          if (n >= 5) {
-            const Y = series.slice(2);
-            const X1 = series.slice(1, n - 1);
-            const X0 = series.slice(0, n - 2);
-            
-            // OLS for AR(2)
-            const mean = series.reduce((a: number, b: number) => a + b, 0) / n;
-            const std = Math.sqrt(series.reduce((sum: number, v: number) => sum + (v - mean) ** 2, 0) / n) || 1;
-            const normalized = series.map((v: number) => (v - mean) / std);
-            
-            const Y_n = normalized.slice(2);
-            const X1_n = normalized.slice(1, n - 1);
-            const X0_n = normalized.slice(0, n - 2);
-            
-            // Solve normal equations
-            let sumX1X1 = 0, sumX1X0 = 0, sumX0X0 = 0, sumX1Y = 0, sumX0Y = 0;
-            for (let i = 0; i < Y_n.length; i++) {
-              sumX1X1 += X1_n[i] * X1_n[i];
-              sumX1X0 += X1_n[i] * X0_n[i];
-              sumX0X0 += X0_n[i] * X0_n[i];
-              sumX1Y += X1_n[i] * Y_n[i];
-              sumX0Y += X0_n[i] * Y_n[i];
-            }
-            
-            const det = sumX1X1 * sumX0X0 - sumX1X0 * sumX1X0;
-            if (Math.abs(det) > 1e-10) {
-              const phi1 = (sumX0X0 * sumX1Y - sumX1X0 * sumX0Y) / det;
-              const phi2 = (sumX1X1 * sumX0Y - sumX1X0 * sumX1Y) / det;
-              
-              const discriminant = phi1 * phi1 + 4 * phi2;
-              const isComplex = discriminant < 0;
-              let eigenvalue: number;
-              
-              if (isComplex) {
-                eigenvalue = Math.sqrt(Math.max(0, -phi2));
-              } else {
-                const sqrtDisc = Math.sqrt(discriminant);
-                const lambda1 = (phi1 + sqrtDisc) / 2;
-                const lambda2 = (phi1 - sqrtDisc) / 2;
-                eigenvalue = Math.max(Math.abs(lambda1), Math.abs(lambda2));
-              }
-              
-              eigenvalueResults.push({
-                gene: geneInfo.name,
-                type: clockGenes.includes(geneName) ? 'clock' : 'target',
-                phi1: parseFloat(phi1.toFixed(4)),
-                phi2: parseFloat(phi2.toFixed(4)),
-                eigenvalue: parseFloat(eigenvalue.toFixed(4)),
-                isComplex,
-                classification: eigenvalue < 0.40 ? 'fast_decay' : eigenvalue <= 0.80 ? 'stable_band' : eigenvalue < 1.0 ? 'slow_decay' : 'explosive'
-              });
-            }
+          const result = fitAR2Canonical(series);
+          if (result) {
+            eigenvalueResults.push({
+              gene: geneInfo.name,
+              type: clockGenes.includes(geneName) ? 'clock' : 'target',
+              phi1: parseFloat(result.phi1.toFixed(4)),
+              phi2: parseFloat(result.phi2.toFixed(4)),
+              eigenvalue: parseFloat(result.eigenvalue.toFixed(4)),
+              isComplex: result.isComplex,
+              classification: result.eigenvalue < 0.40 ? 'fast_decay' : result.eigenvalue <= 0.80 ? 'stable_band' : result.eigenvalue < 1.0 ? 'slow_decay' : 'explosive'
+            });
           }
         }
       }
@@ -23485,44 +23391,9 @@ echo "========================================"
       }
 
       function fitAR2(values: number[]) {
-        const n = values.length;
-        if (n < 5) return null;
-        const Y: number[] = [];
-        const X: number[][] = [];
-        for (let i = 2; i < n; i++) {
-          Y.push(values[i]);
-          X.push([1, values[i-1], values[i-2]]);
-        }
-        const m = Y.length;
-        if (m < 4) return null;
-        const XtX = [[0,0,0],[0,0,0],[0,0,0]];
-        const XtY = [0,0,0];
-        for (let i = 0; i < m; i++) {
-          for (let j = 0; j < 3; j++) {
-            for (let k = 0; k < 3; k++) { XtX[j][k] += X[i][j] * X[i][k]; }
-            XtY[j] += X[i][j] * Y[i];
-          }
-        }
-        const inv = invert3x3(XtX);
-        if (!inv) return null;
-        const beta = [0, 0, 0];
-        for (let j = 0; j < 3; j++) { for (let k = 0; k < 3; k++) { beta[j] += inv[j][k] * XtY[k]; } }
-        const phi1 = beta[1], phi2 = beta[2];
-        const disc = phi1 * phi1 + 4 * phi2;
-        let modulus: number;
-        if (disc >= 0) {
-          modulus = Math.max(Math.abs((phi1 + Math.sqrt(disc)) / 2), Math.abs((phi1 - Math.sqrt(disc)) / 2));
-        } else {
-          modulus = Math.sqrt(-phi2);
-        }
-        let residualSS = 0, totalSS = 0;
-        const meanY = Y.reduce((a,b) => a+b, 0) / Y.length;
-        for (let i = 0; i < m; i++) {
-          const pred = beta[0] + beta[1] * X[i][1] + beta[2] * X[i][2];
-          residualSS += (Y[i] - pred) ** 2;
-          totalSS += (Y[i] - meanY) ** 2;
-        }
-        return { phi1, phi2, modulus, rSquared: totalSS > 0 ? 1 - residualSS / totalSS : 0 };
+        const result = fitAR2Canonical(values);
+        if (!result) return null;
+        return { phi1: result.phi1, phi2: result.phi2, modulus: result.eigenvalue, rSquared: result.r2 };
       }
 
       function spearmanCorrelation(x: number[], y: number[]) {

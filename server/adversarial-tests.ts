@@ -16,6 +16,7 @@
  */
 
 import { solveAR2Eigenvalues, type EigenvalueResult } from "./par2-engine";
+import { fitAR2Full as fitAR2SharedFull, computeEigenvalue } from './ar2-shared';
 
 // ============================================================================
 // Random Data Generators
@@ -113,69 +114,33 @@ export interface AR2FitResult {
 }
 
 /**
- * Fit AR(2) model to any time series using OLS
+ * Fit AR(2) model to any time series using OLS.
+ * Delegates core fit to the canonical ar2-shared implementation, then
+ * computes extended statistics (AIC, BIC, residual variance).
  */
 export function fitAR2ToSeries(series: number[]): AR2FitResult {
   const n = series.length;
   if (n < 10) {
     throw new Error("Series too short for AR(2) fitting (need at least 10 points)");
   }
-  
-  const Y: number[] = [];
-  const X1: number[] = [];
-  const X2: number[] = [];
-  
-  for (let t = 2; t < n; t++) {
-    Y.push(series[t]);
-    X1.push(series[t - 1]);
-    X2.push(series[t - 2]);
-  }
-  
-  const nObs = Y.length;
-  
-  const sumY = Y.reduce((a, b) => a + b, 0);
-  const sumX1 = X1.reduce((a, b) => a + b, 0);
-  const sumX2 = X2.reduce((a, b) => a + b, 0);
-  const sumX1Y = Y.reduce((sum, y, i) => sum + y * X1[i], 0);
-  const sumX2Y = Y.reduce((sum, y, i) => sum + y * X2[i], 0);
-  const sumX1X1 = X1.reduce((sum, x) => sum + x * x, 0);
-  const sumX2X2 = X2.reduce((sum, x) => sum + x * x, 0);
-  const sumX1X2 = X1.reduce((sum, x, i) => sum + x * X2[i], 0);
-  
-  const meanY = sumY / nObs;
-  const meanX1 = sumX1 / nObs;
-  const meanX2 = sumX2 / nObs;
-  
-  const Sxx1 = sumX1X1 - nObs * meanX1 * meanX1;
-  const Sxx2 = sumX2X2 - nObs * meanX2 * meanX2;
-  const Sx1x2 = sumX1X2 - nObs * meanX1 * meanX2;
-  const Sx1y = sumX1Y - nObs * meanX1 * meanY;
-  const Sx2y = sumX2Y - nObs * meanX2 * meanY;
-  
-  const denom = Sxx1 * Sxx2 - Sx1x2 * Sx1x2;
-  
-  let beta1 = 0, beta2 = 0;
-  if (Math.abs(denom) > 1e-12) {
-    beta1 = (Sxx2 * Sx1y - Sx1x2 * Sx2y) / denom;
-    beta2 = (Sxx1 * Sx2y - Sx1x2 * Sx1y) / denom;
-  }
-  
-  const predictions = Y.map((_, i) => beta1 * X1[i] + beta2 * X2[i]);
-  const residuals = Y.map((y, i) => y - predictions[i]);
-  
+
+  const result = fitAR2SharedFull(series, { minLength: 10 });
+  const beta1 = result ? result.phi1 : 0;
+  const beta2 = result ? result.phi2 : 0;
+  const residuals = result ? result.residuals : [];
+  const rSquared = result ? result.r2 : 0;
+
+  const nObs = n - 2;
   const ssRes = residuals.reduce((sum, r) => sum + r * r, 0);
-  const ssTot = Y.reduce((sum, y) => sum + (y - meanY) ** 2, 0);
-  const rSquared = ssTot > 0 ? 1 - ssRes / ssTot : 0;
-  
-  const residualVariance = ssRes / (nObs - 2);
-  const logLikelihood = -0.5 * nObs * (Math.log(2 * Math.PI) + Math.log(residualVariance) + 1);
+  const residualVariance = nObs > 2 && residuals.length > 0 ? ssRes / (nObs - 2) : 0;
+  const logLikelihood = residualVariance > 0 ? -0.5 * nObs * (Math.log(2 * Math.PI) + Math.log(residualVariance) + 1) : -Infinity;
   const k = 3;
-  const aic = 2 * k - 2 * logLikelihood;
-  const bic = k * Math.log(nObs) - 2 * logLikelihood;
-  
+  const aic = isFinite(logLikelihood) ? 2 * k - 2 * logLikelihood : Infinity;
+  const bic = isFinite(logLikelihood) && nObs > 0 ? k * Math.log(nObs) - 2 * logLikelihood : Infinity;
+
   const eigenvalues = solveAR2Eigenvalues(beta1, beta2);
   const maxModulus = Math.max(eigenvalues.modulus1, eigenvalues.modulus2);
-  
+
   return {
     beta1,
     beta2,

@@ -1,4 +1,5 @@
 import { solveAR2Eigenvalues } from './par2-engine';
+import { fitAR2Full as fitAR2SharedFull } from './ar2-shared';
 
 export interface SyntheticTestCase {
   name: string;
@@ -88,40 +89,9 @@ function generateAR2Series(phi1: number, phi2: number, n: number, noiseStd: numb
 }
 
 function fitAR2FromSeries(series: number[]): { phi1: number; phi2: number; eigenvalue: number; r2: number; residuals: number[] } {
-  const n = series.length;
-  const mean = series.reduce((a, b) => a + b, 0) / n;
-  const centered = series.map(v => v - mean);
-
-  const Y = centered.slice(2);
-  const Y1 = centered.slice(1, n - 1);
-  const Y2 = centered.slice(0, n - 2);
-
-  let sumY1Y1 = 0, sumY2Y2 = 0, sumY1Y2 = 0, sumYY1 = 0, sumYY2 = 0;
-  for (let i = 0; i < Y.length; i++) {
-    sumY1Y1 += Y1[i] * Y1[i];
-    sumY2Y2 += Y2[i] * Y2[i];
-    sumY1Y2 += Y1[i] * Y2[i];
-    sumYY1 += Y[i] * Y1[i];
-    sumYY2 += Y[i] * Y2[i];
-  }
-
-  const det = sumY1Y1 * sumY2Y2 - sumY1Y2 * sumY1Y2;
-  let phi1 = 0, phi2 = 0;
-  if (Math.abs(det) > 1e-10) {
-    phi1 = (sumYY1 * sumY2Y2 - sumYY2 * sumY1Y2) / det;
-    phi2 = (sumYY2 * sumY1Y1 - sumYY1 * sumY1Y2) / det;
-  }
-
-  const eigenResult = solveAR2Eigenvalues(phi1, phi2);
-  const eigenvalue = Math.max(eigenResult.modulus1, eigenResult.modulus2);
-
-  const predicted = Y1.map((y1, i) => phi1 * y1 + phi2 * Y2[i]);
-  const ssTot = Y.reduce((sum, y) => sum + y * y, 0);
-  const residuals = Y.map((y, i) => y - predicted[i]);
-  const ssRes = residuals.reduce((sum, r) => sum + r * r, 0);
-  const r2 = ssTot > 0 ? Math.max(0, 1 - ssRes / ssTot) : 0;
-
-  return { phi1, phi2, eigenvalue, r2, residuals };
+  const result = fitAR2SharedFull(series);
+  if (!result) return { phi1: 0, phi2: 0, eigenvalue: 0, r2: 0, residuals: [] };
+  return { phi1: result.phi1, phi2: result.phi2, eigenvalue: result.eigenvalue, r2: result.r2, residuals: result.residuals };
 }
 
 function computeLjungBox(residuals: number[], lags: number = 10): { stat: number; pValue: number; passed: boolean } {

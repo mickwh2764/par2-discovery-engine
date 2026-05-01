@@ -1,3 +1,5 @@
+import { fitAR2 as fitAR2Shared, computeEigenperiod } from './ar2-shared';
+
 /**
  * Full 19-ODE Leloup-Goldbeter Mammalian Circadian Clock Model (2003)
  * 
@@ -611,7 +613,8 @@ export function analyzeJacobianStability(
 }
 
 /**
- * Fit AR(2) model to time series and extract eigenvalue
+ * Fit AR(2) model to time series and extract eigenvalue.
+ * Delegates core fit to the canonical ar2-shared implementation.
  */
 function fitAR2(series: number[]): { 
   phi1: number; 
@@ -620,71 +623,12 @@ function fitAR2(series: number[]): {
   rSquared: number;
   impliedPeriod: number | null;
 } {
-  if (series.length < 10) {
+  const result = fitAR2Shared(series, { minLength: 10 });
+  if (!result) {
     return { phi1: 0, phi2: 0, eigenvalue: 0, rSquared: 0, impliedPeriod: null };
   }
-  
-  // Demean the series
-  const mean = series.reduce((a, b) => a + b, 0) / series.length;
-  const y = series.map(x => x - mean);
-  
-  // Build matrices for least squares: y[t] = phi1*y[t-1] + phi2*y[t-2] + error
-  const n = y.length - 2;
-  let sumY1Y1 = 0, sumY2Y2 = 0, sumY1Y2 = 0;
-  let sumYY1 = 0, sumYY2 = 0, sumYY = 0;
-  
-  for (let t = 2; t < y.length; t++) {
-    sumY1Y1 += y[t-1] * y[t-1];
-    sumY2Y2 += y[t-2] * y[t-2];
-    sumY1Y2 += y[t-1] * y[t-2];
-    sumYY1 += y[t] * y[t-1];
-    sumYY2 += y[t] * y[t-2];
-    sumYY += y[t] * y[t];
-  }
-  
-  // Solve 2x2 normal equations
-  const det = sumY1Y1 * sumY2Y2 - sumY1Y2 * sumY1Y2;
-  if (Math.abs(det) < 1e-12) {
-    return { phi1: 0, phi2: 0, eigenvalue: 0, rSquared: 0, impliedPeriod: null };
-  }
-  
-  const phi1 = (sumY2Y2 * sumYY1 - sumY1Y2 * sumYY2) / det;
-  const phi2 = (sumY1Y1 * sumYY2 - sumY1Y2 * sumYY1) / det;
-  
-  // R-squared
-  let ssRes = 0, ssTot = 0;
-  for (let t = 2; t < y.length; t++) {
-    const pred = phi1 * y[t-1] + phi2 * y[t-2];
-    ssRes += (y[t] - pred) ** 2;
-    ssTot += y[t] ** 2;
-  }
-  const rSquared = ssTot > 0 ? 1 - ssRes / ssTot : 0;
-  
-  // Eigenvalue modulus from AR(2) characteristic equation
-  // x^2 - phi1*x - phi2 = 0
-  const disc = phi1 * phi1 + 4 * phi2;
-  let eigenvalue: number;
-  let impliedPeriod: number | null = null;
-  
-  if (disc >= 0) {
-    // Real roots
-    const r1 = (phi1 + Math.sqrt(disc)) / 2;
-    const r2 = (phi1 - Math.sqrt(disc)) / 2;
-    eigenvalue = Math.max(Math.abs(r1), Math.abs(r2));
-  } else {
-    // Complex conjugate roots
-    const realPart = phi1 / 2;
-    const imagPart = Math.sqrt(-disc) / 2;
-    eigenvalue = Math.sqrt(realPart * realPart + imagPart * imagPart);
-    
-    // Period from phase angle
-    const theta = Math.atan2(imagPart, realPart);
-    if (Math.abs(theta) > 0.001) {
-      impliedPeriod = 2 * Math.PI / Math.abs(theta);
-    }
-  }
-  
-  return { phi1, phi2, eigenvalue, rSquared, impliedPeriod };
+  const impliedPeriod = result.isComplex ? computeEigenperiod(result.phi1, result.phi2, 1) : null;
+  return { phi1: result.phi1, phi2: result.phi2, eigenvalue: result.eigenvalue, rSquared: result.r2, impliedPeriod };
 }
 
 /**
