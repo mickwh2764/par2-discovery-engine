@@ -1,3 +1,5 @@
+import { computeEigenvalue as computeEigenvalueShared } from './ar2-shared';
+
 /**
  * Cross-Omics Fairness Controls
  * 
@@ -89,15 +91,8 @@ function computeEigenvalue(values: number[]): number {
   const phi1 = (r0 * r1 - r1 * r2) / det;
   const phi2 = (r0 * r2 - r1 * r1) / det;
   
-  // Eigenvalue from characteristic equation
-  const discriminant = phi1 * phi1 + 4 * phi2;
-  if (discriminant >= 0) {
-    const lambda1 = (phi1 + Math.sqrt(discriminant)) / 2;
-    const lambda2 = (phi1 - Math.sqrt(discriminant)) / 2;
-    return Math.min(Math.max(Math.abs(lambda1), Math.abs(lambda2)), 0.99);
-  } else {
-    return Math.min(Math.sqrt(-phi2), 0.99);
-  }
+  // Eigenvalue from characteristic equation via canonical shared computation
+  return Math.min(computeEigenvalueShared(phi1, phi2).eigenvalue, 0.99);
 }
 
 /**

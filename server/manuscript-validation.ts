@@ -15,6 +15,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { resolveGeneName, getDisplayName, GENE_SYMBOL_TO_ENSEMBL } from './par2-engine';
 import { analyzeCrossMetricIndependence } from './cross-metric-independence';
+import { fitAR2 as fitAR2Shared, computeEigenperiod, computeEigenvalue } from './ar2-shared';
 
 interface ParsedDataset {
   timepoints: number[];
@@ -560,52 +561,14 @@ function computeEigenvaluesForGene(
   timeIndices.sort((a, b) => a.time - b.time);
   const sortedExpr = timeIndices.map(x => expr[x.index]);
   const sortedTime = timeIndices.map(x => x.time);
-  const n = sortedExpr.length;
-  if (n < 5) return null;
 
-  const Y: number[] = [];
-  const X: number[][] = [];
-  for (let t = 2; t < n; t++) {
-    Y.push(sortedExpr[t]);
-    X.push([1, sortedExpr[t - 1], sortedExpr[t - 2]]);
-  }
+  const result = fitAR2Shared(sortedExpr, { meanCenter: false });
+  if (!result) return null;
 
-  const XtX = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
-  const XtY = [0, 0, 0];
-  for (let i = 0; i < Y.length; i++) {
-    for (let j = 0; j < 3; j++) {
-      XtY[j] += X[i][j] * Y[i];
-      for (let k = 0; k < 3; k++) {
-        XtX[j][k] += X[i][j] * X[i][k];
-      }
-    }
-  }
+  const samplingInterval = sortedTime.length > 1 ? sortedTime[1] - sortedTime[0] : 2;
+  const eigenperiod = result.isComplex ? computeEigenperiod(result.phi1, result.phi2, samplingInterval) : null;
 
-  const beta = solveLinearSystem(XtX, XtY);
-  if (!beta || beta.some(b => !isFinite(b))) return null;
-
-  const beta1 = beta[1];
-  const beta2 = beta[2];
-  const discriminant = beta1 * beta1 + 4 * beta2;
-  let modulus: number;
-  let eigenperiod: number | null = null;
-
-  if (discriminant >= 0) {
-    const e1 = (beta1 + Math.sqrt(discriminant)) / 2;
-    const e2 = (beta1 - Math.sqrt(discriminant)) / 2;
-    modulus = Math.max(Math.abs(e1), Math.abs(e2));
-  } else {
-    const realPart = beta1 / 2;
-    const imagPart = Math.sqrt(-discriminant) / 2;
-    modulus = Math.sqrt(realPart * realPart + imagPart * imagPart);
-    const theta = Math.atan2(imagPart, realPart);
-    if (Math.abs(theta) > 0.001) {
-      const samplingInterval = sortedTime.length > 1 ? sortedTime[1] - sortedTime[0] : 2;
-      eigenperiod = (2 * Math.PI / Math.abs(theta)) * samplingInterval;
-    }
-  }
-
-  return { modulus, eigenperiod, beta1, beta2 };
+  return { modulus: result.eigenvalue, eigenperiod, beta1: result.phi1, beta2: result.phi2 };
 }
 
 let cachedResult: ManuscriptValidationResult | null = null;

@@ -1,3 +1,5 @@
+import { fitAR2 as fitAR2Shared } from '../ar2-shared';
+
 /**
  * Phase Shift Test (Permutation Phase Test)
  * 
@@ -90,54 +92,9 @@ function shiftTimeSeries(
  * Calculate AR(2) eigenvalue
  */
 function calculateAR2Eigenvalue(series: number[]): number {
-  if (series.length < 4) return 0;
-  
-  const n = series.length;
-  let sumY = 0, sumY1 = 0, sumY2 = 0;
-  let sumY_Y1 = 0, sumY_Y2 = 0;
-  let sumY1_Y1 = 0, sumY1_Y2 = 0, sumY2_Y2 = 0;
-  
-  for (let t = 2; t < n; t++) {
-    const y = series[t];
-    const y1 = series[t - 1];
-    const y2 = series[t - 2];
-    
-    sumY += y;
-    sumY1 += y1;
-    sumY2 += y2;
-    sumY_Y1 += y * y1;
-    sumY_Y2 += y * y2;
-    sumY1_Y1 += y1 * y1;
-    sumY1_Y2 += y1 * y2;
-    sumY2_Y2 += y2 * y2;
-  }
-  
-  const m = n - 2;
-  const meanY = sumY / m;
-  const meanY1 = sumY1 / m;
-  const meanY2 = sumY2 / m;
-  
-  const covY_Y1 = sumY_Y1 / m - meanY * meanY1;
-  const covY_Y2 = sumY_Y2 / m - meanY * meanY2;
-  const covY1_Y1 = sumY1_Y1 / m - meanY1 * meanY1;
-  const covY1_Y2 = sumY1_Y2 / m - meanY1 * meanY2;
-  const covY2_Y2 = sumY2_Y2 / m - meanY2 * meanY2;
-  
-  const det = covY1_Y1 * covY2_Y2 - covY1_Y2 * covY1_Y2;
-  if (Math.abs(det) < 1e-10) return 0.5;
-  
-  const phi1 = (covY_Y1 * covY2_Y2 - covY_Y2 * covY1_Y2) / det;
-  const phi2 = (covY_Y2 * covY1_Y1 - covY_Y1 * covY1_Y2) / det;
-  
-  const discriminant = phi1 * phi1 + 4 * phi2;
-  
-  if (discriminant >= 0) {
-    const lambda1 = (phi1 + Math.sqrt(discriminant)) / 2;
-    const lambda2 = (phi1 - Math.sqrt(discriminant)) / 2;
-    return Math.max(Math.abs(lambda1), Math.abs(lambda2));
-  } else {
-    return Math.sqrt(-phi2);
-  }
+  const result = fitAR2Shared(series, { minLength: 4 });
+  if (!result) return 0;
+  return result.eigenvalue;
 }
 
 /**
