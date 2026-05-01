@@ -562,7 +562,7 @@ function computeEigenvaluesForGene(
   const sortedExpr = timeIndices.map(x => expr[x.index]);
   const sortedTime = timeIndices.map(x => x.time);
 
-  const result = fitAR2Shared(sortedExpr, { meanCenter: false });
+  const result = fitAR2Shared(sortedExpr);
   if (!result) return null;
 
   const samplingInterval = sortedTime.length > 1 ? sortedTime[1] - sortedTime[0] : 2;

@@ -23391,7 +23391,7 @@ echo "========================================"
       }
 
       function fitAR2(values: number[]) {
-        const result = fitAR2Canonical(values, { meanCenter: false });
+        const result = fitAR2Canonical(values);
         if (!result) return null;
         return { phi1: result.phi1, phi2: result.phi2, modulus: result.eigenvalue, rSquared: result.r2 };
       }
