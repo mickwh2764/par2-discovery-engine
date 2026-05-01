@@ -132,11 +132,11 @@ export function fitAR2ToSeries(series: number[]): AR2FitResult {
 
   const nObs = n - 2;
   const ssRes = residuals.reduce((sum, r) => sum + r * r, 0);
-  const residualVariance = nObs > 2 ? ssRes / (nObs - 2) : 0;
-  const logLikelihood = nObs > 0 ? -0.5 * nObs * (Math.log(2 * Math.PI) + Math.log(residualVariance) + 1) : 0;
+  const residualVariance = nObs > 2 && residuals.length > 0 ? ssRes / (nObs - 2) : 0;
+  const logLikelihood = residualVariance > 0 ? -0.5 * nObs * (Math.log(2 * Math.PI) + Math.log(residualVariance) + 1) : -Infinity;
   const k = 3;
-  const aic = 2 * k - 2 * logLikelihood;
-  const bic = nObs > 0 ? k * Math.log(nObs) - 2 * logLikelihood : Infinity;
+  const aic = isFinite(logLikelihood) ? 2 * k - 2 * logLikelihood : Infinity;
+  const bic = isFinite(logLikelihood) && nObs > 0 ? k * Math.log(nObs) - 2 * logLikelihood : Infinity;
 
   const eigenvalues = solveAR2Eigenvalues(beta1, beta2);
   const maxModulus = Math.max(eigenvalues.modulus1, eigenvalues.modulus2);
