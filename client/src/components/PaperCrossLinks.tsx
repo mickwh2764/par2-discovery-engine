@@ -16,6 +16,7 @@ const PAPER_REGISTRY: Record<string, PaperLink> = {
   "paper-d": { id: "paper-d", label: "Paper D: Perspective", color: "text-yellow-400", bgColor: "bg-yellow-500/10", borderColor: "border-yellow-500/30" },
   "paper-e": { id: "paper-e", label: "Paper E: Phase-Gated PAR(2)", color: "text-pink-400", bgColor: "bg-pink-500/10", borderColor: "border-pink-500/30" },
   "paper-f": { id: "paper-f", label: "Paper F: Expression Persistence", color: "text-emerald-400", bgColor: "bg-emerald-500/10", borderColor: "border-emerald-500/30" },
+  "paper-n": { id: "paper-n", label: "Paper N: p53 Regulon", color: "text-violet-400", bgColor: "bg-violet-500/10", borderColor: "border-violet-500/30" },
 };
 
 export const PAGE_TO_PAPERS: Record<string, string[]> = {
@@ -39,6 +40,7 @@ export const PAGE_TO_PAPERS: Record<string, string[]> = {
   "/framework-benchmarks": ["paper-a"],
   "/drug-durability": ["paper-b"],
   "/proteome-validation": ["paper-a", "paper-d"],
+  "/p53-regulon": ["paper-n"],
 };
 
 export const PAPER_TO_PAGES: Record<string, { path: string; label: string }[]> = {
@@ -96,6 +98,9 @@ export const PAPER_TO_PAGES: Record<string, { path: string; label: string }[]> =
   "paper-f": [
     { path: "/cross-metric-independence", label: "Cross-Metric Independence" },
     { path: "/discovery-engine", label: "Discovery Engine" },
+  ],
+  "paper-n": [
+    { path: "/p53-regulon", label: "p53 Regulon Analysis" },
   ],
 };
 

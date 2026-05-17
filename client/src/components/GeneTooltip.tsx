@@ -40,10 +40,9 @@ export default function GeneTooltip({ gene, children, className }: GeneTooltipPr
     width: 320,
     pointerEvents: "none",
     left: coords.left,
-    transform: "translateX(-50%)",
     ...(coords.placement === "top"
       ? { top: coords.top - 8, transform: "translate(-50%, -100%)" }
-      : { top: coords.top + 8 }),
+      : { top: coords.top + 8, transform: "translateX(-50%)" }),
   };
 
   return (

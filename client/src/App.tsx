@@ -4,7 +4,6 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import ErrorBoundary from "@/components/ErrorBoundary";
-import FeedbackWidget from "@/components/FeedbackWidget";
 import AppNavbar from "@/components/AppNavbar";
 import GeneSearchPalette from "@/components/GeneSearchPalette";
 
@@ -39,6 +38,9 @@ const BeforeAfter = lazy(() => import("@/pages/before-after"));
 const CryptVillus = lazy(() => import("@/pages/crypt-villus"));
 const YeastValidation = lazy(() => import("@/pages/yeast-validation"));
 const DrugDurability = lazy(() => import("@/pages/drug-durability"));
+const AR2Diagnostics = lazy(() => import("@/pages/ar2-diagnostics"));
+const SupplementaryAnalyses = lazy(() => import("@/pages/supplementary-analyses"));
+const CancerStateSwap = lazy(() => import("@/pages/cancer-state-swap"));
 const BacterialPersistence = lazy(() => import("@/pages/bacterial-persistence"));
 const ConvergenceMap = lazy(() => import("@/pages/convergence-map"));
 const PersistenceLandscape = lazy(() => import("@/pages/persistence-landscape"));
@@ -60,7 +62,38 @@ const RegulatoryDiscovery = lazy(() => import("@/pages/regulatory-discovery"));
 const ABMDemo = lazy(() => import("@/pages/abm-demo"));
 const OscillatorTaxonomy = lazy(() => import("@/pages/oscillator-taxonomy"));
 const BomanSimulation = lazy(() => import("@/pages/boman-simulation"));
+const BomanODE = lazy(() => import("@/pages/boman-ode"));
+const ClockTargetPhi = lazy(() => import("@/pages/clock-target-phi"));
+const PhiEnrichmentReplication = lazy(() => import("@/pages/phi-enrichment-replication"));
 const MethodValidation = lazy(() => import("@/pages/method-validation"));
+const CrossSpeciesPhi = lazy(() => import("@/pages/cross-species-phi"));
+const TemporalCorrelation = lazy(() => import("@/pages/temporal-correlation"));
+const FibonacciTwinningExtended = lazy(() => import("@/pages/fibonacci-twinning-extended"));
+const BomanPAR2Mapping = lazy(() => import("@/pages/boman-par2-mapping"));
+const PhiInevitabilityTest = lazy(() => import("@/pages/phi-inevitability-test"));
+const PhiTimescaleBuffering = lazy(() => import("@/pages/phi-timescale-buffering"));
+const GSE157357Analysis = lazy(() => import("@/pages/gse157357-analysis"));
+const GlialAnalysis = lazy(() => import("@/pages/glial-analysis"));
+const GBMZmanSeq = lazy(() => import("@/pages/gbm-zman-seq"));
+const TCGAValidation = lazy(() => import("@/pages/tcga-validation"));
+const PhaseSensitivity = lazy(() => import("@/pages/phase-sensitivity"));
+const CoreEvidence = lazy(() => import("@/pages/core-evidence"));
+const ChronotherapyPredictor = lazy(() => import("@/pages/chronotherapy-predictor"));
+const P53Regulon = lazy(() => import("@/pages/p53-regulon"));
+const COFEContext = lazy(() => import("@/pages/cofe-context"));
+const GEOReplication = lazy(() => import("@/pages/geo-replication"));
+const GSE11923Checkpoint = lazy(() => import("@/pages/gse11923-checkpoint"));
+const P53Oscillator = lazy(() => import("@/pages/p53-oscillator"));
+const FeedbackLoopThreshold = lazy(() => import("@/pages/feedback-loop-threshold"));
+const NfkbUniversality = lazy(() => import("@/pages/nfkb-universality"));
+const P53TissueLandscape = lazy(() => import("@/pages/p53-tissue-landscape"));
+const MycOnDiscrepancy = lazy(() => import("@/pages/myc-on-discrepancy"));
+const U2OSMycAR2 = lazy(() => import("@/pages/u2os-myc-ar2"));
+const WearableAnalysis = lazy(() => import("@/pages/wearable-analysis"));
+const LightEntrainment = lazy(() => import("@/pages/light-entrainment"));
+const RetinalAnalysis = lazy(() => import("@/pages/retinal-analysis"));
+const MixtureSimulation = lazy(() => import("@/pages/mixture-simulation"));
+
 const NotFound = lazy(() => import("@/pages/not-found"));
 
 function PageLoader() {
@@ -112,6 +145,9 @@ function Router() {
         <Route path="/crypt-villus" component={CryptVillus} />
         <Route path="/yeast-validation" component={YeastValidation} />
         <Route path="/drug-durability" component={DrugDurability} />
+        <Route path="/ar2-diagnostics" component={AR2Diagnostics} />
+        <Route path="/supplementary-analyses" component={SupplementaryAnalyses} />
+        <Route path="/cancer-state-swap" component={CancerStateSwap} />
         <Route path="/bacterial-persistence" component={BacterialPersistence} />
         <Route path="/convergence-map" component={ConvergenceMap} />
         <Route path="/persistence-landscape" component={PersistenceLandscape} />
@@ -134,7 +170,37 @@ function Router() {
         <Route path="/abm-minimal" component={ABMDemo} />
         <Route path="/oscillator-taxonomy" component={OscillatorTaxonomy} />
         <Route path="/boman-simulation" component={BomanSimulation} />
+        <Route path="/boman-ode" component={BomanODE} />
+        <Route path="/clock-target-phi" component={ClockTargetPhi} />
+        <Route path="/phi-enrichment-replication" component={PhiEnrichmentReplication} />
         <Route path="/method-validation" component={MethodValidation} />
+        <Route path="/cross-species-phi" component={CrossSpeciesPhi} />
+        <Route path="/temporal-correlation" component={TemporalCorrelation} />
+        <Route path="/fibonacci-twinning-extended" component={FibonacciTwinningExtended} />
+        <Route path="/boman-par2-mapping" component={BomanPAR2Mapping} />
+        <Route path="/phi-inevitability-test" component={PhiInevitabilityTest} />
+        <Route path="/phi-timescale-buffering" component={PhiTimescaleBuffering} />
+        <Route path="/gse157357-analysis" component={GSE157357Analysis} />
+        <Route path="/glial-analysis" component={GlialAnalysis} />
+        <Route path="/gbm-zman-seq" component={GBMZmanSeq} />
+        <Route path="/tcga-validation" component={TCGAValidation} />
+        <Route path="/phase-sensitivity" component={PhaseSensitivity} />
+        <Route path="/core-evidence" component={CoreEvidence} />
+        <Route path="/chronotherapy-predictor" component={ChronotherapyPredictor} />
+        <Route path="/p53-regulon" component={P53Regulon} />
+        <Route path="/cofe-context" component={COFEContext} />
+        <Route path="/geo-replication" component={GEOReplication} />
+        <Route path="/gse11923-checkpoint" component={GSE11923Checkpoint} />
+        <Route path="/p53-oscillator" component={P53Oscillator} />
+        <Route path="/feedback-loop-threshold" component={FeedbackLoopThreshold} />
+        <Route path="/nfkb-universality" component={NfkbUniversality} />
+        <Route path="/p53-tissue-landscape" component={P53TissueLandscape} />
+        <Route path="/myc-on-discrepancy" component={MycOnDiscrepancy} />
+        <Route path="/u2os-myc-ar2" component={U2OSMycAR2} />
+        <Route path="/wearable-analysis" component={WearableAnalysis} />
+        <Route path="/light-entrainment" component={LightEntrainment} />
+        <Route path="/retinal-analysis" component={RetinalAnalysis} />
+        <Route path="/mixture-simulation" component={MixtureSimulation} />
 
         <Route path="/shared/:id" component={SharedAnalysis} />
 
@@ -156,8 +222,9 @@ function Router() {
   );
 }
 
-const SUBMISSION_TIMESTAMP = "February 27, 2026 — 20:30 UTC";
-const VERSION = "2.3.0";
+const SUBMISSION_TIMESTAMP = "April 2026";
+const VERSION = "2.5.0";
+
 
 function SubmissionFooter() {
   return (
@@ -208,7 +275,6 @@ function App() {
             </div>
             <SubmissionFooter />
             <GeneSearchPalette />
-            <FeedbackWidget />
           </div>
         </TooltipProvider>
       </QueryClientProvider>

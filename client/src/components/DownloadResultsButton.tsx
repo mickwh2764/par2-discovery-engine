@@ -40,7 +40,7 @@ export default function DownloadResultsButton({ data, filename, label = "Downloa
       variant="outline"
       size="sm"
       onClick={() => downloadAsCSV(data, filename)}
-      className={`gap-2 border-slate-600 text-slate-300 hover:bg-slate-800 ${className}`}
+      className={`gap-2 border-slate-300 text-slate-700 hover:bg-slate-50 ${className}`}
       data-testid="button-download-results"
     >
       <Download className="h-4 w-4" />

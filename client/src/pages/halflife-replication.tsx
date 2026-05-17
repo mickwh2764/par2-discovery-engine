@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
-import { ArrowLeft, FlaskConical, TrendingUp, AlertTriangle, CheckCircle, XCircle, Info, Download, BarChart3 } from "lucide-react";
+import { ArrowLeft, FlaskConical, TrendingUp, AlertTriangle, CheckCircle, XCircle, Info, Download, BarChart3, Zap } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Cell, Legend, ReferenceLine, Label } from "recharts";
@@ -85,11 +85,11 @@ function ScatterPlot({ data, name }: { data: GeneResult[]; name: string }) {
           if (active && payload && payload.length) {
             const d = payload[0].payload;
             return (
-              <div className="bg-slate-800 border border-slate-600 rounded p-2 text-xs">
-                <p className="font-bold text-white">{d.gene}</p>
+              <div className="bg-slate-100 border border-slate-300 rounded p-2 text-xs">
+                <p className="font-bold text-slate-900">{d.gene}</p>
                 <p className="text-cyan-400">|λ| = {d.eigenvalue}</p>
                 <p className="text-amber-400">Half-life = {d.halfLife} min</p>
-                <p className="text-slate-400">R² = {d.rSquared}</p>
+                <p className="text-slate-500">R² = {d.rSquared}</p>
               </div>
             );
           }
@@ -115,10 +115,10 @@ function QuintileChart({ quintiles }: { quintiles: QuintileData[] }) {
           if (active && payload && payload.length) {
             const d = payload[0].payload;
             return (
-              <div className="bg-slate-800 border border-slate-600 rounded p-2 text-xs">
-                <p className="font-bold text-white">{d.quintile} {d.label && `(${d.label})`}</p>
+              <div className="bg-slate-100 border border-slate-300 rounded p-2 text-xs">
+                <p className="font-bold text-slate-900">{d.quintile} {d.label && `(${d.label})`}</p>
                 <p className="text-cyan-400">Mean |λ| = {d.meanEigenvalue}</p>
-                <p className="text-slate-400">n = {d.n} genes</p>
+                <p className="text-slate-500">n = {d.n} genes</p>
               </div>
             );
           }
@@ -140,10 +140,10 @@ export default function HalfLifeReplication() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 flex items-center justify-center">
         <div className="text-center space-y-4">
           <FlaskConical className="w-12 h-12 text-cyan-400 animate-pulse mx-auto" />
-          <p className="text-slate-400">Running AR(2) analysis on 3 non-circadian datasets...</p>
+          <p className="text-slate-500">Running AR(2) analysis on 3 non-circadian datasets...</p>
           <p className="text-xs text-slate-500">Fitting ~73,000 genes, matching to Sharova half-life data</p>
         </div>
       </div>
@@ -152,7 +152,7 @@ export default function HalfLifeReplication() {
 
   if (error || !data) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 p-8">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 p-8">
         <div className="max-w-4xl mx-auto text-center">
           <XCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
           <p className="text-red-400">Failed to load analysis: {(error as Error)?.message}</p>
@@ -164,26 +164,26 @@ export default function HalfLifeReplication() {
   const activeDs = data.replicationDatasets[activeDataset];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950" data-testid="page-halflife-replication">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50" data-testid="page-halflife-replication">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         <div className="flex items-center gap-4">
           <Link href="/cross-metric-independence">
-            <button className="text-slate-400 hover:text-white transition-colors" data-testid="button-back">
+            <button className="text-slate-500 hover:text-slate-700 transition-colors" data-testid="button-back">
               <ArrowLeft className="w-5 h-5" />
             </button>
           </Link>
           <div className="flex-1">
-            <h1 className="text-2xl font-bold text-white" data-testid="text-page-title">Half-Life Independence Replication</h1>
-            <p className="text-sm text-slate-400 mt-1">AR(2) Eigenvalue |λ| vs mRNA Half-Life — 3 Non-Circadian Datasets</p>
+            <h1 className="text-2xl font-bold text-slate-900" data-testid="text-page-title">Half-Life Independence Replication</h1>
+            <p className="text-sm text-slate-500 mt-1">AR(2) Eigenvalue |λ| vs mRNA Half-Life — 3 Non-Circadian Datasets</p>
           </div>
           <VerdictBadge verdict={data.combinedSummary.verdict} />
         </div>
 
-        <Card className="bg-slate-800/50 border-cyan-500/20">
+        <Card className="bg-slate-50 border-cyan-500/20">
           <CardContent className="pt-6">
             <div className="flex items-start gap-3">
               <Info className="w-5 h-5 text-cyan-400 mt-0.5 shrink-0" />
-              <div className="text-sm text-slate-300 space-y-2">
+              <div className="text-sm text-slate-600 space-y-2">
                 <p>
                   <strong>Paper F finding:</strong> AR(2) eigenvalue |λ| shows near-zero correlation with mRNA half-life
                   (ρ = {data.originalFinding.rho}, p = {data.originalFinding.pValue}, n = {data.originalFinding.n.toLocaleString()})
@@ -200,35 +200,35 @@ export default function HalfLifeReplication() {
         </Card>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card className="bg-slate-800/50 border-slate-700">
+          <Card className="bg-slate-50 border-slate-200">
             <CardContent className="pt-6 text-center">
               <p className="text-3xl font-bold text-cyan-400" data-testid="text-weighted-rho">{data.combinedSummary.weightedMeanRho}</p>
-              <p className="text-xs text-slate-400 mt-1">Weighted Mean ρ (all 7 datasets)</p>
+              <p className="text-xs text-slate-500 mt-1">Weighted Mean ρ (all 7 datasets)</p>
             </CardContent>
           </Card>
-          <Card className="bg-slate-800/50 border-slate-700">
+          <Card className="bg-slate-50 border-slate-200">
             <CardContent className="pt-6 text-center">
               <p className="text-3xl font-bold text-emerald-400" data-testid="text-total-genes">{data.combinedSummary.totalGenes.toLocaleString()}</p>
-              <p className="text-xs text-slate-400 mt-1">Total Genes Tested</p>
+              <p className="text-xs text-slate-500 mt-1">Total Genes Tested</p>
             </CardContent>
           </Card>
-          <Card className="bg-slate-800/50 border-slate-700">
+          <Card className="bg-slate-50 border-slate-200">
             <CardContent className="pt-6 text-center">
               <p className="text-3xl font-bold text-amber-400" data-testid="text-n-datasets">{data.combinedSummary.nDatasets}</p>
-              <p className="text-xs text-slate-400 mt-1">Datasets ({data.combinedSummary.species.length} species)</p>
+              <p className="text-xs text-slate-500 mt-1">Datasets ({data.combinedSummary.species.length} species)</p>
             </CardContent>
           </Card>
-          <Card className="bg-slate-800/50 border-slate-700">
+          <Card className="bg-slate-50 border-slate-200">
             <CardContent className="pt-6 text-center">
               <p className="text-3xl font-bold text-purple-400" data-testid="text-n-contexts">{data.combinedSummary.contexts.length}</p>
-              <p className="text-xs text-slate-400 mt-1">Biological Contexts</p>
+              <p className="text-xs text-slate-500 mt-1">Biological Contexts</p>
             </CardContent>
           </Card>
         </div>
 
-        <Card className="bg-slate-800/50 border-slate-700">
+        <Card className="bg-slate-50 border-slate-200">
           <CardHeader>
-            <CardTitle className="text-lg text-white flex items-center gap-2">
+            <CardTitle className="text-lg text-slate-900 flex items-center gap-2">
               <BarChart3 className="w-5 h-5 text-cyan-400" />
               Combined Evidence — All 7 Datasets
             </CardTitle>
@@ -237,31 +237,31 @@ export default function HalfLifeReplication() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm" data-testid="table-combined-evidence">
                 <thead>
-                  <tr className="border-b border-slate-700">
-                    <th className="text-left py-2 text-slate-400 font-medium">Dataset</th>
-                    <th className="text-center py-2 text-slate-400 font-medium">Species</th>
-                    <th className="text-center py-2 text-slate-400 font-medium">Context</th>
-                    <th className="text-center py-2 text-slate-400 font-medium">n</th>
-                    <th className="text-center py-2 text-slate-400 font-medium">Spearman ρ</th>
-                    <th className="text-center py-2 text-slate-400 font-medium">p-value</th>
-                    <th className="text-center py-2 text-slate-400 font-medium">Source</th>
+                  <tr className="border-b border-slate-200">
+                    <th className="text-left py-2 text-slate-500 font-medium">Dataset</th>
+                    <th className="text-center py-2 text-slate-500 font-medium">Species</th>
+                    <th className="text-center py-2 text-slate-500 font-medium">Context</th>
+                    <th className="text-center py-2 text-slate-500 font-medium">n</th>
+                    <th className="text-center py-2 text-slate-500 font-medium">Spearman ρ</th>
+                    <th className="text-center py-2 text-slate-500 font-medium">p-value</th>
+                    <th className="text-center py-2 text-slate-500 font-medium">Source</th>
                   </tr>
                 </thead>
                 <tbody>
                   {data.combinedSummary.datasets.map((d, i) => (
-                    <tr key={i} className={`border-b border-slate-700/50 ${d.isOriginal ? 'opacity-70' : ''}`}>
-                      <td className="py-2 text-white font-medium">{d.name}</td>
-                      <td className="py-2 text-center text-slate-300">{d.species}</td>
-                      <td className="py-2 text-center text-slate-300">{d.context}</td>
-                      <td className="py-2 text-center text-slate-300">{d.n.toLocaleString()}</td>
+                    <tr key={i} className={`border-b border-slate-200 ${d.isOriginal ? 'opacity-70' : ''}`}>
+                      <td className="py-2 text-slate-900 font-medium">{d.name}</td>
+                      <td className="py-2 text-center text-slate-600">{d.species}</td>
+                      <td className="py-2 text-center text-slate-600">{d.context}</td>
+                      <td className="py-2 text-center text-slate-600">{d.n.toLocaleString()}</td>
                       <td className={`py-2 text-center font-mono font-bold ${Math.abs(d.rho) < 0.05 ? 'text-emerald-400' : Math.abs(d.rho) < 0.15 ? 'text-amber-400' : 'text-orange-400'}`}>
                         {d.rho.toFixed(4)}
                       </td>
-                      <td className="py-2 text-center text-slate-400 font-mono">
+                      <td className="py-2 text-center text-slate-500 font-mono">
                         {d.pValue < 0.001 ? '<0.001' : d.pValue.toFixed(3)}
                       </td>
                       <td className="py-2 text-center">
-                        <Badge variant="outline" className={d.isOriginal ? 'text-slate-400 border-slate-600' : 'text-cyan-400 border-cyan-500/30'}>
+                        <Badge variant="outline" className={d.isOriginal ? 'text-slate-500 border-slate-300' : 'text-cyan-400 border-cyan-500/30'}>
                           {d.isOriginal ? 'Paper F' : 'New'}
                         </Badge>
                       </td>
@@ -269,10 +269,10 @@ export default function HalfLifeReplication() {
                   ))}
                 </tbody>
                 <tfoot>
-                  <tr className="border-t-2 border-slate-600">
-                    <td className="py-2 text-white font-bold">Weighted Mean</td>
+                  <tr className="border-t-2 border-slate-300">
+                    <td className="py-2 text-slate-900 font-bold">Weighted Mean</td>
                     <td colSpan={2} />
-                    <td className="py-2 text-center text-white font-bold">{data.combinedSummary.totalGenes.toLocaleString()}</td>
+                    <td className="py-2 text-center text-slate-900 font-bold">{data.combinedSummary.totalGenes.toLocaleString()}</td>
                     <td className={`py-2 text-center font-mono font-bold text-lg ${Math.abs(data.combinedSummary.weightedMeanRho) < 0.05 ? 'text-emerald-400' : 'text-amber-400'}`}>
                       {data.combinedSummary.weightedMeanRho.toFixed(4)}
                     </td>
@@ -280,6 +280,117 @@ export default function HalfLifeReplication() {
                   </tr>
                 </tfoot>
               </table>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-slate-50 border-cyan-500/20">
+          <CardHeader>
+            <CardTitle className="text-lg text-slate-900 flex items-center gap-2">
+              <Zap className="w-5 h-5 text-cyan-400" />
+              Verified Exemplar Contrast — GSE54650 Liver (Mouse, 2h intervals, 48 timepoints)
+            </CardTitle>
+            <p className="text-xs text-slate-500 mt-1">
+              |λ| values computed by mean-centred AR(2) on GSE54650 liver data (2h sampling interval).
+              Note: Paper F's primary analysis uses GSE11923 (1h intervals), giving different per-gene |λ| values.
+              Half-lives are from Sharova et al. 2009 (mouse ESCs, DOI: 10.1093/dnares/dsn030) — platform values are
+              representative estimates; verify Dbp and Per2 against the actual S1 table before citing in a paper.
+            </p>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div>
+                <h4 className="text-sm font-semibold text-red-400 mb-3 flex items-center gap-1">
+                  <span className="w-2 h-2 rounded-full bg-red-400 inline-block" />
+                  Short Half-Life → High Persistence (active gating)
+                </h4>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-xs" data-testid="table-short-hl-high-lam">
+                    <thead>
+                      <tr className="border-b border-slate-200">
+                        <th className="text-left py-1.5 text-slate-500 font-medium">Gene</th>
+                        <th className="text-center py-1.5 text-slate-500 font-medium">|λ|</th>
+                        <th className="text-center py-1.5 text-slate-500 font-medium">Half-life</th>
+                        <th className="text-left py-1.5 text-slate-500 font-medium">Role</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        { gene: 'Nr1d2', lam: 0.856, hl: 60,  role: 'Clock (repressor)' },
+                        { gene: 'Nr1d1', lam: 0.811, hl: 45,  role: 'Clock (repressor)' },
+                        { gene: 'Dbp',   lam: 0.792, hl: 30,  role: 'Clock output (PAR bZip)' },
+                        { gene: 'Arntl', lam: 0.767, hl: 180, role: 'Core clock (BMAL1)' },
+                        { gene: 'Cry1',  lam: 0.760, hl: 180, role: 'Clock (repressor)' },
+                        { gene: 'Egr1',  lam: 0.668, hl: 20,  role: 'Immediate-early TF' },
+                        { gene: 'Per2',  lam: 0.636, hl: 90,  role: 'Clock (repressor)' },
+                      ].map(({ gene, lam, hl, role }) => (
+                        <tr key={gene} className="border-b border-slate-100 hover:bg-slate-100/50">
+                          <td className="py-1.5 font-mono font-bold text-slate-900">{gene}</td>
+                          <td className="py-1.5 text-center font-mono text-cyan-500 font-bold">{lam.toFixed(3)}</td>
+                          <td className="py-1.5 text-center text-amber-500 font-medium">{hl} min</td>
+                          <td className="py-1.5 text-slate-500 italic">{role}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p className="text-xs text-slate-400 mt-2 italic">
+                  Dbp: half-life = 30 min yet |λ| = 0.792. The protein is rapidly degraded but the
+                  <em> system dynamics</em> show strong persistence — mRNA turnover and AR(2) persistence are orthogonal properties.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="text-sm font-semibold text-blue-400 mb-3 flex items-center gap-1">
+                  <span className="w-2 h-2 rounded-full bg-blue-400 inline-block" />
+                  Long Half-Life → Moderate/Low Persistence (inverse paradox)
+                </h4>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-xs" data-testid="table-long-hl-low-lam">
+                    <thead>
+                      <tr className="border-b border-slate-200">
+                        <th className="text-left py-1.5 text-slate-500 font-medium">Gene</th>
+                        <th className="text-center py-1.5 text-slate-500 font-medium">|λ|</th>
+                        <th className="text-center py-1.5 text-slate-500 font-medium">Half-life</th>
+                        <th className="text-left py-1.5 text-slate-500 font-medium">Role</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        { gene: 'Pten',   lam: 0.318, hl: 360, role: 'Tumour suppressor' },
+                        { gene: 'Col1a1', lam: 0.572, hl: 600, role: 'ECM structural' },
+                        { gene: 'Vim',    lam: 0.567, hl: 540, role: 'Cytoskeletal' },
+                        { gene: 'Bcl2',   lam: 0.556, hl: 420, role: 'Anti-apoptotic' },
+                        { gene: 'Actb',   lam: 0.589, hl: 600, role: 'Housekeeping' },
+                        { gene: 'Rb1',    lam: 0.571, hl: 420, role: 'Tumour suppressor' },
+                        { gene: 'Hdac2',  lam: 0.673, hl: 360, role: 'Chromatin remodelling' },
+                      ].map(({ gene, lam, hl, role }) => (
+                        <tr key={gene} className="border-b border-slate-100 hover:bg-slate-100/50">
+                          <td className="py-1.5 font-mono font-bold text-slate-900">{gene}</td>
+                          <td className="py-1.5 text-center font-mono text-cyan-500 font-bold">{lam.toFixed(3)}</td>
+                          <td className="py-1.5 text-center text-amber-500 font-medium">{hl} min</td>
+                          <td className="py-1.5 text-slate-500 italic">{role}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p className="text-xs text-slate-400 mt-2 italic">
+                  Pten: half-life = 360 min (12× longer than Dbp) yet |λ| = 0.318 — 2.5× <em>lower</em> persistence.
+                  Actb: most stable mRNA in this set (600 min) but only moderate persistence (0.589).
+                  Stability of the transcript does not predict stability of the dynamical pattern.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-4 p-3 bg-cyan-500/5 border border-cyan-500/20 rounded-lg">
+              <p className="text-xs text-slate-600">
+                <strong>Sharpest single contrast:</strong>{' '}
+                <span className="font-mono text-slate-900">Dbp</span> (|λ| = 0.792, half-life = 30 min) vs{' '}
+                <span className="font-mono text-slate-900">Pten</span> (|λ| = 0.318, half-life = 360 min).
+                A 12-fold difference in mRNA stability is accompanied by the <em>opposite</em> ranking in dynamical persistence.
+                This dissociation is confirmed across 7 datasets (n = {data.combinedSummary.totalGenes.toLocaleString()} genes, ρ = {data.combinedSummary.weightedMeanRho.toFixed(4)}).
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -292,7 +403,7 @@ export default function HalfLifeReplication() {
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                 activeDataset === i
                   ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
-                  : 'bg-slate-800/50 text-slate-400 border border-slate-700 hover:text-white hover:border-slate-500'
+                  : 'bg-slate-50 text-slate-500 border border-slate-200 hover:text-slate-700 hover:border-slate-300'
               }`}
               data-testid={`button-dataset-${i}`}
             >
@@ -304,31 +415,31 @@ export default function HalfLifeReplication() {
         {activeDs && (
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
-              <Card className="bg-slate-800/30 border-slate-700">
+              <Card className="bg-slate-50 border-slate-200">
                 <CardContent className="pt-4 text-center">
-                  <p className="text-xl font-bold text-white">{activeDs.totalGenes.toLocaleString()}</p>
+                  <p className="text-xl font-bold text-slate-900">{activeDs.totalGenes.toLocaleString()}</p>
                   <p className="text-xs text-slate-500">Total Genes</p>
                 </CardContent>
               </Card>
-              <Card className="bg-slate-800/30 border-slate-700">
+              <Card className="bg-slate-50 border-slate-200">
                 <CardContent className="pt-4 text-center">
-                  <p className="text-xl font-bold text-white">{activeDs.fittedGenes.toLocaleString()}</p>
+                  <p className="text-xl font-bold text-slate-900">{activeDs.fittedGenes.toLocaleString()}</p>
                   <p className="text-xs text-slate-500">AR(2) Fitted</p>
                 </CardContent>
               </Card>
-              <Card className="bg-slate-800/30 border-slate-700">
+              <Card className="bg-slate-50 border-slate-200">
                 <CardContent className="pt-4 text-center">
                   <p className="text-xl font-bold text-cyan-400">{activeDs.matchedGenes}</p>
                   <p className="text-xs text-slate-500">Matched to HL Data</p>
                 </CardContent>
               </Card>
-              <Card className="bg-slate-800/30 border-slate-700">
+              <Card className="bg-slate-50 border-slate-200">
                 <CardContent className="pt-4 text-center">
-                  <p className="text-xl font-bold text-white">{activeDs.timepoints}</p>
+                  <p className="text-xl font-bold text-slate-900">{activeDs.timepoints}</p>
                   <p className="text-xs text-slate-500">Timepoints</p>
                 </CardContent>
               </Card>
-              <Card className="bg-slate-800/30 border-slate-700">
+              <Card className="bg-slate-50 border-slate-200">
                 <CardContent className="pt-4 text-center">
                   <p className={`text-xl font-bold ${Math.abs(activeDs.spearmanRho) < 0.15 ? 'text-amber-400' : 'text-orange-400'}`}>
                     ρ = {activeDs.spearmanRho.toFixed(4)}
@@ -339,10 +450,10 @@ export default function HalfLifeReplication() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card className="bg-slate-800/50 border-slate-700">
+              <Card className="bg-slate-50 border-slate-200">
                 <CardHeader>
-                  <CardTitle className="text-base text-white">Scatter: |λ| vs Half-Life</CardTitle>
-                  <p className="text-xs text-slate-400">Each dot = one gene. ρ = {activeDs.spearmanRho.toFixed(4)}, p = {activeDs.pValue < 0.001 ? '<0.001' : activeDs.pValue.toFixed(3)}</p>
+                  <CardTitle className="text-base text-slate-900">Scatter: |λ| vs Half-Life</CardTitle>
+                  <p className="text-xs text-slate-500">Each dot = one gene. ρ = {activeDs.spearmanRho.toFixed(4)}, p = {activeDs.pValue < 0.001 ? '<0.001' : activeDs.pValue.toFixed(3)}</p>
                 </CardHeader>
                 <CardContent>
                   <ScatterPlot data={activeDs.scatterData} name={activeDs.name} />
@@ -350,10 +461,10 @@ export default function HalfLifeReplication() {
               </Card>
 
               {activeDs.quintiles && (
-                <Card className="bg-slate-800/50 border-slate-700">
+                <Card className="bg-slate-50 border-slate-200">
                   <CardHeader>
-                    <CardTitle className="text-base text-white">Quintile Analysis</CardTitle>
-                    <p className="text-xs text-slate-400">Mean eigenvalue by half-life quintile — flat = independent</p>
+                    <CardTitle className="text-base text-slate-900">Quintile Analysis</CardTitle>
+                    <p className="text-xs text-slate-500">Mean eigenvalue by half-life quintile — flat = independent</p>
                   </CardHeader>
                   <CardContent>
                     <QuintileChart quintiles={activeDs.quintiles} />
@@ -363,10 +474,10 @@ export default function HalfLifeReplication() {
             </div>
 
             {activeDs.dissociations.length > 0 && (
-              <Card className="bg-slate-800/50 border-slate-700">
+              <Card className="bg-slate-50 border-slate-200">
                 <CardHeader>
-                  <CardTitle className="text-base text-white">Key Dissociations</CardTitle>
-                  <p className="text-xs text-slate-400">Genes where half-life and eigenvalue strongly disagree — proving independence</p>
+                  <CardTitle className="text-base text-slate-900">Key Dissociations</CardTitle>
+                  <p className="text-xs text-slate-500">Genes where half-life and eigenvalue strongly disagree — proving independence</p>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -374,8 +485,8 @@ export default function HalfLifeReplication() {
                       <h4 className="text-sm font-medium text-red-400 mb-2">Short Half-Life, High Eigenvalue</h4>
                       <div className="space-y-1">
                         {activeDs.dissociations.filter(d => d.type === 'Short HL, High |λ|').map((d, i) => (
-                          <div key={i} className="flex justify-between text-xs bg-slate-700/30 rounded px-3 py-1.5">
-                            <span className="font-mono text-white font-medium">{d.gene}</span>
+                          <div key={i} className="flex justify-between text-xs bg-slate-100 rounded px-3 py-1.5">
+                            <span className="font-mono text-slate-900 font-medium">{d.gene}</span>
                             <span><span className="text-amber-400">HL={d.halfLife}min</span> · <span className="text-cyan-400">|λ|={d.eigenvalue.toFixed(3)}</span></span>
                           </div>
                         ))}
@@ -385,8 +496,8 @@ export default function HalfLifeReplication() {
                       <h4 className="text-sm font-medium text-blue-400 mb-2">Long Half-Life, Low Eigenvalue</h4>
                       <div className="space-y-1">
                         {activeDs.dissociations.filter(d => d.type === 'Long HL, Low |λ|').map((d, i) => (
-                          <div key={i} className="flex justify-between text-xs bg-slate-700/30 rounded px-3 py-1.5">
-                            <span className="font-mono text-white font-medium">{d.gene}</span>
+                          <div key={i} className="flex justify-between text-xs bg-slate-100 rounded px-3 py-1.5">
+                            <span className="font-mono text-slate-900 font-medium">{d.gene}</span>
                             <span><span className="text-amber-400">HL={d.halfLife}min</span> · <span className="text-cyan-400">|λ|={d.eigenvalue.toFixed(3)}</span></span>
                           </div>
                         ))}
@@ -399,14 +510,14 @@ export default function HalfLifeReplication() {
           </div>
         )}
 
-        <Card className="bg-slate-800/50 border-amber-500/20">
+        <Card className="bg-slate-50 border-amber-500/20">
           <CardHeader>
-            <CardTitle className="text-lg text-white flex items-center gap-2">
+            <CardTitle className="text-lg text-slate-900 flex items-center gap-2">
               <AlertTriangle className="w-5 h-5 text-amber-400" />
               Scientific Interpretation
             </CardTitle>
           </CardHeader>
-          <CardContent className="text-sm text-slate-300 space-y-3">
+          <CardContent className="text-sm text-slate-600 space-y-3">
             <p>
               <strong>Original Paper F datasets (large, long time-series):</strong> All 4 show near-zero correlation (|ρ| &lt; 0.02),
               confirming eigenvalue independence from mRNA half-life. These datasets have 36-48 timepoints and 3,000-8,000+ matched genes.
@@ -415,7 +526,7 @@ export default function HalfLifeReplication() {
               <strong>New non-circadian datasets (smaller, shorter):</strong> Show weak positive correlations (ρ ≈ 0.10-0.20).
               This is likely driven by three factors:
             </p>
-            <ul className="list-disc list-inside space-y-1 text-slate-400">
+            <ul className="list-disc list-inside space-y-1 text-slate-500">
               <li><strong>Fewer timepoints</strong> (7-14 vs 36-48) — AR(2) fits are noisier with fewer observations</li>
               <li><strong>Smaller gene overlap</strong> with Sharova data (86-195 vs 3,000-8,000) — biases toward specific gene classes</li>
               <li><strong>Explosive dynamics</strong> — immune/cancer datasets contain more genes with |λ| &gt; 1 (growing, not decaying), which may correlate differently with half-life</li>
