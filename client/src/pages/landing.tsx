@@ -2,36 +2,36 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Upload, BarChart3, ArrowRight, Shield, BookOpen, Dna, Clock, Activity, FlaskConical, ChevronDown, FileText, Atom, Sparkles, Microscope, Beaker, AlertTriangle } from "lucide-react";
+import { Upload, BarChart3, ArrowRight, Dna, Clock, Activity, FlaskConical, Play, FileText, ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 const PATHS = [
   {
-    title: "Upload Your Data",
-    desc: "Drop in a CSV file and get results back in seconds. Works with gene expression time series from any source.",
+    title: "Try with example data",
+    desc: "See the three-tier hierarchy across 12 mouse tissues. No upload, no setup — results load instantly.",
+    href: "/dashboard",
+    icon: Play,
+    color: "from-emerald-500 to-teal-500",
+    badge: "No upload needed",
+    cta: "Explore pre-loaded datasets",
+  },
+  {
+    title: "Upload your own data",
+    desc: "Drop in a CSV of gene expression time series and get eigenvalue persistence scores back in seconds.",
     href: "/discovery-engine",
     icon: Upload,
-    color: "from-emerald-500 to-teal-500",
-    badge: "Start Here",
+    color: "from-cyan-500 to-blue-500",
+    badge: null,
     cta: "Open Discovery Engine",
   },
   {
-    title: "Explore Pre-Loaded Datasets",
-    desc: "Browse datasets already on the platform — mouse, human, baboon, plant, and yeast — and see the results instantly.",
-    href: "/dashboard",
-    icon: BarChart3,
-    color: "from-cyan-500 to-blue-500",
-    badge: null,
-    cta: "Explore Datasets",
-  },
-  {
-    title: "See the Evidence",
-    desc: "Every claim on this platform has been tested. See the robustness checks, cross-species replication, and literature validation.",
-    href: "/validation-suite",
-    icon: Shield,
-    color: "from-purple-500 to-violet-500",
-    badge: null,
-    cta: "Review Validation",
+    title: "Read the papers",
+    desc: "Paper A (PLOS ONE, PONE-D-26-21015) covers the full method, 22 datasets, and 11 robustness checks. Preprint on Research Square.",
+    href: "/manuscript",
+    icon: FileText,
+    color: "from-indigo-500 to-violet-500",
+    badge: "In submission",
+    cta: "View manuscript downloads",
   },
 ];
 
@@ -54,218 +54,124 @@ const WHAT_IT_DOES = [
   {
     icon: FlaskConical,
     title: "Discovers new candidates",
-    plain: "By scanning ~21,000 genes, the platform has flagged 20 genes not previously known to be connected to the body clock — candidates for follow-up experiments.",
+    plain: "By scanning ~21,000 genes, the platform flags a small set of genes not previously known to be connected to the body clock — candidates for follow-up experiments.",
   },
 ];
-
-const KEY_TERMS = [
-  {
-    term: "Persistence (|λ|)",
-    simple: "How long a gene's signal lasts",
-    detail: "A number between 0 and 1. High values (like 0.69 for clock genes) mean the signal carries forward strongly. Lower values (like 0.54 for target genes) mean it fades more quickly. Think of it like an echo — some genes echo loudly for a long time, others fade faster.",
-  },
-  {
-    term: "AR(2) model",
-    simple: "A formula that predicts a gene from its recent past",
-    detail: "\"Autoregressive, order 2\" — it says a gene's current level depends on what it was doing one time step ago and two time steps ago. Two steps are needed because circadian genes don't just decay, they oscillate (go up, come down, repeat).",
-  },
-  {
-    term: "Persistence gap",
-    simple: "The measurable difference between clock and target genes",
-    detail: "Clock genes average |λ| ≈ 0.69 (mean) or 0.65 (median), target genes average |λ| ≈ 0.54 (mean) or 0.53 (median). That gap of ~0.12–0.15 is consistent across mouse, human, baboon, and plant datasets. When the gap shrinks or inverts, it indicates disease or disruption.",
-  },
-  {
-    term: "Root-space",
-    simple: "A map where each gene's position shows its behavior",
-    detail: "A visual plot where the angle shows the gene's cycle speed and the distance from center shows its persistence. Clock genes cluster in one zone, target genes in another — you can literally see the two tiers.",
-  },
-];
-
-const PAPER_MAP = [
-  {
-    paper: "Paper A",
-    title: "Core Methods",
-    status: "Submission-ready",
-    statusColor: "bg-blue-100 text-blue-700 border-blue-200",
-    desc: "AR(2) eigenvalue recovers circadian hierarchy across 4 species, 12 tissues, 36 series. 12 robustness tests, 5 ODE validations, 59-gene literature cross-reference.",
-    href: "/validation-suite",
-    icon: Shield,
-  },
-  {
-    paper: "Paper B",
-    title: "Resonance Zone",
-    status: "Draft",
-    statusColor: "bg-slate-100 text-slate-600 border-slate-200",
-    desc: "Damping-period decomposition identifies circadian genes blindly. 60-fold clock gene enrichment.",
-    href: "/root-space",
-    icon: Atom,
-  },
-  {
-    paper: "Paper E",
-    title: "Phase-Gating",
-    status: "Draft",
-    statusColor: "bg-slate-100 text-slate-600 border-slate-200",
-    desc: "Phase-dependent AR(2) tests 28,138 clock-target gene pairs across 22 datasets.",
-    href: "/phase-gating",
-    icon: Sparkles,
-  },
-  {
-    paper: "Paper F",
-    title: "Half-Life Independence",
-    status: "Draft",
-    statusColor: "bg-slate-100 text-slate-600 border-slate-200",
-    desc: "Eigenvalue is independent of mRNA half-life (ρ = 0.012 across 23,000 genes).",
-    href: "/halflife-replication",
-    icon: Microscope,
-  },
-  {
-    paper: "Paper G",
-    title: "Fibonacci & Crypt",
-    status: "Under review",
-    statusColor: "bg-amber-100 text-amber-700 border-amber-200",
-    desc: "Fibonacci-like dynamics in colonic crypt renewal. Submitted to Fibonacci Quarterly, Nov 2025.",
-    href: "/boman-simulation",
-    icon: Beaker,
-  },
-];
-
-function ExpandableTerm({ term, simple, detail }: { term: string; simple: string; detail: string }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div
-      className="rounded-lg border border-slate-200 bg-white p-4 space-y-1 cursor-pointer hover:border-slate-300 transition-colors"
-      onClick={() => setOpen(!open)}
-      data-testid={`term-${term.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}`}
-    >
-      <div className="flex items-center justify-between">
-        <dt className="text-sm font-semibold text-slate-800">{term}</dt>
-        <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${open ? 'rotate-180' : ''}`} />
-      </div>
-      <dd className="text-sm text-slate-500">{simple}</dd>
-      {open && (
-        <dd className="text-sm text-slate-600 leading-relaxed pt-2 border-t border-slate-100 mt-2">
-          {detail}
-        </dd>
-      )}
-    </div>
-  );
-}
 
 export default function Landing() {
+  const [howOpen, setHowOpen] = useState(false);
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 flex items-center">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-14">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-10">
 
-        <div className="bg-amber-50 border border-amber-300 rounded-lg px-5 py-4 text-center" data-testid="validation-banner">
-          <p className="text-amber-900 text-sm leading-relaxed">
-            <span className="font-semibold">Pre-print research platform.</span>{" "}
-            The AR(2) computations and eigenvalues presented here are mathematically correct and reproducible.
-            Biological interpretations — including persistence hierarchies and clinical relevance — are
-            hypotheses presented for peer review, not established findings.
-          </p>
-        </div>
-
+        {/* ── HERO ── */}
         <section className="text-center space-y-5" data-testid="landing-hero">
-          <Badge variant="outline" className="text-emerald-600 border-emerald-500/50 text-sm px-4 py-1">
-            Open Research Platform
-          </Badge>
+
           <h1 className="text-4xl sm:text-5xl font-bold leading-tight text-slate-900">
             PAR(2) Discovery Engine
           </h1>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            Find out which genes drive the body clock and which ones follow it — 
-            from a single time-series dataset. Upload your data or explore ours.
+            A single two-parameter model fit to gene expression time series recovers
+            a <strong>three-tier dynamical hierarchy</strong> — clock genes, their targets,
+            and the genome background — <strong>without any gene labels as input</strong>.
+            Validated across 22 datasets and 4 species.
           </p>
 
-          <div className="flex flex-wrap justify-center gap-3 pt-2">
+          {/* Three-tier chart — the core finding */}
+          <div className="mx-auto max-w-lg pt-1" data-testid="hero-persistence-chart">
+            <svg viewBox="0 0 480 185" className="w-full" aria-label="Three-tier eigenvalue hierarchy: clock genes highest, target genes intermediate, background lowest">
+              {/* Grid */}
+              {[0.2, 0.4, 0.6, 0.8].map(v => (
+                <line key={v} x1={112 + v * 310} y1="8" x2={112 + v * 310} y2="134" stroke="#e2e8f0" strokeWidth="1" strokeDasharray="3 2" />
+              ))}
+
+              {/* Clock bar — median |λ| = 0.647 */}
+              <rect x="112" y="8" width={0.647 * 310} height="33" rx="4" fill="#22d3ee" opacity="0.9" />
+              <text x="104" y="29" textAnchor="end" fontSize="11" fontWeight="600" fill="#0891b2">Clock</text>
+              <text x={112 + 0.647 * 310 + 7} y="29" fontSize="12" fontWeight="700" fill="#0891b2">0.65</text>
+
+              {/* Gap annotation */}
+              <text x={112 + 0.588 * 310} y="52" textAnchor="middle" fontSize="8.5" fill="#94a3b8">← gap = 0.12 →</text>
+
+              {/* Target bar — median |λ| = 0.530 */}
+              <rect x="112" y="58" width={0.530 * 310} height="33" rx="4" fill="#f472b6" opacity="0.9" />
+              <text x="104" y="79" textAnchor="end" fontSize="11" fontWeight="600" fill="#be185d">Target</text>
+              <text x={112 + 0.530 * 310 + 7} y="79" fontSize="12" fontWeight="700" fill="#be185d">0.53</text>
+
+              {/* Gap annotation */}
+              <text x={112 + 0.513 * 310} y="102" textAnchor="middle" fontSize="8.5" fill="#94a3b8">← gap = 0.03 →</text>
+
+              {/* Background bar — median |λ| = 0.496 */}
+              <rect x="112" y="108" width={0.496 * 310} height="33" rx="4" fill="#94a3b8" opacity="0.75" />
+              <text x="104" y="129" textAnchor="end" fontSize="11" fontWeight="600" fill="#64748b">Genome</text>
+              <text x={112 + 0.496 * 310 + 7} y="129" fontSize="12" fontWeight="700" fill="#64748b">0.50</text>
+
+              {/* Axis */}
+              <line x1="112" y1="148" x2="422" y2="148" stroke="#cbd5e1" strokeWidth="1" />
+              {[0, 0.2, 0.4, 0.6, 0.8].map(v => (
+                <g key={v}>
+                  <line x1={112 + v * 310} y1="148" x2={112 + v * 310} y2="154" stroke="#94a3b8" strokeWidth="1" />
+                  <text x={112 + v * 310} y="165" textAnchor="middle" fontSize="9" fill="#94a3b8">{v.toFixed(1)}</text>
+                </g>
+              ))}
+              <text x="267" y="181" textAnchor="middle" fontSize="9.5" fill="#94a3b8">Persistence  |λ|  — median across 22 datasets, 4 species</text>
+            </svg>
+          </div>
+
+          {/* Inline stats — right after the chart */}
+          <div className="flex flex-wrap justify-center gap-6 pt-0 text-sm" data-testid="landing-stats">
+            <div className="text-center">
+              <div className="text-xl font-bold text-emerald-700">22 datasets</div>
+              <div className="text-slate-500 text-xs">4 species (validated)</div>
+            </div>
+            <div className="text-center">
+              <div className="text-xl font-bold text-purple-700">11</div>
+              <div className="text-slate-500 text-xs">Robustness checks</div>
+            </div>
+            <div className="text-center">
+              <div className="text-xl font-bold text-amber-700">~21k</div>
+              <div className="text-slate-500 text-xs">Genes scanned</div>
+            </div>
+          </div>
+
+          {/* Primary CTAs */}
+          <div className="flex flex-wrap justify-center gap-3 pt-1">
+            <Link href="/dashboard">
+              <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700 gap-2 text-base text-white" data-testid="landing-example-btn">
+                <Play className="w-5 h-5" />
+                See a live result
+              </Button>
+            </Link>
             <Link href="/discovery-engine">
-              <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700 gap-2 text-base text-white" data-testid="landing-upload-btn">
+              <Button size="lg" variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-100 gap-2 text-base" data-testid="landing-upload-btn">
                 <Upload className="w-5 h-5" />
-                Upload Your Data
+                Upload your data
               </Button>
             </Link>
-            <Link href="/persistence-landscape">
-              <Button size="lg" variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-100 gap-2 text-base" data-testid="landing-tour-btn">
-                <BookOpen className="w-5 h-5" />
-                Take the Guided Tour
+            <Link href="/manuscript">
+              <Button size="lg" variant="outline" className="border-indigo-300 text-indigo-700 hover:bg-indigo-50 gap-2 text-base" data-testid="landing-papers-btn">
+                <FileText className="w-5 h-5" />
+                Read the papers
               </Button>
             </Link>
           </div>
-        </section>
 
-        <section className="rounded-xl border border-slate-300 bg-white p-6 sm:p-8 space-y-5" data-testid="landing-how-it-works">
-          <h2 className="text-lg font-semibold text-slate-800">How it works (30 seconds)</h2>
-          <div className="space-y-4 text-slate-700 leading-relaxed">
-            <div className="flex gap-4 items-start">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center text-sm font-bold">1</div>
-              <p><strong>Fit a simple model.</strong> For each gene, we ask: how well does its expression at time <em>t</em> predict time <em>t+1</em> and <em>t+2</em>? This is a standard AR(2) autoregressive model — two coefficients, one equation.</p>
-            </div>
-            <div className="flex gap-4 items-start">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center text-sm font-bold">2</div>
-              <p><strong>Extract the eigenvalue.</strong> From those two coefficients, we calculate an eigenvalue modulus |λ| — a single number between 0 and 1 that measures how persistent the gene's signal is. High |λ| means the gene carries its past forward strongly.</p>
-            </div>
-            <div className="flex gap-4 items-start">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center text-sm font-bold">3</div>
-              <p><strong>Compare across genes.</strong> Clock genes (the body's timekeepers) consistently score higher than the target genes they regulate. This separation appears across species, tissues, and experimental conditions — and collapses in disease models.</p>
-            </div>
-          </div>
-          <p className="text-sm text-slate-500 italic">No biological labels are needed as input. The model is purely statistical — the biological hierarchy emerges from the data.</p>
-        </section>
-
-        <section className="grid grid-cols-1 sm:grid-cols-2 gap-5" data-testid="landing-what-it-does">
-          {WHAT_IT_DOES.map((item) => (
-            <div key={item.title} className="rounded-xl border border-slate-200 bg-white p-5 space-y-2">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-lg bg-emerald-50 flex items-center justify-center">
-                  <item.icon className="w-5 h-5 text-emerald-600" />
-                </div>
-                <h3 className="font-semibold text-slate-800">{item.title}</h3>
-              </div>
-              <p className="text-sm text-slate-600 leading-relaxed">{item.plain}</p>
-            </div>
-          ))}
-        </section>
-
-        <section className="rounded-xl border border-emerald-200 bg-emerald-50/50 p-6 sm:p-8 space-y-4" data-testid="landing-main-finding">
-          <h2 className="text-lg font-semibold text-slate-800">The main finding</h2>
-          <p className="text-slate-700 leading-relaxed">
-            Across <strong>12 public datasets</strong>, <strong>4 species</strong>, and <strong>36 tissue/condition comparisons</strong>, 
-            clock genes consistently show higher persistence than the target genes they control. 
-            This separation has been validated against <strong>58 of 59 known circadian genes</strong> from the published literature (98.3% accuracy), 
-            survives bias testing and permutation controls, and is independent of mRNA half-life.
+          <p className="text-xs text-slate-400 max-w-xl mx-auto" data-testid="validation-banner">
+            Pre-print platform. AR(2) computations are mathematically reproducible.
+            Biological interpretations are hypotheses under peer review, not established findings.
           </p>
-          <p className="text-slate-700 leading-relaxed">
-            In disease models — cancer, clock gene knockouts, and aging — the gap shrinks, inverts, or collapses. 
-            The platform detects this automatically.
-          </p>
-          <div className="flex flex-wrap gap-6 pt-2 text-sm">
-            <div className="text-center" data-testid="stat-clock">
-              <div className="text-2xl font-bold text-emerald-700">0.65</div>
-              <div className="text-slate-500">Clock gene persistence (median)</div>
-            </div>
-            <div className="text-center" data-testid="stat-target">
-              <div className="text-2xl font-bold text-blue-700">0.53</div>
-              <div className="text-slate-500">Target gene persistence (median)</div>
-            </div>
-            <div className="text-center" data-testid="stat-accuracy">
-              <div className="text-2xl font-bold text-purple-700">98.3%</div>
-              <div className="text-slate-500">Literature validation</div>
-            </div>
-            <div className="text-center" data-testid="stat-species">
-              <div className="text-2xl font-bold text-amber-700">4</div>
-              <div className="text-slate-500">Species validated</div>
-            </div>
-          </div>
         </section>
 
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-5" data-testid="landing-paths">
+        {/* ── THREE PATHS ── */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-4" data-testid="landing-paths">
           {PATHS.map((p) => (
             <Link key={p.href} href={p.href}>
               <Card className="bg-white border-slate-200 hover:border-slate-400 hover:shadow-md transition-all cursor-pointer h-full group" data-testid={`landing-path-${p.href.slice(1)}`}>
-                <CardContent className="p-6 space-y-3 flex flex-col h-full">
+                <CardContent className="p-5 space-y-3 flex flex-col h-full">
                   <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${p.color} flex items-center justify-center`}>
-                      <p.icon className="w-5 h-5 text-white" />
+                    <div className={`w-9 h-9 rounded-lg bg-gradient-to-br ${p.color} flex items-center justify-center`}>
+                      <p.icon className="w-4 h-4 text-white" />
                     </div>
                     {p.badge && (
                       <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 text-xs">
@@ -273,7 +179,7 @@ export default function Landing() {
                       </Badge>
                     )}
                   </div>
-                  <h3 className="text-lg font-semibold text-slate-800">{p.title}</h3>
+                  <h3 className="text-base font-semibold text-slate-800">{p.title}</h3>
                   <p className="text-sm text-slate-500 flex-1">{p.desc}</p>
                   <div className="flex items-center gap-1 text-sm text-slate-500 group-hover:text-slate-800 transition-colors">
                     {p.cta} <ArrowRight className="w-4 h-4" />
@@ -284,94 +190,54 @@ export default function Landing() {
           ))}
         </section>
 
-        <section className="rounded-xl border border-blue-200 bg-blue-50/50 p-6 sm:p-8 space-y-5" data-testid="landing-paper-map">
-          <h2 className="text-lg font-semibold text-slate-800">Platform organisation by paper</h2>
-          <p className="text-sm text-slate-600">
-            Each section of this platform maps to a specific paper. Pages under <strong>Paper A</strong> support the submission-ready core methods paper. 
-            Pages under <strong>Exploratory</strong> are ongoing investigations not yet included in any manuscript.
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {PAPER_MAP.map((p) => (
-              <Link key={p.paper} href={p.href}>
-                <div className="rounded-lg border border-slate-200 bg-white p-4 space-y-2 hover:border-slate-400 hover:shadow-sm transition-all cursor-pointer group" data-testid={`paper-map-${p.paper.toLowerCase().replace(/\s/g, '-')}`}>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <p.icon className="w-4 h-4 text-slate-500" />
-                      <span className="font-semibold text-sm text-slate-800">{p.paper}: {p.title}</span>
-                    </div>
-                    <Badge variant="outline" className={`text-[10px] ${p.statusColor}`}>{p.status}</Badge>
-                  </div>
-                  <p className="text-xs text-slate-500 leading-relaxed">{p.desc}</p>
+        {/* ── HOW IT WORKS (collapsible) ── */}
+        <section className="rounded-xl border border-slate-200 bg-white overflow-hidden" data-testid="landing-how-it-works">
+          <button
+            className="w-full flex items-center justify-between p-5 text-left hover:bg-slate-50 transition-colors"
+            onClick={() => setHowOpen(!howOpen)}
+            data-testid="how-it-works-toggle"
+          >
+            <h2 className="text-base font-semibold text-slate-800">How it works</h2>
+            <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform ${howOpen ? 'rotate-180' : ''}`} />
+          </button>
+          {howOpen && (
+            <div className="px-5 pb-5 space-y-4 border-t border-slate-100">
+              <div className="space-y-4 text-slate-700 leading-relaxed pt-4">
+                <div className="flex gap-4 items-start">
+                  <div className="flex-shrink-0 w-7 h-7 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center text-xs font-bold">1</div>
+                  <p className="text-sm"><strong>Fit a simple model.</strong> For each gene, we ask: how well does its expression at time <em>t</em> predict time <em>t+1</em> and <em>t+2</em>? This is a standard AR(2) autoregressive model — two coefficients, one equation.</p>
                 </div>
-              </Link>
-            ))}
-          </div>
+                <div className="flex gap-4 items-start">
+                  <div className="flex-shrink-0 w-7 h-7 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center text-xs font-bold">2</div>
+                  <p className="text-sm"><strong>Extract the eigenvalue.</strong> From those two coefficients, we calculate an eigenvalue modulus |λ| — a single number between 0 and 1 measuring how persistent the gene's signal is over time.</p>
+                </div>
+                <div className="flex gap-4 items-start">
+                  <div className="flex-shrink-0 w-7 h-7 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center text-xs font-bold">3</div>
+                  <p className="text-sm"><strong>Compare across genes.</strong> Clock genes consistently score higher than the targets they regulate. This separation appears across species, tissues, and conditions — and collapses in disease models. No biological labels needed as input.</p>
+                </div>
+              </div>
+            </div>
+          )}
         </section>
 
-        <section className="space-y-4" data-testid="landing-key-terms">
-          <h2 className="text-lg font-semibold text-slate-800">Key terms used on this platform</h2>
-          <p className="text-sm text-slate-500">Tap any term to expand its explanation.</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {KEY_TERMS.map((t) => (
-              <ExpandableTerm key={t.term} {...t} />
-            ))}
-          </div>
+        {/* ── WHAT IT DOES ── */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 gap-4" data-testid="landing-what-it-does">
+          {WHAT_IT_DOES.map((item) => (
+            <div key={item.title} className="rounded-xl border border-slate-200 bg-white p-5 space-y-2">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center">
+                  <item.icon className="w-4 h-4 text-emerald-600" />
+                </div>
+                <h3 className="font-semibold text-slate-800 text-sm">{item.title}</h3>
+              </div>
+              <p className="text-sm text-slate-600 leading-relaxed">{item.plain}</p>
+            </div>
+          ))}
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-6 space-y-4" data-testid="landing-recommended-path">
-          <h2 className="text-lg font-semibold text-slate-800">Recommended path for new visitors</h2>
-          <ol className="space-y-3 text-sm text-slate-600">
-            <li className="flex items-start gap-3">
-              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold">1</span>
-              <span><Link href="/persistence-landscape"><strong className="text-emerald-700 hover:underline cursor-pointer">Take the guided tour</strong></Link> — understand what the platform measures and why it matters, before you see any data.</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-cyan-100 text-cyan-700 flex items-center justify-center text-xs font-bold">2</span>
-              <span><Link href="/dashboard"><strong className="text-cyan-700 hover:underline cursor-pointer">Run an analysis</strong></Link> on one of the pre-loaded datasets to see results firsthand.</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center text-xs font-bold">3</span>
-              <span><Link href="/discovery-engine"><strong className="text-purple-700 hover:underline cursor-pointer">Upload your own data</strong></Link> — any CSV time-series file — and see how your genes compare.</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">4</span>
-              <span><Link href="/validation-suite"><strong className="text-blue-700 hover:underline cursor-pointer">Check the validation</strong></Link> — method validation against literature, cross-species, and bias audits.</span>
-            </li>
-          </ol>
-        </section>
 
-        <section className="rounded-xl border border-red-200 bg-red-50 p-6 space-y-4" data-testid="landing-limitations">
-          <h2 className="text-lg font-semibold text-slate-800">Limitations & Important Scope</h2>
-          <ul className="space-y-3 text-sm text-slate-700">
-            <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">•</span>
-              <span><strong>Linear dynamics:</strong> AR(2) assumes linear autoregressive structure. Highly nonlinear systems may be misclassified.</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">•</span>
-              <span><strong>Time resolution:</strong> Standard circadian datasets use 12 timepoints (2h intervals). Cannot resolve oscillations faster than ~4h period.</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">•</span>
-              <span><strong>Stationarity:</strong> AR(2) assumes stationary data. Trending time series will show inflated |λ| values; use differencing if needed.</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">•</span>
-              <span><strong>BMAL1 coupling:</strong> Inferred from transcriptomic correlation only, not direct temporal protein measurement. Interpret as "transcriptionally associated."</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-red-600 font-bold">•</span>
-              <span><strong>Biological interpretation:</strong> Claims about oscillator hierarchies and disease relevance are hypotheses awaiting peer review. Use AR(2) persistence as a research signal, not a diagnosis.</span>
-            </li>
-          </ul>
-          <div className="pt-2">
-            <Link href="/validation-suite">
-              <span className="text-sm text-blue-600 hover:underline font-semibold cursor-pointer">See full validation suite →</span>
-            </Link>
-          </div>
-        </section>
-
-        <div className="flex justify-center gap-4 text-sm text-slate-400" data-testid="landing-footer-links">
+        {/* ── FOOTER ── */}
+        <div className="flex justify-center gap-4 text-sm text-slate-400 pb-4" data-testid="landing-footer-links">
           <Link href="/about">
             <span className="hover:text-slate-600 transition-colors cursor-pointer">About</span>
           </Link>
@@ -382,6 +248,10 @@ export default function Landing() {
           <span>·</span>
           <Link href="/manuscript">
             <span className="hover:text-slate-600 transition-colors cursor-pointer">Papers</span>
+          </Link>
+          <span>·</span>
+          <Link href="/validation-suite">
+            <span className="hover:text-slate-600 transition-colors cursor-pointer">Validation</span>
           </Link>
         </div>
 

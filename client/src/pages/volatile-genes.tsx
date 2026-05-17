@@ -41,7 +41,7 @@ interface VolatileGenesResponse {
 const TYPE_BADGE: Record<string, { bg: string; text: string; border: string }> = {
   clock: { bg: "bg-blue-900/50", text: "text-blue-300", border: "border-blue-700" },
   target: { bg: "bg-amber-900/50", text: "text-amber-300", border: "border-amber-700" },
-  other: { bg: "bg-slate-800/80", text: "text-slate-300", border: "border-slate-600" },
+  other: { bg: "bg-slate-50", text: "text-slate-600", border: "border-slate-300" },
 };
 
 type SortKey = "volatilityScore" | "meanEigenvalue" | "eigenvalueRange" | "eigenvalueStdDev" | "datasetsFound";
@@ -79,9 +79,9 @@ function ExpandedDetail({ gene }: { gene: VolatileGene }) {
 
   return (
     <tr data-testid={`expanded-detail-${gene.gene}`}>
-      <td colSpan={9} className="px-4 py-3 bg-slate-800/40">
+      <td colSpan={9} className="px-4 py-3 bg-slate-100">
         <div className="space-y-3">
-          <p className="text-xs text-slate-400 italic">{gene.interpretation}</p>
+          <p className="text-xs text-slate-500 italic">{gene.interpretation}</p>
           <div className="h-[200px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ left: 10, right: 10, top: 5, bottom: 50 }}>
@@ -161,7 +161,7 @@ export default function VolatileGenes() {
 
   const SortHeader = ({ label, field }: { label: string; field: SortKey }) => (
     <th
-      className="px-3 py-2 text-slate-400 font-medium cursor-pointer hover:text-slate-200 select-none"
+      className="px-3 py-2 text-slate-500 font-medium cursor-pointer hover:text-slate-800 select-none"
       onClick={() => handleSort(field)}
     >
       <span className="inline-flex items-center gap-1">
@@ -172,11 +172,11 @@ export default function VolatileGenes() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white" data-testid="page-volatile-genes">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 text-slate-900" data-testid="page-volatile-genes">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         <div className="flex items-center gap-4">
           <Link href="/">
-            <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white" data-testid="button-back">
+            <Button variant="ghost" size="sm" className="text-slate-500 hover:text-slate-700" data-testid="button-back">
               <ArrowLeft className="h-4 w-4 mr-1" /> Back
             </Button>
           </Link>
@@ -185,10 +185,10 @@ export default function VolatileGenes() {
               <Flame className="h-6 w-6 text-orange-400" />
             </div>
             <h1 className="text-2xl font-bold" data-testid="heading-title">Most Volatile Genes</h1>
-            <p className="text-sm text-slate-400 mt-1">Cross-dataset eigenvalue variance ranking</p>
-            <div className="rounded-lg bg-slate-800/40 border border-slate-700/50 p-4 mt-3">
-              <p className="text-sm text-slate-300 leading-relaxed">
-                <strong className="text-white">What you can do:</strong> These genes show the largest variation in AR(2) eigenvalue across datasets, meaning their computed persistence score differs depending on the dataset analyzed. Download the rankings to examine which genes have the most variable eigenvalue estimates.
+            <p className="text-sm text-slate-500 mt-1">Cross-dataset eigenvalue variance ranking</p>
+            <div className="rounded-lg bg-slate-100 border border-slate-200 p-4 mt-3">
+              <p className="text-sm text-slate-600 leading-relaxed">
+                <strong className="text-slate-900">What you can do:</strong> These genes show the largest variation in AR(2) eigenvalue across datasets, meaning their computed persistence score differs depending on the dataset analyzed. Download the rankings to examine which genes have the most variable eigenvalue estimates.
               </p>
             </div>
           </div>
@@ -222,7 +222,7 @@ export default function VolatileGenes() {
         {isLoading && (
           <div className="flex items-center justify-center py-16">
             <Loader2 className="h-8 w-8 animate-spin text-orange-400" />
-            <span className="ml-3 text-slate-400 text-lg">Loading volatile genes analysis...</span>
+            <span className="ml-3 text-slate-500 text-lg">Loading volatile genes analysis...</span>
           </div>
         )}
 
@@ -237,44 +237,44 @@ export default function VolatileGenes() {
         {data && !isLoading && (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" data-testid="summary-cards">
-              <Card className="bg-slate-900/80 border-slate-700/50">
+              <Card className="bg-white border-slate-200">
                 <CardContent className="pt-4">
-                  <p className="text-xs text-slate-400 uppercase tracking-wider">Total Genes Analyzed</p>
-                  <p className="text-2xl font-bold text-white font-mono mt-1" data-testid="text-total-genes">{data.totalGenesAcross}</p>
+                  <p className="text-xs text-slate-500 uppercase tracking-wider">Total Genes Analyzed</p>
+                  <p className="text-2xl font-bold text-slate-900 font-mono mt-1" data-testid="text-total-genes">{data.totalGenesAcross}</p>
                 </CardContent>
               </Card>
-              <Card className="bg-slate-900/80 border-slate-700/50">
+              <Card className="bg-white border-slate-200">
                 <CardContent className="pt-4">
-                  <p className="text-xs text-slate-400 uppercase tracking-wider">Datasets Used</p>
-                  <p className="text-2xl font-bold text-white font-mono mt-1" data-testid="text-total-datasets">{data.totalDatasetsUsed}</p>
+                  <p className="text-xs text-slate-500 uppercase tracking-wider">Datasets Used</p>
+                  <p className="text-2xl font-bold text-slate-900 font-mono mt-1" data-testid="text-total-datasets">{data.totalDatasetsUsed}</p>
                 </CardContent>
               </Card>
-              <Card className="bg-slate-900/80 border-slate-700/50">
+              <Card className="bg-white border-slate-200">
                 <CardContent className="pt-4">
-                  <p className="text-xs text-slate-400 uppercase tracking-wider">Top Volatile Gene</p>
+                  <p className="text-xs text-slate-500 uppercase tracking-wider">Top Volatile Gene</p>
                   <p className="text-lg font-bold text-orange-400 font-mono mt-1" data-testid="text-top-gene">
                     {topGene?.gene ?? "—"}
                   </p>
-                  <p className="text-xs text-slate-400 mt-0.5">
-                    Score: <span className="text-white font-mono" data-testid="text-top-score">{topGene?.volatilityScore?.toFixed(4) ?? "—"}</span>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Score: <span className="text-slate-900 font-mono" data-testid="text-top-score">{topGene?.volatilityScore?.toFixed(4) ?? "—"}</span>
                   </p>
                 </CardContent>
               </Card>
-              <Card className="bg-slate-900/80 border-slate-700/50">
+              <Card className="bg-white border-slate-200">
                 <CardContent className="pt-4">
-                  <p className="text-xs text-slate-400 uppercase tracking-wider">Category Volatility</p>
+                  <p className="text-xs text-slate-500 uppercase tracking-wider">Category Volatility</p>
                   <div className="flex items-center gap-3 mt-1 text-xs" data-testid="text-category-comparison">
                     <span className="text-blue-400">Clock: <span className="font-mono">{data.clockVolatility?.toFixed(3) ?? "—"}</span></span>
                     <span className="text-amber-400">Target: <span className="font-mono">{data.targetVolatility?.toFixed(3) ?? "—"}</span></span>
-                    <span className="text-slate-400">Other: <span className="font-mono">{data.otherVolatility?.toFixed(3) ?? "—"}</span></span>
+                    <span className="text-slate-500">Other: <span className="font-mono">{data.otherVolatility?.toFixed(3) ?? "—"}</span></span>
                   </div>
                 </CardContent>
               </Card>
             </div>
 
-            <Card className="bg-slate-900/80 border-slate-700/50">
+            <Card className="bg-white border-slate-200">
               <CardHeader>
-                <CardTitle className="text-white text-sm">Category Volatility Comparison</CardTitle>
+                <CardTitle className="text-slate-900 text-sm">Category Volatility Comparison</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="h-[180px]" data-testid="chart-category-volatility">
@@ -300,12 +300,12 @@ export default function VolatileGenes() {
 
             <div className="flex flex-wrap items-center gap-3" data-testid="filter-controls">
               <div className="relative">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-400" />
+                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
                 <Input
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search gene name..."
-                  className="bg-slate-800/50 border-slate-600 text-white pl-9 w-56"
+                  className="bg-slate-50 border-slate-300 text-slate-900 pl-9 w-56"
                   data-testid="input-search-gene"
                 />
               </div>
@@ -316,7 +316,7 @@ export default function VolatileGenes() {
                     variant={typeFilter === t ? "default" : "outline"}
                     size="sm"
                     onClick={() => setTypeFilter(t)}
-                    className={typeFilter === t ? "" : "text-slate-400 border-slate-600 hover:text-white"}
+                    className={typeFilter === t ? "" : "text-slate-500 border-slate-300 hover:text-slate-700"}
                     data-testid={`button-filter-${t}`}
                   >
                     {t.charAt(0).toUpperCase() + t.slice(1)}
@@ -326,32 +326,32 @@ export default function VolatileGenes() {
               <select
                 value={minDatasets}
                 onChange={(e) => setMinDatasets(Number(e.target.value))}
-                className="bg-slate-800 border border-slate-600 text-white text-sm rounded-md px-3 py-1.5"
+                className="bg-slate-100 border border-slate-300 text-slate-900 text-sm rounded-md px-3 py-1.5"
                 data-testid="select-min-datasets"
               >
                 <option value={3}>≥ 3 datasets</option>
                 <option value={5}>≥ 5 datasets</option>
                 <option value={8}>≥ 8 datasets</option>
               </select>
-              <span className="text-xs text-slate-400" data-testid="text-result-count">
+              <span className="text-xs text-slate-500" data-testid="text-result-count">
                 {filtered.length} gene{filtered.length !== 1 ? "s" : ""}
               </span>
             </div>
 
-            <Card className="bg-slate-900/80 border-slate-700/50">
+            <Card className="bg-white border-slate-200">
               <CardContent className="pt-4 overflow-x-auto">
                 <table className="w-full text-sm text-left" data-testid="table-volatile-genes">
                   <thead>
-                    <tr className="border-b border-slate-700">
-                      <th className="px-3 py-2 text-slate-400 font-medium">#</th>
-                      <th className="px-3 py-2 text-slate-400 font-medium">Gene</th>
-                      <th className="px-3 py-2 text-slate-400 font-medium">Type</th>
+                    <tr className="border-b border-slate-200">
+                      <th className="px-3 py-2 text-slate-500 font-medium">#</th>
+                      <th className="px-3 py-2 text-slate-500 font-medium">Gene</th>
+                      <th className="px-3 py-2 text-slate-500 font-medium">Type</th>
                       <SortHeader label="Datasets" field="datasetsFound" />
                       <SortHeader label="Mean |λ|" field="meanEigenvalue" />
                       <SortHeader label="Range" field="eigenvalueRange" />
                       <SortHeader label="Std Dev" field="eigenvalueStdDev" />
                       <SortHeader label="Volatility" field="volatilityScore" />
-                      <th className="px-3 py-2 text-slate-400 font-medium">Sparkline</th>
+                      <th className="px-3 py-2 text-slate-500 font-medium">Sparkline</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -361,24 +361,24 @@ export default function VolatileGenes() {
                       return (
                         <React.Fragment key={gene.gene}>
                           <tr
-                            className="border-b border-slate-700 hover:bg-slate-800/40 cursor-pointer transition-colors"
+                            className="border-b border-slate-200 hover:bg-slate-100 cursor-pointer transition-colors"
                             onClick={() => setExpandedGene(isExpanded ? null : gene.gene)}
                             data-testid={`row-gene-${gene.gene}`}
                           >
-                            <td className="px-3 py-2 text-slate-400 font-mono text-xs">{idx + 1}</td>
-                            <td className="px-3 py-2 text-white font-bold font-mono flex items-center gap-1.5">
+                            <td className="px-3 py-2 text-slate-500 font-mono text-xs">{idx + 1}</td>
+                            <td className="px-3 py-2 text-slate-900 font-bold font-mono flex items-center gap-1.5">
                               <GeneTooltip gene={gene.gene}>{gene.gene}</GeneTooltip>
-                              {isExpanded ? <ChevronUp className="h-3 w-3 text-slate-400" /> : <ChevronDown className="h-3 w-3 text-slate-400" />}
+                              {isExpanded ? <ChevronUp className="h-3 w-3 text-slate-500" /> : <ChevronDown className="h-3 w-3 text-slate-500" />}
                             </td>
                             <td className="px-3 py-2">
                               <Badge className={`${badge.bg} ${badge.text} border ${badge.border} text-xs`} data-testid={`badge-type-${gene.gene}`}>
                                 {gene.geneType}
                               </Badge>
                             </td>
-                            <td className="px-3 py-2 text-white font-mono">{gene.datasetsFound}</td>
-                            <td className="px-3 py-2 text-white font-mono">{gene.meanEigenvalue?.toFixed(4)}</td>
-                            <td className="px-3 py-2 text-white font-mono">{gene.eigenvalueRange?.toFixed(4)}</td>
-                            <td className="px-3 py-2 text-white font-mono">{gene.eigenvalueStdDev?.toFixed(4)}</td>
+                            <td className="px-3 py-2 text-slate-900 font-mono">{gene.datasetsFound}</td>
+                            <td className="px-3 py-2 text-slate-900 font-mono">{gene.meanEigenvalue?.toFixed(4)}</td>
+                            <td className="px-3 py-2 text-slate-900 font-mono">{gene.eigenvalueRange?.toFixed(4)}</td>
+                            <td className="px-3 py-2 text-slate-900 font-mono">{gene.eigenvalueStdDev?.toFixed(4)}</td>
                             <td className="px-3 py-2 text-orange-400 font-mono font-semibold">{gene.volatilityScore?.toFixed(4)}</td>
                             <td className="px-3 py-2">
                               <MiniSparkline eigenvalues={gene.eigenvalues} />
@@ -390,7 +390,7 @@ export default function VolatileGenes() {
                     })}
                     {filtered.length === 0 && (
                       <tr>
-                        <td colSpan={9} className="px-3 py-8 text-center text-slate-400" data-testid="text-no-results">
+                        <td colSpan={9} className="px-3 py-8 text-center text-slate-500" data-testid="text-no-results">
                           No genes match the current filters.
                         </td>
                       </tr>

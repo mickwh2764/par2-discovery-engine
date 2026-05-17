@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { AlertCircle, CheckCircle, XCircle, Minus, FlaskConical, Dna, Beaker, ChevronDown, ChevronUp } from "lucide-react";
+import { AlertCircle, CheckCircle, XCircle, Minus, FlaskConical, Dna, Beaker, ChevronDown, ChevronUp, Download } from "lucide-react";
+import { downloadAsCSV } from "@/components/DownloadResultsButton";
 
 interface GeneResult {
   gene: string;
@@ -554,6 +555,36 @@ export default function PhiEnrichmentReplication() {
                 Testing whether direct BMAL1/CLOCK target genes cluster near |λ| = 1/φ ≈ 0.618 across four independent datasets
               </p>
             </div>
+            {data && (
+              <button
+                className="ml-auto flex items-center gap-1.5 text-xs text-slate-500 border border-slate-300 rounded px-2.5 py-1.5 hover:bg-slate-100 shrink-0"
+                onClick={() => downloadAsCSV(
+                  data.map(d => ({
+                    dataset_id: d.datasetId,
+                    dataset_label: d.datasetLabel,
+                    species: d.species,
+                    tissue: d.tissue,
+                    n_genes_in_dataset: d.nGenes,
+                    n_timepoints: d.nTimepoints,
+                    genes_searched: d.genesSearched,
+                    genes_found: d.genesFound,
+                    observed_mean_dist_from_phi: d.permutationTest.observedMeanDist,
+                    null_mean: d.permutationTest.nullMean,
+                    null_sd: d.permutationTest.nullSd,
+                    z_score: d.permutationTest.zScore,
+                    p_value: d.permutationTest.pValue,
+                    n_permutations: d.permutationTest.nPerm,
+                    significant: d.permutationTest.significant,
+                    genome_median_lambda: d.genomeMedianLambda,
+                    genome_mean_lambda: d.genomeMeanLambda,
+                  })),
+                  'phi_enrichment_replication_results.csv'
+                )}
+                data-testid="button-download-phi-csv"
+              >
+                <Download size={13} /> Download CSV
+              </button>
+            )}
           </div>
 
           <div className="bg-slate-50 rounded-xl border border-slate-200 p-4 text-sm text-slate-600 mb-6">

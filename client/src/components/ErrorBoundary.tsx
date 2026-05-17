@@ -29,19 +29,19 @@ class ErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-slate-950 flex items-center justify-center p-8">
-          <div className="max-w-2xl w-full bg-slate-900 border border-slate-700 rounded-lg p-8">
-            <h1 className="text-2xl font-bold text-red-400 mb-4">
+        <div className="min-h-screen bg-slate-50 flex items-center justify-center p-8">
+          <div className="max-w-2xl w-full bg-white border border-slate-200 rounded-lg p-8 shadow-sm">
+            <h1 className="text-2xl font-bold text-red-600 mb-4">
               Something went wrong
             </h1>
-            <p className="text-slate-300 mb-4">
+            <p className="text-slate-700 mb-4">
               The PAR(2) Discovery Engine encountered an error. Please try refreshing the page.
             </p>
-            <details className="text-sm text-slate-400">
-              <summary className="cursor-pointer hover:text-slate-200 mb-2">
+            <details className="text-sm text-slate-600">
+              <summary className="cursor-pointer hover:text-slate-900 mb-2">
                 Technical details
               </summary>
-              <pre className="bg-slate-800 p-4 rounded overflow-auto text-xs">
+              <pre className="bg-slate-100 border border-slate-200 p-4 rounded overflow-auto text-xs text-slate-700">
                 {this.state.error?.message}
                 {'\n\n'}
                 {this.state.error?.stack}
@@ -85,14 +85,14 @@ export class WebGLErrorBoundary extends Component<WebGLBoundaryProps, WebGLBound
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="w-full h-full flex flex-col items-center justify-center bg-slate-950 rounded-lg border border-slate-700 p-6 text-center">
+        <div className="w-full h-full flex flex-col items-center justify-center bg-slate-50 rounded-lg border border-slate-200 p-6 text-center">
           <svg viewBox="0 0 48 48" className="w-12 h-12 mb-3 text-slate-400" fill="none" stroke="currentColor" strokeWidth="1.5">
             <rect x="4" y="4" width="40" height="40" rx="4" />
             <path d="M14 34 L24 14 L34 34 Z" strokeDasharray="4 2" />
             <circle cx="24" cy="24" r="3" fill="currentColor" opacity="0.4" />
           </svg>
-          <p className="text-sm font-semibold text-slate-300 mb-1">3D View Unavailable</p>
-          <p className="text-xs text-slate-400 max-w-xs">
+          <p className="text-sm font-semibold text-slate-700 mb-1">3D View Unavailable</p>
+          <p className="text-xs text-slate-500 max-w-xs">
             {this.props.fallbackMessage || 'Your browser does not support WebGL. Open this page in Chrome, Firefox, or Safari to see the interactive 3D visualization.'}
           </p>
         </div>

@@ -276,7 +276,7 @@ function EmbeddedDatasetSelector({
         <CardTitle className="text-sm font-medium flex items-center gap-2">
           <Dna size={16} className="text-emerald-400" />
           <span className="text-emerald-400">Click a Dataset to Run Analysis</span>
-          <Badge className="bg-emerald-500 text-white text-[10px] ml-2">START HERE</Badge>
+          <Badge className="bg-emerald-500 text-slate-900 text-[10px] ml-2">START HERE</Badge>
         </CardTitle>
         <CardDescription className="text-xs">
           Click any tissue/condition below to load and analyze. {datasets.length} datasets available across {Object.keys(groupedByStudy).length} studies.
@@ -374,7 +374,7 @@ function BatchAnalysisProgress({
         <CardTitle className="text-sm font-medium flex items-center gap-2 text-amber-400">
           <Zap size={16} className="animate-pulse" />
           Cross-Tissue Batch Analysis
-          <Badge className="bg-amber-500 text-white text-[10px] ml-2 animate-pulse">RUN ALL</Badge>
+          <Badge className="bg-amber-500 text-slate-900 text-[10px] ml-2 animate-pulse">RUN ALL</Badge>
         </CardTitle>
         <CardDescription className="text-xs">
           Analyze all 12 GSE54650 tissues at once with 152 gene pairs each
@@ -423,7 +423,7 @@ function BatchAnalysisProgress({
                   className={`p-2 rounded-lg text-xs ${
                     result.significantCount > 0 
                       ? 'bg-emerald-500/20 border border-emerald-500/30' 
-                      : 'bg-slate-800/50 border border-slate-700/30'
+                      : 'bg-slate-50 border border-slate-200'
                   }`}
                 >
                   <div className="font-medium">{result.tissue}</div>
@@ -445,7 +445,7 @@ function BatchAnalysisProgress({
               <Button 
                 variant="default" 
                 size="lg" 
-                className="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-semibold"
+                className="w-full bg-cyan-600 hover:bg-cyan-700 text-slate-900 font-semibold"
                 data-testid="button-export-results"
                 onClick={() => {
                   const a = document.createElement('a');
@@ -600,7 +600,7 @@ function OrganoidBatchProgress({
                   className={`p-2 rounded-lg text-xs ${
                     result.significantCount > 0 
                       ? 'bg-purple-500/20 border border-purple-500/30' 
-                      : 'bg-slate-800/50 border border-slate-700/30'
+                      : 'bg-slate-50 border border-slate-200'
                   }`}
                 >
                   <div className="font-medium">{result.condition}</div>
@@ -682,7 +682,7 @@ function GenomeWideScreenPanel({
             <select 
               value={selectedDataset}
               onChange={(e) => onSelectDataset(e.target.value)}
-              className="w-full px-3 py-2 text-sm bg-slate-800 border border-amber-500/30 rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-amber-500/50"
+              className="w-full px-3 py-2 text-sm bg-slate-100 border border-amber-500/30 rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-amber-500/50"
               data-testid="select-genome-dataset"
             >
               <option value="">Select a dataset...</option>
@@ -739,7 +739,7 @@ function GenomeWideScreenPanel({
                 <div className="text-xs font-medium text-amber-400">Top Hits (FDR &lt; 0.05):</div>
                 <div className="max-h-40 overflow-y-auto space-y-1">
                   {result.topHits.slice(0, 10).map((hit, i) => (
-                    <div key={i} className="text-xs bg-slate-800/50 rounded px-2 py-1 flex justify-between">
+                    <div key={i} className="text-xs bg-slate-50 rounded px-2 py-1 flex justify-between">
                       <span>{hit.clockGeneSymbol} → {hit.targetGeneSymbol}</span>
                       <span className={hit.fdrSignificant ? 'text-green-400' : 'text-muted-foreground'}>
                         FDR={hit.correctedPValue.toExponential(2)}
@@ -954,7 +954,7 @@ function NetworkGraphPanel({ hypotheses, onNodeClick, height = 500 }: NetworkGra
 
         <div 
           ref={containerRef}
-          className="bg-slate-900/50 rounded-lg border border-slate-700/50 overflow-hidden"
+          className="bg-white rounded-lg border border-slate-200 overflow-hidden"
           style={{ height }}
         >
           {graphData.nodes.length > 0 && (
@@ -977,7 +977,7 @@ function NetworkGraphPanel({ hypotheses, onNodeClick, height = 500 }: NetworkGra
         </div>
 
         {selectedNode && (
-          <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
+          <div className="bg-slate-50 rounded-lg p-3 border border-slate-200">
             <div className="flex items-center gap-2 mb-2">
               <div 
                 className="w-3 h-3 rounded-full" 
@@ -1396,7 +1396,6 @@ export default function Dashboard() {
   const [showExports, setShowExports] = useState(false);
   const [comparisonRuns, setComparisonRuns] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState("results");
-  const [mainSection, setMainSection] = useState<'analysis'>('analysis');
   const [selectedResult, setSelectedResult] = useState<Hypothesis | null>(null);
   const [showHelp, setShowHelp] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
@@ -1758,7 +1757,7 @@ Significance was determined using t-statistics for phase interaction coefficient
   </div>
 
   <div class="footer">
-    Generated by PAR(2) Discovery Engine v2.3.0 | ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()} | Build locked: Feb 27, 2026
+    Generated by PAR(2) Discovery Engine v2.5.0 | ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}
   </div>
 
   ${!download ? `<script>window.onload = function() { window.print(); }</script>` : ''}
@@ -2452,7 +2451,7 @@ Significance was determined using t-statistics for phase interaction coefficient
       <main className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
         {/* Welcome Hero for new visitors */}
         {!currentRun && !latestRun && (
-          <div className="rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-border/50 overflow-hidden" data-testid="welcome-hero">
+          <div className="rounded-2xl bg-gradient-to-br from-slate-50 via-white to-slate-50 border border-border/50 overflow-hidden" data-testid="welcome-hero">
             <div className="p-8 sm:p-10 space-y-6">
               <div className="space-y-3">
                 <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-emerald-400 via-cyan-400 to-violet-400 bg-clip-text text-transparent">
@@ -2463,12 +2462,12 @@ Significance was determined using t-statistics for phase interaction coefficient
                   "Is there a rhythm?" to "How persistent is that rhythm?" using eigenvalue profiling.
                 </p>
                 <p className="text-sm text-muted-foreground max-w-2xl border-l-2 border-emerald-500/50 pl-3">
-                  <strong className="text-foreground">Main finding:</strong> Clock genes show consistently higher temporal persistence (median |λ| = 0.65) than their downstream targets (median |λ| = 0.53) across 4 species and 36 comparisons. Select a dataset below to see this for yourself.
+                  <strong className="text-foreground">Main finding:</strong> Clock genes show consistently higher temporal persistence (median |λ| = 0.65) than their downstream targets (median |λ| = 0.53) across 4 species and 22 datasets. Select a dataset below to see this for yourself.
                 </p>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <Link href="/persistence-landscape">
-                  <Card className="bg-slate-800/60 border-slate-700/50 hover:border-cyan-500/50 hover:bg-slate-800/80 transition-all cursor-pointer group h-full">
+                  <Card className="bg-slate-50 border-slate-200 hover:border-cyan-500/50 hover:bg-slate-50 transition-all cursor-pointer group h-full">
                     <CardContent className="p-5 space-y-2">
                       <Mountain className="text-cyan-400 group-hover:scale-110 transition-transform" size={22} />
                       <h3 className="font-semibold text-sm text-foreground">Take the Tour</h3>
@@ -2477,7 +2476,7 @@ Significance was determined using t-statistics for phase interaction coefficient
                   </Card>
                 </Link>
                 <Link href="/discovery-engine">
-                  <Card className="bg-slate-800/60 border-slate-700/50 hover:border-purple-500/50 hover:bg-slate-800/80 transition-all cursor-pointer group h-full">
+                  <Card className="bg-slate-50 border-slate-200 hover:border-purple-500/50 hover:bg-slate-50 transition-all cursor-pointer group h-full">
                     <CardContent className="p-5 space-y-2">
                       <Upload className="text-purple-400 group-hover:scale-110 transition-transform" size={22} />
                       <h3 className="font-semibold text-sm text-foreground">Upload Your Data</h3>
@@ -2486,7 +2485,7 @@ Significance was determined using t-statistics for phase interaction coefficient
                   </Card>
                 </Link>
                 <Link href="/gene-explorer">
-                  <Card className="bg-slate-800/60 border-slate-700/50 hover:border-pink-500/50 hover:bg-slate-800/80 transition-all cursor-pointer group h-full">
+                  <Card className="bg-slate-50 border-slate-200 hover:border-pink-500/50 hover:bg-slate-50 transition-all cursor-pointer group h-full">
                     <CardContent className="p-5 space-y-2">
                       <Dna className="text-pink-400 group-hover:scale-110 transition-transform" size={22} />
                       <h3 className="font-semibold text-sm text-foreground">Search a Gene</h3>
@@ -2495,7 +2494,7 @@ Significance was determined using t-statistics for phase interaction coefficient
                   </Card>
                 </Link>
                 <Link href="/validation-suite">
-                  <Card className="bg-slate-800/60 border-slate-700/50 hover:border-green-500/50 hover:bg-slate-800/80 transition-all cursor-pointer group h-full">
+                  <Card className="bg-slate-50 border-slate-200 hover:border-green-500/50 hover:bg-slate-50 transition-all cursor-pointer group h-full">
                     <CardContent className="p-5 space-y-2">
                       <CheckCircle2 className="text-green-400 group-hover:scale-110 transition-transform" size={22} />
                       <h3 className="font-semibold text-sm text-foreground">See the Evidence</h3>
@@ -2531,9 +2530,6 @@ Significance was determined using t-statistics for phase interaction coefficient
           </CollapsibleContent>
         </Collapsible>
 
-        {/* ANALYSIS SECTION - Settings, Dataset Selection, Upload, Gene Pairs, Results */}
-        {mainSection === 'analysis' && (
-        <>
         {/* Settings Dialog */}
         <Dialog open={showSettings} onOpenChange={setShowSettings}>
           <DialogContent className="sm:max-w-lg">
@@ -2591,14 +2587,14 @@ Significance was determined using t-statistics for phase interaction coefficient
           uploadedFiles={uploadedFiles}
         />
 
-        {/* File Upload Zone */}
+        {/* File Upload Zone — compact */}
         <div
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
-          className={`border-2 border-dashed rounded-xl p-8 transition-all cursor-pointer ${
-            isDragging 
-              ? 'border-primary bg-primary/10' 
+          className={`border border-dashed rounded-lg px-4 py-3 flex items-center gap-3 transition-all cursor-pointer ${
+            isDragging
+              ? 'border-primary bg-primary/10'
               : 'border-border/50 hover:border-primary/50 hover:bg-primary/5'
           }`}
           onClick={() => fileInputRef.current?.click()}
@@ -2613,28 +2609,19 @@ Significance was determined using t-statistics for phase interaction coefficient
             multiple
             data-testid="input-file"
           />
-          <div className="flex flex-col items-center justify-center gap-4 text-center">
-            <div className={`h-16 w-16 rounded-full flex items-center justify-center ${
-              isDragging ? 'bg-primary/20 text-primary' : 'bg-secondary text-muted-foreground'
-            }`}>
-              <UploadCloud size={32} />
-            </div>
-            <div>
-              <p className="font-semibold text-lg">Or drop your own files here</p>
-              <p className="text-sm text-muted-foreground mt-1">
-                Supports multiple CSV, TSV, or compressed GZ files
-              </p>
-              {uploadedFiles.length > 0 && (
-                <p className="text-xs text-primary mt-2">
-                  {uploadedFiles.length} file(s) loaded - drop more or click to add
-                </p>
-              )}
-            </div>
-            <Button variant="outline" size="sm" className="gap-2">
-              <FileUp size={14} />
-              Browse Files
-            </Button>
+          <UploadCloud size={18} className={isDragging ? 'text-primary' : 'text-muted-foreground'} />
+          <div className="flex-1 min-w-0">
+            <span className="text-sm font-medium">
+              {uploadedFiles.length > 0
+                ? `${uploadedFiles.length} file(s) loaded — drop more or click to add`
+                : 'Upload your own CSV / TSV / GZ file'}
+            </span>
+            <span className="text-xs text-muted-foreground ml-2">or drag and drop</span>
           </div>
+          <Button variant="outline" size="sm" className="gap-1.5 flex-shrink-0" onClick={e => e.stopPropagation()}>
+            <FileUp size={13} />
+            Browse
+          </Button>
         </div>
 
         {/* Uploaded Files List */}
@@ -2969,7 +2956,7 @@ Significance was determined using t-statistics for phase interaction coefficient
                     <a 
                       href="/api/download/full-analysis-report"
                       download
-                      className="inline-flex items-center gap-1 h-7 text-xs px-2 bg-emerald-600 hover:bg-emerald-700 text-white shadow-md rounded font-medium"
+                      className="inline-flex items-center gap-1 h-7 text-xs px-2 bg-emerald-600 hover:bg-emerald-700 text-slate-900 shadow-md rounded font-medium"
                       data-testid="button-full-report"
                     >
                       <FileDown size={12} />
@@ -2978,27 +2965,18 @@ Significance was determined using t-statistics for phase interaction coefficient
                     <a 
                       href="/api/download/explosive-dynamics-report"
                       download
-                      className="inline-flex items-center gap-1 h-7 text-xs px-2 bg-red-600 hover:bg-red-700 text-white shadow-md rounded font-medium"
+                      className="inline-flex items-center gap-1 h-7 text-xs px-2 bg-red-600 hover:bg-red-700 text-slate-900 shadow-md rounded font-medium"
                       data-testid="button-explosive-report"
                     >
                       <FileDown size={12} />
-                      HTML
-                    </a>
-                    <a 
-                      href="/api/download/explosive-dynamics-report-pdf"
-                      download
-                      className="inline-flex items-center gap-1 h-7 text-xs px-2 bg-purple-600 hover:bg-purple-700 text-white shadow-md rounded font-medium"
-                      data-testid="button-explosive-pdf"
-                    >
-                      <FileDown size={12} />
-                      PDF
+                      Dynamics Report
                     </a>
                   </div>
                   <div className="flex flex-wrap items-center gap-1 justify-end">
                     {hypotheses.length > 0 && (
                       <Button variant="outline" size="sm" onClick={generatePublicationReport} className="gap-1 h-7 text-[11px] px-2" data-testid="button-publication">
                         <BookOpen size={11} />
-                        Report
+                        Export Report
                       </Button>
                     )}
                     {hypotheses.length > 0 && (
@@ -3126,7 +3104,7 @@ Significance was determined using t-statistics for phase interaction coefficient
                                 size="sm"
                                 variant={fdrTier === 'tier3' ? 'default' : 'outline'}
                                 onClick={() => setFdrTier('tier3')}
-                                className={`h-7 px-2 text-xs whitespace-nowrap ${fdrTier === 'tier3' ? 'bg-slate-600 hover:bg-slate-700' : 'border-slate-500/50 text-slate-400 hover:bg-slate-500/10'}`}
+                                className={`h-7 px-2 text-xs whitespace-nowrap ${fdrTier === 'tier3' ? 'bg-slate-600 hover:bg-slate-200' : 'border-slate-300/50 text-slate-500 hover:bg-slate-500/10'}`}
                                 data-testid="filter-tier-3"
                               >
                                 Tier 3 (q≤0.50)
@@ -3142,7 +3120,7 @@ Significance was determined using t-statistics for phase interaction coefficient
                                 <span className="flex gap-3">
                                   <span className="text-emerald-400">{t1} high-conf</span>
                                   <span className="text-amber-400">{t2} moderate</span>
-                                  <span className="text-slate-400">{t3} exploratory</span>
+                                  <span className="text-slate-500">{t3} exploratory</span>
                                 </span>
                               );
                             })()}
@@ -3343,7 +3321,7 @@ Significance was determined using t-statistics for phase interaction coefficient
                       <CardTitle className="flex items-center gap-2">
                         <TrendingUp size={18} className="text-amber-400" />
                         β-Trajectory: Dynamic Approach to φ
-                        <span className="px-2 py-0.5 rounded-full bg-slate-600/50 text-slate-300 text-xs font-medium">ILLUSTRATIVE DEMO</span>
+                        <span className="px-2 py-0.5 rounded-full bg-slate-600/50 text-slate-600 text-xs font-medium">ILLUSTRATIVE DEMO</span>
                       </CardTitle>
                       <CardDescription>
                         Conceptual illustration showing how AR(2) coefficients could evolve toward the mid-stability band. Data points are synthetic — see Root-Space page for real gene positions.
@@ -3519,13 +3497,13 @@ Significance was determined using t-statistics for phase interaction coefficient
                           <ChevronDown size={14} className="ml-1" />
                         </CollapsibleTrigger>
                         <CollapsibleContent className="mt-3 space-y-4 text-sm text-muted-foreground">
-                          <div className="p-4 bg-slate-800/50 rounded-lg border border-slate-700">
+                          <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
                             <h4 className="text-cyan-300 font-semibold mb-2">The Science Behind β-Trajectory</h4>
                             <p className="mb-3">
                               <strong className="text-foreground">β-Trajectory analysis</strong> uses a sliding window approach to track how 
                               autoregressive (AR2) coefficients evolve over time in gene expression data. When we fit the model:
                             </p>
-                            <div className="bg-slate-900 p-3 rounded font-mono text-xs text-center mb-3 border border-slate-600">
+                            <div className="bg-slate-50 p-3 rounded font-mono text-xs text-center mb-3 border border-slate-300">
                               y(t) = β₁ · y(t-1) + β₂ · y(t-2) + ε
                             </div>
                             <p className="mb-2">
@@ -3540,7 +3518,7 @@ Significance was determined using t-statistics for phase interaction coefficient
                             <ul className="space-y-2 list-disc list-inside">
                               <li><strong className="text-foreground">Phase-Amplitude Gating:</strong> Clock genes may "gate" cancer-related gene expression by modulating their temporal dynamics toward or away from critical attractors.</li>
                               <li><strong className="text-foreground">Stability Validation:</strong> Only trajectories with eigenvalues inside the unit circle (|λ| &lt; 1) represent stable, biologically meaningful dynamics.</li>
-                              <li><strong className="text-foreground">φ-Proximity (Exploratory):</strong> Gene-pair proximity to φ was tested but genome-wide enrichment is not statistically significant at the individual gene level (p = 0.154). Pair-level counts can inflate apparent enrichment due to combinatorial effects. This observation remains hypothesis-generating only. <span className="text-slate-400 text-xs">[Pair-counting caveat: gene-pair metrics overestimate enrichment vs. unique gene counts]</span></li>
+                              <li><strong className="text-foreground">φ-Proximity (Exploratory):</strong> Gene-pair proximity to φ was tested but genome-wide enrichment is not statistically significant at the individual gene level (p = 0.154). Pair-level counts can inflate apparent enrichment due to combinatorial effects. This observation remains hypothesis-generating only. <span className="text-slate-500 text-xs">[Pair-counting caveat: gene-pair metrics overestimate enrichment vs. unique gene counts]</span></li>
                             </ul>
                           </div>
                           
@@ -3576,7 +3554,7 @@ Significance was determined using t-statistics for phase interaction coefficient
                       
                       {/* Comprehensive Research Findings */}
                       <div className="p-5 bg-gradient-to-br from-slate-800/80 to-slate-900/80 rounded-xl border border-cyan-500/40 shadow-lg">
-                        <div className="flex items-center gap-3 mb-4 pb-3 border-b border-slate-700">
+                        <div className="flex items-center gap-3 mb-4 pb-3 border-b border-slate-200">
                           <div className="h-10 w-10 rounded-full bg-gradient-to-br from-cyan-500/30 to-purple-500/30 flex items-center justify-center">
                             <FileText size={20} className="text-cyan-400" />
                           </div>
@@ -3586,8 +3564,8 @@ Significance was determined using t-statistics for phase interaction coefficient
                             </h3>
                             <p className="text-xs text-muted-foreground">AR(2) Eigenvalue Stability Profiling</p>
                             <div className="flex items-center gap-1.5 mt-1" data-testid="note-edge-case-diagnostics-trajectory">
-                              <Shield size={10} className="text-slate-400" />
-                              <span className="text-[10px] text-slate-400">Edge case diagnostics screening applied</span>
+                              <Shield size={10} className="text-slate-500" />
+                              <span className="text-[10px] text-slate-500">Edge case diagnostics screening applied</span>
                             </div>
                           </div>
                         </div>
@@ -3620,25 +3598,25 @@ Significance was determined using t-statistics for phase interaction coefficient
                                 Analysis Scope
                               </h4>
                               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                <div className="bg-slate-800/60 p-3 rounded-lg text-center border border-slate-700">
+                                <div className="bg-slate-50 p-3 rounded-lg text-center border border-slate-200">
                                   <div className="text-2xl font-bold text-cyan-400">{trajectoryData.summary.totalDatasetsAnalyzed}</div>
                                   <div className="text-xs text-muted-foreground">Datasets</div>
-                                  <div className="text-[10px] text-slate-400 mt-1">Mouse tissues, organoids, human cells</div>
+                                  <div className="text-[10px] text-slate-500 mt-1">Mouse tissues, organoids, human cells</div>
                                 </div>
-                                <div className="bg-slate-800/60 p-3 rounded-lg text-center border border-slate-700">
+                                <div className="bg-slate-50 p-3 rounded-lg text-center border border-slate-200">
                                   <div className="text-2xl font-bold text-emerald-400">{trajectoryData.summary.totalGenePairs}</div>
                                   <div className="text-xs text-muted-foreground">Gene Pairs Tested</div>
-                                  <div className="text-[10px] text-slate-400 mt-1">Clock × target combinations</div>
+                                  <div className="text-[10px] text-slate-500 mt-1">Clock × target combinations</div>
                                 </div>
-                                <div className="bg-slate-800/60 p-3 rounded-lg text-center border border-slate-700">
+                                <div className="bg-slate-50 p-3 rounded-lg text-center border border-slate-200">
                                   <div className="text-2xl font-bold text-amber-400">{trajectoryData.summary.pairsApproachingPhi}</div>
                                   <div className="text-xs text-muted-foreground">Approaching φ</div>
-                                  <div className="text-[10px] text-slate-400 mt-1">φ-similarity {">"} 0.8</div>
+                                  <div className="text-[10px] text-slate-500 mt-1">φ-similarity {">"} 0.8</div>
                                 </div>
-                                <div className="bg-slate-800/60 p-3 rounded-lg text-center border border-slate-700">
+                                <div className="bg-slate-50 p-3 rounded-lg text-center border border-slate-200">
                                   <div className="text-2xl font-bold text-purple-400">{(trajectoryData.summary.averagePhiSimilarity * 100).toFixed(1)}%</div>
                                   <div className="text-xs text-muted-foreground">Mean φ Similarity</div>
-                                  <div className="text-[10px] text-slate-400 mt-1">Band proximity (0.40-0.80)</div>
+                                  <div className="text-[10px] text-slate-500 mt-1">Band proximity (0.40-0.80)</div>
                                 </div>
                               </div>
                             </div>
@@ -3680,8 +3658,8 @@ Significance was determined using t-statistics for phase interaction coefficient
                             </div>
                             
                             {/* Interpretation */}
-                            <div className="p-4 bg-slate-700/50 rounded-lg border border-slate-600">
-                              <h4 className="text-slate-200 font-semibold mb-2 flex items-center gap-2">
+                            <div className="p-4 bg-slate-100 rounded-lg border border-slate-300">
+                              <h4 className="text-slate-800 font-semibold mb-2 flex items-center gap-2">
                                 <BookOpen size={16} />
                                 Scientific Interpretation
                               </h4>
@@ -3699,9 +3677,9 @@ Significance was determined using t-statistics for phase interaction coefficient
                             
                             {/* Methodology Note */}
                             <div className="flex items-start gap-2 text-xs text-muted-foreground">
-                              <AlertCircle size={14} className="text-slate-400 mt-0.5 flex-shrink-0" />
+                              <AlertCircle size={14} className="text-slate-500 mt-0.5 flex-shrink-0" />
                               <div>
-                                <span className="text-slate-400">Methodology:</span> {trajectoryData.metadata.dataType}. 
+                                <span className="text-slate-500">Methodology:</span> {trajectoryData.metadata.dataType}. 
                                 Generated {new Date(trajectoryData.metadata.generatedAt).toLocaleString()}. 
                                 Cross-study validation recommended before biomarker claims.
                               </div>
@@ -3716,8 +3694,8 @@ Significance was determined using t-statistics for phase interaction coefficient
                         )}
                       </div>
                       
-                      <div className="p-3 bg-slate-700/50 rounded-lg border border-slate-600 text-xs text-muted-foreground">
-                        <strong className="text-slate-300">Note:</strong> Charts above are illustrative demos. 
+                      <div className="p-3 bg-slate-100 rounded-lg border border-slate-300 text-xs text-muted-foreground">
+                        <strong className="text-slate-600">Note:</strong> Charts above are illustrative demos. 
                         The findings panel shows actual results from your PAR(2) analyses. 
                         Cross-study validation recommended—APC-knockout shows enrichment while wild-type does not.
                       </div>
@@ -3944,7 +3922,7 @@ Significance was determined using t-statistics for phase interaction coefficient
                                 <div className="text-[10px] text-muted-foreground">1 tissue, f²≥0.15</div>
                               </div>
                               <div className="p-2 rounded bg-gray-500/10 border border-gray-500/30">
-                                <div className="text-gray-400 font-semibold text-sm">EXPLORATORY</div>
+                                <div className="text-slate-500 font-semibold text-sm">EXPLORATORY</div>
                                 <div className="text-[10px] text-muted-foreground">1 tissue • ~16% FDR</div>
                               </div>
                             </div>
@@ -3986,13 +3964,15 @@ Significance was determined using t-statistics for phase interaction coefficient
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-6">
-                        {runs.slice(0, 12).map(run => (
+                      {(() => {
+                        const mouseRuns = runs.filter(r => r.name.startsWith('Batch Analysis')).sort((a, b) => a.name.localeCompare(b.name));
+                        const humanRuns = runs.filter(r => !r.name.startsWith('Batch Analysis') && !r.name.includes('Nurses')).sort((a, b) => a.name.localeCompare(b.name));
+                        const RunCheckbox = ({ run }: { run: typeof runs[0] }) => (
                           <label
                             key={run.id}
                             className={`flex items-center gap-2 p-2 rounded-lg cursor-pointer transition-colors text-xs ${
-                              comparisonRuns.includes(run.id) 
-                                ? 'bg-primary/10 border border-primary/30' 
+                              comparisonRuns.includes(run.id)
+                                ? 'bg-primary/10 border border-primary/30'
                                 : 'bg-secondary/30 hover:bg-secondary/50 border border-transparent'
                             }`}
                           >
@@ -4000,10 +3980,30 @@ Significance was determined using t-statistics for phase interaction coefficient
                               checked={comparisonRuns.includes(run.id)}
                               onCheckedChange={() => toggleComparisonRun(run.id)}
                             />
-                            <span className="truncate">{run.datasetName.replace('GSE157357_', '').slice(0, 25)}</span>
+                            <span className="truncate" title={run.name}>{run.name.replace('Batch Analysis - ', '')}</span>
                           </label>
-                        ))}
-                      </div>
+                        );
+                        return (
+                          <div className="space-y-4 mb-6">
+                            {mouseRuns.length > 0 && (
+                              <div>
+                                <p className="text-xs text-slate-500 font-semibold uppercase tracking-wider mb-2">Mouse Tissues (GSE54650)</p>
+                                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                                  {mouseRuns.map(run => <RunCheckbox key={run.id} run={run} />)}
+                                </div>
+                              </div>
+                            )}
+                            {humanRuns.length > 0 && (
+                              <div>
+                                <p className="text-xs text-slate-500 font-semibold uppercase tracking-wider mb-2">Human Datasets</p>
+                                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                                  {humanRuns.map(run => <RunCheckbox key={run.id} run={run} />)}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })()}
 
                       {comparisonRuns.length >= 2 && (
                         <div className="space-y-6">
@@ -4132,6 +4132,9 @@ Significance was determined using t-statistics for phase interaction coefficient
                           SIRT1 trough: {phaseVulnerabilityData.summary.sirt1TroughWindow}
                         </span>
                       </div>
+                      <div className="mb-3 p-2 rounded bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300 leading-relaxed">
+                        These timing predictions are derived from gene expression phase data (GSE54650, mouse liver) and have not been validated pharmacologically or in clinical settings. Drug timing decisions require independent clinical trial evidence.
+                      </div>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
                         <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 text-center">
                           <div data-testid="metric-golden-hour-window" className="text-xl font-bold text-amber-400">
@@ -4171,6 +4174,17 @@ Significance was determined using t-statistics for phase interaction coefficient
                           ))}
                         </div>
                       </div>
+
+                      {/* Lgr5 / GSE179028 cross-reference */}
+                      {phaseVulnerabilityData.vulnerabilityRanking.some(g => g.gene === 'Lgr5') && (
+                        <div className="mt-3 p-2 rounded bg-blue-500/10 border border-blue-500/20 text-xs text-blue-300 flex items-start gap-2">
+                          <span className="mt-0.5 shrink-0">📌</span>
+                          <span>
+                            <strong>Lgr5 cross-species validation available.</strong> Mouse intestinal enteroid data (GSE179027, 12,409 genes, 24 timepoints) and human enteroid data (GSE161566) independently replicate Lgr5 phase gating.{' '}
+                            <a href="/dashboard" className="underline text-blue-400 hover:text-blue-300" onClick={() => window.location.href='/dashboard'}>Load GSE179027</a> via the dataset selector to replicate this result in a non-liver tissue.
+                          </span>
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
                 ) : (
@@ -4185,8 +4199,6 @@ Significance was determined using t-statistics for phase interaction coefficient
             </Tabs>
           </div>
         </div>
-        </>
-        )}
         
       </main>
 
@@ -4473,7 +4485,7 @@ Significance was determined using t-statistics for phase interaction coefficient
                   <div className="text-xs text-muted-foreground space-y-1">
                     <p><strong className="text-emerald-400">HIGH confidence</strong> (3+ tissues): ~2% false positive rate - strong evidence</p>
                     <p><strong className="text-yellow-400">MEDIUM confidence</strong> (2 tissues): ~12% false positive rate - moderate evidence</p>
-                    <p><strong className="text-gray-400">EXPLORATORY</strong> (1 tissue): ~16% false positive rate - hypothesis-generating</p>
+                    <p><strong className="text-slate-500">EXPLORATORY</strong> (1 tissue): ~16% false positive rate - hypothesis-generating</p>
                   </div>
                 </CardContent>
               </Card>
@@ -4685,9 +4697,9 @@ Significance was determined using t-statistics for phase interaction coefficient
                     </div>
                     
                     {/* TVAR Consideration Note */}
-                    <div className="mt-3 p-3 bg-slate-500/10 border border-slate-500/30 rounded-lg">
-                      <p className="font-semibold text-slate-300 text-xs mb-2">📊 Why Stationary AR(2) vs Time-Varying AR (TVAR)?</p>
-                      <ul className="text-xs space-y-1 text-slate-400">
+                    <div className="mt-3 p-3 bg-slate-500/10 border border-slate-300/30 rounded-lg">
+                      <p className="font-semibold text-slate-600 text-xs mb-2">📊 Why Stationary AR(2) vs Time-Varying AR (TVAR)?</p>
+                      <ul className="text-xs space-y-1 text-slate-500">
                         <li><strong>Data length constraint:</strong> Most datasets have 12-24 timepoints; TVAR requires many more for reliable time-varying coefficient estimation</li>
                         <li><strong>Cross-dataset comparability:</strong> Stationary AR(2) produces simple, comparable summaries (λ, ρ bands) across species and conditions; TVAR produces functions of time</li>
                         <li><strong>Overfitting risk:</strong> Short, noisy omics series can cause TVAR to fit technical drift as "dynamic coefficients"</li>
@@ -5161,7 +5173,7 @@ Significance was determined using t-statistics for phase interaction coefficient
 
             {/* Step 1 */}
             <div className="flex gap-4 items-start" data-testid="text-guide-step-1">
-              <div className="h-12 w-12 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-xl shrink-0">
+              <div className="h-12 w-12 rounded-full bg-emerald-500 text-slate-900 flex items-center justify-center font-bold text-xl shrink-0">
                 1
               </div>
               <div>
@@ -5177,7 +5189,7 @@ Significance was determined using t-statistics for phase interaction coefficient
 
             {/* Step 2 */}
             <div className="flex gap-4 items-start" data-testid="text-guide-step-2">
-              <div className="h-12 w-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-xl shrink-0">
+              <div className="h-12 w-12 rounded-full bg-blue-500 text-slate-900 flex items-center justify-center font-bold text-xl shrink-0">
                 2
               </div>
               <div>
@@ -5193,14 +5205,14 @@ Significance was determined using t-statistics for phase interaction coefficient
 
             {/* Step 3 */}
             <div className="flex gap-4 items-start" data-testid="text-guide-step-3">
-              <div className="h-12 w-12 rounded-full bg-purple-500 text-white flex items-center justify-center font-bold text-xl shrink-0">
+              <div className="h-12 w-12 rounded-full bg-purple-500 text-slate-900 flex items-center justify-center font-bold text-xl shrink-0">
                 3
               </div>
               <div>
                 <h3 className="font-bold text-lg">Read Your Results</h3>
                 <p className="text-muted-foreground">
                   <span className="text-amber-400 font-semibold">🟢 Green = Significant finding</span> (clock controls this gene)<br/>
-                  <span className="text-gray-400">⚪ Gray = No relationship found</span>
+                  <span className="text-slate-500">⚪ Gray = No relationship found</span>
                 </p>
                 <p className="text-xs text-muted-foreground mt-1">
                   💡 Click any result card to see detailed charts and explanations

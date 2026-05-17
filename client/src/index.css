@@ -316,6 +316,28 @@ textarea::placeholder {
 .fill-white { fill: #1e293b !important; }
 .stroke-white { stroke: #94a3b8 !important; }
 
+/* SVG inline fill overrides: light/white fills → readable dark */
+text[fill="#94a3b8"], text[fill="#94A3B8"],
+text[fill="#cbd5e1"], text[fill="#CBD5E1"],
+text[fill="#e2e8f0"], text[fill="#E2E8F0"],
+text[fill="#f1f5f9"], text[fill="#F1F5F9"],
+text[fill="#ffffff"], text[fill="#FFFFFF"],
+text[fill="white"],
+tspan[fill="#94a3b8"], tspan[fill="#94A3B8"],
+tspan[fill="#e2e8f0"], tspan[fill="#E2E8F0"],
+tspan[fill="#ffffff"], tspan[fill="#FFFFFF"] {
+  fill: #475569 !important;
+}
+
+/* SVG stroke white → visible dark */
+circle[stroke="#ffffff"], circle[stroke="#FFFFFF"],
+line[stroke="#ffffff"], line[stroke="#FFFFFF"],
+path[stroke="#ffffff"], path[stroke="#FFFFFF"],
+polyline[stroke="#ffffff"], polyline[stroke="#FFFFFF"],
+rect[stroke="#ffffff"], rect[stroke="#FFFFFF"] {
+  stroke: #334155 !important;
+}
+
 /* --- DIVIDERS, RINGS, SHADOWS --- */
 [class*="divide-gray-7"] > :not([hidden]) ~ :not([hidden]),
 [class*="divide-gray-8"] > :not([hidden]) ~ :not([hidden]),

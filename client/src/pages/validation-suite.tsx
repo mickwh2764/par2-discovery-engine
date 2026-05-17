@@ -146,9 +146,9 @@ const CustomScatterTooltip = ({ active, payload }: any) => {
   if (!active || !payload?.length) return null;
   const d = payload[0].payload;
   return (
-    <div className="bg-gray-900 border border-gray-700 rounded-lg p-3 text-sm shadow-xl" data-testid="scatter-tooltip">
-      <div className="font-bold text-white">{d.gene}</div>
-      <div className="text-gray-400">{d.geneType === 'clock' ? 'Clock gene' : d.geneType === 'target' ? 'Target gene' : 'Other'}</div>
+    <div className="bg-white border border-slate-200 rounded-lg p-3 text-sm shadow-xl" data-testid="scatter-tooltip">
+      <div className="font-bold text-slate-900">{d.gene}</div>
+      <div className="text-slate-500">{d.geneType === 'clock' ? 'Clock gene' : d.geneType === 'target' ? 'Target gene' : 'Other'}</div>
       <div className="mt-1 space-y-0.5">
         <div className="text-blue-300">|λ| = {d.eigenvalue?.toFixed(4)}</div>
         <div className="text-purple-300">R² = {d.rSquared?.toFixed(4)}</div>
@@ -162,14 +162,14 @@ const ProlifTooltip = ({ active, payload }: any) => {
   if (!active || !payload?.length) return null;
   const d = payload[0].payload;
   return (
-    <div className="bg-gray-900 border border-gray-700 rounded-lg p-3 text-sm shadow-xl" data-testid="prolif-tooltip">
-      <div className="font-bold text-white">{d.tissue}</div>
+    <div className="bg-white border border-slate-200 rounded-lg p-3 text-sm shadow-xl" data-testid="prolif-tooltip">
+      <div className="font-bold text-slate-900">{d.tissue}</div>
       <div className="mt-1 space-y-0.5">
         <div className="text-cyan-300">Gap (clock - target |λ|) = {d.gap?.toFixed(4)}</div>
         <div className="text-rose-300">Proliferation Index = {d.proliferationIndex}</div>
         <div className="text-blue-300">Clock mean |λ| = {d.clockMeanEV?.toFixed(4)}</div>
         <div className="text-amber-300">Target mean |λ| = {d.targetMeanEV?.toFixed(4)}</div>
-        <div className="text-gray-400 text-xs mt-1">{d.proliferationSource}</div>
+        <div className="text-slate-500 text-xs mt-1">{d.proliferationSource}</div>
       </div>
     </div>
   );
@@ -267,11 +267,11 @@ export default function ValidationSuite() {
   })() : [];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 text-slate-900">
       <div className="max-w-6xl mx-auto px-4 py-6">
         <div className="flex items-center gap-3 mb-6">
           <Link href="/">
-            <Button variant="outline" size="sm" className="gap-2 border-slate-700 text-slate-300 hover:bg-slate-800" data-testid="link-back-home">
+            <Button variant="outline" size="sm" className="gap-2 border-slate-200 text-slate-600 hover:bg-slate-100" data-testid="link-back-home">
               <ArrowLeft size={14} />
               Home
             </Button>
@@ -280,10 +280,10 @@ export default function ValidationSuite() {
             <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent" data-testid="text-page-title">
               Validation & Stress Tests
             </h1>
-            <p className="text-sm text-slate-400 mt-1">Verify the AR(2) engine produces trustworthy, reproducible results</p>
-            <div className="rounded-lg bg-slate-800/40 border border-slate-700/50 p-4 mt-3">
-              <p className="text-sm text-slate-300 leading-relaxed">
-                <strong className="text-white">What you can do:</strong> Runs multiple validation checks including eigenvalue independence tests, edge case diagnostics, and gap analysis. These tests assess the statistical reliability of the AR(2) eigenvalue estimates. Download the validation data for supplementary materials.
+            <p className="text-sm text-slate-500 mt-1">Verify the AR(2) engine produces trustworthy, reproducible results</p>
+            <div className="rounded-lg bg-slate-100 border border-slate-200 p-4 mt-3">
+              <p className="text-sm text-slate-600 leading-relaxed">
+                <strong className="text-slate-900">What you can do:</strong> Runs multiple validation checks including eigenvalue independence tests, edge case diagnostics, and gap analysis. These tests assess the statistical reliability of the AR(2) eigenvalue estimates. Download the validation data for supplementary materials.
               </p>
             </div>
           </div>
@@ -294,7 +294,7 @@ export default function ValidationSuite() {
             <Button
               variant="outline"
               size="sm"
-              className="gap-2 border-slate-600 text-slate-300 hover:bg-slate-800"
+              className="gap-2 border-slate-300 text-slate-600 hover:bg-slate-100"
               data-testid="button-download-results"
               onClick={() => {
                 const csvData = indepData.scatterData.map(d => ({
@@ -327,57 +327,57 @@ export default function ValidationSuite() {
 
         {!report ? (
           <div className="space-y-6">
-            <Card className="bg-slate-900/80 border-slate-700">
+            <Card className="bg-white border-slate-200">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <FlaskConical size={18} className="text-amber-400" />
                   What These Tests Prove
                 </CardTitle>
-                <CardDescription className="text-slate-400">
+                <CardDescription className="text-slate-500">
                   Before trusting any analysis result, you need to know the math actually works.
                   These stress tests answer four critical questions:
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                  <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
                     <div className="flex items-center gap-2 mb-2">
                       <CheckCircle2 size={16} className="text-green-400" />
                       <h3 className="font-medium text-green-300">Round-Trip Recovery</h3>
                     </div>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-slate-500">
                       We generate synthetic data with <strong>known</strong> AR(2) parameters, feed it through the engine,
                       and check if it recovers the same values. If the engine can't recover parameters
                       it should know, nothing else can be trusted.
                     </p>
                   </div>
-                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                  <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
                     <div className="flex items-center gap-2 mb-2">
                       <CheckCircle2 size={16} className="text-emerald-400" />
                       <h3 className="font-medium text-emerald-300">ODE Round-Trip (5/5)</h3>
                     </div>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-slate-500">
                       Five canonical ODE models (FitzHugh-Nagumo, Goodwin, Van der Pol, Lotka-Volterra, Tyson-Novak)
                       are simulated, AR(2)-fitted, and eigenvalues confirmed within plausible ranges.
                       See the <a href="/model-zoo" className="text-cyan-400 underline" data-testid="link-model-zoo-roundtrip">ODE Model Zoo</a> for full results.
                     </p>
                   </div>
-                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                  <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
                     <div className="flex items-center gap-2 mb-2">
                       <TrendingUp size={16} className="text-cyan-400" />
                       <h3 className="font-medium text-cyan-300">Sensitivity Analysis</h3>
                     </div>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-slate-500">
                       How do results change when you add noise, reduce sample size, or introduce gaps?
                       If small changes in input cause wild swings in output, the tool is fragile.
                     </p>
                   </div>
-                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                  <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
                     <div className="flex items-center gap-2 mb-2">
                       <BarChart3 size={16} className="text-purple-400" />
                       <h3 className="font-medium text-purple-300">Distribution Separation</h3>
                     </div>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-slate-500">
                       Can the engine tell the difference between "healthy" signals, "stressed" signals,
                       and pure random noise? If all three look the same, the eigenvalue has no discriminative power.
                     </p>
@@ -388,7 +388,7 @@ export default function ValidationSuite() {
                   <Button
                     onClick={runTests}
                     disabled={running}
-                    className="gap-2 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white px-10 py-6 text-lg"
+                    className="gap-2 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-slate-900 px-10 py-6 text-lg"
                     data-testid="button-run-stress-tests"
                   >
                     {running ? (
@@ -413,13 +413,13 @@ export default function ValidationSuite() {
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-900/80 border-slate-700" data-testid="card-edge-case-diagnostics">
+            <Card className="bg-white border-slate-200" data-testid="card-edge-case-diagnostics">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2" data-testid="text-diagnostics-title">
                   <ShieldCheck size={18} className="text-green-400" />
                   Edge Case Diagnostics Framework
                 </CardTitle>
-                <CardDescription className="text-slate-400" data-testid="text-diagnostics-description">
+                <CardDescription className="text-slate-500" data-testid="text-diagnostics-description">
                   Every AR(2) result is now screened for 5 failure modes that could invalidate the analysis
                 </CardDescription>
               </CardHeader>
@@ -427,75 +427,75 @@ export default function ValidationSuite() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm" data-testid="table-diagnostics">
                     <thead>
-                      <tr className="border-b border-slate-700">
-                        <th className="text-left py-2 px-3 text-slate-400">#</th>
-                        <th className="text-left py-2 px-3 text-slate-400">Diagnostic</th>
-                        <th className="text-left py-2 px-3 text-slate-400">Purpose</th>
-                        <th className="text-left py-2 px-3 text-slate-400">Trigger Condition</th>
+                      <tr className="border-b border-slate-200">
+                        <th className="text-left py-2 px-3 text-slate-500">#</th>
+                        <th className="text-left py-2 px-3 text-slate-500">Diagnostic</th>
+                        <th className="text-left py-2 px-3 text-slate-500">Purpose</th>
+                        <th className="text-left py-2 px-3 text-slate-500">Trigger Condition</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr className="border-b border-slate-700/50 hover:bg-slate-800/30" data-testid="row-diagnostic-trend">
-                        <td className="py-2 px-3 text-slate-400 font-mono">1</td>
+                      <tr className="border-b border-slate-200 hover:bg-slate-50" data-testid="row-diagnostic-trend">
+                        <td className="py-2 px-3 text-slate-500 font-mono">1</td>
                         <td className="py-2 px-3">
                           <div className="flex items-center gap-2">
                             <TrendingUp size={14} className="text-amber-400" />
                             <span className="text-amber-300 font-medium">Trend Detection</span>
                           </div>
                         </td>
-                        <td className="py-2 px-3 text-slate-400 text-xs">Detects linear trends that inflate |λ| toward 1.0, producing false "Near-Critical" readings</td>
+                        <td className="py-2 px-3 text-slate-500 text-xs">Detects linear trends that inflate |λ| toward 1.0, producing false "Near-Critical" readings</td>
                         <td className="py-2 px-3">
                           <Badge variant="outline" className="border-amber-600/40 text-amber-400 text-xs">Normalized slope &gt; 3.0 AND |λ| &gt; 0.9</Badge>
                         </td>
                       </tr>
-                      <tr className="border-b border-slate-700/50 hover:bg-slate-800/30" data-testid="row-diagnostic-sample-size">
-                        <td className="py-2 px-3 text-slate-400 font-mono">2</td>
+                      <tr className="border-b border-slate-200 hover:bg-slate-50" data-testid="row-diagnostic-sample-size">
+                        <td className="py-2 px-3 text-slate-500 font-mono">2</td>
                         <td className="py-2 px-3">
                           <div className="flex items-center gap-2">
                             <BarChart3 size={14} className="text-cyan-400" />
                             <span className="text-cyan-300 font-medium">Sample-Size Confidence</span>
                           </div>
                         </td>
-                        <td className="py-2 px-3 text-slate-400 text-xs">Flags short series with wide confidence bands on eigenvalue estimates</td>
+                        <td className="py-2 px-3 text-slate-500 text-xs">Flags short series with wide confidence bands on eigenvalue estimates</td>
                         <td className="py-2 px-3">
                           <Badge variant="outline" className="border-cyan-600/40 text-cyan-400 text-xs">n &lt; 50 (warning) / n &lt; 25 (critical)</Badge>
                         </td>
                       </tr>
-                      <tr className="border-b border-slate-700/50 hover:bg-slate-800/30" data-testid="row-diagnostic-ar3">
-                        <td className="py-2 px-3 text-slate-400 font-mono">3</td>
+                      <tr className="border-b border-slate-200 hover:bg-slate-50" data-testid="row-diagnostic-ar3">
+                        <td className="py-2 px-3 text-slate-500 font-mono">3</td>
                         <td className="py-2 px-3">
                           <div className="flex items-center gap-2">
                             <Activity size={14} className="text-purple-400" />
                             <span className="text-purple-300 font-medium">AR(3) Order Check</span>
                           </div>
                         </td>
-                        <td className="py-2 px-3 text-slate-400 text-xs">Tests whether AR(3) fits significantly better, suggesting AR(2) compresses higher-order memory</td>
+                        <td className="py-2 px-3 text-slate-500 text-xs">Tests whether AR(3) fits significantly better, suggesting AR(2) compresses higher-order memory</td>
                         <td className="py-2 px-3">
                           <Badge variant="outline" className="border-purple-600/40 text-purple-400 text-xs">ΔAIC &gt; 2 AND ΔR² &gt; 0.02</Badge>
                         </td>
                       </tr>
-                      <tr className="border-b border-slate-700/50 hover:bg-slate-800/30" data-testid="row-diagnostic-nonlinearity">
-                        <td className="py-2 px-3 text-slate-400 font-mono">4</td>
+                      <tr className="border-b border-slate-200 hover:bg-slate-50" data-testid="row-diagnostic-nonlinearity">
+                        <td className="py-2 px-3 text-slate-500 font-mono">4</td>
                         <td className="py-2 px-3">
                           <div className="flex items-center gap-2">
                             <ShieldAlert size={14} className="text-orange-400" />
                             <span className="text-orange-300 font-medium">Nonlinearity Test</span>
                           </div>
                         </td>
-                        <td className="py-2 px-3 text-slate-400 text-xs">Detects non-Gaussian residual structure from spikes, bursts, or arrhythmic events</td>
+                        <td className="py-2 px-3 text-slate-500 text-xs">Detects non-Gaussian residual structure from spikes, bursts, or arrhythmic events</td>
                         <td className="py-2 px-3">
                           <Badge variant="outline" className="border-orange-600/40 text-orange-400 text-xs">|skewness| &gt; 1.0 OR excess kurtosis &gt; 3.0</Badge>
                         </td>
                       </tr>
-                      <tr className="border-b border-slate-700/50 hover:bg-slate-800/30" data-testid="row-diagnostic-boundary">
-                        <td className="py-2 px-3 text-slate-400 font-mono">5</td>
+                      <tr className="border-b border-slate-200 hover:bg-slate-50" data-testid="row-diagnostic-boundary">
+                        <td className="py-2 px-3 text-slate-500 font-mono">5</td>
                         <td className="py-2 px-3">
                           <div className="flex items-center gap-2">
                             <ShieldCheck size={14} className="text-red-400" />
                             <span className="text-red-300 font-medium">Boundary Proximity</span>
                           </div>
                         </td>
-                        <td className="py-2 px-3 text-slate-400 text-xs">Warns when |λ| is near the unit circle, making stable/unstable distinction unreliable</td>
+                        <td className="py-2 px-3 text-slate-500 text-xs">Warns when |λ| is near the unit circle, making stable/unstable distinction unreliable</td>
                         <td className="py-2 px-3">
                           <Badge variant="outline" className="border-red-600/40 text-red-400 text-xs">0.93 &lt; |λ| &lt; 1.07</Badge>
                         </td>
@@ -503,9 +503,9 @@ export default function ValidationSuite() {
                     </tbody>
                   </table>
                 </div>
-                <div className="mt-4 bg-slate-800/50 rounded-lg p-3 border border-slate-700/50" data-testid="text-diagnostics-summary">
-                  <p className="text-xs text-slate-400">
-                    When any diagnostic is triggered, the result is flagged with a warning but <strong className="text-slate-300">not discarded</strong>. 
+                <div className="mt-4 bg-slate-50 rounded-lg p-3 border border-slate-200" data-testid="text-diagnostics-summary">
+                  <p className="text-xs text-slate-500">
+                    When any diagnostic is triggered, the result is flagged with a warning but <strong className="text-slate-600">not discarded</strong>. 
                     This allows downstream users to make informed decisions about which findings to trust, rather than silently hiding edge cases.
                   </p>
                 </div>
@@ -530,7 +530,7 @@ export default function ValidationSuite() {
                         {report.overallVerdict === 'VALIDATED' ? 'VALIDATED' :
                          report.overallVerdict === 'PARTIALLY_VALIDATED' ? 'PARTIALLY VALIDATED' : 'FAILED'}
                       </h2>
-                      <p className="text-sm text-slate-300 mt-1 max-w-2xl">{report.verdictExplanation}</p>
+                      <p className="text-sm text-slate-600 mt-1 max-w-2xl">{report.verdictExplanation}</p>
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-2">
@@ -541,7 +541,7 @@ export default function ValidationSuite() {
                       onClick={() => setReport(null)}
                       variant="outline"
                       size="sm"
-                      className="border-slate-600 text-slate-400"
+                      className="border-slate-300 text-slate-500"
                       data-testid="button-reset"
                     >
                       Run Again
@@ -552,7 +552,7 @@ export default function ValidationSuite() {
             </Card>
 
             <Tabs defaultValue="roundtrip" className="space-y-4">
-              <TabsList className="bg-slate-800/50 border border-slate-700">
+              <TabsList className="bg-slate-50 border border-slate-200">
                 <TabsTrigger value="roundtrip" data-testid="tab-roundtrip">Round-Trip Tests ({report.syntheticTests.passRate}%)</TabsTrigger>
                 <TabsTrigger value="sensitivity" data-testid="tab-sensitivity">Sensitivity</TabsTrigger>
                 <TabsTrigger value="distribution" data-testid="tab-distribution">Distribution</TabsTrigger>
@@ -561,10 +561,10 @@ export default function ValidationSuite() {
               </TabsList>
 
               <TabsContent value="roundtrip">
-                <Card className="bg-slate-900/80 border-slate-700">
+                <Card className="bg-white border-slate-200">
                   <CardHeader>
                     <CardTitle className="text-lg">Synthetic Round-Trip Recovery</CardTitle>
-                    <CardDescription className="text-slate-400">
+                    <CardDescription className="text-slate-500">
                       Generate data with known AR(2) parameters, run through the engine, check if it recovers them.
                       Mean |λ| error: {report.syntheticTests.meanAbsError} | Max error: {report.syntheticTests.maxAbsError}
                     </CardDescription>
@@ -573,27 +573,27 @@ export default function ValidationSuite() {
                     <div className="overflow-x-auto">
                       <table className="w-full text-sm">
                         <thead>
-                          <tr className="border-b border-slate-700">
-                            <th className="text-left py-2 px-3 text-slate-400">Test Case</th>
-                            <th className="text-center py-2 px-1 text-slate-400">n</th>
-                            <th className="text-center py-2 px-1 text-slate-400">True |λ|</th>
-                            <th className="text-center py-2 px-1 text-slate-400">Recovered |λ|</th>
-                            <th className="text-center py-2 px-1 text-slate-400">Error</th>
-                            <th className="text-center py-2 px-1 text-slate-400">R²</th>
-                            <th className="text-center py-2 px-1 text-slate-400">Result</th>
+                          <tr className="border-b border-slate-200">
+                            <th className="text-left py-2 px-3 text-slate-500">Test Case</th>
+                            <th className="text-center py-2 px-1 text-slate-500">n</th>
+                            <th className="text-center py-2 px-1 text-slate-500">True |λ|</th>
+                            <th className="text-center py-2 px-1 text-slate-500">Recovered |λ|</th>
+                            <th className="text-center py-2 px-1 text-slate-500">Error</th>
+                            <th className="text-center py-2 px-1 text-slate-500">R²</th>
+                            <th className="text-center py-2 px-1 text-slate-500">Result</th>
                           </tr>
                         </thead>
                         <tbody>
                           {report.syntheticTests.tests.map((t, i) => (
-                            <tr key={i} className="border-b border-slate-700/50 hover:bg-slate-800/30">
-                              <td className="py-2 px-3 text-slate-300 text-xs">{t.name}</td>
-                              <td className="py-2 px-1 text-center text-slate-400 text-xs">{t.sampleSize}</td>
+                            <tr key={i} className="border-b border-slate-200 hover:bg-slate-50">
+                              <td className="py-2 px-3 text-slate-600 text-xs">{t.name}</td>
+                              <td className="py-2 px-1 text-center text-slate-500 text-xs">{t.sampleSize}</td>
                               <td className="py-2 px-1 text-center font-mono text-cyan-300">{t.trueEigenvalue.toFixed(4)}</td>
-                              <td className="py-2 px-1 text-center font-mono text-white">{t.recoveredEigenvalue.toFixed(4)}</td>
+                              <td className="py-2 px-1 text-center font-mono text-slate-900">{t.recoveredEigenvalue.toFixed(4)}</td>
                               <td className="py-2 px-1 text-center font-mono" style={{ color: t.eigenvalueError < 0.02 ? '#22c55e' : t.eigenvalueError < 0.05 ? '#facc15' : '#ef4444' }}>
                                 {t.eigenvalueError.toFixed(4)}
                               </td>
-                              <td className="py-2 px-1 text-center font-mono text-slate-400">{t.r2.toFixed(3)}</td>
+                              <td className="py-2 px-1 text-center font-mono text-slate-500">{t.r2.toFixed(3)}</td>
                               <td className="py-2 px-1 text-center">
                                 {t.passed ? (
                                   <CheckCircle2 size={16} className="text-green-400 mx-auto" />
@@ -608,7 +608,7 @@ export default function ValidationSuite() {
                     </div>
 
                     <div className="mt-6">
-                      <h4 className="text-sm font-medium text-slate-300 mb-3">Recovery Accuracy (True vs Recovered |λ|)</h4>
+                      <h4 className="text-sm font-medium text-slate-600 mb-3">Recovery Accuracy (True vs Recovered |λ|)</h4>
                       <ResponsiveContainer width="100%" height={300} minWidth={1} minHeight={1}>
                         <ScatterChart margin={{ left: 10, right: 10, top: 10, bottom: 10 }}>
                           <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
@@ -622,7 +622,7 @@ export default function ValidationSuite() {
                           <Scatter data={report.syntheticTests.tests} fill="#22c55e" />
                         </ScatterChart>
                       </ResponsiveContainer>
-                      <p className="text-xs text-slate-400 text-center mt-1">Points on the diagonal line = perfect recovery</p>
+                      <p className="text-xs text-slate-500 text-center mt-1">Points on the diagonal line = perfect recovery</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -635,15 +635,15 @@ export default function ValidationSuite() {
                     { data: report.sensitivityAnalysis.sampleSizeSensitivity, label: 'Sample Size (n)', desc: 'How many data points do you need for reliable estimation?' },
                     { data: report.sensitivityAnalysis.missingDataSensitivity, label: 'Interpolated Data (%)', desc: 'What happens when data points are missing and interpolated?' },
                   ].map((sens, idx) => (
-                    <Card key={idx} className="bg-slate-900/80 border-slate-700">
+                    <Card key={idx} className="bg-white border-slate-200">
                       <CardHeader>
                         <CardTitle className="text-base">{sens.label} Sensitivity</CardTitle>
-                        <CardDescription className="text-slate-400">{sens.desc}</CardDescription>
+                        <CardDescription className="text-slate-500">{sens.desc}</CardDescription>
                       </CardHeader>
                       <CardContent>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <div>
-                            <h5 className="text-xs text-slate-400 mb-2">Recovered |λ| vs True (dashed line)</h5>
+                            <h5 className="text-xs text-slate-500 mb-2">Recovered |λ| vs True (dashed line)</h5>
                             <ResponsiveContainer width="100%" height={200} minWidth={1} minHeight={1}>
                               <LineChart data={sens.data.values.map((v, i) => ({
                                 x: v,
@@ -662,7 +662,7 @@ export default function ValidationSuite() {
                             </ResponsiveContainer>
                           </div>
                           <div>
-                            <h5 className="text-xs text-slate-400 mb-2">Absolute Error</h5>
+                            <h5 className="text-xs text-slate-500 mb-2">Absolute Error</h5>
                             <ResponsiveContainer width="100%" height={200} minWidth={1} minHeight={1}>
                               <BarChart data={sens.data.values.map((v, i) => ({
                                 x: String(v),
@@ -688,19 +688,19 @@ export default function ValidationSuite() {
               </TabsContent>
 
               <TabsContent value="distribution">
-                <Card className="bg-slate-900/80 border-slate-700">
+                <Card className="bg-white border-slate-200">
                   <CardHeader>
                     <CardTitle className="text-lg">Eigenvalue Distribution: Can the Engine Distinguish Signal Types?</CardTitle>
-                    <CardDescription className="text-slate-400">
+                    <CardDescription className="text-slate-500">
                       20 "healthy" signals (|λ|≈0.5-0.7), 20 "stressed" signals (|λ|≈0.85-1.0), and 20 white noise signals.
                       If the engine works, these three groups should form distinct clusters.
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div className="grid grid-cols-3 gap-4 mb-4">
-                      <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50 text-center">
-                        <p className="text-xs text-slate-400">White Noise Mean</p>
-                        <p className="text-2xl font-bold text-slate-400">{report.distributionTest.separation.noiseMean.toFixed(3)}</p>
+                      <div className="bg-slate-50 rounded-lg p-3 border border-slate-200 text-center">
+                        <p className="text-xs text-slate-500">White Noise Mean</p>
+                        <p className="text-2xl font-bold text-slate-500">{report.distributionTest.separation.noiseMean.toFixed(3)}</p>
                       </div>
                       <div className="bg-green-500/5 rounded-lg p-3 border border-green-500/20 text-center">
                         <p className="text-xs text-green-400">Healthy Mean</p>
@@ -713,11 +713,11 @@ export default function ValidationSuite() {
                     </div>
 
                     <div className="flex items-center gap-3 text-sm">
-                      <span className="text-slate-400">Gap (Stressed - Healthy):</span>
+                      <span className="text-slate-500">Gap (Stressed - Healthy):</span>
                       <Badge className={report.distributionTest.separation.separated ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}>
                         Δ = {report.distributionTest.separation.gap.toFixed(3)}
                       </Badge>
-                      <span className="text-slate-400">Separation:</span>
+                      <span className="text-slate-500">Separation:</span>
                       {report.distributionTest.separation.separated ? (
                         <Badge className="bg-green-500/20 text-green-400">Clear separation</Badge>
                       ) : (
@@ -726,7 +726,7 @@ export default function ValidationSuite() {
                     </div>
 
                     <div>
-                      <h4 className="text-sm font-medium text-slate-300 mb-3">Eigenvalue Histogram</h4>
+                      <h4 className="text-sm font-medium text-slate-600 mb-3">Eigenvalue Histogram</h4>
                       <ResponsiveContainer width="100%" height={300} minWidth={1} minHeight={1}>
                         <BarChart data={histogramBins} margin={{ left: 10, right: 10 }}>
                           <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
@@ -744,7 +744,7 @@ export default function ValidationSuite() {
                     </div>
 
                     <div>
-                      <h4 className="text-sm font-medium text-slate-300 mb-3">Individual Signal Eigenvalues</h4>
+                      <h4 className="text-sm font-medium text-slate-600 mb-3">Individual Signal Eigenvalues</h4>
                       <ResponsiveContainer width="100%" height={250} minWidth={1} minHeight={1}>
                         <ScatterChart margin={{ left: 10, right: 10, top: 10 }}>
                           <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
@@ -764,9 +764,9 @@ export default function ValidationSuite() {
                       </ResponsiveContainer>
                     </div>
 
-                    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
-                      <h4 className="text-sm font-medium text-slate-300 mb-2">What This Means</h4>
-                      <p className="text-xs text-slate-400">
+                    <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+                      <h4 className="text-sm font-medium text-slate-600 mb-2">What This Means</h4>
+                      <p className="text-xs text-slate-500">
                         {report.distributionTest.separation.separated
                           ? `The engine clearly separates healthy signals (mean |λ|=${report.distributionTest.separation.healthyMean.toFixed(3)}) from stressed signals (mean |λ|=${report.distributionTest.separation.stressedMean.toFixed(3)}) with a gap of ${report.distributionTest.separation.gap.toFixed(3)}. White noise clusters near |λ|=${report.distributionTest.separation.noiseMean.toFixed(3)}, confirming it correctly identifies the absence of structure. This demonstrates the eigenvalue has discriminative power for distinguishing dynamical regimes.`
                           : `The healthy and stressed signal distributions overlap, which means the eigenvalue alone may not reliably distinguish between these states. Additional features or longer time series may be needed.`}
@@ -777,10 +777,10 @@ export default function ValidationSuite() {
               </TabsContent>
 
               <TabsContent value="reference">
-                <Card className="bg-slate-900/80 border-slate-700">
+                <Card className="bg-white border-slate-200">
                   <CardHeader>
                     <CardTitle className="text-lg">Reference Comparison</CardTitle>
-                    <CardDescription className="text-slate-400">
+                    <CardDescription className="text-slate-500">
                       {report.referenceComparison.summary}
                     </CardDescription>
                   </CardHeader>
@@ -788,19 +788,19 @@ export default function ValidationSuite() {
                     <div className="overflow-x-auto">
                       <table className="w-full text-sm">
                         <thead>
-                          <tr className="border-b border-slate-700">
-                            <th className="text-left py-2 px-3 text-slate-400">Test</th>
-                            <th className="text-center py-2 px-3 text-slate-400">Our Value</th>
-                            <th className="text-center py-2 px-3 text-slate-400">Reference</th>
-                            <th className="text-center py-2 px-3 text-slate-400">Error</th>
-                            <th className="text-center py-2 px-3 text-slate-400">Result</th>
+                          <tr className="border-b border-slate-200">
+                            <th className="text-left py-2 px-3 text-slate-500">Test</th>
+                            <th className="text-center py-2 px-3 text-slate-500">Our Value</th>
+                            <th className="text-center py-2 px-3 text-slate-500">Reference</th>
+                            <th className="text-center py-2 px-3 text-slate-500">Error</th>
+                            <th className="text-center py-2 px-3 text-slate-500">Result</th>
                           </tr>
                         </thead>
                         <tbody>
                           {report.referenceComparison.tests.map((t, i) => (
-                            <tr key={i} className="border-b border-slate-700/50 hover:bg-slate-800/30">
-                              <td className="py-2 px-3 text-slate-300 text-xs">{t.name}</td>
-                              <td className="py-2 px-3 text-center font-mono text-white">{t.ourValue.toFixed(4)}</td>
+                            <tr key={i} className="border-b border-slate-200 hover:bg-slate-50">
+                              <td className="py-2 px-3 text-slate-600 text-xs">{t.name}</td>
+                              <td className="py-2 px-3 text-center font-mono text-slate-900">{t.ourValue.toFixed(4)}</td>
                               <td className="py-2 px-3 text-center font-mono text-cyan-300">{t.referenceValue.toFixed(4)}</td>
                               <td className="py-2 px-3 text-center font-mono" style={{ color: t.error < 0.02 ? '#22c55e' : t.error < 0.05 ? '#facc15' : '#ef4444' }}>
                                 {t.error.toFixed(4)}
@@ -826,9 +826,9 @@ export default function ValidationSuite() {
                   <div id="eigenvalue-independence" className="flex items-center justify-between mb-2 scroll-mt-20 transition-all duration-500">
                     <div className="flex items-center gap-3">
                       <Beaker className="w-5 h-5 text-purple-400" />
-                      <h2 className="text-xl font-semibold text-white">Part 1: Eigenvalue Independence from Rhythmicity Measures</h2>
+                      <h2 className="text-xl font-semibold text-slate-900">Part 1: Eigenvalue Independence from Rhythmicity Measures</h2>
                     </div>
-                    <Button variant="outline" size="sm" onClick={handleCopy} className="text-slate-400 border-slate-700" data-testid="button-copy">
+                    <Button variant="outline" size="sm" onClick={handleCopy} className="text-slate-500 border-slate-200" data-testid="button-copy">
                       {copied ? <Check className="w-4 h-4 mr-2" /> : <Copy className="w-4 h-4 mr-2" />}
                       {copied ? 'Copied' : 'Copy Results'}
                     </Button>
@@ -851,7 +851,7 @@ export default function ValidationSuite() {
                   {indepLoading && (
                     <div className="flex items-center justify-center py-20">
                       <Loader2 className="w-8 h-8 animate-spin text-purple-400" />
-                      <span className="ml-3 text-slate-400">Analyzing genes...</span>
+                      <span className="ml-3 text-slate-500">Analyzing genes...</span>
                     </div>
                   )}
 
@@ -872,19 +872,19 @@ export default function ValidationSuite() {
                         ].map(({ label, data, desc }) => {
                           const strength = corrStrength(data.spearman);
                           return (
-                            <Card key={label} className="bg-slate-900/50 border-slate-700">
+                            <Card key={label} className="bg-white border-slate-200">
                               <CardContent className="pt-6">
-                                <div className="text-sm text-slate-400 mb-1">{label}</div>
-                                <div className="text-3xl font-bold text-white" data-testid={`text-corr-${label.replace(/[^a-zA-Z]/g, '')}`}>
+                                <div className="text-sm text-slate-500 mb-1">{label}</div>
+                                <div className="text-3xl font-bold text-slate-900" data-testid={`text-corr-${label.replace(/[^a-zA-Z]/g, '')}`}>
                                   ρ = {data.spearman.toFixed(2)}
                                 </div>
                                 <div className={`text-sm font-medium ${strength.color}`}>
                                   {strength.label} correlation
                                 </div>
-                                <div className="text-xs text-slate-400 mt-1">
+                                <div className="text-xs text-slate-500 mt-1">
                                   p {formatP(data.pValue)} | n = {data.n.toLocaleString()}
                                 </div>
-                                <div className="text-xs text-slate-400">{desc}</div>
+                                <div className="text-xs text-slate-500">{desc}</div>
                               </CardContent>
                             </Card>
                           );
@@ -894,15 +894,15 @@ export default function ValidationSuite() {
                       <Alert className="mb-6 border-purple-700/50 bg-purple-950/20">
                         <ShieldCheck className="w-4 h-4 text-purple-400" />
                         <AlertTitle className="text-purple-300">Key Finding</AlertTitle>
-                        <AlertDescription className="text-slate-300">
+                        <AlertDescription className="text-slate-600">
                           {indepData.interpretation}
                         </AlertDescription>
                       </Alert>
 
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                        <Card className="bg-slate-900/50 border-slate-700">
+                        <Card className="bg-white border-slate-200">
                           <CardHeader>
-                            <CardTitle className="text-lg text-white">|λ| vs Cosinor Amplitude</CardTitle>
+                            <CardTitle className="text-lg text-slate-900">|λ| vs Cosinor Amplitude</CardTitle>
                             <CardDescription>Weak correlation shows eigenvalue is NOT simply measuring oscillation strength</CardDescription>
                           </CardHeader>
                           <CardContent>
@@ -933,15 +933,15 @@ export default function ValidationSuite() {
                                 <Legend />
                               </ScatterChart>
                             </ResponsiveContainer>
-                            <div className="text-center text-sm text-slate-400 mt-2">
+                            <div className="text-center text-sm text-slate-500 mt-2">
                               ρ = {indepData.correlations.eigenvalue_vs_amplitude.spearman} — eigenvalue and amplitude are largely independent
                             </div>
                           </CardContent>
                         </Card>
 
-                        <Card className="bg-slate-900/50 border-slate-700">
+                        <Card className="bg-white border-slate-200">
                           <CardHeader>
-                            <CardTitle className="text-lg text-white">|λ| vs AR(2) R²</CardTitle>
+                            <CardTitle className="text-lg text-slate-900">|λ| vs AR(2) R²</CardTitle>
                             <CardDescription>Moderate correlation expected — both derive from AR(2) fit, but measure different aspects</CardDescription>
                           </CardHeader>
                           <CardContent>
@@ -971,16 +971,16 @@ export default function ValidationSuite() {
                                 <Legend />
                               </ScatterChart>
                             </ResponsiveContainer>
-                            <div className="text-center text-sm text-slate-400 mt-2">
+                            <div className="text-center text-sm text-slate-500 mt-2">
                               ρ = {indepData.correlations.eigenvalue_vs_rSquared.spearman} — some shared variance, but |λ| is not simply R²
                             </div>
                           </CardContent>
                         </Card>
                       </div>
 
-                      <Card className="bg-slate-900/50 border-slate-700 mb-6">
+                      <Card className="bg-white border-slate-200 mb-6">
                         <CardHeader>
-                          <CardTitle className="text-lg text-white">Clock vs Target Gene Comparison</CardTitle>
+                          <CardTitle className="text-lg text-slate-900">Clock vs Target Gene Comparison</CardTitle>
                           <CardDescription>
                             Clock genes show higher eigenvalue AND higher amplitude, but the metrics rank genes differently
                           </CardDescription>
@@ -989,34 +989,34 @@ export default function ValidationSuite() {
                           <div className="overflow-x-auto">
                             <table className="w-full text-sm">
                               <thead>
-                                <tr className="border-b border-slate-700">
-                                  <th className="text-left py-2 px-3 text-slate-400">Gene Type</th>
-                                  <th className="text-right py-2 px-3 text-slate-400">n</th>
-                                  <th className="text-right py-2 px-3 text-slate-400">Mean |λ|</th>
-                                  <th className="text-right py-2 px-3 text-slate-400">Mean R²</th>
-                                  <th className="text-right py-2 px-3 text-slate-400">Mean Amplitude</th>
+                                <tr className="border-b border-slate-200">
+                                  <th className="text-left py-2 px-3 text-slate-500">Gene Type</th>
+                                  <th className="text-right py-2 px-3 text-slate-500">n</th>
+                                  <th className="text-right py-2 px-3 text-slate-500">Mean |λ|</th>
+                                  <th className="text-right py-2 px-3 text-slate-500">Mean R²</th>
+                                  <th className="text-right py-2 px-3 text-slate-500">Mean Amplitude</th>
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr className="border-b border-slate-700">
+                                <tr className="border-b border-slate-200">
                                   <td className="py-2 px-3 flex items-center gap-2">
                                     <Clock className="w-4 h-4 text-blue-400" />
                                     <span className="text-blue-300 font-medium">Clock</span>
                                   </td>
-                                  <td className="text-right py-2 px-3 text-white" data-testid="text-clock-n">{indepData.clockGenesSummary.n}</td>
-                                  <td className="text-right py-2 px-3 text-white font-mono">{indepData.clockGenesSummary.meanEigenvalue.toFixed(4)}</td>
-                                  <td className="text-right py-2 px-3 text-white font-mono">{indepData.clockGenesSummary.meanRSquared.toFixed(4)}</td>
-                                  <td className="text-right py-2 px-3 text-white font-mono">{indepData.clockGenesSummary.meanAmplitude.toFixed(2)}</td>
+                                  <td className="text-right py-2 px-3 text-slate-900" data-testid="text-clock-n">{indepData.clockGenesSummary.n}</td>
+                                  <td className="text-right py-2 px-3 text-slate-900 font-mono">{indepData.clockGenesSummary.meanEigenvalue.toFixed(4)}</td>
+                                  <td className="text-right py-2 px-3 text-slate-900 font-mono">{indepData.clockGenesSummary.meanRSquared.toFixed(4)}</td>
+                                  <td className="text-right py-2 px-3 text-slate-900 font-mono">{indepData.clockGenesSummary.meanAmplitude.toFixed(2)}</td>
                                 </tr>
                                 <tr>
                                   <td className="py-2 px-3 flex items-center gap-2">
                                     <Target className="w-4 h-4 text-amber-400" />
                                     <span className="text-amber-300 font-medium">Target</span>
                                   </td>
-                                  <td className="text-right py-2 px-3 text-white" data-testid="text-target-n">{indepData.targetGenesSummary.n}</td>
-                                  <td className="text-right py-2 px-3 text-white font-mono">{indepData.targetGenesSummary.meanEigenvalue.toFixed(4)}</td>
-                                  <td className="text-right py-2 px-3 text-white font-mono">{indepData.targetGenesSummary.meanRSquared.toFixed(4)}</td>
-                                  <td className="text-right py-2 px-3 text-white font-mono">{indepData.targetGenesSummary.meanAmplitude.toFixed(2)}</td>
+                                  <td className="text-right py-2 px-3 text-slate-900" data-testid="text-target-n">{indepData.targetGenesSummary.n}</td>
+                                  <td className="text-right py-2 px-3 text-slate-900 font-mono">{indepData.targetGenesSummary.meanEigenvalue.toFixed(4)}</td>
+                                  <td className="text-right py-2 px-3 text-slate-900 font-mono">{indepData.targetGenesSummary.meanRSquared.toFixed(4)}</td>
+                                  <td className="text-right py-2 px-3 text-slate-900 font-mono">{indepData.targetGenesSummary.meanAmplitude.toFixed(2)}</td>
                                 </tr>
                               </tbody>
                             </table>
@@ -1028,13 +1028,13 @@ export default function ValidationSuite() {
 
                   <div className="flex items-center gap-3 mb-6 mt-8">
                     <GitBranch className="w-5 h-5 text-cyan-400" />
-                    <h2 className="text-xl font-semibold text-white">Part 2: Eigenvalue Gap Predicts Tissue Proliferative Capacity</h2>
+                    <h2 className="text-xl font-semibold text-slate-900">Part 2: Eigenvalue Gap Predicts Tissue Proliferative Capacity</h2>
                   </div>
 
                   {prolifLoading && (
                     <div className="flex items-center justify-center py-20">
                       <Loader2 className="w-8 h-8 animate-spin text-cyan-400" />
-                      <span className="ml-3 text-slate-400">Analyzing 12 mouse tissues...</span>
+                      <span className="ml-3 text-slate-500">Analyzing 12 mouse tissues...</span>
                     </div>
                   )}
 
@@ -1048,43 +1048,43 @@ export default function ValidationSuite() {
                   {prolifData && (
                     <>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                        <Card className="bg-slate-900/50 border-slate-700">
+                        <Card className="bg-white border-slate-200">
                           <CardContent className="pt-6">
-                            <div className="text-sm text-slate-400 mb-1">Gap vs Proliferation</div>
-                            <div className="text-3xl font-bold text-white" data-testid="text-prolif-rho">
+                            <div className="text-sm text-slate-500 mb-1">Gap vs Proliferation</div>
+                            <div className="text-3xl font-bold text-slate-900" data-testid="text-prolif-rho">
                               ρ = {prolifData.correlation.gapVsProliferation.spearman.toFixed(2)}
                             </div>
                             <div className="text-sm font-medium text-emerald-400">Strong positive correlation</div>
-                            <div className="text-xs text-slate-400 mt-1">
+                            <div className="text-xs text-slate-500 mt-1">
                               p = {prolifData.correlation.gapVsProliferation.pValue.toExponential(2)} | n = {prolifData.correlation.gapVsProliferation.n} tissues
                             </div>
                           </CardContent>
                         </Card>
-                        <Card className="bg-slate-900/50 border-slate-700">
+                        <Card className="bg-white border-slate-200">
                           <CardContent className="pt-6">
-                            <div className="text-sm text-slate-400 mb-1">Highest Gap</div>
+                            <div className="text-sm text-slate-500 mb-1">Highest Gap</div>
                             {(() => {
                               const best = [...prolifData.tissues].sort((a, b) => b.gap - a.gap)[0];
                               return (
                                 <>
-                                  <div className="text-3xl font-bold text-white">{best?.tissue}</div>
+                                  <div className="text-3xl font-bold text-slate-900">{best?.tissue}</div>
                                   <div className="text-sm text-cyan-400">Gap = {best?.gap.toFixed(4)}</div>
-                                  <div className="text-xs text-slate-400 mt-1">Proliferation index = {best?.proliferationIndex}</div>
+                                  <div className="text-xs text-slate-500 mt-1">Proliferation index = {best?.proliferationIndex}</div>
                                 </>
                               );
                             })()}
                           </CardContent>
                         </Card>
-                        <Card className="bg-slate-900/50 border-slate-700">
+                        <Card className="bg-white border-slate-200">
                           <CardContent className="pt-6">
-                            <div className="text-sm text-slate-400 mb-1">Lowest Gap</div>
+                            <div className="text-sm text-slate-500 mb-1">Lowest Gap</div>
                             {(() => {
                               const worst = [...prolifData.tissues].sort((a, b) => a.gap - b.gap)[0];
                               return (
                                 <>
-                                  <div className="text-3xl font-bold text-white">{worst?.tissue}</div>
+                                  <div className="text-3xl font-bold text-slate-900">{worst?.tissue}</div>
                                   <div className="text-sm text-amber-400">Gap = {worst?.gap.toFixed(4)}</div>
-                                  <div className="text-xs text-slate-400 mt-1">Proliferation index = {worst?.proliferationIndex}</div>
+                                  <div className="text-xs text-slate-500 mt-1">Proliferation index = {worst?.proliferationIndex}</div>
                                 </>
                               );
                             })()}
@@ -1095,15 +1095,15 @@ export default function ValidationSuite() {
                       <Alert className="mb-6 border-cyan-700/50 bg-cyan-950/20">
                         <TrendingUp className="w-4 h-4 text-cyan-400" />
                         <AlertTitle className="text-cyan-300">Downstream Prediction</AlertTitle>
-                        <AlertDescription className="text-slate-300">
+                        <AlertDescription className="text-slate-600">
                           {prolifData.correlation.interpretation}
                         </AlertDescription>
                       </Alert>
 
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                        <Card className="bg-slate-900/50 border-slate-700">
+                        <Card className="bg-white border-slate-200">
                           <CardHeader>
-                            <CardTitle className="text-lg text-white">Gap vs Proliferation Rate</CardTitle>
+                            <CardTitle className="text-lg text-slate-900">Gap vs Proliferation Rate</CardTitle>
                             <CardDescription>
                               Each point is a mouse tissue from the Zhang et al. (2014) circadian atlas
                             </CardDescription>
@@ -1138,15 +1138,15 @@ export default function ValidationSuite() {
                                 />
                               </ScatterChart>
                             </ResponsiveContainer>
-                            <div className="text-center text-sm text-slate-400 mt-2">
+                            <div className="text-center text-sm text-slate-500 mt-2">
                               Spearman ρ = {prolifData.correlation.gapVsProliferation.spearman}, p = {prolifData.correlation.gapVsProliferation.pValue.toExponential(2)}
                             </div>
                           </CardContent>
                         </Card>
 
-                        <Card className="bg-slate-900/50 border-slate-700">
+                        <Card className="bg-white border-slate-200">
                           <CardHeader>
-                            <CardTitle className="text-lg text-white">Eigenvalue Gap by Tissue</CardTitle>
+                            <CardTitle className="text-lg text-slate-900">Eigenvalue Gap by Tissue</CardTitle>
                             <CardDescription>
                               Sorted by gap size — brain tissues cluster at bottom, proliferative tissues at top
                             </CardDescription>
@@ -1186,17 +1186,17 @@ export default function ValidationSuite() {
                         </Card>
                       </div>
 
-                      <Card className="bg-slate-900/50 border-slate-700">
+                      <Card className="bg-white border-slate-200">
                         <CardHeader>
                           <div className="flex items-center justify-between">
                             <div>
-                              <CardTitle className="text-lg text-white">Tissue-Level Detail</CardTitle>
+                              <CardTitle className="text-lg text-slate-900">Tissue-Level Detail</CardTitle>
                               <CardDescription>Proliferation indices from published sources</CardDescription>
                             </div>
                             <Button
                               variant="ghost" size="sm"
                               onClick={() => setShowProlifDetails(!showProlifDetails)}
-                              className="text-slate-400"
+                              className="text-slate-500"
                               data-testid="button-toggle-details"
                             >
                               {showProlifDetails ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -1209,26 +1209,26 @@ export default function ValidationSuite() {
                             <div className="overflow-x-auto">
                               <table className="w-full text-sm" data-testid="table-tissue-detail">
                                 <thead>
-                                  <tr className="border-b border-slate-700">
-                                    <th className="text-left py-2 px-3 text-slate-400">Tissue</th>
-                                    <th className="text-right py-2 px-3 text-slate-400">Gap</th>
-                                    <th className="text-right py-2 px-3 text-slate-400">Clock |λ|</th>
-                                    <th className="text-right py-2 px-3 text-slate-400">Target |λ|</th>
-                                    <th className="text-right py-2 px-3 text-slate-400">Prolif. Index</th>
-                                    <th className="text-right py-2 px-3 text-slate-400">n Genes</th>
-                                    <th className="text-left py-2 px-3 text-slate-400">Source</th>
+                                  <tr className="border-b border-slate-200">
+                                    <th className="text-left py-2 px-3 text-slate-500">Tissue</th>
+                                    <th className="text-right py-2 px-3 text-slate-500">Gap</th>
+                                    <th className="text-right py-2 px-3 text-slate-500">Clock |λ|</th>
+                                    <th className="text-right py-2 px-3 text-slate-500">Target |λ|</th>
+                                    <th className="text-right py-2 px-3 text-slate-500">Prolif. Index</th>
+                                    <th className="text-right py-2 px-3 text-slate-500">n Genes</th>
+                                    <th className="text-left py-2 px-3 text-slate-500">Source</th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                   {[...prolifData.tissues].sort((a, b) => b.gap - a.gap).map(t => (
-                                    <tr key={t.tissue} className="border-b border-slate-700 hover:bg-slate-800/40">
-                                      <td className="py-2 px-3 text-white font-medium">{t.tissue}</td>
+                                    <tr key={t.tissue} className="border-b border-slate-200 hover:bg-slate-100">
+                                      <td className="py-2 px-3 text-slate-900 font-medium">{t.tissue}</td>
                                       <td className="text-right py-2 px-3 font-mono text-cyan-300">{t.gap.toFixed(4)}</td>
                                       <td className="text-right py-2 px-3 font-mono text-blue-300">{t.clockMeanEV.toFixed(4)}</td>
                                       <td className="text-right py-2 px-3 font-mono text-amber-300">{t.targetMeanEV.toFixed(4)}</td>
                                       <td className="text-right py-2 px-3 font-mono text-rose-300">{t.proliferationIndex}</td>
-                                      <td className="text-right py-2 px-3 text-slate-300">{t.nGenes}</td>
-                                      <td className="py-2 px-3 text-slate-400 text-xs max-w-xs truncate">{t.proliferationSource}</td>
+                                      <td className="text-right py-2 px-3 text-slate-600">{t.nGenes}</td>
+                                      <td className="py-2 px-3 text-slate-500 text-xs max-w-xs truncate">{t.proliferationSource}</td>
                                     </tr>
                                   ))}
                                 </tbody>
@@ -1240,26 +1240,26 @@ export default function ValidationSuite() {
                     </>
                   )}
 
-                  <Card className="bg-slate-900/50 border-slate-700 mt-6">
+                  <Card className="bg-white border-slate-200 mt-6">
                     <CardHeader>
-                      <CardTitle className="text-lg text-white">Methodology</CardTitle>
+                      <CardTitle className="text-lg text-slate-900">Methodology</CardTitle>
                     </CardHeader>
-                    <CardContent className="text-sm text-slate-400 space-y-3">
+                    <CardContent className="text-sm text-slate-500 space-y-3">
                       <p>
-                        <strong className="text-slate-300">Part 1 — Independence Test:</strong> For each gene in the dataset,
+                        <strong className="text-slate-600">Part 1 — Independence Test:</strong> For each gene in the dataset,
                         we compute three metrics: (i) AR(2) eigenvalue modulus |λ| (temporal persistence), (ii) AR(2) R²
                         (model goodness-of-fit), and (iii) Cosinor amplitude (24h oscillation strength via least-squares
                         cosine fit). Spearman rank correlations between all pairs quantify redundancy. Only stable genes
                         (|λ| &lt; 1.0) are included.
                       </p>
                       <p>
-                        <strong className="text-slate-300">Part 2 — Proliferation Prediction:</strong> For 12 mouse tissues
+                        <strong className="text-slate-600">Part 2 — Proliferation Prediction:</strong> For 12 mouse tissues
                         from the Zhang et al. (2014) circadian atlas (GSE54650), we compute the eigenvalue gap (mean clock |λ|
                         minus mean target |λ|). Tissue proliferation indices are compiled from published Ki67/BrdU labeling
                         studies. Spearman correlation tests whether larger gaps predict higher proliferative capacity.
                       </p>
                       <p>
-                        <strong className="text-slate-300">Rationale:</strong> If |λ| were simply a proxy for amplitude or R²,
+                        <strong className="text-slate-600">Rationale:</strong> If |λ| were simply a proxy for amplitude or R²,
                         the framework would be redundant. Part 1 shows it is not. If the clock-target
                         gap had no downstream functional correlate, it could be dismissed as a statistical artifact. Part 2
                         shows it predicts tissue biology.
@@ -1278,22 +1278,22 @@ export default function ValidationSuite() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-amber-400 text-lg">TIER 0: Ultimate Confidence Candidates</h3>
-                    <p className="text-sm text-slate-400">Multi-criteria filtering: 3+ tissues + stable + q&lt;0.10 + hub node (4+ clocks)</p>
+                    <p className="text-sm text-slate-500">Multi-criteria filtering: 3+ tissues + stable + q&lt;0.10 + hub node (4+ clocks)</p>
                   </div>
                 </div>
                 <div className="flex gap-4 text-sm">
                   <div className="text-center px-4 py-2 rounded bg-amber-500/10 border border-amber-500/30">
                     <div className="text-amber-400 font-bold text-xl">8</div>
-                    <div className="text-slate-400 text-xs">TIER 0 Candidates</div>
+                    <div className="text-slate-500 text-xs">TIER 0 Candidates</div>
                   </div>
                   <div className="text-center px-4 py-2 rounded bg-purple-500/10 border border-purple-500/30">
                     <div className="text-purple-400 font-bold text-xl">Wee1</div>
-                    <div className="text-slate-400 text-xs">Top Hub Gene</div>
+                    <div className="text-slate-500 text-xs">Top Hub Gene</div>
                   </div>
                 </div>
-                <div className="bg-slate-900/50 rounded-lg p-4 space-y-2">
+                <div className="bg-white rounded-lg p-4 space-y-2">
                   <p className="text-sm font-medium text-amber-300">Key Finding: Wee1 (G2/M Checkpoint)</p>
-                  <p className="text-sm text-slate-400">
+                  <p className="text-sm text-slate-500">
                     Wee1 is regulated by <span className="text-amber-400 font-medium">all 13 clock genes</span> across 4-5 tissues each. 
                     This cell cycle checkpoint gene shows the strongest cross-tissue consensus of any target analyzed, 
                     suggesting it is a central node in circadian-cell cycle coordination.
@@ -1315,7 +1315,7 @@ export default function ValidationSuite() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-emerald-400 text-lg">Cross-Validation Checklist</h3>
-                    <p className="text-sm text-slate-400">Recommended external validation steps for AR(2) findings</p>
+                    <p className="text-sm text-slate-500">Recommended external validation steps for AR(2) findings</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -1325,28 +1325,28 @@ export default function ValidationSuite() {
                     { step: '3. CircaCompare', desc: 'Compare rhythm changes between conditions' },
                     { step: '4. Proteomics', desc: 'Validate with protein-level data' },
                   ].map((item) => (
-                    <div key={item.step} className="flex items-start gap-2 p-3 rounded-lg bg-slate-900/50 border border-slate-700">
+                    <div key={item.step} className="flex items-start gap-2 p-3 rounded-lg bg-white border border-slate-200">
                       <div className="w-2 h-2 rounded-full bg-yellow-400 mt-1.5 flex-shrink-0"></div>
                       <div>
-                        <p className="text-sm font-medium text-slate-300">{item.step}</p>
-                        <p className="text-xs text-slate-400">{item.desc}</p>
+                        <p className="text-sm font-medium text-slate-600">{item.step}</p>
+                        <p className="text-xs text-slate-500">{item.desc}</p>
                       </div>
                     </div>
                   ))}
                 </div>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-500">
                   These external tools validate AR(2) findings from different angles. Yellow dots indicate recommended but not yet automated steps.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-900/60 border-slate-700">
+            <Card className="bg-white border-slate-200">
               <CardContent className="pt-4">
-                <div className="text-xs text-slate-400 space-y-1">
-                  <p><strong className="text-slate-400">Test run:</strong> {new Date(report.timestamp).toLocaleString()}</p>
-                  <p><strong className="text-slate-400">Method:</strong> Synthetic AR(2) data generated with known parameters (φ₁, φ₂) → OLS recovery → eigenvalue comparison</p>
-                  <p><strong className="text-slate-400">Sensitivity:</strong> Sweep across noise levels (σ=0.01→5.0), sample sizes (n=15→5000), and interpolated data (0%→50%)</p>
-                  <p><strong className="text-slate-400">Distribution:</strong> 60 synthetic signals (20 healthy, 20 stressed, 20 white noise) tested for eigenvalue cluster separation</p>
+                <div className="text-xs text-slate-500 space-y-1">
+                  <p><strong className="text-slate-500">Test run:</strong> {new Date(report.timestamp).toLocaleString()}</p>
+                  <p><strong className="text-slate-500">Method:</strong> Synthetic AR(2) data generated with known parameters (φ₁, φ₂) → OLS recovery → eigenvalue comparison</p>
+                  <p><strong className="text-slate-500">Sensitivity:</strong> Sweep across noise levels (σ=0.01→5.0), sample sizes (n=15→5000), and interpolated data (0%→50%)</p>
+                  <p><strong className="text-slate-500">Distribution:</strong> 60 synthetic signals (20 healthy, 20 stressed, 20 white noise) tested for eigenvalue cluster separation</p>
                 </div>
               </CardContent>
             </Card>
