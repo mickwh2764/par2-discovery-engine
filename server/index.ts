@@ -1,4 +1,5 @@
 import express, { type Request, Response, NextFunction } from "express";
+import helmet from "helmet";
 import { registerRoutes } from "./routes";
 import { setupAuth, registerAuthRoutes } from "./replit_integrations/auth";
 import { serveStatic } from "./static";
@@ -14,6 +15,20 @@ process.on('unhandledRejection', (reason) => {
 
 const app = express();
 const httpServer = createServer(app);
+
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      imgSrc: ["'self'", "data:", "blob:"],
+      connectSrc: ["'self'", "https://api.github.com"],
+    },
+  },
+  crossOriginEmbedderPolicy: false,
+}));
 
 declare module "http" {
   interface IncomingMessage {

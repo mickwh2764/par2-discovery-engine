@@ -6474,13 +6474,13 @@ services:
     image: postgres:15-alpine
     container_name: par2-postgres
     environment:
-      POSTGRES_USER: par2user
-      POSTGRES_PASSWORD: par2secret
-      POSTGRES_DB: par2discovery
+      POSTGRES_USER: \${POSTGRES_USER:-par2user}
+      POSTGRES_PASSWORD: \${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: \${POSTGRES_DB:-par2discovery}
     volumes:
       - par2_pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U par2user -d par2discovery"]
+      test: ["CMD-SHELL", "pg_isready -U \$\${POSTGRES_USER:-par2user} -d \$\${POSTGRES_DB:-par2discovery}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -6496,7 +6496,7 @@ services:
       - NODE_ENV=production
       - PORT=5000
       - HOST=0.0.0.0
-      - DATABASE_URL=postgresql://par2user:par2secret@postgres:5432/par2discovery
+      - DATABASE_URL=postgresql://\${POSTGRES_USER:-par2user}:\${POSTGRES_PASSWORD}@postgres:5432/\${POSTGRES_DB:-par2discovery}
     depends_on:
       postgres:
         condition: service_healthy
@@ -6582,7 +6582,11 @@ Place downloaded files in the \`datasets/\` directory.
 # Works exactly like the Replit version with PostgreSQL database
 
 # PostgreSQL connection (provided by docker-compose, or use your own)
-DATABASE_URL=postgresql://par2user:par2secret@postgres:5432/par2discovery
+# IMPORTANT: Set a strong password before starting the containers
+POSTGRES_USER=par2user
+POSTGRES_PASSWORD=CHANGE_ME_BEFORE_USE
+POSTGRES_DB=par2discovery
+DATABASE_URL=postgresql://par2user:\${POSTGRES_PASSWORD}@postgres:5432/par2discovery
 
 # For external database (e.g., Neon, Supabase), replace DATABASE_URL:
 # DATABASE_URL=postgresql://user:password@your-host.com:5432/dbname

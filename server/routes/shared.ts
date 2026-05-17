@@ -1,4 +1,5 @@
 import type { Express, Request, Response } from "express";
+import { timingSafeEqual } from "crypto";
 import multer from "multer";
 import { storage } from "../storage";
 import { classifyGene as classifyGeneShared, ENSEMBL_TO_SYMBOL, resolveGeneAliases, CATEGORY_META } from "../gene-categories";
@@ -243,11 +244,13 @@ export function verifyDownloadPassword(req: Request): { valid: boolean; error?: 
   if (!envPassword) {
     return { valid: false, error: "Draft manuscript access is currently restricted." };
   }
-  const provided = (req.query.password as string) || (req.headers['x-download-password'] as string);
+  const provided = req.headers['x-download-password'] as string;
   if (!provided) {
-    return { valid: false, error: "Password required to download this draft manuscript." };
+    return { valid: false, error: "Password required to download this draft manuscript. Send via X-Download-Password header." };
   }
-  if (provided !== envPassword) {
+  const providedBuf = Buffer.from(provided);
+  const expectedBuf = Buffer.from(envPassword);
+  if (providedBuf.length !== expectedBuf.length || !timingSafeEqual(providedBuf, expectedBuf)) {
     return { valid: false, error: "Incorrect password." };
   }
   return { valid: true };
