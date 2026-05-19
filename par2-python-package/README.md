@@ -127,4 +127,8 @@ See: Whiteside M (2026). "AR(2) eigenvalue modulus as a measure of temporal pers
 
 ## License
 
-Dual Academic/Commercial license. Free for non-commercial research use with citation. Commercial use requires a separate license — contact mickwh@msn.com. See [LICENSE](LICENSE) for details.
+MIT License. See [LICENSE](LICENSE) for details.
+
+If you use this software in academic work, please cite:
+
+> Whiteside M (2026). "AR(2) eigenvalue modulus as a measure of temporal persistence in circadian gene expression." *PLOS Computational Biology* (submitted).
