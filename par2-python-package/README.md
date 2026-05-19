@@ -2,15 +2,11 @@
 
 **AR(2) eigenvalue analysis for gene expression time series**
 
-Fits second-order autoregressive models to gene expression data and computes the eigenvalue modulus |λ|, a single number that quantifies how strongly a gene's past determines its future (temporal persistence).
+Fits second-order autoregressive models to gene expression data and computes the eigenvalue modulus |λ|, a single number that quantifies how strongly a gene's past determines its future (temporal persistence). Discovers the three-layer hierarchy: Clock > Target > Background.
 
 ## Installation
 
-```bash
-pip install par2-circadian
-```
-
-Or install from source:
+Install from source:
 
 ```bash
 git clone https://github.com/mickwh2764/par2-discovery-engine.git
@@ -33,6 +29,13 @@ print(f"|λ| = {result['eigenvalue']:.3f}, type = {result['root_type']}")
 matrix, genes = par2.load_expression_matrix("my_data.csv")
 results = par2.fit_ar2_batch(matrix, genes)
 
+# Discover the three-layer hierarchy
+hierarchy = par2.discover_hierarchy(results)
+print(f"Clock median:  {hierarchy['clock_median']:.3f}")
+print(f"Target median: {hierarchy['target_median']:.3f}")
+print(f"Gearbox gap:   {hierarchy['gearbox_gap']:.3f}")
+print(f"Health grade:  {hierarchy['health_grade']}")
+
 # Save results
 par2.save_results(results, "ar2_results.csv")
 ```
@@ -45,6 +48,20 @@ par2 my_data.csv -o results.csv
 
 # Show top 20 genes by eigenvalue
 par2 my_data.csv --top 20
+```
+
+### Example Dataset
+
+An example dataset is included at `data/example_circadian.csv` (30 genes x 12 timepoints) with known clock, target, and background genes showing realistic circadian dynamics:
+
+```python
+import par2
+
+matrix, genes = par2.load_expression_matrix("data/example_circadian.csv")
+results = par2.fit_ar2_batch(matrix, genes)
+h = par2.discover_hierarchy(results)
+print(f"Hierarchy preserved: {h['hierarchy_preserved']}")  # True
+print(f"Health grade: {h['health_grade']}")  # A
 ```
 
 ## Input Format
@@ -63,6 +80,8 @@ Per2,8.1,7.2,6.5,7.8,10.2,13.5,15.1,14.8,13.2,10.5,9.1,8.5
 
 ## Output
 
+### Per-Gene Results
+
 Each gene gets:
 - **eigenvalue**: |λ|, the eigenvalue modulus (0 to ~1). Higher = more persistent.
 - **phi1, phi2**: AR(2) coefficients
@@ -70,6 +89,15 @@ Each gene gets:
 - **root_type**: 'Complex' (oscillatory) or 'Real' (monotone decay)
 - **half_life**: persistence half-life in sampling intervals
 - **eigenperiod**: intrinsic oscillation period (complex roots only)
+
+### Hierarchy Discovery
+
+`discover_hierarchy()` returns:
+- **clock_median / target_median / background_median**: layer-wise eigenvalue medians
+- **gearbox_gap**: clock_median − target_median (the circadian health metric)
+- **hierarchy_preserved**: True if clock > target > background
+- **health_grade**: A (gap ≥ 0.15) through F (gap < 0.02)
+- **clock_genes / target_genes**: per-gene eigenvalue lists
 
 ## Interpreting |λ|
 
@@ -93,8 +121,10 @@ The characteristic equation r² − φ₁r − φ₂ = 0 yields eigenvalues whos
 For complex roots: |λ| = √(−φ₂)
 For real roots: |λ| = max(|r₁|, |r₂|)
 
+The three-layer hierarchy emerges because clock genes (strong autonomous oscillation) have higher |λ| than clock-controlled target genes (driven oscillation), which in turn have higher |λ| than background genes (no circadian regulation).
+
 See: Whiteside M (2026). "AR(2) eigenvalue modulus as a measure of temporal persistence in circadian gene expression." *PLOS Computational Biology* (submitted).
 
 ## License
 
-MIT
+Dual Academic/Commercial license. Free for non-commercial research use with citation. Commercial use requires a separate license — contact mickwh@msn.com. See [LICENSE](LICENSE) for details.
