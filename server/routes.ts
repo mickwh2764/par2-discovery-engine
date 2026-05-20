@@ -1,6 +1,6 @@
 import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
-import { randomBytes, createHash } from "crypto";
+import { randomBytes, createHash, timingSafeEqual } from "crypto";
 import { storage } from "./storage";
 import { escapeHtml } from "./security";
 import { classifyGene as classifyGeneShared, ENSEMBL_TO_SYMBOL, resolveGeneAliases, CATEGORY_META } from "./gene-categories";
@@ -242,16 +242,15 @@ function sanitizePathParam(input: string): string {
 function verifyDownloadPassword(req: Request): { valid: boolean; error?: string } {
   const expectedPassword = process.env.DOWNLOAD_PROTECT_PASSWORD;
   if (!expectedPassword) {
-    // No password configured — downloads are open
     return { valid: true };
   }
-  const provided = req.headers['x-download-password'] as string
-    || req.query.dlpw as string
-    || req.body?.password;
+  const provided = req.headers['x-download-password'] as string;
   if (!provided) {
-    return { valid: false, error: 'Download password required.' };
+    return { valid: false, error: 'Download password required. Send via X-Download-Password header.' };
   }
-  if (provided !== expectedPassword) {
+  const providedBuf = Buffer.from(provided);
+  const expectedBuf = Buffer.from(expectedPassword);
+  if (providedBuf.length !== expectedBuf.length || !timingSafeEqual(providedBuf, expectedBuf)) {
     return { valid: false, error: 'Invalid download password.' };
   }
   return { valid: true };
@@ -9922,13 +9921,13 @@ services:
     image: postgres:15-alpine
     container_name: par2-postgres
     environment:
-      POSTGRES_USER: par2user
-      POSTGRES_PASSWORD: par2secret
-      POSTGRES_DB: par2discovery
+      POSTGRES_USER: \${POSTGRES_USER:-par2user}
+      POSTGRES_PASSWORD: \${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: \${POSTGRES_DB:-par2discovery}
     volumes:
       - par2_pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U par2user -d par2discovery"]
+      test: ["CMD-SHELL", "pg_isready -U \$\${POSTGRES_USER:-par2user} -d \$\${POSTGRES_DB:-par2discovery}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -9944,7 +9943,7 @@ services:
       - NODE_ENV=production
       - PORT=5000
       - HOST=0.0.0.0
-      - DATABASE_URL=postgresql://par2user:par2secret@postgres:5432/par2discovery
+      - DATABASE_URL=postgresql://\${POSTGRES_USER:-par2user}:\${POSTGRES_PASSWORD}@postgres:5432/\${POSTGRES_DB:-par2discovery}
     depends_on:
       postgres:
         condition: service_healthy
@@ -10030,7 +10029,11 @@ Place downloaded files in the \`datasets/\` directory.
 # Works exactly like the Replit version with PostgreSQL database
 
 # PostgreSQL connection (provided by docker-compose, or use your own)
-DATABASE_URL=postgresql://par2user:par2secret@postgres:5432/par2discovery
+# IMPORTANT: Set a strong password before starting the containers
+POSTGRES_USER=par2user
+POSTGRES_PASSWORD=CHANGE_ME_BEFORE_USE
+POSTGRES_DB=par2discovery
+DATABASE_URL=postgresql://par2user:\${POSTGRES_PASSWORD}@postgres:5432/par2discovery
 
 # For external database (e.g., Neon, Supabase), replace DATABASE_URL:
 # DATABASE_URL=postgresql://user:password@your-host.com:5432/dbname
@@ -16271,19 +16274,8 @@ This 15.2% gap (validated Jan 2026 audit) suggests a hierarchical organization w
   app.get("/api/download/verification-report", async (req, res) => {
     try {
       const fs = await import('fs');
-      const { execSync } = await import('child_process');
       
-      // Run the verification suite to generate fresh reports
-      try {
-        execSync('npx tsx server/verification-suite.ts', { 
-          cwd: process.cwd(),
-          timeout: 60000,
-          encoding: 'utf-8'
-        });
-      } catch (e) {
-        console.log('Verification suite execution completed');
-      }
-      
+      // Serve pre-generated verification report (generate offline via: npx tsx server/verification-suite.ts)
       // Read the markdown report
       const mdPath = 'PAR2_VERIFICATION_REPORT.md';
       const jsonPath = 'PAR2_VERIFICATION_REPORT.json';
