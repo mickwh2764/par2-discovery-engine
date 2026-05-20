@@ -8,6 +8,8 @@
  * "A Tissue Renewal-Based Mechanism Drives Colon Tumorigenesis"
  */
 
+import { computeEigenvalue } from './ar2-shared';
+
 // ODE solver using 4th-order Runge-Kutta
 function rk4Step(
   f: (t: number, y: number[]) => number[],
@@ -187,28 +189,16 @@ function fitAR2(x: number[]): { phi1: number; phi2: number; sigma2: number; logL
 
 // Calculate eigenvalue modulus from AR(2) coefficients
 function ar2Eigenvalues(phi1: number, phi2: number): { lambda1: number; lambda2: number; modulus: number; isComplex: boolean } {
+  const { eigenvalue: modulus, isComplex } = computeEigenvalue(phi1, phi2);
   const discriminant = phi1 * phi1 + 4 * phi2;
-  
   if (discriminant >= 0) {
     const lambda1 = (phi1 + Math.sqrt(discriminant)) / 2;
     const lambda2 = (phi1 - Math.sqrt(discriminant)) / 2;
-    return { 
-      lambda1, 
-      lambda2, 
-      modulus: Math.max(Math.abs(lambda1), Math.abs(lambda2)),
-      isComplex: false 
-    };
+    return { lambda1, lambda2, modulus, isComplex };
   } else {
-    // Complex conjugate pair
     const realPart = phi1 / 2;
     const imagPart = Math.sqrt(-discriminant) / 2;
-    const modulus = Math.sqrt(realPart * realPart + imagPart * imagPart);
-    return { 
-      lambda1: realPart, 
-      lambda2: imagPart, 
-      modulus,
-      isComplex: true 
-    };
+    return { lambda1: realPart, lambda2: imagPart, modulus, isComplex };
   }
 }
 

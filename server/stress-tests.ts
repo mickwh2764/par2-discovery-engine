@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { fitAR2Full as fitAR2SharedFull } from './ar2-shared';
 
 interface ARFitResult {
   gene: string;
@@ -51,71 +52,9 @@ interface AlternativeMetricsResult {
 }
 
 function fitAR2WithResiduals(timeSeries: number[]): { beta1: number; beta2: number; eigenvalue: number; residuals: number[]; rSquared: number } {
-  const n = timeSeries.length;
-  if (n < 5) {
-    return { beta1: 0, beta2: 0, eigenvalue: 0, residuals: [], rSquared: 0 };
-  }
-
-  const mean = timeSeries.reduce((a, b) => a + b, 0) / n;
-  const centered = timeSeries.map(v => v - mean);
-
-  const Y: number[] = [];
-  const X1: number[] = [];
-  const X2: number[] = [];
-
-  for (let t = 2; t < n; t++) {
-    Y.push(centered[t]);
-    X1.push(centered[t - 1]);
-    X2.push(centered[t - 2]);
-  }
-
-  const m = Y.length;
-  let sumX1X1 = 0, sumX1X2 = 0, sumX2X2 = 0;
-  let sumX1Y = 0, sumX2Y = 0;
-
-  for (let i = 0; i < m; i++) {
-    sumX1X1 += X1[i] * X1[i];
-    sumX1X2 += X1[i] * X2[i];
-    sumX2X2 += X2[i] * X2[i];
-    sumX1Y += X1[i] * Y[i];
-    sumX2Y += X2[i] * Y[i];
-  }
-
-  const det = sumX1X1 * sumX2X2 - sumX1X2 * sumX1X2;
-  if (Math.abs(det) < 1e-10) {
-    return { beta1: 0, beta2: 0, eigenvalue: 0, residuals: [], rSquared: 0 };
-  }
-
-  const beta1 = (sumX2X2 * sumX1Y - sumX1X2 * sumX2Y) / det;
-  const beta2 = (sumX1X1 * sumX2Y - sumX1X2 * sumX1Y) / det;
-
-  const residuals: number[] = [];
-  let ssRes = 0;
-  let ssTot = 0;
-  const yMean = Y.reduce((a, b) => a + b, 0) / m;
-
-  for (let i = 0; i < m; i++) {
-    const predicted = beta1 * X1[i] + beta2 * X2[i];
-    const resid = Y[i] - predicted;
-    residuals.push(resid);
-    ssRes += resid * resid;
-    ssTot += (Y[i] - yMean) * (Y[i] - yMean);
-  }
-
-  const rSquared = ssTot > 0 ? 1 - ssRes / ssTot : 0;
-
-  const discriminant = beta1 * beta1 + 4 * beta2;
-  let eigenvalue: number;
-
-  if (discriminant >= 0) {
-    const lambda1 = (beta1 + Math.sqrt(discriminant)) / 2;
-    const lambda2 = (beta1 - Math.sqrt(discriminant)) / 2;
-    eigenvalue = Math.max(Math.abs(lambda1), Math.abs(lambda2));
-  } else {
-    eigenvalue = Math.sqrt(-beta2);
-  }
-
-  return { beta1, beta2, eigenvalue, residuals, rSquared };
+  const result = fitAR2SharedFull(timeSeries);
+  if (!result) return { beta1: 0, beta2: 0, eigenvalue: 0, residuals: [], rSquared: 0 };
+  return { beta1: result.phi1, beta2: result.phi2, eigenvalue: result.eigenvalue, residuals: result.residuals, rSquared: result.r2 };
 }
 
 function fitAR1(timeSeries: number[]): { beta1: number; eigenvalue: number; aic: number; bic: number; residuals: number[] } {

@@ -1,3 +1,5 @@
+import { fitAR2Full as fitAR2SharedFull } from './ar2-shared';
+
 export interface EdgeCaseDiagnostic {
   id: string;
   label: string;
@@ -613,46 +615,10 @@ export function fitAR2WithDiagnostics(series: number[]): {
   diagnostics: DiagnosticsResult;
 } | null {
   const n = series.length;
-  if (n < 5) return null;
+  const result = fitAR2SharedFull(series);
+  if (!result) return null;
 
-  const mean = series.reduce((a, b) => a + b, 0) / n;
-  const centered = series.map(v => v - mean);
-
-  const Y = centered.slice(2);
-  const Y1 = centered.slice(1, n - 1);
-  const Y2 = centered.slice(0, n - 2);
-
-  let sumY1Y1 = 0, sumY2Y2 = 0, sumY1Y2 = 0, sumYY1 = 0, sumYY2 = 0;
-  for (let i = 0; i < Y.length; i++) {
-    sumY1Y1 += Y1[i] * Y1[i];
-    sumY2Y2 += Y2[i] * Y2[i];
-    sumY1Y2 += Y1[i] * Y2[i];
-    sumYY1 += Y[i] * Y1[i];
-    sumYY2 += Y[i] * Y2[i];
-  }
-
-  const det = sumY1Y1 * sumY2Y2 - sumY1Y2 * sumY1Y2;
-  let phi1 = 0, phi2 = 0;
-  if (Math.abs(det) > 1e-10) {
-    phi1 = (sumYY1 * sumY2Y2 - sumYY2 * sumY1Y2) / det;
-    phi2 = (sumYY2 * sumY1Y1 - sumYY1 * sumY1Y2) / det;
-  }
-
-  const disc = phi1 * phi1 + 4 * phi2;
-  let eigenvalue: number;
-  if (disc >= 0) {
-    const l1 = (phi1 + Math.sqrt(disc)) / 2;
-    const l2 = (phi1 - Math.sqrt(disc)) / 2;
-    eigenvalue = Math.max(Math.abs(l1), Math.abs(l2));
-  } else {
-    eigenvalue = Math.sqrt(-phi2);
-  }
-
-  const predicted = Y1.map((y1, i) => phi1 * y1 + phi2 * Y2[i]);
-  const residuals = Y.map((y, i) => y - predicted[i]);
-  const ssTot = Y.reduce((sum, y) => sum + y * y, 0);
-  const ssRes = residuals.reduce((sum, r) => sum + r * r, 0);
-  const r2 = ssTot > 0 ? Math.max(0, 1 - ssRes / ssTot) : 0;
+  const { phi1, phi2, eigenvalue, r2, residuals } = result;
 
   const acf = computeAcf(residuals);
   const { ljungBoxPassed, ljungBoxPValue } = computeLjungBox(acf, residuals.length);

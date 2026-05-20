@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { fitAR2Full as fitAR2SharedFull, computeEigenvalue } from './ar2-shared';
 
 function loadCSVDataset(filepath: string): { genes: string[]; data: number[][] } | null {
   try {
@@ -40,25 +41,9 @@ function fitAR1(ts: number[]): { eigenvalue: number; residuals: number[] } {
 }
 
 function fitAR2(ts: number[]): { eigenvalue: number; beta1: number; beta2: number; residuals: number[] } {
-  const n = ts.length;
-  const mean = ts.reduce((a, b) => a + b, 0) / n;
-  const c = ts.map(v => v - mean);
-  const Y: number[] = [], X1: number[] = [], X2: number[] = [];
-  for (let t = 2; t < n; t++) { Y.push(c[t]); X1.push(c[t-1]); X2.push(c[t-2]); }
-  const m = Y.length;
-  let s11=0,s12=0,s1y=0,s22=0,s2y=0;
-  for (let i = 0; i < m; i++) { s11+=X1[i]*X1[i]; s12+=X1[i]*X2[i]; s1y+=X1[i]*Y[i]; s22+=X2[i]*X2[i]; s2y+=X2[i]*Y[i]; }
-  const det = s11*s22-s12*s12;
-  if (Math.abs(det) < 1e-10) return { eigenvalue: 0, beta1: 0, beta2: 0, residuals: [] };
-  const beta1 = (s22*s1y-s12*s2y)/det;
-  const beta2 = (s11*s2y-s12*s1y)/det;
-  const disc = beta1*beta1+4*beta2;
-  let eigenvalue: number;
-  if (disc >= 0) { const l1=(beta1+Math.sqrt(disc))/2; const l2=(beta1-Math.sqrt(disc))/2; eigenvalue=Math.max(Math.abs(l1),Math.abs(l2)); }
-  else eigenvalue = Math.sqrt(-beta2);
-  const residuals: number[] = [];
-  for (let i = 0; i < m; i++) residuals.push(Y[i]-beta1*X1[i]-beta2*X2[i]);
-  return { eigenvalue, beta1, beta2, residuals };
+  const result = fitAR2SharedFull(ts);
+  if (!result) return { eigenvalue: 0, beta1: 0, beta2: 0, residuals: [] };
+  return { eigenvalue: result.eigenvalue, beta1: result.phi1, beta2: result.phi2, residuals: result.residuals };
 }
 
 function fitAR3(ts: number[]): { eigenvalue: number; residuals: number[] } {

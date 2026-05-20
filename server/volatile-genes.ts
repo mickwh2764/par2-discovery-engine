@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { ENSEMBL_TO_SYMBOL } from './gene-categories';
+import { fitAR2 as fitAR2Shared } from './ar2-shared';
 
 export interface DatasetInfo {
   id: string;
@@ -59,59 +60,10 @@ function classifyGene(gene: string): 'clock' | 'target' | 'other' {
 }
 
 function fastAR2(values: number[]): { eigenvalue: number; r2: number } | null {
-  const n = values.length;
-  if (n < 5) return null;
-
-  const mean = values.reduce((s, v) => s + v, 0) / n;
-  const centered = values.map(v => v - mean);
-
-  const Y: number[] = [];
-  const X1: number[] = [];
-  const X2: number[] = [];
-  for (let i = 2; i < n; i++) {
-    Y.push(centered[i]);
-    X1.push(centered[i - 1]);
-    X2.push(centered[i - 2]);
-  }
-
-  const m = Y.length;
-  let s11 = 0, s12 = 0, s22 = 0, s1y = 0, s2y = 0;
-  for (let i = 0; i < m; i++) {
-    s11 += X1[i] * X1[i];
-    s12 += X1[i] * X2[i];
-    s22 += X2[i] * X2[i];
-    s1y += X1[i] * Y[i];
-    s2y += X2[i] * Y[i];
-  }
-
-  const det = s11 * s22 - s12 * s12;
-  if (Math.abs(det) < 1e-15) return null;
-
-  const phi1 = (s22 * s1y - s12 * s2y) / det;
-  const phi2 = (s11 * s2y - s12 * s1y) / det;
-
-  const disc = phi1 * phi1 + 4 * phi2;
-  let eigenvalue: number;
-  if (disc >= 0) {
-    const r1 = (phi1 + Math.sqrt(disc)) / 2;
-    const r2val = (phi1 - Math.sqrt(disc)) / 2;
-    eigenvalue = Math.max(Math.abs(r1), Math.abs(r2val));
-  } else {
-    eigenvalue = Math.sqrt(-phi2);
-  }
-
-  if (eigenvalue >= 1.5 || eigenvalue <= 0 || !isFinite(eigenvalue)) return null;
-
-  let ssRes = 0, ssTot = 0;
-  const yMean = Y.reduce((s, v) => s + v, 0) / m;
-  for (let i = 0; i < m; i++) {
-    const pred = phi1 * X1[i] + phi2 * X2[i];
-    ssRes += (Y[i] - pred) ** 2;
-    ssTot += (Y[i] - yMean) ** 2;
-  }
-  const r2 = ssTot > 0 ? Math.max(0, 1 - ssRes / ssTot) : 0;
-
-  return { eigenvalue, r2 };
+  const result = fitAR2Shared(values);
+  if (!result) return null;
+  if (result.eigenvalue >= 1.5 || result.eigenvalue <= 0 || !isFinite(result.eigenvalue)) return null;
+  return { eigenvalue: result.eigenvalue, r2: result.r2 };
 }
 
 function stdDev(values: number[], mean: number): number {

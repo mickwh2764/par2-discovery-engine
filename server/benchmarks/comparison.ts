@@ -1,3 +1,5 @@
+import { fitAR2 as fitAR2Shared } from '../ar2-shared';
+
 /**
  * Unified Benchmark Comparison Suite
  * 
@@ -65,45 +67,9 @@ export interface BenchmarkSummary {
 }
 
 function fitAR2(series: number[]): { phi1: number; phi2: number; eigenvalue: number } {
-  const n = series.length;
-  if (n < 5) {
-    return { phi1: 0, phi2: 0, eigenvalue: 0 };
-  }
-  
-  const mean = series.reduce((a, b) => a + b, 0) / n;
-  const y = series.map(x => x - mean);
-  
-  let sumY_Y1 = 0, sumY_Y2 = 0;
-  let sumY1_Y1 = 0, sumY1_Y2 = 0, sumY2_Y2 = 0;
-  
-  for (let t = 2; t < n; t++) {
-    sumY_Y1 += y[t] * y[t - 1];
-    sumY_Y2 += y[t] * y[t - 2];
-    sumY1_Y1 += y[t - 1] * y[t - 1];
-    sumY1_Y2 += y[t - 1] * y[t - 2];
-    sumY2_Y2 += y[t - 2] * y[t - 2];
-  }
-  
-  const det = sumY1_Y1 * sumY2_Y2 - sumY1_Y2 * sumY1_Y2;
-  if (Math.abs(det) < 1e-10) {
-    return { phi1: 0, phi2: 0, eigenvalue: 0 };
-  }
-  
-  const phi1 = (sumY_Y1 * sumY2_Y2 - sumY_Y2 * sumY1_Y2) / det;
-  const phi2 = (sumY1_Y1 * sumY_Y2 - sumY_Y1 * sumY1_Y2) / det;
-  
-  const discriminant = phi1 * phi1 + 4 * phi2;
-  let eigenvalue: number;
-  
-  if (discriminant >= 0) {
-    const lambda1 = (phi1 + Math.sqrt(discriminant)) / 2;
-    const lambda2 = (phi1 - Math.sqrt(discriminant)) / 2;
-    eigenvalue = Math.max(Math.abs(lambda1), Math.abs(lambda2));
-  } else {
-    eigenvalue = Math.sqrt(-phi2);
-  }
-  
-  return { phi1, phi2, eigenvalue };
+  const result = fitAR2Shared(series);
+  if (!result) return { phi1: 0, phi2: 0, eigenvalue: 0 };
+  return { phi1: result.phi1, phi2: result.phi2, eigenvalue: result.eigenvalue };
 }
 
 export function runBenchmarkComparison(

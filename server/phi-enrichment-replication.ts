@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import { parse } from 'csv-parse/sync';
+import { fitAR2 as fitAR2Shared } from './ar2-shared';
 
 const PHI = (1 + Math.sqrt(5)) / 2;
 const PHI_RECIPROCAL = 1 / PHI; // 0.61803...
@@ -133,38 +134,9 @@ function invertMatrix2x2(a: number, b: number, c: number, d: number): [number,nu
 }
 
 function fitAR2(values: number[]): { lambda: number; r2: number; hasComplexRoots: boolean } | null {
-  const n = values.length;
-  if (n < 6) return null;
-  const mean = values.reduce((a, b) => a + b, 0) / n;
-  const z = values.map(v => v - mean);
-  let s11=0, s12=0, s22=0, sy1=0, sy2=0;
-  for (let t = 2; t < n; t++) {
-    s11 += z[t-1]*z[t-1]; s12 += z[t-1]*z[t-2];
-    s22 += z[t-2]*z[t-2]; sy1 += z[t]*z[t-1]; sy2 += z[t]*z[t-2];
-  }
-  const inv = invertMatrix2x2(s11, s12, s12, s22);
-  if (!inv) return null;
-  const phi1 = inv[0]*sy1 + inv[1]*sy2;
-  const phi2 = inv[2]*sy1 + inv[3]*sy2;
-  if (!isFinite(phi1) || !isFinite(phi2)) return null;
-  const disc = phi1*phi1 + 4*phi2;
-  let lambda: number;
-  let hasComplexRoots: boolean;
-  if (disc >= 0) {
-    const r1 = (phi1 + Math.sqrt(disc)) / 2;
-    const r2 = (phi1 - Math.sqrt(disc)) / 2;
-    lambda = Math.max(Math.abs(r1), Math.abs(r2));
-    hasComplexRoots = false;
-  } else {
-    lambda = Math.sqrt(-phi2);
-    hasComplexRoots = true;
-  }
-  lambda = Math.min(lambda, 1.0);
-  const predictions = z.slice(2).map((_, i) => phi1*z[i+1] + phi2*z[i]);
-  const ssRes = predictions.reduce((acc, p, i) => acc + (z[i+2]-p)**2, 0);
-  const ssTot = z.slice(2).reduce((acc, v) => acc + v**2, 0);
-  const r2 = ssTot > 0 ? 1 - ssRes/ssTot : 0;
-  return { lambda, r2, hasComplexRoots };
+  const result = fitAR2Shared(values, { minLength: 6 });
+  if (!result) return null;
+  return { lambda: Math.min(result.eigenvalue, 1.0), r2: result.r2, hasComplexRoots: result.isComplex };
 }
 
 function median(arr: number[]): number {

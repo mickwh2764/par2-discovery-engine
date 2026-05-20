@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { ENSEMBL_TO_GENE_SYMBOL } from './par2-engine';
-import { fitAR2 as fitAR2Shared } from './ar2-shared';
+import { fitAR2 as fitAR2Shared, computeEigenvalue } from './ar2-shared';
 
 const CLOCK_GENES = ['Per1', 'Per2', 'Per3', 'Cry1', 'Cry2', 'Clock', 'Arntl', 'Nr1d1', 'Nr1d2', 'Dbp', 'Tef', 'Npas2', 'Rorc'];
 const TARGET_GENES = ['Myc', 'Ccnd1', 'Ccnb1', 'Cdk1', 'Wee1', 'Cdkn1a', 'Lgr5', 'Axin2', 'Ctnnb1', 'Apc',
@@ -538,13 +538,7 @@ function runSimulationScenario(
       category = 'other';
     }
 
-    const disc = phi1 * phi1 + 4 * phi2;
-    let trueEV: number;
-    if (disc < 0) {
-      trueEV = Math.sqrt(-phi2);
-    } else {
-      trueEV = Math.max(Math.abs((phi1 + Math.sqrt(disc)) / 2), Math.abs((phi1 - Math.sqrt(disc)) / 2));
-    }
+    const trueEV = computeEigenvalue(phi1, phi2).eigenvalue;
 
     const series = new Array(nTimepoints).fill(0);
     series[0] = gaussianRNG(rng);

@@ -15,6 +15,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { runJTKCycleSingle, JTKResult } from './jtk-cycle';
+import { fitAR2 as fitAR2Canonical } from '../ar2-shared';
 
 type JTKSingleResult = Omit<JTKResult, 'gene'>;
 
@@ -236,46 +237,9 @@ function classifyGene(name: string): 'Clock' | 'Target' | 'Other' {
 }
 
 function fitAR2Full(expression: number[]): { eigenvalue: number; phi1: number; phi2: number; r2: number; rootType: string } {
-  const n = expression.length;
-  if (n < 5) return { eigenvalue: 0, phi1: 0, phi2: 0, r2: 0, rootType: 'Real' };
-
-  const mean = expression.reduce((a, b) => a + b, 0) / n;
-  const centered = expression.map(x => x - mean);
-
-  let sumY_Y1 = 0, sumY_Y2 = 0, sumY1_Y1 = 0, sumY1_Y2 = 0, sumY2_Y2 = 0;
-  for (let t = 2; t < n; t++) {
-    sumY_Y1 += centered[t] * centered[t-1];
-    sumY_Y2 += centered[t] * centered[t-2];
-    sumY1_Y1 += centered[t-1] * centered[t-1];
-    sumY1_Y2 += centered[t-1] * centered[t-2];
-    sumY2_Y2 += centered[t-2] * centered[t-2];
-  }
-  const det = sumY1_Y1 * sumY2_Y2 - sumY1_Y2 * sumY1_Y2;
-  if (Math.abs(det) < 1e-10) return { eigenvalue: 0, phi1: 0, phi2: 0, r2: 0, rootType: 'Real' };
-
-  const phi1 = (sumY_Y1 * sumY2_Y2 - sumY_Y2 * sumY1_Y2) / det;
-  const phi2 = (sumY1_Y1 * sumY_Y2 - sumY_Y1 * sumY1_Y2) / det;
-
-  const disc = phi1 * phi1 + 4 * phi2;
-  let eigenvalue: number;
-  const rootType = disc < 0 ? 'Complex' : 'Real';
-  if (disc < 0) {
-    eigenvalue = Math.sqrt(-phi2);
-  } else {
-    const r1 = (phi1 + Math.sqrt(disc)) / 2;
-    const r2p = (phi1 - Math.sqrt(disc)) / 2;
-    eigenvalue = Math.max(Math.abs(r1), Math.abs(r2p));
-  }
-
-  let ssTot = 0, ssRes = 0;
-  for (let t = 2; t < n; t++) {
-    const fitted = phi1 * centered[t-1] + phi2 * centered[t-2];
-    ssTot += centered[t] * centered[t];
-    ssRes += (centered[t] - fitted) ** 2;
-  }
-  const r2 = ssTot > 0 ? Math.max(0, 1 - ssRes / ssTot) : 0;
-
-  return { eigenvalue, phi1, phi2, r2, rootType };
+  const result = fitAR2Canonical(expression);
+  if (!result) return { eigenvalue: 0, phi1: 0, phi2: 0, r2: 0, rootType: 'Real' };
+  return { eigenvalue: result.eigenvalue, phi1: result.phi1, phi2: result.phi2, r2: result.r2, rootType: result.isComplex ? 'Complex' : 'Real' };
 }
 
 export function runHeadToHeadComparison(): HeadToHeadFullResult {

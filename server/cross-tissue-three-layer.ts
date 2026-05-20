@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import { parse } from 'csv-parse/sync';
 import { solveAR2Eigenvalues } from './par2-engine';
+import { fitAR2 as fitAR2Shared } from './ar2-shared';
 
 interface TissueConfig {
   name: string;
@@ -280,31 +281,7 @@ function readDataset(filepath: string): Map<string, number[]> {
 }
 
 function fitAR2(series: number[]): { phi1: number; phi2: number; eigenvalue: number; r2: number } | null {
-  const n = series.length;
-  if (n < 5) return null;
-  const Y = series.slice(2);
-  const Y1 = series.slice(1, n - 1);
-  const Y2 = series.slice(0, n - 2);
-  let s11 = 0, s22 = 0, s12 = 0, sy1 = 0, sy2 = 0;
-  for (let i = 0; i < Y.length; i++) {
-    s11 += Y1[i] * Y1[i];
-    s22 += Y2[i] * Y2[i];
-    s12 += Y1[i] * Y2[i];
-    sy1 += Y[i] * Y1[i];
-    sy2 += Y[i] * Y2[i];
-  }
-  const denom = s11 * s22 - s12 * s12;
-  if (Math.abs(denom) < 1e-12) return null;
-  const phi1 = (sy1 * s22 - sy2 * s12) / denom;
-  const phi2 = (sy2 * s11 - sy1 * s12) / denom;
-  const eigResult = solveAR2Eigenvalues(phi1, phi2);
-  const eigenvalue = Math.max(eigResult.modulus1, eigResult.modulus2);
-  const yPred = Y1.map((_, i) => phi1 * Y1[i] + phi2 * Y2[i]);
-  const meanY = Y.reduce((a, b) => a + b, 0) / Y.length;
-  const ssRes = Y.reduce((sum, y, i) => sum + (y - yPred[i]) ** 2, 0);
-  const ssTot = Y.reduce((sum, y) => sum + (y - meanY) ** 2, 0);
-  const r2 = ssTot > 0 ? 1 - ssRes / ssTot : 0;
-  return { phi1, phi2, eigenvalue, r2 };
+  return fitAR2Shared(series, { meanCenter: false });
 }
 
 function getGeneEigenvalue(data: Map<string, number[]>, gene: string, layer: 'identity' | 'clock' | 'proliferation'): GeneEigenvalue | null {

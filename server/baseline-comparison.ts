@@ -11,6 +11,8 @@
  * that general-purpose methods miss.
  */
 
+import { computeEigenvalue } from './ar2-shared';
+
 export interface TimeSeriesData {
   values: number[];
   timepoints: number[];
@@ -136,17 +138,8 @@ function fitARIMA(data: TimeSeriesData): ModelFitResult {
   }
   const residualVariance = rss / (X.length - 3);
   
-  // Eigenvalue modulus from characteristic equation: λ² - φ₁λ - φ₂ = 0
-  const discriminant = phi1 * phi1 + 4 * phi2;
-  let eigenvalueModulus: number;
-  if (discriminant >= 0) {
-    const lambda1 = (phi1 + Math.sqrt(discriminant)) / 2;
-    const lambda2 = (phi1 - Math.sqrt(discriminant)) / 2;
-    eigenvalueModulus = Math.max(Math.abs(lambda1), Math.abs(lambda2));
-  } else {
-    // Complex roots: |λ| = √(-φ₂)
-    eigenvalueModulus = Math.sqrt(-phi2);
-  }
+  // Eigenvalue modulus via canonical shared computation
+  const eigenvalueModulus = computeEigenvalue(phi1, phi2).eigenvalue;
   
   // Information criteria
   const k = 3; // number of parameters
@@ -384,16 +377,8 @@ function fitPAR2(data: TimeSeriesData, period: number = 24): ModelFitResult {
   const phi1 = dayWeight * dayFit.phi1 + nightWeight * nightFit.phi1;
   const phi2 = dayWeight * dayFit.phi2 + nightWeight * nightFit.phi2;
   
-  // Eigenvalue from weighted coefficients
-  const discriminant = phi1 * phi1 + 4 * phi2;
-  let eigenvalueModulus: number;
-  if (discriminant >= 0) {
-    const lambda1 = (phi1 + Math.sqrt(discriminant)) / 2;
-    const lambda2 = (phi1 - Math.sqrt(discriminant)) / 2;
-    eigenvalueModulus = Math.max(Math.abs(lambda1), Math.abs(lambda2));
-  } else {
-    eigenvalueModulus = Math.sqrt(-phi2);
-  }
+  // Eigenvalue from weighted coefficients via canonical shared computation
+  const eigenvalueModulus = computeEigenvalue(phi1, phi2).eigenvalue;
   
   // Total RSS and variance
   const totalRSS = dayFit.rss + nightFit.rss;

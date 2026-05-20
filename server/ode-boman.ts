@@ -12,6 +12,8 @@
  * connecting Boman's mechanistic ODE to PAR(2) time-series analysis.
  */
 
+import { computeEigenvalue } from './ar2-shared';
+
 export interface BomanParameters {
   k1: number;  // Symmetric division rate (usually normalized to 1)
   k2: number;  // Autocatalytic polymerization rate
@@ -296,27 +298,20 @@ export function fitAR2(timeSeries: number[]): AR2FitResult {
   const phi1 = beta[1];
   const phi2 = beta[2];
   
-  // AR(2) characteristic equation: r² - φ₁r - φ₂ = 0
-  // Roots: r = (φ₁ ± √(φ₁² + 4φ₂)) / 2
+  // AR(2) eigenvalue via canonical shared implementation
+  const { eigenvalue: eigenvalueModulus, isComplex } = computeEigenvalue(phi1, phi2);
   const discriminant = phi1 * phi1 + 4 * phi2;
-  
-  let eigenvalueModulus: number;
   let eigenvalueReal: number;
   let eigenvalueImag: number;
-  
-  if (discriminant >= 0) {
-    // Real roots
+  if (!isComplex) {
     const sqrtDisc = Math.sqrt(discriminant);
     const r1 = (phi1 + sqrtDisc) / 2;
     const r2 = (phi1 - sqrtDisc) / 2;
-    eigenvalueModulus = Math.max(Math.abs(r1), Math.abs(r2));
     eigenvalueReal = Math.abs(r1) > Math.abs(r2) ? r1 : r2;
     eigenvalueImag = 0;
   } else {
-    // Complex conjugate roots
     eigenvalueReal = phi1 / 2;
     eigenvalueImag = Math.sqrt(-discriminant) / 2;
-    eigenvalueModulus = Math.sqrt(eigenvalueReal * eigenvalueReal + eigenvalueImag * eigenvalueImag);
   }
   
   // Calculate R²

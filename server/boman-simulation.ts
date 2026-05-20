@@ -1,5 +1,5 @@
 import { solveAR2Eigenvalues } from './par2-engine';
-import { fitAR2 as fitAR2Shared } from './ar2-shared';
+import { fitAR2 as fitAR2Shared, computeEigenvalue } from './ar2-shared';
 
 /**
  * Boman-style crypt simulation with genuine division-limit mechanics.
@@ -586,12 +586,7 @@ export interface EnrichmentResult {
  * For real roots: |λ| = max absolute root value.
  */
 function lambdaModulus(phi1: number, phi2: number): number {
-  const disc = phi1 * phi1 + 4 * phi2;
-  if (disc < 0) {
-    return Math.sqrt(-phi2);
-  }
-  const sqrtDisc = Math.sqrt(disc);
-  return Math.max(Math.abs((phi1 + sqrtDisc) / 2), Math.abs((phi1 - sqrtDisc) / 2));
+  return computeEigenvalue(phi1, phi2).eigenvalue;
 }
 
 /**

@@ -1,3 +1,5 @@
+import { computeEigenvalue } from './ar2-shared';
+
 /**
  * Simplified Circadian Clock ODE Model (Inspired by Leloup-Goldbeter 2003)
  * 
@@ -567,30 +569,22 @@ export function fitAR2(values: number[]): LeloupAR2Result {
   const phi1 = (sumX2X2 * sumX1Y - sumX1X2 * sumX2Y) / det;
   const phi2 = (sumX1X1 * sumX2Y - sumX1X2 * sumX1Y) / det;
   
-  // Calculate eigenvalues of companion matrix
-  // λ² - φ₁λ - φ₂ = 0
+  // Eigenvalue modulus via canonical shared implementation
+  const { eigenvalue: modulus, isComplex } = computeEigenvalue(phi1, phi2);
   const discriminant = phi1 * phi1 + 4 * phi2;
-  
-  let eigenReal: number, eigenImag: number, modulus: number, impliedPeriod: number;
-  
-  if (discriminant < 0) {
-    // Complex conjugate roots
+
+  let eigenReal: number, eigenImag: number, impliedPeriod: number;
+
+  if (isComplex) {
     eigenReal = phi1 / 2;
     eigenImag = Math.sqrt(-discriminant) / 2;
-    modulus = Math.sqrt(eigenReal * eigenReal + eigenImag * eigenImag);
     const theta = Math.atan2(eigenImag, eigenReal);
-    // Period in sample-step units × dt to convert to hours
-    // AR(2) fitted on data sampled at dt=0.1h, so period_hours = (2π/|θ|) × 0.1
     const SAMPLING_DT_HOURS = 0.1;
     impliedPeriod = (2 * Math.PI / Math.abs(theta)) * SAMPLING_DT_HOURS;
   } else {
-    // Real roots
-    const lambda1 = (phi1 + Math.sqrt(discriminant)) / 2;
-    const lambda2 = (phi1 - Math.sqrt(discriminant)) / 2;
-    modulus = Math.max(Math.abs(lambda1), Math.abs(lambda2));
     eigenReal = modulus;
     eigenImag = 0;
-    impliedPeriod = 0;  // No oscillation
+    impliedPeriod = 0;
   }
   
   // R-squared
