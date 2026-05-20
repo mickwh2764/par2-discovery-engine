@@ -58,6 +58,7 @@ app.use('/api/monte-carlo', heavyLimiter);
 app.use('/api/genome-wide', heavyLimiter);
 app.use('/api/run-full-adversarial', heavyLimiter);
 app.use('/api/run-stress-test', heavyLimiter);
+app.use('/api/v1/analyze', uploadLimiter);
 
 // Block common scanner/exploit probe paths
 app.use((req, res, next) => {

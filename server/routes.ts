@@ -23756,5 +23756,9 @@ echo "========================================"
     }
   });
 
+  // Register REST API v1 routes
+  const { registerAPIRoutes } = await import("./routes/api");
+  registerAPIRoutes(app);
+
   return httpServer;
 }
