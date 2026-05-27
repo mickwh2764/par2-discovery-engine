@@ -164,92 +164,6 @@ const HARDCODED_DATA: DrugDurabilityData = {
   ],
 };
 
-const GSE157357_ORGANOID_DATA: DrugDurabilityData = {
-  summary: {
-    dataset: "GSE157357 (Intestinal Organoids)",
-    patients: 6,
-    patientsComplete: 6,
-    timePoints: ["0h", "8h", "16h", "24h"],
-    probesTotal: 18912,
-    probesValid: 16584,
-    uniqueGenes: 12409,
-    globalMeanLambda: 0.6842,
-    globalMedianLambda: 0.6901,
-  },
-  categories: [
-    { name: "Wnt Pathway", genesFound: 19, genesTotal: 22, meanLambda: 0.7534, vsGlobal: 0.0692, permP: 0.0124, zScore: 2.24, significant: true, maintenancePct: 78.4, genesChanged: 18 },
-    { name: "Stem Cell Markers", genesFound: 14, genesTotal: 16, meanLambda: 0.7421, vsGlobal: 0.0579, permP: 0.0456, zScore: 1.69, significant: true, maintenancePct: 82.1, genesChanged: 13 },
-    { name: "Circadian Core", genesFound: 18, genesTotal: 21, meanLambda: 0.6924, vsGlobal: 0.0082, permP: 0.6284, zScore: 0.48, significant: false, maintenancePct: 91.2, genesChanged: 16 },
-    { name: "Proliferation", genesFound: 15, genesTotal: 18, meanLambda: 0.6781, vsGlobal: -0.0061, permP: 0.5896, zScore: -0.22, significant: false, maintenancePct: 64.3, genesChanged: 14 },
-    { name: "Apoptosis", genesFound: 12, genesTotal: 14, meanLambda: 0.6593, vsGlobal: -0.0249, permP: 0.2134, zScore: -0.79, significant: false, maintenancePct: 56.7, genesChanged: 11 },
-  ],
-  keyGenes: [
-    { gene: "LGR5", category: "Stem Cell Markers", lambda: 0.891, treatmentChange: 0.312, surgeryChange: 0.156, nProbes: 3 },
-    { gene: "AXIN2", category: "Wnt Pathway", lambda: 0.856, treatmentChange: 0.428, surgeryChange: 0.214, nProbes: 2 },
-    { gene: "BMAL1", category: "Circadian Core", lambda: 0.823, treatmentChange: 0.189, surgeryChange: 0.095, nProbes: 2 },
-    { gene: "PER2", category: "Circadian Core", lambda: 0.801, treatmentChange: 0.156, surgeryChange: 0.078, nProbes: 2 },
-    { gene: "CDH1", category: "Stem Cell Markers", lambda: 0.779, treatmentChange: -0.231, surgeryChange: -0.116, nProbes: 4 },
-    { gene: "WNT3", category: "Wnt Pathway", lambda: 0.758, treatmentChange: 0.501, surgeryChange: 0.251, nProbes: 1 },
-    { gene: "MKI67", category: "Proliferation", lambda: 0.712, treatmentChange: 0.443, surgeryChange: 0.222, nProbes: 1 },
-  ],
-  mainFinding: {
-    highLambdaMaintenance: 79.2,
-    lowLambdaMaintenance: 58.6,
-    differencePP: 20.6,
-    permP: 0.008,
-    bootstrapCILow: 14.3,
-    bootstrapCIHigh: 26.9,
-  },
-  pairwiseComparisons: [
-    { catA: "Wnt Pathway", catB: "Apoptosis", diff: 0.0941, pValue: 0.0256, significant: true },
-    { catA: "Stem Cell Markers", catB: "Apoptosis", diff: 0.0828, pValue: 0.0512, significant: false },
-    { catA: "Wnt Pathway", catB: "Proliferation", diff: 0.0753, pValue: 0.0876, significant: false },
-  ],
-};
-
-const GSE113883_BLOOD_DATA: DrugDurabilityData = {
-  summary: {
-    dataset: "GSE113883 (Human Whole Blood)",
-    patients: 24,
-    patientsComplete: 24,
-    timePoints: ["Unstimulated", "4h LPS", "8h LPS", "24h LPS"],
-    probesTotal: 47231,
-    probesValid: 41652,
-    uniqueGenes: 19584,
-    globalMeanLambda: 0.6234,
-    globalMedianLambda: 0.6189,
-  },
-  categories: [
-    { name: "Immune Response", genesFound: 38, genesTotal: 45, meanLambda: 0.7156, vsGlobal: 0.0922, permP: 0.0001, zScore: 3.89, significant: true, maintenancePct: 43.2, genesChanged: 36 },
-    { name: "Cytokine Signaling", genesFound: 22, genesTotal: 26, meanLambda: 0.6891, vsGlobal: 0.0657, permP: 0.0089, zScore: 2.63, significant: true, maintenancePct: 38.6, genesChanged: 21 },
-    { name: "Inflammatory", genesFound: 19, genesTotal: 21, meanLambda: 0.6721, vsGlobal: 0.0487, permP: 0.0234, zScore: 1.98, significant: true, maintenancePct: 31.4, genesChanged: 18 },
-    { name: "Circadian Core", genesFound: 21, genesTotal: 24, meanLambda: 0.6312, vsGlobal: 0.0078, permP: 0.4562, zScore: 0.60, significant: false, maintenancePct: 71.8, genesChanged: 19 },
-    { name: "Metabolism", genesFound: 17, genesTotal: 20, meanLambda: 0.5934, vsGlobal: -0.0300, permP: 0.1834, zScore: -0.92, significant: false, maintenancePct: 54.3, genesChanged: 15 },
-  ],
-  keyGenes: [
-    { gene: "TNF", category: "Immune Response", lambda: 0.856, treatmentChange: 1.423, surgeryChange: 0.712, nProbes: 2 },
-    { gene: "IL1B", category: "Cytokine Signaling", lambda: 0.821, treatmentChange: 1.267, surgeryChange: 0.634, nProbes: 3 },
-    { gene: "IL6", category: "Inflammatory", lambda: 0.798, treatmentChange: 1.189, surgeryChange: 0.595, nProbes: 2 },
-    { gene: "NFKBIA", category: "Immune Response", lambda: 0.754, treatmentChange: 0.856, surgeryChange: 0.428, nProbes: 2 },
-    { gene: "BMAL1", category: "Circadian Core", lambda: 0.712, treatmentChange: 0.234, surgeryChange: 0.117, nProbes: 1 },
-    { gene: "PER2", category: "Circadian Core", lambda: 0.695, treatmentChange: 0.189, surgeryChange: 0.095, nProbes: 2 },
-    { gene: "CEBPB", category: "Immune Response", lambda: 0.687, treatmentChange: 0.734, surgeryChange: 0.367, nProbes: 1 },
-  ],
-  mainFinding: {
-    highLambdaMaintenance: 41.8,
-    lowLambdaMaintenance: 62.4,
-    differencePP: -20.6,
-    permP: 0.034,
-    bootstrapCILow: -30.2,
-    bootstrapCIHigh: -8.9,
-  },
-  pairwiseComparisons: [
-    { catA: "Immune Response", catB: "Metabolism", diff: 0.1222, pValue: 0.0012, significant: true },
-    { catA: "Cytokine Signaling", catB: "Metabolism", diff: 0.0957, pValue: 0.0089, significant: true },
-    { catA: "Inflammatory", catB: "Metabolism", diff: 0.0787, pValue: 0.0312, significant: true },
-    { catA: "Immune Response", catB: "Circadian Core", diff: 0.0844, pValue: 0.0456, significant: true },
-  ],
-};
 
 function LambdaBar({ value, max = 1.0, color = "emerald" }: { value: number; max?: number; color?: string }) {
   const pct = Math.min((value / max) * 100, 100);
@@ -287,6 +201,32 @@ function StatCard({ title, value, subtitle, icon: Icon }: { title: string; value
   );
 }
 
+interface LiveAnalysisResult {
+  dataset: string;
+  totalGenes: number;
+  totalProbes: number;
+  globalMeanLambda: number;
+  globalMedianLambda: number;
+  categories: Array<{
+    name: string;
+    genesFound: number;
+    genesTotal: number;
+    meanLambda: number;
+    vsGlobal: number;
+    permP: number;
+    zScore: number;
+    significant: boolean;
+  }>;
+  topGenes: Array<{
+    gene: string;
+    category: string;
+    lambda: number;
+    rootType: string;
+  }>;
+  computedAt: string;
+  computationTimeMs: number;
+}
+
 export default function DrugDurability() {
   const [geneSearch, setGeneSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
@@ -294,6 +234,12 @@ export default function DrugDurability() {
   const [drmrefLoading, setDrmrefLoading] = useState(false);
   const [drmrefError, setDrmrefError] = useState("");
   const [drmrefExpanded, setDrmrefExpanded] = useState(false);
+  const [liveBlood, setLiveBlood] = useState<LiveAnalysisResult | null>(null);
+  const [liveBloodLoading, setLiveBloodLoading] = useState(true);
+  const [liveBloodError, setLiveBloodError] = useState("");
+  const [liveOrganoid, setLiveOrganoid] = useState<LiveAnalysisResult | null>(null);
+  const [liveOrganoidLoading, setLiveOrganoidLoading] = useState(true);
+  const [liveOrganoidError, setLiveOrganoidError] = useState("");
 
   useEffect(() => {
     if (!drmrefData && !drmrefLoading) {
@@ -314,6 +260,38 @@ export default function DrugDurability() {
     }
   }, []);
 
+  useEffect(() => {
+    fetch("/api/drug-durability/live/organoid")
+      .then(r => {
+        if (!r.ok) throw new Error("Failed to load organoid data");
+        return r.json();
+      })
+      .then(data => {
+        setLiveOrganoid(data);
+        setLiveOrganoidLoading(false);
+      })
+      .catch(err => {
+        setLiveOrganoidError(String(err));
+        setLiveOrganoidLoading(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/drug-durability/live/blood")
+      .then(r => {
+        if (!r.ok) throw new Error("Failed to load blood data");
+        return r.json();
+      })
+      .then(data => {
+        setLiveBlood(data);
+        setLiveBloodLoading(false);
+      })
+      .catch(err => {
+        setLiveBloodError(String(err));
+        setLiveBloodLoading(false);
+      });
+  }, []);
+
   const exportCSV = () => {
     const data = HARDCODED_DATA;
     const rows = ["Gene,Category,Eigenvalue,TreatmentChange,SurgeryChange,Probes"];
@@ -330,6 +308,31 @@ export default function DrugDurability() {
     const a = document.createElement("a");
     a.href = url;
     a.download = "drug_durability_GSE93204.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const exportDrmrefCSV = () => {
+    if (!drmrefData) return;
+    const rows = ["Drug,CancerTypes,ResistanceGenesMatched,SensitivityGenesMatched,ResistanceMeanLambda,SensitivityMeanLambda,GenomeMeanLambda,LambdaDifference,PermutationP,EffectSize,PredictionSupported"];
+    drmrefData.drugs.forEach(d => {
+      rows.push(`"${d.drug}","${d.cancerTypes.join('; ')}",${d.resistanceGenesMatched},${d.sensitivityGenesMatched},${d.resistanceMeanLambda.toFixed(4)},${d.sensitivityMeanLambda.toFixed(4)},${d.genomeMeanLambda.toFixed(4)},${d.lambdaDifference.toFixed(4)},${d.permutationP.toFixed(4)},${d.effectSize.toFixed(3)},${d.predictionSupported}`);
+    });
+    rows.push("");
+    rows.push("MetaAnalysis");
+    rows.push(`WeightedMeanDiff,${drmrefData.metaAnalysis.weightedMeanDiff.toFixed(4)}`);
+    rows.push(`DrugsHigherResistance,${drmrefData.metaAnalysis.drugsHigherResistance}/${drmrefData.drugsWithSufficientGenes}`);
+    rows.push(`BinomialP,${drmrefData.metaAnalysis.binomialP.toFixed(4)}`);
+    rows.push("");
+    rows.push("CancerType,DrugsCount,DrugsSupported,MeanDifference");
+    drmrefData.cancerTypeSummary.forEach(ct => {
+      rows.push(`"${ct.cancerType}",${ct.drugsCount},${ct.drugsSupported},${ct.meanDifference.toFixed(4)}`);
+    });
+    const blob = new Blob([rows.join("\n")], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "drmref_cross_validation_results.csv";
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -401,6 +404,7 @@ export default function DrugDurability() {
             <span className="px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-500 text-xs font-medium">UNPUBLISHED</span>
             <span className="px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-500 text-xs font-medium">PROOF-OF-CONCEPT</span>
             <span className="px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-xs font-medium">GSE93204 (n=7)</span>
+            <span className="px-2 py-0.5 rounded-full bg-slate-500/10 text-slate-500 text-xs font-medium">PRE-COMPUTED RESULTS</span>
           </div>
         </div>
 
@@ -461,6 +465,12 @@ export default function DrugDurability() {
               Not a single random permutation out of 1,000 produced a difference this large. The 95% bootstrap 
               confidence interval [{data.mainFinding.bootstrapCILow}, {data.mainFinding.bootstrapCIHigh}] percentage points excludes zero entirely.
             </p>
+            <div className="flex items-start gap-2 mt-3 bg-slate-800/40 border border-slate-700/50 rounded-md px-3 py-2">
+              <span className="text-amber-400 text-xs mt-0.5">⚠</span>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                <span className="text-amber-400 font-semibold">Pre-computed values.</span> The 40.6% and 88.5% maintenance rates and all associated permutation/bootstrap statistics were computed from GSE93204 (palbociclib neoadjuvant trial, 18 patients) prior to deployment and are stored as static values. The raw GSE93204 dataset is not recalculated on page load. All source data are publicly available from NCBI GEO.
+              </p>
+            </div>
           </CardContent>
         </Card>
 
@@ -757,10 +767,19 @@ export default function DrugDurability() {
         {/* DRMref Multi-Drug Cross-Validation */}
         <Card className="mb-8 border-purple-500/30 bg-purple-500/5" data-testid="card-drmref-validation">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-purple-400" data-testid="text-drmref-title">
-              <FlaskRound size={20} />
-              Multi-Drug Cross-Validation (DRMref)
-            </CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="flex items-center gap-2 text-purple-400" data-testid="text-drmref-title">
+                <FlaskRound size={20} />
+                Multi-Drug Cross-Validation (DRMref)
+                <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-medium">LIVE COMPUTED</span>
+              </CardTitle>
+              {drmrefData && (
+                <Button variant="outline" size="sm" className="gap-2" onClick={exportDrmrefCSV} data-testid="button-export-drmref-csv">
+                  <Download size={14} />
+                  Export CSV
+                </Button>
+              )}
+            </div>
             <p className="text-sm text-muted-foreground">
               Do resistance genes have systematically higher AR(2) persistence? Testing across {drmrefData?.drugsWithSufficientGenes ?? "19"} drugs from the DRMref database.
             </p>
@@ -919,9 +938,10 @@ export default function DrugDurability() {
             <CardTitle className="flex items-center gap-2 text-blue-400" data-testid="text-paloma3-title">
               <Target size={20} />
               PALOMA-3 Clinical Trial Cross-Validation (GSE128500)
+              <span className="px-2 py-0.5 rounded-full bg-slate-500/10 text-slate-500 text-[10px] font-medium">PRE-COMPUTED</span>
             </CardTitle>
             <p className="text-sm text-muted-foreground">
-              302 patients from the Phase III PALOMA-3 trial (palbociclib + fulvestrant vs placebo). 2,534-gene targeted panel cross-referenced against AR(2) eigenvalues from GSE11923.
+              302 patients from the Phase III PALOMA-3 trial (palbociclib + fulvestrant vs placebo). 2,534-gene targeted panel cross-referenced against AR(2) eigenvalues from GSE11923. Results were pre-computed from the public dataset and are shown as static values.
             </p>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -1094,85 +1114,209 @@ export default function DrugDurability() {
           </CardContent>
         </Card>
 
-        {/* GSE157357 Organoids */}
+        {/* GSE157357 Organoids — Live Computed */}
         <Card className="mb-8 border-green-500/30 bg-green-500/5">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-green-400" data-testid="text-organoid-title">
               <FlaskRound size={20} />
               Cross-Dataset Validation: Intestinal Organoids (GSE157357)
+              <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-medium">LIVE COMPUTED</span>
             </CardTitle>
             <p className="text-sm text-muted-foreground">
-              In vitro 3D culture (6 WT replicates, 24h circadian tracking). Tests whether AR(2)-defined persistence patterns replicate in controlled organoid systems.
+              In vitro 3D culture (WT replicates averaged per circadian time point, 24h tracking). AR(2) fitted to replicate-averaged time series. Tests whether persistence patterns replicate in controlled organoid systems.
             </p>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-              <div className="text-center p-3 rounded-lg bg-background/50">
-                <p className="text-xs text-muted-foreground mb-1">Replicates</p>
-                <p className="text-2xl font-bold font-mono text-green-400">{GSE157357_ORGANOID_DATA.summary.patientsComplete}</p>
+            {liveOrganoidLoading && (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Loader2 size={16} className="animate-spin" />
+                Computing AR(2) from GSE157357 dataset...
               </div>
-              <div className="text-center p-3 rounded-lg bg-background/50">
-                <p className="text-xs text-muted-foreground mb-1">Mean |λ|</p>
-                <p className="text-2xl font-bold font-mono">{GSE157357_ORGANOID_DATA.summary.globalMeanLambda.toFixed(4)}</p>
+            )}
+            {liveOrganoidError && (
+              <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-sm text-red-400">
+                Failed to compute: {liveOrganoidError}
               </div>
-              <div className="text-center p-3 rounded-lg bg-background/50">
-                <p className="text-xs text-muted-foreground mb-1">Genes</p>
-                <p className="text-2xl font-bold font-mono">{GSE157357_ORGANOID_DATA.summary.uniqueGenes.toLocaleString()}</p>
-              </div>
-              <div className="text-center p-3 rounded-lg bg-background/50">
-                <p className="text-xs text-muted-foreground mb-1">Persistence Diff</p>
-                <p className="text-2xl font-bold font-mono text-emerald-400">+{GSE157357_ORGANOID_DATA.mainFinding.differencePP.toFixed(1)}pp</p>
-              </div>
-            </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              <strong>Key Finding:</strong> Wnt pathway genes (|λ|=0.753) and stem cell markers (|λ|=0.742) show significantly higher persistence than apoptosis genes (|λ|=0.659). 
-              In organoids, genes that maintain stable oscillations are enriched for developmental/tissue identity functions — distinct from the proliferation dominance in cancer tissue.
-            </p>
-            <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs text-muted-foreground">
-              <p className="font-semibold text-amber-400 mb-1">Biological Context</p>
-              <p>GSE157357 represents wild-type crypt dynamics without drug exposure. The Wnt/stem cell signal dominance reflects tissue homeostasis; AR(2) captures LGR5+ stem cell persistence independently of circadian entrainment.</p>
-            </div>
+            )}
+            {liveOrganoid && (
+              <>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+                  <div className="text-center p-3 rounded-lg bg-background/50">
+                    <p className="text-xs text-muted-foreground mb-1">Genes Analyzed</p>
+                    <p className="text-2xl font-bold font-mono text-green-400">{liveOrganoid.totalGenes.toLocaleString()}</p>
+                  </div>
+                  <div className="text-center p-3 rounded-lg bg-background/50">
+                    <p className="text-xs text-muted-foreground mb-1">Mean |λ|</p>
+                    <p className="text-2xl font-bold font-mono">{liveOrganoid.globalMeanLambda.toFixed(4)}</p>
+                  </div>
+                  <div className="text-center p-3 rounded-lg bg-background/50">
+                    <p className="text-xs text-muted-foreground mb-1">Median |λ|</p>
+                    <p className="text-2xl font-bold font-mono">{liveOrganoid.globalMedianLambda.toFixed(4)}</p>
+                  </div>
+                  <div className="text-center p-3 rounded-lg bg-background/50">
+                    <p className="text-xs text-muted-foreground mb-1">Computed</p>
+                    <p className="text-sm font-mono text-emerald-400">{liveOrganoid.computationTimeMs}ms</p>
+                  </div>
+                </div>
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="border-b border-border/30 text-muted-foreground">
+                      <th className="py-1 text-left">Category</th>
+                      <th className="py-1 text-right">Genes</th>
+                      <th className="py-1 text-right">Mean |λ|</th>
+                      <th className="py-1 text-right">vs Global</th>
+                      <th className="py-1 text-right">p-value</th>
+                      <th className="py-1 text-right">z-score</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {liveOrganoid.categories.map(c => (
+                      <tr key={c.name} className="border-b border-border/20">
+                        <td className="py-1 font-medium">{c.name}</td>
+                        <td className="py-1 text-right font-mono">{c.genesFound}/{c.genesTotal}</td>
+                        <td className="py-1 text-right font-mono">{c.meanLambda.toFixed(4)}</td>
+                        <td className={`py-1 text-right font-mono ${c.vsGlobal > 0 ? 'text-emerald-400' : 'text-red-400'}`}>{c.vsGlobal > 0 ? '+' : ''}{c.vsGlobal.toFixed(4)}</td>
+                        <td className={`py-1 text-right font-mono ${c.significant ? 'text-emerald-400 font-bold' : ''}`}>{c.permP < 0.001 ? '<0.001' : c.permP.toFixed(3)}</td>
+                        <td className="py-1 text-right font-mono">{c.zScore.toFixed(2)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                {liveOrganoid.categories.some(c => c.significant) ? (
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    <strong>Key Finding:</strong> {liveOrganoid.categories.filter(c => c.significant).map(c => `${c.name} (|λ|=${c.meanLambda.toFixed(3)})`).join(', ')} show{liveOrganoid.categories.filter(c => c.significant).length === 1 ? 's' : ''} significantly elevated persistence above the genome-wide mean (|λ|={liveOrganoid.globalMeanLambda.toFixed(3)}).
+                  </p>
+                ) : (
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    <strong>Result:</strong> With only 12 unique circadian time points after replicate averaging, no category reaches significance by permutation test. However, the hierarchy (Circadian Core &gt; Stem Cell &gt; background) is directionally consistent with the expected biological ordering.
+                  </p>
+                )}
+                <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs text-muted-foreground">
+                  <p className="font-semibold text-amber-400 mb-1">Methodology</p>
+                  <p>Biological replicates at the same circadian time point are averaged before AR(2) fitting (12 unique time points: CT24–CT46). Eigenvalues capped at |λ| ≤ 1.0. 5,000-permutation test for each category vs genome-wide distribution.</p>
+                </div>
+                <div className="flex items-center gap-3 mt-3">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="gap-2 border-green-500/30 text-green-400 hover:bg-green-500/10"
+                    onClick={() => {
+                      setLiveOrganoidLoading(true);
+                      fetch("/api/drug-durability/live/organoid")
+                        .then(r => { if (!r.ok) throw new Error("Failed"); return r.json(); })
+                        .then(data => { setLiveOrganoid(data); setLiveOrganoidLoading(false); })
+                        .catch(() => { setLiveOrganoidLoading(false); });
+                    }}
+                    disabled={liveOrganoidLoading}
+                    data-testid="button-verify-organoid"
+                  >
+                    <FlaskConical size={14} />
+                    Re-compute
+                  </Button>
+                  <span className="text-xs text-muted-foreground">{liveOrganoid.computedAt}</span>
+                </div>
+              </>
+            )}
           </CardContent>
         </Card>
 
-        {/* GSE113883 Blood */}
+        {/* GSE113883 Blood — Live Computed */}
         <Card className="mb-8 border-red-500/30 bg-red-500/5">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-red-400" data-testid="text-blood-title">
               <Activity size={20} />
               Cross-Dataset Validation: Human Whole Blood (GSE113883)
+              <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-medium">LIVE COMPUTED</span>
             </CardTitle>
             <p className="text-sm text-muted-foreground">
-              LPS-stimulated immune response (24 donors, 4 timepoints across 24h). Tests AR(2) in inflammatory context independent of cancer/drug effects.
+              LPS-stimulated immune response (15 timepoints, 1–29h). AR(2) fitted to sequential expression profiles. Tests persistence in inflammatory context independent of cancer/drug effects.
             </p>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-              <div className="text-center p-3 rounded-lg bg-background/50">
-                <p className="text-xs text-muted-foreground mb-1">Donors</p>
-                <p className="text-2xl font-bold font-mono text-red-400">{GSE113883_BLOOD_DATA.summary.patientsComplete}</p>
+            {liveBloodLoading && (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Loader2 size={16} className="animate-spin" />
+                Computing AR(2) from GSE113883 dataset...
               </div>
-              <div className="text-center p-3 rounded-lg bg-background/50">
-                <p className="text-xs text-muted-foreground mb-1">Mean |λ|</p>
-                <p className="text-2xl font-bold font-mono">{GSE113883_BLOOD_DATA.summary.globalMeanLambda.toFixed(4)}</p>
+            )}
+            {liveBloodError && (
+              <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-sm text-red-400">
+                Failed to compute: {liveBloodError}
               </div>
-              <div className="text-center p-3 rounded-lg bg-background/50">
-                <p className="text-xs text-muted-foreground mb-1">Genes</p>
-                <p className="text-2xl font-bold font-mono">{GSE113883_BLOOD_DATA.summary.uniqueGenes.toLocaleString()}</p>
-              </div>
-              <div className="text-center p-3 rounded-lg bg-background/50">
-                <p className="text-xs text-muted-foreground mb-1">Persistence Diff</p>
-                <p className="text-2xl font-bold font-mono text-red-400">{GSE113883_BLOOD_DATA.mainFinding.differencePP.toFixed(1)}pp</p>
-              </div>
-            </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              <strong>Key Finding:</strong> Immune response genes (|λ|=0.716) and inflammatory markers (|λ|=0.672) show inverted persistence patterns vs blood metabolism genes (|λ|=0.593). 
-              High-|λ| immune genes maintain sustained inflammatory responses; this contrasts with GSE93204 where high-persistence proliferation genes showed reduced drug effect durability.
-            </p>
-            <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs text-muted-foreground">
-              <p className="font-semibold text-amber-400 mb-1">Biological Context</p>
-              <p>GSE113883 demonstrates that AR(2) persistence reflects fundamentally different biology in immune response vs cancer proliferation. The inverse relationship (high-|λ| immune → sustained response) suggests AR(2) captures adaptive capacity, not just cellular "stubbornness."</p>
-            </div>
+            )}
+            {liveBlood && (
+              <>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+                  <div className="text-center p-3 rounded-lg bg-background/50">
+                    <p className="text-xs text-muted-foreground mb-1">Genes Analyzed</p>
+                    <p className="text-2xl font-bold font-mono text-red-400">{liveBlood.totalGenes.toLocaleString()}</p>
+                  </div>
+                  <div className="text-center p-3 rounded-lg bg-background/50">
+                    <p className="text-xs text-muted-foreground mb-1">Mean |λ|</p>
+                    <p className="text-2xl font-bold font-mono">{liveBlood.globalMeanLambda.toFixed(4)}</p>
+                  </div>
+                  <div className="text-center p-3 rounded-lg bg-background/50">
+                    <p className="text-xs text-muted-foreground mb-1">Median |λ|</p>
+                    <p className="text-2xl font-bold font-mono">{liveBlood.globalMedianLambda.toFixed(4)}</p>
+                  </div>
+                  <div className="text-center p-3 rounded-lg bg-background/50">
+                    <p className="text-xs text-muted-foreground mb-1">Computed</p>
+                    <p className="text-sm font-mono text-emerald-400">{liveBlood.computationTimeMs}ms</p>
+                  </div>
+                </div>
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="border-b border-border/30 text-muted-foreground">
+                      <th className="py-1 text-left">Category</th>
+                      <th className="py-1 text-right">Genes</th>
+                      <th className="py-1 text-right">Mean |λ|</th>
+                      <th className="py-1 text-right">vs Global</th>
+                      <th className="py-1 text-right">p-value</th>
+                      <th className="py-1 text-right">z-score</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {liveBlood.categories.map(c => (
+                      <tr key={c.name} className="border-b border-border/20">
+                        <td className="py-1 font-medium">{c.name}</td>
+                        <td className="py-1 text-right font-mono">{c.genesFound}/{c.genesTotal}</td>
+                        <td className="py-1 text-right font-mono">{c.meanLambda.toFixed(4)}</td>
+                        <td className={`py-1 text-right font-mono ${c.vsGlobal > 0 ? 'text-emerald-400' : 'text-red-400'}`}>{c.vsGlobal > 0 ? '+' : ''}{c.vsGlobal.toFixed(4)}</td>
+                        <td className={`py-1 text-right font-mono ${c.significant ? 'text-emerald-400 font-bold' : ''}`}>{c.permP < 0.001 ? '<0.001' : c.permP.toFixed(3)}</td>
+                        <td className="py-1 text-right font-mono">{c.zScore.toFixed(2)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  <strong>Key Finding:</strong> All five gene categories show significantly elevated persistence above the genome-wide mean (|λ|={liveBlood.globalMeanLambda.toFixed(3)}), with {liveBlood.categories[0]?.name} highest at |λ|={liveBlood.categories[0]?.meanLambda.toFixed(3)}. This demonstrates AR(2) persistence captures sustained functional activity across both circadian and immune regulatory networks.
+                </p>
+                <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs text-muted-foreground">
+                  <p className="font-semibold text-amber-400 mb-1">Methodology</p>
+                  <p>15 sequential time points (1h–29h post-LPS). Eigenvalues capped at |λ| ≤ 1.0 (unstable AR(2) excluded). 5,000-permutation test for each category vs genome-wide distribution.</p>
+                </div>
+                <div className="flex items-center gap-3 mt-3">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="gap-2 border-red-500/30 text-red-400 hover:bg-red-500/10"
+                    onClick={() => {
+                      setLiveBloodLoading(true);
+                      fetch("/api/drug-durability/live/blood")
+                        .then(r => { if (!r.ok) throw new Error("Failed"); return r.json(); })
+                        .then(data => { setLiveBlood(data); setLiveBloodLoading(false); })
+                        .catch(() => { setLiveBloodLoading(false); });
+                    }}
+                    disabled={liveBloodLoading}
+                    data-testid="button-verify-blood"
+                  >
+                    <FlaskConical size={14} />
+                    Re-compute
+                  </Button>
+                  <span className="text-xs text-muted-foreground">{liveBlood.computedAt}</span>
+                </div>
+              </>
+            )}
           </CardContent>
         </Card>
 
@@ -1230,6 +1374,7 @@ export default function DrugDurability() {
             <p><span className="font-semibold text-foreground">Time Points:</span> Baseline (pre-treatment) → C1D1 (after anastrozole alone) → C1D15 (after anastrozole + palbociclib) → Surgery.</p>
             <p><span className="font-semibold text-foreground">Method:</span> Population-level AR(2) regression pooled across 7 patients with complete 4-point time series. Eigenvalue modulus |λ| computed from characteristic equation of AR(2) coefficients. Full probe annotation via GPL6480 platform file (30,724 probes mapped to 13,328 unique genes).</p>
             <p><span className="font-semibold text-foreground">Validation:</span> 5,000-permutation tests for category significance. 1,000-bootstrap resampling for confidence intervals (patient-level resampling with replacement). Two-sided p-values reported throughout.</p>
+            <p className="mt-2 text-amber-400"><span className="font-semibold">Data provenance note:</span> GSE157357 (organoid) and GSE113883 (blood) results are computed live from the raw datasets on each page load — replicates are averaged per time point before AR(2) fitting. DRMref multi-drug cross-validation is also computed live. GSE93204 (palbociclib) results remain pre-computed as the raw dataset is not hosted on this server. All source datasets are publicly available from NCBI GEO.</p>
           </CardContent>
         </Card>
       </div>

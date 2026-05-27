@@ -1,0 +1,93 @@
+{
+  "analysis": "Half-Life Independence Replication — Non-Circadian Datasets",
+  "date": "2026-02-27T10:45:08.172Z",
+  "note": "Initial raw analysis (no expression filter). Canonical values after expression filter (meanExpr >= 1) are in robustness_filtered below and used in all manuscript files.",
+  "original_finding": {
+    "dataset": "GSE11923",
+    "rho": 0.006,
+    "p": 0.63,
+    "n": 5945
+  },
+  "replication_results_raw": [
+    {
+      "dataset": "Rabani2014_DC_LPS",
+      "dataset_long": "Rabani 2014 — Dendritic Cell LPS Response (Immune)",
+      "species": "Mouse",
+      "n_genes_unfiltered": 86,
+      "spearman_rho_unfiltered": 0.1164,
+      "p_value_unfiltered": 0.015104,
+      "quintiles": {
+        "Q1": 0.651,
+        "Q2": 0.728,
+        "Q3": 0.643,
+        "Q4": 0.733,
+        "Q5": 0.855
+      }
+    },
+    {
+      "dataset": "Amit2009_DC_LPS",
+      "dataset_long": "Amit 2009 — Dendritic Cell LPS Response (Immune)",
+      "species": "Mouse",
+      "n_genes_unfiltered": 195,
+      "spearman_rho_unfiltered": 0.1474,
+      "p_value_unfiltered": 0.002689,
+      "quintiles": {
+        "Q1": 0.606,
+        "Q2": 0.719,
+        "Q3": 0.701,
+        "Q4": 0.740,
+        "Q5": 0.711
+      }
+    },
+    {
+      "dataset": "GSE221103_MYC_ON",
+      "dataset_long": "GSE221103 — Neuroblastoma MYC-ON (Cancer)",
+      "species": "Human",
+      "n_genes_unfiltered": 179,
+      "spearman_rho_unfiltered": 0.2022,
+      "p_value_unfiltered": 0.000781,
+      "quintiles": {
+        "Q1": 0.704,
+        "Q2": 0.713,
+        "Q3": 0.837,
+        "Q4": 0.705,
+        "Q5": 0.879
+      }
+    }
+  ],
+  "robustness_filtered": {
+    "filter": "meanExpr >= 1, |lambda| < 2",
+    "note": "These are the canonical values used in all manuscript files",
+    "Rabani2014_DC_LPS": {
+      "n_genes": 85,
+      "spearman_rho": 0.130,
+      "p_value": 0.015,
+      "bootstrap_95ci": [-0.100, 0.354],
+      "permutation_p": 0.240,
+      "rho_excluding_explosive": -0.040,
+      "partial_rho_controlling_expression": 0.131,
+      "time_shuffle_passes": false
+    },
+    "Amit2009_DC_LPS": {
+      "n_genes": 190,
+      "spearman_rho": 0.154,
+      "p_value": 0.003,
+      "bootstrap_95ci": [0.011, 0.294],
+      "permutation_p": 0.034,
+      "rho_excluding_explosive": "substantially reduced"
+    },
+    "GSE221103_MYC_ON": {
+      "n_genes": 178,
+      "spearman_rho": 0.203,
+      "p_value": 0.001,
+      "bootstrap_95ci": [0.061, 0.345],
+      "permutation_p": 0.007,
+      "partial_rho_controlling_expression": 0.045
+    }
+  },
+  "combined_evidence": {
+    "total_datasets": 7,
+    "total_genes_tested": 22989,
+    "weighted_mean_rho": 0.0115
+  }
+}

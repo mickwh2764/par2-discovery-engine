@@ -93,11 +93,11 @@ function FunnelStep({ number, label, value, color, width, detail }: {
         style={{ backgroundColor: `${color}20`, borderColor: `${color}60` }}
       >
         <div className="text-2xl font-bold" style={{ color }}>{value}</div>
-        <div className="text-xs text-slate-400 mt-1">{label}</div>
-        {detail && <div className="text-[10px] text-slate-400 mt-0.5">{detail}</div>}
+        <div className="text-xs text-slate-500 mt-1">{label}</div>
+        {detail && <div className="text-[10px] text-slate-500 mt-0.5">{detail}</div>}
       </div>
       {number < 4 && (
-        <ArrowDown className="w-5 h-5 text-slate-400 my-2 animate-pulse" />
+        <ArrowDown className="w-5 h-5 text-slate-500 my-2 animate-pulse" />
       )}
     </div>
   );
@@ -123,10 +123,10 @@ function PathwayNode({ pathway, confirmed, total, rate, isSelected, onClick }: {
       data-testid={`pathway-node-${pathway.replace(/\s+/g, '-').toLowerCase()}`}
     >
       <span className="text-lg font-bold" style={{ color: rateColor }}>{rate}%</span>
-      <span className="text-[9px] text-slate-400 text-center leading-tight px-1 max-w-full truncate">
+      <span className="text-[9px] text-slate-500 text-center leading-tight px-1 max-w-full truncate">
         {pathway.length > 14 ? pathway.slice(0, 12) + '..' : pathway}
       </span>
-      <span className="text-[9px] text-slate-400">{confirmed}/{total}</span>
+      <span className="text-[9px] text-slate-500">{confirmed}/{total}</span>
     </button>
   );
 }
@@ -215,12 +215,12 @@ export default function LiteratureValidationPage() {
   const enrichmentRatio = avgControlPercent > 0 ? (clockResult?.percentSignificant || 0) / avgControlPercent : Infinity;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
           <Link href="/genome-wide-coupling">
-            <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white" data-testid="link-back">
+            <Button variant="ghost" size="sm" className="text-slate-500 hover:text-slate-700" data-testid="link-back">
               <ArrowLeft className="w-4 h-4 mr-2" /> Back
             </Button>
           </Link>
@@ -228,12 +228,12 @@ export default function LiteratureValidationPage() {
             <h1 className="text-3xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent" data-testid="text-page-title">
               Literature Validation & Falsification
             </h1>
-            <p className="text-slate-400 mt-1 text-sm">
+            <p className="text-slate-500 mt-1 text-sm">
               Cross-referencing AR(2) coupling results against published circadian literature and negative controls
             </p>
-            <div className="rounded-lg bg-slate-800/40 border border-slate-700/50 p-4 mt-3">
-              <p className="text-sm text-slate-300 leading-relaxed">
-                <strong className="text-white">What you can do:</strong> Cross-references genes identified by AR(2) analysis against 59 circadian genes curated from published literature (Panda, Takahashi, Sancar). Shows where AR(2) results overlap with independently reported findings. Download the cross-reference table for your methods section.
+            <div className="rounded-lg bg-slate-100 border border-slate-200 p-4 mt-3">
+              <p className="text-sm text-slate-600 leading-relaxed">
+                <strong className="text-slate-900">What you can do:</strong> Cross-references genes identified by AR(2) analysis against 59 circadian genes curated from published literature (Panda, Takahashi, Sancar). Shows where AR(2) results overlap with independently reported findings. Download the cross-reference table for your methods section.
               </p>
             </div>
           </div>
@@ -257,7 +257,7 @@ export default function LiteratureValidationPage() {
             />
           )}
           <Select value={dataset} onValueChange={(v) => { setDataset(v); setSelectedPathway(null); }}>
-            <SelectTrigger className="w-[280px] bg-slate-800 border-slate-700" data-testid="select-dataset">
+            <SelectTrigger className="w-[280px] bg-slate-100 border-slate-200" data-testid="select-dataset">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -275,7 +275,7 @@ export default function LiteratureValidationPage() {
             variant={viewMode === 'single' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setViewMode('single')}
-            className={viewMode === 'single' ? 'bg-emerald-600 hover:bg-emerald-500' : 'border-slate-700'}
+            className={viewMode === 'single' ? 'bg-emerald-600 hover:bg-emerald-500' : 'border-slate-200'}
             data-testid="button-single-dataset"
           >
             <Microscope className="h-4 w-4 mr-1" /> Single Dataset
@@ -284,7 +284,7 @@ export default function LiteratureValidationPage() {
             variant={viewMode === 'multi' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setViewMode('multi')}
-            className={viewMode === 'multi' ? 'bg-cyan-600 hover:bg-cyan-500' : 'border-slate-700'}
+            className={viewMode === 'multi' ? 'bg-cyan-600 hover:bg-cyan-500' : 'border-slate-200'}
             data-testid="button-multi-dataset"
           >
             <Target className="h-4 w-4 mr-1" /> Multi-Dataset Scan (21 datasets)
@@ -297,8 +297,8 @@ export default function LiteratureValidationPage() {
               <div className="flex flex-col items-center justify-center py-32 gap-4" data-testid="status-multi-loading">
                 <Loader2 className="w-12 h-12 animate-spin text-cyan-400" />
                 <div className="text-center">
-                  <p className="text-slate-300 font-semibold">Scanning 21 datasets for literature gene recovery...</p>
-                  <p className="text-slate-400 text-sm mt-1">Circadian tissues, immune, disease, and proteome datasets</p>
+                  <p className="text-slate-600 font-semibold">Scanning 21 datasets for literature gene recovery...</p>
+                  <p className="text-slate-500 text-sm mt-1">Circadian tissues, immune, disease, and proteome datasets</p>
                 </div>
               </div>
             )}
@@ -310,40 +310,40 @@ export default function LiteratureValidationPage() {
                       <Target className="h-5 w-5 text-cyan-400" />
                       Multi-Dataset Literature Gene Recovery
                     </CardTitle>
-                    <CardDescription className="text-slate-400">
+                    <CardDescription className="text-slate-500">
                       Scanning {multiData.datasetsScanned} datasets across circadian, immune, disease, and proteome contexts
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                      <div className="text-center p-4 rounded-lg bg-slate-800/60 border border-slate-700">
+                      <div className="text-center p-4 rounded-lg bg-slate-50 border border-slate-200">
                         <div className="text-3xl font-bold text-cyan-400" data-testid="text-multi-recovery-rate">{multiData.recoveryRate}%</div>
-                        <div className="text-xs text-slate-400 mt-1">Overall Recovery</div>
+                        <div className="text-xs text-slate-500 mt-1">Overall Recovery</div>
                       </div>
-                      <div className="text-center p-4 rounded-lg bg-slate-800/60 border border-slate-700">
+                      <div className="text-center p-4 rounded-lg bg-slate-50 border border-slate-200">
                         <div className="text-3xl font-bold text-emerald-400" data-testid="text-multi-recovered">{multiData.totalRecovered}/{multiData.totalGenes}</div>
-                        <div className="text-xs text-slate-400 mt-1">Genes Recovered</div>
+                        <div className="text-xs text-slate-500 mt-1">Genes Recovered</div>
                       </div>
-                      <div className="text-center p-4 rounded-lg bg-slate-800/60 border border-slate-700">
+                      <div className="text-center p-4 rounded-lg bg-slate-50 border border-slate-200">
                         <div className="text-3xl font-bold text-amber-400" data-testid="text-multi-datasets">{multiData.datasetsScanned}</div>
-                        <div className="text-xs text-slate-400 mt-1">Datasets Scanned</div>
+                        <div className="text-xs text-slate-500 mt-1">Datasets Scanned</div>
                       </div>
-                      <div className="text-center p-4 rounded-lg bg-slate-800/60 border border-slate-700">
+                      <div className="text-center p-4 rounded-lg bg-slate-50 border border-slate-200">
                         <div className="text-3xl font-bold text-red-400" data-testid="text-multi-missed">{multiData.missedGenes.length}</div>
-                        <div className="text-xs text-slate-400 mt-1">Genes Missed</div>
+                        <div className="text-xs text-slate-500 mt-1">Genes Missed</div>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                       <div>
-                        <h4 className="text-sm font-semibold text-slate-300 mb-3">Pathway Recovery</h4>
+                        <h4 className="text-sm font-semibold text-slate-600 mb-3">Pathway Recovery</h4>
                         <div className="space-y-2">
                           {Object.entries(multiData.pathwaySummary)
                             .sort(([,a], [,b]) => (b.recovered/b.total) - (a.recovered/a.total))
                             .map(([pathway, stats]) => (
                             <div key={pathway} className="flex items-center gap-2" data-testid={`pathway-${pathway}`}>
-                              <div className="w-28 text-xs text-slate-400 truncate">{pathway}</div>
-                              <div className="flex-1 h-5 bg-slate-800 rounded-full overflow-hidden">
+                              <div className="w-28 text-xs text-slate-500 truncate">{pathway}</div>
+                              <div className="flex-1 h-5 bg-slate-100 rounded-full overflow-hidden">
                                 <div
                                   className="h-full rounded-full transition-all"
                                   style={{
@@ -352,25 +352,25 @@ export default function LiteratureValidationPage() {
                                   }}
                                 />
                               </div>
-                              <div className="text-xs text-slate-300 w-14 text-right">{stats.recovered}/{stats.total}</div>
+                              <div className="text-xs text-slate-600 w-14 text-right">{stats.recovered}/{stats.total}</div>
                             </div>
                           ))}
                         </div>
                       </div>
 
                       <div>
-                        <h4 className="text-sm font-semibold text-slate-300 mb-3">Dataset Coverage</h4>
+                        <h4 className="text-sm font-semibold text-slate-600 mb-3">Dataset Coverage</h4>
                         <div className="space-y-1 max-h-64 overflow-y-auto">
                           {multiData.datasetSummaries.map((ds, i) => (
-                            <div key={i} className="flex items-center gap-2 text-xs p-1.5 rounded hover:bg-slate-800/50" data-testid={`dataset-summary-${i}`}>
+                            <div key={i} className="flex items-center gap-2 text-xs p-1.5 rounded hover:bg-slate-50" data-testid={`dataset-summary-${i}`}>
                               <Badge variant="outline" className={`text-[10px] px-1.5 ${
                                 ds.category === 'Circadian' ? 'border-emerald-600 text-emerald-400' :
                                 ds.category === 'Immune' ? 'border-amber-600 text-amber-400' :
                                 ds.category === 'Disease' ? 'border-red-600 text-red-400' :
                                 'border-purple-600 text-purple-400'
                               }`}>{ds.category}</Badge>
-                              <span className="text-slate-300 flex-1 truncate">{ds.name}</span>
-                              <span className="text-slate-400">{ds.genesRecovered} genes</span>
+                              <span className="text-slate-600 flex-1 truncate">{ds.name}</span>
+                              <span className="text-slate-500">{ds.genesRecovered} genes</span>
                             </div>
                           ))}
                         </div>
@@ -378,14 +378,14 @@ export default function LiteratureValidationPage() {
                     </div>
 
                     {multiData.missedGenes.length > 0 && (
-                      <div className="mt-6 p-4 rounded-lg bg-slate-800/40 border border-slate-700/50">
-                        <h4 className="text-sm font-semibold text-slate-300 mb-2">Missed Genes (with explanations)</h4>
+                      <div className="mt-6 p-4 rounded-lg bg-slate-100 border border-slate-200">
+                        <h4 className="text-sm font-semibold text-slate-600 mb-2">Missed Genes (with explanations)</h4>
                         <div className="space-y-1">
                           {multiData.missedGenes.map((g, i) => (
                             <div key={i} className="flex items-center gap-2 text-xs" data-testid={`missed-gene-${g.gene}`}>
                               <Badge variant="outline" className="border-red-700 text-red-400 text-[10px]">{g.pathway}</Badge>
-                              <GeneTooltip gene={g.gene}><span className="text-white font-medium">{g.gene}</span></GeneTooltip>
-                              <span className="text-slate-400">{g.reason}</span>
+                              <GeneTooltip gene={g.gene}><span className="text-slate-900 font-medium">{g.gene}</span></GeneTooltip>
+                              <span className="text-slate-500">{g.reason}</span>
                             </div>
                           ))}
                         </div>
@@ -402,8 +402,8 @@ export default function LiteratureValidationPage() {
           <div className="flex flex-col items-center justify-center py-32 gap-4" data-testid="status-loading">
             <Loader2 className="w-12 h-12 animate-spin text-emerald-400" />
             <div className="text-center">
-              <p className="text-slate-300 font-semibold">Running validation + falsification tests...</p>
-              <p className="text-slate-400 text-sm mt-1">Testing Arntl against 10+ control predictors across ~21,000 genes</p>
+              <p className="text-slate-600 font-semibold">Running validation + falsification tests...</p>
+              <p className="text-slate-500 text-sm mt-1">Testing Arntl against 10+ control predictors across ~21,000 genes</p>
             </div>
           </div>
         )}
@@ -419,7 +419,7 @@ export default function LiteratureValidationPage() {
         {viewMode === 'single' && data && (
           <>
             {/* ========== SECTION 1: THE STORY - Discovery Funnel ========== */}
-            <Card className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border-slate-700 mb-8 overflow-hidden">
+            <Card className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border-slate-200 mb-8 overflow-hidden">
               <CardHeader className="pb-2">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
@@ -427,7 +427,7 @@ export default function LiteratureValidationPage() {
                   </div>
                   <CardTitle className="text-xl">Analysis Summary</CardTitle>
                 </div>
-                <CardDescription className="text-slate-400">
+                <CardDescription className="text-slate-500">
                   AR(2) coupling scan applied to all genes in the dataset. Results filtered by FDR and ΔAIC thresholds.
                 </CardDescription>
               </CardHeader>
@@ -472,29 +472,29 @@ export default function LiteratureValidationPage() {
                     <div className="text-2xl font-bold text-emerald-400" data-testid="text-confirmation-rate">
                       {Math.round(data.convergenceSummary.confirmationRate * 100)}%
                     </div>
-                    <div className="text-xs text-slate-400">Overlap Rate</div>
-                    <div className="text-[10px] text-slate-400">Literature genes reaching FDR threshold</div>
+                    <div className="text-xs text-slate-500">Overlap Rate</div>
+                    <div className="text-[10px] text-slate-500">Literature genes reaching FDR threshold</div>
                   </div>
                   <div className="text-center p-3 rounded-lg bg-cyan-900/20 border border-cyan-800/50">
                     <div className="text-2xl font-bold text-cyan-400" data-testid="text-novel-count">
                       {data.convergenceSummary.novelPAR2Only.toLocaleString()}
                     </div>
-                    <div className="text-xs text-slate-400">Unlisted Significant</div>
-                    <div className="text-[10px] text-slate-400">Not in curated literature database</div>
+                    <div className="text-xs text-slate-500">Unlisted Significant</div>
+                    <div className="text-[10px] text-slate-500">Not in curated literature database</div>
                   </div>
                   <div className="text-center p-3 rounded-lg bg-amber-900/20 border border-amber-800/50">
                     <div className="text-2xl font-bold text-amber-400">
                       {data.convergenceSummary.pathwayBreakdown.filter(p => p.rate > 0).length}
                     </div>
-                    <div className="text-xs text-slate-400">Pathways with Overlap</div>
-                    <div className="text-[10px] text-slate-400">Pathways containing at least one shared gene</div>
+                    <div className="text-xs text-slate-500">Pathways with Overlap</div>
+                    <div className="text-[10px] text-slate-500">Pathways containing at least one shared gene</div>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
             {/* ========== SECTION 2: FALSIFICATION - The Decisive Test ========== */}
-            <Card className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border-slate-700 mb-8">
+            <Card className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border-slate-200 mb-8">
               <CardHeader className="pb-2">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center">
@@ -509,7 +509,7 @@ export default function LiteratureValidationPage() {
                     The Falsification Test
                   </CardTitle>
                 </div>
-                <CardDescription className="text-slate-400">
+                <CardDescription className="text-slate-500">
                   Negative control test: replacing the clock predictor (Arntl) with housekeeping or random genes
                   to check whether coupling results are predictor-specific or a general statistical artifact.
                 </CardDescription>
@@ -520,13 +520,13 @@ export default function LiteratureValidationPage() {
                   {/* Arntl - The Real Signal */}
                   <div className="relative p-6 rounded-xl bg-gradient-to-br from-emerald-900/30 to-emerald-950/30 border border-emerald-700/50">
                     <div className="absolute top-3 right-3">
-                      <Badge className="bg-emerald-600 text-white">CLOCK PREDICTOR</Badge>
+                      <Badge className="bg-emerald-600 text-slate-900">CLOCK PREDICTOR</Badge>
                     </div>
                     <div className="text-sm text-emerald-300 font-semibold mb-1">Predictor: Arntl (BMAL1)</div>
                     <div className="text-6xl font-black text-emerald-400 my-3" data-testid="text-arntl-percent">
                       {clockResult?.percentSignificant.toFixed(1)}%
                     </div>
-                    <div className="text-sm text-slate-400">
+                    <div className="text-sm text-slate-500">
                       {clockResult?.totalSignificant.toLocaleString()} genes reached significance
                     </div>
                     <div className="mt-3 flex flex-wrap gap-1">
@@ -539,20 +539,20 @@ export default function LiteratureValidationPage() {
                   </div>
 
                   {/* Controls - The Noise */}
-                  <div className="relative p-6 rounded-xl bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-700/50">
+                  <div className="relative p-6 rounded-xl bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-200">
                     <div className="absolute top-3 right-3">
-                      <Badge variant="outline" className="border-slate-600 text-slate-400">CONTROLS</Badge>
+                      <Badge variant="outline" className="border-slate-300 text-slate-500">CONTROLS</Badge>
                     </div>
-                    <div className="text-sm text-slate-400 font-semibold mb-1">
+                    <div className="text-sm text-slate-500 font-semibold mb-1">
                       {controlResults.length} Housekeeping & Random Genes
                     </div>
-                    <div className="text-6xl font-black text-slate-400 my-3" data-testid="text-control-percent">
+                    <div className="text-6xl font-black text-slate-500 my-3" data-testid="text-control-percent">
                       {avgControlPercent.toFixed(1)}%
                     </div>
-                    <div className="text-sm text-slate-400">
+                    <div className="text-sm text-slate-500">
                       Average: {Math.round(controlResults.reduce((a, f) => a + f.totalSignificant, 0) / Math.max(controlResults.length, 1))} genes
                     </div>
-                    <div className="mt-3 text-xs text-slate-400">
+                    <div className="mt-3 text-xs text-slate-500">
                       GAPDH, Actb, Tbp, Hprt, + random genes
                     </div>
                   </div>
@@ -571,24 +571,24 @@ export default function LiteratureValidationPage() {
                       <AlertTriangle className="w-8 h-8 text-amber-400 flex-shrink-0" />
                     )}
                     <div>
-                      <div className="text-lg font-bold text-white">
+                      <div className="text-lg font-bold text-slate-900">
                         {enrichmentRatio >= 10 ? `${Math.round(enrichmentRatio)}x Enrichment Ratio` :
                          enrichmentRatio >= 3 ? `${enrichmentRatio.toFixed(1)}x Enrichment Ratio` :
                          'Low Enrichment'}
                       </div>
-                      <div className="text-sm text-slate-400">
+                      <div className="text-sm text-slate-500">
                         Clock predictor vs control average ({clockResult?.percentSignificant.toFixed(1)}% vs {avgControlPercent.toFixed(1)}%)
                       </div>
                     </div>
                   </div>
-                  <p className="text-sm text-slate-300 mt-2" data-testid="text-falsification-verdict">
+                  <p className="text-sm text-slate-600 mt-2" data-testid="text-falsification-verdict">
                     {data.falsificationVerdict}
                   </p>
                 </div>
 
                 {/* Comparison Chart */}
                 <div className="mb-4">
-                  <h3 className="text-sm font-semibold text-slate-300 mb-3">Significant Genes by Predictor (Arntl vs Controls)</h3>
+                  <h3 className="text-sm font-semibold text-slate-600 mb-3">Significant Genes by Predictor (Arntl vs Controls)</h3>
                   <ResponsiveContainer width="100%" height={Math.min(400, falsificationChartData.length * 34 + 40)}>
                     <BarChart data={falsificationChartData} layout="vertical" margin={{ left: 10 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
@@ -615,7 +615,7 @@ export default function LiteratureValidationPage() {
                   variant="ghost"
                   size="sm"
                   onClick={() => setShowAllFalsification(!showAllFalsification)}
-                  className="text-slate-400 hover:text-white"
+                  className="text-slate-500 hover:text-slate-700"
                   data-testid="button-toggle-falsification-table"
                 >
                   {showAllFalsification ? <ChevronUp className="w-4 h-4 mr-1" /> : <ChevronDown className="w-4 h-4 mr-1" />}
@@ -626,7 +626,7 @@ export default function LiteratureValidationPage() {
                   <div className="mt-3 overflow-x-auto">
                     <table className="w-full text-sm" data-testid="table-falsification">
                       <thead>
-                        <tr className="border-b border-slate-700 text-slate-400">
+                        <tr className="border-b border-slate-200 text-slate-500">
                           <th className="text-left py-2 px-3">Predictor</th>
                           <th className="text-left py-2 px-3">Type</th>
                           <th className="text-right py-2 px-3">Significant</th>
@@ -660,7 +660,7 @@ export default function LiteratureValidationPage() {
             </Card>
 
             {/* ========== SECTION 3: CONVERGENCE MAP ========== */}
-            <Card className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border-slate-700 mb-8">
+            <Card className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border-slate-200 mb-8">
               <CardHeader className="pb-2">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center">
@@ -668,7 +668,7 @@ export default function LiteratureValidationPage() {
                   </div>
                   <CardTitle className="text-xl">Interactive Convergence Map</CardTitle>
                 </div>
-                <CardDescription className="text-slate-400">
+                <CardDescription className="text-slate-500">
                   Each circle is a biological pathway. Size = gene count. Color = how well PAR(2) confirmed published findings.
                   Click any pathway to see its genes below.
                 </CardDescription>
@@ -689,10 +689,10 @@ export default function LiteratureValidationPage() {
                 </div>
 
                 {selectedPathway && (
-                  <div className="mt-4 p-4 rounded-lg bg-slate-900/50 border border-slate-700">
+                  <div className="mt-4 p-4 rounded-lg bg-white border border-slate-200">
                     <div className="flex items-center justify-between mb-3">
-                      <h4 className="font-semibold text-white">{selectedPathway}</h4>
-                      <Button variant="ghost" size="sm" onClick={() => setSelectedPathway(null)} className="text-slate-400 h-6">
+                      <h4 className="font-semibold text-slate-900">{selectedPathway}</h4>
+                      <Button variant="ghost" size="sm" onClick={() => setSelectedPathway(null)} className="text-slate-500 h-6">
                         <XCircle className="w-4 h-4" />
                       </Button>
                     </div>
@@ -701,16 +701,16 @@ export default function LiteratureValidationPage() {
                         .filter(g => g.pathway === selectedPathway)
                         .map((g, i) => (
                           <div key={i} className={`flex items-center gap-3 p-2 rounded text-sm ${
-                            g.par2Significant ? 'bg-emerald-900/20' : 'bg-slate-800/50'
+                            g.par2Significant ? 'bg-emerald-900/20' : 'bg-slate-50'
                           }`}>
-                            <GeneTooltip gene={g.gene}><span className="font-mono font-semibold w-16 text-white">{g.gene}</span></GeneTooltip>
+                            <GeneTooltip gene={g.gene}><span className="font-mono font-semibold w-16 text-slate-900">{g.gene}</span></GeneTooltip>
                             {g.par2Significant ? (
                               <CheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0" />
                             ) : (
-                              <XCircle className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                              <XCircle className="w-4 h-4 text-slate-500 flex-shrink-0" />
                             )}
-                            <span className="text-xs text-slate-400 flex-1">{g.literatureFinding}</span>
-                            <span className="text-[10px] text-slate-400 flex-shrink-0">{g.literatureCitation}</span>
+                            <span className="text-xs text-slate-500 flex-1">{g.literatureFinding}</span>
+                            <span className="text-[10px] text-slate-500 flex-shrink-0">{g.literatureCitation}</span>
                           </div>
                         ))}
                     </div>
@@ -719,7 +719,7 @@ export default function LiteratureValidationPage() {
 
                 <div className="grid md:grid-cols-2 gap-6 mt-6">
                   <div>
-                    <h3 className="text-sm font-semibold text-slate-300 mb-3">Confirmation by Pathway</h3>
+                    <h3 className="text-sm font-semibold text-slate-600 mb-3">Confirmation by Pathway</h3>
                     <ResponsiveContainer width="100%" height={320}>
                       <BarChart
                         data={data.convergenceSummary.pathwayBreakdown.map(p => ({
@@ -752,7 +752,7 @@ export default function LiteratureValidationPage() {
                     </ResponsiveContainer>
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-slate-300 mb-3">Overall Convergence</h3>
+                    <h3 className="text-sm font-semibold text-slate-600 mb-3">Overall Convergence</h3>
                     <ResponsiveContainer width="100%" height={320}>
                       <PieChart>
                         <Pie
@@ -774,7 +774,7 @@ export default function LiteratureValidationPage() {
                         />
                       </PieChart>
                     </ResponsiveContainer>
-                    <p className="text-center text-xs text-slate-400 -mt-4">
+                    <p className="text-center text-xs text-slate-500 -mt-4">
                       Of {data.convergenceSummary.foundInDataset} literature genes found in dataset
                     </p>
                   </div>
@@ -783,7 +783,7 @@ export default function LiteratureValidationPage() {
             </Card>
 
             {/* ========== SECTION 4: INTERPRETATION & LIMITATIONS ========== */}
-            <Card className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border-slate-700 mb-8">
+            <Card className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border-slate-200 mb-8">
               <CardHeader className="pb-2">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center">
@@ -791,30 +791,30 @@ export default function LiteratureValidationPage() {
                   </div>
                   <CardTitle className="text-xl">Interpretation & Limitations</CardTitle>
                 </div>
-                <CardDescription className="text-slate-400">
+                <CardDescription className="text-slate-500">
                   What these results show, what they don't, and how they could be used.
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid md:grid-cols-2 gap-4">
-                  <div className="p-4 rounded-lg bg-slate-800/50 border border-slate-700">
+                  <div className="p-4 rounded-lg bg-slate-50 border border-slate-200">
                     <div className="flex items-center gap-2 mb-2">
                       <Target className="w-5 h-5 text-emerald-400" />
-                      <h4 className="font-semibold text-white">Chronotherapy Hypothesis Generation</h4>
+                      <h4 className="font-semibold text-slate-900">Chronotherapy Hypothesis Generation</h4>
                     </div>
-                    <p className="text-sm text-slate-400">
+                    <p className="text-sm text-slate-500">
                       Genes reaching significance here are candidates for clock-dependent regulation. 
                       Where these overlap with known drug targets, they suggest hypotheses for time-of-day 
                       dosing that would require independent validation (e.g., Storch et al. 2002, Takahashi 2017).
                     </p>
                   </div>
 
-                  <div className="p-4 rounded-lg bg-slate-800/50 border border-slate-700">
+                  <div className="p-4 rounded-lg bg-slate-50 border border-slate-200">
                     <div className="flex items-center gap-2 mb-2">
                       <Sparkles className="w-5 h-5 text-cyan-400" />
-                      <h4 className="font-semibold text-white">Unlisted Genes</h4>
+                      <h4 className="font-semibold text-slate-900">Unlisted Genes</h4>
                     </div>
-                    <p className="text-sm text-slate-400">
+                    <p className="text-sm text-slate-500">
                       {data.convergenceSummary.novelPAR2Only.toLocaleString()} genes reached significance but are 
                       not in our curated literature list. This does not confirm they are circadian - our database 
                       covers only 59 genes. Many may already be known via other databases (CircaDB, KEGG) or may 
@@ -822,12 +822,12 @@ export default function LiteratureValidationPage() {
                     </p>
                   </div>
 
-                  <div className="p-4 rounded-lg bg-slate-800/50 border border-slate-700">
+                  <div className="p-4 rounded-lg bg-slate-50 border border-slate-200">
                     <div className="flex items-center gap-2 mb-2">
                       <FlaskConical className="w-5 h-5 text-amber-400" />
-                      <h4 className="font-semibold text-white">What the Falsification Test Shows</h4>
+                      <h4 className="font-semibold text-slate-900">What the Falsification Test Shows</h4>
                     </div>
-                    <p className="text-sm text-slate-400">
+                    <p className="text-sm text-slate-500">
                       The enrichment ratio indicates the coupling signal is predictor-specific rather than a 
                       general regression artifact. This is necessary but not sufficient to establish biological 
                       causation. The test design follows negative control logic standard in genomics 
@@ -835,12 +835,12 @@ export default function LiteratureValidationPage() {
                     </p>
                   </div>
 
-                  <div className="p-4 rounded-lg bg-slate-800/50 border border-slate-700">
+                  <div className="p-4 rounded-lg bg-slate-50 border border-slate-200">
                     <div className="flex items-center gap-2 mb-2">
                       <Microscope className="w-5 h-5 text-purple-400" />
-                      <h4 className="font-semibold text-white">Key Limitations</h4>
+                      <h4 className="font-semibold text-slate-900">Key Limitations</h4>
                     </div>
-                    <p className="text-sm text-slate-400">
+                    <p className="text-sm text-slate-500">
                       Results are from a single dataset and tissue. Literature database is manually curated 
                       (59 genes) and not exhaustive. Overlap rate depends on dataset quality, tissue match, 
                       and statistical power. Cross-tissue and cross-species replication is needed before 
@@ -849,12 +849,12 @@ export default function LiteratureValidationPage() {
                   </div>
                 </div>
 
-                <div className="mt-4 p-4 rounded-lg bg-slate-900/50 border border-amber-800/30">
+                <div className="mt-4 p-4 rounded-lg bg-white border border-amber-800/30">
                   <div className="flex items-center gap-2 mb-2">
                     <AlertTriangle className="w-5 h-5 text-amber-400" />
-                    <h4 className="font-semibold text-white">Note on Interpretation</h4>
+                    <h4 className="font-semibold text-slate-900">Note on Interpretation</h4>
                   </div>
-                  <p className="text-sm text-slate-400">
+                  <p className="text-sm text-slate-500">
                     Statistical significance in this context means the AR(2)+clock model fits better than the 
                     AR(2)-only model for a given gene (ΔAIC &gt; 2, FDR &lt; 0.05). This indicates a statistical 
                     association with the clock predictor, not proven biological regulation. The overlap with 
@@ -866,28 +866,28 @@ export default function LiteratureValidationPage() {
             </Card>
 
             {/* ========== SECTION 5: GENE EXPLORER ========== */}
-            <Card className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border-slate-700">
+            <Card className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border-slate-200">
               <CardHeader className="pb-2">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-slate-500/20 flex items-center justify-center">
-                    <span className="text-slate-400 font-bold text-sm">5</span>
+                    <span className="text-slate-500 font-bold text-sm">5</span>
                   </div>
                   <CardTitle className="text-xl">Gene Explorer</CardTitle>
                 </div>
-                <CardDescription className="text-slate-400">
+                <CardDescription className="text-slate-500">
                   Browse individual genes. Click any gene to see AR(2) coupling statistics alongside published literature.
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-3 mb-4">
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500 w-4 h-4" />
                     <input
                       type="text"
                       placeholder="Search gene, pathway, or citation..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 pr-4 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-white w-64 focus:border-emerald-500 focus:outline-none"
+                      className="pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-900 w-64 focus:border-emerald-500 focus:outline-none"
                       data-testid="input-search-genes"
                     />
                   </div>
@@ -905,7 +905,7 @@ export default function LiteratureValidationPage() {
                           key={f}
                           size="sm"
                           onClick={() => setFilterType(f)}
-                          className={`${filterType === f ? colors[f] + ' text-white' : 'bg-transparent border border-slate-600 text-slate-400 hover:text-white'}`}
+                          className={`${filterType === f ? colors[f] + ' text-slate-900' : 'bg-transparent border border-slate-300 text-slate-500 hover:text-slate-700'}`}
                           data-testid={`button-filter-${f}`}
                         >
                           {labels[f]} ({count})
@@ -916,7 +916,7 @@ export default function LiteratureValidationPage() {
                   {selectedPathway && (
                     <Badge variant="outline" className="border-cyan-500 text-cyan-400 flex items-center gap-1">
                       Pathway: {selectedPathway}
-                      <button onClick={() => setSelectedPathway(null)} className="ml-1 hover:text-white">
+                      <button onClick={() => setSelectedPathway(null)} className="ml-1 hover:text-slate-700">
                         <XCircle className="w-3 h-3" />
                       </button>
                     </Badge>
@@ -929,8 +929,8 @@ export default function LiteratureValidationPage() {
                       <button
                         className={`w-full text-left p-3 rounded-lg transition-all ${
                           expandedGene === g.gene
-                            ? 'bg-slate-700/50 border border-slate-600'
-                            : 'hover:bg-slate-800/50'
+                            ? 'bg-slate-700/50 border border-slate-300'
+                            : 'hover:bg-slate-50'
                         } ${
                           g.convergenceType === 'confirmed' ? 'border-l-2 border-l-emerald-500' :
                           g.convergenceType === 'novel_par2' ? 'border-l-2 border-l-cyan-500' :
@@ -940,7 +940,7 @@ export default function LiteratureValidationPage() {
                         data-testid={`gene-row-${g.gene}`}
                       >
                         <div className="flex items-center gap-3">
-                          <GeneTooltip gene={g.gene}><span className="font-mono font-bold text-white w-20 flex-shrink-0">{g.gene}</span></GeneTooltip>
+                          <GeneTooltip gene={g.gene}><span className="font-mono font-bold text-slate-900 w-20 flex-shrink-0">{g.gene}</span></GeneTooltip>
                           <div className="flex-shrink-0">
                             {g.convergenceType === 'confirmed' && (
                               <Badge className="bg-emerald-600/30 text-emerald-400 text-[10px]">
@@ -953,46 +953,46 @@ export default function LiteratureValidationPage() {
                               </Badge>
                             )}
                             {g.convergenceType === 'literature_only' && (
-                              <Badge className="bg-slate-600/30 text-slate-400 text-[10px]">
+                              <Badge className="bg-slate-600/30 text-slate-500 text-[10px]">
                                 <BookOpen className="w-3 h-3 mr-1" /> Lit Only
                               </Badge>
                             )}
                           </div>
-                          <span className="text-xs text-slate-400 flex-1 truncate">{g.pathway}</span>
+                          <span className="text-xs text-slate-500 flex-1 truncate">{g.pathway}</span>
                           {g.par2Found && (
-                            <span className={`text-xs font-mono ${g.par2Significant ? 'text-emerald-400' : 'text-slate-400'}`}>
+                            <span className={`text-xs font-mono ${g.par2Significant ? 'text-emerald-400' : 'text-slate-500'}`}>
                               ΔAIC {g.par2DeltaAIC.toFixed(1)}
                             </span>
                           )}
                           {expandedGene === g.gene ? (
-                            <ChevronUp className="w-4 h-4 text-slate-400" />
+                            <ChevronUp className="w-4 h-4 text-slate-500" />
                           ) : (
-                            <ChevronDown className="w-4 h-4 text-slate-400" />
+                            <ChevronDown className="w-4 h-4 text-slate-500" />
                           )}
                         </div>
                       </button>
 
                       {expandedGene === g.gene && (
-                        <div className="ml-4 p-4 bg-slate-900/50 rounded-b-lg border-l-2 border-slate-700 space-y-3 text-sm animate-in fade-in duration-200">
+                        <div className="ml-4 p-4 bg-white rounded-b-lg border-l-2 border-slate-200 space-y-3 text-sm animate-in fade-in duration-200">
                           {g.par2Found && (
                             <div>
-                              <div className="text-xs text-slate-400 uppercase tracking-wider mb-1">PAR(2) Result</div>
+                              <div className="text-xs text-slate-500 uppercase tracking-wider mb-1">PAR(2) Result</div>
                               <div className="grid grid-cols-3 gap-3">
                                 <div>
-                                  <div className="text-xs text-slate-400">ΔAIC</div>
-                                  <div className={`font-mono font-bold ${g.par2DeltaAIC > 2 ? 'text-emerald-400' : 'text-slate-400'}`}>
+                                  <div className="text-xs text-slate-500">ΔAIC</div>
+                                  <div className={`font-mono font-bold ${g.par2DeltaAIC > 2 ? 'text-emerald-400' : 'text-slate-500'}`}>
                                     {g.par2DeltaAIC.toFixed(2)}
                                   </div>
                                 </div>
                                 <div>
-                                  <div className="text-xs text-slate-400">FDR</div>
-                                  <div className={`font-mono ${g.par2FDR < 0.05 ? 'text-emerald-400' : 'text-slate-400'}`}>
+                                  <div className="text-xs text-slate-500">FDR</div>
+                                  <div className={`font-mono ${g.par2FDR < 0.05 ? 'text-emerald-400' : 'text-slate-500'}`}>
                                     {g.par2FDR < 0.001 ? g.par2FDR.toExponential(2) : g.par2FDR.toFixed(4)}
                                   </div>
                                 </div>
                                 <div>
-                                  <div className="text-xs text-slate-400">Status</div>
-                                  <div className={g.par2Significant ? 'text-emerald-400 font-semibold' : 'text-slate-400'}>
+                                  <div className="text-xs text-slate-500">Status</div>
+                                  <div className={g.par2Significant ? 'text-emerald-400 font-semibold' : 'text-slate-500'}>
                                     {g.par2Significant ? 'Significant' : 'Not significant'}
                                   </div>
                                 </div>
@@ -1001,10 +1001,10 @@ export default function LiteratureValidationPage() {
                           )}
                           {g.literatureValidated && (
                             <div>
-                              <div className="text-xs text-slate-400 uppercase tracking-wider mb-1">Published Literature</div>
+                              <div className="text-xs text-slate-500 uppercase tracking-wider mb-1">Published Literature</div>
                               <div className="space-y-1">
-                                <div className="text-slate-300">{g.literatureFinding}</div>
-                                <div className="text-xs text-slate-400">
+                                <div className="text-slate-600">{g.literatureFinding}</div>
+                                <div className="text-xs text-slate-500">
                                   Method: {g.literatureMethod} | {g.literatureCitation}
                                 </div>
                               </div>
@@ -1028,32 +1028,32 @@ export default function LiteratureValidationPage() {
                 </div>
 
                 {filteredGenes.length > 100 && (
-                  <p className="text-xs text-slate-400 mt-3 text-center">
+                  <p className="text-xs text-slate-500 mt-3 text-center">
                     Showing first 100 of {filteredGenes.length} genes. Use search to narrow results.
                   </p>
                 )}
               </CardContent>
             </Card>
             {/* ========== SECTION 6: SUPPORTING MECHANISTIC EVIDENCE ========== */}
-            <Card className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border-slate-700">
+            <Card className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border-slate-200">
               <CardHeader className="pb-2">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-slate-500/20 flex items-center justify-center">
-                    <span className="text-slate-400 font-bold text-sm">6</span>
+                    <span className="text-slate-500 font-bold text-sm">6</span>
                   </div>
                   <CardTitle className="text-xl">Supporting Mechanistic Evidence</CardTitle>
                 </div>
-                <CardDescription className="text-slate-400">
+                <CardDescription className="text-slate-500">
                   Independent experimental studies whose findings are consistent with PAR(2) persistence hierarchy predictions. These papers did not measure AR(2) persistence directly but provide mechanistic context for why certain genes show high |λ|.
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="p-4 rounded-lg bg-slate-900/60 border border-slate-700/50" data-testid="card-ampk-per2">
+                  <div className="p-4 rounded-lg bg-white border border-slate-200" data-testid="card-ampk-per2">
                     <div className="flex items-start justify-between gap-3 mb-2">
                       <div>
-                        <h4 className="font-semibold text-white text-sm">Redundant PER2 Stabilisation via Astrocytic AMPK</h4>
-                        <p className="text-xs text-slate-400 mt-0.5">
+                        <h4 className="font-semibold text-slate-900 text-sm">Redundant PER2 Stabilisation via Astrocytic AMPK</h4>
+                        <p className="text-xs text-slate-500 mt-0.5">
                           bioRxiv 2025 &middot; doi:10.1101/2025.08.14.670385
                         </p>
                       </div>
@@ -1061,12 +1061,12 @@ export default function LiteratureValidationPage() {
                         Mechanistic Support
                       </Badge>
                     </div>
-                    <p className="text-sm text-slate-300 leading-relaxed mb-3">
+                    <p className="text-sm text-slate-600 leading-relaxed mb-3">
                       Shows that AMPK in hypothalamic astrocytes directly stabilises PER2 protein via phosphorylation — a second stabilisation mechanism completely independent of the canonical transcription-translation feedback loop (TTFL). This AMPK rhythm persists in constant darkness without feeding cues.
                     </p>
-                    <div className="p-3 rounded bg-slate-800/80 border border-slate-700/30">
-                      <p className="text-xs text-slate-400 mb-1 font-medium uppercase tracking-wider">PAR(2) Connection</p>
-                      <p className="text-sm text-slate-300">
+                    <div className="p-3 rounded bg-slate-50 border border-slate-200">
+                      <p className="text-xs text-slate-500 mb-1 font-medium uppercase tracking-wider">PAR(2) Connection</p>
+                      <p className="text-sm text-slate-600">
                         PER2 consistently shows high |λ| across tissues and species in the PAR(2) framework. This paper provides a mechanistic explanation: PER2 has redundant stabilisation from two independent pathways (TTFL + AMPK phosphorylation). Redundant regulation would be expected to produce exactly the kind of high temporal persistence that AR(2) detects — the signal is reinforced by multiple systems, making it harder to degrade.
                       </p>
                     </div>
@@ -1084,6 +1084,33 @@ export default function LiteratureValidationPage() {
             </Card>
           </>
         )}
+
+        <div className="mt-8 rounded-xl border border-slate-200 bg-slate-100 p-5 space-y-3" data-testid="literature-validation-see-also">
+          <h3 className="text-sm font-semibold text-slate-600 uppercase tracking-wider">Related analyses</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <a href="/genome-wide-coupling" className="flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-3 hover:border-cyan-500/50 hover:bg-cyan-500/5 transition-colors group">
+              <span className="text-cyan-400 mt-0.5">→</span>
+              <div>
+                <div className="text-sm font-medium text-slate-800 group-hover:text-cyan-300 transition-colors">Genome-Wide Coupling</div>
+                <div className="text-xs text-slate-500 mt-0.5">BMAL1 coupling scan across ~21,000 genes — statistical clock co-regulation</div>
+              </div>
+            </a>
+            <a href="/cross-context-validation" className="flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-3 hover:border-rose-500/50 hover:bg-rose-500/5 transition-colors group">
+              <span className="text-rose-400 mt-0.5">→</span>
+              <div>
+                <div className="text-sm font-medium text-slate-800 group-hover:text-rose-300 transition-colors">Cross-Context Validation</div>
+                <div className="text-xs text-slate-500 mt-0.5">4 species · 12 tissues · 36 series — hierarchy stability across contexts</div>
+              </div>
+            </a>
+            <a href="/convergence-map" className="flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-3 hover:border-sky-500/50 hover:bg-sky-500/5 transition-colors group">
+              <span className="text-sky-400 mt-0.5">→</span>
+              <div>
+                <div className="text-sm font-medium text-slate-800 group-hover:text-sky-300 transition-colors">Convergence Map</div>
+                <div className="text-xs text-slate-500 mt-0.5">Independent research lines that connect to PAR(2) findings</div>
+              </div>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );

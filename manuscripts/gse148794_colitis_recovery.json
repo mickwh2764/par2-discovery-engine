@@ -1,0 +1,329 @@
+{
+  "metadata": {
+    "dataset": "GSE148794",
+    "study": "Ho et al. - DSS-Induced Colitis Time Course",
+    "timepoints": [
+      "CONTROL",
+      "DAY03",
+      "DAY06",
+      "DAY09",
+      "DAY12",
+      "DAY15"
+    ],
+    "treatment": "1.5% DSS for 6 days, then regular water"
+  },
+  "summary": {
+    "totalGenes": 13547,
+    "avgModulus": 1.0105988258741,
+    "avgFibProximity": 62.50725828024626,
+    "stablePercent": 67.58691961319849,
+    "avgFoldChange": 0.9942207179113233,
+    "avgRecoveryRatio": 0.9409809287841001
+  },
+  "inflammationGenes": [
+    {
+      "gene": "Mmp3",
+      "modulus": 0.47520378055826135,
+      "foldChange": 10.58682937802272
+    },
+    {
+      "gene": "AI747448",
+      "modulus": 0.7420765273001177,
+      "foldChange": 7.089783281733745
+    },
+    {
+      "gene": "G0s2",
+      "modulus": 0.5616565617243042,
+      "foldChange": 6.092752234993614
+    },
+    {
+      "gene": "Cxcl5",
+      "modulus": 0.7519431848960866,
+      "foldChange": 5.944669365721997
+    },
+    {
+      "gene": "Serpina3n",
+      "modulus": 0.5907414846000467,
+      "foldChange": 5.835712323021967
+    },
+    {
+      "gene": "Mmp10",
+      "modulus": 0.5790950382864807,
+      "foldChange": 5.428712626637015
+    },
+    {
+      "gene": "Grem1",
+      "modulus": 0.5231526971739128,
+      "foldChange": 5.36380364271457
+    },
+    {
+      "gene": "Uchl1",
+      "modulus": 0.1385011296174964,
+      "foldChange": 5.270457697642163
+    },
+    {
+      "gene": "Cxcl13",
+      "modulus": 0.7250572097291639,
+      "foldChange": 4.7451847410627295
+    },
+    {
+      "gene": "Krt14",
+      "modulus": 0.9493382334452152,
+      "foldChange": 4.42002442002442
+    },
+    {
+      "gene": "Ereg",
+      "modulus": 0.6159679093969295,
+      "foldChange": 4.349763219099391
+    },
+    {
+      "gene": "Mgp",
+      "modulus": 0.5823676978290178,
+      "foldChange": 4.072843809448466
+    },
+    {
+      "gene": "Igfbp5",
+      "modulus": 0.5386827449907186,
+      "foldChange": 4.004773480229755
+    },
+    {
+      "gene": "Ifng",
+      "modulus": 3.6808471581774733,
+      "foldChange": 3.961584633853541
+    },
+    {
+      "gene": "Ifitm1",
+      "modulus": 0.5661428067912041,
+      "foldChange": 3.8486761894178474
+    },
+    {
+      "gene": "Cd14",
+      "modulus": 0.3361301881858218,
+      "foldChange": 3.7226654846335694
+    },
+    {
+      "gene": "Ccl22",
+      "modulus": 0.5515561505826385,
+      "foldChange": 3.6250885896527287
+    },
+    {
+      "gene": "Darc",
+      "modulus": 0.6617496229027192,
+      "foldChange": 3.569386694386694
+    },
+    {
+      "gene": "Ambp",
+      "modulus": 0.4075907208028402,
+      "foldChange": 3.5238095238095237
+    },
+    {
+      "gene": "Col18a1",
+      "modulus": 0.6747379529008762,
+      "foldChange": 3.4666939527269007
+    }
+  ],
+  "recoveryGenes": [
+    {
+      "gene": "Pla2g2f",
+      "modulus": 0.9689127400457275,
+      "recoveryRatio": 1.0
+    },
+    {
+      "gene": "Tmigd1",
+      "modulus": 3.085434406351512,
+      "recoveryRatio": 0.9989258861439312
+    },
+    {
+      "gene": "Cyba",
+      "modulus": 0.7287160204120816,
+      "recoveryRatio": 0.9988608603225548
+    },
+    {
+      "gene": "Ifit2",
+      "modulus": 0.7808571155556541,
+      "recoveryRatio": 1.0012210012210012
+    },
+    {
+      "gene": "Mep1b",
+      "modulus": 0.5281353667248321,
+      "recoveryRatio": 1.0012995451591942
+    },
+    {
+      "gene": "Fgf7",
+      "modulus": 1.7202873988718532,
+      "recoveryRatio": 1.001718213058419
+    },
+    {
+      "gene": "Mgst2",
+      "modulus": 0.6667657150630059,
+      "recoveryRatio": 0.9968993891531621
+    },
+    {
+      "gene": "Pcsk5",
+      "modulus": 0.9889852382087034,
+      "recoveryRatio": 0.996681749622926
+    },
+    {
+      "gene": "2010003K11Rik",
+      "modulus": 0.6380615109410641,
+      "recoveryRatio": 0.9966777408637874
+    },
+    {
+      "gene": "Arpc1b",
+      "modulus": 0.4183572059724443,
+      "recoveryRatio": 0.9961788485344945
+    },
+    {
+      "gene": "Cdc20",
+      "modulus": 3.418028936089221,
+      "recoveryRatio": 0.9944651937182198
+    },
+    {
+      "gene": "Ceacam10",
+      "modulus": 0.4101625792108787,
+      "recoveryRatio": 1.0061087253237457
+    },
+    {
+      "gene": "Krt19",
+      "modulus": 0.7068488132549553,
+      "recoveryRatio": 1.0077171540811873
+    },
+    {
+      "gene": "Ifi27l2a",
+      "modulus": 0.8294701319203506,
+      "recoveryRatio": 0.9920508357709352
+    },
+    {
+      "gene": "Medag",
+      "modulus": 1.0379572505758015,
+      "recoveryRatio": 0.9910884160975243
+    },
+    {
+      "gene": "C5ar1",
+      "modulus": 0.36659128212936487,
+      "recoveryRatio": 0.9909677419354838
+    },
+    {
+      "gene": "Ighj2",
+      "modulus": 0.6422871454085501,
+      "recoveryRatio": 1.0093736170897534
+    },
+    {
+      "gene": "Emp1",
+      "modulus": 0.5772546996231184,
+      "recoveryRatio": 1.0098570185490736
+    },
+    {
+      "gene": "Tg",
+      "modulus": 0.6518659498399363,
+      "recoveryRatio": 1.0104513503514612
+    },
+    {
+      "gene": "Ces1d",
+      "modulus": 1.3946631832148022,
+      "recoveryRatio": 0.9891220639199075
+    }
+  ],
+  "chronicGenes": [
+    {
+      "gene": "G0s2",
+      "modulus": 0.5616565617243042,
+      "recoveryRatio": 8.997911758406511
+    },
+    {
+      "gene": "Serpina3n",
+      "modulus": 0.5907414846000467,
+      "recoveryRatio": 4.931524461671794
+    },
+    {
+      "gene": "Inhba",
+      "modulus": 1.2847008677552412,
+      "recoveryRatio": 4.659090909090908
+    },
+    {
+      "gene": "Arg1",
+      "modulus": 0.9972332221145798,
+      "recoveryRatio": 4.540911513859275
+    },
+    {
+      "gene": "Cd14",
+      "modulus": 0.3361301881858218,
+      "recoveryRatio": 3.967348073981366
+    },
+    {
+      "gene": "Grem1",
+      "modulus": 0.5231526971739128,
+      "recoveryRatio": 3.9638007934747783
+    },
+    {
+      "gene": "Sfrp1",
+      "modulus": 0.6885318972379886,
+      "recoveryRatio": 3.719031839615391
+    },
+    {
+      "gene": "Spp1",
+      "modulus": 0.8592477855993094,
+      "recoveryRatio": 3.488372093023256
+    },
+    {
+      "gene": "Ighm",
+      "modulus": 4.777707303192769,
+      "recoveryRatio": 3.3439230772084327
+    },
+    {
+      "gene": "Cxcl2",
+      "modulus": 0.3268397484298671,
+      "recoveryRatio": 3.283169485471121
+    },
+    {
+      "gene": "Gbp2",
+      "modulus": 0.7054306946748098,
+      "recoveryRatio": 3.205388550439983
+    },
+    {
+      "gene": "Ptgs2",
+      "modulus": 1.651813739596239,
+      "recoveryRatio": 3.1574826859379708
+    },
+    {
+      "gene": "Cxcl5",
+      "modulus": 0.7519431848960866,
+      "recoveryRatio": 3.1184210526315788
+    },
+    {
+      "gene": "Ifitm1",
+      "modulus": 0.5661428067912041,
+      "recoveryRatio": 3.062876798366491
+    },
+    {
+      "gene": "Il1rn",
+      "modulus": 0.4045838942448914,
+      "recoveryRatio": 2.9815488565488564
+    },
+    {
+      "gene": "Acta1",
+      "modulus": 1.2547441920801043,
+      "recoveryRatio": 2.9078549848942594
+    },
+    {
+      "gene": "Clec4e",
+      "modulus": 0.4757499072337599,
+      "recoveryRatio": 2.79495990836197
+    },
+    {
+      "gene": "Fabp5",
+      "modulus": 1.0179917287140194,
+      "recoveryRatio": 2.7801599736126
+    },
+    {
+      "gene": "Hp",
+      "modulus": 0.47359477960656937,
+      "recoveryRatio": 2.7502774694783567
+    },
+    {
+      "gene": "Serpine1",
+      "modulus": 4.542635337018876,
+      "recoveryRatio": 2.7301587301587302
+    }
+  ]
+}

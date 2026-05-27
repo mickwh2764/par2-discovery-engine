@@ -139,10 +139,10 @@ function RootSpaceScatter({ genes, phyllotaxisAngle }: { genes: CryptVillusGene[
         <text x={130} y={399} fill="#f472b6" fontSize="10">Villus (differentiated)</text>
       </svg>
       {hovered && (
-        <div className="absolute top-2 right-2 bg-slate-800 border border-slate-600 rounded p-2 text-xs">
-          <div className="font-bold text-white">{hovered.symbol}</div>
-          <div className="text-slate-400">{hovered.category} | |λ|={hovered.eigenvalue.toFixed(3)}</div>
-          <div className="text-slate-400">θ={hovered.thetaDeg.toFixed(1)}° | β₁={hovered.beta1.toFixed(3)}, β₂={hovered.beta2.toFixed(3)}</div>
+        <div className="absolute top-2 right-2 bg-slate-100 border border-slate-300 rounded p-2 text-xs">
+          <div className="font-bold text-slate-900">{hovered.symbol}</div>
+          <div className="text-slate-500">{hovered.category} | |λ|={hovered.eigenvalue.toFixed(3)}</div>
+          <div className="text-slate-500">θ={hovered.thetaDeg.toFixed(1)}° | β₁={hovered.beta1.toFixed(3)}, β₂={hovered.beta2.toFixed(3)}</div>
         </div>
       )}
     </div>
@@ -152,7 +152,7 @@ function RootSpaceScatter({ genes, phyllotaxisAngle }: { genes: CryptVillusGene[
 function PermutationResultCard({ ds }: { ds: DatasetResult }) {
   const sig = ds.allPermutationP < 0.05;
   return (
-    <Card className="border-slate-700">
+    <Card className="border-slate-200">
       <CardHeader>
         <CardTitle className="text-sm flex items-center gap-2">
           {sig ? <CheckCircle2 className="h-4 w-4 text-green-400" /> : <XCircle className="h-4 w-4 text-red-400" />}
@@ -163,22 +163,22 @@ function PermutationResultCard({ ds }: { ds: DatasetResult }) {
         <div className="grid grid-cols-2 gap-3 text-xs">
           <div>
             <div className="text-cyan-400 font-semibold">Crypt mean θ</div>
-            <div className="text-white text-lg">{ds.allCryptMeanTheta.toFixed(1)}°</div>
+            <div className="text-slate-900 text-lg">{ds.allCryptMeanTheta.toFixed(1)}°</div>
           </div>
           <div>
             <div className="text-pink-400 font-semibold">Villus mean θ</div>
-            <div className="text-white text-lg">{ds.allVillusMeanTheta.toFixed(1)}°</div>
+            <div className="text-slate-900 text-lg">{ds.allVillusMeanTheta.toFixed(1)}°</div>
           </div>
         </div>
-        <div className="bg-slate-800/50 rounded p-2 text-xs">
-          <div>Separation: <span className="font-mono text-white">{ds.allSeparationDeg.toFixed(1)}°</span></div>
+        <div className="bg-slate-50 rounded p-2 text-xs">
+          <div>Separation: <span className="font-mono text-slate-900">{ds.allSeparationDeg.toFixed(1)}°</span></div>
           <div>Permutation p: <span className={`font-mono ${sig ? 'text-green-400' : 'text-red-400'}`}>{ds.allPermutationP.toFixed(4)}</span></div>
-          <div className="text-slate-400 mt-1">{sig ? 'Significant angular separation detected' : 'No significant angular separation (p > 0.05)'}</div>
+          <div className="text-slate-500 mt-1">{sig ? 'Significant angular separation detected' : 'No significant angular separation (p > 0.05)'}</div>
         </div>
         {ds.complexSeparationDeg !== null && (
-          <div className="bg-slate-800/50 rounded p-2 text-xs">
-            <div className="text-slate-400 mb-1">Complex roots only:</div>
-            <div>Separation: <span className="font-mono text-white">{ds.complexSeparationDeg.toFixed(1)}°</span></div>
+          <div className="bg-slate-50 rounded p-2 text-xs">
+            <div className="text-slate-500 mb-1">Complex roots only:</div>
+            <div>Separation: <span className="font-mono text-slate-900">{ds.complexSeparationDeg.toFixed(1)}°</span></div>
             <div>p: <span className="font-mono">{ds.complexPermutationP?.toFixed(4)}</span></div>
           </div>
         )}
@@ -192,7 +192,7 @@ function GeneTable({ genes }: { genes: CryptVillusGene[] }) {
     <div className="overflow-x-auto">
       <table className="w-full text-xs" data-testid="gene-results-table">
         <thead>
-          <tr className="border-b border-slate-700">
+          <tr className="border-b border-slate-200">
             <th className="text-left p-1">Gene</th>
             <th className="text-left p-1">Type</th>
             <th className="text-right p-1">|λ|</th>
@@ -205,14 +205,14 @@ function GeneTable({ genes }: { genes: CryptVillusGene[] }) {
         </thead>
         <tbody>
           {genes.map((g, i) => (
-            <tr key={i} className="border-b border-slate-700 hover:bg-slate-800/50">
-              <td className="p-1 font-mono text-white">{g.symbol}</td>
+            <tr key={i} className="border-b border-slate-200 hover:bg-slate-50">
+              <td className="p-1 font-mono text-slate-900">{g.symbol}</td>
               <td className="p-1"><Badge variant="outline" className={g.category === 'crypt' ? 'border-cyan-500 text-cyan-400' : 'border-pink-500 text-pink-400'}>{g.category}</Badge></td>
               <td className="p-1 text-right font-mono">{g.eigenvalue.toFixed(3)}</td>
               <td className="p-1 text-right font-mono">{g.thetaDeg.toFixed(1)}</td>
-              <td className="p-1 text-right font-mono text-slate-400">{g.beta1.toFixed(3)}</td>
-              <td className="p-1 text-right font-mono text-slate-400">{g.beta2.toFixed(3)}</td>
-              <td className="p-1 text-right font-mono text-slate-400">{g.r2.toFixed(3)}</td>
+              <td className="p-1 text-right font-mono text-slate-500">{g.beta1.toFixed(3)}</td>
+              <td className="p-1 text-right font-mono text-slate-500">{g.beta2.toFixed(3)}</td>
+              <td className="p-1 text-right font-mono text-slate-500">{g.r2.toFixed(3)}</td>
               <td className="p-1 text-center">{g.isComplex ? '~' : '—'}</td>
             </tr>
           ))}
@@ -251,7 +251,7 @@ function PerturbationTest({ data }: { data: SpatialTemporalResult['test1'] }) {
 
   return (
     <div className="space-y-6">
-      <Card className="border-slate-700">
+      <Card className="border-slate-200">
         <CardHeader>
           <CardTitle className="text-sm flex items-center gap-2">
             <Beaker className="h-4 w-4 text-purple-400" />
@@ -262,7 +262,7 @@ function PerturbationTest({ data }: { data: SpatialTemporalResult['test1'] }) {
           <div className="overflow-x-auto">
             <table className="w-full text-xs" data-testid="genotype-table">
               <thead>
-                <tr className="border-b border-slate-700 text-slate-400">
+                <tr className="border-b border-slate-200 text-slate-500">
                   <th className="text-left p-2">Genotype</th>
                   <th className="text-center p-2">Spatial</th>
                   <th className="text-center p-2">Temporal</th>
@@ -276,8 +276,8 @@ function PerturbationTest({ data }: { data: SpatialTemporalResult['test1'] }) {
               </thead>
               <tbody>
                 {data.genotypes.map((g, i) => (
-                  <tr key={i} className="border-b border-slate-700 hover:bg-slate-800/50">
-                    <td className="p-2 font-semibold text-white">{g.label}</td>
+                  <tr key={i} className="border-b border-slate-200 hover:bg-slate-50">
+                    <td className="p-2 font-semibold text-slate-900">{g.label}</td>
                     <td className="p-2 text-center">
                       <Badge variant="outline" className={g.spatial === 'intact' ? 'border-green-500 text-green-400' : 'border-red-500 text-red-400'}>
                         {g.spatial}
@@ -292,8 +292,8 @@ function PerturbationTest({ data }: { data: SpatialTemporalResult['test1'] }) {
                     <td className="p-2 text-right font-mono text-amber-400">{g.meanTarget.toFixed(4)}</td>
                     <td className="p-2 text-right font-mono" style={{ color: gapColor(g.gap) }}>{g.gap > 0 ? '+' : ''}{g.gap.toFixed(4)}</td>
                     <td className="p-2 text-right font-mono">{g.hierarchyPct}%</td>
-                    <td className="p-2 text-right font-mono text-slate-400">{g.oscPct}%</td>
-                    <td className="p-2 text-right font-mono text-slate-400">{g.totalGenes.toLocaleString()}</td>
+                    <td className="p-2 text-right font-mono text-slate-500">{g.oscPct}%</td>
+                    <td className="p-2 text-right font-mono text-slate-500">{g.totalGenes.toLocaleString()}</td>
                   </tr>
                 ))}
               </tbody>
@@ -314,19 +314,19 @@ function PerturbationTest({ data }: { data: SpatialTemporalResult['test1'] }) {
       </Card>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="border-slate-700">
+        <Card className="border-slate-200">
           <CardHeader>
             <CardTitle className="text-sm">Perturbation Effects vs WT</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {data.perturbations.map((p, i) => (
-              <div key={i} className="bg-slate-800/50 rounded p-3 text-xs space-y-1">
-                <div className="font-semibold text-white">{p.label}</div>
+              <div key={i} className="bg-slate-50 rounded p-3 text-xs space-y-1">
+                <div className="font-semibold text-slate-900">{p.label}</div>
                 <div className="grid grid-cols-2 gap-2">
-                  <div>All genes shift: <span className="font-mono text-white">{p.allGeneShift >= 0 ? '+' : ''}{p.allGeneShift.toFixed(4)}</span></div>
-                  <div>Effect size d: <span className="font-mono text-white">{p.effectSize.toFixed(3)}</span></div>
-                  <div>p-value: <span className={`font-mono ${p.pValue < 0.05 ? 'text-green-400' : 'text-slate-400'}`}>{p.pValue.toExponential(2)}</span></div>
-                  <div>Clock shift: <span className="font-mono text-white">{p.clockShift >= 0 ? '+' : ''}{p.clockShift.toFixed(4)}</span></div>
+                  <div>All genes shift: <span className="font-mono text-slate-900">{p.allGeneShift >= 0 ? '+' : ''}{p.allGeneShift.toFixed(4)}</span></div>
+                  <div>Effect size d: <span className="font-mono text-slate-900">{p.effectSize.toFixed(3)}</span></div>
+                  <div>p-value: <span className={`font-mono ${p.pValue < 0.05 ? 'text-green-400' : 'text-slate-500'}`}>{p.pValue.toExponential(2)}</span></div>
+                  <div>Clock shift: <span className="font-mono text-slate-900">{p.clockShift >= 0 ? '+' : ''}{p.clockShift.toFixed(4)}</span></div>
                 </div>
                 <div className="flex gap-4 mt-1">
                   <div>Gap: <span className="font-mono" style={{ color: gapColor(p.wtGap) }}>{p.wtGap.toFixed(4)}</span> → <span className="font-mono" style={{ color: gapColor(p.newGap) }}>{p.newGap.toFixed(4)}</span></div>
@@ -337,30 +337,30 @@ function PerturbationTest({ data }: { data: SpatialTemporalResult['test1'] }) {
           </CardContent>
         </Card>
 
-        <Card className="border-slate-700">
+        <Card className="border-slate-200">
           <CardHeader>
             <CardTitle className="text-sm">Interaction Analysis (Double KO)</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3 text-xs">
-            <div className="bg-slate-800/50 rounded p-3 space-y-2">
-              <div className="text-slate-400 font-semibold uppercase text-[10px] tracking-wider">Mean |λ| Interaction</div>
-              <div>ApcKO effect: <span className="font-mono text-white">{data.interaction.apcEffect >= 0 ? '+' : ''}{data.interaction.apcEffect.toFixed(4)}</span></div>
-              <div>BmalKO effect: <span className="font-mono text-white">{data.interaction.bmalEffect >= 0 ? '+' : ''}{data.interaction.bmalEffect.toFixed(4)}</span></div>
-              <div>Expected additive: <span className="font-mono text-white">{data.interaction.expectedAdditive.toFixed(4)}</span></div>
-              <div>Observed double KO: <span className="font-mono text-white">{data.interaction.observedDouble.toFixed(4)}</span></div>
-              <div>Interaction: <span className="font-mono text-white">{data.interaction.interactionTerm >= 0 ? '+' : ''}{data.interaction.interactionTerm.toFixed(4)}</span></div>
-              <Badge variant="outline" className={data.interaction.interpretation === 'SYNERGISTIC' ? 'border-red-500 text-red-400' : data.interaction.interpretation === 'ANTAGONISTIC' ? 'border-amber-500 text-amber-400' : 'border-slate-500'}>
+            <div className="bg-slate-50 rounded p-3 space-y-2">
+              <div className="text-slate-500 font-semibold uppercase text-[10px] tracking-wider">Mean |λ| Interaction</div>
+              <div>ApcKO effect: <span className="font-mono text-slate-900">{data.interaction.apcEffect >= 0 ? '+' : ''}{data.interaction.apcEffect.toFixed(4)}</span></div>
+              <div>BmalKO effect: <span className="font-mono text-slate-900">{data.interaction.bmalEffect >= 0 ? '+' : ''}{data.interaction.bmalEffect.toFixed(4)}</span></div>
+              <div>Expected additive: <span className="font-mono text-slate-900">{data.interaction.expectedAdditive.toFixed(4)}</span></div>
+              <div>Observed double KO: <span className="font-mono text-slate-900">{data.interaction.observedDouble.toFixed(4)}</span></div>
+              <div>Interaction: <span className="font-mono text-slate-900">{data.interaction.interactionTerm >= 0 ? '+' : ''}{data.interaction.interactionTerm.toFixed(4)}</span></div>
+              <Badge variant="outline" className={data.interaction.interpretation === 'SYNERGISTIC' ? 'border-red-500 text-red-400' : data.interaction.interpretation === 'ANTAGONISTIC' ? 'border-amber-500 text-amber-400' : 'border-slate-300'}>
                 {data.interaction.interpretation}
               </Badge>
             </div>
-            <div className="bg-slate-800/50 rounded p-3 space-y-2">
-              <div className="text-slate-400 font-semibold uppercase text-[10px] tracking-wider">Clock-Target Gap Interaction</div>
-              <div>ApcKO gap effect: <span className="font-mono text-white">{data.interaction.gapApcEffect >= 0 ? '+' : ''}{data.interaction.gapApcEffect.toFixed(4)}</span></div>
-              <div>BmalKO gap effect: <span className="font-mono text-white">{data.interaction.gapBmalEffect >= 0 ? '+' : ''}{data.interaction.gapBmalEffect.toFixed(4)}</span></div>
-              <div>Expected: <span className="font-mono text-white">{data.interaction.gapExpected.toFixed(4)}</span></div>
-              <div>Observed: <span className="font-mono text-white">{data.interaction.gapObserved.toFixed(4)}</span></div>
-              <div>Interaction: <span className="font-mono text-white">{data.interaction.gapInteraction >= 0 ? '+' : ''}{data.interaction.gapInteraction.toFixed(4)}</span></div>
-              <Badge variant="outline" className={data.interaction.gapInterpretation === 'SYNERGISTIC' ? 'border-red-500 text-red-400' : data.interaction.gapInterpretation === 'ANTAGONISTIC' ? 'border-amber-500 text-amber-400' : 'border-slate-500'}>
+            <div className="bg-slate-50 rounded p-3 space-y-2">
+              <div className="text-slate-500 font-semibold uppercase text-[10px] tracking-wider">Clock-Target Gap Interaction</div>
+              <div>ApcKO gap effect: <span className="font-mono text-slate-900">{data.interaction.gapApcEffect >= 0 ? '+' : ''}{data.interaction.gapApcEffect.toFixed(4)}</span></div>
+              <div>BmalKO gap effect: <span className="font-mono text-slate-900">{data.interaction.gapBmalEffect >= 0 ? '+' : ''}{data.interaction.gapBmalEffect.toFixed(4)}</span></div>
+              <div>Expected: <span className="font-mono text-slate-900">{data.interaction.gapExpected.toFixed(4)}</span></div>
+              <div>Observed: <span className="font-mono text-slate-900">{data.interaction.gapObserved.toFixed(4)}</span></div>
+              <div>Interaction: <span className="font-mono text-slate-900">{data.interaction.gapInteraction >= 0 ? '+' : ''}{data.interaction.gapInteraction.toFixed(4)}</span></div>
+              <Badge variant="outline" className={data.interaction.gapInterpretation === 'SYNERGISTIC' ? 'border-red-500 text-red-400' : data.interaction.gapInterpretation === 'ANTAGONISTIC' ? 'border-amber-500 text-amber-400' : 'border-slate-300'}>
                 {data.interaction.gapInterpretation}
               </Badge>
             </div>
@@ -388,7 +388,7 @@ function TissueTest({ data }: { data: SpatialTemporalResult['test2'] }) {
 
   return (
     <div className="space-y-6">
-      <Card className="border-slate-700">
+      <Card className="border-slate-200">
         <CardHeader>
           <CardTitle className="text-sm flex items-center gap-2">
             <Activity className="h-4 w-4 text-indigo-400" />
@@ -399,7 +399,7 @@ function TissueTest({ data }: { data: SpatialTemporalResult['test2'] }) {
           <div className="overflow-x-auto">
             <table className="w-full text-xs" data-testid="tissue-table">
               <thead>
-                <tr className="border-b border-slate-700 text-slate-400">
+                <tr className="border-b border-slate-200 text-slate-500">
                   <th className="text-left p-2">Tissue</th>
                   <th className="text-center p-2">Spatial</th>
                   <th className="text-right p-2">Clock |λ|</th>
@@ -412,8 +412,8 @@ function TissueTest({ data }: { data: SpatialTemporalResult['test2'] }) {
               </thead>
               <tbody>
                 {data.tissues.map((t, i) => (
-                  <tr key={i} className="border-b border-slate-700 hover:bg-slate-800/50">
-                    <td className="p-2 font-semibold text-white">{t.label}</td>
+                  <tr key={i} className="border-b border-slate-200 hover:bg-slate-50">
+                    <td className="p-2 font-semibold text-slate-900">{t.label}</td>
                     <td className="p-2 text-center">
                       <Badge variant="outline" className={t.spatialComplexity === 'high' ? 'border-indigo-500 text-indigo-400' : t.spatialComplexity === 'medium' ? 'border-amber-500 text-amber-400' : 'border-emerald-500 text-emerald-400'}>
                         {t.spatialComplexity}
@@ -424,9 +424,9 @@ function TissueTest({ data }: { data: SpatialTemporalResult['test2'] }) {
                     <td className="p-2 text-right font-mono text-green-400">+{t.gap.toFixed(4)}</td>
                     <td className="p-2 text-right font-mono">{t.hierarchyPct}%</td>
                     <td className="p-2 text-right font-mono">
-                      <span className={t.significant ? 'text-green-400' : 'text-slate-400'}>{t.pValue.toExponential(2)}{t.significant ? ' *' : ''}</span>
+                      <span className={t.significant ? 'text-green-400' : 'text-slate-500'}>{t.pValue.toExponential(2)}{t.significant ? ' *' : ''}</span>
                     </td>
-                    <td className="p-2 text-right font-mono text-slate-400">{t.oscPct}%</td>
+                    <td className="p-2 text-right font-mono text-slate-500">{t.oscPct}%</td>
                   </tr>
                 ))}
               </tbody>
@@ -448,20 +448,20 @@ function TissueTest({ data }: { data: SpatialTemporalResult['test2'] }) {
       </Card>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="border-slate-700">
+        <Card className="border-slate-200">
           <CardHeader>
             <CardTitle className="text-sm">Spatial Complexity Correlation</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3 text-xs">
             <div className="space-y-2">
-              <div className="flex justify-between"><span>Gap vs Complexity:</span><span className="font-mono text-white">r = {data.correlation.gapVsComplexity.toFixed(3)}</span></div>
-              <div className="flex justify-between"><span>Oscillatory vs Complexity:</span><span className="font-mono text-white">r = {data.correlation.oscVsComplexity.toFixed(3)}</span></div>
+              <div className="flex justify-between"><span>Gap vs Complexity:</span><span className="font-mono text-slate-900">r = {data.correlation.gapVsComplexity.toFixed(3)}</span></div>
+              <div className="flex justify-between"><span>Oscillatory vs Complexity:</span><span className="font-mono text-slate-900">r = {data.correlation.oscVsComplexity.toFixed(3)}</span></div>
             </div>
-            <div className="text-slate-400 mt-2">{data.correlation.interpretation}</div>
+            <div className="text-slate-500 mt-2">{data.correlation.interpretation}</div>
           </CardContent>
         </Card>
 
-        <Card className="border-slate-700">
+        <Card className="border-slate-200">
           <CardHeader>
             <CardTitle className="text-sm">Group Comparison</CardTitle>
           </CardHeader>
@@ -469,17 +469,17 @@ function TissueTest({ data }: { data: SpatialTemporalResult['test2'] }) {
             <div className="space-y-2">
               <div className="flex justify-between items-center">
                 <Badge variant="outline" className="border-indigo-500 text-indigo-400">High (n={data.groups.high.n})</Badge>
-                <span className="font-mono text-white">{data.groups.high.mean.toFixed(4)} ± {data.groups.high.std.toFixed(4)}</span>
+                <span className="font-mono text-slate-900">{data.groups.high.mean.toFixed(4)} ± {data.groups.high.std.toFixed(4)}</span>
               </div>
               <div className="flex justify-between items-center">
                 <Badge variant="outline" className="border-amber-500 text-amber-400">Medium (n={data.groups.medium.n})</Badge>
-                <span className="font-mono text-white">{data.groups.medium.mean.toFixed(4)} ± {data.groups.medium.std.toFixed(4)}</span>
+                <span className="font-mono text-slate-900">{data.groups.medium.mean.toFixed(4)} ± {data.groups.medium.std.toFixed(4)}</span>
               </div>
               <div className="flex justify-between items-center">
                 <Badge variant="outline" className="border-emerald-500 text-emerald-400">Low (n={data.groups.low.n})</Badge>
-                <span className="font-mono text-white">{data.groups.low.mean.toFixed(4)} ± {data.groups.low.std.toFixed(4)}</span>
+                <span className="font-mono text-slate-900">{data.groups.low.mean.toFixed(4)} ± {data.groups.low.std.toFixed(4)}</span>
               </div>
-              <div className="text-slate-400 mt-2">High vs Low p = {data.groups.highVsLowP.toFixed(4)}</div>
+              <div className="text-slate-500 mt-2">High vs Low p = {data.groups.highVsLowP.toFixed(4)}</div>
             </div>
           </CardContent>
         </Card>
@@ -498,7 +498,7 @@ function TissueTest({ data }: { data: SpatialTemporalResult['test2'] }) {
 function PerGeneTest({ data }: { data: SpatialTemporalResult['test3'] }) {
   return (
     <div className="space-y-6">
-      <Card className="border-slate-700">
+      <Card className="border-slate-200">
         <CardHeader>
           <CardTitle className="text-sm flex items-center gap-2">
             <Dna className="h-4 w-4 text-cyan-400" />
@@ -508,58 +508,58 @@ function PerGeneTest({ data }: { data: SpatialTemporalResult['test3'] }) {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-3">
-              <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Eigenvalue Level Correlations</div>
+              <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Eigenvalue Level Correlations</div>
               <div className="space-y-2 text-xs">
-                <div className="flex justify-between bg-slate-800/50 rounded p-2">
+                <div className="flex justify-between bg-slate-50 rounded p-2">
                   <span>WT |λ| vs ApcKO |λ|:</span>
-                  <span className="font-mono text-white">r = {data.eigenCorrelations.wtVsApc.toFixed(3)}</span>
+                  <span className="font-mono text-slate-900">r = {data.eigenCorrelations.wtVsApc.toFixed(3)}</span>
                 </div>
-                <div className="flex justify-between bg-slate-800/50 rounded p-2">
+                <div className="flex justify-between bg-slate-50 rounded p-2">
                   <span>WT |λ| vs BmalKO |λ|:</span>
-                  <span className="font-mono text-white">r = {data.eigenCorrelations.wtVsBmal.toFixed(3)}</span>
+                  <span className="font-mono text-slate-900">r = {data.eigenCorrelations.wtVsBmal.toFixed(3)}</span>
                 </div>
-                <div className="flex justify-between bg-slate-800/50 rounded p-2">
+                <div className="flex justify-between bg-slate-50 rounded p-2">
                   <span>ApcKO |λ| vs BmalKO |λ|:</span>
-                  <span className="font-mono text-white">r = {data.eigenCorrelations.apcVsBmal.toFixed(3)}</span>
+                  <span className="font-mono text-slate-900">r = {data.eigenCorrelations.apcVsBmal.toFixed(3)}</span>
                 </div>
               </div>
-              <p className="text-xs text-slate-400">Near-zero correlations for eigenvalue levels indicate each genotype produces an essentially independent eigenvalue landscape — a gene's persistence in WT does not predict its persistence under disruption.</p>
+              <p className="text-xs text-slate-500">Near-zero correlations for eigenvalue levels indicate each genotype produces an essentially independent eigenvalue landscape — a gene's persistence in WT does not predict its persistence under disruption.</p>
             </div>
 
             <div className="space-y-3">
-              <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Shift Correlation (Δ|λ| from WT)</div>
+              <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Shift Correlation (Δ|λ| from WT)</div>
               <div className="bg-gradient-to-r from-purple-900/30 to-blue-900/30 rounded p-4 text-center">
-                <div className="text-3xl font-bold text-white">{data.shiftCorrelation.r.toFixed(3)}</div>
-                <div className="text-xs text-slate-400 mt-1">ApcKO shift vs BmalKO shift</div>
-                <Badge variant="outline" className={Math.abs(data.shiftCorrelation.r) > 0.3 ? 'border-green-500 text-green-400 mt-2' : 'border-slate-500 mt-2'}>
+                <div className="text-3xl font-bold text-slate-900">{data.shiftCorrelation.r.toFixed(3)}</div>
+                <div className="text-xs text-slate-500 mt-1">ApcKO shift vs BmalKO shift</div>
+                <Badge variant="outline" className={Math.abs(data.shiftCorrelation.r) > 0.3 ? 'border-green-500 text-green-400 mt-2' : 'border-slate-300 mt-2'}>
                   {data.shiftCorrelation.interpretation}
                 </Badge>
               </div>
-              <p className="text-xs text-slate-400">Shift correlation (r = {data.shiftCorrelation.r.toFixed(3)}) shows <strong>{Math.abs(data.shiftCorrelation.r) > 0.3 ? 'meaningful' : 'weak'}</strong> coupling: genes that change eigenvalue under spatial disruption tend to {data.shiftCorrelation.r > 0 ? 'also change under temporal disruption in the same direction' : 'change oppositely under temporal disruption'}.</p>
+              <p className="text-xs text-slate-500">Shift correlation (r = {data.shiftCorrelation.r.toFixed(3)}) shows <strong>{Math.abs(data.shiftCorrelation.r) > 0.3 ? 'meaningful' : 'weak'}</strong> coupling: genes that change eigenvalue under spatial disruption tend to {data.shiftCorrelation.r > 0 ? 'also change under temporal disruption in the same direction' : 'change oppositely under temporal disruption'}.</p>
             </div>
           </div>
         </CardContent>
       </Card>
 
-      <Card className="border-slate-700">
+      <Card className="border-slate-200">
         <CardHeader>
           <CardTitle className="text-sm">Dually-Affected Genes (|shift| {'>'} 0.05 in both conditions)</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-            <div className="text-center bg-slate-800/50 rounded p-3">
-              <div className="text-2xl font-bold text-white">{data.duallyAffected.total.toLocaleString()}</div>
+            <div className="text-center bg-slate-50 rounded p-3">
+              <div className="text-2xl font-bold text-slate-900">{data.duallyAffected.total.toLocaleString()}</div>
               <div className="text-xs text-muted-foreground">Total Affected</div>
             </div>
-            <div className="text-center bg-slate-800/50 rounded p-3">
+            <div className="text-center bg-slate-50 rounded p-3">
               <div className="text-2xl font-bold text-green-400">{data.duallyAffected.concordant.toLocaleString()}</div>
               <div className="text-xs text-muted-foreground">Concordant ({data.duallyAffected.concordantPct}%)</div>
             </div>
-            <div className="text-center bg-slate-800/50 rounded p-3">
+            <div className="text-center bg-slate-50 rounded p-3">
               <div className="text-2xl font-bold text-red-400">{data.duallyAffected.discordant.toLocaleString()}</div>
               <div className="text-xs text-muted-foreground">Discordant ({100 - data.duallyAffected.concordantPct}%)</div>
             </div>
-            <div className="text-center bg-slate-800/50 rounded p-3">
+            <div className="text-center bg-slate-50 rounded p-3">
               <div className="text-2xl font-bold text-blue-400">{data.sharedGenes.toLocaleString()}</div>
               <div className="text-xs text-muted-foreground">Total Shared</div>
             </div>
@@ -568,7 +568,7 @@ function PerGeneTest({ data }: { data: SpatialTemporalResult['test3'] }) {
           <div className="overflow-x-auto">
             <table className="w-full text-xs" data-testid="top-genes-table">
               <thead>
-                <tr className="border-b border-slate-700 text-slate-400">
+                <tr className="border-b border-slate-200 text-slate-500">
                   <th className="text-left p-2">Gene</th>
                   <th className="text-left p-2">Category</th>
                   <th className="text-right p-2">ApcKO Δ|λ|</th>
@@ -578,9 +578,9 @@ function PerGeneTest({ data }: { data: SpatialTemporalResult['test3'] }) {
               </thead>
               <tbody>
                 {data.topGenes.map((g, i) => (
-                  <tr key={i} className="border-b border-slate-700 hover:bg-slate-800/50">
-                    <td className="p-2 font-mono text-white">{g.gene}</td>
-                    <td className="p-2"><Badge variant="outline" className="text-slate-400">{g.category}</Badge></td>
+                  <tr key={i} className="border-b border-slate-200 hover:bg-slate-50">
+                    <td className="p-2 font-mono text-slate-900">{g.gene}</td>
+                    <td className="p-2"><Badge variant="outline" className="text-slate-500">{g.category}</Badge></td>
                     <td className="p-2 text-right font-mono" style={{ color: g.apcShift > 0 ? '#22c55e' : '#ef4444' }}>{g.apcShift > 0 ? '+' : ''}{g.apcShift.toFixed(4)}</td>
                     <td className="p-2 text-right font-mono" style={{ color: g.bmalShift > 0 ? '#22c55e' : '#ef4444' }}>{g.bmalShift > 0 ? '+' : ''}{g.bmalShift.toFixed(4)}</td>
                     <td className="p-2 text-center">
@@ -596,7 +596,7 @@ function PerGeneTest({ data }: { data: SpatialTemporalResult['test3'] }) {
         </CardContent>
       </Card>
 
-      <Card className="border-slate-700">
+      <Card className="border-slate-200">
         <CardHeader>
           <CardTitle className="text-sm">Category Breakdown of Dually-Affected Genes</CardTitle>
         </CardHeader>
@@ -606,17 +606,17 @@ function PerGeneTest({ data }: { data: SpatialTemporalResult['test3'] }) {
               const concPct = c.total > 0 ? Math.round(c.concordant / c.total * 100) : 0;
               return (
                 <div key={i} className="flex items-center gap-3 text-xs">
-                  <span className="w-24 text-slate-400">{c.category}</span>
-                  <div className="flex-1 h-4 bg-slate-800 rounded overflow-hidden flex">
+                  <span className="w-24 text-slate-500">{c.category}</span>
+                  <div className="flex-1 h-4 bg-slate-100 rounded overflow-hidden flex">
                     <div className="bg-green-600 h-full" style={{ width: `${concPct}%` }} />
                     <div className="bg-red-600 h-full" style={{ width: `${100 - concPct}%` }} />
                   </div>
-                  <span className="w-32 text-right font-mono text-white">{c.concordant}/{c.total} ({concPct}%)</span>
+                  <span className="w-32 text-right font-mono text-slate-900">{c.concordant}/{c.total} ({concPct}%)</span>
                 </div>
               );
             })}
           </div>
-          <div className="flex gap-4 mt-3 text-xs text-slate-400">
+          <div className="flex gap-4 mt-3 text-xs text-slate-500">
             <span className="flex items-center gap-1"><span className="w-3 h-3 bg-green-600 rounded inline-block" /> Concordant</span>
             <span className="flex items-center gap-1"><span className="w-3 h-3 bg-red-600 rounded inline-block" /> Discordant</span>
           </div>
@@ -681,14 +681,14 @@ export default function CryptVillusPage() {
                   variant={activeTab === tab.id ? "default" : "outline"}
                   size="sm"
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex flex-col items-start h-auto py-2 px-3 ${activeTab === tab.id ? 'bg-slate-700' : 'border-slate-600 hover:bg-slate-800'}`}
+                  className={`flex flex-col items-start h-auto py-2 px-3 ${activeTab === tab.id ? 'bg-slate-200' : 'border-slate-300 hover:bg-slate-100'}`}
                   data-testid={`tab-${tab.id}`}
                 >
                   <div className="flex items-center gap-1.5">
                     <tab.icon className="h-3.5 w-3.5" />
                     <span className="text-xs font-semibold">{tab.label}</span>
                   </div>
-                  <span className="text-[10px] text-slate-400 font-normal">{tab.description}</span>
+                  <span className="text-[10px] text-slate-500 font-normal">{tab.description}</span>
                 </Button>
               ))}
             </div>
@@ -705,7 +705,7 @@ export default function CryptVillusPage() {
                       <XCircle className="h-5 w-5 text-red-400 mt-0.5 flex-shrink-0" />
                       <div>
                         <div className="font-semibold text-red-400">Negative Result: Golden-Ratio Angular Hypothesis Not Supported</div>
-                        <p className="text-xs text-slate-400 mt-1">{angularData.verdictDetail}</p>
+                        <p className="text-xs text-slate-500 mt-1">{angularData.verdictDetail}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -718,7 +718,7 @@ export default function CryptVillusPage() {
                       variant={selectedDataset === i ? "default" : "outline"}
                       size="sm"
                       onClick={() => setSelectedDataset(i)}
-                      className={selectedDataset === i ? "bg-slate-700" : "border-slate-600 hover:bg-slate-800"}
+                      className={selectedDataset === i ? "bg-slate-200" : "border-slate-300 hover:bg-slate-100"}
                       data-testid={`button-dataset-${i}`}
                     >
                       {d.label}
@@ -729,7 +729,7 @@ export default function CryptVillusPage() {
                 {angularData.datasets[selectedDataset] && (
                   <>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                      <Card className="border-slate-700">
+                      <Card className="border-slate-200">
                         <CardHeader>
                           <CardTitle className="text-sm">Root-Space Position: {angularData.datasets[selectedDataset].label}</CardTitle>
                         </CardHeader>
@@ -740,7 +740,7 @@ export default function CryptVillusPage() {
                       <PermutationResultCard ds={angularData.datasets[selectedDataset]} />
                     </div>
 
-                    <Card className="border-slate-700">
+                    <Card className="border-slate-200">
                       <CardHeader>
                         <CardTitle className="text-sm">Per-Gene AR(2) Results: {angularData.datasets[selectedDataset].label}</CardTitle>
                       </CardHeader>
@@ -751,14 +751,14 @@ export default function CryptVillusPage() {
                   </>
                 )}
 
-                <Card className="border-slate-700">
+                <Card className="border-slate-200">
                   <CardHeader>
                     <CardTitle className="text-sm">Genome-Wide Angular Distribution (WT Organoids)</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
                       <div className="text-center">
-                        <div className="text-lg font-bold text-white">{angularData.genomeWide.totalGenes.toLocaleString()}</div>
+                        <div className="text-lg font-bold text-slate-900">{angularData.genomeWide.totalGenes.toLocaleString()}</div>
                         <div className="text-xs text-muted-foreground">Total Genes</div>
                       </div>
                       <div className="text-center">
@@ -770,12 +770,12 @@ export default function CryptVillusPage() {
                         <div className="text-xs text-muted-foreground">Near 137.5°</div>
                       </div>
                       <div className="text-center">
-                        <div className="text-lg font-bold text-slate-400">{angularData.genomeWide.uniformExpectation}%</div>
+                        <div className="text-lg font-bold text-slate-500">{angularData.genomeWide.uniformExpectation}%</div>
                         <div className="text-xs text-muted-foreground">Uniform Expectation</div>
                       </div>
                     </div>
                     <ThetaHistogram bins={angularData.genomeWide.thetaBins} phyllotaxisAngle={angularData.phyllotaxisAngleDeg} />
-                    <p className="text-xs text-slate-400 mt-2">
+                    <p className="text-xs text-slate-500 mt-2">
                       The genome-wide distribution peaks at 70-90° and drops sharply beyond 120°. The phyllotaxis angle (137.5°) sits in the tail, showing ~6% of genes rather than ~19% expected under uniformity. The distribution is shaped by AR(2) stationarity constraints, not golden-ratio geometry.
                     </p>
                   </CardContent>
@@ -790,27 +790,27 @@ export default function CryptVillusPage() {
               </div>
             )}
 
-            <Card className="border-slate-700 bg-slate-800/30">
+            <Card className="border-slate-200 bg-slate-50">
               <CardHeader>
                 <CardTitle className="text-sm">Overall Synthesis</CardTitle>
               </CardHeader>
-              <CardContent className="text-xs text-slate-400 space-y-3">
+              <CardContent className="text-xs text-slate-500 space-y-3">
                 <p>
-                  <strong className="text-white">The real spatial-temporal connection lives in eigenvalue magnitudes, not angles.</strong>{' '}
+                  <strong className="text-slate-900">The real spatial-temporal connection lives in eigenvalue magnitudes, not angles.</strong>{' '}
                   The golden-ratio angular hypothesis was tested and found not supported (Test 4). But three lines of evidence reveal genuine coupling through the radial axis:
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  <div className="bg-slate-900/50 rounded p-3">
+                  <div className="bg-white rounded p-3">
                     <div className="font-semibold text-purple-400 mb-1">Test 1: Perturbation</div>
-                    <p>Both spatial (ApcKO) and temporal (BmalKO) disruptions collapse the clock {'>'} target hierarchy. The double KO shows <strong className="text-white">non-additive interaction</strong> — proving spatial and temporal are not independent axes.</p>
+                    <p>Both spatial (ApcKO) and temporal (BmalKO) disruptions collapse the clock {'>'} target hierarchy. The double KO shows <strong className="text-slate-900">non-additive interaction</strong> — proving spatial and temporal are not independent axes.</p>
                   </div>
-                  <div className="bg-slate-900/50 rounded p-3">
+                  <div className="bg-white rounded p-3">
                     <div className="font-semibold text-indigo-400 mb-1">Test 2: Cross-Tissue</div>
-                    <p>The hierarchy is universal across 12 tissues but its strength <strong className="text-white">does not depend on spatial complexity</strong> (r = {couplingData?.test2.correlation.gapVsComplexity.toFixed(3)}). The hierarchy is cell-autonomous, not tissue-architecture-dependent.</p>
+                    <p>The hierarchy is universal across 12 tissues but its strength <strong className="text-slate-900">does not depend on spatial complexity</strong> (r = {couplingData?.test2.correlation.gapVsComplexity.toFixed(3)}). The hierarchy is cell-autonomous, not tissue-architecture-dependent.</p>
                   </div>
-                  <div className="bg-slate-900/50 rounded p-3">
+                  <div className="bg-white rounded p-3">
                     <div className="font-semibold text-cyan-400 mb-1">Test 3: Per-Gene</div>
-                    <p>Eigenvalue <em>shifts</em> correlate moderately (r = {couplingData?.test3.shiftCorrelation.r.toFixed(3)}) between conditions, with <strong className="text-white">{couplingData?.test3.duallyAffected.concordantPct}% concordant</strong> — both disruptions push the same genes in the same direction.</p>
+                    <p>Eigenvalue <em>shifts</em> correlate moderately (r = {couplingData?.test3.shiftCorrelation.r.toFixed(3)}) between conditions, with <strong className="text-slate-900">{couplingData?.test3.duallyAffected.concordantPct}% concordant</strong> — both disruptions push the same genes in the same direction.</p>
                   </div>
                 </div>
               </CardContent>

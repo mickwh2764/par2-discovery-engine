@@ -52,14 +52,14 @@ export default function ABMDemo() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-background to-slate-900/50 p-6">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 p-6">
         <div className="max-w-6xl mx-auto">
           <div className="animate-pulse">
-            <div className="h-12 bg-slate-700 rounded w-48 mb-4" />
-            <div className="h-6 bg-slate-700 rounded w-96 mb-8" />
+            <div className="h-12 bg-slate-200 rounded w-48 mb-4" />
+            <div className="h-6 bg-slate-200 rounded w-96 mb-8" />
             <div className="space-y-4">
-              <div className="h-40 bg-slate-700 rounded" />
-              <div className="h-96 bg-slate-700 rounded" />
+              <div className="h-40 bg-slate-200 rounded" />
+              <div className="h-96 bg-slate-200 rounded" />
             </div>
           </div>
         </div>
@@ -69,7 +69,7 @@ export default function ABMDemo() {
 
   if (error || !data) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-background to-slate-900/50 p-6">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 p-6">
         <div className="max-w-6xl mx-auto">
           <Card className="border-red-500/50 bg-red-500/5">
             <CardHeader>
@@ -98,14 +98,14 @@ export default function ABMDemo() {
   }));
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-slate-900/50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 p-6">
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Header */}
         <div>
-          <h1 className="text-4xl font-bold text-white mb-2" data-testid="abm-title">
+          <h1 className="text-4xl font-bold text-slate-900 mb-2" data-testid="abm-title">
             Minimal ABM: Crypt Temporal Dynamics
           </h1>
-          <p className="text-slate-400">
+          <p className="text-slate-500">
             Agent-based simulation with statistical validation (50 replicates × 10 generations)
           </p>
         </div>
@@ -158,15 +158,15 @@ export default function ABMDemo() {
         </div>
 
         {/* Statistical Test Results */}
-        <Card className="bg-slate-900/50 border-amber-500/30">
+        <Card className="bg-white border-amber-500/30">
           <CardHeader>
             <CardTitle className="text-lg text-amber-400">Statistical Significance</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <h4 className="text-sm font-semibold text-slate-300">Welch's t-test</h4>
-                <p className="text-xs text-slate-400">
+                <h4 className="text-sm font-semibold text-slate-600">Welch's t-test</h4>
+                <p className="text-xs text-slate-500">
                   t = {data.statistics.welch.t.toFixed(2)}, p {data.statistics.welch.p < 0.001 ? '< 0.001***' : `= ${data.statistics.welch.p.toFixed(3)}`}
                 </p>
                 <p className="text-xs text-slate-500">
@@ -174,20 +174,20 @@ export default function ABMDemo() {
                 </p>
               </div>
               <div className="space-y-2">
-                <h4 className="text-sm font-semibold text-slate-300">Effect Size (Cohen's d)</h4>
-                <p className="text-xs text-slate-400">
+                <h4 className="text-sm font-semibold text-slate-600">Effect Size (Cohen's d)</h4>
+                <p className="text-xs text-slate-500">
                   {data.statistics.cohensD.toFixed(2)} ({data.statistics.cohensD < 0.2 ? 'trivial' : data.statistics.cohensD < 0.5 ? 'small' : data.statistics.cohensD < 0.8 ? 'medium' : 'large'})
                 </p>
               </div>
               <div className="space-y-2">
-                <h4 className="text-sm font-semibold text-slate-300">Mean Difference (KO − WT)</h4>
-                <p className="text-xs text-slate-400">
+                <h4 className="text-sm font-semibold text-slate-600">Mean Difference (KO − WT)</h4>
+                <p className="text-xs text-slate-500">
                   {data.statistics.meanDifferenceCI.mean.toFixed(1)} mutations [95% CI: {data.statistics.meanDifferenceCI.lower.toFixed(1)}–{data.statistics.meanDifferenceCI.upper.toFixed(1)}]
                 </p>
               </div>
               <div className="space-y-2">
-                <h4 className="text-sm font-semibold text-slate-300">Bootstrap CI (KO/WT Ratio)</h4>
-                <p className="text-xs text-slate-400">
+                <h4 className="text-sm font-semibold text-slate-600">Bootstrap CI (KO/WT Ratio)</h4>
+                <p className="text-xs text-slate-500">
                   95% CI: [{data.statistics.bootstrapRatioCI.lower.toFixed(2)}–{data.statistics.bootstrapRatioCI.upper.toFixed(2)}]
                 </p>
               </div>
@@ -196,9 +196,9 @@ export default function ABMDemo() {
         </Card>
 
         {/* Mutations per Generation */}
-        <Card className="bg-slate-900/50 border-slate-700/50">
+        <Card className="bg-white border-slate-200">
           <CardHeader>
-            <CardTitle className="text-lg text-white">Mutations per Generation</CardTitle>
+            <CardTitle className="text-lg text-slate-900">Mutations per Generation</CardTitle>
             <CardDescription>Single run showing stochastic accumulation</CardDescription>
           </CardHeader>
           <CardContent>
@@ -217,9 +217,9 @@ export default function ABMDemo() {
         </Card>
 
         {/* Cumulative Mean */}
-        <Card className="bg-slate-900/50 border-slate-700/50">
+        <Card className="bg-white border-slate-200">
           <CardHeader>
-            <CardTitle className="text-lg text-white">Cumulative Mean Mutations</CardTitle>
+            <CardTitle className="text-lg text-slate-900">Cumulative Mean Mutations</CardTitle>
             <CardDescription>Running average trend</CardDescription>
           </CardHeader>
           <CardContent>
@@ -238,23 +238,23 @@ export default function ABMDemo() {
         </Card>
 
         {/* Interpretation */}
-        <Card className="bg-slate-900/50 border-amber-500/30">
+        <Card className="bg-white border-amber-500/30">
           <CardHeader>
             <CardTitle className="text-lg text-amber-400">Interpretation</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-slate-300 whitespace-pre-wrap font-mono text-sm leading-relaxed">
+            <p className="text-slate-600 whitespace-pre-wrap font-mono text-sm leading-relaxed">
               {data.interpretation}
             </p>
           </CardContent>
         </Card>
 
         {/* Model Details */}
-        <Card className="bg-slate-900/50 border-slate-700/50">
+        <Card className="bg-white border-slate-200">
           <CardHeader>
-            <CardTitle className="text-sm font-medium text-slate-400">Simulation Parameters</CardTitle>
+            <CardTitle className="text-sm font-medium text-slate-500">Simulation Parameters</CardTitle>
           </CardHeader>
-          <CardContent className="text-xs text-slate-400 space-y-1">
+          <CardContent className="text-xs text-slate-500 space-y-1">
             <p>• Replicates: 50 independent simulation runs</p>
             <p>• Cell cycle: 24±12 hours (Poisson-distributed stochastic divisions)</p>
             <p>• BMAL1 repair window: Peak at ZT18 (phase 0.75), gaussian decay</p>

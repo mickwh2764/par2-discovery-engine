@@ -219,15 +219,15 @@ export function calculateDataQualityMetrics(
 export function cleanGeneData(
   time: number[],
   expression: number[]
-): { time: number[]; expression: number[]; removedIndices: number[] } {
+): { time: number[]; expression: number[]; removedIndices: number[]; replicatesAveraged: number } {
   const cleanTime: number[] = [];
   const cleanExpression: number[] = [];
   const removedIndices: number[] = [];
-  
+
   for (let i = 0; i < time.length; i++) {
     const t = time[i];
     const e = expression[i];
-    
+
     if (
       t !== null && t !== undefined &&
       e !== null && e !== undefined &&
@@ -240,14 +240,33 @@ export function cleanGeneData(
       removedIndices.push(i);
     }
   }
-  
-  const timeIndices = cleanTime.map((t, i) => ({ time: t, index: i, expr: cleanExpression[i] }));
-  timeIndices.sort((a, b) => a.time - b.time);
-  
+
+  // Group by timepoint and average biological replicates
+  const grouped = new Map<number, number[]>();
+  for (let i = 0; i < cleanTime.length; i++) {
+    const t = cleanTime[i];
+    if (!grouped.has(t)) grouped.set(t, []);
+    grouped.get(t)!.push(cleanExpression[i]);
+  }
+
+  const sortedTimepoints = Array.from(grouped.keys()).sort((a, b) => a - b);
+
+  const avgTime: number[] = [];
+  const avgExpression: number[] = [];
+  let replicatesAveraged = 0;
+
+  for (const t of sortedTimepoints) {
+    const vals = grouped.get(t)!;
+    avgTime.push(t);
+    avgExpression.push(vals.reduce((a, b) => a + b, 0) / vals.length);
+    if (vals.length > 1) replicatesAveraged += vals.length - 1;
+  }
+
   return {
-    time: timeIndices.map(item => item.time),
-    expression: timeIndices.map(item => item.expr),
-    removedIndices
+    time: avgTime,
+    expression: avgExpression,
+    removedIndices,
+    replicatesAveraged
   };
 }
 

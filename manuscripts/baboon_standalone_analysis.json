@@ -1,0 +1,48 @@
+{
+  "dataset": "GSE98965",
+  "species": "Papio anubis",
+  "categoryDistributions": {
+    "Clock Genes": {
+      "n": 600,
+      "mean": 0.9458059584947868,
+      "std": 0.0815077075061938
+    },
+    "Oncofetal Markers": {
+      "n": 550,
+      "mean": 0.8042704147078439,
+      "std": 0.3209043222890618
+    },
+    "Cell Cycle": {
+      "n": 420,
+      "mean": 0.9862587937422623,
+      "std": 0.03511222399068433
+    },
+    "Metabolism": {
+      "n": 300,
+      "mean": 0.9840616091823207,
+      "std": 0.04180229013379636
+    },
+    "Stem Cell": {
+      "n": 240,
+      "mean": 0.9605412627518283,
+      "std": 0.10323388232109777
+    }
+  },
+  "keyFindings": {
+    "clockMeanLambda": 0.9458059584947868,
+    "oncofetalMeanLambda": 0.8042704147078439,
+    "deltaLambda": 0.14153554378694289,
+    "neuralVsPeripheral": {
+      "neural": 0.974505357909776,
+      "peripheral": 0.9314562587872932,
+      "pValue": 2.220446049250313e-16
+    },
+    "stabilityDistribution": {
+      "stable": 199,
+      "nearCritical": 1326,
+      "unstable": 585
+    }
+  },
+  "testCount": 9,
+  "testCategories": 5
+}

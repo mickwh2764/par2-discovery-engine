@@ -89,10 +89,10 @@ export default function SharedAnalysis() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="h-8 w-8 animate-spin text-cyan-400 mx-auto mb-3" />
-          <p className="text-slate-400">Loading shared analysis...</p>
+          <p className="text-slate-500">Loading shared analysis...</p>
         </div>
       </div>
     );
@@ -100,7 +100,7 @@ export default function SharedAnalysis() {
 
   if (error || !data) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 p-6">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 p-6">
         <div className="max-w-2xl mx-auto mt-20">
           <Alert className="bg-red-900/30 border-red-700/50">
             <AlertCircle className="h-4 w-4 text-red-400" />
@@ -111,7 +111,7 @@ export default function SharedAnalysis() {
           </Alert>
           <div className="mt-4 text-center">
             <Link href="/discovery-engine">
-              <Button variant="outline" className="border-slate-700 text-slate-300">
+              <Button variant="outline" className="border-slate-200 text-slate-600">
                 <ArrowLeft size={14} className="mr-1" />
                 Go to Discovery Engine
               </Button>
@@ -131,11 +131,11 @@ export default function SharedAnalysis() {
   }));
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex items-center gap-3 mb-6">
           <Link href="/discovery-engine">
-            <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white" data-testid="link-back-discovery">
+            <Button variant="ghost" size="sm" className="text-slate-500 hover:text-slate-700" data-testid="link-back-discovery">
               <ArrowLeft size={16} className="mr-1" />
               Discovery Engine
             </Button>
@@ -146,12 +146,12 @@ export default function SharedAnalysis() {
           <div>
             <div className="flex items-center gap-2 mb-1">
               <Share2 className="h-5 w-5 text-cyan-400" />
-              <h1 className="text-2xl font-bold text-white" data-testid="text-shared-title">Shared Analysis</h1>
+              <h1 className="text-2xl font-bold text-slate-900" data-testid="text-shared-title">Shared Analysis</h1>
             </div>
-            <p className="text-slate-400 text-sm">
-              File: <span className="text-slate-300" data-testid="text-shared-filename">{data.fileName}</span>
-              {' | '}Format: <span className="text-slate-300">{data.detectedFormat}</span>
-              {' | '}Shared: <span className="text-slate-300">{new Date(data.createdAt).toLocaleDateString()}</span>
+            <p className="text-slate-500 text-sm">
+              File: <span className="text-slate-600" data-testid="text-shared-filename">{data.fileName}</span>
+              {' | '}Format: <span className="text-slate-600">{data.detectedFormat}</span>
+              {' | '}Shared: <span className="text-slate-600">{new Date(data.createdAt).toLocaleDateString()}</span>
             </p>
           </div>
           <Badge className="bg-cyan-900/30 text-cyan-300 border-cyan-700/50">
@@ -160,28 +160,28 @@ export default function SharedAnalysis() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-          <Card className="bg-slate-900/80 border-slate-700">
+          <Card className="bg-white border-slate-200">
             <CardContent className="pt-4 pb-3 text-center">
-              <p className="text-2xl font-bold text-white" data-testid="text-total-records">{result.totalRecords?.toLocaleString()}</p>
-              <p className="text-xs text-slate-400">Total Records</p>
+              <p className="text-2xl font-bold text-slate-900" data-testid="text-total-records">{result.totalRecords?.toLocaleString()}</p>
+              <p className="text-xs text-slate-500">Total Records</p>
             </CardContent>
           </Card>
-          <Card className="bg-slate-900/80 border-slate-700">
+          <Card className="bg-white border-slate-200">
             <CardContent className="pt-4 pb-3 text-center">
-              <p className="text-2xl font-bold text-white" data-testid="text-channels-count">{result.channelsAnalyzed}</p>
-              <p className="text-xs text-slate-400">Channels</p>
+              <p className="text-2xl font-bold text-slate-900" data-testid="text-channels-count">{result.channelsAnalyzed}</p>
+              <p className="text-xs text-slate-500">Channels</p>
             </CardContent>
           </Card>
-          <Card className="bg-slate-900/80 border-slate-700">
+          <Card className="bg-white border-slate-200">
             <CardContent className="pt-4 pb-3 text-center">
-              <p className="text-2xl font-bold text-white">{result.fileSize ? (result.fileSize / 1024).toFixed(1) + ' KB' : '-'}</p>
-              <p className="text-xs text-slate-400">File Size</p>
+              <p className="text-2xl font-bold text-slate-900">{result.fileSize ? (result.fileSize / 1024).toFixed(1) + ' KB' : '-'}</p>
+              <p className="text-xs text-slate-500">File Size</p>
             </CardContent>
           </Card>
-          <Card className="bg-slate-900/80 border-slate-700">
+          <Card className="bg-white border-slate-200">
             <CardContent className="pt-4 pb-3 text-center">
-              <p className="text-2xl font-bold text-white">{data.detectedFormat}</p>
-              <p className="text-xs text-slate-400">Format</p>
+              <p className="text-2xl font-bold text-slate-900">{data.detectedFormat}</p>
+              <p className="text-xs text-slate-500">Format</p>
             </CardContent>
           </Card>
         </div>
@@ -189,12 +189,12 @@ export default function SharedAnalysis() {
         {result.results.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
             {result.results.map((ch, idx) => (
-              <Card key={idx} className="bg-slate-900/80 border-slate-700">
+              <Card key={idx} className="bg-white border-slate-200">
                 <CardContent className="pt-5">
                   <div className="flex items-start justify-between mb-3">
                     <div>
-                      <h3 className="font-bold text-white text-base" data-testid={`text-shared-channel-${idx}`}>{ch.channel}</h3>
-                      <p className="text-xs text-slate-400">{ch.sampleCount} samples | {ch.unit}</p>
+                      <h3 className="font-bold text-slate-900 text-base" data-testid={`text-shared-channel-${idx}`}>{ch.channel}</h3>
+                      <p className="text-xs text-slate-500">{ch.sampleCount} samples | {ch.unit}</p>
                     </div>
                     <Badge
                       className="text-xs"
@@ -206,24 +206,24 @@ export default function SharedAnalysis() {
 
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span className="text-slate-400">|λ| Eigenvalue</span>
-                      <span className="font-mono font-bold text-white">{ch.eigenvalue.toFixed(4)}</span>
+                      <span className="text-slate-500">|λ| Eigenvalue</span>
+                      <span className="font-mono font-bold text-slate-900">{ch.eigenvalue.toFixed(4)}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-slate-400">φ₁ (AR coeff)</span>
-                      <span className="font-mono text-slate-300">{ch.phi1.toFixed(4)}</span>
+                      <span className="text-slate-500">φ₁ (AR coeff)</span>
+                      <span className="font-mono text-slate-600">{ch.phi1.toFixed(4)}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-slate-400">φ₂ (AR coeff)</span>
-                      <span className="font-mono text-slate-300">{ch.phi2.toFixed(4)}</span>
+                      <span className="text-slate-500">φ₂ (AR coeff)</span>
+                      <span className="font-mono text-slate-600">{ch.phi2.toFixed(4)}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-slate-400">R²</span>
-                      <span className="font-mono text-slate-300">{ch.r2.toFixed(4)}</span>
+                      <span className="text-slate-500">R²</span>
+                      <span className="font-mono text-slate-600">{ch.r2.toFixed(4)}</span>
                     </div>
                     {ch.ljungBox && (
                       <div className="flex justify-between text-sm">
-                        <span className="text-slate-400">Ljung-Box p</span>
+                        <span className="text-slate-500">Ljung-Box p</span>
                         <span className={`font-mono ${ch.ljungBox.isWhiteNoise ? 'text-emerald-400' : 'text-amber-400'}`}>
                           {ch.ljungBox.pValue.toFixed(4)}
                         </span>
@@ -231,7 +231,7 @@ export default function SharedAnalysis() {
                     )}
                     {ch.confidenceScore !== undefined && (
                       <div className="flex justify-between text-sm">
-                        <span className="text-slate-400">Confidence</span>
+                        <span className="text-slate-500">Confidence</span>
                         <span className={`font-mono ${ch.confidenceScore >= 70 ? 'text-emerald-400' : ch.confidenceScore >= 40 ? 'text-amber-400' : 'text-red-400'}`}>
                           {ch.confidenceScore}/100
                         </span>
@@ -240,8 +240,8 @@ export default function SharedAnalysis() {
                   </div>
 
                   {ch.edgeCaseDiagnostics && ch.edgeCaseDiagnostics.some(d => d.triggered) && (
-                    <div className="mt-3 pt-3 border-t border-slate-700">
-                      <p className="text-xs text-slate-400 mb-1 flex items-center gap-1">
+                    <div className="mt-3 pt-3 border-t border-slate-200">
+                      <p className="text-xs text-slate-500 mb-1 flex items-center gap-1">
                         <ShieldAlert size={12} /> Diagnostics
                       </p>
                       {ch.edgeCaseDiagnostics.filter(d => d.triggered).map((d, i) => (
@@ -258,9 +258,9 @@ export default function SharedAnalysis() {
         )}
 
         {eigenvalueBarData.length > 1 && (
-          <Card className="bg-slate-900/80 border-slate-700 mb-6">
+          <Card className="bg-white border-slate-200 mb-6">
             <CardHeader>
-              <CardTitle className="text-white text-lg flex items-center gap-2">
+              <CardTitle className="text-slate-900 text-lg flex items-center gap-2">
                 <Activity size={18} className="text-cyan-400" />
                 Eigenvalue Comparison
               </CardTitle>
@@ -285,9 +285,9 @@ export default function SharedAnalysis() {
         )}
 
         {result.gearboxAnalysis && (
-          <Card className="bg-slate-900/80 border-slate-700 mb-6">
+          <Card className="bg-white border-slate-200 mb-6">
             <CardHeader>
-              <CardTitle className="text-white text-lg flex items-center gap-2">
+              <CardTitle className="text-slate-900 text-lg flex items-center gap-2">
                 {result.gearboxAnalysis.hierarchyPreserved
                   ? <ShieldCheck size={18} className="text-emerald-400" />
                   : <ShieldAlert size={18} className="text-amber-400" />}
@@ -297,42 +297,42 @@ export default function SharedAnalysis() {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm text-slate-400 mb-2">Channel Hierarchy (by |λ|)</p>
+                  <p className="text-sm text-slate-500 mb-2">Channel Hierarchy (by |λ|)</p>
                   <div className="space-y-1">
                     {result.gearboxAnalysis.hierarchy.map((h, i) => (
-                      <div key={i} className="flex items-center justify-between text-sm bg-slate-800/50 px-3 py-1.5 rounded">
+                      <div key={i} className="flex items-center justify-between text-sm bg-slate-50 px-3 py-1.5 rounded">
                         <div className="flex items-center gap-2">
-                          <span className="text-slate-400 text-xs w-4">{i + 1}.</span>
+                          <span className="text-slate-500 text-xs w-4">{i + 1}.</span>
                           {h.role === 'clock' ? <Clock size={12} className="text-cyan-400" /> : <Target size={12} className="text-violet-400" />}
-                          <span className="text-slate-300">{h.channel}</span>
+                          <span className="text-slate-600">{h.channel}</span>
                         </div>
-                        <span className="font-mono text-white">{h.eigenvalue.toFixed(4)}</span>
+                        <span className="font-mono text-slate-900">{h.eigenvalue.toFixed(4)}</span>
                       </div>
                     ))}
                   </div>
                 </div>
                 <div>
-                  <p className="text-sm text-slate-400 mb-2">Summary</p>
+                  <p className="text-sm text-slate-500 mb-2">Summary</p>
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span className="text-slate-400">Gap (Δ|λ|)</span>
-                      <span className="font-mono font-bold text-white">{result.gearboxAnalysis.gap.toFixed(4)}</span>
+                      <span className="text-slate-500">Gap (Δ|λ|)</span>
+                      <span className="font-mono font-bold text-slate-900">{result.gearboxAnalysis.gap.toFixed(4)}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-slate-400">Hierarchy Preserved</span>
+                      <span className="text-slate-500">Hierarchy Preserved</span>
                       <Badge className={result.gearboxAnalysis.hierarchyPreserved ? 'bg-emerald-900/30 text-emerald-300' : 'bg-red-900/30 text-red-300'}>
                         {result.gearboxAnalysis.hierarchyPreserved ? 'Yes' : 'No'}
                       </Badge>
                     </div>
                   </div>
-                  <p className="text-xs text-slate-400 mt-3">{result.gearboxAnalysis.interpretation}</p>
+                  <p className="text-xs text-slate-500 mt-3">{result.gearboxAnalysis.interpretation}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
         )}
 
-        <div className="text-center text-xs text-slate-400 py-4">
+        <div className="text-center text-xs text-slate-500 py-4">
           <p>{result.metadata?.algorithm}</p>
           <p className="mt-1">{result.metadata?.engine} | Analysis shared on {new Date(data.createdAt).toLocaleString()}</p>
           <Link href="/discovery-engine">

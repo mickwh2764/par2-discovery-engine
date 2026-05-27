@@ -35,6 +35,7 @@ interface GeneRootPoint {
   r2: number;
   isComplex: boolean;
   dPhi: number;
+  distToInvPhi?: number;
   x: number;
   y: number;
 }
@@ -170,6 +171,7 @@ interface GenomeSearchGene {
   theta: number;
   isComplex: boolean;
   dPhi: number;
+  distToInvPhi?: number;
   x: number;
   y: number;
   r2: number;
@@ -188,7 +190,7 @@ const GENE_CATEGORY_CONFIG: Record<GeneCategory, { color: string; label: string;
   signaling:    { color: '#60a5fa', label: 'Signaling',    bgClass: 'bg-blue-900/50',    textClass: 'text-blue-300' },
   dna_repair:   { color: '#fbbf24', label: 'DNA Repair',   bgClass: 'bg-amber-900/50',   textClass: 'text-amber-300' },
   stem:         { color: '#f87171', label: 'Stem',         bgClass: 'bg-red-900/50',     textClass: 'text-red-300' },
-  other:        { color: '#94a3b8', label: 'Other',        bgClass: 'bg-slate-700',      textClass: 'text-slate-300' },
+  other:        { color: '#94a3b8', label: 'Other',        bgClass: 'bg-slate-200',      textClass: 'text-slate-600' },
 };
 
 function getCategoryColor(gene: GenomeSearchGene): string {
@@ -592,7 +594,7 @@ function FilterPanel({ data, filterHook }: { data: RootSpaceData; filterHook: Re
           data-testid="button-toggle-filters"
         >
           <Filter size={12} className="mr-1" />
-          Filters {hasActiveFilters && <span className="ml-1 bg-cyan-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px]">{filters.hiddenDatasets.size + filters.hiddenGenes.size + (ALL_CATEGORIES.size - filters.visibleCategories.size)}</span>}
+          Filters {hasActiveFilters && <span className="ml-1 bg-cyan-500 text-slate-900 rounded-full w-4 h-4 flex items-center justify-center text-[10px]">{filters.hiddenDatasets.size + filters.hiddenGenes.size + (ALL_CATEGORIES.size - filters.visibleCategories.size)}</span>}
         </Button>
         {hasActiveFilters && (
           <Button
@@ -605,7 +607,7 @@ function FilterPanel({ data, filterHook }: { data: RootSpaceData; filterHook: Re
             <X size={12} className="mr-1" /> Reset All
           </Button>
         )}
-        <div className="ml-auto flex items-center gap-2 text-xs text-slate-400">
+        <div className="ml-auto flex items-center gap-2 text-xs text-slate-500">
           <span>{totalVisible}/{totalGenes} genes visible</span>
           <span className="text-slate-500">|</span>
           <span>Filters apply to all scatter plots below</span>
@@ -613,9 +615,9 @@ function FilterPanel({ data, filterHook }: { data: RootSpaceData; filterHook: Re
       </div>
 
       {showFilters && (
-        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50 space-y-4">
+        <div className="bg-slate-50 rounded-lg p-4 border border-slate-200 space-y-4">
           <div>
-            <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2 flex items-center gap-1">
+            <h4 className="text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2 flex items-center gap-1">
               <Eye size={12} /> Datasets / Tissues
             </h4>
             <div className="flex flex-wrap gap-2">
@@ -627,8 +629,8 @@ function FilterPanel({ data, filterHook }: { data: RootSpaceData; filterHook: Re
                     onClick={() => toggleDataset(ds.datasetId)}
                     className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs transition-all border ${
                       isHidden
-                        ? 'border-slate-700 bg-slate-900/50 text-slate-400 opacity-50'
-                        : 'border-slate-600 bg-slate-800 text-white'
+                        ? 'border-slate-200 bg-white text-slate-500 opacity-50'
+                        : 'border-slate-300 bg-slate-100 text-slate-900'
                     }`}
                     data-testid={`button-toggle-dataset-${ds.datasetId}`}
                   >
@@ -637,9 +639,9 @@ function FilterPanel({ data, filterHook }: { data: RootSpaceData; filterHook: Re
                       style={{ backgroundColor: isHidden ? '#475569' : (DATASET_COLORS[ds.datasetId] || '#94a3b8') }}
                     />
                     <span>{ds.datasetName.split('(')[0].trim()}</span>
-                    <span className="text-slate-400">({ds.species.split(' ')[0]})</span>
-                    <span className="text-slate-400">{ds.genes.length}g</span>
-                    {isHidden ? <EyeOff size={10} className="text-slate-400" /> : <Eye size={10} className="text-slate-400" />}
+                    <span className="text-slate-500">({ds.species.split(' ')[0]})</span>
+                    <span className="text-slate-500">{ds.genes.length}g</span>
+                    {isHidden ? <EyeOff size={10} className="text-slate-500" /> : <Eye size={10} className="text-slate-500" />}
                   </button>
                 );
               })}
@@ -647,7 +649,7 @@ function FilterPanel({ data, filterHook }: { data: RootSpaceData; filterHook: Re
           </div>
 
           <div>
-            <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Gene Categories</h4>
+            <h4 className="text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">Gene Categories</h4>
             <div className="flex flex-wrap gap-2">
               {Object.entries(GENE_CATEGORY_CONFIG).filter(([k]) => k !== 'other').map(([cat, config]) => {
                 const isVisible = filters.visibleCategories.has(cat);
@@ -657,8 +659,8 @@ function FilterPanel({ data, filterHook }: { data: RootSpaceData; filterHook: Re
                     onClick={() => toggleCategory(cat)}
                     className={`flex items-center gap-1.5 px-2 py-1 rounded-full text-xs transition-all border ${
                       isVisible
-                        ? 'border-slate-600 bg-slate-800 text-white'
-                        : 'border-slate-700 bg-slate-900/50 text-slate-400 opacity-50'
+                        ? 'border-slate-300 bg-slate-100 text-slate-900'
+                        : 'border-slate-200 bg-white text-slate-500 opacity-50'
                     }`}
                     data-testid={`button-toggle-category-${cat}`}
                   >
@@ -671,7 +673,7 @@ function FilterPanel({ data, filterHook }: { data: RootSpaceData; filterHook: Re
           </div>
 
           <div>
-            <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2 flex items-center gap-1">
+            <h4 className="text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2 flex items-center gap-1">
               <Search size={12} /> Find & Toggle Genes
             </h4>
             <div className="relative">
@@ -679,12 +681,12 @@ function FilterPanel({ data, filterHook }: { data: RootSpaceData; filterHook: Re
                 value={geneSearch}
                 onChange={(e) => setGeneSearch(e.target.value)}
                 placeholder="Search genes (e.g. Per2, CLOCK, Bax)..."
-                className="bg-slate-900/50 border-slate-600 text-white text-xs h-8 pl-8"
+                className="bg-white border-slate-300 text-slate-900 text-xs h-8 pl-8"
                 data-testid="input-gene-search"
               />
-              <Search size={12} className="absolute left-2.5 top-2 text-slate-400" />
+              <Search size={12} className="absolute left-2.5 top-2 text-slate-500" />
               {geneSearch && (
-                <button onClick={() => setGeneSearch('')} className="absolute right-2 top-1.5 text-slate-400 hover:text-white">
+                <button onClick={() => setGeneSearch('')} className="absolute right-2 top-1.5 text-slate-500 hover:text-slate-700">
                   <X size={14} />
                 </button>
               )}
@@ -699,16 +701,16 @@ function FilterPanel({ data, filterHook }: { data: RootSpaceData; filterHook: Re
                   const meanEv = genePoints.length > 0 ? (genePoints.reduce((s, p) => s + p.eigenvalue, 0) / genePoints.length) : 0;
                   return (
                     <div key={gene} className={`flex items-center gap-1 px-2 py-0.5 rounded text-xs border ${
-                      isHidden ? 'bg-slate-900 border-slate-700 text-slate-400' :
+                      isHidden ? 'bg-slate-50 border-slate-200 text-slate-500' :
                       isHighlighted ? 'bg-cyan-900/40 border-cyan-600 text-cyan-300' :
-                      'bg-slate-800 border-slate-600 text-white'
+                      'bg-slate-100 border-slate-300 text-slate-900'
                     }`}>
                       <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: GENE_CATEGORY_CONFIG[geneType as GeneCategory]?.color || '#64748b' }} />
                       <span className="font-mono">{gene}</span>
-                      <span className="text-slate-400 text-[10px]">|λ|={meanEv.toFixed(3)}</span>
+                      <span className="text-slate-500 text-[10px]">|λ|={meanEv.toFixed(3)}</span>
                       <button
                         onClick={() => toggleGeneVisibility(gene)}
-                        className="ml-1 hover:text-white"
+                        className="ml-1 hover:text-slate-700"
                         title={isHidden ? 'Show gene' : 'Hide gene'}
                         data-testid={`button-toggle-gene-${gene}`}
                       >
@@ -733,7 +735,7 @@ function FilterPanel({ data, filterHook }: { data: RootSpaceData; filterHook: Re
             <div className="flex flex-wrap gap-2">
               {filters.hiddenGenes.size > 0 && (
                 <div className="text-xs">
-                  <span className="text-slate-400">Hidden: </span>
+                  <span className="text-slate-500">Hidden: </span>
                   {Array.from(filters.hiddenGenes).map(gene => (
                     <button
                       key={gene}
@@ -748,7 +750,7 @@ function FilterPanel({ data, filterHook }: { data: RootSpaceData; filterHook: Re
               )}
               {filters.highlightedGenes.size > 0 && (
                 <div className="text-xs">
-                  <span className="text-slate-400">Highlighted: </span>
+                  <span className="text-slate-500">Highlighted: </span>
                   {Array.from(filters.highlightedGenes).map(gene => (
                     <button
                       key={gene}
@@ -810,13 +812,13 @@ function RootSpace3DVisualization({ data, filters, toggleDataset, overlayGenes }
   }, [filteredPoints]);
 
   return (
-    <Card className="bg-slate-900/50 border-slate-700">
+    <Card className="bg-white border-slate-200">
       <CardHeader className="pb-2">
-        <CardTitle className="text-white flex items-center gap-2 text-lg">
+        <CardTitle className="text-slate-900 flex items-center gap-2 text-lg">
           <Box size={18} className="text-cyan-400" />
           3D Root-Space Landscape (β₁ × β₂ × |λ|)
         </CardTitle>
-        <CardDescription className="text-slate-400">
+        <CardDescription className="text-slate-500">
           AR(2) coefficients on the ground plane (stationarity triangle), eigenvalue modulus as height.
           Clock genes (bright, large) cluster at higher altitudes than targets — visualizing the persistence hierarchy.
           Drag left/right to rotate the view.
@@ -824,13 +826,13 @@ function RootSpace3DVisualization({ data, filters, toggleDataset, overlayGenes }
       </CardHeader>
       <CardContent>
         <div className="flex flex-wrap gap-2 mb-3">
-          <div className="ml-auto flex items-center gap-4 text-xs text-slate-400">
+          <div className="ml-auto flex items-center gap-4 text-xs text-slate-500">
             {filters.visibleCategories.has('clock') && <span>Clock mean |λ|: <span className="text-cyan-300 font-mono">{clockMeanEv.toFixed(4)}</span></span>}
-            {filters.visibleCategories.has('target') && <span>Target mean |λ|: <span className="text-slate-300 font-mono">{targetMeanEv.toFixed(4)}</span></span>}
+            {filters.visibleCategories.has('target') && <span>Target mean |λ|: <span className="text-slate-600 font-mono">{targetMeanEv.toFixed(4)}</span></span>}
           </div>
         </div>
 
-        <div className="w-full rounded-lg overflow-hidden bg-slate-950 border border-slate-700" data-testid="container-3d-rootspace">
+        <div className="w-full rounded-lg overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-50 border border-slate-200" data-testid="container-3d-rootspace">
           <Iso3DScatter
             points={filteredPoints}
             clockMeanEv={clockMeanEv}
@@ -852,13 +854,13 @@ function RootSpace3DVisualization({ data, filters, toggleDataset, overlayGenes }
               {ds.datasetName.split('(')[0].trim()}
             </button>
           ))}
-          <span className="flex items-center gap-2 ml-3 border-l border-slate-700 pl-3">
+          <span className="flex items-center gap-2 ml-3 border-l border-slate-200 pl-3">
             {Object.entries(GENE_CATEGORY_CONFIG).filter(([k]) => k !== 'other').map(([cat, cfg]) => (
               <span key={cat} className="flex items-center gap-1"><span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: cfg.color }} />{cfg.label}</span>
             ))}
           </span>
         </div>
-        <div className="mt-3 text-xs text-slate-400 space-y-1">
+        <div className="mt-3 text-xs text-slate-500 space-y-1">
           <p>The ground plane shows the stationarity triangle (β₂ boundaries in gray) and oscillatory parabola (gold). Height encodes eigenvalue magnitude |λ| — how persistent a gene's expression is across time points. Clock genes consistently "float" higher than targets, confirming the temporal persistence hierarchy in 3D coefficient space.</p>
           <p>Horizontal reference planes mark the mean |λ| for clock (cyan) and target (gray) gene categories. The visible separation between these planes is the Gearbox Hypothesis in three dimensions.</p>
         </div>
@@ -980,6 +982,16 @@ function StationarityTrianglePlot({ data, filters, toggleDataset, overlayGenes, 
     })
   ];
 
+  const PHI = (1 + Math.sqrt(5)) / 2;
+  const INV_PHI = 1 / PHI;                   // ≈ 0.618034
+  const INV_PHI_B1_BOUND = 1 - INV_PHI;      // ≈ 0.381966 — triangle width at β₂=1/φ
+
+  // Horizontal line at β₂ = 1/φ clipped to triangle interior
+  const phiHorizontalLine = [
+    { x: -INV_PHI_B1_BOUND, y: INV_PHI, lineType: true },
+    { x:  INV_PHI_B1_BOUND, y: INV_PHI, lineType: true },
+  ];
+
   const allVisibleGenes = useMemo(() => {
     const genes: { beta1: number; beta2: number }[] = [];
     for (const ds of data.datasets) {
@@ -989,30 +1001,50 @@ function StationarityTrianglePlot({ data, filters, toggleDataset, overlayGenes, 
     return genes;
   }, [data, filters]);
 
+  const beta2Bins = useMemo(() => {
+    const NBINS = 20; const MIN = -1; const MAX = 1;
+    const width = (MAX - MIN) / NBINS;
+    const counts = Array(NBINS).fill(0);
+    for (const g of allVisibleGenes) {
+      const idx = Math.floor((g.beta2 - MIN) / width);
+      if (idx >= 0 && idx < NBINS) counts[idx]++;
+    }
+    return counts.map((count, i) => {
+      const center = MIN + (i + 0.5) * width;
+      return { label: center.toFixed(2), count, center, isAbovePhi: center >= INV_PHI };
+    });
+  }, [allVisibleGenes, INV_PHI]);
+
+  const countAbovePhi  = useMemo(() => allVisibleGenes.filter(g => g.beta2 >= INV_PHI).length, [allVisibleGenes, INV_PHI]);
+  const countBelowPhi  = allVisibleGenes.length - countAbovePhi;
+  const fractionAbove  = allVisibleGenes.length > 0 ? countAbovePhi / allVisibleGenes.length : 0;
+  // Under uniform triangle distribution: area above β₂=h equals (1-h)², total area = 4
+  const expectedFractionAbove = (INV_PHI_B1_BOUND * INV_PHI_B1_BOUND) / 4;
+
   return (
-    <Card className="bg-slate-900/50 border-slate-700">
+    <Card className="bg-white border-slate-200">
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="text-white flex items-center gap-2 text-lg">
+            <CardTitle className="text-slate-900 flex items-center gap-2 text-lg">
               <Triangle size={18} className="text-cyan-400" />
               Stationarity Triangle (β₁, β₂)
             </CardTitle>
-            <CardDescription className="text-slate-400">
+            <CardDescription className="text-slate-500">
               AR(2) coefficient space. Triangle = stationary region. Parabola = oscillatory boundary. Star = Fibonacci reference (1,1) — outside stability. Note: Fibonacci positioning is exploratory and may reflect mathematical properties rather than biological mechanism.
             </CardDescription>
           </div>
-          <div className="flex items-center gap-1 bg-slate-800 rounded-lg p-0.5" data-testid="view-mode-toggle-triangle">
+          <div className="flex items-center gap-1 bg-slate-100 rounded-lg p-0.5" data-testid="view-mode-toggle-triangle">
             <button
               onClick={() => setViewMode('dots')}
-              className={`px-2 py-1 text-xs rounded transition-colors ${viewMode === 'dots' ? 'bg-cyan-600 text-white' : 'text-slate-400 hover:text-slate-200'}`}
+              className={`px-2 py-1 text-xs rounded transition-colors ${viewMode === 'dots' ? 'bg-cyan-600 text-slate-900' : 'text-slate-500 hover:text-slate-800'}`}
               data-testid="button-view-dots-triangle"
             >
               Dots
             </button>
             <button
               onClick={() => setViewMode('density')}
-              className={`px-2 py-1 text-xs rounded transition-colors ${viewMode === 'density' ? 'bg-cyan-600 text-white' : 'text-slate-400 hover:text-slate-200'}`}
+              className={`px-2 py-1 text-xs rounded transition-colors ${viewMode === 'density' ? 'bg-cyan-600 text-slate-900' : 'text-slate-500 hover:text-slate-800'}`}
               data-testid="button-view-density-triangle"
             >
               Density
@@ -1057,10 +1089,10 @@ function StationarityTrianglePlot({ data, filters, toggleDataset, overlayGenes, 
                 if (!d) return null;
                 if (d.lineType) return null;
                 return (
-                  <div className="bg-gray-900 border border-gray-700 rounded-lg p-2 text-xs shadow-xl">
-                    <div className="font-bold text-white">{d.gene || 'Reference point'}</div>
-                    {d.dataset && <div className="text-gray-300">{d.dataset}</div>}
-                    {d.type && <div className="text-gray-300">{d.type} gene</div>}
+                  <div className="bg-white border border-slate-200 rounded-lg p-2 text-xs shadow-xl">
+                    <div className="font-bold text-slate-900">{d.gene || 'Reference point'}</div>
+                    {d.dataset && <div className="text-slate-600">{d.dataset}</div>}
+                    {d.type && <div className="text-slate-600">{d.type} gene</div>}
                     <div className="text-blue-300">β₁={d.x?.toFixed(3)}, β₂={d.y?.toFixed(3)}</div>
                   </div>
                 );
@@ -1071,6 +1103,7 @@ function StationarityTrianglePlot({ data, filters, toggleDataset, overlayGenes, 
             <Scatter data={triangleLines.map(t => ({ x: t.b1, y: t.edge3, lineType: true }))} fill="none" line={{ stroke: '#475569', strokeWidth: 2, strokeDasharray: '8 4' }} shape={(() => <circle r={0} />) as any} name="β₂ < 1+β₁" legendType="none" />
             <Scatter data={data.triangle.oscillatoryParabola.map((p: any) => ({ x: p.x, y: p.y, lineType: true }))} fill="none" line={{ stroke: '#eab308', strokeWidth: 1.5, strokeDasharray: '4 2' }} shape={(() => <circle r={0} />) as any} name="Oscillatory" legendType="none" />
             <Scatter data={triangleLines.map(t => ({ x: t.b1, y: 0, lineType: true }))} fill="none" line={{ stroke: '#22d3ee', strokeWidth: 1.5, strokeDasharray: '6 3' }} shape={(() => <circle r={0} />) as any} name="AR(1) boundary (β₂=0)" legendType="none" />
+            <Scatter data={phiHorizontalLine} fill="none" line={{ stroke: '#a78bfa', strokeWidth: 2, strokeDasharray: '6 2' }} shape={(() => <circle r={0} />) as any} name="β₂=1/φ≈0.618 boundary" legendType="none" />
             {data.datasets.map(ds => {
               const filtered = applyFilters(ds.genes, ds.datasetId, filters);
               if (filtered.length === 0) return null;
@@ -1167,17 +1200,123 @@ function StationarityTrianglePlot({ data, filters, toggleDataset, overlayGenes, 
           <span className="flex items-center gap-1">
             <span className="text-yellow-400">┈</span> Oscillatory boundary
           </span>
-          <span className="flex items-center gap-2 ml-3 border-l border-slate-700 pl-3">
+          <span className="flex items-center gap-1">
+            <span className="inline-block w-4 border-t-2 border-dashed border-violet-400" /> β₂=1/φ≈0.618
+          </span>
+          <span className="flex items-center gap-2 ml-3 border-l border-slate-200 pl-3">
             {Object.entries(GENE_CATEGORY_CONFIG).filter(([k]) => k !== 'other').map(([cat, cfg]) => (
               <span key={cat} className="flex items-center gap-1"><span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: cfg.color }} />{cfg.label}</span>
             ))}
           </span>
           {overlayGenes && overlayGenes.some(g => g.isFibonacci) && (
-            <span className="flex items-center gap-1 ml-3 border-l border-slate-700 pl-3">
+            <span className="flex items-center gap-1 ml-3 border-l border-slate-200 pl-3">
               <span className="w-3 h-3 inline-block rotate-45 border-2 border-amber-500" style={{ backgroundColor: 'transparent' }} />
               <span className="text-amber-400">Fibonacci Cluster</span>
             </span>
           )}
+        </div>
+
+        {/* β₂ = 1/φ Boundary Test */}
+        <div className="mt-6 border-t border-slate-200 pt-5 space-y-4">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <p className="text-sm font-semibold text-slate-600">β₂ = 1/φ ≈ 0.618 Boundary Test</p>
+            <p className="text-xs text-slate-500">Does gene density drop sharply at β₂ = 1/φ, or gradually from β₁ ≈ 0?</p>
+          </div>
+
+          {/* Count summary */}
+          <div className="grid grid-cols-3 gap-3 text-center">
+            <div className="bg-slate-100 rounded-lg p-3">
+              <p className="text-xl font-bold text-violet-400">{countAbovePhi}</p>
+              <p className="text-xs text-slate-500">genes above β₂=0.618</p>
+              <p className="text-xs text-slate-500">({(fractionAbove * 100).toFixed(1)}% of visible)</p>
+            </div>
+            <div className="bg-slate-100 rounded-lg p-3">
+              <p className="text-xl font-bold text-slate-600">{countBelowPhi}</p>
+              <p className="text-xs text-slate-500">genes below β₂=0.618</p>
+              <p className="text-xs text-slate-500">({((1 - fractionAbove) * 100).toFixed(1)}% of visible)</p>
+            </div>
+            <div className="bg-slate-100 rounded-lg p-3">
+              <p className="text-xl font-bold text-amber-400">{(expectedFractionAbove * 100).toFixed(1)}%</p>
+              <p className="text-xs text-slate-500">expected above (uniform)</p>
+              <p className="text-xs text-slate-500">if genes filled triangle evenly</p>
+            </div>
+          </div>
+
+          {/* β₂ histogram */}
+          <div>
+            <p className="text-xs text-slate-500 mb-1">β₂ distribution across all visible genes — violet line = 1/φ</p>
+            <ResponsiveContainer width="100%" height={140}>
+              <ComposedChart data={beta2Bins} margin={{ top: 4, right: 10, bottom: 20, left: 30 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                <XAxis dataKey="center" type="number" domain={[-1, 1]} tickCount={9}
+                  tickFormatter={(v: number) => v.toFixed(1)}
+                  tick={{ fill: '#64748b', fontSize: 9 }}
+                  label={{ value: 'β₂', position: 'bottom', fill: '#64748b', fontSize: 11 }} />
+                <YAxis tick={{ fill: '#64748b', fontSize: 9 }}
+                  label={{ value: 'count', angle: -90, position: 'insideLeft', fill: '#64748b', fontSize: 10 }} />
+                <Tooltip
+                  contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '6px', fontSize: 11 }}
+                  labelStyle={{ color: '#94a3b8' }}
+                  formatter={(v: any) => [v, 'genes']}
+                  labelFormatter={(v: any) => `β₂ ≈ ${Number(v).toFixed(2)}`}
+                />
+                <ReferenceLine x={INV_PHI} stroke="#a78bfa" strokeWidth={2} strokeDasharray="6 2"
+                  label={{ value: '1/φ', position: 'top', fill: '#a78bfa', fontSize: 10 }} />
+                <Bar dataKey="count" radius={[2, 2, 0, 0]}>
+                  {beta2Bins.map((entry, i) => (
+                    <Cell key={i} fill={entry.isAbovePhi ? '#7c3aed' : '#3b82f6'} opacity={0.7} />
+                  ))}
+                </Bar>
+              </ComposedChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Interpretation note */}
+          <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-xs text-slate-500 space-y-1">
+            <p>
+              <span className="text-violet-400 font-medium">Interpretation:</span>{' '}
+              {fractionAbove < expectedFractionAbove * 0.5
+                ? `Observed ${(fractionAbove * 100).toFixed(1)}% above β₂=0.618 vs ${(expectedFractionAbove * 100).toFixed(1)}% expected under uniform triangle distribution — a ${(expectedFractionAbove / Math.max(fractionAbove, 0.0001)).toFixed(1)}× depletion. This is consistent with a real boundary near 1/φ, though the constraint could reflect β₁≈0 avoidance rather than φ specifically.`
+                : fractionAbove < expectedFractionAbove
+                  ? `Observed ${(fractionAbove * 100).toFixed(1)}% above β₂=0.618 vs ${(expectedFractionAbove * 100).toFixed(1)}% expected under uniform distribution — modest depletion. The drop does not appear sharp at exactly 1/φ.`
+                  : `Observed ${(fractionAbove * 100).toFixed(1)}% above β₂=0.618, similar to the ${(expectedFractionAbove * 100).toFixed(1)}% expected under uniform distribution. No evidence for a sharp 1/φ boundary.`
+              }
+            </p>
+            <p className="text-slate-500">
+              The triangle area above β₂=0.618 is only {(expectedFractionAbove * 100).toFixed(1)}% of total stationarity region — geometrically tiny. Low counts here may reflect limited parameter space rather than a φ-specific boundary. To test the β₁≈0 hypothesis: compare density <em>along</em> the β₂=0.618 line vs the β₂=0.4 line at the same β₁ range ±{INV_PHI_B1_BOUND.toFixed(3)}.
+            </p>
+          </div>
+
+          {/* Individual genes near 1/φ — from Paper G validation */}
+          <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3 space-y-2">
+            <p className="text-xs font-semibold text-amber-400">Notable individual genes near 1/φ = 0.618034</p>
+            <p className="text-xs text-slate-500">
+              Genome-wide φ-enrichment is not statistically significant (p=0.154). However, three biologically meaningful genes have |λ| values that land within ≤0.003 of exactly 1/φ across independent datasets and tissues — documented in the Fibonacci Reply paper (Paper G).
+            </p>
+            <div className="grid grid-cols-3 gap-2 mt-2">
+              <div className="bg-white border border-amber-500/20 rounded p-2 text-center">
+                <div className="text-sm font-bold text-amber-400 font-mono">Per2</div>
+                <div className="text-xs text-slate-500">|λ| = 0.6185</div>
+                <div className="text-[10px] text-slate-500">Cerebellum</div>
+                <div className="text-[10px] text-amber-400/70">Δ = 0.0005 from 1/φ</div>
+              </div>
+              <div className="bg-white border border-amber-500/20 rounded p-2 text-center">
+                <div className="text-sm font-bold text-amber-400 font-mono">Hes1</div>
+                <div className="text-xs text-slate-500">|λ| = 0.6188</div>
+                <div className="text-[10px] text-slate-500">Hypothalamus</div>
+                <div className="text-[10px] text-amber-400/70">Δ = 0.0008 from 1/φ</div>
+              </div>
+              <div className="bg-white border border-amber-500/20 rounded p-2 text-center">
+                <div className="text-sm font-bold text-amber-400 font-mono">Wee1</div>
+                <div className="text-xs text-slate-500">|λ| = 0.6151</div>
+                <div className="text-[10px] text-slate-500">Liver</div>
+                <div className="text-[10px] text-amber-400/70">Δ = 0.0029 from 1/φ</div>
+              </div>
+            </div>
+            <p className="text-[10px] text-slate-500 italic">
+              These are hypothesis-generating observations only. The genome-wide distribution does not show statistically significant φ-enrichment. Individual gene proximity may reflect convergent functional constraints rather than a mathematical property of the AR(2) model.
+            </p>
+          </div>
         </div>
       </CardContent>
     </Card>
@@ -1186,6 +1325,25 @@ function StationarityTrianglePlot({ data, filters, toggleDataset, overlayGenes, 
 
 function RootSpaceScatterPlot({ data, filters, toggleDataset, overlayGenes, reportGeneSet }: { data: RootSpaceData; filters: FilterState; toggleDataset: (id: string) => void; overlayGenes?: GenomeSearchGene[]; reportGeneSet?: Set<string> }) {
   const [viewMode, setViewMode] = useState<'dots' | 'density'>('dots');
+
+  const unitCirclePoints = useMemo(() => {
+    const pts = [];
+    for (let i = 0; i <= 120; i++) {
+      const t = (i / 120) * 2 * Math.PI;
+      pts.push({ x: Math.cos(t), y: Math.sin(t) });
+    }
+    return pts;
+  }, []);
+
+  const invPhiCirclePoints = useMemo(() => {
+    const r = 1 / ((1 + Math.sqrt(5)) / 2);
+    const pts = [];
+    for (let i = 0; i <= 120; i++) {
+      const t = (i / 120) * 2 * Math.PI;
+      pts.push({ x: r * Math.cos(t), y: r * Math.sin(t) });
+    }
+    return pts;
+  }, []);
 
   const allVisibleGenes = useMemo(() => {
     const genes: { x: number; y: number }[] = [];
@@ -1197,29 +1355,29 @@ function RootSpaceScatterPlot({ data, filters, toggleDataset, overlayGenes, repo
   }, [data, filters]);
 
   return (
-    <Card className="bg-slate-900/50 border-slate-700">
+    <Card className="bg-white border-slate-200">
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="text-white flex items-center gap-2 text-lg">
+            <CardTitle className="text-slate-900 flex items-center gap-2 text-lg">
               <Crosshair size={18} className="text-violet-400" />
               Root-Space Scatter (r·cos θ, r·sin θ)
             </CardTitle>
-            <CardDescription className="text-slate-400">
+            <CardDescription className="text-slate-500">
               Eigenvalue roots in Cartesian coordinates. Each point = one gene. Distance from origin = damping rate (r). Angle = oscillation phase advance (θ).
             </CardDescription>
           </div>
-          <div className="flex items-center gap-1 bg-slate-800 rounded-lg p-0.5" data-testid="view-mode-toggle-scatter">
+          <div className="flex items-center gap-1 bg-slate-100 rounded-lg p-0.5" data-testid="view-mode-toggle-scatter">
             <button
               onClick={() => setViewMode('dots')}
-              className={`px-2 py-1 text-xs rounded transition-colors ${viewMode === 'dots' ? 'bg-violet-600 text-white' : 'text-slate-400 hover:text-slate-200'}`}
+              className={`px-2 py-1 text-xs rounded transition-colors ${viewMode === 'dots' ? 'bg-violet-600 text-slate-900' : 'text-slate-500 hover:text-slate-800'}`}
               data-testid="button-view-dots-scatter"
             >
               Dots
             </button>
             <button
               onClick={() => setViewMode('density')}
-              className={`px-2 py-1 text-xs rounded transition-colors ${viewMode === 'density' ? 'bg-violet-600 text-white' : 'text-slate-400 hover:text-slate-200'}`}
+              className={`px-2 py-1 text-xs rounded transition-colors ${viewMode === 'density' ? 'bg-violet-600 text-slate-900' : 'text-slate-500 hover:text-slate-800'}`}
               data-testid="button-view-density-scatter"
             >
               Density
@@ -1257,9 +1415,24 @@ function RootSpaceScatterPlot({ data, filters, toggleDataset, overlayGenes, repo
             />
             <Tooltip
               contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px', color: '#e2e8f0' }}
-              formatter={(value: any, name: string) => [typeof value === 'number' ? value.toFixed(4) : value, name]}
-              labelFormatter={() => ''}
+              content={({ active, payload }: any) => {
+                if (!active || !payload || !payload.length) return null;
+                const d = payload[0]?.payload;
+                if (!d || !d.gene) return null;
+                const category = GENE_CATEGORY_CONFIG[d.type as GeneCategory];
+                return (
+                  <div className="text-xs p-2 space-y-0.5">
+                    <div className="font-bold text-slate-900 text-sm">{d.gene}</div>
+                    {category && <div style={{ color: category.color }}>{category.label}</div>}
+                    <div className="text-slate-600">|λ| = {d.r?.toFixed(4)}</div>
+                    <div className="text-slate-600">θ = {d.theta !== undefined ? (d.theta * 180 / Math.PI).toFixed(1) : '—'}°</div>
+                    <div className="text-slate-500">x = {d.x?.toFixed(4)}, y = {d.y?.toFixed(4)}</div>
+                  </div>
+                );
+              }}
             />
+            <Scatter data={unitCirclePoints} fill="none" line={{ stroke: '#ef4444', strokeWidth: 1.5, strokeDasharray: '5 3' }} shape={(() => <circle r={0} />) as any} name="Unit Circle |λ|=1.0" legendType="none" />
+            <Scatter data={invPhiCirclePoints} fill="none" line={{ stroke: '#f59e0b', strokeWidth: 1, strokeDasharray: '4 4' }} shape={(() => <circle r={0} />) as any} name="1/φ Circle |λ|≈0.618" legendType="none" />
             {data.datasets.map(ds => {
               const filtered = applyFilters(ds.genes, ds.datasetId, filters);
               if (filtered.length === 0) return null;
@@ -1352,13 +1525,17 @@ function RootSpaceScatterPlot({ data, filters, toggleDataset, overlayGenes, repo
               </button>
             );
           })}
-          <span className="flex items-center gap-2 ml-3 border-l border-slate-700 pl-3">
+          <span className="flex items-center gap-2 ml-3 border-l border-slate-200 pl-3">
+            <span className="flex items-center gap-1"><span className="inline-block w-4 border-t-2 border-dashed border-red-500" /> Unit circle |λ|=1.0</span>
+            <span className="flex items-center gap-1"><span className="inline-block w-4 border-t-2 border-dashed border-amber-400" /> 1/φ ≈ 0.618</span>
+          </span>
+          <span className="flex items-center gap-2 ml-3 border-l border-slate-200 pl-3">
             {Object.entries(GENE_CATEGORY_CONFIG).filter(([k]) => k !== 'other').map(([cat, cfg]) => (
               <span key={cat} className="flex items-center gap-1"><span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: cfg.color }} />{cfg.label}</span>
             ))}
           </span>
           {overlayGenes && overlayGenes.some(g => g.isFibonacci) && (
-            <span className="flex items-center gap-1 ml-3 border-l border-slate-700 pl-3">
+            <span className="flex items-center gap-1 ml-3 border-l border-slate-200 pl-3">
               <span className="w-3 h-3 inline-block rotate-45 border-2 border-amber-500" style={{ backgroundColor: 'transparent' }} />
               <span className="text-amber-400">Fibonacci Cluster</span>
             </span>
@@ -1403,13 +1580,13 @@ function DPhiHistogram({ data }: { data: RootSpaceData }) {
   }));
 
   return (
-    <Card id="phi-enrichment" className="bg-slate-900/50 border-slate-700 scroll-mt-20 transition-all duration-500">
+    <Card id="phi-enrichment" className="bg-white border-slate-200 scroll-mt-20 transition-all duration-500">
       <CardHeader className="pb-2">
-        <CardTitle className="text-white flex items-center gap-2 text-lg">
+        <CardTitle className="text-slate-900 flex items-center gap-2 text-lg">
           <FlaskConical size={18} className="text-amber-400" />
           D_φ Distribution: Observed vs Null
         </CardTitle>
-        <CardDescription className="text-slate-400">
+        <CardDescription className="text-slate-500">
           Golden-mean proximity distance (D_φ). Lower = closer to φ-reference geometry. Observed biological data vs phase-randomized and uniform-triangle nulls. Reference parameters: θ_φ = 2π/φ ≈ 222.5° (golden angle) and r_ref = 0.7 are imposed geometric choices, not data-derived.
         </CardDescription>
       </CardHeader>
@@ -1443,13 +1620,13 @@ function ThresholdSweepChart({ sweep }: { sweep: ThresholdSweepPoint[] }) {
   const peakThreshold = sweep.find(s => s.enrichmentRatio === maxEnrichment);
 
   return (
-    <Card className="bg-slate-900/50 border-slate-700">
+    <Card className="bg-white border-slate-200">
       <CardHeader className="pb-2">
-        <CardTitle className="text-white flex items-center gap-2 text-lg">
+        <CardTitle className="text-slate-900 flex items-center gap-2 text-lg">
           <Crosshair size={18} className="text-emerald-400" />
           φ-Band Occupancy vs Threshold Curve
         </CardTitle>
-        <CardDescription className="text-slate-400">
+        <CardDescription className="text-slate-500">
           Fraction of genes within D_φ {'<'} threshold, swept from 0.2 to 4.0. Solid line = observed biological data, dashed = analytical null (10K uniform AR(2) draws). 
           {peakThreshold && (
             <span className="text-emerald-300"> Peak enrichment: {maxEnrichment.toFixed(2)}× at D_φ {'<'} {peakThreshold.threshold}</span>
@@ -1492,7 +1669,7 @@ function ThresholdSweepChart({ sweep }: { sweep: ThresholdSweepPoint[] }) {
             <Line yAxisId="right" type="monotone" dataKey="enrichment" name="Enrichment ratio" stroke="#fbbf24" strokeWidth={2} dot={{ fill: '#fbbf24', r: 3 }} />
           </ComposedChart>
         </ResponsiveContainer>
-        <div className="mt-3 text-xs text-slate-400 space-y-1">
+        <div className="mt-3 text-xs text-slate-500 space-y-1">
           <p>If enrichment were a threshold artifact, the ratio (amber line) would spike at one cutoff and collapse elsewhere. A sustained enrichment above 1.0× across a range of thresholds indicates genuine structure.</p>
         </div>
       </CardContent>
@@ -1516,13 +1693,13 @@ function ThetaDistributionChart({ bins, thetaPhiRef }: { bins: ThetaBin[]; theta
   })?.binLabel;
 
   return (
-    <Card className="bg-slate-900/50 border-slate-700">
+    <Card className="bg-white border-slate-200">
       <CardHeader className="pb-2">
-        <CardTitle className="text-white flex items-center gap-2 text-lg">
+        <CardTitle className="text-slate-900 flex items-center gap-2 text-lg">
           <Atom size={18} className="text-purple-400" />
           Angular (θ) Distribution: Biology vs Null
         </CardTitle>
-        <CardDescription className="text-slate-400">
+        <CardDescription className="text-slate-500">
           Distribution of dominant eigenvalue phase angles across 10° bins (0° to 180°). 
           The golden-angle reference θ_φ = 2π/φ falls at {phiRefDeg}° (outside [0,π] — wraps to {((360 - parseFloat(phiRefDeg)) || phiRefDeg)}°).
           Deviations from the null reveal where biological genes preferentially cluster.
@@ -1553,9 +1730,9 @@ function ThetaDistributionChart({ bins, thetaPhiRef }: { bins: ThetaBin[]; theta
             <Bar dataKey="null" name="Null (uniform triangle)" fill="#475569" opacity={0.5} />
           </BarChart>
         </ResponsiveContainer>
-        <div className="mt-3 text-xs text-slate-400 space-y-1">
+        <div className="mt-3 text-xs text-slate-500 space-y-1">
           <p>θ = 0° corresponds to monotonic decay (real positive roots). θ = 180° corresponds to sign-alternating dynamics (real negative roots). Angles between 0° and 180° correspond to damped oscillatory dynamics with complex roots. Bins where biology exceeds null indicate preferred oscillatory frequencies.</p>
-          <p className="text-slate-400">Note: θ_φ = 2π/φ ≈ {phiRefDeg}° is {'>'} π (180°), so it does not directly appear as a peak in this [0,π] range. The D_φ metric uses circular distance, making it sensitive to proximity from either side.</p>
+          <p className="text-slate-500">Note: θ_φ = 2π/φ ≈ {phiRefDeg}° is {'>'} π (180°), so it does not directly appear as a peak in this [0,π] range. The D_φ metric uses circular distance, making it sensitive to proximity from either side.</p>
         </div>
       </CardContent>
     </Card>
@@ -1565,39 +1742,39 @@ function ThetaDistributionChart({ bins, thetaPhiRef }: { bins: ThetaBin[]; theta
 function TestResultsPanel({ tests, shifts }: { tests: EnrichmentTestResult[]; shifts: PerturbationShift[] }) {
   return (
     <div className="space-y-4">
-      <Card id="enrichment-tests" className="bg-slate-900/50 border-slate-700 scroll-mt-20 transition-all duration-500">
+      <Card id="enrichment-tests" className="bg-white border-slate-200 scroll-mt-20 transition-all duration-500">
         <CardHeader className="pb-2">
-          <CardTitle className="text-white text-lg">Enrichment Tests</CardTitle>
-          <CardDescription className="text-slate-400">
+          <CardTitle className="text-slate-900 text-lg">Enrichment Tests</CardTitle>
+          <CardDescription className="text-slate-500">
             Formal hypothesis tests for golden-mean proximity enrichment
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           {tests.map((t, i) => (
-            <div key={i} className="bg-slate-800/50 rounded-lg p-4">
+            <div key={i} className="bg-slate-50 rounded-lg p-4">
               <div className="flex items-start justify-between mb-2">
-                <h4 className="text-white text-sm font-semibold">{t.testName}</h4>
-                <Badge className={t.significant ? 'bg-emerald-900/30 text-emerald-300' : 'bg-slate-700 text-slate-300'} data-testid={`badge-test-${i}`}>
+                <h4 className="text-slate-900 text-sm font-semibold">{t.testName}</h4>
+                <Badge className={t.significant ? 'bg-emerald-900/30 text-emerald-300' : 'bg-slate-200 text-slate-600'} data-testid={`badge-test-${i}`}>
                   {t.significant ? 'Significant' : 'Not Significant'}
                 </Badge>
               </div>
-              <p className="text-xs text-slate-400 mb-2">{t.description}</p>
+              <p className="text-xs text-slate-500 mb-2">{t.description}</p>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
                 <div>
-                  <span className="text-slate-400">Observed: </span>
-                  <span className="text-white font-mono">{t.observedStatistic}</span>
+                  <span className="text-slate-500">Observed: </span>
+                  <span className="text-slate-900 font-mono">{t.observedStatistic}</span>
                 </div>
                 <div>
-                  <span className="text-slate-400">Null mean: </span>
-                  <span className="text-white font-mono">{t.nullMean}</span>
+                  <span className="text-slate-500">Null mean: </span>
+                  <span className="text-slate-900 font-mono">{t.nullMean}</span>
                 </div>
                 <div>
-                  <span className="text-slate-400">p-value: </span>
-                  <span className={`font-mono ${t.pValue < 0.05 ? 'text-emerald-400' : 'text-slate-300'}`}>{t.pValue}</span>
+                  <span className="text-slate-500">p-value: </span>
+                  <span className={`font-mono ${t.pValue < 0.05 ? 'text-emerald-400' : 'text-slate-600'}`}>{t.pValue}</span>
                 </div>
                 <div>
-                  <span className="text-slate-400">Effect size: </span>
-                  <span className="text-white font-mono">{t.effectSize}</span>
+                  <span className="text-slate-500">Effect size: </span>
+                  <span className="text-slate-900 font-mono">{t.effectSize}</span>
                 </div>
               </div>
             </div>
@@ -1605,52 +1782,52 @@ function TestResultsPanel({ tests, shifts }: { tests: EnrichmentTestResult[]; sh
         </CardContent>
       </Card>
 
-      <Card id="perturbation-shifts" className="bg-slate-900/50 border-slate-700 scroll-mt-20 transition-all duration-500">
+      <Card id="perturbation-shifts" className="bg-white border-slate-200 scroll-mt-20 transition-all duration-500">
         <CardHeader className="pb-2">
-          <CardTitle className="text-white text-lg">Perturbation Shift Analysis</CardTitle>
-          <CardDescription className="text-slate-400">
+          <CardTitle className="text-slate-900 text-lg">Perturbation Shift Analysis</CardTitle>
+          <CardDescription className="text-slate-500">
             WT vs disease/disruption: does perturbation shift root-space geometry?
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           {shifts.map((s, i) => (
-            <div key={i} className="bg-slate-800/50 rounded-lg p-4">
+            <div key={i} className="bg-slate-50 rounded-lg p-4">
               <div className="flex items-start justify-between mb-2">
-                <h4 className="text-white text-sm font-semibold">{s.datasetPair}</h4>
-                <Badge className={s.significant ? 'bg-red-900/30 text-red-300' : 'bg-slate-700 text-slate-300'} data-testid={`badge-shift-${i}`}>
+                <h4 className="text-slate-900 text-sm font-semibold">{s.datasetPair}</h4>
+                <Badge className={s.significant ? 'bg-red-900/30 text-red-300' : 'bg-slate-200 text-slate-600'} data-testid={`badge-shift-${i}`}>
                   {s.significant ? 'Significant Shift' : 'No Significant Shift'}
                 </Badge>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
-                <div className="bg-slate-900/50 rounded p-2">
-                  <p className="text-slate-400 mb-1">Damping (r)</p>
-                  <p className="text-slate-300">{s.wtLabel}: <span className="text-white font-mono">{s.wtMeanR}</span></p>
-                  <p className="text-slate-300">{s.perturbedLabel}: <span className="text-white font-mono">{s.perturbedMeanR}</span></p>
-                  <p className="text-slate-400">Shift: <span className={`font-mono ${Math.abs(s.rShift) > 0.05 ? 'text-amber-400' : 'text-slate-300'}`}>{s.rShift > 0 ? '+' : ''}{s.rShift}</span></p>
+                <div className="bg-white rounded p-2">
+                  <p className="text-slate-500 mb-1">Damping (r)</p>
+                  <p className="text-slate-600">{s.wtLabel}: <span className="text-slate-900 font-mono">{s.wtMeanR}</span></p>
+                  <p className="text-slate-600">{s.perturbedLabel}: <span className="text-slate-900 font-mono">{s.perturbedMeanR}</span></p>
+                  <p className="text-slate-500">Shift: <span className={`font-mono ${Math.abs(s.rShift) > 0.05 ? 'text-amber-400' : 'text-slate-600'}`}>{s.rShift > 0 ? '+' : ''}{s.rShift}</span></p>
                 </div>
                 {s.thetaShift !== undefined && (
-                  <div className="bg-slate-900/50 rounded p-2">
-                    <p className="text-slate-400 mb-1">Angle (θ, rad)</p>
-                    <p className="text-slate-300">{s.wtLabel}: <span className="text-white font-mono">{s.wtMeanTheta?.toFixed(4)}</span></p>
-                    <p className="text-slate-300">{s.perturbedLabel}: <span className="text-white font-mono">{s.perturbedMeanTheta?.toFixed(4)}</span></p>
-                    <p className="text-slate-400">Δθ: <span className={`font-mono ${Math.abs(s.thetaShift) > 0.1 ? 'text-violet-400' : 'text-slate-300'}`}>{s.thetaShift > 0 ? '+' : ''}{s.thetaShift.toFixed(4)}</span></p>
+                  <div className="bg-white rounded p-2">
+                    <p className="text-slate-500 mb-1">Angle (θ, rad)</p>
+                    <p className="text-slate-600">{s.wtLabel}: <span className="text-slate-900 font-mono">{s.wtMeanTheta?.toFixed(4)}</span></p>
+                    <p className="text-slate-600">{s.perturbedLabel}: <span className="text-slate-900 font-mono">{s.perturbedMeanTheta?.toFixed(4)}</span></p>
+                    <p className="text-slate-500">Δθ: <span className={`font-mono ${Math.abs(s.thetaShift) > 0.1 ? 'text-violet-400' : 'text-slate-600'}`}>{s.thetaShift > 0 ? '+' : ''}{s.thetaShift.toFixed(4)}</span></p>
                   </div>
                 )}
-                <div className="bg-slate-900/50 rounded p-2">
-                  <p className="text-slate-400 mb-1">D_φ (φ-proximity)</p>
-                  <p className="text-slate-300">{s.wtLabel}: <span className="text-white font-mono">{s.wtMeanDPhi}</span></p>
-                  <p className="text-slate-300">{s.perturbedLabel}: <span className="text-white font-mono">{s.perturbedMeanDPhi}</span></p>
-                  <p className="text-slate-400">Shift: <span className={`font-mono ${Math.abs(s.dPhiShift) > 0.1 ? 'text-amber-400' : 'text-slate-300'}`}>{s.dPhiShift > 0 ? '+' : ''}{s.dPhiShift}</span></p>
+                <div className="bg-white rounded p-2">
+                  <p className="text-slate-500 mb-1">D_φ (φ-proximity)</p>
+                  <p className="text-slate-600">{s.wtLabel}: <span className="text-slate-900 font-mono">{s.wtMeanDPhi}</span></p>
+                  <p className="text-slate-600">{s.perturbedLabel}: <span className="text-slate-900 font-mono">{s.perturbedMeanDPhi}</span></p>
+                  <p className="text-slate-500">Shift: <span className={`font-mono ${Math.abs(s.dPhiShift) > 0.1 ? 'text-amber-400' : 'text-slate-600'}`}>{s.dPhiShift > 0 ? '+' : ''}{s.dPhiShift}</span></p>
                 </div>
-                <div className="bg-slate-900/50 rounded p-2">
-                  <p className="text-slate-400 mb-1">Mann-Whitney U Test</p>
-                  <p className="text-slate-300">p-value: <span className={`font-mono ${s.mannWhitneyP < 0.05 ? 'text-emerald-400' : 'text-slate-300'}`}>{s.mannWhitneyP}</span></p>
+                <div className="bg-white rounded p-2">
+                  <p className="text-slate-500 mb-1">Mann-Whitney U Test</p>
+                  <p className="text-slate-600">p-value: <span className={`font-mono ${s.mannWhitneyP < 0.05 ? 'text-emerald-400' : 'text-slate-600'}`}>{s.mannWhitneyP}</span></p>
                 </div>
               </div>
             </div>
           ))}
           {shifts.length === 0 && (
-            <p className="text-slate-400 text-sm">No paired WT/perturbation datasets available for shift analysis.</p>
+            <p className="text-slate-500 text-sm">No paired WT/perturbation datasets available for shift analysis.</p>
           )}
         </CardContent>
       </Card>
@@ -1767,9 +1944,9 @@ function FullResultsText({ data }: { data: RootSpaceData }) {
   return (
     <div className="mt-6">
       <div className="flex items-center justify-between mb-2">
-        <h2 className="text-xl font-bold text-white">Full Results (Copyable Text)</h2>
+        <h2 className="text-xl font-bold text-slate-900">Full Results (Copyable Text)</h2>
         <div className="flex gap-2">
-          <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white" onClick={() => setExpanded(!expanded)} data-testid="button-toggle-full-results">
+          <Button variant="ghost" size="sm" className="text-slate-500 hover:text-slate-700" onClick={() => setExpanded(!expanded)} data-testid="button-toggle-full-results">
             {expanded ? <ChevronUp size={14} className="mr-1" /> : <ChevronDown size={14} className="mr-1" />}
             {expanded ? 'Collapse' : 'Expand'}
           </Button>
@@ -1780,7 +1957,7 @@ function FullResultsText({ data }: { data: RootSpaceData }) {
         </div>
       </div>
       {expanded && (
-        <pre className="bg-slate-950 border border-slate-700 rounded-lg p-4 text-xs text-slate-300 font-mono overflow-x-auto max-h-[600px] overflow-y-auto whitespace-pre select-all" data-testid="text-full-results">
+        <pre className="bg-gradient-to-br from-slate-50 via-white to-slate-50 border border-slate-200 rounded-lg p-4 text-xs text-slate-600 font-mono overflow-x-auto max-h-[600px] overflow-y-auto whitespace-pre select-all" data-testid="text-full-results">
           {text}
         </pre>
       )}
@@ -1852,21 +2029,21 @@ function GenomeWideSearchPanel({ onOverlayChange }: { onOverlayChange: (genes: G
       <div
         key={gene.gene}
         className={`flex items-center justify-between px-3 py-1.5 rounded text-xs border ${
-          isOverlaid ? 'bg-amber-900/30 border-amber-600/50' : 'bg-slate-800/50 border-slate-700/50'
+          isOverlaid ? 'bg-amber-900/30 border-amber-600/50' : 'bg-slate-50 border-slate-200'
         }`}
       >
         <div className="flex items-center gap-2 min-w-0">
           <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: getCategoryColor(gene) }} />
-          <GeneTooltip gene={gene.gene}><span className="font-mono font-semibold text-white truncate">{gene.gene}</span></GeneTooltip>
+          <GeneTooltip gene={gene.gene}><span className="font-mono font-semibold text-slate-900 truncate">{gene.gene}</span></GeneTooltip>
           <Badge className={`text-[10px] px-1 py-0 ${
-            GENE_CATEGORY_CONFIG[gene.geneCategory || 'other']?.bgClass || 'bg-slate-700'
+            GENE_CATEGORY_CONFIG[gene.geneCategory || 'other']?.bgClass || 'bg-slate-200'
           } ${
-            GENE_CATEGORY_CONFIG[gene.geneCategory || 'other']?.textClass || 'text-slate-300'
+            GENE_CATEGORY_CONFIG[gene.geneCategory || 'other']?.textClass || 'text-slate-600'
           }`}>
             {GENE_CATEGORY_CONFIG[gene.geneCategory || 'other']?.label || gene.geneType}
           </Badge>
-          <span className="text-slate-400">|λ|={gene.eigenvalue.toFixed(3)}</span>
-          <span className="text-slate-400">Dφ={gene.dPhi.toFixed(2)}</span>
+          <span className="text-slate-500">|λ|={gene.eigenvalue.toFixed(3)}</span>
+          <span className="text-slate-500">|λ-1/φ|={(gene.distToInvPhi ?? gene.dPhi).toFixed(3)}</span>
           {gene.stable && <span className="text-emerald-500 text-[10px]">stable</span>}
         </div>
         <Button
@@ -1883,17 +2060,17 @@ function GenomeWideSearchPanel({ onOverlayChange }: { onOverlayChange: (genes: G
   };
 
   return (
-    <Card className="mb-6 bg-slate-900/50 border-slate-700">
+    <Card className="mb-6 bg-white border-slate-200">
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-white flex items-center gap-2 text-lg">
+          <CardTitle className="text-slate-900 flex items-center gap-2 text-lg">
             <Search size={18} className="text-amber-400" />
             Genome-Wide Gene Search
           </CardTitle>
           <Button
             variant="ghost"
             size="sm"
-            className="text-slate-400 hover:text-white text-xs h-7"
+            className="text-slate-500 hover:text-slate-700 text-xs h-7"
             onClick={() => setExpanded(!expanded)}
             data-testid="button-toggle-genome-search"
           >
@@ -1901,7 +2078,7 @@ function GenomeWideSearchPanel({ onOverlayChange }: { onOverlayChange: (genes: G
             {expanded ? 'Collapse' : 'Expand'}
           </Button>
         </div>
-        <CardDescription className="text-slate-400">
+        <CardDescription className="text-slate-500">
           Search any gene across genome-wide AR(2) results. Overlay matches onto the visualizations above.
         </CardDescription>
       </CardHeader>
@@ -1913,12 +2090,12 @@ function GenomeWideSearchPanel({ onOverlayChange }: { onOverlayChange: (genes: G
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
                 placeholder="Search gene name (e.g. TP53, MYC, BRCA1)..."
-                className="bg-slate-900/50 border-slate-600 text-white text-xs h-8 pl-8"
+                className="bg-white border-slate-300 text-slate-900 text-xs h-8 pl-8"
                 data-testid="input-genome-search"
               />
-              <Search size={12} className="absolute left-2.5 top-2 text-slate-400" />
+              <Search size={12} className="absolute left-2.5 top-2 text-slate-500" />
               {searchInput && (
-                <button onClick={() => setSearchInput('')} className="absolute right-2 top-1.5 text-slate-400 hover:text-white">
+                <button onClick={() => setSearchInput('')} className="absolute right-2 top-1.5 text-slate-500 hover:text-slate-700">
                   <X size={14} />
                 </button>
               )}
@@ -1927,7 +2104,7 @@ function GenomeWideSearchPanel({ onOverlayChange }: { onOverlayChange: (genes: G
               <select
                 value={selectedDataset}
                 onChange={(e) => setSelectedDataset(e.target.value)}
-                className="bg-slate-900/50 border border-slate-600 text-white text-xs h-8 rounded px-2 min-w-[200px]"
+                className="bg-white border border-slate-300 text-slate-900 text-xs h-8 rounded px-2 min-w-[200px]"
                 data-testid="select-genome-dataset"
               >
                 <option value="">Mouse Liver (default)</option>
@@ -1942,13 +2119,13 @@ function GenomeWideSearchPanel({ onOverlayChange }: { onOverlayChange: (genes: G
             {(Object.entries(GENE_CATEGORY_CONFIG) as [GeneCategory, typeof GENE_CATEGORY_CONFIG[GeneCategory]][]).map(([key, cfg]) => (
               <span key={key} className="flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: cfg.color }} />
-                <span className="text-slate-400">{cfg.label}</span>
+                <span className="text-slate-500">{cfg.label}</span>
               </span>
             ))}
           </div>
 
           {isLoading && debouncedQuery.length >= 2 && (
-            <div className="flex items-center gap-2 text-xs text-slate-400">
+            <div className="flex items-center gap-2 text-xs text-slate-500">
               <Loader2 size={12} className="animate-spin" />
               Searching {debouncedQuery}...
             </div>
@@ -1958,7 +2135,7 @@ function GenomeWideSearchPanel({ onOverlayChange }: { onOverlayChange: (genes: G
             <div className="space-y-4">
               {data.searchResults && data.searchResults.length > 0 && (
                 <div>
-                  <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                  <h4 className="text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
                     Search Results ({data.searchResults.length} / {data.totalGenes} genes)
                   </h4>
                   <div className="space-y-1 max-h-[200px] overflow-y-auto pr-1" data-testid="container-search-results">
@@ -1968,7 +2145,7 @@ function GenomeWideSearchPanel({ onOverlayChange }: { onOverlayChange: (genes: G
               )}
 
               {data.searchResults && data.searchResults.length === 0 && debouncedQuery.length >= 2 && (
-                <p className="text-xs text-slate-400">No genes found matching "{debouncedQuery}"</p>
+                <p className="text-xs text-slate-500">No genes found matching "{debouncedQuery}"</p>
               )}
 
               {data.fibonacciNearest && data.fibonacciNearest.length > 0 && (
@@ -2026,14 +2203,14 @@ function GenomeWideSearchPanel({ onOverlayChange }: { onOverlayChange: (genes: G
                 }
                 return (
                   <div className="space-y-1">
-                    <div className="text-xs text-slate-300">
+                    <div className="text-xs text-slate-600">
                       {overlaySet.size} gene{overlaySet.size > 1 ? 's' : ''} overlaid on visualizations
                     </div>
                     <div className="flex flex-wrap gap-2 text-[10px]">
                       {Object.entries(catCounts).map(([cat, count]) => (
                         <span key={cat} className="flex items-center gap-1">
                           <span className="w-2 h-2 rounded-full" style={{ backgroundColor: GENE_CATEGORY_CONFIG[cat as GeneCategory]?.color || '#94a3b8' }} />
-                          <span className="text-slate-400">{GENE_CATEGORY_CONFIG[cat as GeneCategory]?.label || cat}: {count}</span>
+                          <span className="text-slate-500">{GENE_CATEGORY_CONFIG[cat as GeneCategory]?.label || cat}: {count}</span>
                         </span>
                       ))}
                     </div>
@@ -2249,46 +2426,46 @@ function WaddingtonCombinedView({ genes, categoryFilters }: { genes: GeneRootPoi
     <div id="waddington" data-testid="container-waddington-landscape">
       <div className="grid grid-cols-3 gap-3 mb-3">
         <div className="p-2.5 rounded-lg bg-yellow-500/5 border border-yellow-500/20 text-center">
-          <div className="w-3 h-3 rounded-full mx-auto mb-1" style={{ background: 'linear-gradient(135deg, #fbbf24, #f59e0b)' }} />
+          <div className="w-3 h-3 rounded-full mx-auto mb-1"  />
           <p className="text-[11px] font-semibold text-yellow-400">High Density</p>
-          <p className="text-[10px] text-slate-400">Gene valleys</p>
+          <p className="text-[10px] text-slate-500">Gene valleys</p>
         </div>
         <div className="p-2.5 rounded-lg bg-emerald-500/5 border border-emerald-500/20 text-center">
-          <div className="w-3 h-3 rounded-full mx-auto mb-1" style={{ background: 'linear-gradient(135deg, #059669, #10b981)' }} />
+          <div className="w-3 h-3 rounded-full mx-auto mb-1"  />
           <p className="text-[11px] font-semibold text-emerald-400">Medium Density</p>
-          <p className="text-[10px] text-slate-400">Slope regions</p>
+          <p className="text-[10px] text-slate-500">Slope regions</p>
         </div>
         <div className="p-2.5 rounded-lg bg-indigo-500/5 border border-indigo-500/20 text-center">
-          <div className="w-3 h-3 rounded-full mx-auto mb-1" style={{ background: 'linear-gradient(135deg, #1e1b4b, #312e81)' }} />
+          <div className="w-3 h-3 rounded-full mx-auto mb-1"  />
           <p className="text-[11px] font-semibold text-indigo-400">Low / Void</p>
-          <p className="text-[10px] text-slate-400">Ridge regions</p>
+          <p className="text-[10px] text-slate-500">Ridge regions</p>
         </div>
       </div>
 
       {selectedGene && (
-        <div className="mb-3 p-3 bg-slate-800/80 rounded-lg border border-cyan-500/30 flex items-start gap-3" data-testid="panel-selected-gene">
+        <div className="mb-3 p-3 bg-slate-50 rounded-lg border border-cyan-500/30 flex items-start gap-3" data-testid="panel-selected-gene">
           <MapPin size={16} className="text-cyan-400 mt-0.5 flex-shrink-0" />
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
-              <span className="font-bold text-white text-sm">{selectedGene.gene}</span>
+              <span className="font-bold text-slate-900 text-sm">{selectedGene.gene}</span>
               <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ backgroundColor: GENE_CATEGORY_CONFIG[selectedGene.geneType as GeneCategory]?.color + '30', color: GENE_CATEGORY_CONFIG[selectedGene.geneType as GeneCategory]?.color }}>
                 {GENE_CATEGORY_CONFIG[selectedGene.geneType as GeneCategory]?.label || selectedGene.geneType}
               </span>
             </div>
-            <div className="text-xs text-slate-400 mt-1 flex flex-wrap gap-x-4">
+            <div className="text-xs text-slate-500 mt-1 flex flex-wrap gap-x-4">
               <span>|λ| = <span className="text-cyan-300">{selectedGene.eigenvalue.toFixed(4)}</span></span>
               <span>β₁ = <span className="text-blue-300">{selectedGene.beta1.toFixed(4)}</span></span>
               <span>β₂ = <span className="text-blue-300">{selectedGene.beta2.toFixed(4)}</span></span>
             </div>
           </div>
-          <button onClick={() => setSelectedGene(null)} className="text-slate-400 hover:text-white"><X size={14} /></button>
+          <button onClick={() => setSelectedGene(null)} className="text-slate-500 hover:text-slate-700"><X size={14} /></button>
         </div>
       )}
 
-      <div className="rounded-lg overflow-hidden bg-slate-950 border border-slate-700">
+      <div className="rounded-lg overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-50 border border-slate-200">
         <div className="px-3 py-2 border-b border-slate-800 flex items-center justify-between">
-          <span className="text-xs font-semibold text-slate-300">Top-Down Contour Heatmap</span>
-          <span className="text-[10px] text-slate-400">Click or drag to move the slice line</span>
+          <span className="text-xs font-semibold text-slate-600">Top-Down Contour Heatmap</span>
+          <span className="text-[10px] text-slate-500">Click or drag to move the slice line</span>
         </div>
         <svg
           ref={svgRef}
@@ -2363,10 +2540,10 @@ function WaddingtonCombinedView({ genes, categoryFilters }: { genes: GeneRootPoi
         </svg>
       </div>
 
-      <div className="mt-3 rounded-lg overflow-hidden bg-slate-950 border border-slate-700">
+      <div className="mt-3 rounded-lg overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-50 border border-slate-200">
         <div className="px-3 py-2 border-b border-slate-800 flex items-center justify-between">
-          <span className="text-xs font-semibold text-slate-300">Cross-Section at β₂ = {sliceY.toFixed(2)}</span>
-          <span className="text-[10px] text-slate-400">{nearbyGenes.length} genes near slice</span>
+          <span className="text-xs font-semibold text-slate-600">Cross-Section at β₂ = {sliceY.toFixed(2)}</span>
+          <span className="text-[10px] text-slate-500">{nearbyGenes.length} genes near slice</span>
         </div>
         <svg viewBox={`0 0 ${CS_W} ${CS_H}`} className="w-full h-auto" data-testid="svg-waddington-cross-section">
           <rect width={CS_W} height={CS_H} fill="#020617" />
@@ -2427,14 +2604,14 @@ function WaddingtonCombinedView({ genes, categoryFilters }: { genes: GeneRootPoi
       </div>
 
       {hoveredGene && (
-        <div className="mt-2 p-2.5 bg-gray-900/95 border border-gray-600 rounded-lg text-xs shadow-xl" data-testid="tooltip-waddington">
+        <div className="mt-2 p-2.5 bg-white/95 border border-slate-300 rounded-lg text-xs shadow-xl" data-testid="tooltip-waddington">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-white">{hoveredGene.gene}</span>
+            <span className="font-bold text-slate-900">{hoveredGene.gene}</span>
             <span className="px-1.5 py-0.5 rounded-full text-[10px]" style={{ backgroundColor: GENE_CATEGORY_CONFIG[hoveredGene.geneType as GeneCategory]?.color + '30', color: GENE_CATEGORY_CONFIG[hoveredGene.geneType as GeneCategory]?.color }}>
               {GENE_CATEGORY_CONFIG[hoveredGene.geneType as GeneCategory]?.label || hoveredGene.geneType}
             </span>
           </div>
-          <div className="text-slate-400 mt-1 flex gap-3">
+          <div className="text-slate-500 mt-1 flex gap-3">
             <span>|λ| = <span className="text-cyan-300">{hoveredGene.eigenvalue.toFixed(4)}</span></span>
             <span>β₁ = <span className="text-blue-300">{hoveredGene.beta1.toFixed(3)}</span></span>
             <span>β₂ = <span className="text-blue-300">{hoveredGene.beta2.toFixed(3)}</span></span>
@@ -2443,10 +2620,10 @@ function WaddingtonCombinedView({ genes, categoryFilters }: { genes: GeneRootPoi
       )}
 
       <div className="mt-2 flex items-center justify-between">
-        <span className="text-[11px] text-slate-400">Click or drag the yellow line to slice through the landscape</span>
+        <span className="text-[11px] text-slate-500">Click or drag the yellow line to slice through the landscape</span>
         <button
           onClick={() => setShowAdvanced(v => !v)}
-          className="text-[11px] text-slate-400 hover:text-slate-300 transition-colors"
+          className="text-[11px] text-slate-500 hover:text-slate-600 transition-colors"
           data-testid="button-toggle-advanced"
         >
           {showAdvanced ? 'Hide' : 'Show'} advanced controls
@@ -2454,15 +2631,15 @@ function WaddingtonCombinedView({ genes, categoryFilters }: { genes: GeneRootPoi
       </div>
 
       {showAdvanced && (
-        <div className="flex flex-wrap gap-x-6 gap-y-3 mt-2 p-3 bg-slate-800/50 rounded-lg border border-slate-700">
+        <div className="flex flex-wrap gap-x-6 gap-y-3 mt-2 p-3 bg-slate-50 rounded-lg border border-slate-200">
           <div className="flex items-center gap-2 min-w-[200px]">
-            <label className="text-xs text-slate-400 whitespace-nowrap">Bandwidth</label>
+            <label className="text-xs text-slate-500 whitespace-nowrap">Bandwidth</label>
             <input type="range" min="0.15" max="0.8" step="0.05" value={bandwidth} onChange={e => setBandwidth(parseFloat(e.target.value))}
               className="w-24 h-1.5 accent-cyan-500" data-testid="slider-bandwidth" />
             <span className="text-xs text-cyan-400 w-8">{bandwidth.toFixed(2)}</span>
           </div>
           <div className="flex items-center gap-2 min-w-[200px]">
-            <label className="text-xs text-slate-400 whitespace-nowrap">Slice β₂</label>
+            <label className="text-xs text-slate-500 whitespace-nowrap">Slice β₂</label>
             <input type="range" min="-0.9" max="0.9" step="0.05" value={sliceY} onChange={e => setSliceY(parseFloat(e.target.value))}
               className="w-24 h-1.5 accent-yellow-500" data-testid="slider-slice-y" />
             <span className="text-xs text-yellow-400 w-8">{sliceY.toFixed(2)}</span>
@@ -2566,9 +2743,9 @@ function PhasePortraitSVG({ genes, categoryFilters }: { genes: GeneRootPoint[]; 
         <text x={svgX(0) + 8} y={svgY(0) + 4} fill="#eab308" fontSize="10" textAnchor="start">parabola: β₂ = -β₁²/4</text>
       </svg>
       {hoveredGene && (
-        <div className="absolute top-2 right-2 bg-gray-900/95 border border-gray-600 rounded-lg px-3 py-2 text-xs shadow-xl pointer-events-none" data-testid="tooltip-phase-portrait">
-          <div className="font-bold text-white">{hoveredGene.gene}</div>
-          <div className="text-gray-300">{hoveredGene.geneType}</div>
+        <div className="absolute top-2 right-2 bg-white/95 border border-slate-300 rounded-lg px-3 py-2 text-xs shadow-xl pointer-events-none" data-testid="tooltip-phase-portrait">
+          <div className="font-bold text-slate-900">{hoveredGene.gene}</div>
+          <div className="text-slate-600">{hoveredGene.geneType}</div>
           <div className="text-cyan-300">|λ| = {hoveredGene.eigenvalue.toFixed(4)}</div>
           <div className="text-blue-300">β₁={hoveredGene.beta1.toFixed(3)}, β₂={hoveredGene.beta2.toFixed(3)}</div>
         </div>
@@ -2714,15 +2891,15 @@ function FunctionalGeographySVG({ genes, hierarchy }: { genes: GeneRootPoint[]; 
   return (
     <div className="relative">
       {sortedLayers.length > 1 && (
-        <div className="mb-3 bg-slate-800/80 border border-slate-700 rounded-lg p-3" data-testid="hierarchy-layer-toggle">
+        <div className="mb-3 bg-slate-50 border border-slate-200 rounded-lg p-3" data-testid="hierarchy-layer-toggle">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+            <span className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
               Hierarchy Layers ({layerDepth === 0 ? 'All' : `Top ${layerDepth} of ${sortedLayers.length}`})
             </span>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setLayerDepth(Math.max(0, layerDepth - 1))}
-                className="px-2 py-0.5 text-xs bg-slate-700 hover:bg-slate-600 text-slate-300 rounded disabled:opacity-30"
+                className="px-2 py-0.5 text-xs bg-slate-200 hover:bg-slate-600 text-slate-600 rounded disabled:opacity-30"
                 disabled={layerDepth === 0}
                 data-testid="button-layer-fewer"
               >
@@ -2739,7 +2916,7 @@ function FunctionalGeographySVG({ genes, hierarchy }: { genes: GeneRootPoint[]; 
               />
               <button
                 onClick={() => setLayerDepth(Math.min(sortedLayers.length, layerDepth + 1))}
-                className="px-2 py-0.5 text-xs bg-slate-700 hover:bg-slate-600 text-slate-300 rounded disabled:opacity-30"
+                className="px-2 py-0.5 text-xs bg-slate-200 hover:bg-slate-600 text-slate-600 rounded disabled:opacity-30"
                 disabled={layerDepth >= sortedLayers.length}
                 data-testid="button-layer-more"
               >
@@ -2761,7 +2938,7 @@ function FunctionalGeographySVG({ genes, hierarchy }: { genes: GeneRootPoint[]; 
                 <button
                   key={layer.category}
                   onClick={() => setLayerDepth(i + 1)}
-                  className={`flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full border transition-all ${active ? 'border-opacity-60' : 'border-slate-700 opacity-30'}`}
+                  className={`flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full border transition-all ${active ? 'border-opacity-60' : 'border-slate-200 opacity-30'}`}
                   style={{
                     borderColor: active ? layer.color : undefined,
                     backgroundColor: active ? layer.color + '20' : undefined,
@@ -2770,7 +2947,7 @@ function FunctionalGeographySVG({ genes, hierarchy }: { genes: GeneRootPoint[]; 
                 >
                   <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: active ? layer.color : '#475569' }} />
                   <span style={{ color: active ? layer.color : '#64748b' }}>#{layer.rank} {layer.label}</span>
-                  <span className="text-slate-400 ml-0.5">|λ|={layer.pooledMeanEigenvalue.toFixed(3)}</span>
+                  <span className="text-slate-500 ml-0.5">|λ|={layer.pooledMeanEigenvalue.toFixed(3)}</span>
                 </button>
               );
             })}
@@ -2843,9 +3020,9 @@ function FunctionalGeographySVG({ genes, hierarchy }: { genes: GeneRootPoint[]; 
         <text x={30} y={svgY(0)} fill="#94a3b8" fontSize="11" textAnchor="middle" transform={`rotate(-90, 25, ${svgY(0)})`}>β₂</text>
       </svg>
       {hoveredGene && (
-        <div className="absolute top-2 right-2 bg-gray-900/95 border border-gray-600 rounded-lg px-3 py-2 text-xs shadow-xl pointer-events-none" data-testid="tooltip-functional-geography">
-          <div className="font-bold text-white">{hoveredGene.gene}</div>
-          <div className="text-gray-300">{hoveredGene.geneType}</div>
+        <div className="absolute top-2 right-2 bg-white/95 border border-slate-300 rounded-lg px-3 py-2 text-xs shadow-xl pointer-events-none" data-testid="tooltip-functional-geography">
+          <div className="font-bold text-slate-900">{hoveredGene.gene}</div>
+          <div className="text-slate-600">{hoveredGene.geneType}</div>
           <div className="text-cyan-300">|λ| = {hoveredGene.eigenvalue.toFixed(4)}</div>
           <div className="text-blue-300">β₁={hoveredGene.beta1.toFixed(3)}, β₂={hoveredGene.beta2.toFixed(3)}</div>
         </div>
@@ -2862,8 +3039,8 @@ const OVERLAY_TAB_CONFIG: Record<OverlayTab, { label: string; description: strin
     description: 'Gene density rendered as terrain: valleys (green) where genes cluster, ridges (brown) where the void sits. Analogous to Waddington\'s epigenetic landscape — forbidden states emerge as ridges between populated valleys.',
   },
   phase: {
-    label: 'Phase Portrait',
-    description: 'The stationarity triangle IS a phase portrait — the standard tool in dynamical systems theory. Three regimes: self-reinforcing (red, real positive roots), alternating (blue, real negative roots), oscillatory (green, complex roots). The parabola separates overdamped from underdamped dynamics.',
+    label: 'Dynamical Regimes',
+    description: 'The stationarity triangle as a parameter space diagram showing qualitatively distinct dynamical regimes — analogous to a bifurcation diagram in dynamical systems theory. Three regimes: self-reinforcing (red, real positive roots), alternating (blue, real negative roots), oscillatory (green, complex roots). The parabola separates overdamped from underdamped dynamics. Note: this is a parameter space diagram, not a phase portrait (which would show state-space trajectories).',
   },
   geography: {
     label: 'Functional Geography',
@@ -2946,10 +3123,10 @@ function DensityHeatmapSVG({ genes, title, species }: { genes: GeneRootPoint[]; 
   return (
     <div className="flex-1 min-w-0">
       <div className="text-center mb-2">
-        <span className="text-sm font-semibold text-white">{title}</span>
-        <span className="text-xs text-slate-400 ml-2">({species})</span>
+        <span className="text-sm font-semibold text-slate-900">{title}</span>
+        <span className="text-xs text-slate-500 ml-2">({species})</span>
       </div>
-      <svg viewBox={`0 0 ${SVG_W} ${SVG_H}`} className="w-full bg-slate-950 rounded-lg border border-slate-700">
+      <svg viewBox={`0 0 ${SVG_W} ${SVG_H}`} className="w-full bg-gradient-to-br from-slate-50 via-white to-slate-50 rounded-lg border border-slate-200">
         {cells.map((c, i) => (
           <rect key={i} x={c.x} y={c.y} width={c.w} height={c.h} fill={c.fill} />
         ))}
@@ -3013,11 +3190,11 @@ function LandscapeComparison({ data }: { data: RootSpaceData }) {
     <div data-testid="container-landscape-comparison">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div className="space-y-2">
-          <label className="text-xs text-slate-400 font-medium">Dataset A</label>
+          <label className="text-xs text-slate-500 font-medium">Dataset A</label>
           <select
             value={datasetAId}
             onChange={e => setDatasetAId(e.target.value)}
-            className="w-full bg-slate-800 border border-slate-600 rounded-md px-3 py-2 text-sm text-white"
+            className="w-full bg-slate-100 border border-slate-300 rounded-md px-3 py-2 text-sm text-slate-900"
             data-testid="select-dataset-a"
           >
             {data.datasets.map(ds => (
@@ -3034,11 +3211,11 @@ function LandscapeComparison({ data }: { data: RootSpaceData }) {
           )}
         </div>
         <div className="space-y-2">
-          <label className="text-xs text-slate-400 font-medium">Dataset B</label>
+          <label className="text-xs text-slate-500 font-medium">Dataset B</label>
           <select
             value={datasetBId}
             onChange={e => setDatasetBId(e.target.value)}
-            className="w-full bg-slate-800 border border-slate-600 rounded-md px-3 py-2 text-sm text-white"
+            className="w-full bg-slate-100 border border-slate-300 rounded-md px-3 py-2 text-sm text-slate-900"
             data-testid="select-dataset-b"
           >
             {data.datasets.map(ds => (
@@ -3057,7 +3234,7 @@ function LandscapeComparison({ data }: { data: RootSpaceData }) {
       </div>
 
       {isCrossSpecies && (
-        <div className="mb-4 p-3 bg-slate-800/50 rounded-lg border border-slate-700">
+        <div className="mb-4 p-3 bg-slate-50 rounded-lg border border-slate-200">
           <div className="flex items-center gap-3">
             <label className="flex items-center gap-2 cursor-pointer" data-testid="toggle-orthology">
               <input
@@ -3066,7 +3243,7 @@ function LandscapeComparison({ data }: { data: RootSpaceData }) {
                 onChange={e => setOrthologyOnly(e.target.checked)}
                 className="accent-cyan-500"
               />
-              <span className="text-sm text-slate-300">Show only orthology-matched genes</span>
+              <span className="text-sm text-slate-600">Show only orthology-matched genes</span>
             </label>
           </div>
           {orthologyOnly && (
@@ -3081,35 +3258,35 @@ function LandscapeComparison({ data }: { data: RootSpaceData }) {
       </div>
 
       {statsA && statsB && (
-        <div className="bg-slate-800/50 rounded-lg border border-slate-700 p-4" data-testid="panel-shift-summary">
-          <h4 className="text-sm font-semibold text-white mb-3">Shift Summary</h4>
+        <div className="bg-slate-50 rounded-lg border border-slate-200 p-4" data-testid="panel-shift-summary">
+          <h4 className="text-sm font-semibold text-slate-900 mb-3">Shift Summary</h4>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-            <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-700/50">
-              <div className="text-[10px] text-slate-400 uppercase tracking-wider">Δ Clock |λ|</div>
+            <div className="bg-white rounded-lg p-3 border border-slate-200">
+              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Δ Clock |λ|</div>
               <div className="text-sm font-mono text-cyan-300" data-testid="text-delta-clock">
                 {(statsB.clockMeanEigenvalue - statsA.clockMeanEigenvalue).toFixed(4)}
               </div>
             </div>
-            <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-700/50">
-              <div className="text-[10px] text-slate-400 uppercase tracking-wider">Δ Target |λ|</div>
+            <div className="bg-white rounded-lg p-3 border border-slate-200">
+              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Δ Target |λ|</div>
               <div className="text-sm font-mono text-pink-300" data-testid="text-delta-target">
                 {(statsB.targetMeanEigenvalue - statsA.targetMeanEigenvalue).toFixed(4)}
               </div>
             </div>
-            <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-700/50">
-              <div className="text-[10px] text-slate-400 uppercase tracking-wider">Δ Gap (Gearbox)</div>
+            <div className="bg-white rounded-lg p-3 border border-slate-200">
+              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Δ Gap (Gearbox)</div>
               <div className="text-sm font-mono text-amber-300" data-testid="text-delta-gap">
                 {(statsB.gap - statsA.gap).toFixed(4)}
               </div>
             </div>
-            <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-700/50">
-              <div className="text-[10px] text-slate-400 uppercase tracking-wider">Genes (A / B)</div>
-              <div className="text-sm font-mono text-white" data-testid="text-gene-counts">
+            <div className="bg-white rounded-lg p-3 border border-slate-200">
+              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Genes (A / B)</div>
+              <div className="text-sm font-mono text-slate-900" data-testid="text-gene-counts">
                 {genesA.length} / {genesB.length}
               </div>
             </div>
-            <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-700/50">
-              <div className="text-[10px] text-slate-400 uppercase tracking-wider">Hierarchy Status</div>
+            <div className="bg-white rounded-lg p-3 border border-slate-200">
+              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Hierarchy Status</div>
               <div className={`text-xs font-medium ${bothIntact ? 'text-green-300' : neitherIntact ? 'text-red-300' : 'text-amber-300'}`} data-testid="text-hierarchy-status">
                 {hierarchyStatus}
               </div>
@@ -3127,7 +3304,7 @@ function PCAComparisonSVG({ data, filters }: { data: RootSpaceData; filters: Fil
 
   const pcaDatasets = data.pcaComparison || [];
   if (pcaDatasets.length === 0) {
-    return <div className="text-slate-400 text-sm text-center py-8">PCA data not available for this analysis.</div>;
+    return <div className="text-slate-500 text-sm text-center py-8">PCA data not available for this analysis.</div>;
   }
 
   const pcaDs = pcaDatasets[selectedDataset];
@@ -3170,7 +3347,7 @@ function PCAComparisonSVG({ data, filters }: { data: RootSpaceData; filters: Fil
             <button
               key={ds.datasetId}
               onClick={() => setSelectedDataset(i)}
-              className={`text-xs px-2.5 py-1 rounded border transition-all ${i === selectedDataset ? 'bg-amber-600/30 border-amber-500 text-amber-200' : 'border-slate-700 text-slate-400 hover:border-slate-500'}`}
+              className={`text-xs px-2.5 py-1 rounded border transition-all ${i === selectedDataset ? 'bg-amber-600/30 border-amber-500 text-amber-200' : 'border-slate-200 text-slate-500 hover:border-slate-300'}`}
               data-testid={`button-pca-dataset-${ds.datasetId}`}
             >
               {ds.datasetName.split('(')[0].trim()}
@@ -3180,13 +3357,13 @@ function PCAComparisonSVG({ data, filters }: { data: RootSpaceData; filters: Fil
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1 text-center">
-            PCA Projection <span className="text-slate-400 font-normal">(expression variance)</span>
+          <h4 className="text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1 text-center">
+            PCA Projection <span className="text-slate-500 font-normal">(expression variance)</span>
           </h4>
-          <div className="text-[10px] text-slate-400 text-center mb-1">
+          <div className="text-[10px] text-slate-500 text-center mb-1">
             PC1: {pcaDs.varianceExplained[0]}% var. | PC2: {pcaDs.varianceExplained[1]}% var.
           </div>
-          <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto bg-slate-950 rounded border border-slate-700" data-testid="svg-pca-projection">
+          <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto bg-gradient-to-br from-slate-50 via-white to-slate-50 rounded border border-slate-200" data-testid="svg-pca-projection">
             <line x1={PAD} y1={H - PAD} x2={W - PAD} y2={H - PAD} stroke="#334155" strokeWidth="1" />
             <line x1={PAD} y1={PAD} x2={PAD} y2={H - PAD} stroke="#334155" strokeWidth="1" />
             <text x={W / 2} y={H - 8} fill="#94a3b8" fontSize="9" textAnchor="middle">PC1 ({pcaDs.varianceExplained[0]}%)</text>
@@ -3215,13 +3392,13 @@ function PCAComparisonSVG({ data, filters }: { data: RootSpaceData; filters: Fil
         </div>
 
         <div>
-          <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1 text-center">
-            AR(2) Root Space <span className="text-slate-400 font-normal">(temporal dynamics)</span>
+          <h4 className="text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1 text-center">
+            AR(2) Root Space <span className="text-slate-500 font-normal">(temporal dynamics)</span>
           </h4>
-          <div className="text-[10px] text-slate-400 text-center mb-1">
+          <div className="text-[10px] text-slate-500 text-center mb-1">
             β₁ = AR(2) coefficient 1 | β₂ = AR(2) coefficient 2
           </div>
-          <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto bg-slate-950 rounded border border-slate-700" data-testid="svg-rootspace-comparison">
+          <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto bg-gradient-to-br from-slate-50 via-white to-slate-50 rounded border border-slate-200" data-testid="svg-rootspace-comparison">
             <path d={rsTriangle} fill="rgba(51,65,85,0.1)" stroke="#475569" strokeWidth="1" strokeDasharray="4 2" />
             <path d={rsParabola} fill="none" stroke="#eab308" strokeWidth="1" strokeDasharray="3 2" opacity="0.3" />
             <text x={W / 2} y={H - 8} fill="#94a3b8" fontSize="9" textAnchor="middle">β₁</text>
@@ -3256,35 +3433,35 @@ function PCAComparisonSVG({ data, filters }: { data: RootSpaceData; filters: Fil
         const rsG = rootGeneMap.get(hoveredGene);
         if (!pcaG || !rsG) return null;
         return (
-          <div className="mt-2 bg-slate-800/80 border border-slate-700 rounded px-3 py-2 text-xs" data-testid="tooltip-pca-comparison">
-            <span className="text-white font-bold">{hoveredGene}</span>
-            <span className="mx-2 text-slate-400">|</span>
+          <div className="mt-2 bg-slate-50 border border-slate-200 rounded px-3 py-2 text-xs" data-testid="tooltip-pca-comparison">
+            <span className="text-slate-900 font-bold">{hoveredGene}</span>
+            <span className="mx-2 text-slate-500">|</span>
             <span style={{ color: GENE_CATEGORY_CONFIG[pcaG.geneType as GeneCategory]?.color }}>
               {GENE_CATEGORY_CONFIG[pcaG.geneType as GeneCategory]?.label || pcaG.geneType}
             </span>
-            <span className="mx-2 text-slate-400">|</span>
+            <span className="mx-2 text-slate-500">|</span>
             <span className="text-cyan-300">|λ|={rsG.eigenvalue.toFixed(4)}</span>
-            <span className="mx-2 text-slate-400">|</span>
-            <span className="text-slate-400">PCA: ({pcaG.pc1.toFixed(2)}, {pcaG.pc2.toFixed(2)})</span>
-            <span className="mx-2 text-slate-400">|</span>
-            <span className="text-slate-400">Root: (β₁={rsG.beta1.toFixed(3)}, β₂={rsG.beta2.toFixed(3)})</span>
+            <span className="mx-2 text-slate-500">|</span>
+            <span className="text-slate-500">PCA: ({pcaG.pc1.toFixed(2)}, {pcaG.pc2.toFixed(2)})</span>
+            <span className="mx-2 text-slate-500">|</span>
+            <span className="text-slate-500">Root: (β₁={rsG.beta1.toFixed(3)}, β₂={rsG.beta2.toFixed(3)})</span>
           </div>
         );
       })()}
 
       <div className="mt-3 grid grid-cols-2 gap-3">
-        <div className="bg-slate-800/50 rounded-lg p-3 border border-red-900/30">
+        <div className="bg-slate-50 rounded-lg p-3 border border-red-900/30">
           <h5 className="text-xs font-semibold text-red-400 mb-1">PCA Limitations</h5>
-          <ul className="text-[10px] text-slate-400 space-y-0.5">
+          <ul className="text-[10px] text-slate-500 space-y-0.5">
             <li>Axes are abstract (rotational freedom)</li>
             <li>Captures variance, not temporal structure</li>
             <li>No stationarity boundary or void</li>
             <li>Cannot distinguish oscillatory from monotonic</li>
           </ul>
         </div>
-        <div className="bg-slate-800/50 rounded-lg p-3 border border-green-900/30">
+        <div className="bg-slate-50 rounded-lg p-3 border border-green-900/30">
           <h5 className="text-xs font-semibold text-green-400 mb-1">Root-Space Advantages</h5>
-          <ul className="text-[10px] text-slate-400 space-y-0.5">
+          <ul className="text-[10px] text-slate-500 space-y-0.5">
             <li>Axes have precise dynamical meaning</li>
             <li>Captures temporal persistence (memory)</li>
             <li>Stationarity triangle defines boundaries</li>
@@ -3315,13 +3492,13 @@ function FrameworkOverlays({ data, filters }: { data: RootSpaceData; filters: Fi
   const visibleCount = useMemo(() => allGenes.filter(g => categoryFilters[g.geneType] !== false).length, [allGenes, categoryFilters]);
 
   return (
-    <Card className="bg-slate-900/50 border-slate-700">
+    <Card className="bg-white border-slate-200">
       <CardHeader className="pb-3">
-        <CardTitle className="text-white flex items-center gap-2 text-lg">
+        <CardTitle className="text-slate-900 flex items-center gap-2 text-lg">
           <Layers size={18} className="text-amber-400" />
           Comparative Framework Overlays
         </CardTitle>
-        <CardDescription className="text-slate-400">
+        <CardDescription className="text-slate-500">
           The root-space map viewed through three complementary lenses — each revealing different aspects of the same underlying structure.
         </CardDescription>
         <div className="flex flex-wrap gap-2 mt-3">
@@ -3330,7 +3507,7 @@ function FrameworkOverlays({ data, filters }: { data: RootSpaceData; filters: Fi
               key={key}
               variant={activeTab === key ? 'default' : 'outline'}
               size="sm"
-              className={`text-xs h-7 ${activeTab === key ? 'bg-amber-600 hover:bg-amber-700 text-white' : 'border-slate-600 text-slate-300'}`}
+              className={`text-xs h-7 ${activeTab === key ? 'bg-amber-600 hover:bg-amber-700 text-slate-900' : 'border-slate-300 text-slate-600'}`}
               onClick={() => setActiveTab(key)}
               data-testid={`button-overlay-tab-${key}`}
             >
@@ -3340,14 +3517,14 @@ function FrameworkOverlays({ data, filters }: { data: RootSpaceData; filters: Fi
         </div>
       </CardHeader>
       <CardContent>
-        <p className="text-xs text-slate-400 mb-4">{OVERLAY_TAB_CONFIG[activeTab].description}</p>
+        <p className="text-xs text-slate-500 mb-4">{OVERLAY_TAB_CONFIG[activeTab].description}</p>
 
         <div className="flex flex-wrap gap-2 mb-3">
           {Object.entries(GENE_CATEGORY_CONFIG).filter(([k]) => k !== 'other').map(([cat, cfg]) => (
             <button
               key={cat}
               onClick={() => toggleCategory(cat)}
-              className={`flex items-center gap-1.5 text-xs px-2 py-1 rounded-full border transition-all ${categoryFilters[cat] !== false ? 'border-opacity-60' : 'border-slate-700 opacity-40'}`}
+              className={`flex items-center gap-1.5 text-xs px-2 py-1 rounded-full border transition-all ${categoryFilters[cat] !== false ? 'border-opacity-60' : 'border-slate-200 opacity-40'}`}
               style={{ borderColor: categoryFilters[cat] !== false ? cfg.color : undefined, backgroundColor: categoryFilters[cat] !== false ? cfg.color + '15' : undefined }}
               data-testid={`button-category-filter-${cat}`}
             >
@@ -3355,7 +3532,7 @@ function FrameworkOverlays({ data, filters }: { data: RootSpaceData; filters: Fi
               <span style={{ color: categoryFilters[cat] !== false ? cfg.color : '#64748b' }}>{cfg.label}</span>
             </button>
           ))}
-          <span className="text-xs text-slate-400 self-center ml-2">{visibleCount} genes visible</span>
+          <span className="text-xs text-slate-500 self-center ml-2">{visibleCount} genes visible</span>
         </div>
 
         {activeTab === 'waddington' && <WaddingtonCombinedView genes={allGenes} categoryFilters={categoryFilters} />}
@@ -3363,7 +3540,7 @@ function FrameworkOverlays({ data, filters }: { data: RootSpaceData; filters: Fi
         {activeTab === 'geography' && <FunctionalGeographySVG genes={allGenes} hierarchy={data.categoryHierarchy?.hierarchy} />}
         {activeTab === 'pca' && <PCAComparisonSVG data={data} filters={filters} />}
         {activeTab === 'comparison' && <LandscapeComparison data={data} />}
-        <div className="mt-3 text-xs text-slate-400 space-y-1">
+        <div className="mt-3 text-xs text-slate-500 space-y-1">
           <p>These overlays demonstrate how the AR(2) root-space map relates to established frameworks in biology and dynamical systems theory. The Waddington landscape shows gene density as terrain; the phase portrait shows the classical dynamical regime classification; the functional geography shows where gene categories cluster relative to dynamical poles.</p>
         </div>
       </CardContent>
@@ -3533,10 +3710,10 @@ function DrugTargetOverlayPanel() {
   }, [data]);
 
   return (
-    <Card className="mb-6 bg-slate-900/50 border-slate-700" data-testid="card-drug-target-panel">
+    <Card className="mb-6 bg-white border-slate-200" data-testid="card-drug-target-panel">
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-white flex items-center gap-2 text-lg">
+          <CardTitle className="text-slate-900 flex items-center gap-2 text-lg">
             <Pill size={18} className="text-rose-400" />
             Drug Target Overlay
             <Badge className="bg-rose-900/50 text-rose-300 border-rose-700 text-[10px]">NEW</Badge>
@@ -3544,7 +3721,7 @@ function DrugTargetOverlayPanel() {
           <Button
             variant="ghost"
             size="sm"
-            className="text-slate-400 hover:text-white text-xs h-7"
+            className="text-slate-500 hover:text-slate-700 text-xs h-7"
             onClick={() => setExpanded(!expanded)}
             data-testid="button-toggle-drug-targets"
           >
@@ -3552,7 +3729,7 @@ function DrugTargetOverlayPanel() {
             {expanded ? 'Collapse' : 'Expand'}
           </Button>
         </div>
-        <CardDescription className="text-slate-400">
+        <CardDescription className="text-slate-500">
           Maps FDA-approved and investigational drug targets onto root-space. Shows where each drug target sits
           in dynamical space — which are clock-gated, which are oscillatory, which are memoryless.
         </CardDescription>
@@ -3562,11 +3739,11 @@ function DrugTargetOverlayPanel() {
         <CardContent className="space-y-4">
           <div className="flex flex-wrap gap-3 items-end">
             <div>
-              <label className="text-xs text-slate-400 block mb-1">Dataset</label>
+              <label className="text-xs text-slate-500 block mb-1">Dataset</label>
               <select
                 value={selectedDataset}
                 onChange={e => setSelectedDataset(e.target.value)}
-                className="bg-slate-800 border border-slate-600 rounded px-2 py-1.5 text-xs text-white min-w-[200px]"
+                className="bg-slate-100 border border-slate-300 rounded px-2 py-1.5 text-xs text-slate-900 min-w-[200px]"
                 data-testid="select-drug-dataset"
               >
                 {datasetOptions.map(d => (
@@ -3575,11 +3752,11 @@ function DrugTargetOverlayPanel() {
               </select>
             </div>
             <div>
-              <label className="text-xs text-slate-400 block mb-1">Drug Class</label>
+              <label className="text-xs text-slate-500 block mb-1">Drug Class</label>
               <select
                 value={drugClassFilter}
                 onChange={e => setDrugClassFilter(e.target.value)}
-                className="bg-slate-800 border border-slate-600 rounded px-2 py-1.5 text-xs text-white min-w-[160px]"
+                className="bg-slate-100 border border-slate-300 rounded px-2 py-1.5 text-xs text-slate-900 min-w-[160px]"
                 data-testid="select-drug-class"
               >
                 {dynamicDrugClassOptions.map(d => (
@@ -3594,13 +3771,13 @@ function DrugTargetOverlayPanel() {
                 onCheckedChange={(v) => setFdaOnly(!!v)}
                 data-testid="checkbox-fda-only"
               />
-              <label htmlFor="fda-only" className="text-xs text-slate-400 cursor-pointer">FDA Approved Only</label>
+              <label htmlFor="fda-only" className="text-xs text-slate-500 cursor-pointer">FDA Approved Only</label>
             </div>
             {!activated && (
               <Button
                 onClick={() => setActivated(true)}
                 disabled={isLoading}
-                className="bg-rose-600 hover:bg-rose-700 text-white text-xs h-8"
+                className="bg-rose-600 hover:bg-rose-700 text-slate-900 text-xs h-8"
                 data-testid="button-run-drug-overlay"
               >
                 {isLoading ? <Loader2 size={14} className="mr-1 animate-spin" /> : <Target size={14} className="mr-1" />}
@@ -3612,7 +3789,7 @@ function DrugTargetOverlayPanel() {
           {isLoading && (
             <div className="text-center py-6">
               <Loader2 className="h-6 w-6 animate-spin text-rose-400 mx-auto mb-2" />
-              <p className="text-slate-400 text-sm">Mapping drug targets onto root-space...</p>
+              <p className="text-slate-500 text-sm">Mapping drug targets onto root-space...</p>
             </div>
           )}
 
@@ -3628,37 +3805,37 @@ function DrugTargetOverlayPanel() {
           {data && !isLoading && (
             <div className="space-y-6">
               <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-3 text-center">
-                  <div className="text-2xl font-bold text-white" data-testid="text-drug-total-genes">{data.totalGenesInDataset.toLocaleString()}</div>
-                  <div className="text-xs text-slate-400">Genes in Dataset</div>
+                <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
+                  <div className="text-2xl font-bold text-slate-900" data-testid="text-drug-total-genes">{data.totalGenesInDataset.toLocaleString()}</div>
+                  <div className="text-xs text-slate-500">Genes in Dataset</div>
                 </div>
-                <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-3 text-center">
+                <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
                   <div className="text-2xl font-bold text-rose-400" data-testid="text-drug-targets-matched">{data.totalDrugTargetsMatched}</div>
-                  <div className="text-xs text-slate-400">Drug Targets Found</div>
+                  <div className="text-xs text-slate-500">Drug Targets Found</div>
                 </div>
-                <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-3 text-center">
-                  <div className="text-2xl font-bold text-white">{data.totalDrugTargetsInDB}</div>
-                  <div className="text-xs text-slate-400">In Database</div>
+                <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
+                  <div className="text-2xl font-bold text-slate-900">{data.totalDrugTargetsInDB}</div>
+                  <div className="text-xs text-slate-500">In Database</div>
                 </div>
-                <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-3 text-center">
+                <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
                   <div className="text-2xl font-bold text-emerald-400" data-testid="text-clock-gated">{data.clockGatedTargets}</div>
-                  <div className="text-xs text-slate-400">Clock-Gated</div>
+                  <div className="text-xs text-slate-500">Clock-Gated</div>
                 </div>
-                <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-3 text-center">
+                <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
                   <div className="text-2xl font-bold text-amber-400">
                     {data.totalDrugTargetsMatched > 0 ? ((data.clockGatedTargets / data.totalDrugTargetsMatched) * 100).toFixed(0) : 0}%
                   </div>
-                  <div className="text-xs text-slate-400">Chronotherapy Amenable</div>
+                  <div className="text-xs text-slate-500">Chronotherapy Amenable</div>
                 </div>
               </div>
 
-              <Card className="bg-slate-800/30 border-slate-700/50">
+              <Card className="bg-slate-50 border-slate-200">
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-white text-sm flex items-center gap-2">
+                  <CardTitle className="text-slate-900 text-sm flex items-center gap-2">
                     <Target size={14} className="text-rose-400" />
                     Drug Targets in Root-Space (β₁, β₂)
                   </CardTitle>
-                  <CardDescription className="text-slate-400 text-xs">
+                  <CardDescription className="text-slate-500 text-xs">
                     Each dot is a drug target gene. Color = drug class. Click a point to see drugs.
                   </CardDescription>
                 </CardHeader>
@@ -3687,12 +3864,12 @@ function DrugTargetOverlayPanel() {
                           if (!active || !payload?.[0]) return null;
                           const d = payload[0].payload;
                           return (
-                            <div className="bg-gray-900 border border-gray-700 rounded-lg p-3 text-xs shadow-xl max-w-xs">
-                              <div className="font-bold text-white text-sm">{d.gene}</div>
-                              <div className="text-slate-400 mt-1">β₁={d.x?.toFixed(3)}, β₂={d.y?.toFixed(3)}</div>
-                              <div className="text-slate-400">|λ|={d.eigenvalue?.toFixed(3)}</div>
-                              <div className="text-slate-400">Pole: <span className="text-white">{d.dominantPole}</span></div>
-                              <div className="text-slate-400 mt-1">{d.drugCount} drug(s): <span className="text-rose-300">{d.drugClass?.replace(/_/g, ' ')}</span></div>
+                            <div className="bg-white border border-slate-200 rounded-lg p-3 text-xs shadow-xl max-w-xs">
+                              <div className="font-bold text-slate-900 text-sm">{d.gene}</div>
+                              <div className="text-slate-500 mt-1">β₁={d.x?.toFixed(3)}, β₂={d.y?.toFixed(3)}</div>
+                              <div className="text-slate-500">|λ|={d.eigenvalue?.toFixed(3)}</div>
+                              <div className="text-slate-500">Pole: <span className="text-slate-900">{d.dominantPole}</span></div>
+                              <div className="text-slate-500 mt-1">{d.drugCount} drug(s): <span className="text-rose-300">{d.drugClass?.replace(/_/g, ' ')}</span></div>
                             </div>
                           );
                         }}
@@ -3725,7 +3902,7 @@ function DrugTargetOverlayPanel() {
                   {data.drugClassConfig && (
                     <div className="flex flex-wrap gap-2 mt-3 justify-center">
                       {classSummaryArr.map(cls => (
-                        <div key={cls.drugClass} className="flex items-center gap-1 text-[10px] text-slate-400">
+                        <div key={cls.drugClass} className="flex items-center gap-1 text-[10px] text-slate-500">
                           <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ backgroundColor: cls.color }} />
                           {cls.label} ({cls.count})
                         </div>
@@ -3739,11 +3916,11 @@ function DrugTargetOverlayPanel() {
                 <Card className="bg-rose-950/20 border-rose-800/50">
                   <CardHeader className="pb-2">
                     <div className="flex items-center justify-between">
-                      <CardTitle className="text-white text-sm flex items-center gap-2">
+                      <CardTitle className="text-slate-900 text-sm flex items-center gap-2">
                         <Pill size={14} className="text-rose-400" />
                         {selectedGene.gene} — Drug Details
                       </CardTitle>
-                      <Button variant="ghost" size="sm" className="text-slate-400 h-6 w-6 p-0" onClick={() => setSelectedGene(null)}>
+                      <Button variant="ghost" size="sm" className="text-slate-500 h-6 w-6 p-0" onClick={() => setSelectedGene(null)}>
                         <X size={12} />
                       </Button>
                     </div>
@@ -3751,35 +3928,35 @@ function DrugTargetOverlayPanel() {
                   <CardContent>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3 text-xs">
                       <div>
-                        <span className="text-slate-400">β₁:</span> <span className="text-white font-mono">{selectedGene.beta1.toFixed(4)}</span>
+                        <span className="text-slate-500">β₁:</span> <span className="text-slate-900 font-mono">{selectedGene.beta1.toFixed(4)}</span>
                       </div>
                       <div>
-                        <span className="text-slate-400">β₂:</span> <span className="text-white font-mono">{selectedGene.beta2.toFixed(4)}</span>
+                        <span className="text-slate-500">β₂:</span> <span className="text-slate-900 font-mono">{selectedGene.beta2.toFixed(4)}</span>
                       </div>
                       <div>
-                        <span className="text-slate-400">|λ|:</span> <span className="text-white font-mono">{selectedGene.eigenvalue.toFixed(4)}</span>
+                        <span className="text-slate-500">|λ|:</span> <span className="text-slate-900 font-mono">{selectedGene.eigenvalue.toFixed(4)}</span>
                       </div>
                       <div>
-                        <span className="text-slate-400">Pole:</span>
-                        <span className="ml-1 text-white font-semibold" style={{ color: POLE_COLORS[selectedGene.dominantPole] || '#64748b' }}>
+                        <span className="text-slate-500">Pole:</span>
+                        <span className="ml-1 text-slate-900 font-semibold" style={{ color: POLE_COLORS[selectedGene.dominantPole] || '#64748b' }}>
                           {selectedGene.dominantPole}
                         </span>
                       </div>
                     </div>
                     <div className="space-y-1.5">
                       {selectedGene.drugs.map((d, i) => (
-                        <div key={i} className="flex items-center justify-between bg-slate-900/60 rounded px-3 py-2 text-xs">
+                        <div key={i} className="flex items-center justify-between bg-white rounded px-3 py-2 text-xs">
                           <div className="flex items-center gap-2">
                             <span className="w-2 h-2 rounded-full" style={{ backgroundColor: data.drugClassConfig[d.drugClass]?.color || '#666' }} />
-                            <span className="text-white font-semibold">{d.drugName}</span>
-                            <span className="text-slate-400">{d.interactionType}</span>
+                            <span className="text-slate-900 font-semibold">{d.drugName}</span>
+                            <span className="text-slate-500">{d.interactionType}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className="text-slate-400">{d.indication}</span>
+                            <span className="text-slate-500">{d.indication}</span>
                             {d.fdaApproved ? (
                               <Badge className="bg-green-900/50 text-green-300 border-green-700 text-[9px] px-1.5 py-0">FDA</Badge>
                             ) : (
-                              <Badge className="bg-slate-700 text-slate-400 text-[9px] px-1.5 py-0">Investigational</Badge>
+                              <Badge className="bg-slate-200 text-slate-500 text-[9px] px-1.5 py-0">Investigational</Badge>
                             )}
                           </div>
                         </div>
@@ -3789,24 +3966,24 @@ function DrugTargetOverlayPanel() {
                 </Card>
               )}
 
-              <Card className="bg-slate-800/30 border-slate-700/50">
+              <Card className="bg-slate-50 border-slate-200">
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-white text-sm flex items-center gap-2">
+                  <CardTitle className="text-slate-900 text-sm flex items-center gap-2">
                     <Crosshair size={14} className="text-amber-400" />
                     Pole Distribution of Drug Targets
                   </CardTitle>
-                  <CardDescription className="text-slate-400 text-xs">
+                  <CardDescription className="text-slate-500 text-xs">
                     Where do drug targets cluster in dynamical space? Clock-gated = self-reinforcing + oscillatory poles.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                     {Object.entries(data.poleSummary).sort((a, b) => b[1] - a[1]).map(([pole, count]) => (
-                      <div key={pole} className="bg-slate-900/50 border border-slate-700/50 rounded-lg p-3 text-center">
+                      <div key={pole} className="bg-white border border-slate-200 rounded-lg p-3 text-center">
                         <div className="w-3 h-3 rounded-full mx-auto mb-1" style={{ backgroundColor: POLE_COLORS[pole] || '#666' }} />
-                        <div className="text-lg font-bold text-white">{count}</div>
-                        <div className="text-[10px] text-slate-400 capitalize">{pole.replace(/-/g, ' ')}</div>
-                        <div className="text-[10px] text-slate-400">
+                        <div className="text-lg font-bold text-slate-900">{count}</div>
+                        <div className="text-[10px] text-slate-500 capitalize">{pole.replace(/-/g, ' ')}</div>
+                        <div className="text-[10px] text-slate-500">
                           {data.totalDrugTargetsMatched > 0 ? ((count / data.totalDrugTargetsMatched) * 100).toFixed(0) : 0}%
                         </div>
                       </div>
@@ -3815,13 +3992,13 @@ function DrugTargetOverlayPanel() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-800/30 border-slate-700/50">
+              <Card className="bg-slate-50 border-slate-200">
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-white text-sm flex items-center gap-2">
+                  <CardTitle className="text-slate-900 text-sm flex items-center gap-2">
                     <BarChart3 size={14} className="text-cyan-400" />
                     Drug Class Eigenvalue Ranking
                   </CardTitle>
-                  <CardDescription className="text-slate-400 text-xs">
+                  <CardDescription className="text-slate-500 text-xs">
                     Mean eigenvalue modulus by drug class. Higher |λ| = stronger temporal persistence = more clock-gated.
                   </CardDescription>
                 </CardHeader>
@@ -3832,14 +4009,14 @@ function DrugTargetOverlayPanel() {
                       const pct = (cls.meanEigenvalue / maxEv) * 100;
                       return (
                         <div key={cls.drugClass} className="flex items-center gap-2" data-testid={`drug-class-row-${cls.drugClass}`}>
-                          <span className="text-xs text-slate-400 w-5 text-right">#{i + 1}</span>
+                          <span className="text-xs text-slate-500 w-5 text-right">#{i + 1}</span>
                           <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: cls.color }} />
-                          <span className="text-xs text-white w-32 truncate">{cls.label}</span>
-                          <div className="flex-1 h-5 bg-slate-800 rounded overflow-hidden">
+                          <span className="text-xs text-slate-900 w-32 truncate">{cls.label}</span>
+                          <div className="flex-1 h-5 bg-slate-100 rounded overflow-hidden">
                             <div className="h-full rounded" style={{ width: `${pct}%`, backgroundColor: cls.color, opacity: 0.7 }} />
                           </div>
-                          <span className="text-xs font-mono text-slate-300 w-16 text-right">|λ|={cls.meanEigenvalue.toFixed(3)}</span>
-                          <span className="text-[10px] text-slate-400 w-10 text-right">n={cls.count}</span>
+                          <span className="text-xs font-mono text-slate-600 w-16 text-right">|λ|={cls.meanEigenvalue.toFixed(3)}</span>
+                          <span className="text-[10px] text-slate-500 w-10 text-right">n={cls.count}</span>
                         </div>
                       );
                     })}
@@ -3850,11 +4027,11 @@ function DrugTargetOverlayPanel() {
               {data.clockGatedList && data.clockGatedList.length > 0 && (
                 <Card className="bg-emerald-950/20 border-emerald-800/50">
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-white text-sm flex items-center gap-2">
+                    <CardTitle className="text-slate-900 text-sm flex items-center gap-2">
                       <Atom size={14} className="text-emerald-400" />
                       Chronotherapy Candidates (Clock-Gated Drug Targets)
                     </CardTitle>
-                    <CardDescription className="text-slate-400 text-xs">
+                    <CardDescription className="text-slate-500 text-xs">
                       Drug targets at the self-reinforcing or oscillatory pole — timing of administration may affect efficacy.
                     </CardDescription>
                   </CardHeader>
@@ -3862,7 +4039,7 @@ function DrugTargetOverlayPanel() {
                     <div className="overflow-x-auto">
                       <table className="w-full text-xs">
                         <thead>
-                          <tr className="text-slate-400 border-b border-slate-700">
+                          <tr className="text-slate-500 border-b border-slate-200">
                             <th className="text-left py-1 px-2">Gene</th>
                             <th className="text-left py-1 px-1">Drug(s)</th>
                             <th className="text-right py-1 px-1">|λ|</th>
@@ -3874,7 +4051,7 @@ function DrugTargetOverlayPanel() {
                           {data.clockGatedList.slice(0, 15).map((g, i) => (
                             <tr
                               key={i}
-                              className="border-b border-slate-700/50 hover:bg-slate-800/30 cursor-pointer"
+                              className="border-b border-slate-200 hover:bg-slate-50 cursor-pointer"
                               onClick={() => setSelectedGene(g)}
                             >
                               <td className="py-1.5 px-2 text-slate-900 font-semibold"><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></td>
@@ -3886,7 +4063,7 @@ function DrugTargetOverlayPanel() {
                               <td className="py-1.5 px-1">
                                 <span style={{ color: POLE_COLORS[g.dominantPole] || '#64748b' }}>{g.dominantPole}</span>
                               </td>
-                              <td className="py-1.5 px-2 text-slate-400 truncate max-w-[200px]">
+                              <td className="py-1.5 px-2 text-slate-500 truncate max-w-[200px]">
                                 {g.drugs[0]?.indication || '—'}
                               </td>
                             </tr>
@@ -3899,9 +4076,9 @@ function DrugTargetOverlayPanel() {
               )}
 
               {data.topByEigenvalue && data.topByEigenvalue.length > 0 && (
-                <Card className="bg-slate-800/30 border-slate-700/50">
+                <Card className="bg-slate-50 border-slate-200">
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-white text-sm flex items-center gap-2">
+                    <CardTitle className="text-slate-900 text-sm flex items-center gap-2">
                       <BarChart3 size={14} className="text-amber-400" />
                       Top 10 Drug Targets by Temporal Persistence
                     </CardTitle>
@@ -3924,10 +4101,10 @@ function DrugTargetOverlayPanel() {
                             if (!active || !payload?.[0]) return null;
                             const d = payload[0].payload;
                             return (
-                              <div className="bg-gray-900 border border-gray-700 rounded p-2 text-xs">
-                                <div className="text-white font-bold">{d.gene}</div>
-                                <div className="text-slate-400">|λ|={d.eigenvalue.toFixed(4)}</div>
-                                <div className="text-slate-400">Pole: {d.dominantPole}</div>
+                              <div className="bg-white border border-slate-200 rounded p-2 text-xs">
+                                <div className="text-slate-900 font-bold">{d.gene}</div>
+                                <div className="text-slate-500">|λ|={d.eigenvalue.toFixed(4)}</div>
+                                <div className="text-slate-500">Pole: {d.dominantPole}</div>
                                 <div className="text-rose-300">{d.drugs?.map((dr: any) => dr.drugName).join(', ')}</div>
                               </div>
                             );
@@ -3975,7 +4152,7 @@ function CrossTissueComparison() {
       {!showCrossTissue && (
         <Button
           onClick={() => setShowCrossTissue(true)}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs h-8 w-full"
+          className="bg-indigo-600 hover:bg-indigo-700 text-slate-900 text-xs h-8 w-full"
           data-testid="button-run-cross-tissue"
         >
           <Layers size={14} className="mr-1" />
@@ -3986,8 +4163,8 @@ function CrossTissueComparison() {
       {isLoading && (
         <div className="text-center py-8">
           <Loader2 className="h-6 w-6 animate-spin text-indigo-400 mx-auto mb-2" />
-          <p className="text-slate-400 text-sm">Running drug target analysis across 6 tissues...</p>
-          <p className="text-slate-400 text-xs">This may take 30-60 seconds</p>
+          <p className="text-slate-500 text-sm">Running drug target analysis across 6 tissues...</p>
+          <p className="text-slate-500 text-xs">This may take 30-60 seconds</p>
         </div>
       )}
 
@@ -4004,11 +4181,11 @@ function CrossTissueComparison() {
         <div className="space-y-6">
           <Card className="bg-indigo-950/20 border-indigo-800/50">
             <CardHeader className="pb-2">
-              <CardTitle className="text-white text-sm flex items-center gap-2">
+              <CardTitle className="text-slate-900 text-sm flex items-center gap-2">
                 <Layers size={14} className="text-indigo-400" />
                 Cross-Tissue Drug Target Summary
               </CardTitle>
-              <CardDescription className="text-slate-400 text-xs">
+              <CardDescription className="text-slate-500 text-xs">
                 Same drug targets, different tissues. Which organs have the most clock-gated targets?
               </CardDescription>
             </CardHeader>
@@ -4017,14 +4194,14 @@ function CrossTissueComparison() {
                 {data.tissues.filter(t => data.tissueSummaries[t]?.totalMatched > 0).map(tissue => {
                   const s = data.tissueSummaries[tissue];
                   return (
-                    <div key={tissue} className="bg-slate-800/50 border border-slate-700 rounded-lg p-3 text-center">
-                      <div className="text-xs font-semibold text-white mb-1">{tissue}</div>
+                    <div key={tissue} className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
+                      <div className="text-xs font-semibold text-slate-900 mb-1">{tissue}</div>
                       <div className="text-lg font-bold text-indigo-400">{s.clockGated}</div>
-                      <div className="text-[10px] text-slate-400">clock-gated</div>
-                      <div className="text-xs text-slate-400 mt-1">
+                      <div className="text-[10px] text-slate-500">clock-gated</div>
+                      <div className="text-xs text-slate-500 mt-1">
                         mean |λ|={s.overallMeanEigenvalue.toFixed(3)}
                       </div>
-                      <div className="text-[10px] text-slate-400">{s.totalMatched} matched</div>
+                      <div className="text-[10px] text-slate-500">{s.totalMatched} matched</div>
                     </div>
                   );
                 })}
@@ -4032,13 +4209,13 @@ function CrossTissueComparison() {
             </CardContent>
           </Card>
 
-          <Card className="bg-slate-800/30 border-slate-700/50">
+          <Card className="bg-slate-50 border-slate-200">
             <CardHeader className="pb-2">
-              <CardTitle className="text-white text-sm flex items-center gap-2">
+              <CardTitle className="text-slate-900 text-sm flex items-center gap-2">
                 <BarChart3 size={14} className="text-indigo-400" />
                 Drug Class Eigenvalue Heatmap (Across Tissues)
               </CardTitle>
-              <CardDescription className="text-slate-400 text-xs">
+              <CardDescription className="text-slate-500 text-xs">
                 Mean |λ| for each drug class in each tissue. Brighter = higher persistence = more clock-gated.
               </CardDescription>
             </CardHeader>
@@ -4046,8 +4223,8 @@ function CrossTissueComparison() {
               <div className="overflow-x-auto">
                 <table className="w-full text-xs">
                   <thead>
-                    <tr className="text-slate-400 border-b border-slate-700">
-                      <th className="text-left py-1.5 px-2 sticky left-0 bg-slate-900">Drug Class</th>
+                    <tr className="text-slate-500 border-b border-slate-200">
+                      <th className="text-left py-1.5 px-2 sticky left-0 bg-slate-50">Drug Class</th>
                       {data.tissues.filter(t => data.tissueSummaries[t]?.totalMatched > 0).map(t => (
                         <th key={t} className="text-center py-1.5 px-2 min-w-[80px]">{t}</th>
                       ))}
@@ -4062,23 +4239,23 @@ function CrossTissueComparison() {
                         return bMax - aMax;
                       })
                       .map(row => (
-                      <tr key={row.drugClass} className="border-b border-slate-700/30 hover:bg-slate-800/20">
-                        <td className="py-1.5 px-2 sticky left-0 bg-slate-900">
+                      <tr key={row.drugClass} className="border-b border-slate-200 hover:bg-slate-50">
+                        <td className="py-1.5 px-2 sticky left-0 bg-slate-50">
                           <div className="flex items-center gap-1.5">
                             <span className="w-2 h-2 rounded-full" style={{ backgroundColor: row.color }} />
-                            <span className="text-white">{row.label}</span>
+                            <span className="text-slate-900">{row.label}</span>
                           </div>
                         </td>
                         {data.tissues.filter(t => data.tissueSummaries[t]?.totalMatched > 0).map(tissue => {
                           const val = row.tissues[tissue];
-                          if (!val) return <td key={tissue} className="text-center text-slate-400 py-1.5">—</td>;
+                          if (!val) return <td key={tissue} className="text-center text-slate-500 py-1.5">—</td>;
                           const intensity = Math.min(1, val.mean / 0.8);
                           const bgColor = val.clockGatedPct > 0
                             ? `rgba(34, 197, 94, ${intensity * 0.4})`
                             : `rgba(99, 102, 241, ${intensity * 0.3})`;
                           return (
                             <td key={tissue} className="text-center py-1.5 px-1" style={{ backgroundColor: bgColor }}>
-                              <div className="font-mono text-white">{val.mean.toFixed(3)}</div>
+                              <div className="font-mono text-slate-900">{val.mean.toFixed(3)}</div>
                               {val.clockGatedPct > 0 && (
                                 <div className="text-[9px] text-emerald-400">{val.clockGatedPct}% gated</div>
                               )}
@@ -4096,11 +4273,11 @@ function CrossTissueComparison() {
           {data.poleSwitchers && data.poleSwitchers.length > 0 && (
             <Card className="bg-amber-950/20 border-amber-800/50">
               <CardHeader className="pb-2">
-                <CardTitle className="text-white text-sm flex items-center gap-2">
+                <CardTitle className="text-slate-900 text-sm flex items-center gap-2">
                   <Target size={14} className="text-amber-400" />
                   Pole Switchers — Drug Targets That Change Dynamics Across Tissues
                 </CardTitle>
-                <CardDescription className="text-slate-400 text-xs">
+                <CardDescription className="text-slate-500 text-xs">
                   Genes that sit at different dynamical poles in different tissues. These are the strongest
                   candidates for tissue-specific chronotherapy: the drug works differently depending on which organ you're treating.
                 </CardDescription>
@@ -4109,7 +4286,7 @@ function CrossTissueComparison() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-xs">
                     <thead>
-                      <tr className="text-slate-400 border-b border-slate-700">
+                      <tr className="text-slate-500 border-b border-slate-200">
                         <th className="text-left py-1.5 px-2">Gene</th>
                         <th className="text-right py-1.5 px-1">CV</th>
                         {data.tissues.filter(t => data.tissueSummaries[t]?.totalMatched > 0).map(t => (
@@ -4119,15 +4296,15 @@ function CrossTissueComparison() {
                     </thead>
                     <tbody>
                       {data.poleSwitchers.slice(0, 15).map(g => (
-                        <tr key={g.gene} className="border-b border-slate-700/30 hover:bg-slate-800/20">
+                        <tr key={g.gene} className="border-b border-slate-200 hover:bg-slate-50">
                           <td className="py-1.5 px-2 text-slate-900 font-semibold"><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></td>
                           <td className="py-1.5 px-1 text-right font-mono text-amber-400">{g.cv.toFixed(3)}</td>
                           {data.tissues.filter(t => data.tissueSummaries[t]?.totalMatched > 0).map(tissue => {
                             const val = g.tissues[tissue];
-                            if (!val) return <td key={tissue} className="text-center text-slate-400 py-1.5">—</td>;
+                            if (!val) return <td key={tissue} className="text-center text-slate-500 py-1.5">—</td>;
                             return (
                               <td key={tissue} className="text-center py-1.5 px-1">
-                                <div className="font-mono text-white text-[11px]">{val.eigenvalue.toFixed(3)}</div>
+                                <div className="font-mono text-slate-900 text-[11px]">{val.eigenvalue.toFixed(3)}</div>
                                 <div className="text-[9px]" style={{ color: POLE_COLORS[val.pole] || '#94a3b8' }}>
                                   {val.pole}
                                 </div>
@@ -4144,13 +4321,13 @@ function CrossTissueComparison() {
           )}
 
           {data.withinClassSpread && data.withinClassSpread.length > 0 && (
-            <Card className="bg-slate-800/30 border-slate-700/50">
+            <Card className="bg-slate-50 border-slate-200">
               <CardHeader className="pb-2">
-                <CardTitle className="text-white text-sm flex items-center gap-2">
+                <CardTitle className="text-slate-900 text-sm flex items-center gap-2">
                   <BarChart3 size={14} className="text-cyan-400" />
                   Within-Class Eigenvalue Spread
                 </CardTitle>
-                <CardDescription className="text-slate-400 text-xs">
+                <CardDescription className="text-slate-500 text-xs">
                   How tightly clustered are targets within each drug class? High CV = targets behave differently,
                   need per-gene analysis. Low CV = class-wide chronotherapy recommendation possible.
                 </CardDescription>
@@ -4160,17 +4337,17 @@ function CrossTissueComparison() {
                   {data.withinClassSpread.map(cls => {
                     const poleEntries = Object.entries(cls.poleDistribution || {}).sort((a, b) => b[1] - a[1]);
                     return (
-                      <div key={cls.drugClass} className="bg-slate-900/40 rounded-lg p-3" data-testid={`spread-class-${cls.drugClass}`}>
+                      <div key={cls.drugClass} className="bg-slate-50 rounded-lg p-3" data-testid={`spread-class-${cls.drugClass}`}>
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-2">
                             <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: cls.color }} />
-                            <span className="text-white text-xs font-semibold">{cls.label}</span>
-                            <span className="text-slate-400 text-[10px]">n={cls.n}</span>
+                            <span className="text-slate-900 text-xs font-semibold">{cls.label}</span>
+                            <span className="text-slate-500 text-[10px]">n={cls.n}</span>
                           </div>
                           <div className="flex items-center gap-3 text-[10px]">
-                            <span className="text-slate-400">CV=<span className={`font-mono ${cls.cv > 0.3 ? 'text-amber-400' : 'text-emerald-400'}`}>{cls.cv.toFixed(3)}</span></span>
-                            <span className="text-slate-400">mean=<span className="text-white font-mono">{cls.meanEigenvalue.toFixed(3)}</span></span>
-                            <span className="text-slate-400">range=<span className="text-white font-mono">[{cls.min.toFixed(2)}-{cls.max.toFixed(2)}]</span></span>
+                            <span className="text-slate-500">CV=<span className={`font-mono ${cls.cv > 0.3 ? 'text-amber-400' : 'text-emerald-400'}`}>{cls.cv.toFixed(3)}</span></span>
+                            <span className="text-slate-500">mean=<span className="text-slate-900 font-mono">{cls.meanEigenvalue.toFixed(3)}</span></span>
+                            <span className="text-slate-500">range=<span className="text-slate-900 font-mono">[{cls.min.toFixed(2)}-{cls.max.toFixed(2)}]</span></span>
                           </div>
                         </div>
                         <div className="flex items-center gap-1 h-4 mb-1.5">
@@ -4191,7 +4368,7 @@ function CrossTissueComparison() {
                           {poleEntries.map(([pole, count]) => (
                             <span key={pole} className="flex items-center gap-0.5">
                               <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: POLE_COLORS[pole] || '#666' }} />
-                              <span className="text-slate-400">{pole}: {count}</span>
+                              <span className="text-slate-500">{pole}: {count}</span>
                             </span>
                           ))}
                         </div>
@@ -4199,8 +4376,8 @@ function CrossTissueComparison() {
                     );
                   })}
                 </div>
-                <div className="mt-3 p-2 bg-slate-900/60 rounded text-[10px] text-slate-400">
-                  <strong className="text-slate-300">Interpretation:</strong> Drug classes with CV {'>'} 0.3 (amber) have heterogeneous temporal dynamics —
+                <div className="mt-3 p-2 bg-white rounded text-[10px] text-slate-500">
+                  <strong className="text-slate-600">Interpretation:</strong> Drug classes with CV {'>'} 0.3 (amber) have heterogeneous temporal dynamics —
                   chronotherapy recommendations must be made per-gene, not per-class. Classes with CV {'<'} 0.3 (green) are coherent — a single
                   timing protocol may apply to all targets in the class.
                 </div>
@@ -4245,10 +4422,10 @@ function GenomeWideEnrichmentPanel() {
   ];
 
   return (
-    <Card className="mb-6 bg-slate-900/50 border-slate-700" data-testid="card-enrichment-panel">
+    <Card className="mb-6 bg-white border-slate-200" data-testid="card-enrichment-panel">
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-white flex items-center gap-2 text-lg">
+          <CardTitle className="text-slate-900 flex items-center gap-2 text-lg">
             <Layers size={18} className="text-violet-400" />
             Genome-Wide Functional Enrichment
             <Badge className="bg-violet-900/50 text-violet-300 border-violet-700 text-[10px]">NEW</Badge>
@@ -4256,7 +4433,7 @@ function GenomeWideEnrichmentPanel() {
           <Button
             variant="ghost"
             size="sm"
-            className="text-slate-400 hover:text-white text-xs h-7"
+            className="text-slate-500 hover:text-slate-700 text-xs h-7"
             onClick={() => setExpanded(!expanded)}
             data-testid="button-toggle-enrichment"
           >
@@ -4264,7 +4441,7 @@ function GenomeWideEnrichmentPanel() {
             {expanded ? 'Collapse' : 'Expand'}
           </Button>
         </div>
-        <CardDescription className="text-slate-400">
+        <CardDescription className="text-slate-500">
           Tests whether Gene Ontology and KEGG pathway categories cluster at specific root-space positions.
           Validates functional geography as a systematic biological principle across ~20,000+ genes.
         </CardDescription>
@@ -4274,11 +4451,11 @@ function GenomeWideEnrichmentPanel() {
         <CardContent className="space-y-4">
           <div className="flex flex-wrap gap-3 items-end">
             <div>
-              <label className="text-xs text-slate-400 block mb-1">Dataset</label>
+              <label className="text-xs text-slate-500 block mb-1">Dataset</label>
               <select
                 value={selectedDataset}
                 onChange={e => setSelectedDataset(e.target.value)}
-                className="bg-slate-800 border border-slate-600 rounded px-2 py-1.5 text-xs text-white min-w-[200px]"
+                className="bg-slate-100 border border-slate-300 rounded px-2 py-1.5 text-xs text-slate-900 min-w-[200px]"
                 data-testid="select-enrichment-dataset"
               >
                 {datasetOptions.map(d => (
@@ -4287,11 +4464,11 @@ function GenomeWideEnrichmentPanel() {
               </select>
             </div>
             <div>
-              <label className="text-xs text-slate-400 block mb-1">Annotation Source</label>
+              <label className="text-xs text-slate-500 block mb-1">Annotation Source</label>
               <select
                 value={annotationSource}
                 onChange={e => setAnnotationSource(e.target.value as any)}
-                className="bg-slate-800 border border-slate-600 rounded px-2 py-1.5 text-xs text-white"
+                className="bg-slate-100 border border-slate-300 rounded px-2 py-1.5 text-xs text-slate-900"
                 data-testid="select-annotation-source"
               >
                 <option value="ALL">All (GO + KEGG + Dynamical)</option>
@@ -4303,7 +4480,7 @@ function GenomeWideEnrichmentPanel() {
             <Button
               onClick={() => setShouldFetch(true)}
               disabled={isLoading}
-              className="bg-violet-600 hover:bg-violet-700 text-white text-xs h-8"
+              className="bg-violet-600 hover:bg-violet-700 text-slate-900 text-xs h-8"
               data-testid="button-run-enrichment"
             >
               {isLoading ? <Loader2 size={14} className="mr-1 animate-spin" /> : <FlaskConical size={14} className="mr-1" />}
@@ -4314,8 +4491,8 @@ function GenomeWideEnrichmentPanel() {
           {isLoading && (
             <div className="text-center py-8">
               <Loader2 className="h-6 w-6 animate-spin text-violet-400 mx-auto mb-2" />
-              <p className="text-slate-400 text-sm">Running permutation tests on ~20,000 genes...</p>
-              <p className="text-slate-400 text-xs">This may take 30-60 seconds</p>
+              <p className="text-slate-500 text-sm">Running permutation tests on ~20,000 genes...</p>
+              <p className="text-slate-500 text-xs">This may take 30-60 seconds</p>
             </div>
           )}
 
@@ -4331,31 +4508,31 @@ function GenomeWideEnrichmentPanel() {
           {data && !isLoading && (
             <div className="space-y-6">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-3 text-center">
-                  <div className="text-2xl font-bold text-white" data-testid="text-total-genes">{data.totalGenesAnalyzed.toLocaleString()}</div>
-                  <div className="text-xs text-slate-400">Genes Analyzed</div>
+                <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
+                  <div className="text-2xl font-bold text-slate-900" data-testid="text-total-genes">{data.totalGenesAnalyzed.toLocaleString()}</div>
+                  <div className="text-xs text-slate-500">Genes Analyzed</div>
                 </div>
-                <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-3 text-center">
-                  <div className="text-2xl font-bold text-white">{data.categoriesWithData}</div>
-                  <div className="text-xs text-slate-400">Categories Tested</div>
+                <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
+                  <div className="text-2xl font-bold text-slate-900">{data.categoriesWithData}</div>
+                  <div className="text-xs text-slate-500">Categories Tested</div>
                 </div>
-                <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-3 text-center">
-                  <div className={`text-2xl font-bold ${data.significantCategories > 0 ? 'text-emerald-400' : 'text-slate-400'}`} data-testid="text-sig-categories">
+                <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
+                  <div className={`text-2xl font-bold ${data.significantCategories > 0 ? 'text-emerald-400' : 'text-slate-500'}`} data-testid="text-sig-categories">
                     {data.significantCategories}
                   </div>
-                  <div className="text-xs text-slate-400">Significant (p{'<'}0.05)</div>
+                  <div className="text-xs text-slate-500">Significant (p{'<'}0.05)</div>
                 </div>
-                <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-3 text-center">
+                <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
                   <div className={`text-2xl font-bold ${data.voidAnalysis.voidPersistsGenomeWide ? 'text-emerald-400' : 'text-amber-400'}`}>
                     {data.voidAnalysis.voidPersistsGenomeWide ? 'YES' : 'NO'}
                   </div>
-                  <div className="text-xs text-slate-400">Void Persists</div>
+                  <div className="text-xs text-slate-500">Void Persists</div>
                 </div>
               </div>
 
-              <Card className="bg-slate-800/30 border-slate-700/50">
+              <Card className="bg-slate-50 border-slate-200">
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-white text-sm flex items-center gap-2">
+                  <CardTitle className="text-slate-900 text-sm flex items-center gap-2">
                     <MapPin size={14} className="text-emerald-400" />
                     Void Analysis (Genome-Wide)
                   </CardTitle>
@@ -4363,23 +4540,23 @@ function GenomeWideEnrichmentPanel() {
                 <CardContent>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
                     <div>
-                      <span className="text-slate-400">Real-root genes:</span>
-                      <span className="text-white ml-1 font-mono">{(data.voidAnalysis.realRootFraction * 100).toFixed(1)}%</span>
+                      <span className="text-slate-500">Real-root genes:</span>
+                      <span className="text-slate-900 ml-1 font-mono">{(data.voidAnalysis.realRootFraction * 100).toFixed(1)}%</span>
                     </div>
                     <div>
-                      <span className="text-slate-400">Oscillatory genes:</span>
-                      <span className="text-white ml-1 font-mono">{(data.voidAnalysis.strongOscillationFraction * 100).toFixed(1)}%</span>
+                      <span className="text-slate-500">Oscillatory genes:</span>
+                      <span className="text-slate-900 ml-1 font-mono">{(data.voidAnalysis.strongOscillationFraction * 100).toFixed(1)}%</span>
                     </div>
                     <div>
-                      <span className="text-slate-400">Transition zone:</span>
-                      <span className="text-white ml-1 font-mono">{(data.voidAnalysis.voidFraction * 100).toFixed(1)}%</span>
+                      <span className="text-slate-500">Transition zone:</span>
+                      <span className="text-slate-900 ml-1 font-mono">{(data.voidAnalysis.voidFraction * 100).toFixed(1)}%</span>
                     </div>
                     <div>
-                      <span className="text-slate-400">Bimodality index:</span>
-                      <span className="text-white ml-1 font-mono">{data.voidAnalysis.bimodalityIndex}</span>
+                      <span className="text-slate-500">Bimodality index:</span>
+                      <span className="text-slate-900 ml-1 font-mono">{data.voidAnalysis.bimodalityIndex}</span>
                     </div>
                   </div>
-                  <p className="text-xs text-slate-400 mt-2">
+                  <p className="text-xs text-slate-500 mt-2">
                     {data.voidAnalysis.voidPersistsGenomeWide
                       ? 'The dynamical exclusion zone (void) persists genome-wide: fewer than 10% of genes fall in the transition zone between real-root and oscillatory regimes.'
                       : 'The void is less distinct at genome-wide scale. Transition zone contains a notable fraction of genes.'}
@@ -4388,37 +4565,37 @@ function GenomeWideEnrichmentPanel() {
               </Card>
 
               {data.poleEnrichment && data.poleEnrichment.length > 0 && (
-                <Card className="bg-slate-800/30 border-slate-700/50">
+                <Card className="bg-slate-50 border-slate-200">
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-white text-sm flex items-center gap-2">
+                    <CardTitle className="text-slate-900 text-sm flex items-center gap-2">
                       <Crosshair size={14} className="text-amber-400" />
                       Pole Enrichment Analysis
                     </CardTitle>
-                    <CardDescription className="text-slate-400 text-xs">
+                    <CardDescription className="text-slate-500 text-xs">
                       Which biological functions are enriched at each dynamical pole?
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
                       {data.poleEnrichment.map(pole => (
-                        <div key={pole.pole} className="border border-slate-700/50 rounded-lg p-3">
+                        <div key={pole.pole} className="border border-slate-200 rounded-lg p-3">
                           <div className="flex items-center gap-2 mb-2">
                             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: POLE_COLORS[pole.pole] || '#666' }} />
-                            <span className="text-white text-sm font-semibold capitalize">{pole.pole}</span>
-                            <span className="text-slate-400 text-xs">({pole.totalGenesInRegion} genes)</span>
+                            <span className="text-slate-900 text-sm font-semibold capitalize">{pole.pole}</span>
+                            <span className="text-slate-500 text-xs">({pole.totalGenesInRegion} genes)</span>
                           </div>
-                          <p className="text-slate-400 text-xs mb-2">{pole.poleDescription}</p>
+                          <p className="text-slate-500 text-xs mb-2">{pole.poleDescription}</p>
                           {pole.topCategories.length > 0 ? (
                             <div className="space-y-1">
                               {pole.topCategories.slice(0, 5).map((cat, i) => (
-                                <div key={i} className="flex items-center justify-between text-xs px-2 py-1 rounded bg-slate-900/50">
-                                  <span className="text-white truncate mr-2">{cat.category}</span>
+                                <div key={i} className="flex items-center justify-between text-xs px-2 py-1 rounded bg-white">
+                                  <span className="text-slate-900 truncate mr-2">{cat.category}</span>
                                   <div className="flex items-center gap-3 flex-shrink-0">
-                                    <span className="text-slate-400">n={cat.count}</span>
-                                    <span className={`font-mono ${cat.enrichment > 1.5 ? 'text-emerald-400' : 'text-slate-300'}`}>
+                                    <span className="text-slate-500">n={cat.count}</span>
+                                    <span className={`font-mono ${cat.enrichment > 1.5 ? 'text-emerald-400' : 'text-slate-600'}`}>
                                       {cat.enrichment}×
                                     </span>
-                                    <span className={`font-mono ${cat.pValue < 0.05 ? 'text-green-400' : 'text-slate-400'}`}>
+                                    <span className={`font-mono ${cat.pValue < 0.05 ? 'text-green-400' : 'text-slate-500'}`}>
                                       p={cat.pValue.toFixed(3)}
                                     </span>
                                   </div>
@@ -4426,7 +4603,7 @@ function GenomeWideEnrichmentPanel() {
                               ))}
                             </div>
                           ) : (
-                            <p className="text-slate-400 text-xs italic">No enriched categories in this region</p>
+                            <p className="text-slate-500 text-xs italic">No enriched categories in this region</p>
                           )}
                         </div>
                       ))}
@@ -4436,9 +4613,9 @@ function GenomeWideEnrichmentPanel() {
               )}
 
               {significantResults.length > 0 && (
-                <Card className="bg-slate-800/30 border-slate-700/50">
+                <Card className="bg-slate-50 border-slate-200">
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-white text-sm flex items-center gap-2">
+                    <CardTitle className="text-slate-900 text-sm flex items-center gap-2">
                       <Filter size={14} className="text-cyan-400" />
                       Significant Clustering Categories (p{'<'}0.05)
                     </CardTitle>
@@ -4447,7 +4624,7 @@ function GenomeWideEnrichmentPanel() {
                     <div className="overflow-x-auto">
                       <table className="w-full text-xs">
                         <thead>
-                          <tr className="text-slate-400 border-b border-slate-700">
+                          <tr className="text-slate-500 border-b border-slate-200">
                             <th className="text-left py-1 px-2">Category</th>
                             <th className="text-left py-1 px-1">Source</th>
                             <th className="text-right py-1 px-1">n</th>
@@ -4459,8 +4636,8 @@ function GenomeWideEnrichmentPanel() {
                         </thead>
                         <tbody>
                           {significantResults.slice(0, 20).map((r, i) => (
-                            <tr key={i} className="border-b border-slate-700/50 hover:bg-slate-800/30">
-                              <td className="py-1 px-2 text-white font-medium">{r.category}</td>
+                            <tr key={i} className="border-b border-slate-200 hover:bg-slate-50">
+                              <td className="py-1 px-2 text-slate-900 font-medium">{r.category}</td>
                               <td className="py-1 px-1">
                                 <Badge className={`text-[9px] px-1 py-0 ${
                                   r.annotationSource === 'GO_BP' ? 'bg-blue-900/50 text-blue-300' :
@@ -4468,15 +4645,15 @@ function GenomeWideEnrichmentPanel() {
                                   'bg-purple-900/50 text-purple-300'
                                 }`}>{r.annotationSource}</Badge>
                               </td>
-                              <td className="py-1 px-1 text-right text-slate-300 font-mono">{r.nGenesMatched}</td>
-                              <td className="py-1 px-1 text-right text-slate-300 font-mono">{r.meanEigenvalue.toFixed(3)}</td>
+                              <td className="py-1 px-1 text-right text-slate-600 font-mono">{r.nGenesMatched}</td>
+                              <td className="py-1 px-1 text-right text-slate-600 font-mono">{r.meanEigenvalue.toFixed(3)}</td>
                               <td className="py-1 px-1 text-right font-mono">
-                                <span className={r.clusteringRatio < 0.9 ? 'text-emerald-400' : 'text-slate-400'}>
+                                <span className={r.clusteringRatio < 0.9 ? 'text-emerald-400' : 'text-slate-500'}>
                                   {r.clusteringRatio.toFixed(3)}
                                 </span>
                               </td>
                               <td className="py-1 px-1 text-right font-mono text-green-400">{r.permutationP.toFixed(4)}</td>
-                              <td className="py-1 px-2 text-slate-400">{r.dominantPole}</td>
+                              <td className="py-1 px-2 text-slate-500">{r.dominantPole}</td>
                             </tr>
                           ))}
                         </tbody>
@@ -4487,10 +4664,10 @@ function GenomeWideEnrichmentPanel() {
               )}
 
               {topClustered.length > 0 && (
-                <Card className="bg-slate-800/30 border-slate-700/50">
+                <Card className="bg-slate-50 border-slate-200">
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-white text-sm">Category Clustering Visualization</CardTitle>
-                    <CardDescription className="text-slate-400 text-xs">
+                    <CardTitle className="text-slate-900 text-sm">Category Clustering Visualization</CardTitle>
+                    <CardDescription className="text-slate-500 text-xs">
                       Mean root-space position of each category. Tighter clustering = lower ratio.
                     </CardDescription>
                   </CardHeader>
@@ -4519,11 +4696,11 @@ function GenomeWideEnrichmentPanel() {
                             if (!active || !payload?.[0]) return null;
                             const d = payload[0].payload as EnrichmentCategoryResult;
                             return (
-                              <div className="bg-slate-900 border border-slate-600 rounded p-2 text-xs max-w-xs">
-                                <p className="text-white font-semibold">{d.category}</p>
-                                <p className="text-slate-400">n={d.nGenesMatched} | |λ|={d.meanEigenvalue.toFixed(3)}</p>
-                                <p className="text-slate-400">Cluster ratio: {d.clusteringRatio.toFixed(3)} | p={d.permutationP.toFixed(4)}</p>
-                                <p className="text-slate-400">Pole: {d.dominantPole}</p>
+                              <div className="bg-slate-50 border border-slate-300 rounded p-2 text-xs max-w-xs">
+                                <p className="text-slate-900 font-semibold">{d.category}</p>
+                                <p className="text-slate-500">n={d.nGenesMatched} | |λ|={d.meanEigenvalue.toFixed(3)}</p>
+                                <p className="text-slate-500">Cluster ratio: {d.clusteringRatio.toFixed(3)} | p={d.permutationP.toFixed(4)}</p>
+                                <p className="text-slate-500">Pole: {d.dominantPole}</p>
                               </div>
                             );
                           }}
@@ -4544,12 +4721,12 @@ function GenomeWideEnrichmentPanel() {
                 </Card>
               )}
 
-              <Card className="bg-slate-800/30 border-slate-700/50">
+              <Card className="bg-slate-50 border-slate-200">
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-white text-sm">Analysis Summary</CardTitle>
+                  <CardTitle className="text-slate-900 text-sm">Analysis Summary</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <pre className="text-xs text-slate-300 whitespace-pre-wrap font-mono bg-slate-900/50 p-3 rounded" data-testid="text-enrichment-summary">
+                  <pre className="text-xs text-slate-600 whitespace-pre-wrap font-mono bg-white p-3 rounded" data-testid="text-enrichment-summary">
                     {data.summary}
                   </pre>
                 </CardContent>
@@ -4592,11 +4769,11 @@ export default function RootSpace() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="h-8 w-8 animate-spin text-cyan-400 mx-auto mb-3" />
-          <p className="text-slate-400">Running root-space geometry analysis...</p>
-          <p className="text-xs text-slate-400 mt-1">Computing AR(2) roots, null distributions, and enrichment tests</p>
+          <p className="text-slate-500">Running root-space geometry analysis...</p>
+          <p className="text-xs text-slate-500 mt-1">Computing AR(2) roots, null distributions, and enrichment tests</p>
         </div>
       </div>
     );
@@ -4604,7 +4781,7 @@ export default function RootSpace() {
 
   if (error || !data) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 p-6">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 p-6">
         <div className="max-w-2xl mx-auto mt-20">
           <Alert className="bg-red-900/30 border-red-700/50">
             <AlertCircle className="h-4 w-4 text-red-400" />
@@ -4622,11 +4799,11 @@ export default function RootSpace() {
   const verdictStrength = summary.overallVerdict.startsWith('STRONG') ? 'emerald' : summary.overallVerdict.startsWith('MODERATE') ? 'amber' : 'red';
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex items-center justify-between mb-6">
           <Link href="/">
-            <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white" data-testid="link-back-home">
+            <Button variant="ghost" size="sm" className="text-slate-500 hover:text-slate-700" data-testid="link-back-home">
               <ArrowLeft size={16} className="mr-1" />
               Home
             </Button>
@@ -4636,7 +4813,7 @@ export default function RootSpace() {
             size="sm"
             onClick={handleExport}
             disabled={isExporting}
-            className="text-slate-300 border-slate-600"
+            className="text-slate-600 border-slate-300"
             data-testid="button-export-figure"
           >
             {isExporting ? <Loader2 size={14} className="mr-2 animate-spin" /> : <Camera size={14} className="mr-2" />}
@@ -4646,15 +4823,15 @@ export default function RootSpace() {
 
         <div className="mb-6" ref={exportRef}>
           <div className="flex items-center gap-3 mb-2">
-            <h1 className="text-3xl font-bold text-white" data-testid="text-page-title">
+            <h1 className="text-3xl font-bold text-slate-900" data-testid="text-page-title">
               AR(2) Root-Space Geometry & φ-Enrichment
             </h1>
             <span className="px-2 py-0.5 text-xs font-semibold rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">EXPLORATORY</span>
           </div>
-          <p className="text-slate-400 max-w-3xl">
+          <p className="text-slate-500 max-w-3xl">
             Maps AR(2) coefficients (β₁, β₂) to root space (r, θ), visualizes the stationarity triangle, 
             tests for golden-mean proximity enrichment against null distributions, and analyzes perturbation shifts 
-            between WT and disease/disruption conditions. Golden-mean proximity is borderline (p=0.105) and should be treated as hypothesis-generating. The dedicated Fibonacci analysis is in the separate Fibonacci Reply package.
+            between WT and disease/disruption conditions. Golden-mean proximity enrichment is not statistically significant genome-wide (p=0.154) and should be treated as hypothesis-generating only. The dedicated Fibonacci analysis is in the separate Fibonacci Reply package.
           </p>
           <Link href="/crypt-villus">
             <Button variant="outline" size="sm" className="mt-2 text-amber-400 border-amber-700 hover:bg-amber-900/30" data-testid="link-crypt-villus">
@@ -4677,10 +4854,10 @@ export default function RootSpace() {
 
         <HowTo
           title="Root-Space Geometry"
-          summary="Maps AR(2) model coefficients into root space, where each gene becomes a point defined by its radial distance (eigenvalue modulus) and angle (oscillation frequency). Three interpretive overlays — Waddington Landscape, Phase Portrait, and Functional Geography — give different biological perspectives on the same geometry."
+          summary="Maps AR(2) model coefficients into root space, where each gene becomes a point defined by its radial distance (eigenvalue modulus) and angle (oscillation frequency). Three interpretive overlays — Waddington Landscape, Dynamical Regimes, and Functional Geography — give different biological perspectives on the same geometry."
           steps={[
-            { label: "Explore the scatter plot", detail: "Each dot is a gene plotted by its AR(2) root coordinates. Clock genes (blue) and target genes (orange) should separate radially." },
-            { label: "Switch overlays", detail: "Use the tabs to view the same data through Waddington, Phase Portrait, or Functional Geography frameworks." },
+            { label: "Explore the scatter plot", detail: "Each dot is a gene plotted by its AR(2) root coordinates. Clock genes (cyan) and target genes (pink) should separate radially." },
+            { label: "Switch overlays", detail: "Use the tabs to view the same data through Waddington Landscape, Dynamical Regimes, or Functional Geography frameworks." },
             { label: "Search genes", detail: "Type a gene name to highlight it in the plot and see its exact coordinates and eigenvalue." },
             { label: "Compare datasets", detail: "Use the Landscape Comparison tab to see side-by-side density maps across conditions." }
           ]}
@@ -4688,18 +4865,18 @@ export default function RootSpace() {
 
         <Card className={`mb-6 bg-${verdictStrength}-900/20 border-${verdictStrength}-700/50`}>
           <CardHeader>
-            <CardTitle className="text-white flex items-center gap-2">
+            <CardTitle className="text-slate-900 flex items-center gap-2">
               <Atom size={20} className={`text-${verdictStrength}-400`} />
               Overall Verdict
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className={`text-${verdictStrength}-300 text-sm`} data-testid="text-overall-verdict">{summary.overallVerdict}</p>
-            <div className="flex flex-wrap gap-6 mt-3 text-xs text-slate-400">
-              <span>Genes: <span className="text-white font-mono">{summary.totalGenes}</span></span>
-              <span>Datasets: <span className="text-white font-mono">{summary.totalDatasets}</span></span>
-              <span>Mean D_φ: <span className="text-white font-mono">{summary.meanDPhi}</span></span>
-              <span>φ-enriched: <span className="text-white font-mono">{(summary.phiEnrichedFraction * 100).toFixed(1)}%</span></span>
+            <div className="flex flex-wrap gap-6 mt-3 text-xs text-slate-500">
+              <span>Genes: <span className="text-slate-900 font-mono">{summary.totalGenes}</span></span>
+              <span>Datasets: <span className="text-slate-900 font-mono">{summary.totalDatasets}</span></span>
+              <span>Mean D_φ: <span className="text-slate-900 font-mono">{summary.meanDPhi}</span></span>
+              <span>φ-enriched: <span className="text-slate-900 font-mono">{(summary.phiEnrichedFraction * 100).toFixed(1)}%</span></span>
             </div>
           </CardContent>
         </Card>
@@ -4721,14 +4898,14 @@ export default function RootSpace() {
           <RootSpaceScatterPlot data={data} filters={filters} toggleDataset={toggleDataset} overlayGenes={genomeOverlayGenes} reportGeneSet={geneSet.size > 0 ? geneSet : undefined} />
         </div>
 
-        <Card className="mb-6 bg-slate-900/50 border-slate-700" data-testid="card-reading-the-charts">
+        <Card className="mb-6 bg-white border-slate-200" data-testid="card-reading-the-charts">
           <CardHeader className="pb-2">
             <CardTitle className="text-foreground flex items-center gap-2 text-lg">
               <BookOpen size={18} className="text-cyan-400" />
               Reading These Charts — A Plain-Language Guide
             </CardTitle>
           </CardHeader>
-          <CardContent className="text-sm text-slate-400 space-y-4">
+          <CardContent className="text-sm text-slate-500 space-y-4">
             <p className="text-foreground font-medium">What we are trying to see:</p>
             <p>
               Every gene in the dataset gets two numbers (β₁ and β₂) that describe how its expression at one timepoint 
@@ -4802,6 +4979,31 @@ export default function RootSpace() {
           <FrameworkOverlays data={data} filters={filters} />
         </div>
 
+        <Card className="mb-6 bg-amber-950/20 border-amber-700/40">
+          <CardContent className="pt-5 pb-4">
+            <div className="flex items-start gap-3">
+              <span className="text-amber-400 text-lg mt-0.5">⚠</span>
+              <div className="space-y-3 text-sm text-slate-600 leading-relaxed">
+                <p className="font-semibold text-amber-300">Three distinct claims — only one is well-supported</p>
+                <div className="space-y-2">
+                  <div className="flex gap-2">
+                    <span className="shrink-0 text-green-400 font-bold">✓ Confirmed:</span>
+                    <span><strong className="text-slate-900">AR(2) and Fibonacci sequences share the same recurrence structure.</strong> The Fibonacci sequence F(n) = F(n−1) + F(n−2) is a special case of an AR(2) process with (φ₁=1, φ₂=1). The golden ratio φ is the dominant eigenvalue of that specific recurrence. This is a mathematical fact with no empirical uncertainty.</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <span className="shrink-0 text-yellow-400 font-bold">⚠ Conditional:</span>
+                    <span><strong className="text-slate-900">φ₁ ≈ 1.618 in circadian datasets is a mathematical consequence of sampling structure,</strong> not an independent biological discovery. When a 24h rhythm is measured at 2h intervals, the AR(2) characteristic equation produces specific coefficient values as a function of that period/sampling ratio. The proximity to 1.618 depends entirely on T/Δt — as demonstrated in the ODE validation page's sampling-rate sensitivity chart.</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <span className="shrink-0 text-red-400 font-bold">✗ Not supported:</span>
+                    <span><strong className="text-slate-900">The claim that circadian genes are biologically enriched near the golden ratio locus is not statistically supported.</strong> Genome-wide enrichment p = 0.154 (not significant). The 1.86× apparent enrichment over the analytical null reflects the mathematical sampling structure described above, not a biological preference for golden-ratio dynamics. The D_φ analysis below is exploratory only — hypothesis-generating, not confirmatory.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         <div className="mb-6">
           <DPhiHistogram data={data} />
         </div>
@@ -4816,17 +5018,17 @@ export default function RootSpace() {
         <TestResultsPanel tests={data.enrichmentTests} shifts={data.perturbationShifts} />
 
         {data.categoryHierarchy && (
-          <Card className="mt-6 bg-slate-900/80 border-slate-700">
+          <Card className="mt-6 bg-white border-slate-200">
             <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
+              <CardTitle className="text-slate-900 flex items-center gap-2">
                 <BarChart3 size={18} /> Multi-Category Eigenvalue Hierarchy
               </CardTitle>
-              <CardDescription className="text-slate-400">
+              <CardDescription className="text-slate-500">
                 Kruskal-Wallis test across {data.categoryHierarchy.hierarchy.length} gene categories
                 {' '}(p = {data.categoryHierarchy.kruskalWallisP.toFixed(4)})
                 {data.categoryHierarchy.kruskalWallisSignificant ?
                   <Badge className="ml-2 bg-green-900/50 text-green-300 border-green-700">Significant</Badge> :
-                  <Badge className="ml-2 bg-slate-700 text-slate-400">Not Significant</Badge>}
+                  <Badge className="ml-2 bg-slate-200 text-slate-500">Not Significant</Badge>}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -4837,14 +5039,14 @@ export default function RootSpace() {
                     const pct = (h.pooledMeanEigenvalue / maxEv) * 100;
                     return (
                       <div key={h.category} className="flex items-center gap-2" data-testid={`hierarchy-row-${h.category}`}>
-                        <span className="text-xs text-slate-400 w-5 text-right">#{h.rank}</span>
+                        <span className="text-xs text-slate-500 w-5 text-right">#{h.rank}</span>
                         <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: h.color }} />
-                        <span className="text-xs text-white w-24 truncate">{h.label}</span>
-                        <div className="flex-1 h-5 bg-slate-800 rounded overflow-hidden">
+                        <span className="text-xs text-slate-900 w-24 truncate">{h.label}</span>
+                        <div className="flex-1 h-5 bg-slate-100 rounded overflow-hidden">
                           <div className="h-full rounded" style={{ width: `${pct}%`, backgroundColor: h.color, opacity: 0.7 }} />
                         </div>
-                        <span className="text-xs font-mono text-slate-300 w-16 text-right">|λ|={h.pooledMeanEigenvalue.toFixed(3)}</span>
-                        <span className="text-[10px] text-slate-400 w-12 text-right">n={h.pooledCount}</span>
+                        <span className="text-xs font-mono text-slate-600 w-16 text-right">|λ|={h.pooledMeanEigenvalue.toFixed(3)}</span>
+                        <span className="text-[10px] text-slate-500 w-12 text-right">n={h.pooledCount}</span>
                       </div>
                     );
                   })}
@@ -4852,11 +5054,11 @@ export default function RootSpace() {
 
                 {data.categoryHierarchy.pairwiseTests.filter(t => t.significant).length > 0 && (
                   <div className="mt-4">
-                    <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Significant Pairwise Comparisons</h4>
+                    <h4 className="text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">Significant Pairwise Comparisons</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
                       {data.categoryHierarchy.pairwiseTests.filter(t => t.significant).slice(0, 12).map((t, i) => (
-                        <div key={i} className="flex items-center gap-1 text-xs text-slate-400 px-2 py-1 bg-slate-800/50 rounded">
-                          <span className="text-white">{t.direction}</span>
+                        <div key={i} className="flex items-center gap-1 text-xs text-slate-500 px-2 py-1 bg-slate-50 rounded">
+                          <span className="text-slate-900">{t.direction}</span>
                           <span className="ml-auto font-mono text-green-400">p={t.mannWhitneyP.toFixed(4)}</span>
                         </div>
                       ))}
@@ -4869,37 +5071,37 @@ export default function RootSpace() {
         )}
 
         {data.methodology && (
-          <Card className="mt-6 bg-slate-900/80 border-slate-700/50">
+          <Card className="mt-6 bg-white border-slate-200">
             <CardHeader>
-              <CardTitle className="text-white text-lg flex items-center gap-2">
+              <CardTitle className="text-slate-900 text-lg flex items-center gap-2">
                 <FlaskConical size={18} className="text-cyan-400" />
                 Methodology & Reproducibility
               </CardTitle>
-              <CardDescription className="text-slate-400">
+              <CardDescription className="text-slate-500">
                 Transparency notes for peer review
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4 text-sm">
               <div>
-                <span className="text-slate-300 font-medium">RNG Seed:</span>
-                <span className="text-white font-mono ml-2" data-testid="text-rng-seed">{data.methodology.rngSeed}</span>
-                <span className="text-slate-400 ml-2">(deterministic — all surrogate generation and permutation tests are reproducible)</span>
+                <span className="text-slate-600 font-medium">RNG Seed:</span>
+                <span className="text-slate-900 font-mono ml-2" data-testid="text-rng-seed">{data.methodology.rngSeed}</span>
+                <span className="text-slate-500 ml-2">(deterministic — all surrogate generation and permutation tests are reproducible)</span>
               </div>
               <div>
-                <span className="text-slate-300 font-medium">Root Handling:</span>
-                <p className="text-slate-400 mt-1">{data.methodology.rootHandling}</p>
+                <span className="text-slate-600 font-medium">Root Handling:</span>
+                <p className="text-slate-500 mt-1">{data.methodology.rootHandling}</p>
               </div>
               <div>
-                <span className="text-slate-300 font-medium">Null Model Hierarchy:</span>
-                <p className="text-slate-400 mt-1">{data.methodology.nullHierarchy}</p>
+                <span className="text-slate-600 font-medium">Null Model Hierarchy:</span>
+                <p className="text-slate-500 mt-1">{data.methodology.nullHierarchy}</p>
               </div>
               <div>
-                <span className="text-slate-300 font-medium">Multiple Testing:</span>
-                <p className="text-slate-400 mt-1">{data.methodology.multipleTestingNote}</p>
+                <span className="text-slate-600 font-medium">Multiple Testing:</span>
+                <p className="text-slate-500 mt-1">{data.methodology.multipleTestingNote}</p>
               </div>
               <div>
-                <span className="text-slate-300 font-medium">Excluded Datasets:</span>
-                <p className="text-slate-400 mt-1">{data.methodology.excludedDatasets}</p>
+                <span className="text-slate-600 font-medium">Excluded Datasets:</span>
+                <p className="text-slate-500 mt-1">{data.methodology.excludedDatasets}</p>
               </div>
             </CardContent>
           </Card>
@@ -4907,19 +5109,20 @@ export default function RootSpace() {
 
         <FullResultsText data={data} />
 
-        <div className="mt-8 bg-slate-900/80 border border-slate-700 rounded-lg p-6">
-          <h3 className="text-white font-bold mb-3">Mathematical Framework</h3>
-          <div className="text-sm text-slate-400 space-y-2">
-            <p><span className="text-slate-300">AR(2) Model:</span> x_t = β₁·x_(t-1) + β₂·x_(t-2) + ε_t</p>
-            <p><span className="text-slate-300">Characteristic Polynomial:</span> λ² - β₁λ - β₂ = 0. Roots λ₁,₂ determine dynamics.</p>
-            <p><span className="text-slate-300">Stationarity Triangle:</span> β₂ {'>'} -1, β₂ {'<'} 1-β₁, β₂ {'<'} 1+β₁. All stationary AR(2) coefficients lie inside this triangle.</p>
-            <p><span className="text-slate-300">Oscillatory Region:</span> Below parabola β₂ = -β₁²/4 (complex roots, damped oscillations).</p>
-            <p><span className="text-slate-300">Fibonacci Reference:</span> (β₁,β₂) = (1,1) yields λ = φ ≈ 1.618. This is <em>outside</em> the stationarity triangle — exponentially unstable. Biology must damp Fibonacci-like dynamics to remain stable.</p>
-            <p><span className="text-slate-300">D_φ Metric:</span> Weighted distance in root space to a φ-reference geometry. Combines log-damping distance and angular distance to θ_φ = 2π/φ.</p>
-            <p><span className="text-slate-300">Mapping Sensitivity:</span> θ_φ = 2π/φ stress-tested against 2π/φ² (137.5°) and π/φ (111.2°). Production mapping shows modest enrichment (1.86×) over analytical null, but genome-wide gene-level enrichment is not statistically significant (p = 0.154). Pair-counting metrics inflate apparent enrichment; treat as exploratory.</p>
-            <p><span className="text-slate-300">Null Model 1:</span> Phase-randomized surrogates (preserves power spectrum, destroys temporal phase structure).</p>
-            <p><span className="text-slate-300">Null Model 2:</span> Uniform random draws from the stationarity triangle (theoretical comparator).</p>
-            <p className="text-slate-400 mt-3 italic">
+        <div className="mt-8 bg-white border border-slate-200 rounded-lg p-6">
+          <h3 className="text-slate-900 font-bold mb-3">Mathematical Framework</h3>
+          <div className="text-sm text-slate-500 space-y-2">
+            <p><span className="text-slate-600">AR(2) Model:</span> x_t = β₁·x_(t-1) + β₂·x_(t-2) + ε_t</p>
+            <p><span className="text-slate-600">Characteristic Polynomial:</span> λ² - β₁λ - β₂ = 0. Roots λ₁,₂ determine dynamics.</p>
+            <p><span className="text-slate-600">Stationarity Triangle:</span> β₂ {'>'} -1, β₂ {'<'} 1-β₁, β₂ {'<'} 1+β₁. All stationary AR(2) coefficients lie inside this triangle.</p>
+            <p><span className="text-slate-600">Oscillatory Region:</span> Below parabola β₂ = -β₁²/4 (complex roots, damped oscillations).</p>
+            <p><span className="text-slate-600">Fibonacci Reference:</span> (β₁,β₂) = (1,1) yields λ = φ ≈ 1.618. This is <em>outside</em> the stationarity triangle — exponentially unstable. Biology must damp Fibonacci-like dynamics to remain stable.</p>
+            <p><span className="text-slate-600">Sampling-Rate Dependence:</span> φ₁ values near 1.618 arise mathematically when the period-to-sampling-interval ratio satisfies a specific condition (T/Δt ≈ 10 for 2h sampling of 24h rhythms). This is a mathematical consequence of the AR(2) characteristic equation, not an independent biological finding. See the ODE validation page for the derivation and sampling-rate sensitivity chart.</p>
+            <p><span className="text-slate-600">D_φ Metric:</span> Weighted distance in root space to a φ-reference geometry. Combines log-damping distance and angular distance to θ_φ = 2π/φ.</p>
+            <p><span className="text-slate-600">Mapping Sensitivity:</span> θ_φ = 2π/φ stress-tested against 2π/φ² (137.5°) and π/φ (111.2°). Production mapping shows modest enrichment (1.86×) over analytical null, but genome-wide gene-level enrichment is not statistically significant (p = 0.154). Pair-counting metrics inflate apparent enrichment; treat as exploratory.</p>
+            <p><span className="text-slate-600">Null Model 1:</span> Phase-randomized surrogates (preserves power spectrum, destroys temporal phase structure).</p>
+            <p><span className="text-slate-600">Null Model 2:</span> Uniform random draws from the stationarity triangle (theoretical comparator).</p>
+            <p className="text-slate-500 mt-3 italic">
               Validation hierarchy: (1) AR(2) sufficiency confirmed, (2) root-space structure tested against nulls, 
               (3) perturbation shifts quantified, (4) φ as interpretive axis only if supported by data.
             </p>

@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { generateProcessedTable, GeneResult } from './processed-tables';
-import { fitAR2 as fitAR2Canonical } from './ar2-shared';
+import { ENSEMBL_TO_SYMBOL } from './gene-categories';
 
 interface CosinorResult {
   amplitude: number;
@@ -100,28 +100,6 @@ function lgamma(x: number): number {
   for (let i = 1; i < 9; i++) a += c[i] / (x + i);
   return 0.5 * Math.log(2 * Math.PI) + (x + 0.5) * Math.log(t) - t + Math.log(a);
 }
-
-const ENSEMBL_TO_SYMBOL: Record<string, string> = {
-  'ENSMUSG00000020893': 'Per1', 'ENSMUSG00000055866': 'Per2', 'ENSMUSG00000028957': 'Per3',
-  'ENSMUSG00000020038': 'Cry1', 'ENSMUSG00000068742': 'Cry2',
-  'ENSMUSG00000029238': 'Clock', 'ENSMUSG00000055116': 'Arntl',
-  'ENSMUSG00000020889': 'Nr1d1', 'ENSMUSG00000021775': 'Nr1d2',
-  'ENSMUSG00000032238': 'Rora', 'ENSMUSG00000028150': 'Rorc',
-  'ENSMUSG00000059824': 'Dbp', 'ENSMUSG00000022389': 'Tef',
-  'ENSMUSG00000026077': 'Npas2',
-  'ENSMUSG00000022346': 'Myc', 'ENSMUSG00000070348': 'Ccnd1',
-  'ENSMUSG00000041431': 'Ccnb1', 'ENSMUSG00000019942': 'Cdk1',
-  'ENSMUSG00000031016': 'Wee1', 'ENSMUSG00000023067': 'Cdkn1a',
-  'ENSMUSG00000020140': 'Lgr5', 'ENSMUSG00000000142': 'Axin2',
-  'ENSMUSG00000006932': 'Ctnnb1', 'ENSMUSG00000005871': 'Apc',
-  'ENSMUSG00000059552': 'Trp53', 'ENSMUSG00000020184': 'Mdm2',
-  'ENSMUSG00000034218': 'Atm', 'ENSMUSG00000029521': 'Chek2',
-  'ENSMUSG00000057329': 'Bcl2', 'ENSMUSG00000003873': 'Bax',
-  'ENSMUSG00000000440': 'Pparg', 'ENSMUSG00000020063': 'Sirt1',
-  'ENSMUSG00000021109': 'Hif1a',
-  'ENSMUSG00000002068': 'Ccne1', 'ENSMUSG00000028399': 'Ccne2',
-  'ENSMUSG00000025544': 'Mcm6', 'ENSMUSG00000031004': 'Mki67',
-};
 
 const HUMAN_GENE_NORMALIZE: Record<string, string> = {
   'BMAL1': 'ARNTL', 'TP53': 'TP53', 'Trp53': 'TP53',
@@ -383,9 +361,36 @@ const FUNCTIONAL_CATEGORIES_HUMAN: Record<string, string[]> = {
 };
 
 function fitAR2Local(series: number[]): { phi1: number; phi2: number; eigenvalue: number; r2: number } {
-  const result = fitAR2Canonical(series);
-  if (!result) return { phi1: 0, phi2: 0, eigenvalue: 0, r2: 0 };
-  return { phi1: +result.phi1.toFixed(4), phi2: +result.phi2.toFixed(4), eigenvalue: result.eigenvalue, r2: result.r2 };
+  const n = series.length;
+  if (n < 5) return { phi1: 0, phi2: 0, eigenvalue: 0, r2: 0 };
+  const mean = series.reduce((a, b) => a + b, 0) / n;
+  const y = series.map(x => x - mean);
+  const Y = y.slice(2);
+  const Y1 = y.slice(1, n - 1);
+  const Y2 = y.slice(0, n - 2);
+  let sumY1Y1 = 0, sumY2Y2 = 0, sumY1Y2 = 0, sumYY1 = 0, sumYY2 = 0;
+  for (let i = 0; i < Y.length; i++) {
+    sumY1Y1 += Y1[i] * Y1[i]; sumY2Y2 += Y2[i] * Y2[i]; sumY1Y2 += Y1[i] * Y2[i];
+    sumYY1 += Y[i] * Y1[i]; sumYY2 += Y[i] * Y2[i];
+  }
+  const det = sumY1Y1 * sumY2Y2 - sumY1Y2 * sumY1Y2;
+  if (Math.abs(det) < 1e-15) return { phi1: 0, phi2: 0, eigenvalue: 0, r2: 0 };
+  const phi1 = (sumYY1 * sumY2Y2 - sumYY2 * sumY1Y2) / det;
+  const phi2 = (sumYY2 * sumY1Y1 - sumYY1 * sumY1Y2) / det;
+  const disc = phi1 * phi1 + 4 * phi2;
+  let eigenvalue: number;
+  if (disc >= 0) {
+    const l1 = (phi1 + Math.sqrt(disc)) / 2;
+    const l2 = (phi1 - Math.sqrt(disc)) / 2;
+    eigenvalue = Math.max(Math.abs(l1), Math.abs(l2));
+  } else {
+    eigenvalue = Math.sqrt(-phi2);
+  }
+  const ssRes = Y.reduce((s, yi, i) => s + (yi - phi1 * Y1[i] - phi2 * Y2[i]) ** 2, 0);
+  const meanY = Y.reduce((a, b) => a + b, 0) / Y.length;
+  const ssTot = Y.reduce((s, yi) => s + (yi - meanY) ** 2, 0);
+  const r2 = ssTot > 0 ? Math.max(0, 1 - ssRes / ssTot) : 0;
+  return { phi1: +phi1.toFixed(4), phi2: +phi2.toFixed(4), eigenvalue, r2 };
 }
 
 function computeRootsLocal(phi1: number, phi2: number): { r: number; theta: number; isComplex: boolean } {

@@ -101,25 +101,39 @@ function MonteCarloSection() {
         <Card>
           <CardHeader className="pb-2"><CardTitle className="text-sm">Overall Bias</CardTitle></CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold" data-testid="text-mc-overall-bias">{summary.keyFindings?.overallBias || 'N/A'}</div>
+            <div className="text-2xl font-bold" data-testid="text-mc-overall-bias">
+              {summary.overallMedianBias != null ? summary.overallMedianBias.toFixed(3) : 'N/A'}
+            </div>
+            <div className="text-xs text-gray-500">median |bias| across all scenarios</div>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2"><CardTitle className="text-sm">Best Recovery</CardTitle></CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold" data-testid="text-mc-best-recovery">{summary.keyFindings?.bestRecovery || 'N/A'}</div>
+            <div className="text-2xl font-bold" data-testid="text-mc-best-recovery">
+              {recoveryResults.length > 0
+                ? (Math.max(...recoveryResults.map((r: any) => r.recoveryWithin10pct)) * 100).toFixed(0) + '%'
+                : 'N/A'}
+            </div>
+            <div className="text-xs text-gray-500">max recovery within 10% of true |λ|</div>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2"><CardTitle className="text-sm">Min Sample Size</CardTitle></CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold" data-testid="text-mc-min-n">{summary.keyFindings?.minSampleSize || 'N/A'}</div>
+            <div className="text-2xl font-bold" data-testid="text-mc-min-n">
+              {summary.minSampleForReliable != null ? `N=${summary.minSampleForReliable}` : 'N/A'}
+            </div>
+            <div className="text-xs text-gray-500">for reliable estimation (RMSE &lt; 0.05)</div>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2"><CardTitle className="text-sm">Robustness</CardTitle></CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-sm" data-testid="text-mc-robustness">{summary.keyFindings?.robustness || 'N/A'}</div>
+            <div className="text-2xl font-bold text-sm" data-testid="text-mc-robustness">
+              {summary.maxNoiseForReliable != null ? `σ≤${summary.maxNoiseForReliable}` : 'N/A'}
+            </div>
+            <div className="text-xs text-gray-500">max noise level with reliable recovery</div>
           </CardContent>
         </Card>
       </div>
@@ -148,8 +162,8 @@ function MonteCarloSection() {
           <ResponsiveContainer width="100%" height={300}>
             <ScatterChart>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="noise" name="Noise σ" label={{ value: "Noise Level (σ)", position: "insideBottom", offset: -5 }} />
-              <YAxis dataKey="bias" name="Bias" label={{ value: "Bias", angle: -90, position: "insideLeft" }} />
+              <XAxis type="number" dataKey="noise" name="Noise σ" domain={[0, 1.1]} tickCount={6} label={{ value: "Noise Level (σ)", position: "insideBottom", offset: -5 }} />
+              <YAxis type="number" dataKey="bias" name="Bias" label={{ value: "Bias", angle: -90, position: "insideLeft" }} />
               <Tooltip />
               <Scatter data={biasHeatmapData} fill="#8884d8">
                 {biasHeatmapData.map((entry: any, i: number) => (
@@ -437,17 +451,17 @@ function HeadToHeadSection() {
             <div>
               <div className="text-sm text-gray-500">Clock Genes</div>
               <div className="text-xl font-bold text-red-600">{summary.ar2_clockMedian.toFixed(3)}</div>
-              <div className="text-xs text-gray-400">median |λ|</div>
+              <div className="text-xs text-slate-500">median |λ|</div>
             </div>
             <div>
               <div className="text-sm text-gray-500">Target Genes</div>
               <div className="text-xl font-bold text-yellow-600">{summary.ar2_targetMedian.toFixed(3)}</div>
-              <div className="text-xs text-gray-400">median |λ|</div>
+              <div className="text-xs text-slate-500">median |λ|</div>
             </div>
             <div>
               <div className="text-sm text-gray-500">Other Genes</div>
               <div className="text-xl font-bold text-gray-600">{summary.ar2_otherMedian.toFixed(3)}</div>
-              <div className="text-xs text-gray-400">median |λ|</div>
+              <div className="text-xs text-slate-500">median |λ|</div>
             </div>
           </div>
         </CardContent>

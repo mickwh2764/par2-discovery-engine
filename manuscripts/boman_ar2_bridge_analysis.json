@@ -1,0 +1,59 @@
+{
+  "analysis": "Boman C-P-D to AR(2) Eigenvalue Bridge (CORRECTED)",
+  "date": "2026-02-20",
+  "conditions": {
+    "Normal": {
+      "k1": 0.17,
+      "k2": 1.0,
+      "k5": 0.22,
+      "k4": 0.2576,
+      "omega": 0.1934,
+      "period_hours": 32.5,
+      "C_pct": 22,
+      "P_pct": 17,
+      "D_pct": 66
+    },
+    "FAP": {
+      "k1": 0.15,
+      "k2": 0.625,
+      "k5": 0.0846,
+      "k4": 0.161,
+      "omega": 0.1127,
+      "period_hours": 55.8,
+      "C_pct": 14,
+      "P_pct": 24,
+      "D_pct": 62
+    },
+    "Adenoma": {
+      "k1": 0.1421,
+      "k2": 0.2632,
+      "k5": 0.0415,
+      "k4": 0.0293,
+      "omega": 0.0768,
+      "period_hours": 81.8,
+      "C_pct": 16,
+      "P_pct": 54,
+      "D_pct": 29
+    }
+  },
+  "identifiability": {
+    "k1_k5_product": "Identifiable from \u03c9 = \u221a(k1\u00b7k5) \u2014 but k1 and k5 individually are NOT",
+    "k2": "INVISIBLE to linearized eigenvalue analysis \u2014 changes equilibrium only",
+    "k4": "Partially detectable via D-observable AR structure (driven filter of C-P oscillation)",
+    "k3": "Affects D-compartment via k3\u00b7P forcing term; partially detectable through D-markers"
+  },
+  "rule_distinguishability": {
+    "Rules_1_3_5": "INDISTINGUISHABLE \u2014 all change \u03c9 via k1\u00b7k5 product",
+    "Rule_2": "INVISIBLE in linearized model \u2014 requires nonlinear analysis",
+    "Rule_4": "PARTIALLY detectable via D-marker gene AR structure"
+  },
+  "critical_limitation": "Boman key disease driver (k2 decrease) is invisible to linearized AR(2). The framework detects \u03c9 changes (k1\u00b7k5) but misses the primary pathogenic mechanism.",
+  "frequency_ratios": {
+    "FAP_over_Normal": 0.5826,
+    "Adenoma_over_Normal": 0.3971
+  },
+  "damping_estimates": {
+    "clock_genes_gamma": 0.0194,
+    "all_genes_gamma": 0.0297
+  }
+}

@@ -15,7 +15,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { resolveGeneName, getDisplayName, GENE_SYMBOL_TO_ENSEMBL } from './par2-engine';
 import { analyzeCrossMetricIndependence } from './cross-metric-independence';
-import { fitAR2 as fitAR2Shared, computeEigenperiod, computeEigenvalue } from './ar2-shared';
 
 interface ParsedDataset {
   timepoints: number[];
@@ -561,14 +560,52 @@ function computeEigenvaluesForGene(
   timeIndices.sort((a, b) => a.time - b.time);
   const sortedExpr = timeIndices.map(x => expr[x.index]);
   const sortedTime = timeIndices.map(x => x.time);
+  const n = sortedExpr.length;
+  if (n < 5) return null;
 
-  const result = fitAR2Shared(sortedExpr);
-  if (!result) return null;
+  const Y: number[] = [];
+  const X: number[][] = [];
+  for (let t = 2; t < n; t++) {
+    Y.push(sortedExpr[t]);
+    X.push([1, sortedExpr[t - 1], sortedExpr[t - 2]]);
+  }
 
-  const samplingInterval = sortedTime.length > 1 ? sortedTime[1] - sortedTime[0] : 2;
-  const eigenperiod = result.isComplex ? computeEigenperiod(result.phi1, result.phi2, samplingInterval) : null;
+  const XtX = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+  const XtY = [0, 0, 0];
+  for (let i = 0; i < Y.length; i++) {
+    for (let j = 0; j < 3; j++) {
+      XtY[j] += X[i][j] * Y[i];
+      for (let k = 0; k < 3; k++) {
+        XtX[j][k] += X[i][j] * X[i][k];
+      }
+    }
+  }
 
-  return { modulus: result.eigenvalue, eigenperiod, beta1: result.phi1, beta2: result.phi2 };
+  const beta = solveLinearSystem(XtX, XtY);
+  if (!beta || beta.some(b => !isFinite(b))) return null;
+
+  const beta1 = beta[1];
+  const beta2 = beta[2];
+  const discriminant = beta1 * beta1 + 4 * beta2;
+  let modulus: number;
+  let eigenperiod: number | null = null;
+
+  if (discriminant >= 0) {
+    const e1 = (beta1 + Math.sqrt(discriminant)) / 2;
+    const e2 = (beta1 - Math.sqrt(discriminant)) / 2;
+    modulus = Math.max(Math.abs(e1), Math.abs(e2));
+  } else {
+    const realPart = beta1 / 2;
+    const imagPart = Math.sqrt(-discriminant) / 2;
+    modulus = Math.sqrt(realPart * realPart + imagPart * imagPart);
+    const theta = Math.atan2(imagPart, realPart);
+    if (Math.abs(theta) > 0.001) {
+      const samplingInterval = sortedTime.length > 1 ? sortedTime[1] - sortedTime[0] : 2;
+      eigenperiod = (2 * Math.PI / Math.abs(theta)) * samplingInterval;
+    }
+  }
+
+  return { modulus, eigenperiod, beta1, beta2 };
 }
 
 let cachedResult: ManuscriptValidationResult | null = null;
@@ -1170,7 +1207,7 @@ export async function runManuscriptValidation(): Promise<ManuscriptValidationRes
       eigenperiods
     },
     computedAt: new Date().toISOString(),
-    methodology: 'Seven-paper validation suite. Paper A: PAR(2) phase-interaction F-test (df1=4, df2=n-7) with Bonferroni correction. Paper B: AR(2) resonance zone classification (φ₁∈[0.8,1.2], φ₂∈[-0.8,-0.3]). Paper C: AR(2)+exogenous Arntl coupling F-test (df1=1, df2=n-4) with BH FDR. Paper D: Spearman correlations from curated cross-metric data. Paper E: BH FDR on raw p-values (q < 0.05). Paper F: Half-life independence replication across 7 datasets (22,989 genes), Spearman ρ with partial correlation controls. Paper G: Fibonacci Reply cross-validation across 22 datasets/5 species with honest caveats (φ-enrichment p=0.154, BMAL1-KO partially disconfirmed).'
+    methodology: 'Current papers (A, E, F, G) plus archived analyses (resonance zone, coupling atlas, cross-metric independence — content incorporated into Papers A and E). Paper A: PAR(2) phase-interaction F-test (df1=4, df2=n-7) with Bonferroni correction. Paper E: BH FDR on raw p-values (q < 0.05). Paper F: Half-life independence replication across 7 datasets (22,989 genes), Spearman ρ with partial correlation controls. Paper G: Fibonacci Reply cross-validation across 22 datasets/5 species with honest caveats (φ-enrichment p=0.154, BMAL1-KO partially disconfirmed). Archived resonance zone: AR(2) resonance zone classification (φ₁∈[0.8,1.2], φ₂∈[-0.8,-0.3]). Archived coupling atlas: AR(2)+exogenous Arntl coupling F-test (df1=1, df2=n-4) with BH FDR. Archived cross-metric: Spearman correlations from curated cross-metric data.'
   };
 
   cachedResult = result;

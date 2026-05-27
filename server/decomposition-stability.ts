@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { ENSEMBL_TO_GENE_SYMBOL } from './par2-engine';
-import { fitAR2 as fitAR2Shared, computeEigenvalue } from './ar2-shared';
 
 const CLOCK_GENES = ['Per1', 'Per2', 'Per3', 'Cry1', 'Cry2', 'Clock', 'Arntl', 'Nr1d1', 'Nr1d2', 'Dbp', 'Tef', 'Npas2', 'Rorc'];
 const TARGET_GENES = ['Myc', 'Ccnd1', 'Ccnb1', 'Cdk1', 'Wee1', 'Cdkn1a', 'Lgr5', 'Axin2', 'Ctnnb1', 'Apc',
@@ -26,9 +25,42 @@ const METHODS: DecompositionMethod[] = [
 ];
 
 function fitAR2(series: number[]): { phi1: number; phi2: number; eigenvalue: number } {
-  const result = fitAR2Shared(series);
-  if (!result) return { phi1: 0, phi2: 0, eigenvalue: 0 };
-  return { phi1: result.phi1, phi2: result.phi2, eigenvalue: result.eigenvalue };
+  const n = series.length;
+  if (n < 5) return { phi1: 0, phi2: 0, eigenvalue: 0 };
+
+  const mean = series.reduce((a, b) => a + b, 0) / n;
+  const y = series.map(x => x - mean);
+
+  const Y = y.slice(2);
+  const Y1 = y.slice(1, n - 1);
+  const Y2 = y.slice(0, n - 2);
+
+  let sumY1Y1 = 0, sumY2Y2 = 0, sumY1Y2 = 0, sumYY1 = 0, sumYY2 = 0;
+  for (let i = 0; i < Y.length; i++) {
+    sumY1Y1 += Y1[i] * Y1[i];
+    sumY2Y2 += Y2[i] * Y2[i];
+    sumY1Y2 += Y1[i] * Y2[i];
+    sumYY1 += Y[i] * Y1[i];
+    sumYY2 += Y[i] * Y2[i];
+  }
+
+  const denom = sumY1Y1 * sumY2Y2 - sumY1Y2 * sumY1Y2;
+  if (Math.abs(denom) < 1e-10) return { phi1: 0, phi2: 0, eigenvalue: 0 };
+
+  const phi1 = (sumYY1 * sumY2Y2 - sumYY2 * sumY1Y2) / denom;
+  const phi2 = (sumYY2 * sumY1Y1 - sumYY1 * sumY1Y2) / denom;
+
+  const discriminant = phi1 * phi1 + 4 * phi2;
+  let eigenvalue: number;
+  if (discriminant < 0) {
+    eigenvalue = Math.sqrt(-phi2);
+  } else {
+    const r1 = (phi1 + Math.sqrt(discriminant)) / 2;
+    const r2 = (phi1 - Math.sqrt(discriminant)) / 2;
+    eigenvalue = Math.max(Math.abs(r1), Math.abs(r2));
+  }
+
+  return { phi1, phi2, eigenvalue };
 }
 
 function parseCSV(content: string): Map<string, number[]> {
@@ -285,6 +317,7 @@ interface DatasetResult {
   gapStability: { method: string; gap: number }[];
   gapCV: number;
   gapPreserved: boolean;
+  gapDirection: 'correct' | 'inverted' | 'mixed';
   dsi: number;
 }
 
@@ -309,6 +342,8 @@ export interface DecompositionStabilityResult {
   overallRankCorrelation: number;
   gapPreservedCount: number;
   gapPreservedTotal: number;
+  correctDirectionCount: number;
+  invertedCount: number;
   verdict: string;
   specification: {
     globalDriverDefinition: string;
@@ -433,7 +468,10 @@ function analyzeDatasetUnderMethods(spec: DatasetSpec): DatasetResult | null {
   const gapSD = Math.sqrt(gapVariance);
   const gapCV = meanGap !== 0 ? Math.abs(gapSD / meanGap) : 1;
 
-  const gapPreserved = gaps.every(g => g > 0) || gaps.every(g => g <= 0);
+  const allPositive = gaps.every(g => g > 0);
+  const allNegative = gaps.every(g => g <= 0);
+  const gapPreserved = allPositive || allNegative;
+  const gapDirection: 'correct' | 'inverted' | 'mixed' = allPositive ? 'correct' : allNegative ? 'inverted' : 'mixed';
 
   const meanRho = rankCorrelations.length > 0
     ? rankCorrelations.reduce((s, r) => s + r.rho, 0) / rankCorrelations.length
@@ -453,6 +491,7 @@ function analyzeDatasetUnderMethods(spec: DatasetSpec): DatasetResult | null {
     gapStability: METHODS.map(m => ({ method: m.key, gap: methods[m.key]?.gap || 0 })),
     gapCV: parseFloat(gapCV.toFixed(4)),
     gapPreserved,
+    gapDirection,
     dsi,
   };
 }
@@ -538,7 +577,13 @@ function runSimulationScenario(
       category = 'other';
     }
 
-    const trueEV = computeEigenvalue(phi1, phi2).eigenvalue;
+    const disc = phi1 * phi1 + 4 * phi2;
+    let trueEV: number;
+    if (disc < 0) {
+      trueEV = Math.sqrt(-phi2);
+    } else {
+      trueEV = Math.max(Math.abs((phi1 + Math.sqrt(disc)) / 2), Math.abs((phi1 - Math.sqrt(disc)) / 2));
+    }
 
     const series = new Array(nTimepoints).fill(0);
     series[0] = gaussianRNG(rng);
@@ -649,6 +694,8 @@ export function runDecompositionStability(): DecompositionStabilityResult {
 
   const gapPreservedCount = datasets.filter(d => d.gapPreserved).length;
   const gapPreservedTotal = datasets.length;
+  const correctDirectionCount = datasets.filter(d => d.gapDirection === 'correct').length;
+  const invertedCount = datasets.filter(d => d.gapDirection === 'inverted').length;
 
   const dsis = datasets.map(d => d.dsi);
   const overallDSI = dsis.length > 0
@@ -656,8 +703,10 @@ export function runDecompositionStability(): DecompositionStabilityResult {
     : 0;
 
   let verdict: string;
-  if (overallRankCorrelation >= 0.85 && gapPreservedCount === gapPreservedTotal) {
+  if (overallRankCorrelation >= 0.85 && correctDirectionCount === gapPreservedTotal) {
     verdict = 'STRONG: Hierarchy is robust to decomposition method choice. Clock > target gap preserved across all variants.';
+  } else if (overallRankCorrelation >= 0.85 && correctDirectionCount >= gapPreservedTotal * 0.8 && invertedCount > 0) {
+    verdict = `STRONG (with note): Clock > target hierarchy robust in ${correctDirectionCount}/${gapPreservedTotal} datasets. ${invertedCount} dataset(s) show a consistently inverted curated-panel gap — see individual dataset notes.`;
   } else if (overallRankCorrelation >= 0.7 && gapPreservedCount >= gapPreservedTotal * 0.8) {
     verdict = 'MODERATE: Hierarchy is mostly robust. Minor sensitivity to decomposition method in some datasets.';
   } else {
@@ -673,6 +722,8 @@ export function runDecompositionStability(): DecompositionStabilityResult {
     overallRankCorrelation,
     gapPreservedCount,
     gapPreservedTotal,
+    correctDirectionCount,
+    invertedCount,
     verdict,
     specification: {
       globalDriverDefinition: 'G(t) = (1/N) * Σᵢ xᵢ(t), where N is the number of genes and xᵢ(t) is expression of gene i at timepoint t. Alternatives: median, PC1, or top-k PCs explaining target variance fraction.',

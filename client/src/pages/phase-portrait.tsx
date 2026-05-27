@@ -367,10 +367,10 @@ function PhaseClockSVG({
         );
       })}
 
-      <text x={cx} y={cy - clockRadius - 28} textAnchor="middle" fill="#facc15" fontSize="10" opacity="0.7" fontWeight="500">DAWN</text>
-      <text x={cx + clockRadius + 28} y={cy} textAnchor="middle" fill="#f59e0b" fontSize="10" opacity="0.7" fontWeight="500">NOON</text>
-      <text x={cx} y={cy + clockRadius + 32} textAnchor="middle" fill="#3b82f6" fontSize="10" opacity="0.7" fontWeight="500">DUSK</text>
-      <text x={cx - clockRadius - 28} y={cy} textAnchor="middle" fill="#6366f1" fontSize="10" opacity="0.7" fontWeight="500">MIDNIGHT</text>
+      <text x={cx} y={cy - clockRadius - 28} textAnchor="middle" fill="#d97706" fontSize="10" opacity="1" fontWeight="600">DAWN</text>
+      <text x={cx + clockRadius + 28} y={cy} textAnchor="middle" fill="#b45309" fontSize="10" opacity="1" fontWeight="600">NOON</text>
+      <text x={cx} y={cy + clockRadius + 32} textAnchor="middle" fill="#2563eb" fontSize="10" opacity="1" fontWeight="600">DUSK</text>
+      <text x={cx - clockRadius - 28} y={cy} textAnchor="middle" fill="#4338ca" fontSize="10" opacity="1" fontWeight="600">MIDNIGHT</text>
 
       {visibleLinks.map((link, i) => {
         const dx = link.x2 - link.x1;
@@ -503,63 +503,63 @@ function GeneDetailPanel({ gene, genes, links, knownInteractions }: {
       <div className="flex items-center gap-3">
         <div className="w-4 h-4 rounded-full" style={{ backgroundColor: geneData.color }} />
         <div>
-          <h3 className="text-lg font-bold text-white font-mono"><GeneTooltip gene={gene}>{gene}</GeneTooltip></h3>
-          <p className="text-xs text-slate-400">{geneData.description}</p>
+          <h3 className="text-lg font-bold text-slate-900 font-mono"><GeneTooltip gene={gene}>{gene}</GeneTooltip></h3>
+          <p className="text-xs text-slate-500">{geneData.description}</p>
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
-        <div className="bg-slate-800/60 rounded-lg p-3">
-          <div className="text-[10px] text-slate-400 uppercase tracking-wider">Peak Phase</div>
-          <div className="text-lg font-mono font-bold text-white">CT{geneData.peakPhase.toFixed(1)}</div>
+        <div className="bg-slate-50 rounded-lg p-3">
+          <div className="text-[10px] text-slate-500 uppercase tracking-wider">Peak Phase</div>
+          <div className="text-lg font-mono font-bold text-slate-900">CT{geneData.peakPhase.toFixed(1)}</div>
         </div>
-        <div className="bg-slate-800/60 rounded-lg p-3">
-          <div className="text-[10px] text-slate-400 uppercase tracking-wider">Trough</div>
-          <div className="text-lg font-mono font-bold text-white">CT{geneData.troughPhase.toFixed(1)}</div>
+        <div className="bg-slate-50 rounded-lg p-3">
+          <div className="text-[10px] text-slate-500 uppercase tracking-wider">Trough</div>
+          <div className="text-lg font-mono font-bold text-slate-900">CT{geneData.troughPhase.toFixed(1)}</div>
         </div>
-        <div className="bg-slate-800/60 rounded-lg p-3">
-          <div className="text-[10px] text-slate-400 uppercase tracking-wider">Cosinor R²</div>
+        <div className="bg-slate-50 rounded-lg p-3">
+          <div className="text-[10px] text-slate-500 uppercase tracking-wider">Cosinor R²</div>
           <div className={`text-lg font-mono font-bold ${geneData.r2 > 0.3 ? 'text-emerald-400' : geneData.r2 > 0.1 ? 'text-amber-400' : 'text-red-400'}`}>
             {geneData.r2.toFixed(3)}
           </div>
         </div>
-        <div className="bg-slate-800/60 rounded-lg p-3">
-          <div className="text-[10px] text-slate-400 uppercase tracking-wider">Amplitude</div>
-          <div className="text-lg font-mono font-bold text-white">{geneData.amplitude.toFixed(1)}</div>
+        <div className="bg-slate-50 rounded-lg p-3">
+          <div className="text-[10px] text-slate-500 uppercase tracking-wider">Amplitude</div>
+          <div className="text-lg font-mono font-bold text-slate-900">{geneData.amplitude.toFixed(1)}</div>
         </div>
       </div>
 
-      <div className="bg-slate-800/60 rounded-lg p-3">
-        <div className="text-xs text-slate-400 mb-1">Category</div>
+      <div className="bg-slate-50 rounded-lg p-3">
+        <div className="text-xs text-slate-500 mb-1">Category</div>
         <Badge style={{ backgroundColor: geneData.color + '30', color: geneData.color, borderColor: geneData.color + '50' }} variant="outline">
           {geneData.subcategory}
         </Badge>
       </div>
 
       {geneData.coupling && (
-        <div className={`rounded-lg p-3 border ${geneData.coupling.significant ? 'bg-cyan-500/10 border-cyan-500/30' : 'bg-slate-800/60 border-slate-700/50'}`}>
-          <div className="text-xs text-slate-400 mb-2">Clock Coupling (AR(2) + {geneData.coupling.clockPredictor})</div>
+        <div className={`rounded-lg p-3 border ${geneData.coupling.significant ? 'bg-cyan-500/10 border-cyan-500/30' : 'bg-slate-50 border-slate-200'}`}>
+          <div className="text-xs text-slate-500 mb-2">Clock Coupling (AR(2) + {geneData.coupling.clockPredictor})</div>
           <div className="grid grid-cols-2 gap-2 text-sm">
             <div>
-              <span className="text-slate-400">ΔAIC: </span>
-              <span className={`font-mono ${geneData.coupling.deltaAIC > 2 ? 'text-emerald-400' : 'text-slate-300'}`}>
+              <span className="text-slate-500">ΔAIC: </span>
+              <span className={`font-mono ${geneData.coupling.deltaAIC > 2 ? 'text-emerald-400' : 'text-slate-600'}`}>
                 {geneData.coupling.deltaAIC.toFixed(2)}
               </span>
             </div>
             <div>
-              <span className="text-slate-400">p: </span>
-              <span className={`font-mono ${geneData.coupling.couplingPValue < 0.05 ? 'text-emerald-400' : 'text-slate-300'}`}>
+              <span className="text-slate-500">p: </span>
+              <span className={`font-mono ${geneData.coupling.couplingPValue < 0.05 ? 'text-emerald-400' : 'text-slate-600'}`}>
                 {geneData.coupling.couplingPValue.toFixed(4)}
               </span>
             </div>
             <div>
-              <span className="text-slate-400">ΔR²: </span>
-              <span className="font-mono text-slate-300">{geneData.coupling.deltaR2.toFixed(4)}</span>
+              <span className="text-slate-500">ΔR²: </span>
+              <span className="font-mono text-slate-600">{geneData.coupling.deltaR2.toFixed(4)}</span>
             </div>
             <div>
               {geneData.coupling.significant
                 ? <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30 text-[10px]">Significant</Badge>
-                : <Badge className="bg-slate-700/50 text-slate-400 border-slate-600/50 text-[10px]">Not significant</Badge>}
+                : <Badge className="bg-slate-100 text-slate-500 border-slate-200 text-[10px]">Not significant</Badge>}
             </div>
           </div>
         </div>
@@ -567,16 +567,16 @@ function GeneDetailPanel({ gene, genes, links, knownInteractions }: {
 
       {relatedCouplings.length > 0 && (
         <div>
-          <div className="text-xs text-slate-400 mb-2 flex items-center gap-1">
+          <div className="text-xs text-slate-500 mb-2 flex items-center gap-1">
             <Zap size={10} />
             PAR(2) Coupling Links ({relatedCouplings.length})
           </div>
           {relatedCouplings.map((link, i) => (
             <div key={i} className="flex items-center gap-2 text-xs py-1 border-b border-slate-800 last:border-0">
-              <span className="font-mono text-white"><GeneTooltip gene={link.source}>{link.source}</GeneTooltip></span>
+              <span className="font-mono text-slate-900"><GeneTooltip gene={link.source}>{link.source}</GeneTooltip></span>
               <ChevronRight size={10} className="text-cyan-400" />
-              <span className="font-mono text-white"><GeneTooltip gene={link.target}>{link.target}</GeneTooltip></span>
-              <span className={`ml-auto font-mono ${link.significant ? 'text-emerald-400' : 'text-slate-400'}`}>
+              <span className="font-mono text-slate-900"><GeneTooltip gene={link.target}>{link.target}</GeneTooltip></span>
+              <span className={`ml-auto font-mono ${link.significant ? 'text-emerald-400' : 'text-slate-500'}`}>
                 p={link.pValue.toFixed(3)}
               </span>
             </div>
@@ -586,21 +586,21 @@ function GeneDetailPanel({ gene, genes, links, knownInteractions }: {
 
       {relatedInteractions.length > 0 && (
         <div>
-          <div className="text-xs text-slate-400 mb-2 flex items-center gap-1">
+          <div className="text-xs text-slate-500 mb-2 flex items-center gap-1">
             <Link2 size={10} />
             Known Interactions ({relatedInteractions.length})
           </div>
           {relatedInteractions.map((ki, i) => {
-            const typeColor = ki.type === 'activates' ? 'text-green-400' : ki.type === 'represses' ? 'text-red-400' : ki.type === 'inhibits' ? 'text-orange-400' : 'text-slate-400';
+            const typeColor = ki.type === 'activates' ? 'text-green-400' : ki.type === 'represses' ? 'text-red-400' : ki.type === 'inhibits' ? 'text-orange-400' : 'text-slate-500';
             return (
               <div key={i} className="text-xs py-2 border-b border-slate-800 last:border-0">
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-white"><GeneTooltip gene={ki.source}>{ki.source}</GeneTooltip></span>
+                  <span className="font-mono text-slate-900"><GeneTooltip gene={ki.source}>{ki.source}</GeneTooltip></span>
                   <span className={`${typeColor} font-medium`}>{ki.type}</span>
-                  <span className="font-mono text-white"><GeneTooltip gene={ki.target}>{ki.target}</GeneTooltip></span>
+                  <span className="font-mono text-slate-900"><GeneTooltip gene={ki.target}>{ki.target}</GeneTooltip></span>
                 </div>
-                <p className="text-slate-400 mt-1">{ki.description}</p>
-                <p className="text-slate-400 text-[10px] mt-0.5">{ki.evidence}</p>
+                <p className="text-slate-500 mt-1">{ki.description}</p>
+                <p className="text-slate-500 text-[10px] mt-0.5">{ki.evidence}</p>
               </div>
             );
           })}
@@ -716,11 +716,11 @@ export default function PhasePortrait() {
   const significantCouplings = data ? data.couplingLinks.filter(l => l.type === 'clock_coupling' && l.significant).length : 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 text-slate-900">
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex items-center gap-3 mb-6">
           <Link href="/">
-            <Button variant="outline" size="sm" className="gap-2 border-slate-700 text-slate-300 hover:bg-slate-800" data-testid="link-back-home">
+            <Button variant="outline" size="sm" className="gap-2 border-slate-200 text-slate-600 hover:bg-slate-100" data-testid="link-back-home">
               <ArrowLeft size={14} />
               Home
             </Button>
@@ -730,10 +730,10 @@ export default function PhasePortrait() {
               <CircleDot size={24} className="text-cyan-400" />
               Phase Portrait Explorer
             </h1>
-            <p className="text-sm text-slate-400 mt-1">Interactive circadian phase map across 12 tissues — compare gene timing, coupling, and interactions</p>
-            <div className="rounded-lg bg-slate-800/40 border border-slate-700/50 p-4 mt-3">
-              <p className="text-sm text-slate-300 leading-relaxed">
-                <strong className="text-white">What you can do:</strong> Visualizes gene expression patterns over a 24-hour cycle across 12 mouse tissues. BMAL1 coupling analysis tests for statistical association between each gene and the BMAL1 clock gene. Download coupling results for your tissue-specific analysis.
+            <p className="text-sm text-slate-500 mt-1">Interactive circadian phase map across 12 tissues — compare gene timing, coupling, and interactions</p>
+            <div className="rounded-lg bg-slate-100 border border-slate-200 p-4 mt-3">
+              <p className="text-sm text-slate-600 leading-relaxed">
+                <strong className="text-slate-900">What you can do:</strong> Visualizes gene expression patterns over a 24-hour cycle across 12 mouse tissues. BMAL1 coupling analysis tests for statistical association between each gene and the BMAL1 clock gene. Download coupling results for your tissue-specific analysis.
               </p>
             </div>
           </div>
@@ -741,7 +741,7 @@ export default function PhasePortrait() {
             <Button
               variant="outline"
               size="sm"
-              className="gap-2 border-slate-600 text-slate-300 hover:bg-slate-800"
+              className="gap-2 border-slate-300 text-slate-600 hover:bg-slate-100"
               data-testid="button-download-results"
               onClick={() => {
                 const csvData = data.geneNodes.map(g => ({
@@ -770,18 +770,18 @@ export default function PhasePortrait() {
 
         <PaperCrossLinks currentPage="/phase-portrait" />
 
-        <Card className="bg-slate-900/80 border-slate-700 mb-4" data-testid="card-dataset-selector">
+        <Card className="bg-white border-slate-200 mb-4" data-testid="card-dataset-selector">
           <CardContent className="pt-4">
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3 flex-wrap">
-                <label className="text-sm font-medium text-slate-300 whitespace-nowrap">Tissue</label>
+                <label className="text-sm font-medium text-slate-600 whitespace-nowrap">Tissue</label>
                 <div className="flex flex-wrap gap-1.5">
                   {(tissueList?.tissues ?? []).map(t => (
                     <Button
                       key={t.label}
                       size="sm"
                       variant={selectedTissue === t.label && !selectedOtherDataset ? "default" : "outline"}
-                      className={`text-xs h-7 px-2.5 ${selectedTissue === t.label && !selectedOtherDataset ? 'bg-cyan-600 hover:bg-cyan-700 text-white border-cyan-500' : 'border-slate-600 text-slate-300 hover:bg-slate-700'}`}
+                      className={`text-xs h-7 px-2.5 ${selectedTissue === t.label && !selectedOtherDataset ? 'bg-cyan-600 hover:bg-cyan-700 text-slate-900 border-cyan-500' : 'border-slate-300 text-slate-600 hover:bg-slate-200'}`}
                       onClick={() => { setSelectedTissue(t.label); setSelectedOtherDataset(null); }}
                       data-testid={`btn-tissue-${t.label}`}
                     >
@@ -789,21 +789,21 @@ export default function PhasePortrait() {
                     </Button>
                   ))}
                 </div>
-                <div className="flex items-center gap-3 ml-auto text-xs text-slate-400">
+                <div className="flex items-center gap-3 ml-auto text-xs text-slate-500">
                   <span>{visibleCount} genes visible</span>
                   <span className="text-cyan-400">{significantCouplings} coupled</span>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <label className="text-xs text-slate-400 whitespace-nowrap">Other datasets</label>
+                <label className="text-xs text-slate-500 whitespace-nowrap">Other datasets</label>
                 <Select
                   value={selectedOtherDataset ?? "__none__"}
                   onValueChange={(v) => { if (v === "__none__") { setSelectedOtherDataset(null); } else { setSelectedOtherDataset(v); } }}
                 >
-                  <SelectTrigger className="bg-slate-800/50 border-slate-700 text-slate-300 text-xs h-7 max-w-xs" data-testid="select-other-dataset">
+                  <SelectTrigger className="bg-slate-50 border-slate-200 text-slate-600 text-xs h-7 max-w-xs" data-testid="select-other-dataset">
                     <SelectValue placeholder="Zhang 2014 tissues selected" />
                   </SelectTrigger>
-                  <SelectContent className="bg-slate-800 border-slate-700">
+                  <SelectContent className="bg-slate-100 border-slate-200">
                     <SelectItem value="__none__" className="text-xs">Use tissue selector above</SelectItem>
                     {OTHER_DATASETS.map(ds => (
                       <SelectItem key={ds.id} value={ds.id} className="text-xs" data-testid={`select-dataset-item-${ds.id}`}>
@@ -812,7 +812,7 @@ export default function PhasePortrait() {
                     ))}
                   </SelectContent>
                 </Select>
-                <span className="text-[10px] text-slate-400">
+                <span className="text-[10px] text-slate-500">
                   {selectedOtherDataset ? 'Showing: ' + OTHER_DATASETS.find(d => d.id === selectedOtherDataset)?.label : `GSE54650 · ${selectedTissue} · Zhang et al. 2014`}
                 </span>
               </div>
@@ -823,7 +823,7 @@ export default function PhasePortrait() {
         {isLoading && (
           <div className="flex flex-col items-center justify-center py-20" data-testid="loading-state">
             <Loader2 className="h-10 w-10 animate-spin text-cyan-400 mb-4" />
-            <p className="text-slate-400 text-lg">Computing phase portrait...</p>
+            <p className="text-slate-500 text-lg">Computing phase portrait...</p>
           </div>
         )}
 
@@ -838,15 +838,15 @@ export default function PhasePortrait() {
         {data && !isLoading && (
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
             <div className="lg:col-span-1 space-y-4">
-              <Card className="bg-slate-900/80 border-slate-700" data-testid="card-categories">
+              <Card className="bg-white border-slate-200" data-testid="card-categories">
                 <CardHeader className="py-3 px-4">
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-sm text-white">Gene Categories ({data.categories.length})</CardTitle>
+                    <CardTitle className="text-sm text-slate-900">Gene Categories ({data.categories.length})</CardTitle>
                     <div className="flex gap-1">
-                      <Button variant="ghost" size="sm" onClick={showAll} className="text-[10px] h-6 px-2 text-slate-400 hover:text-white" data-testid="button-show-all">
+                      <Button variant="ghost" size="sm" onClick={showAll} className="text-[10px] h-6 px-2 text-slate-500 hover:text-slate-700" data-testid="button-show-all">
                         <Eye size={10} className="mr-1" /> All
                       </Button>
-                      <Button variant="ghost" size="sm" onClick={hideAll} className="text-[10px] h-6 px-2 text-slate-400 hover:text-white" data-testid="button-hide-all">
+                      <Button variant="ghost" size="sm" onClick={hideAll} className="text-[10px] h-6 px-2 text-slate-500 hover:text-slate-700" data-testid="button-hide-all">
                         <EyeOff size={10} className="mr-1" /> None
                       </Button>
                     </div>
@@ -861,25 +861,25 @@ export default function PhasePortrait() {
                         key={cat.id}
                         onClick={() => toggleCategory(cat.label)}
                         className={`w-full flex items-center gap-2 px-3 py-2 rounded-md text-left transition-all ${
-                          isActive ? 'bg-slate-800/80 hover:bg-slate-800' : 'opacity-40 hover:opacity-70'
+                          isActive ? 'bg-slate-50 hover:bg-slate-100' : 'opacity-40 hover:opacity-70'
                         }`}
                         data-testid={`toggle-category-${cat.id}`}
                       >
                         <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: cat.color, opacity: isActive ? 1 : 0.3 }} />
                         <div className="flex-1 min-w-0">
-                          <div className="text-xs font-medium text-white truncate">{cat.label}</div>
-                          <div className="text-[10px] text-slate-400">{geneCount} gene{geneCount !== 1 ? 's' : ''}</div>
+                          <div className="text-xs font-medium text-slate-900 truncate">{cat.label}</div>
+                          <div className="text-[10px] text-slate-500">{geneCount} gene{geneCount !== 1 ? 's' : ''}</div>
                         </div>
-                        {isActive ? <Eye size={12} className="text-slate-400 shrink-0" /> : <EyeOff size={12} className="text-slate-400 shrink-0" />}
+                        {isActive ? <Eye size={12} className="text-slate-500 shrink-0" /> : <EyeOff size={12} className="text-slate-500 shrink-0" />}
                       </button>
                     );
                   })}
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-900/80 border-slate-700" data-testid="card-link-layers">
+              <Card className="bg-white border-slate-200" data-testid="card-link-layers">
                 <CardHeader className="py-3 px-4">
-                  <CardTitle className="text-sm text-white">Connection Layers</CardTitle>
+                  <CardTitle className="text-sm text-slate-900">Connection Layers</CardTitle>
                 </CardHeader>
                 <CardContent className="py-0 px-4 pb-4 space-y-1">
                   {LINK_LAYERS.map(layer => {
@@ -889,26 +889,26 @@ export default function PhasePortrait() {
                         key={layer.id}
                         onClick={() => toggleLinkLayer(layer.id)}
                         className={`w-full flex items-center gap-2 px-3 py-2 rounded-md text-left transition-all ${
-                          isActive ? 'bg-slate-800/80 hover:bg-slate-800' : 'opacity-40 hover:opacity-70'
+                          isActive ? 'bg-slate-50 hover:bg-slate-100' : 'opacity-40 hover:opacity-70'
                         }`}
                         data-testid={`toggle-link-${layer.id}`}
                       >
                         <div className="w-6 h-0.5 shrink-0" style={{ backgroundColor: layer.color, opacity: isActive ? 1 : 0.3 }} />
-                        <span className="text-xs text-white flex-1">{layer.label}</span>
-                        {isActive ? <Eye size={12} className="text-slate-400" /> : <EyeOff size={12} className="text-slate-400" />}
+                        <span className="text-xs text-slate-900 flex-1">{layer.label}</span>
+                        {isActive ? <Eye size={12} className="text-slate-500" /> : <EyeOff size={12} className="text-slate-500" />}
                       </button>
                     );
                   })}
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-900/80 border-slate-700" data-testid="card-assessment">
+              <Card className="bg-white border-slate-200" data-testid="card-assessment">
                 <CardHeader className="py-3 px-4">
-                  <CardTitle className="text-sm text-white">Statistical Assessment</CardTitle>
+                  <CardTitle className="text-sm text-slate-900">Statistical Assessment</CardTitle>
                 </CardHeader>
                 <CardContent className="py-0 px-4 pb-4 space-y-2">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-slate-400">Phase-locking</span>
+                    <span className="text-slate-500">Phase-locking</span>
                     <Badge className={data.overallAssessment.phaseLockingSupported
                       ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
                       : "bg-red-500/20 text-red-400 border-red-500/30"} variant="outline">
@@ -916,7 +916,7 @@ export default function PhasePortrait() {
                     </Badge>
                   </div>
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-slate-400">Phase opposition</span>
+                    <span className="text-slate-500">Phase opposition</span>
                     <Badge className={data.overallAssessment.phaseOppositionSupported
                       ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
                       : "bg-red-500/20 text-red-400 border-red-500/30"} variant="outline">
@@ -924,23 +924,23 @@ export default function PhasePortrait() {
                     </Badge>
                   </div>
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-slate-400">Clock coupling</span>
+                    <span className="text-slate-500">Clock coupling</span>
                     <Badge className={data.overallAssessment.couplingSupported
                       ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
                       : "bg-amber-500/20 text-amber-400 border-amber-500/30"} variant="outline">
                       {data.overallAssessment.couplingSupported ? 'Supported' : 'Gene-specific'}
                     </Badge>
                   </div>
-                  <div className="mt-2 bg-slate-800/50 rounded p-2">
-                    <p className="text-[10px] text-slate-400 leading-relaxed">{data.overallAssessment.overallVerdict}</p>
+                  <div className="mt-2 bg-slate-50 rounded p-2">
+                    <p className="text-[10px] text-slate-500 leading-relaxed">{data.overallAssessment.overallVerdict}</p>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-900/80 border-slate-700" data-testid="card-coupling-summary">
+              <Card className="bg-white border-slate-200" data-testid="card-coupling-summary">
                 <CardHeader className="py-3 px-4">
-                  <CardTitle className="text-sm text-white">Coupling by Category</CardTitle>
-                  <CardDescription className="text-[10px] text-slate-400">Significant BMAL1 coupling rate per gene group</CardDescription>
+                  <CardTitle className="text-sm text-slate-900">Coupling by Category</CardTitle>
+                  <CardDescription className="text-[10px] text-slate-500">Significant BMAL1 coupling rate per gene group</CardDescription>
                 </CardHeader>
                 <CardContent className="py-0 px-4 pb-4 space-y-1.5">
                   {data.categories.filter(cat => !['Core Clock Activators', 'Period Genes', 'Cryptochrome Genes', 'Nuclear Receptors', 'Clock-Controlled Output'].includes(cat.label) && data.geneNodes.some(g => g.subcategory === cat.label)).map(cat => {
@@ -952,11 +952,11 @@ export default function PhasePortrait() {
                     return (
                       <div key={cat.id} className="flex items-center gap-2 text-xs">
                         <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: cat.color }} />
-                        <span className="text-slate-300 flex-1 truncate">{cat.label}</span>
-                        <span className={`font-mono font-bold ${isZero ? 'text-slate-400' : isControl ? 'text-amber-400' : 'text-cyan-400'}`}>
+                        <span className="text-slate-600 flex-1 truncate">{cat.label}</span>
+                        <span className={`font-mono font-bold ${isZero ? 'text-slate-500' : isControl ? 'text-amber-400' : 'text-cyan-400'}`}>
                           {coupled.length}/{catGenes.length}
                         </span>
-                        <span className={`font-mono text-[10px] w-8 text-right ${isZero ? 'text-slate-400' : isControl ? 'text-amber-400' : 'text-cyan-300'}`}>
+                        <span className={`font-mono text-[10px] w-8 text-right ${isZero ? 'text-slate-500' : isControl ? 'text-amber-400' : 'text-cyan-300'}`}>
                           {rate}%
                         </span>
                       </div>
@@ -984,7 +984,7 @@ export default function PhasePortrait() {
             </div>
 
             <div className="lg:col-span-2">
-              <Card className="bg-slate-900/80 border-slate-700" data-testid="card-phase-clock">
+              <Card className="bg-white border-slate-200" data-testid="card-phase-clock">
                 <CardContent className="p-4">
                   <PhaseClockSVG
                     genes={data.geneNodes}
@@ -1005,7 +1005,7 @@ export default function PhasePortrait() {
                   <div className="flex items-center justify-center gap-2 mt-3" data-testid="animation-controls">
                     <Button variant="outline" size="sm"
                       onClick={toggleAnimation}
-                      className={`gap-1.5 h-8 text-xs ${isAnimating ? 'border-amber-500/50 text-amber-400 hover:bg-amber-500/10' : 'border-slate-600 text-slate-300 hover:bg-slate-800'}`}
+                      className={`gap-1.5 h-8 text-xs ${isAnimating ? 'border-amber-500/50 text-amber-400 hover:bg-amber-500/10' : 'border-slate-300 text-slate-600 hover:bg-slate-100'}`}
                       data-testid="button-play-pause"
                     >
                       {isAnimating ? <Pause size={12} /> : <Play size={12} />}
@@ -1014,14 +1014,14 @@ export default function PhasePortrait() {
                     {animationTime !== null && (
                       <>
                         <Button variant="outline" size="sm" onClick={cycleSpeed}
-                          className="gap-1 h-8 text-xs border-slate-600 text-slate-300 hover:bg-slate-800"
+                          className="gap-1 h-8 text-xs border-slate-300 text-slate-600 hover:bg-slate-100"
                           data-testid="button-speed"
                         >
                           <FastForward size={12} />
                           {animationSpeed}x
                         </Button>
                         <Button variant="outline" size="sm" onClick={resetAnimation}
-                          className="gap-1 h-8 text-xs border-slate-600 text-slate-300 hover:bg-slate-800"
+                          className="gap-1 h-8 text-xs border-slate-300 text-slate-600 hover:bg-slate-100"
                           data-testid="button-reset"
                         >
                           <RotateCcw size={12} />
@@ -1048,7 +1048,7 @@ export default function PhasePortrait() {
                     </div>
                   )}
 
-                  <div className="flex items-center justify-center gap-6 mt-3 text-[10px] text-slate-400">
+                  <div className="flex items-center justify-center gap-6 mt-3 text-[10px] text-slate-500">
                     <div className="flex items-center gap-1">
                       <div className="w-2 h-2 rounded-full bg-slate-400" /> Node size = cosinor R²
                     </div>
@@ -1067,9 +1067,9 @@ export default function PhasePortrait() {
             </div>
 
             <div className="lg:col-span-1">
-              <Card className="bg-slate-900/80 border-slate-700 sticky top-4" data-testid="card-gene-detail">
+              <Card className="bg-white border-slate-200 sticky top-4" data-testid="card-gene-detail">
                 <CardHeader className="py-3 px-4">
-                  <CardTitle className="text-sm text-white">
+                  <CardTitle className="text-sm text-slate-900">
                     {selectedGene ? `Gene Detail: ${selectedGene}` : hoveredGene ? `Hovering: ${hoveredGene}` : 'Click a gene for details'}
                   </CardTitle>
                 </CardHeader>
@@ -1083,9 +1083,9 @@ export default function PhasePortrait() {
                     />
                   ) : (
                     <div className="text-center py-8">
-                      <Info size={32} className="mx-auto text-slate-400 mb-3" />
-                      <p className="text-xs text-slate-400">Click any gene on the phase portrait to see its full details, coupling status, and known interactions.</p>
-                      <p className="text-[10px] text-slate-400 mt-2">Hover for quick preview</p>
+                      <Info size={32} className="mx-auto text-slate-500 mb-3" />
+                      <p className="text-xs text-slate-500">Click any gene on the phase portrait to see its full details, coupling status, and known interactions.</p>
+                      <p className="text-[10px] text-slate-500 mt-2">Hover for quick preview</p>
                     </div>
                   )}
                 </CardContent>

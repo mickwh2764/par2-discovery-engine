@@ -1,0 +1,37 @@
+\subsection*{Simulation Stress-Test and Negative Control Validation}
+
+To establish that $\phi$-enrichment in clock-DDR gene pairs reflects genuine biological signal rather than methodological artefact, we performed two complementary validation analyses with seeded pseudo-random number generators (Mulberry32 algorithm) for exact reproducibility.
+
+\subsubsection*{Simulation Stress-Test}
+
+We simulated 360,000 synthetic time series (100 random seeds $\times$ 3,600 simulations per seed) to characterise the PAR(2) engine's behaviour under controlled conditions:
+
+\begin{enumerate}
+\item \textbf{AR(1) dynamics}: First-order autoregressive processes with no generational memory ($\beta_2 = 0$).
+\item \textbf{AR(2)-$\phi$}: Second-order processes with coefficients constrained to yield $\beta_1/\beta_2 \approx \phi$ (1.618) and guaranteed stability ($|\lambda| < 0.98$).
+\item \textbf{AR(2)-non-$\phi$}: Stable AR(2) processes with ratios $<1.2$ or $>2.2$, clearly outside the $\phi$ window.
+\end{enumerate}
+
+Timepoints ranged from 6 to 12 (matching typical circadian sampling), with Gaussian noise at 10--30\% of signal amplitude. For each synthetic series, we fitted an AR(2) model using ordinary least squares and classified results as ``near-$\phi$'' if the coefficient ratio fell within 5\% of 1.618 and the system was stable.
+
+\textbf{Results (n=100 seeds)}: AR(2)-$\phi$ simulations achieved 97.1\% $\pm$ 0.5\% stability (confirming the generation constraints), with 4.9\% $\pm$ 0.6\% detection power under realistic noise. Critically, false discovery rates were low and robust across seeds: 2.1\% $\pm$ 0.4\% for AR(1) processes and 2.2\% $\pm$ 0.4\% for AR(2)-non-$\phi$ processes (combined FDR = 2.1\% $\pm$ 0.3\%, 95\% CI: 2.1--2.2\%, range: 1.5--3.0\%). Default seed 42 enables exact manuscript replication. This confirms that $\phi$-like classifications in real data are unlikely to arise from systematic overcalling by the engine, and that results are robust across random initializations.
+
+\subsubsection*{Negative Control Panel}
+
+To test whether $\phi$-enrichment is specific to the clock/DDR gene panel or a generic property of any gene set, we analysed 40 randomly selected genes from 12 mouse tissues in the GSE54650 circadian atlas using 25 random seeds for sensitivity analysis. Control genes were explicitly filtered to exclude all clock, DNA damage response, Wnt/Hippo, and metabolic pathway genes included in the primary PAR(2) panel.
+
+\textbf{Results (n=25 seeds)}: Among stable AR(2) fits in control genes, 1.8\% $\pm$ 1.0\% showed $\phi$-like coefficient ratios (95\% CI: 1.5--2.2\%, range: 0.3--4.1\%)---at or below the 2.1\% null expectation. Default seed 123 enables exact replication. By contrast, the PAR(2) panel of clock/DDR genes showed 100\% $\phi$-enrichment in three neural tissues (Hypothalamus, Heart, Kidney CCD), corresponding to approximately 48$\times$ enrichment over null.
+
+\textbf{Interpretation}: The $\phi$-enrichment observed in clock-DDR interactions is gene-panel specific and robust across different random gene selections. Random genes drawn from the same tissues and analysed with identical methods show only baseline $\phi$ rates, ruling out the possibility that our findings reflect methodological bias or universal AR(2) properties of transcriptomic data.
+
+\subsubsection*{Statistical Framework}
+
+All enrichment claims are evaluated against stability-constrained null surveys derived from time-shuffled data:
+\begin{itemize}
+\item Global $\phi$-enrichment (5\% window): null expectation = 4.3\%
+\item Strict $\phi$-enrichment (2\% window, $|\lambda| < 1$): null expectation = 2.1\%
+\item Single-tissue time-shuffle FDR: $\sim$16\%
+\item Cross-tissue consensus FDR (3+ tissues): $\sim$2\%
+\end{itemize}
+
+These benchmarks provide objective standards for interpreting PAR(2) results and enable direct comparison of future analyses against established baseline rates.

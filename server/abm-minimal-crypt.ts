@@ -172,7 +172,7 @@ function welchTTest(group1: number[], group2: number[]): { t: number; p: number 
   const t = (mean2 - mean1) / Math.sqrt(var1 / n1 + var2 / n2);
   const df = Math.pow(var1 / n1 + var2 / n2, 2) / (Math.pow(var1 / n1, 2) / (n1 - 1) + Math.pow(var2 / n2, 2) / (n2 - 1));
   // Approximate p-value using normal distribution (good for df > 30)
-  const p = 2 * (1 - 0.5 * (1 + Math.erf(Math.abs(t) / Math.sqrt(2))));
+  const p = 2 * (1 - 0.5 * (1 + erf(Math.abs(t) / Math.sqrt(2))));
   return { t, p };
 }
 
@@ -233,8 +233,6 @@ function erf(x: number): number {
   const y = 1.0 - (((((a5 * t + a4) * t + a3) * t + a2) * t + a1) * t) * Math.exp(-x * x);
   return sign * y;
 }
-
-Math.erf = Math.erf || erf;
 
 /**
  * Run full simulation: WT vs KO over N_GENERATIONS

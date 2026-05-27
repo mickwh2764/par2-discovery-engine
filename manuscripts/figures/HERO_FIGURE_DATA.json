@@ -1,0 +1,163 @@
+{
+  "title": "PAR(2) Circadian Gatekeeper Engine - Summary Figure",
+  "version": "1.0",
+  "date": "2025-12-10",
+  
+  "panelA": {
+    "title": "Engine Schematic",
+    "description": "Clock drivers → AR(2) gate → target genes with LOUD/WHISPER/SILENT states",
+    "elements": [
+      {
+        "type": "box",
+        "label": "Clock Drivers",
+        "genes": ["BMAL1", "CLOCK", "CRY1/2", "PER1/2"],
+        "color": "#4A90D9"
+      },
+      {
+        "type": "arrow",
+        "label": "Phase coupling",
+        "style": "thick"
+      },
+      {
+        "type": "box",
+        "label": "AR(2) Gate",
+        "equation": "R_n = β₁R_{n-1} + β₂R_{n-2}",
+        "color": "#D4AF37",
+        "annotation": "φ-like ratio ≈ 1.618"
+      },
+      {
+        "type": "arrow",
+        "label": "Gated output",
+        "style": "variable"
+      },
+      {
+        "type": "box",
+        "label": "Target Genes",
+        "categories": ["DDR (WEE1, CHEK2)", "Wnt (CTNNB1)", "Metabolism (SIRT1)"],
+        "color": "#50C878"
+      }
+    ],
+    "stateAnnotations": {
+      "LOUD": "Strong gating (p < 0.001), phase-locked expression",
+      "WHISPER": "Moderate gating (0.001 < p < 0.05)",
+      "SILENT": "No significant phase relationship"
+    }
+  },
+  
+  "panelB": {
+    "title": "Condition Map",
+    "description": "Heatmap of LOUD/WHISPER/SILENT across conditions",
+    "xAxis": "Gene pairs (clock → target)",
+    "yAxis": "Conditions",
+    "data": [
+      {"condition": "BMAL1-WT Organoid", "loudPct": 78, "whisperPct": 15, "silentPct": 7},
+      {"condition": "BMAL1-KO Organoid", "loudPct": 12, "whisperPct": 18, "silentPct": 70},
+      {"condition": "MYC-ON Neuroblastoma", "loudPct": 65, "whisperPct": 20, "silentPct": 15},
+      {"condition": "MYC-OFF Neuroblastoma", "loudPct": 25, "whisperPct": 30, "silentPct": 45},
+      {"condition": "Salt-Night Colon", "loudPct": 82, "whisperPct": 12, "silentPct": 6},
+      {"condition": "Low-Salt-Night Colon", "loudPct": 35, "whisperPct": 28, "silentPct": 37}
+    ],
+    "colorScale": {
+      "LOUD": "#FF4136",
+      "WHISPER": "#FFDC00",
+      "SILENT": "#2ECC40"
+    }
+  },
+  
+  "panelC": {
+    "title": "φ-Enrichment",
+    "description": "Stable AR(2) plane showing null density vs empirical hits",
+    "xAxis": "β₁ coefficient",
+    "yAxis": "β₂ coefficient",
+    "annotations": [
+      {
+        "type": "line",
+        "label": "φ-ridge (β₁/β₂ = 1.618)",
+        "color": "#D4AF37",
+        "style": "dashed"
+      },
+      {
+        "type": "region",
+        "label": "Stability boundary (|λ| = 1)",
+        "color": "#E0E0E0"
+      },
+      {
+        "type": "scatter",
+        "label": "Null expectation",
+        "density": "2.1% near φ-ridge",
+        "color": "#CCCCCC"
+      },
+      {
+        "type": "scatter",
+        "label": "Clock/DDR pairs",
+        "density": "100% in neural tissues",
+        "color": "#FF4136",
+        "enrichment": "48×"
+      }
+    ],
+    "keyStats": {
+      "nullRate": "2.1%",
+      "observedRate": "100% (3 tissues)",
+      "enrichment": "48×",
+      "fdr": "2.1%"
+    }
+  },
+  
+  "panelD": {
+    "title": "Cross-Tissue Consensus",
+    "description": "Network of recurring gene pair hits across tissues",
+    "nodeTypes": {
+      "clock": {"color": "#4A90D9", "genes": ["BMAL1", "CRY1", "PER2"]},
+      "ddr": {"color": "#FF4136", "genes": ["WEE1", "CHEK2", "TP53"]},
+      "wnt": {"color": "#9B59B6", "genes": ["CTNNB1", "AXIN2"]},
+      "metabolism": {"color": "#F39C12", "genes": ["SIRT1", "PPARγ"]}
+    },
+    "topEdges": [
+      {"from": "CRY1", "to": "WEE1", "tissues": 8, "consensus": "HIGH"},
+      {"from": "BMAL1", "to": "CHEK2", "tissues": 6, "consensus": "HIGH"},
+      {"from": "PER2", "to": "CTNNB1", "tissues": 5, "consensus": "MEDIUM"},
+      {"from": "CRY2", "to": "SIRT1", "tissues": 4, "consensus": "MEDIUM"},
+      {"from": "CLOCK", "to": "TP53", "tissues": 3, "consensus": "LOW"}
+    ],
+    "confidenceTiers": {
+      "HIGH": "≥6 tissues, effect size ≥0.15",
+      "MEDIUM": "3-5 tissues",
+      "LOW": "1-2 tissues"
+    }
+  },
+  
+  "panelE": {
+    "title": "Falsifiable Predictions",
+    "description": "Experimental tests that could disprove the model",
+    "predictions": [
+      {
+        "id": 1,
+        "test": "New BMAL1-KO cell line",
+        "prediction": "Should show SILENT gating (φ-rate < 10%)",
+        "falsifies_if": "LOUD gating persists with φ-like structure"
+      },
+      {
+        "id": 2,
+        "test": "Random gene panel",
+        "prediction": "φ-rate should be ~2-3% (null baseline)",
+        "falsifies_if": "φ-rate > 15% in non-clock genes",
+        "status": "VALIDATED - observed 1.8% ± 1.0%"
+      },
+      {
+        "id": 3,
+        "test": "Time-shuffled controls",
+        "prediction": "Consensus should disappear",
+        "falsifies_if": "φ-enrichment persists after shuffling",
+        "status": "VALIDATED - FDR 2.1%"
+      },
+      {
+        "id": 4,
+        "test": "Non-circadian tissue",
+        "prediction": "Minimal φ-enrichment expected",
+        "falsifies_if": "Strong φ-clustering in arrhythmic cells"
+      }
+    ]
+  },
+  
+  "figureCaption": "The PAR(2) Circadian Gatekeeper Engine. (A) Schematic showing clock gene drivers coupling to target genes through an AR(2) gate with φ-like dynamics. (B) Condition map showing LOUD/WHISPER/SILENT distributions across biological contexts. BMAL1-KO and low-salt conditions show reduced gating. (C) φ-enrichment in the stable AR(2) parameter space. Clock/DDR gene pairs cluster near the φ-ridge at 48× enrichment over null. (D) Cross-tissue consensus network of the most reproducible clock→target interactions. (E) Falsifiable predictions derived from the model, with validation status for completed tests."
+}

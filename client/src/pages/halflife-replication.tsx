@@ -191,7 +191,9 @@ export default function HalfLifeReplication() {
                 </p>
                 <p>
                   <strong>This page:</strong> Replicates that test in 3 additional non-circadian datasets — immune response and cancer —
-                  to confirm that temporal persistence (|λ|) and mRNA stability are independent properties across biological contexts.
+                  to assess whether the near-zero correlation holds across biological contexts. Note: cross-tissue half-life proxies
+                  (Sharova ESC data applied to non-ESC contexts) introduce regression dilution, so near-zero results are consistent
+                  with independence but do not fully rule out a small genuine correlation.
                 </p>
                 <p className="text-xs text-slate-500">Half-life source: {data.halflifeSource}</p>
               </div>
@@ -464,7 +466,7 @@ export default function HalfLifeReplication() {
                 <Card className="bg-slate-50 border-slate-200">
                   <CardHeader>
                     <CardTitle className="text-base text-slate-900">Quintile Analysis</CardTitle>
-                    <p className="text-xs text-slate-500">Mean eigenvalue by half-life quintile — flat = independent</p>
+                    <p className="text-xs text-slate-500">Mean eigenvalue by half-life quintile — flat = consistent with no correlation</p>
                   </CardHeader>
                   <CardContent>
                     <QuintileChart quintiles={activeDs.quintiles} />
@@ -477,7 +479,7 @@ export default function HalfLifeReplication() {
               <Card className="bg-slate-50 border-slate-200">
                 <CardHeader>
                   <CardTitle className="text-base text-slate-900">Key Dissociations</CardTitle>
-                  <p className="text-xs text-slate-500">Genes where half-life and eigenvalue strongly disagree — proving independence</p>
+                  <p className="text-xs text-slate-500">Genes where half-life and eigenvalue strongly disagree — illustrating dissociation</p>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -519,8 +521,8 @@ export default function HalfLifeReplication() {
           </CardHeader>
           <CardContent className="text-sm text-slate-600 space-y-3">
             <p>
-              <strong>Original Paper F datasets (large, long time-series):</strong> All 4 show near-zero correlation (|ρ| &lt; 0.02),
-              confirming eigenvalue independence from mRNA half-life. These datasets have 36-48 timepoints and 3,000-8,000+ matched genes.
+              <strong>Original Paper F datasets (large, long time-series):</strong> All 4 show near-zero correlation (|ρ| &lt; 0.02).
+              These datasets have 36-48 timepoints and 3,000-8,000+ matched genes — sufficient power to detect correlations above ρ ≈ 0.05.
             </p>
             <p>
               <strong>New non-circadian datasets (smaller, shorter):</strong> Show weak positive correlations (ρ ≈ 0.10-0.20).
@@ -533,12 +535,14 @@ export default function HalfLifeReplication() {
             </ul>
             <p>
               <strong>Weighted mean across all 7 datasets:</strong> ρ = {data.combinedSummary.weightedMeanRho.toFixed(4)} — dominated by the
-              larger datasets, confirming overall independence. The weak correlations in smaller datasets do not overturn the
-              primary finding but suggest that independence may be context-dependent in short, dynamically perturbed time-series.
+              larger datasets. The weak positive correlations in smaller datasets (ρ ≈ 0.10–0.20) are explained by explosive dynamics,
+              expression-level confounds, and underpowering rather than a genuine half-life signal — but a same-tissue matched comparison
+              (liver-specific half-life data vs GSE11923 liver |λ|) is needed for a fully decisive test. No publicly available genome-wide mouse liver half-life dataset currently exists.
             </p>
             <p className="text-xs text-slate-500 italic">
-              This is scientifically honest: the independence finding is robust in longer, stable time-series data.
-              Shorter perturbation experiments show weak but detectable correlation, which requires further investigation.
+              Honest framing: the null result (no detectable correlation) is robust in longer, well-powered time-series.
+              Shorter perturbation experiments show weak positive correlations with mechanistic explanations for each case.
+              The priority future analysis is a same-tissue matched test using liver-specific metabolic labelling data, pending availability of such a public dataset.
             </p>
           </CardContent>
         </Card>

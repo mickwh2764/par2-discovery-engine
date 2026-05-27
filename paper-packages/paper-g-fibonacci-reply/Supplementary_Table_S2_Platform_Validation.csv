@@ -1,0 +1,14 @@
+Claim_ID,Claim,Status,Datasets_Tested,Species_Tested,Key_Metric,Key_Value,Confidence,Amendment_Required,Notes
+C01,AR(2) is minimum sufficient model,CONFIRMED,8,5,AIC_preference_pct,75,High,No,Preferred over AR(1) and AR(3) in 70-80% of genes
+C02,Lgr5/Arntl/Per2/Axin2 stable complex roots,CONFIRMED,3,1,all_stable,TRUE,High,No,Values vary by tissue; qualitative ordering preserved
+C03,BMAL1 as circadian phase source (Layer 3),STRONGLY_CONFIRMED,15,3,coupling_events,85,Very_High,No,180x enrichment over controls; Wee1 coupled 10/12 tissues
+C04,NOTCH as fast kernel α₁,CONSISTENT,2,1,Hes1_eigenvalue,0.619,Moderate,No,No NOTCH-KO dataset for direct test
+C05,WNT/AXIN2 as slow kernel α₂,CONFIRMED,3,1,apc_ko_gap_change,0.514,High,No,APC-KO inverts hierarchy from +0.392 to -0.122
+C06,BMAL1-KO preserves eigenvalue magnitudes,PARTIALLY_DISCONFIRMED,1,1,hierarchy_gap_change,0.474,High,Yes,Gap collapses from +0.392 to -0.082; eigenvalues themselves change
+C07,AXIN2-KO collapses to AR(1),UNTESTED,0,0,N/A,N/A,N/A,No,No AXIN2-KO time-series dataset available
+C08,Tuft cells as sensitive readout,PARTIALLY_CONFIRMED,1,1,DCLK1_eigenvalue,0.9999,Moderate,Yes,Near-critical implies delayed/accumulative not rapid
+C09,Chemotherapy → tuft overshoot,DIRECTIONALLY_SUPPORTED,0,0,folfiri_upregulation,most_dramatic,Moderate,Yes,Nguyen 2025 confirms; bidirectional pattern added
+C10,DCS cells as kernel components,CONSISTENT,1,1,REG4_niche_support,TRUE,Low-Moderate,No,Biology supports but no DCS-specific time-series
+C11,Clock > target hierarchy (gearbox),STRONGLY_CONFIRMED,22,5,hierarchy_preservation_rate,0.91,Very_High,No,Bias-audited with 3 automated tests
+C12,φ-enrichment in eigenvalue spectrum,NOT_CONFIRMED,22,5,enrichment_p_value,0.154,Not_Significant,Yes,Conceptual bridge only; genome-wide not significant
+C13,Chronotherapy prediction,UNTESTED,0,0,N/A,N/A,N/A,No,No chronotherapy trial data on platform

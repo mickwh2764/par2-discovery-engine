@@ -1,0 +1,80 @@
+{
+  "WT-WT": {
+    "raw": {
+      "meanLambda": 0.9875245820946729,
+      "nearCritPct": 98.05,
+      "stablePct": 0.25
+    },
+    "decomposed": {
+      "meanLambda": 0.4399357535607217,
+      "nearCritPct": 0.05055611729019212,
+      "stablePct": 35.18705763397371
+    },
+    "modelComparison": {
+      "ar2": 1968,
+      "arx": 32
+    },
+    "arxVsAr2": {
+      "ar2": 0.4399357535607217,
+      "arx": 0.45870408951516517,
+      "delta": 0.018768335954443494
+    },
+    "surrogates": {
+      "original": {
+        "lambda": 0.45313017329638217,
+        "stable": 41.41414141414141
+      },
+      "shuffle": {
+        "lambda": 0.4319988380564209,
+        "stable": 31.64983164983165
+      },
+      "block": {
+        "lambda": 0.4616719210676616,
+        "stable": 46.308724832214764
+      },
+      "circular": {
+        "lambda": 0.46383490971938823,
+        "stable": 40.74074074074074
+      }
+    }
+  },
+  "ApcKO-WT": {
+    "raw": {
+      "meanLambda": 0.9807716202977566,
+      "nearCritPct": 95.8,
+      "stablePct": 1.15
+    },
+    "decomposed": {
+      "meanLambda": 0.5999079829163851,
+      "nearCritPct": 0.9072580645161291,
+      "stablePct": 59.2741935483871
+    },
+    "modelComparison": {
+      "ar2": 1970,
+      "arx": 30
+    },
+    "arxVsAr2": {
+      "ar2": 0.5999079829163851,
+      "arx": 0.6200042454230256,
+      "delta": 0.020096262506640428
+    },
+    "surrogates": {
+      "original": {
+        "lambda": 0.5844364683809022,
+        "stable": 55.932203389830505
+      },
+      "shuffle": {
+        "lambda": 0.44775868304605476,
+        "stable": 36.12040133779264
+      },
+      "block": {
+        "lambda": 0.48579887884483797,
+        "stable": 44.63087248322148
+      },
+      "circular": {
+        "lambda": 0.5471820709951836,
+        "stable": 56.00000000000001
+      }
+    }
+  }
+}

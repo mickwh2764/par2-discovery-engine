@@ -23,7 +23,7 @@ export function UnitCircleDiagram({
   const toScreenY = (y: number) => centerY - y * scale;
   
   return (
-    <div className="bg-slate-800/50 rounded-lg p-3" data-testid="diagram-unit-circle">
+    <div className="bg-slate-50 rounded-lg p-3" data-testid="diagram-unit-circle">
       <div className="text-xs font-medium text-cyan-400 mb-2 flex items-center gap-2">
         <Target size={14} />
         {title}

@@ -72,7 +72,7 @@ export default function ValidationSummary() {
             </CardHeader>
             <CardContent className="space-y-3 text-sm">
               <div>
-                <div className="font-semibold text-slate-900">|λ| independent of mRNA half-life</div>
+                <div className="font-semibold text-slate-900">|λ| shows no detectable correlation with mRNA half-life</div>
                 <div className="text-slate-600">Measures oscillatory dynamics, not decay rate — correlation near zero across tested datasets</div>
               </div>
               <div className="space-y-1">

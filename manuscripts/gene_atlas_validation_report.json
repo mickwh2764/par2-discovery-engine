@@ -1,0 +1,1575 @@
+{
+  "metadata": {
+    "timestamp": "2026-02-20T12:33:21Z",
+    "data_sources": [
+      "GSE54650 (Hughes Circadian Atlas, Mus musculus)",
+      "GSE221103 (Neuroblastoma, Homo sapiens)"
+    ],
+    "method": "AR(2) OLS regression",
+    "phi_reference": 0.618034,
+    "phi_window": 0.015,
+    "n_permutations": 5000,
+    "n_bootstrap": 1000,
+    "seed": 42
+  },
+  "test1_overall_phi_enrichment": {
+    "observed_hits": 53,
+    "total_genes": 212,
+    "observed_rate": 0.25,
+    "null_mean": 50.4668,
+    "perm_p_value": 0.1544,
+    "n_permutations": 5000,
+    "window": 0.015,
+    "pair_rate": 0.052830188679245285,
+    "significant": false
+  },
+  "test2_category_hit_rates": {
+    "clock": {
+      "category": "clock",
+      "n_genes": 16,
+      "observed_hits": 4,
+      "observed_rate": 0.25,
+      "null_mean": 4.0306,
+      "perm_p_value": 0.6056,
+      "significant": false,
+      "fdr_rank": 4,
+      "fdr_threshold": 0.022222222222222223,
+      "fdr_significant": false,
+      "bh_adjusted_p": 1.0
+    },
+    "target": {
+      "category": "target",
+      "n_genes": 21,
+      "observed_hits": 5,
+      "observed_rate": 0.23809523809523808,
+      "null_mean": 5.2606,
+      "perm_p_value": 0.6416,
+      "significant": false,
+      "fdr_rank": 5,
+      "fdr_threshold": 0.027777777777777776,
+      "fdr_significant": false,
+      "bh_adjusted_p": 1.0
+    },
+    "housekeeping": {
+      "category": "housekeeping",
+      "n_genes": 20,
+      "observed_hits": 4,
+      "observed_rate": 0.2,
+      "null_mean": 4.983,
+      "perm_p_value": 0.7834,
+      "significant": false,
+      "fdr_rank": 7,
+      "fdr_threshold": 0.03888888888888889,
+      "fdr_significant": false,
+      "bh_adjusted_p": 1.0
+    },
+    "immune": {
+      "category": "immune",
+      "n_genes": 24,
+      "observed_hits": 10,
+      "observed_rate": 0.4166666666666667,
+      "null_mean": 5.9796,
+      "perm_p_value": 0.0426,
+      "significant": true,
+      "fdr_rank": 1,
+      "fdr_threshold": 0.005555555555555556,
+      "fdr_significant": false,
+      "bh_adjusted_p": 0.38339999999999996
+    },
+    "metabolic": {
+      "category": "metabolic",
+      "n_genes": 26,
+      "observed_hits": 7,
+      "observed_rate": 0.2692307692307692,
+      "null_mean": 6.469,
+      "perm_p_value": 0.4908,
+      "significant": false,
+      "fdr_rank": 2,
+      "fdr_threshold": 0.011111111111111112,
+      "fdr_significant": false,
+      "bh_adjusted_p": 1.0
+    },
+    "chromatin": {
+      "category": "chromatin",
+      "n_genes": 26,
+      "observed_hits": 5,
+      "observed_rate": 0.19230769230769232,
+      "null_mean": 6.4776,
+      "perm_p_value": 0.831,
+      "significant": false,
+      "fdr_rank": 8,
+      "fdr_threshold": 0.044444444444444446,
+      "fdr_significant": false,
+      "bh_adjusted_p": 0.9348749999999999
+    },
+    "signaling": {
+      "category": "signaling",
+      "n_genes": 36,
+      "observed_hits": 9,
+      "observed_rate": 0.25,
+      "null_mean": 8.968,
+      "perm_p_value": 0.5686,
+      "significant": false,
+      "fdr_rank": 3,
+      "fdr_threshold": 0.01666666666666667,
+      "fdr_significant": false,
+      "bh_adjusted_p": 1.0
+    },
+    "dna_repair": {
+      "category": "dna_repair",
+      "n_genes": 26,
+      "observed_hits": 5,
+      "observed_rate": 0.19230769230769232,
+      "null_mean": 6.473,
+      "perm_p_value": 0.8334,
+      "significant": false,
+      "fdr_rank": 9,
+      "fdr_threshold": 0.05,
+      "fdr_significant": false,
+      "bh_adjusted_p": 0.8334
+    },
+    "stem": {
+      "category": "stem",
+      "n_genes": 18,
+      "observed_hits": 4,
+      "observed_rate": 0.2222222222222222,
+      "null_mean": 4.5372,
+      "perm_p_value": 0.7072,
+      "significant": false,
+      "fdr_rank": 6,
+      "fdr_threshold": 0.03333333333333334,
+      "fdr_significant": false,
+      "bh_adjusted_p": 1.0
+    }
+  },
+  "test3_bootstrap_cis": {
+    "Acadm_Liver": {
+      "gene": "Acadm",
+      "category": "metabolic",
+      "tissue": "Liver",
+      "eigenvalue": 0.62,
+      "ci95_lower": 0.42435699401901184,
+      "ci95_upper": 0.8103823199766236,
+      "ci_width": 0.38602532595761174,
+      "phi_in_ci": true
+    },
+    "Acadm_Kidney": {
+      "gene": "Acadm",
+      "category": "metabolic",
+      "tissue": "Kidney",
+      "eigenvalue": 0.6122,
+      "ci95_lower": 0.4170226631919154,
+      "ci95_upper": 0.8195171197668627,
+      "ci_width": 0.4024944565749473,
+      "phi_in_ci": true
+    },
+    "Actb_Kidney": {
+      "gene": "Actb",
+      "category": "housekeeping",
+      "tissue": "Kidney",
+      "eigenvalue": 0.6278,
+      "ci95_lower": 0.43746821072186665,
+      "ci95_upper": 0.8210644550186841,
+      "ci_width": 0.38359624429681743,
+      "phi_in_ci": true
+    },
+    "Aldh1a1_Hypothalamus": {
+      "gene": "Aldh1a1",
+      "category": "stem",
+      "tissue": "Hypothalamus",
+      "eigenvalue": 0.6105,
+      "ci95_lower": 0.42313487876119893,
+      "ci95_upper": 0.8110748160165637,
+      "ci_width": 0.3879399372553648,
+      "phi_in_ci": true
+    },
+    "Apc_Heart": {
+      "gene": "Apc",
+      "category": "target",
+      "tissue": "Heart",
+      "eigenvalue": 0.6259,
+      "ci95_lower": 0.4363823758640095,
+      "ci95_upper": 0.8227798160764763,
+      "ci_width": 0.3863974402124668,
+      "phi_in_ci": true
+    },
+    "Atp5a1_Liver": {
+      "gene": "Atp5a1",
+      "category": "metabolic",
+      "tissue": "Liver",
+      "eigenvalue": 0.6062,
+      "ci95_lower": 0.4227100967861517,
+      "ci95_upper": 0.8011394695368922,
+      "ci_width": 0.3784293727507405,
+      "phi_in_ci": true
+    },
+    "Bmp2_Kidney": {
+      "gene": "Bmp2",
+      "category": "signaling",
+      "tissue": "Kidney",
+      "eigenvalue": 0.6121,
+      "ci95_lower": 0.41829844943785766,
+      "ci95_upper": 0.8108517432923763,
+      "ci_width": 0.39255329385451865,
+      "phi_in_ci": true
+    },
+    "Bmp4_Hypothalamus": {
+      "gene": "Bmp4",
+      "category": "signaling",
+      "tissue": "Hypothalamus",
+      "eigenvalue": 0.633,
+      "ci95_lower": 0.4386162239565039,
+      "ci95_upper": 0.8072107434832839,
+      "ci_width": 0.36859451952678,
+      "phi_in_ci": true
+    },
+    "Brca2_Cerebellum": {
+      "gene": "Brca2",
+      "category": "dna_repair",
+      "tissue": "Cerebellum",
+      "eigenvalue": 0.619,
+      "ci95_lower": 0.4281439683736067,
+      "ci95_upper": 0.8166797168054316,
+      "ci_width": 0.3885357484318249,
+      "phi_in_ci": true
+    },
+    "Ccl2_Heart": {
+      "gene": "Ccl2",
+      "category": "immune",
+      "tissue": "Heart",
+      "eigenvalue": 0.6252,
+      "ci95_lower": 0.44895728220121145,
+      "ci95_upper": 0.8167383422783692,
+      "ci_width": 0.3677810600771577,
+      "phi_in_ci": true
+    },
+    "Cd19_Hypothalamus": {
+      "gene": "Cd19",
+      "category": "immune",
+      "tissue": "Hypothalamus",
+      "eigenvalue": 0.631,
+      "ci95_lower": 0.43295571746191236,
+      "ci95_upper": 0.8329520966949497,
+      "ci_width": 0.3999963792330374,
+      "phi_in_ci": true
+    },
+    "Cd4_Liver": {
+      "gene": "Cd4",
+      "category": "immune",
+      "tissue": "Liver",
+      "eigenvalue": 0.6128,
+      "ci95_lower": 0.42071211238605566,
+      "ci95_upper": 0.800014849665988,
+      "ci_width": 0.37930273727993236,
+      "phi_in_ci": true
+    },
+    "Clock_Cerebellum": {
+      "gene": "Clock",
+      "category": "clock",
+      "tissue": "Cerebellum",
+      "eigenvalue": 0.6079,
+      "ci95_lower": 0.4051081448668697,
+      "ci95_upper": 0.8236084200361098,
+      "ci_width": 0.4185002751692401,
+      "phi_in_ci": true
+    },
+    "Cpt1a_Hypothalamus": {
+      "gene": "Cpt1a",
+      "category": "metabolic",
+      "tissue": "Hypothalamus",
+      "eigenvalue": 0.6185,
+      "ci95_lower": 0.43331630196134274,
+      "ci95_upper": 0.8149851291187328,
+      "ci_width": 0.38166882715739003,
+      "phi_in_ci": true
+    },
+    "Cxcl10_Liver": {
+      "gene": "Cxcl10",
+      "category": "immune",
+      "tissue": "Liver",
+      "eigenvalue": 0.6134,
+      "ci95_lower": 0.4148638659475733,
+      "ci95_upper": 0.815146282422034,
+      "ci_width": 0.4002824164744607,
+      "phi_in_ci": true
+    },
+    "Dnmt1_Hypothalamus": {
+      "gene": "Dnmt1",
+      "category": "chromatin",
+      "tissue": "Hypothalamus",
+      "eigenvalue": 0.619,
+      "ci95_lower": 0.4359812620282869,
+      "ci95_upper": 0.8199992867792121,
+      "ci_width": 0.38401802475092517,
+      "phi_in_ci": true
+    },
+    "Dnmt3a_Liver": {
+      "gene": "Dnmt3a",
+      "category": "chromatin",
+      "tissue": "Liver",
+      "eigenvalue": 0.624,
+      "ci95_lower": 0.4113922838443458,
+      "ci95_upper": 0.8279228383816142,
+      "ci_width": 0.4165305545372684,
+      "phi_in_ci": true
+    },
+    "Fgfr1_Liver": {
+      "gene": "Fgfr1",
+      "category": "signaling",
+      "tissue": "Liver",
+      "eigenvalue": 0.6064,
+      "ci95_lower": 0.4212895170128118,
+      "ci95_upper": 0.8076828190684094,
+      "ci_width": 0.38639330205559763,
+      "phi_in_ci": true
+    },
+    "Fzd1_Hypothalamus": {
+      "gene": "Fzd1",
+      "category": "signaling",
+      "tissue": "Hypothalamus",
+      "eigenvalue": 0.6212,
+      "ci95_lower": 0.4220748896604971,
+      "ci95_upper": 0.8175498538168244,
+      "ci_width": 0.3954749641563273,
+      "phi_in_ci": true
+    },
+    "Gck_Heart": {
+      "gene": "Gck",
+      "category": "metabolic",
+      "tissue": "Heart",
+      "eigenvalue": 0.6213,
+      "ci95_lower": 0.4292865287578251,
+      "ci95_upper": 0.8259834639413948,
+      "ci_width": 0.3966969351835697,
+      "phi_in_ci": true
+    },
+    "Gli1_Liver": {
+      "gene": "Gli1",
+      "category": "signaling",
+      "tissue": "Liver",
+      "eigenvalue": 0.6291,
+      "ci95_lower": 0.44068502277587707,
+      "ci95_upper": 0.8190718072216617,
+      "ci_width": 0.37838678444578466,
+      "phi_in_ci": true
+    },
+    "Gusb_Kidney": {
+      "gene": "Gusb",
+      "category": "housekeeping",
+      "tissue": "Kidney",
+      "eigenvalue": 0.6267,
+      "ci95_lower": 0.4270538584959267,
+      "ci95_upper": 0.817334124109617,
+      "ci_width": 0.39028026561369034,
+      "phi_in_ci": true
+    },
+    "H2afx_Heart": {
+      "gene": "H2afx",
+      "category": "dna_repair",
+      "tissue": "Heart",
+      "eigenvalue": 0.616,
+      "ci95_lower": 0.4203376569364471,
+      "ci95_upper": 0.8270675854213201,
+      "ci_width": 0.406729928484873,
+      "phi_in_ci": true
+    },
+    "Hdac1_Liver": {
+      "gene": "Hdac1",
+      "category": "chromatin",
+      "tissue": "Liver",
+      "eigenvalue": 0.6099,
+      "ci95_lower": 0.4207397306002002,
+      "ci95_upper": 0.8021595643074867,
+      "ci_width": 0.3814198337072865,
+      "phi_in_ci": true
+    },
+    "Hes1_Hypothalamus": {
+      "gene": "Hes1",
+      "category": "signaling",
+      "tissue": "Hypothalamus",
+      "eigenvalue": 0.6188,
+      "ci95_lower": 0.4133529407649305,
+      "ci95_upper": 0.8159673881366316,
+      "ci_width": 0.4026144473717011,
+      "phi_in_ci": true
+    },
+    "Idh1_Liver": {
+      "gene": "Idh1",
+      "category": "metabolic",
+      "tissue": "Liver",
+      "eigenvalue": 0.6056,
+      "ci95_lower": 0.39851521143201857,
+      "ci95_upper": 0.811541681177265,
+      "ci_width": 0.4130264697452464,
+      "phi_in_ci": true
+    },
+    "Irf1_Cerebellum": {
+      "gene": "Irf1",
+      "category": "immune",
+      "tissue": "Cerebellum",
+      "eigenvalue": 0.6033,
+      "ci95_lower": 0.4122506925978268,
+      "ci95_upper": 0.7928491314032392,
+      "ci_width": 0.3805984388054124,
+      "phi_in_ci": true
+    },
+    "Klf4_Cerebellum": {
+      "gene": "Klf4",
+      "category": "stem",
+      "tissue": "Cerebellum",
+      "eigenvalue": 0.6068,
+      "ci95_lower": 0.39862005121416655,
+      "ci95_upper": 0.8033956399100236,
+      "ci_width": 0.40477558869585706,
+      "phi_in_ci": true
+    },
+    "Lrp5_Liver": {
+      "gene": "Lrp5",
+      "category": "signaling",
+      "tissue": "Liver",
+      "eigenvalue": 0.6308,
+      "ci95_lower": 0.4355273066245944,
+      "ci95_upper": 0.8144543544141276,
+      "ci_width": 0.37892704778953323,
+      "phi_in_ci": true
+    },
+    "Mapk3_Liver": {
+      "gene": "Mapk3",
+      "category": "signaling",
+      "tissue": "Liver",
+      "eigenvalue": 0.613,
+      "ci95_lower": 0.41207607945741787,
+      "ci95_upper": 0.8175307860214006,
+      "ci_width": 0.40545470656398275,
+      "phi_in_ci": true
+    },
+    "Mcm6_Heart": {
+      "gene": "Mcm6",
+      "category": "target",
+      "tissue": "Heart",
+      "eigenvalue": 0.6297,
+      "ci95_lower": 0.44419656716244327,
+      "ci95_upper": 0.8234600466857719,
+      "ci_width": 0.3792634795233286,
+      "phi_in_ci": true
+    },
+    "Mki67_Kidney": {
+      "gene": "Mki67",
+      "category": "target",
+      "tissue": "Kidney",
+      "eigenvalue": 0.6033,
+      "ci95_lower": 0.4071352518586596,
+      "ci95_upper": 0.790828100137964,
+      "ci_width": 0.3836928482793044,
+      "phi_in_ci": true
+    },
+    "Nfkb1_Cerebellum": {
+      "gene": "Nfkb1",
+      "category": "immune",
+      "tissue": "Cerebellum",
+      "eigenvalue": 0.6256,
+      "ci95_lower": 0.4416251181580627,
+      "ci95_upper": 0.8117551523842175,
+      "ci_width": 0.37013003422615476,
+      "phi_in_ci": true
+    },
+    "Nfkb2_Liver": {
+      "gene": "Nfkb2",
+      "category": "immune",
+      "tissue": "Liver",
+      "eigenvalue": 0.6109,
+      "ci95_lower": 0.4129155498020583,
+      "ci95_upper": 0.7978779680646535,
+      "ci_width": 0.3849624182625952,
+      "phi_in_ci": true
+    },
+    "Nr1d1_Hypothalamus": {
+      "gene": "Nr1d1",
+      "category": "clock",
+      "tissue": "Hypothalamus",
+      "eigenvalue": 0.6323,
+      "ci95_lower": 0.4366153904423408,
+      "ci95_upper": 0.8269069534573412,
+      "ci_width": 0.3902915630150004,
+      "phi_in_ci": true
+    },
+    "Nr1d2_Hypothalamus": {
+      "gene": "Nr1d2",
+      "category": "clock",
+      "tissue": "Hypothalamus",
+      "eigenvalue": 0.6034,
+      "ci95_lower": 0.4002518045729777,
+      "ci95_upper": 0.791180355836742,
+      "ci_width": 0.39092855126376425,
+      "phi_in_ci": true
+    },
+    "Per2_Cerebellum": {
+      "gene": "Per2",
+      "category": "clock",
+      "tissue": "Cerebellum",
+      "eigenvalue": 0.6185,
+      "ci95_lower": 0.41134400777306357,
+      "ci95_upper": 0.8242545754391153,
+      "ci_width": 0.4129105676660517,
+      "phi_in_ci": true
+    },
+    "Polb_Liver": {
+      "gene": "Polb",
+      "category": "dna_repair",
+      "tissue": "Liver",
+      "eigenvalue": 0.6207,
+      "ci95_lower": 0.4180764570557617,
+      "ci95_upper": 0.8161623254839062,
+      "ci_width": 0.39808586842814453,
+      "phi_in_ci": true
+    },
+    "Ppara_Heart": {
+      "gene": "Ppara",
+      "category": "metabolic",
+      "tissue": "Heart",
+      "eigenvalue": 0.6056,
+      "ci95_lower": 0.4185451840737237,
+      "ci95_upper": 0.7844388264193277,
+      "ci_width": 0.365893642345604,
+      "phi_in_ci": true
+    },
+    "Ppara_Kidney": {
+      "gene": "Ppara",
+      "category": "metabolic",
+      "tissue": "Kidney",
+      "eigenvalue": 0.6305,
+      "ci95_lower": 0.4202318281758858,
+      "ci95_upper": 0.8215451463233717,
+      "ci_width": 0.40131331814748594,
+      "phi_in_ci": true
+    },
+    "Prom1_Kidney": {
+      "gene": "Prom1",
+      "category": "stem",
+      "tissue": "Kidney",
+      "eigenvalue": 0.629,
+      "ci95_lower": 0.4312207992060935,
+      "ci95_upper": 0.8510908028642766,
+      "ci_width": 0.4198700036581831,
+      "phi_in_ci": true
+    },
+    "Rad50_Heart": {
+      "gene": "Rad50",
+      "category": "dna_repair",
+      "tissue": "Heart",
+      "eigenvalue": 0.623,
+      "ci95_lower": 0.42775377482814225,
+      "ci95_upper": 0.8243054131823255,
+      "ci_width": 0.3965516383541833,
+      "phi_in_ci": true
+    },
+    "Rela_Cerebellum": {
+      "gene": "Rela",
+      "category": "immune",
+      "tissue": "Cerebellum",
+      "eigenvalue": 0.613,
+      "ci95_lower": 0.41333354390782234,
+      "ci95_upper": 0.8070172415538108,
+      "ci_width": 0.3936836976459885,
+      "phi_in_ci": true
+    },
+    "Shh_Heart": {
+      "gene": "Shh",
+      "category": "signaling",
+      "tissue": "Heart",
+      "eigenvalue": 0.61,
+      "ci95_lower": 0.4153160210606593,
+      "ci95_upper": 0.8122183004329968,
+      "ci_width": 0.3969022793723375,
+      "phi_in_ci": true
+    },
+    "Sirt1_Hypothalamus": {
+      "gene": "Sirt1",
+      "category": "target",
+      "tissue": "Hypothalamus",
+      "eigenvalue": 0.6174,
+      "ci95_lower": 0.4154676237006294,
+      "ci95_upper": 0.8176561337142702,
+      "ci_width": 0.40218851001364075,
+      "phi_in_ci": true
+    },
+    "Sirt6_Liver": {
+      "gene": "Sirt6",
+      "category": "chromatin",
+      "tissue": "Liver",
+      "eigenvalue": 0.6098,
+      "ci95_lower": 0.4244010341131166,
+      "ci95_upper": 0.8113894276800484,
+      "ci_width": 0.3869883935669318,
+      "phi_in_ci": true
+    },
+    "Smarca4_Cerebellum": {
+      "gene": "Smarca4",
+      "category": "chromatin",
+      "tissue": "Cerebellum",
+      "eigenvalue": 0.6064,
+      "ci95_lower": 0.4324679982393598,
+      "ci95_upper": 0.8060230653976023,
+      "ci_width": 0.3735550671582425,
+      "phi_in_ci": true
+    },
+    "Sod1_Kidney": {
+      "gene": "Sod1",
+      "category": "metabolic",
+      "tissue": "Kidney",
+      "eigenvalue": 0.6055,
+      "ci95_lower": 0.39440743538113404,
+      "ci95_upper": 0.8101305197802493,
+      "ci_width": 0.41572308439911526,
+      "phi_in_ci": true
+    },
+    "Sox2_Cerebellum": {
+      "gene": "Sox2",
+      "category": "stem",
+      "tissue": "Cerebellum",
+      "eigenvalue": 0.616,
+      "ci95_lower": 0.43137132930516986,
+      "ci95_upper": 0.7997084036379196,
+      "ci_width": 0.36833707433274976,
+      "phi_in_ci": true
+    },
+    "Stat1_Heart": {
+      "gene": "Stat1",
+      "category": "immune",
+      "tissue": "Heart",
+      "eigenvalue": 0.6247,
+      "ci95_lower": 0.43519657043457693,
+      "ci95_upper": 0.8236896876926492,
+      "ci_width": 0.38849311725807223,
+      "phi_in_ci": true
+    },
+    "Stat1_Kidney": {
+      "gene": "Stat1",
+      "category": "immune",
+      "tissue": "Kidney",
+      "eigenvalue": 0.6153,
+      "ci95_lower": 0.4247471644282358,
+      "ci95_upper": 0.82076235179904,
+      "ci_width": 0.3960151873708042,
+      "phi_in_ci": true
+    },
+    "Tlr4_Kidney": {
+      "gene": "Tlr4",
+      "category": "immune",
+      "tissue": "Kidney",
+      "eigenvalue": 0.6272,
+      "ci95_lower": 0.42990894685132935,
+      "ci95_upper": 0.8260416317853571,
+      "ci_width": 0.3961326849340277,
+      "phi_in_ci": true
+    },
+    "Tpi1_Liver": {
+      "gene": "Tpi1",
+      "category": "housekeeping",
+      "tissue": "Liver",
+      "eigenvalue": 0.6251,
+      "ci95_lower": 0.43760536622650126,
+      "ci95_upper": 0.8157608205457981,
+      "ci_width": 0.37815545431929687,
+      "phi_in_ci": true
+    },
+    "Tubb5_Heart": {
+      "gene": "Tubb5",
+      "category": "housekeeping",
+      "tissue": "Heart",
+      "eigenvalue": 0.6269,
+      "ci95_lower": 0.4235421520874272,
+      "ci95_upper": 0.8160666994879088,
+      "ci_width": 0.3925245474004816,
+      "phi_in_ci": true
+    },
+    "Wee1_Liver": {
+      "gene": "Wee1",
+      "category": "target",
+      "tissue": "Liver",
+      "eigenvalue": 0.6151,
+      "ci95_lower": 0.4301597885533276,
+      "ci95_upper": 0.8085597199174639,
+      "ci_width": 0.3783999313641363,
+      "phi_in_ci": true
+    },
+    "Xpc_Hypothalamus": {
+      "gene": "Xpc",
+      "category": "dna_repair",
+      "tissue": "Hypothalamus",
+      "eigenvalue": 0.6185,
+      "ci95_lower": 0.4226911270750335,
+      "ci95_upper": 0.8135132897617692,
+      "ci_width": 0.3908221626867357,
+      "phi_in_ci": true
+    }
+  },
+  "test4_cancer_state_swap": {
+    "n_genes_tested": 88,
+    "observed_swaps": 12,
+    "observed_enters_phi_off": 6,
+    "observed_leaves_phi_off": 6,
+    "null_mean_swaps": 12.0,
+    "perm_p_value": 1.0,
+    "significant": false,
+    "swap_genes": [
+      {
+        "gene": "CRY2",
+        "category": "clock",
+        "myc_on": 0.6315,
+        "myc_off": 0.6372,
+        "shift": 0.005700000000000038,
+        "on_near_phi": true,
+        "off_near_phi": false,
+        "swaps": true,
+        "enters_phi_off": false,
+        "leaves_phi_off": true
+      },
+      {
+        "gene": "NR1D2",
+        "category": "clock",
+        "myc_on": 0.6183,
+        "myc_off": 0.8898,
+        "shift": 0.2715000000000001,
+        "on_near_phi": true,
+        "off_near_phi": false,
+        "swaps": true,
+        "enters_phi_off": false,
+        "leaves_phi_off": true
+      },
+      {
+        "gene": "TEF",
+        "category": "clock",
+        "myc_on": 0.6044,
+        "myc_off": 0.8293,
+        "shift": 0.2249,
+        "on_near_phi": true,
+        "off_near_phi": false,
+        "swaps": true,
+        "enters_phi_off": false,
+        "leaves_phi_off": true
+      },
+      {
+        "gene": "WEE1",
+        "category": "target",
+        "myc_on": 0.41,
+        "myc_off": 0.6161,
+        "shift": 0.2061,
+        "on_near_phi": false,
+        "off_near_phi": true,
+        "swaps": true,
+        "enters_phi_off": true,
+        "leaves_phi_off": false
+      },
+      {
+        "gene": "AXIN2",
+        "category": "target",
+        "myc_on": 0.6298,
+        "myc_off": 0.9111,
+        "shift": 0.2813,
+        "on_near_phi": true,
+        "off_near_phi": false,
+        "swaps": true,
+        "enters_phi_off": false,
+        "leaves_phi_off": true
+      },
+      {
+        "gene": "TP53",
+        "category": "target",
+        "myc_on": 0.4787,
+        "myc_off": 0.6034,
+        "shift": 0.12470000000000003,
+        "on_near_phi": false,
+        "off_near_phi": true,
+        "swaps": true,
+        "enters_phi_off": true,
+        "leaves_phi_off": false
+      },
+      {
+        "gene": "BAX",
+        "category": "target",
+        "myc_on": 0.6066,
+        "myc_off": 0.2823,
+        "shift": -0.32430000000000003,
+        "on_near_phi": true,
+        "off_near_phi": false,
+        "swaps": true,
+        "enters_phi_off": false,
+        "leaves_phi_off": true
+      },
+      {
+        "gene": "MCM6",
+        "category": "target",
+        "myc_on": 0.9981,
+        "myc_off": 0.6132,
+        "shift": -0.3849,
+        "on_near_phi": false,
+        "off_near_phi": true,
+        "swaps": true,
+        "enters_phi_off": true,
+        "leaves_phi_off": false
+      },
+      {
+        "gene": "CTCF",
+        "category": "chromatin",
+        "myc_on": 0.9588,
+        "myc_off": 0.6113,
+        "shift": -0.34750000000000003,
+        "on_near_phi": false,
+        "off_near_phi": true,
+        "swaps": true,
+        "enters_phi_off": true,
+        "leaves_phi_off": false
+      },
+      {
+        "gene": "MLH1",
+        "category": "dna_repair",
+        "myc_on": 0.6312,
+        "myc_off": 0.4846,
+        "shift": -0.1466,
+        "on_near_phi": true,
+        "off_near_phi": false,
+        "swaps": true,
+        "enters_phi_off": false,
+        "leaves_phi_off": true
+      },
+      {
+        "gene": "MAPK1",
+        "category": "signaling",
+        "myc_on": 0.7708,
+        "myc_off": 0.631,
+        "shift": -0.13980000000000004,
+        "on_near_phi": false,
+        "off_near_phi": true,
+        "swaps": true,
+        "enters_phi_off": true,
+        "leaves_phi_off": false
+      },
+      {
+        "gene": "PROM1",
+        "category": "stem",
+        "myc_on": 0.3712,
+        "myc_off": 0.6281,
+        "shift": 0.2569,
+        "on_near_phi": false,
+        "off_near_phi": true,
+        "swaps": true,
+        "enters_phi_off": true,
+        "leaves_phi_off": false
+      }
+    ],
+    "swap_bootstrap_cis": {
+      "CRY2": {
+        "gene": "CRY2",
+        "category": "clock",
+        "myc_on": 0.6315,
+        "myc_off": 0.6372,
+        "shift": 0.005700000000000038,
+        "shift_ci_lo": -0.24242437173685866,
+        "shift_ci_hi": 0.2866622765808463,
+        "shift_significant": false
+      },
+      "NR1D2": {
+        "gene": "NR1D2",
+        "category": "clock",
+        "myc_on": 0.6183,
+        "myc_off": 0.8898,
+        "shift": 0.2715000000000001,
+        "shift_ci_lo": -0.008222765560273793,
+        "shift_ci_hi": 0.5567602738988833,
+        "shift_significant": false
+      },
+      "TEF": {
+        "gene": "TEF",
+        "category": "clock",
+        "myc_on": 0.6044,
+        "myc_off": 0.8293,
+        "shift": 0.2249,
+        "shift_ci_lo": -0.058110315505078225,
+        "shift_ci_hi": 0.5241053311849388,
+        "shift_significant": false
+      },
+      "WEE1": {
+        "gene": "WEE1",
+        "category": "target",
+        "myc_on": 0.41,
+        "myc_off": 0.6161,
+        "shift": 0.2061,
+        "shift_ci_lo": -0.07111436835041424,
+        "shift_ci_hi": 0.4844827898061096,
+        "shift_significant": false
+      },
+      "AXIN2": {
+        "gene": "AXIN2",
+        "category": "target",
+        "myc_on": 0.6298,
+        "myc_off": 0.9111,
+        "shift": 0.2813,
+        "shift_ci_lo": 0.013958860754367308,
+        "shift_ci_hi": 0.5434538295863177,
+        "shift_significant": true
+      },
+      "TP53": {
+        "gene": "TP53",
+        "category": "target",
+        "myc_on": 0.4787,
+        "myc_off": 0.6034,
+        "shift": 0.12470000000000003,
+        "shift_ci_lo": -0.15295529676451208,
+        "shift_ci_hi": 0.40047856328304143,
+        "shift_significant": false
+      },
+      "BAX": {
+        "gene": "BAX",
+        "category": "target",
+        "myc_on": 0.6066,
+        "myc_off": 0.2823,
+        "shift": -0.32430000000000003,
+        "shift_ci_lo": -0.5951572550351149,
+        "shift_ci_hi": -0.03373197662106553,
+        "shift_significant": true
+      },
+      "MCM6": {
+        "gene": "MCM6",
+        "category": "target",
+        "myc_on": 0.9981,
+        "myc_off": 0.6132,
+        "shift": -0.3849,
+        "shift_ci_lo": -0.6540012705579651,
+        "shift_ci_hi": -0.09779869282809667,
+        "shift_significant": true
+      },
+      "CTCF": {
+        "gene": "CTCF",
+        "category": "chromatin",
+        "myc_on": 0.9588,
+        "myc_off": 0.6113,
+        "shift": -0.34750000000000003,
+        "shift_ci_lo": -0.6136027735374646,
+        "shift_ci_hi": -0.08219598515392923,
+        "shift_significant": true
+      },
+      "MLH1": {
+        "gene": "MLH1",
+        "category": "dna_repair",
+        "myc_on": 0.6312,
+        "myc_off": 0.4846,
+        "shift": -0.1466,
+        "shift_ci_lo": -0.4204741448865121,
+        "shift_ci_hi": 0.11524921888822548,
+        "shift_significant": false
+      },
+      "MAPK1": {
+        "gene": "MAPK1",
+        "category": "signaling",
+        "myc_on": 0.7708,
+        "myc_off": 0.631,
+        "shift": -0.13980000000000004,
+        "shift_ci_lo": -0.3928913847895692,
+        "shift_ci_hi": 0.1238113484057794,
+        "shift_significant": false
+      },
+      "PROM1": {
+        "gene": "PROM1",
+        "category": "stem",
+        "myc_on": 0.3712,
+        "myc_off": 0.6281,
+        "shift": 0.2569,
+        "shift_ci_lo": -0.006860291860374179,
+        "shift_ci_hi": 0.5348945240647158,
+        "shift_significant": false
+      }
+    }
+  },
+  "test5_cross_tissue_stability": {
+    "mean_cv_near_phi": 0.3030924103588501,
+    "mean_cv_other": 0.34840537685547257,
+    "gene_results": {
+      "Per2": {
+        "gene": "Per2",
+        "category": "clock",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.68142,
+        "sd": 0.12271319000009738,
+        "cv": 0.18008451469005515,
+        "stable": true,
+        "near_phi": true
+      },
+      "Clock": {
+        "gene": "Clock",
+        "category": "clock",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.65686,
+        "sd": 0.11605680936506914,
+        "cv": 0.1766842392063288,
+        "stable": true,
+        "near_phi": true
+      },
+      "Nr1d1": {
+        "gene": "Nr1d1",
+        "category": "clock",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.72746,
+        "sd": 0.17202579167090032,
+        "cv": 0.2364745713453665,
+        "stable": true,
+        "near_phi": true
+      },
+      "Nr1d2": {
+        "gene": "Nr1d2",
+        "category": "clock",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.70276,
+        "sd": 0.17212638670465374,
+        "cv": 0.24492911762856984,
+        "stable": true,
+        "near_phi": true
+      },
+      "Wee1": {
+        "gene": "Wee1",
+        "category": "target",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.53508,
+        "sd": 0.1552871920024314,
+        "cv": 0.29021303730737724,
+        "stable": true,
+        "near_phi": true
+      },
+      "Apc": {
+        "gene": "Apc",
+        "category": "target",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.5445599999999999,
+        "sd": 0.15679782524002045,
+        "cv": 0.2879348928309469,
+        "stable": true,
+        "near_phi": true
+      },
+      "Sirt1": {
+        "gene": "Sirt1",
+        "category": "target",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.5292399999999999,
+        "sd": 0.061964852941001944,
+        "cv": 0.11708270905638643,
+        "stable": true,
+        "near_phi": true
+      },
+      "Mcm6": {
+        "gene": "Mcm6",
+        "category": "target",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.49966,
+        "sd": 0.1371267406452877,
+        "cv": 0.2744401005589555,
+        "stable": true,
+        "near_phi": true
+      },
+      "Mki67": {
+        "gene": "Mki67",
+        "category": "target",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.51802,
+        "sd": 0.07606192871601401,
+        "cv": 0.14683203103357786,
+        "stable": true,
+        "near_phi": true
+      },
+      "Actb": {
+        "gene": "Actb",
+        "category": "housekeeping",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.46886,
+        "sd": 0.2126932485999497,
+        "cv": 0.45363914302766223,
+        "stable": false,
+        "near_phi": true
+      },
+      "Gusb": {
+        "gene": "Gusb",
+        "category": "housekeeping",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.5656399999999999,
+        "sd": 0.12992010237064933,
+        "cv": 0.22968690752183252,
+        "stable": true,
+        "near_phi": true
+      },
+      "Tubb5": {
+        "gene": "Tubb5",
+        "category": "housekeeping",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.5322799999999999,
+        "sd": 0.09476028704051083,
+        "cv": 0.17802714180602475,
+        "stable": true,
+        "near_phi": true
+      },
+      "Tpi1": {
+        "gene": "Tpi1",
+        "category": "housekeeping",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.47428,
+        "sd": 0.1520159596884485,
+        "cv": 0.32051943933635935,
+        "stable": false,
+        "near_phi": true
+      },
+      "Stat1": {
+        "gene": "Stat1",
+        "category": "immune",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.51342,
+        "sd": 0.10546614148626089,
+        "cv": 0.2054188412727609,
+        "stable": true,
+        "near_phi": true
+      },
+      "Irf1": {
+        "gene": "Irf1",
+        "category": "immune",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.48052,
+        "sd": 0.19090085646743438,
+        "cv": 0.39727973126495125,
+        "stable": false,
+        "near_phi": true
+      },
+      "Nfkb1": {
+        "gene": "Nfkb1",
+        "category": "immune",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.43086,
+        "sd": 0.25947655578105705,
+        "cv": 0.6022293918698812,
+        "stable": false,
+        "near_phi": true
+      },
+      "Nfkb2": {
+        "gene": "Nfkb2",
+        "category": "immune",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.35209999999999997,
+        "sd": 0.17130955898606476,
+        "cv": 0.4865366628402862,
+        "stable": false,
+        "near_phi": true
+      },
+      "Rela": {
+        "gene": "Rela",
+        "category": "immune",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.54756,
+        "sd": 0.1097710025462098,
+        "cv": 0.20047301217439148,
+        "stable": true,
+        "near_phi": true
+      },
+      "Tlr4": {
+        "gene": "Tlr4",
+        "category": "immune",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.47818000000000005,
+        "sd": 0.1756063979472274,
+        "cv": 0.3672391106847367,
+        "stable": false,
+        "near_phi": true
+      },
+      "Cd4": {
+        "gene": "Cd4",
+        "category": "immune",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.46331999999999995,
+        "sd": 0.17256925276537532,
+        "cv": 0.3724623430142781,
+        "stable": false,
+        "near_phi": true
+      },
+      "Cd19": {
+        "gene": "Cd19",
+        "category": "immune",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.42596,
+        "sd": 0.18961335132315973,
+        "cv": 0.4451435611868714,
+        "stable": false,
+        "near_phi": true
+      },
+      "Cxcl10": {
+        "gene": "Cxcl10",
+        "category": "immune",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.37934,
+        "sd": 0.13946893202430422,
+        "cv": 0.3676620763017457,
+        "stable": false,
+        "near_phi": true
+      },
+      "Ccl2": {
+        "gene": "Ccl2",
+        "category": "immune",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.4976,
+        "sd": 0.14983956420118152,
+        "cv": 0.3011245261277764,
+        "stable": false,
+        "near_phi": true
+      },
+      "Ppara": {
+        "gene": "Ppara",
+        "category": "metabolic",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.5488999999999999,
+        "sd": 0.18720858687570932,
+        "cv": 0.34106137160814237,
+        "stable": false,
+        "near_phi": true
+      },
+      "Sod1": {
+        "gene": "Sod1",
+        "category": "metabolic",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.5048199999999999,
+        "sd": 0.15263555287022745,
+        "cv": 0.30235639013951005,
+        "stable": false,
+        "near_phi": true
+      },
+      "Gck": {
+        "gene": "Gck",
+        "category": "metabolic",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.5549000000000001,
+        "sd": 0.05537666476052887,
+        "cv": 0.09979575556051336,
+        "stable": true,
+        "near_phi": true
+      },
+      "Idh1": {
+        "gene": "Idh1",
+        "category": "metabolic",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.5212600000000001,
+        "sd": 0.12859118554551088,
+        "cv": 0.24669298535377907,
+        "stable": true,
+        "near_phi": true
+      },
+      "Atp5a1": {
+        "gene": "Atp5a1",
+        "category": "metabolic",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.32687999999999995,
+        "sd": 0.18839954086992886,
+        "cv": 0.5763568920396748,
+        "stable": false,
+        "near_phi": true
+      },
+      "Cpt1a": {
+        "gene": "Cpt1a",
+        "category": "metabolic",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.4771599999999999,
+        "sd": 0.1018227528600558,
+        "cv": 0.21339331222243235,
+        "stable": true,
+        "near_phi": true
+      },
+      "Acadm": {
+        "gene": "Acadm",
+        "category": "metabolic",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.53366,
+        "sd": 0.1740739296965516,
+        "cv": 0.3261888275241757,
+        "stable": false,
+        "near_phi": true
+      },
+      "Hdac1": {
+        "gene": "Hdac1",
+        "category": "chromatin",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.515,
+        "sd": 0.1514447754133499,
+        "cv": 0.2940675250744658,
+        "stable": true,
+        "near_phi": true
+      },
+      "Sirt6": {
+        "gene": "Sirt6",
+        "category": "chromatin",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.54652,
+        "sd": 0.12100800386751284,
+        "cv": 0.22141550879659086,
+        "stable": true,
+        "near_phi": true
+      },
+      "Dnmt1": {
+        "gene": "Dnmt1",
+        "category": "chromatin",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.40879999999999994,
+        "sd": 0.2339863137023189,
+        "cv": 0.5723735658080209,
+        "stable": false,
+        "near_phi": true
+      },
+      "Dnmt3a": {
+        "gene": "Dnmt3a",
+        "category": "chromatin",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.43932000000000004,
+        "sd": 0.11496833042190358,
+        "cv": 0.2616960994762441,
+        "stable": true,
+        "near_phi": true
+      },
+      "Smarca4": {
+        "gene": "Smarca4",
+        "category": "chromatin",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.49257999999999996,
+        "sd": 0.19647650495669963,
+        "cv": 0.3988722744664819,
+        "stable": false,
+        "near_phi": true
+      },
+      "Hes1": {
+        "gene": "Hes1",
+        "category": "signaling",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.44654,
+        "sd": 0.12033508632148815,
+        "cv": 0.26948333032088534,
+        "stable": true,
+        "near_phi": true
+      },
+      "Fzd1": {
+        "gene": "Fzd1",
+        "category": "signaling",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.46724,
+        "sd": 0.17811010078038808,
+        "cv": 0.3811961749430444,
+        "stable": false,
+        "near_phi": true
+      },
+      "Lrp5": {
+        "gene": "Lrp5",
+        "category": "signaling",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.5109,
+        "sd": 0.1472341842100536,
+        "cv": 0.2881859154630135,
+        "stable": true,
+        "near_phi": true
+      },
+      "Shh": {
+        "gene": "Shh",
+        "category": "signaling",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.44532,
+        "sd": 0.1335021235786158,
+        "cv": 0.2997891933410038,
+        "stable": true,
+        "near_phi": true
+      },
+      "Gli1": {
+        "gene": "Gli1",
+        "category": "signaling",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.57612,
+        "sd": 0.08805161554452025,
+        "cv": 0.1528355473590923,
+        "stable": true,
+        "near_phi": true
+      },
+      "Mapk3": {
+        "gene": "Mapk3",
+        "category": "signaling",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.44733999999999996,
+        "sd": 0.18091555488680347,
+        "cv": 0.4044251685223845,
+        "stable": false,
+        "near_phi": true
+      },
+      "Fgfr1": {
+        "gene": "Fgfr1",
+        "category": "signaling",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.5367999999999999,
+        "sd": 0.06100118851301179,
+        "cv": 0.1136385777068029,
+        "stable": true,
+        "near_phi": true
+      },
+      "Bmp2": {
+        "gene": "Bmp2",
+        "category": "signaling",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.47337999999999997,
+        "sd": 0.12821773278295012,
+        "cv": 0.2708558299525754,
+        "stable": true,
+        "near_phi": true
+      },
+      "Bmp4": {
+        "gene": "Bmp4",
+        "category": "signaling",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.50534,
+        "sd": 0.12344261014738792,
+        "cv": 0.2442763488886451,
+        "stable": true,
+        "near_phi": true
+      },
+      "Brca2": {
+        "gene": "Brca2",
+        "category": "dna_repair",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.46937999999999996,
+        "sd": 0.09375007733330143,
+        "cv": 0.19973172553858587,
+        "stable": true,
+        "near_phi": true
+      },
+      "Rad50": {
+        "gene": "Rad50",
+        "category": "dna_repair",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.4681800000000001,
+        "sd": 0.14238483767592672,
+        "cv": 0.30412413532386406,
+        "stable": false,
+        "near_phi": true
+      },
+      "Xpc": {
+        "gene": "Xpc",
+        "category": "dna_repair",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.49354000000000003,
+        "sd": 0.21195169968650876,
+        "cv": 0.4294519181555877,
+        "stable": false,
+        "near_phi": true
+      },
+      "Polb": {
+        "gene": "Polb",
+        "category": "dna_repair",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.54278,
+        "sd": 0.1732636343841373,
+        "cv": 0.31921521497501254,
+        "stable": false,
+        "near_phi": true
+      },
+      "H2afx": {
+        "gene": "H2afx",
+        "category": "dna_repair",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.41806,
+        "sd": 0.13634994682800575,
+        "cv": 0.32614922936421986,
+        "stable": false,
+        "near_phi": true
+      },
+      "Sox2": {
+        "gene": "Sox2",
+        "category": "stem",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.4593,
+        "sd": 0.12249044860722816,
+        "cv": 0.2666894156482216,
+        "stable": true,
+        "near_phi": true
+      },
+      "Klf4": {
+        "gene": "Klf4",
+        "category": "stem",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.40990000000000004,
+        "sd": 0.16839014222928847,
+        "cv": 0.41080786101314576,
+        "stable": false,
+        "near_phi": true
+      },
+      "Aldh1a1": {
+        "gene": "Aldh1a1",
+        "category": "stem",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.46193999999999996,
+        "sd": 0.11610666647527182,
+        "cv": 0.25134577320706547,
+        "stable": true,
+        "near_phi": true
+      },
+      "Prom1": {
+        "gene": "Prom1",
+        "category": "stem",
+        "n_tissues": 5,
+        "mean_eigenvalue": 0.42316000000000004,
+        "sd": 0.16727886298035385,
+        "cv": 0.3953087791387509,
+        "stable": false,
+        "near_phi": true
+      }
+    }
+  },
+  "test6_unstable_genes": {
+    "unstable_myc_on": [
+      {
+        "gene": "CCNB1",
+        "category": "target",
+        "myc_on": 1.1204,
+        "myc_off": 0.6468,
+        "recovers": true
+      },
+      {
+        "gene": "SIRT1",
+        "category": "target",
+        "myc_on": 1.2799,
+        "myc_off": 0.3583,
+        "recovers": true
+      },
+      {
+        "gene": "HDAC2",
+        "category": "chromatin",
+        "myc_on": 1.0578,
+        "myc_off": 0.1142,
+        "recovers": true
+      },
+      {
+        "gene": "DNMT1",
+        "category": "chromatin",
+        "myc_on": 1.0011,
+        "myc_off": 0.5092,
+        "recovers": true
+      },
+      {
+        "gene": "RAD51",
+        "category": "dna_repair",
+        "myc_on": 1.0536,
+        "myc_off": 0.1708,
+        "recovers": true
+      },
+      {
+        "gene": "EGFR",
+        "category": "signaling",
+        "myc_on": 1.0012,
+        "myc_off": 0.6968,
+        "recovers": true
+      },
+      {
+        "gene": "KLF4",
+        "category": "stem",
+        "myc_on": 1.3079,
+        "myc_off": 0.4657,
+        "recovers": true
+      }
+    ],
+    "unstable_myc_off": [],
+    "all_recover_when_myc_off": true
+  }
+}

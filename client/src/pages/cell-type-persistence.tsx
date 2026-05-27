@@ -125,14 +125,14 @@ function CustomBarTooltip({ active, payload }: any) {
   if (!active || !payload?.length) return null;
   const d = payload[0].payload;
   return (
-    <div className="bg-gray-900 border border-gray-700 rounded-lg p-3 shadow-xl text-sm max-w-xs">
-      <p className="font-bold text-white">{d.cellType}</p>
+    <div className="bg-white border border-slate-200 rounded-lg p-3 shadow-xl text-sm max-w-xs">
+      <p className="font-bold text-slate-900">{d.cellType}</p>
       <p className="text-blue-300">Mean |λ| = {d.meanEigenvalue?.toFixed(4)}</p>
-      <p className="text-gray-300">Mean R² = {d.meanR2?.toFixed(3)}</p>
-      <p className="text-gray-400">vs Clock: {d.vsClockDrift > 0 ? '+' : ''}{d.vsClockDrift?.toFixed(4)}</p>
-      <p className="text-gray-400">{d.nGenes} marker gene{d.nGenes > 1 ? 's' : ''}</p>
+      <p className="text-slate-600">Mean R² = {d.meanR2?.toFixed(3)}</p>
+      <p className="text-slate-500">vs Clock: {d.vsClockDrift > 0 ? '+' : ''}{d.vsClockDrift?.toFixed(4)}</p>
+      <p className="text-slate-500">{d.nGenes} marker gene{d.nGenes > 1 ? 's' : ''}</p>
       {d.genes && (
-        <div className="mt-1 text-xs text-gray-400">
+        <div className="mt-1 text-xs text-slate-500">
           {d.genes.map((g: GeneResult) => `${g.gene}(${g.eigenvalue.toFixed(3)})`).join(', ')}
         </div>
       )}
@@ -144,14 +144,14 @@ function DriftTooltip({ active, payload }: any) {
   if (!active || !payload?.length) return null;
   const d = payload[0].payload;
   return (
-    <div className="bg-gray-900 border border-gray-700 rounded-lg p-3 shadow-xl text-sm">
-      <p className="font-bold text-white">{d.cellType}</p>
+    <div className="bg-white border border-slate-200 rounded-lg p-3 shadow-xl text-sm">
+      <p className="font-bold text-slate-900">{d.cellType}</p>
       <p className="text-green-300">WT |λ| = {d.meanWtEigenvalue?.toFixed(4)}</p>
       <p className="text-red-300">APC-KO |λ| = {d.meanCancerEigenvalue?.toFixed(4)}</p>
       <p className={d.meanDrift < 0 ? "text-red-400" : "text-green-400"}>
         Drift = {d.meanDrift > 0 ? '+' : ''}{d.meanDrift?.toFixed(4)}
       </p>
-      <p className="text-gray-400">{d.nGenes} gene{d.nGenes > 1 ? 's' : ''}</p>
+      <p className="text-slate-500">{d.nGenes} gene{d.nGenes > 1 ? 's' : ''}</p>
     </div>
   );
 }
@@ -160,12 +160,12 @@ function GeneTooltip({ active, payload }: any) {
   if (!active || !payload?.length) return null;
   const d = payload[0].payload;
   return (
-    <div className="bg-gray-900 border border-gray-700 rounded-lg p-3 shadow-xl text-sm">
-      <p className="font-bold text-white">{d.gene}</p>
-      <p className="text-gray-300">{d.cellTypeCategory}</p>
+    <div className="bg-white border border-slate-200 rounded-lg p-3 shadow-xl text-sm">
+      <p className="font-bold text-slate-900">{d.gene}</p>
+      <p className="text-slate-600">{d.cellTypeCategory}</p>
       <p className="text-blue-300">|λ| = {d.eigenvalue?.toFixed(4)}</p>
-      <p className="text-gray-300">R² = {d.r2?.toFixed(3)}</p>
-      <p className="text-gray-400">φ₁ = {d.phi1?.toFixed(3)}, φ₂ = {d.phi2?.toFixed(3)}</p>
+      <p className="text-slate-600">R² = {d.r2?.toFixed(3)}</p>
+      <p className="text-slate-500">φ₁ = {d.phi1?.toFixed(3)}, φ₂ = {d.phi2?.toFixed(3)}</p>
     </div>
   );
 }
@@ -196,11 +196,11 @@ export default function CellTypePersistence() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="h-12 w-12 animate-spin mx-auto mb-4 text-blue-400" />
-          <p className="text-lg text-gray-300">Running AR(2) analysis across 41 cell-type markers...</p>
-          <p className="text-sm text-gray-400 mt-2">Hughes 48h + Organoid WT vs APC-KO comparison</p>
+          <p className="text-lg text-slate-600">Running AR(2) analysis across 41 cell-type markers...</p>
+          <p className="text-sm text-slate-500 mt-2">Hughes 48h + Organoid WT vs APC-KO comparison</p>
         </div>
       </div>
     );
@@ -208,7 +208,7 @@ export default function CellTypePersistence() {
 
   if (error || !data) {
     return (
-      <div className="min-h-screen bg-gray-950 text-white p-8">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 p-8">
         <Alert variant="destructive">
           <AlertTriangle className="h-4 w-4" />
           <AlertTitle>Analysis Error</AlertTitle>
@@ -241,11 +241,11 @@ export default function CellTypePersistence() {
   const h = data.threeLayerHierarchy;
 
   return (
-    <div id="three-layer" className="min-h-screen bg-gray-950 text-white scroll-mt-20">
+    <div id="three-layer" className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="mb-8">
           <Link href="/">
-            <Button variant="ghost" className="text-gray-400 hover:text-white mb-4" data-testid="link-back-home">
+            <Button variant="ghost" className="text-slate-500 hover:text-slate-700 mb-4" data-testid="link-back-home">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Home
             </Button>
@@ -272,12 +272,12 @@ export default function CellTypePersistence() {
               />
             </div>
           </div>
-          <div className="rounded-lg bg-slate-800/40 border border-slate-700/50 p-4 mt-3">
-            <p className="text-sm text-slate-300 leading-relaxed">
-              <strong className="text-white">What you can do:</strong> Compares computed AR(2) eigenvalues across cell-type marker genes, from stem cell markers to differentiated cell markers. Download the cell-type eigenvalue results for your own analysis and interpretation.
+          <div className="rounded-lg bg-slate-100 border border-slate-200 p-4 mt-3">
+            <p className="text-sm text-slate-600 leading-relaxed">
+              <strong className="text-slate-900">What you can do:</strong> Compares computed AR(2) eigenvalues across cell-type marker genes, from stem cell markers to differentiated cell markers. Download the cell-type eigenvalue results for your own analysis and interpretation.
             </p>
           </div>
-          <p className="text-gray-400 text-lg max-w-4xl">
+          <p className="text-slate-500 text-lg max-w-4xl">
             AR(2) eigenvalue analysis across all colonic crypt cell-type markers from
             Nguyen, Lausten &amp; Boman (<em>Cells</em>, Sept 2025). Reveals a three-layer temporal hierarchy:
             cell identity &gt; circadian clock &gt; proliferation.
@@ -297,39 +297,39 @@ export default function CellTypePersistence() {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <Card className="bg-gray-900 border-gray-700">
+          <Card className="bg-white border-slate-200">
             <CardContent className="p-4 text-center">
               <p className="text-2xl font-bold text-blue-400" data-testid="text-markers-found">{data.nMarkersFound}</p>
-              <p className="text-sm text-gray-400">Markers Analyzed</p>
+              <p className="text-sm text-slate-500">Markers Analyzed</p>
             </CardContent>
           </Card>
-          <Card className="bg-gray-900 border-gray-700">
+          <Card className="bg-white border-slate-200">
             <CardContent className="p-4 text-center">
               <p className="text-2xl font-bold text-amber-400" data-testid="text-clock-baseline">{data.clockBaseline.toFixed(3)}</p>
-              <p className="text-sm text-gray-400">Clock Baseline |λ|</p>
+              <p className="text-sm text-slate-500">Clock Baseline |λ|</p>
             </CardContent>
           </Card>
-          <Card className="bg-gray-900 border-gray-700">
+          <Card className="bg-white border-slate-200">
             <CardContent className="p-4 text-center">
               <p className="text-2xl font-bold text-green-400" data-testid="text-timepoints">{data.nTimepoints}</p>
-              <p className="text-sm text-gray-400">Timepoints</p>
+              <p className="text-sm text-slate-500">Timepoints</p>
             </CardContent>
           </Card>
-          <Card className="bg-gray-900 border-gray-700">
+          <Card className="bg-white border-slate-200">
             <CardContent className="p-4 text-center">
               <p className="text-2xl font-bold text-purple-400" data-testid="text-cell-types">{data.cellTypeRanking.length}</p>
-              <p className="text-sm text-gray-400">Cell Type Categories</p>
+              <p className="text-sm text-slate-500">Cell Type Categories</p>
             </CardContent>
           </Card>
         </div>
 
-        <Card className="bg-gray-900 border-gray-700 mb-8">
+        <Card className="bg-white border-slate-200 mb-8">
           <CardHeader>
             <div className="flex items-center gap-2">
               <Layers className="h-5 w-5 text-red-400" />
               <CardTitle>Three-Layer Temporal Hierarchy</CardTitle>
             </div>
-            <CardDescription className="text-gray-400">
+            <CardDescription className="text-slate-500">
               The Gearbox is not two layers — it's three. Cell identity sits above the clock.
             </CardDescription>
           </CardHeader>
@@ -340,9 +340,9 @@ export default function CellTypePersistence() {
                   <div className="w-3 h-3 rounded-full bg-red-500" />
                   <h3 className="font-bold text-red-300">Layer 1 — Slowest</h3>
                 </div>
-                <p className="text-white font-semibold">{h.layer1_identity.label}</p>
+                <p className="text-slate-900 font-semibold">{h.layer1_identity.label}</p>
                 <p className="text-2xl font-bold text-red-400 mt-1">|λ| = {h.layer1_identity.meanEigenvalue.toFixed(4)}</p>
-                <p className="text-sm text-gray-400">Range: {h.layer1_identity.range}</p>
+                <p className="text-sm text-slate-500">Range: {h.layer1_identity.range}</p>
                 <div className="flex flex-wrap gap-1 mt-2">
                   {h.layer1_identity.cellTypes.map(ct => (
                     <Badge key={ct} className="text-xs bg-red-500/20 text-red-300 border-red-500/30">{ct}</Badge>
@@ -355,9 +355,9 @@ export default function CellTypePersistence() {
                   <div className="w-3 h-3 rounded-full bg-amber-500" />
                   <h3 className="font-bold text-amber-300">Layer 2 — Middle</h3>
                 </div>
-                <p className="text-white font-semibold">{h.layer2_clock.label}</p>
+                <p className="text-slate-900 font-semibold">{h.layer2_clock.label}</p>
                 <p className="text-2xl font-bold text-amber-400 mt-1">|λ| = {h.layer2_clock.meanEigenvalue.toFixed(4)}</p>
-                <p className="text-sm text-gray-400">Range: {h.layer2_clock.range}</p>
+                <p className="text-sm text-slate-500">Range: {h.layer2_clock.range}</p>
                 <div className="flex flex-wrap gap-1 mt-2">
                   {h.layer2_clock.genes.slice(0, 8).map(g => (
                     <Badge key={g} className="text-xs bg-amber-500/20 text-amber-300 border-amber-500/30">{g}</Badge>
@@ -370,9 +370,9 @@ export default function CellTypePersistence() {
                   <div className="w-3 h-3 rounded-full bg-blue-500" />
                   <h3 className="font-bold text-blue-300">Layer 3 — Fastest</h3>
                 </div>
-                <p className="text-white font-semibold">{h.layer3_proliferation.label}</p>
+                <p className="text-slate-900 font-semibold">{h.layer3_proliferation.label}</p>
                 <p className="text-2xl font-bold text-blue-400 mt-1">|λ| = {h.layer3_proliferation.meanEigenvalue.toFixed(4)}</p>
-                <p className="text-sm text-gray-400">Range: {h.layer3_proliferation.range}</p>
+                <p className="text-sm text-slate-500">Range: {h.layer3_proliferation.range}</p>
                 <div className="flex flex-wrap gap-1 mt-2">
                   {h.layer3_proliferation.genes.slice(0, 8).map(g => (
                     <Badge key={g} className="text-xs bg-blue-500/20 text-blue-300 border-blue-500/30">{g}</Badge>
@@ -381,10 +381,10 @@ export default function CellTypePersistence() {
               </div>
             </div>
 
-            <Alert className="bg-gray-800 border-gray-700">
+            <Alert className="bg-slate-100 border-slate-200">
               <TrendingUp className="h-4 w-4 text-blue-400" />
-              <AlertTitle className="text-white">Key Insight</AlertTitle>
-              <AlertDescription className="text-gray-300">{h.interpretation}</AlertDescription>
+              <AlertTitle className="text-slate-900">Key Insight</AlertTitle>
+              <AlertDescription className="text-slate-600">{h.interpretation}</AlertDescription>
             </Alert>
           </CardContent>
         </Card>
@@ -395,13 +395,13 @@ export default function CellTypePersistence() {
           </InsightCallout>
         </div>
 
-        <Card className="bg-gray-900 border-gray-700 mb-8">
+        <Card className="bg-white border-slate-200 mb-8">
           <CardHeader>
             <div className="flex items-center gap-2">
               <Activity className="h-5 w-5 text-blue-400" />
               <CardTitle>Cell-Type Persistence Ranking</CardTitle>
             </div>
-            <CardDescription className="text-gray-400">
+            <CardDescription className="text-slate-500">
               Mean AR(2) eigenvalue per cell type. Dashed line = clock gene baseline ({data.clockBaseline.toFixed(3)}).
               Data: {data.dataset} ({data.nTimepoints} timepoints, {data.nGenesTotal.toLocaleString()} genes).
             </CardDescription>
@@ -442,43 +442,43 @@ export default function CellTypePersistence() {
             <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-2">
               {rankingData.map((r, i) => (
                 <div key={r.cellType} className="flex items-center gap-2 text-sm" data-testid={`ranking-item-${i}`}>
-                  <span className="font-bold text-gray-400 w-5">{i + 1}.</span>
+                  <span className="font-bold text-slate-500 w-5">{i + 1}.</span>
                   <div className="w-3 h-3 rounded-full" style={{ backgroundColor: CELL_TYPE_COLORS[r.cellType] || '#94a3b8' }} />
-                  <span className="text-gray-300 truncate">{r.cellType}</span>
-                  <span className="text-gray-400 ml-auto">{r.meanEigenvalue.toFixed(3)}</span>
+                  <span className="text-slate-600 truncate">{r.cellType}</span>
+                  <span className="text-slate-500 ml-auto">{r.meanEigenvalue.toFixed(3)}</span>
                 </div>
               ))}
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-gray-900 border-gray-700 mb-8">
+        <Card className="bg-white border-slate-200 mb-8">
           <CardHeader>
             <div className="flex items-center gap-2">
               <Dna className="h-5 w-5 text-green-400" />
               <CardTitle>Per-Gene Eigenvalue Map</CardTitle>
               <Badge className="bg-green-500/20 text-green-300 border-green-500/30">{filteredGeneData.length} genes</Badge>
             </div>
-            <CardDescription className="text-gray-400">
+            <CardDescription className="text-slate-500">
               Every cell-type marker from Boman's Table 1, ranked by AR(2) eigenvalue.
               Color = cell type category.
             </CardDescription>
             <div className="flex flex-col sm:flex-row gap-3 mt-3">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
                 <Input
                   data-testid="input-gene-search"
                   placeholder="Search gene name..."
                   value={geneSearch}
                   onChange={(e) => setGeneSearch(e.target.value)}
-                  className="pl-9 bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
+                  className="pl-9 bg-slate-100 border-slate-200 text-slate-900 placeholder:text-gray-500"
                 />
               </div>
               <select
                 data-testid="select-category-filter"
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                className="bg-gray-800 border border-gray-700 text-white rounded-md px-3 py-2 text-sm"
+                className="bg-slate-100 border border-slate-200 text-slate-900 rounded-md px-3 py-2 text-sm"
               >
                 <option value="all">All Categories</option>
                 {uniqueCategories.map(cat => (
@@ -487,7 +487,7 @@ export default function CellTypePersistence() {
               </select>
             </div>
             {isFiltered && (
-              <p className="text-sm text-gray-400 mt-2">
+              <p className="text-sm text-slate-500 mt-2">
                 Showing {filteredGeneData.length} of {perGeneData.length} genes
               </p>
             )}
@@ -527,7 +527,7 @@ export default function CellTypePersistence() {
             {filteredGeneData.length > 25 && (
               <Button
                 variant="outline"
-                className="mt-4 w-full border-gray-700 text-gray-300"
+                className="mt-4 w-full border-slate-200 text-slate-600"
                 onClick={() => setShowAllGenes(!showAllGenes)}
                 data-testid="button-toggle-genes"
               >
@@ -539,7 +539,7 @@ export default function CellTypePersistence() {
             <div className="mt-6 overflow-x-auto">
               <table className="w-full text-sm" data-testid="table-per-gene">
                 <thead>
-                  <tr className="text-gray-400 border-b border-gray-700">
+                  <tr className="text-slate-500 border-b border-slate-200">
                     <th className="text-left py-2 px-3">Gene</th>
                     <th className="text-left py-2 px-3">Cell Type</th>
                     <th className="text-right py-2 px-3">|λ|</th>
@@ -551,8 +551,8 @@ export default function CellTypePersistence() {
                 </thead>
                 <tbody>
                   {(showAllGenes ? filteredGeneData : filteredGeneData.slice(0, 20)).map((g, i) => (
-                    <tr key={g.gene} className="border-b border-gray-700/50 hover:bg-gray-800/30" data-testid={`row-gene-${i}`}>
-                      <td className="py-2 px-3 font-medium text-white"><GeneTooltipPopover gene={g.gene}>{g.gene}</GeneTooltipPopover></td>
+                    <tr key={g.gene} className="border-b border-slate-200 hover:bg-slate-100/30" data-testid={`row-gene-${i}`}>
+                      <td className="py-2 px-3 font-medium text-slate-900"><GeneTooltipPopover gene={g.gene}>{g.gene}</GeneTooltipPopover></td>
                       <td className="py-2 px-3">
                         <Badge
                           className="text-xs"
@@ -568,13 +568,13 @@ export default function CellTypePersistence() {
                       <td className={`py-2 px-3 text-right font-mono ${g.eigenvalue >= 1.0 ? 'text-red-400 font-bold' : g.eigenvalue > data.clockBaseline ? 'text-green-400' : 'text-amber-400'}`}>
                         {g.eigenvalue.toFixed(4)}
                       </td>
-                      <td className={`py-2 px-3 text-right font-mono ${g.r2 < 0 ? 'text-red-400' : g.r2 > 0.5 ? 'text-green-400' : 'text-gray-400'}`}>
+                      <td className={`py-2 px-3 text-right font-mono ${g.r2 < 0 ? 'text-red-400' : g.r2 > 0.5 ? 'text-green-400' : 'text-slate-500'}`}>
                         {g.r2.toFixed(3)}
                       </td>
-                      <td className="py-2 px-3 text-right font-mono text-gray-400">{g.phi1.toFixed(3)}</td>
-                      <td className="py-2 px-3 text-right font-mono text-gray-400">{g.phi2.toFixed(3)}</td>
+                      <td className="py-2 px-3 text-right font-mono text-slate-500">{g.phi1.toFixed(3)}</td>
+                      <td className="py-2 px-3 text-right font-mono text-slate-500">{g.phi2.toFixed(3)}</td>
                       <td className="py-2 px-3 text-center">
-                        <Badge className={g.isComplex ? 'bg-purple-500/20 text-purple-300 border-purple-500/30' : 'bg-gray-700/50 text-gray-400 border-gray-600/30'}>
+                        <Badge className={g.isComplex ? 'bg-purple-500/20 text-purple-300 border-purple-500/30' : 'bg-slate-200/50 text-slate-500 border-slate-300/30'}>
                           {g.isComplex ? 'oscillatory' : 'real'}
                         </Badge>
                       </td>
@@ -586,13 +586,13 @@ export default function CellTypePersistence() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gray-900 border-gray-700 mb-8">
+        <Card className="bg-white border-slate-200 mb-8">
           <CardHeader>
             <div className="flex items-center gap-2">
               <Target className="h-5 w-5 text-cyan-400" />
               <CardTitle>Root-Space Position Map</CardTitle>
             </div>
-            <CardDescription className="text-gray-400">
+            <CardDescription className="text-slate-500">
               Each gene plotted in the AR(2) stationarity triangle by its φ₁ and φ₂ coefficients. Color = cell type category.
             </CardDescription>
           </CardHeader>
@@ -629,17 +629,17 @@ export default function CellTypePersistence() {
                 })}
               </svg>
               {hoveredGene && (
-                <div className="absolute top-4 right-4 bg-gray-900 border border-gray-700 rounded-lg p-3 shadow-xl text-sm pointer-events-none" data-testid="tooltip-root-space">
-                  <p className="font-bold text-white"><GeneTooltipPopover gene={hoveredGene.gene}>{hoveredGene.gene}</GeneTooltipPopover></p>
-                  <p className="text-gray-300">{hoveredGene.cellTypeCategory}</p>
+                <div className="absolute top-4 right-4 bg-white border border-slate-200 rounded-lg p-3 shadow-xl text-sm pointer-events-none" data-testid="tooltip-root-space">
+                  <p className="font-bold text-slate-900"><GeneTooltipPopover gene={hoveredGene.gene}>{hoveredGene.gene}</GeneTooltipPopover></p>
+                  <p className="text-slate-600">{hoveredGene.cellTypeCategory}</p>
                   <p className="text-blue-300">|λ| = {hoveredGene.eigenvalue.toFixed(4)}</p>
-                  <p className="text-gray-400">φ₁ = {hoveredGene.phi1.toFixed(3)}, φ₂ = {hoveredGene.phi2.toFixed(3)}</p>
+                  <p className="text-slate-500">φ₁ = {hoveredGene.phi1.toFixed(3)}, φ₂ = {hoveredGene.phi2.toFixed(3)}</p>
                 </div>
               )}
             </div>
             <div className="flex flex-wrap gap-3 mt-4 justify-center">
               {Object.entries(CELL_TYPE_COLORS).map(([category, color]) => (
-                <div key={category} className="flex items-center gap-1.5 text-xs text-gray-300">
+                <div key={category} className="flex items-center gap-1.5 text-xs text-slate-600">
                   <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: color }} />
                   {category}
                 </div>
@@ -651,22 +651,22 @@ export default function CellTypePersistence() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gray-900 border-gray-700 mb-8">
+        <Card className="bg-white border-slate-200 mb-8">
           <CardHeader>
             <div className="flex items-center gap-2">
               <Layers className="h-5 w-5 text-indigo-400" />
               <CardTitle>Cell Type Comparison</CardTitle>
             </div>
-            <CardDescription className="text-gray-400">
+            <CardDescription className="text-slate-500">
               Select two cell types to compare their persistence profiles side-by-side.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div>
-                <label className="text-sm text-gray-400 mb-1 block">Cell Type 1</label>
+                <label className="text-sm text-slate-500 mb-1 block">Cell Type 1</label>
                 <select
-                  className="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-white text-sm"
+                  className="w-full bg-slate-100 border border-slate-200 rounded-lg p-2 text-slate-900 text-sm"
                   value={compareType1}
                   onChange={(e) => setCompareType1(e.target.value)}
                   data-testid="select-compare-type1"
@@ -678,9 +678,9 @@ export default function CellTypePersistence() {
                 </select>
               </div>
               <div>
-                <label className="text-sm text-gray-400 mb-1 block">Cell Type 2</label>
+                <label className="text-sm text-slate-500 mb-1 block">Cell Type 2</label>
                 <select
-                  className="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-white text-sm"
+                  className="w-full bg-slate-100 border border-slate-200 rounded-lg p-2 text-slate-900 text-sm"
                   value={compareType2}
                   onChange={(e) => setCompareType2(e.target.value)}
                   data-testid="select-compare-type2"
@@ -703,13 +703,13 @@ export default function CellTypePersistence() {
                 <>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                     {[ct1, ct2].map((ct) => (
-                      <div key={ct.cellType} className="bg-gray-800/50 border border-gray-700 rounded-lg p-4" data-testid={`compare-panel-${ct.cellType}`}>
+                      <div key={ct.cellType} className="bg-slate-50 border border-slate-200 rounded-lg p-4" data-testid={`compare-panel-${ct.cellType}`}>
                         <div className="flex items-center gap-2 mb-3">
                           <div className="w-3 h-3 rounded-full" style={{ backgroundColor: CELL_TYPE_COLORS[ct.cellType] || '#94a3b8' }} />
-                          <h4 className="font-bold text-white">{ct.cellType}</h4>
+                          <h4 className="font-bold text-slate-900">{ct.cellType}</h4>
                         </div>
                         <p className="text-2xl font-bold text-blue-400 mb-1">|λ| = {ct.meanEigenvalue.toFixed(4)}</p>
-                        <p className="text-sm text-gray-400 mb-3">R² = {ct.meanR2.toFixed(3)} · {ct.nGenes} gene{ct.nGenes > 1 ? 's' : ''}</p>
+                        <p className="text-sm text-slate-500 mb-3">R² = {ct.meanR2.toFixed(3)} · {ct.nGenes} gene{ct.nGenes > 1 ? 's' : ''}</p>
                         <div className="h-[120px]">
                           <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={ct.genes} margin={{ left: 0, right: 5, top: 5, bottom: 5 }}>
@@ -722,8 +722,8 @@ export default function CellTypePersistence() {
                         <div className="mt-2 space-y-1">
                           {ct.genes.map(g => (
                             <div key={g.gene} className="flex justify-between text-xs">
-                              <span className="text-gray-300"><GeneTooltipPopover gene={g.gene}>{g.gene}</GeneTooltipPopover></span>
-                              <span className="text-gray-400 font-mono">{g.eigenvalue.toFixed(4)}</span>
+                              <span className="text-slate-600"><GeneTooltipPopover gene={g.gene}>{g.gene}</GeneTooltipPopover></span>
+                              <span className="text-slate-500 font-mono">{g.eigenvalue.toFixed(4)}</span>
                             </div>
                           ))}
                         </div>
@@ -734,19 +734,19 @@ export default function CellTypePersistence() {
                     <h4 className="font-bold text-indigo-300 mb-2">Comparison Summary</h4>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                       <div>
-                        <p className="text-gray-400">Higher Persistence</p>
-                        <p className="text-white font-semibold">{higher.cellType}</p>
+                        <p className="text-slate-500">Higher Persistence</p>
+                        <p className="text-slate-900 font-semibold">{higher.cellType}</p>
                         <p className="text-blue-300 font-mono">{higher.meanEigenvalue.toFixed(4)}</p>
                       </div>
                       <div>
-                        <p className="text-gray-400">Persistence Gap</p>
-                        <p className="text-white font-semibold font-mono">{gap.toFixed(4)}</p>
-                        <p className="text-gray-400">{((gap / lower.meanEigenvalue) * 100).toFixed(1)}% relative difference</p>
+                        <p className="text-slate-500">Persistence Gap</p>
+                        <p className="text-slate-900 font-semibold font-mono">{gap.toFixed(4)}</p>
+                        <p className="text-slate-500">{((gap / lower.meanEigenvalue) * 100).toFixed(1)}% relative difference</p>
                       </div>
                       <div>
-                        <p className="text-gray-400">Gene Count</p>
-                        <p className="text-white">{ct1.cellType}: {ct1.nGenes} gene{ct1.nGenes > 1 ? 's' : ''}</p>
-                        <p className="text-white">{ct2.cellType}: {ct2.nGenes} gene{ct2.nGenes > 1 ? 's' : ''}</p>
+                        <p className="text-slate-500">Gene Count</p>
+                        <p className="text-slate-900">{ct1.cellType}: {ct1.nGenes} gene{ct1.nGenes > 1 ? 's' : ''}</p>
+                        <p className="text-slate-900">{ct2.cellType}: {ct2.nGenes} gene{ct2.nGenes > 1 ? 's' : ''}</p>
                       </div>
                     </div>
                   </div>
@@ -757,14 +757,14 @@ export default function CellTypePersistence() {
         </Card>
 
         {data.cancerComparison.available && (
-          <Card className="bg-gray-900 border-gray-700 mb-8">
+          <Card className="bg-white border-slate-200 mb-8">
             <CardHeader>
               <div className="flex items-center gap-2">
                 <Target className="h-5 w-5 text-red-400" />
                 <CardTitle>Cancer Vulnerability Map</CardTitle>
                 <Badge className="bg-red-500/20 text-red-300 border-red-500/30">APC-KO</Badge>
               </div>
-              <CardDescription className="text-gray-400">
+              <CardDescription className="text-slate-500">
                 Per-cell-type eigenvalue drift under APC knockout (cancer model).
                 Dataset: {data.cancerComparison.dataset}. Negative drift = destabilized by cancer.
               </CardDescription>
@@ -808,7 +808,7 @@ export default function CellTypePersistence() {
                     .slice(0, 5)
                     .map(d => (
                       <div key={d.cellType} className="flex justify-between text-sm py-1">
-                        <span className="text-gray-300">{d.cellType}</span>
+                        <span className="text-slate-600">{d.cellType}</span>
                         <span className="text-red-400 font-mono">{d.meanDrift.toFixed(4)}</span>
                       </div>
                     ))}
@@ -821,7 +821,7 @@ export default function CellTypePersistence() {
                     .slice(0, 5)
                     .map(d => (
                       <div key={d.cellType} className="flex justify-between text-sm py-1">
-                        <span className="text-gray-300">{d.cellType}</span>
+                        <span className="text-slate-600">{d.cellType}</span>
                         <span className="text-green-400 font-mono">{d.meanDrift > 0 ? '+' : ''}{d.meanDrift.toFixed(4)}</span>
                       </div>
                     ))}
@@ -829,10 +829,10 @@ export default function CellTypePersistence() {
               </div>
 
               <div className="mt-6 overflow-x-auto">
-                <h4 className="text-sm font-bold text-gray-300 mb-2">Per-Gene Cancer Drift</h4>
+                <h4 className="text-sm font-bold text-slate-600 mb-2">Per-Gene Cancer Drift</h4>
                 <table className="w-full text-sm" data-testid="table-cancer-drift">
                   <thead>
-                    <tr className="text-gray-400 border-b border-gray-700">
+                    <tr className="text-slate-500 border-b border-slate-200">
                       <th className="text-left py-2 px-3">Gene</th>
                       <th className="text-left py-2 px-3">Cell Type</th>
                       <th className="text-right py-2 px-3">WT |λ|</th>
@@ -842,9 +842,9 @@ export default function CellTypePersistence() {
                   </thead>
                   <tbody>
                     {data.cancerComparison.perGeneDrift.map((g, i) => (
-                      <tr key={g.gene} className="border-b border-gray-700/50 hover:bg-gray-800/30" data-testid={`row-drift-${i}`}>
-                        <td className="py-2 px-3 font-medium text-white"><GeneTooltipPopover gene={g.gene}>{g.gene}</GeneTooltipPopover></td>
-                        <td className="py-2 px-3 text-gray-400">{g.cellType}</td>
+                      <tr key={g.gene} className="border-b border-slate-200 hover:bg-slate-100/30" data-testid={`row-drift-${i}`}>
+                        <td className="py-2 px-3 font-medium text-slate-900"><GeneTooltipPopover gene={g.gene}>{g.gene}</GeneTooltipPopover></td>
+                        <td className="py-2 px-3 text-slate-500">{g.cellType}</td>
                         <td className="py-2 px-3 text-right font-mono text-green-400">{g.wtEigenvalue.toFixed(4)}</td>
                         <td className="py-2 px-3 text-right font-mono text-red-400">{g.cancerEigenvalue.toFixed(4)}</td>
                         <td className={`py-2 px-3 text-right font-mono font-bold ${g.drift < 0 ? 'text-red-400' : 'text-green-400'}`}>
@@ -867,13 +867,13 @@ export default function CellTypePersistence() {
           </div>
         )}
 
-        <Card className="bg-gray-900 border-gray-700 mb-8">
+        <Card className="bg-white border-slate-200 mb-8">
           <CardHeader>
             <div className="flex items-center gap-2">
               <Beaker className="h-5 w-5 text-purple-400" />
               <CardTitle>Boman et al. Findings — Validated by AR(2) Analysis</CardTitle>
             </div>
-            <CardDescription className="text-gray-400">
+            <CardDescription className="text-slate-500">
               Mapping each finding from Nguyen, Lausten &amp; Boman (<em>Cells</em>, Sept 2025) against quantitative AR(2) evidence.
               Green = confirmed, red = extended/contradicted.
             </CardDescription>
@@ -881,9 +881,9 @@ export default function CellTypePersistence() {
           <CardContent>
             <div className="space-y-3" data-testid="boman-findings">
               {data.bomanFindings.map((finding, i) => (
-                <div key={i} className="border border-gray-700 rounded-lg overflow-hidden">
+                <div key={i} className="border border-slate-200 rounded-lg overflow-hidden">
                   <button
-                    className="w-full flex items-start gap-3 p-4 text-left hover:bg-gray-800/30 transition-colors"
+                    className="w-full flex items-start gap-3 p-4 text-left hover:bg-slate-100/30 transition-colors"
                     onClick={() => toggleFinding(i)}
                     data-testid={`button-finding-${i}`}
                   >
@@ -893,24 +893,24 @@ export default function CellTypePersistence() {
                       <XCircle className="h-5 w-5 text-amber-400 mt-0.5 flex-shrink-0" />
                     )}
                     <div className="flex-1">
-                      <p className="font-medium text-white">{finding.finding}</p>
-                      <p className="text-sm text-gray-400 mt-1 line-clamp-1">{finding.quantitativeEvidence}</p>
+                      <p className="font-medium text-slate-900">{finding.finding}</p>
+                      <p className="text-sm text-slate-500 mt-1 line-clamp-1">{finding.quantitativeEvidence}</p>
                     </div>
                     {expandedFindings.has(i) ? (
-                      <ChevronUp className="h-4 w-4 text-gray-400 mt-1" />
+                      <ChevronUp className="h-4 w-4 text-slate-500 mt-1" />
                     ) : (
-                      <ChevronDown className="h-4 w-4 text-gray-400 mt-1" />
+                      <ChevronDown className="h-4 w-4 text-slate-500 mt-1" />
                     )}
                   </button>
                   {expandedFindings.has(i) && (
-                    <div className="px-4 pb-4 pt-0 border-t border-gray-700">
-                      <div className="bg-gray-800/50 rounded-lg p-3 mt-3">
+                    <div className="px-4 pb-4 pt-0 border-t border-slate-200">
+                      <div className="bg-slate-50 rounded-lg p-3 mt-3">
                         <p className="text-sm font-medium text-blue-300 mb-1">Quantitative Evidence:</p>
-                        <p className="text-sm text-gray-300">{finding.quantitativeEvidence}</p>
+                        <p className="text-sm text-slate-600">{finding.quantitativeEvidence}</p>
                       </div>
                       <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-3 mt-3">
                         <p className="text-sm font-medium text-purple-300 mb-1">Novel AR(2) Insight:</p>
-                        <p className="text-sm text-gray-300">{finding.novelInsight}</p>
+                        <p className="text-sm text-slate-600">{finding.novelInsight}</p>
                       </div>
                     </div>
                   )}
@@ -920,40 +920,40 @@ export default function CellTypePersistence() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gray-900 border-gray-700 mb-8">
+        <Card className="bg-white border-slate-200 mb-8">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <ShieldCheck className="h-5 w-5 text-green-400" />
               Methodology
             </CardTitle>
           </CardHeader>
-          <CardContent className="text-sm text-gray-300 space-y-3">
+          <CardContent className="text-sm text-slate-600 space-y-3">
             <p>
-              <strong className="text-white">Primary dataset:</strong> {data.dataset} — {data.nTimepoints} hourly
+              <strong className="text-slate-900">Primary dataset:</strong> {data.dataset} — {data.nTimepoints} hourly
               timepoints, {data.nGenesTotal.toLocaleString()} genes. This dataset provides the best statistical
               power for resolving eigenvalue differences between cell types.
             </p>
             <p>
-              <strong className="text-white">Cancer comparison:</strong> GSE157357 mouse intestinal organoids (22 timepoints).
+              <strong className="text-slate-900">Cancer comparison:</strong> GSE157357 mouse intestinal organoids (22 timepoints).
               Wild-type vs APC-knockout comparison reveals per-cell-type vulnerability to oncogenic transformation.
               Note: shorter time series means eigenvalues cluster nearer to 1.0 in organoid data.
             </p>
             <p>
-              <strong className="text-white">Cell-type markers:</strong> All markers drawn from Table 1 of
+              <strong className="text-slate-900">Cell-type markers:</strong> All markers drawn from Table 1 of
               Nguyen, Lausten &amp; Boman (<em>Cells</em>, September 2025). Includes stem (Lgr5, Ascl2, Smoc2, Olfm4, Bmi1),
               goblet (Muc2, Atoh1, Fcgbp, Clca1), Paneth-like (Lyz1, Lyz2, Reg4, Mmp7), M cell (Gp2, Pglyrp1),
               tuft (Dclk1), enteroendocrine (Syp, Chga), colonocyte (Cdx2, Vil1), plus clock and proliferation
               reference genes.
             </p>
             <p>
-              <strong className="text-white">AR(2) model:</strong> y(t) = φ₁·y(t-1) + φ₂·y(t-2) + ε.
+              <strong className="text-slate-900">AR(2) model:</strong> y(t) = φ₁·y(t-1) + φ₂·y(t-2) + ε.
               Eigenvalue |λ| = max(|λ₁|, |λ₂|) from the characteristic equation λ² − φ₁λ − φ₂ = 0.
               Values near 1.0 indicate maximal persistence (near unit root); values near 0 indicate
               rapidly decaying dynamics.
             </p>
             {data.missingMarkers.length > 0 && (
               <p>
-                <strong className="text-white">Missing markers ({data.nMarkersMissing}):</strong>{' '}
+                <strong className="text-slate-900">Missing markers ({data.nMarkersMissing}):</strong>{' '}
                 {data.missingMarkers.join(', ')}. These genes were not found in the primary dataset.
               </p>
             )}
@@ -962,12 +962,12 @@ export default function CellTypePersistence() {
 
         <div className="text-center pb-8 space-y-3">
           <Link href="/cross-context-validation">
-            <Button className="bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-medium" data-testid="link-cross-tissue">
+            <Button className="bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-slate-900 font-medium" data-testid="link-cross-tissue">
               <Layers className="h-4 w-4 mr-2" />
               Next: Cross-Context Validation (Species & Tissues)
             </Button>
           </Link>
-          <div className="text-gray-400 text-sm">
+          <div className="text-slate-500 text-sm">
             Cell-type markers from Nguyen, Lausten &amp; Boman, <em>Cells</em> (September 2025).
             AR(2) analysis: PAR(2) Discovery Engine. Dataset: NCBI GEO {data.datasetId}.
           </div>

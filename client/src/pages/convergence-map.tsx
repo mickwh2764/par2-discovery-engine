@@ -356,7 +356,7 @@ function FiveRulesSection() {
             <Zap size={24} className="text-purple-400" />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-white" data-testid="text-five-rules-heading">
+            <h2 className="text-xl font-bold text-slate-900" data-testid="text-five-rules-heading">
               The Five Biological Rules → PAR(2) Translation
             </h2>
             <p className="text-sm text-muted-foreground">
@@ -364,12 +364,12 @@ function FiveRulesSection() {
             </p>
           </div>
         </div>
-        <p className="text-xs text-slate-400 mt-2 max-w-3xl leading-relaxed">
+        <p className="text-xs text-slate-500 mt-2 max-w-3xl leading-relaxed">
           Boman's team identified five mathematical laws — a "tissue code" — that encode how colonic epithelium maintains precise cellular organization during continuous renewal. Each rule maps onto an independent AR(2) observation. The PAR(2) translations below are associative — they show where the equation's outputs are consistent with Boman's rules, not that the equation proves them.
         </p>
       </div>
 
-      <Card className="bg-slate-900/80 border-purple-500/30 mb-6" data-testid="card-five-rules-3d">
+      <Card className="bg-white border-purple-500/30 mb-6" data-testid="card-five-rules-3d">
         <CardContent className="p-0">
           <div className="h-[500px] w-full rounded-lg overflow-hidden" data-testid="canvas-rules-3d">
             <WebGLErrorBoundary>
@@ -384,15 +384,15 @@ function FiveRulesSection() {
       <div className="flex items-center gap-3 mb-4 flex-wrap">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-sm bg-blue-500" />
-          <span className="text-xs text-slate-400">Tissue Code Rule (Boman)</span>
+          <span className="text-xs text-slate-500">Tissue Code Rule (Boman)</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-sm bg-cyan-500" />
-          <span className="text-xs text-slate-400">PAR(2) Translation</span>
+          <span className="text-xs text-slate-500">PAR(2) Translation</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-sm bg-amber-500" />
-          <span className="text-xs text-slate-400">Selected Connection</span>
+          <span className="text-xs text-slate-500">Selected Connection</span>
         </div>
         <Button variant="ghost" size="sm" className="text-xs ml-auto gap-1" onClick={startRulesAnim} data-testid="button-replay-rules">
           <Zap size={12} /> Replay
@@ -400,13 +400,13 @@ function FiveRulesSection() {
       </div>
 
       {activeRule && (
-        <Card className="bg-slate-900/80 border-purple-500/30 mb-6" data-testid={`rule-detail-${activeRule.rule}`}>
+        <Card className="bg-white border-purple-500/30 mb-6" data-testid={`rule-detail-${activeRule.rule}`}>
           <CardContent className="p-0">
-            <div className="bg-slate-800/50 px-5 py-3 flex items-center gap-3 border-b border-slate-700/50">
+            <div className="bg-slate-50 px-5 py-3 flex items-center gap-3 border-b border-slate-200">
               <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-400 font-bold text-sm shrink-0">
                 {activeRule.rule}
               </div>
-              <p className="text-sm font-semibold text-white flex-1">Rule {activeRule.rule}: {activeRule.bomanLabel}</p>
+              <p className="text-sm font-semibold text-slate-900 flex-1">Rule {activeRule.rule}: {activeRule.bomanLabel}</p>
               {activeRule.speculative && (
                 <Badge className="bg-orange-500/15 text-orange-400 border-orange-500/30 text-[10px] mr-1">SPECULATIVE TRANSLATION</Badge>
               )}
@@ -414,21 +414,21 @@ function FiveRulesSection() {
                 {activeRule.confidence}% translation confidence
               </Badge>
             </div>
-            <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-700/50">
+            <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200/50">
               <div className="p-5 bg-blue-500/[0.03]">
                 <p className="text-xs font-semibold text-blue-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                   <Microscope size={12} /> Boman — Tissue Code
                 </p>
-                <p className="text-sm font-medium text-white mb-1.5">{activeRule.bomanLabel}</p>
-                <p className="text-xs text-slate-400 leading-relaxed">{activeRule.bomanDetail}</p>
-                <p className="text-[10px] text-slate-400 italic mt-2">Boman et al., Biology of the Cell (Wiley), July 2025</p>
+                <p className="text-sm font-medium text-slate-900 mb-1.5">{activeRule.bomanLabel}</p>
+                <p className="text-xs text-slate-500 leading-relaxed">{activeRule.bomanDetail}</p>
+                <p className="text-[10px] text-slate-500 italic mt-2">Boman et al., Biology of the Cell (Wiley), July 2025</p>
               </div>
               <div className="p-5 bg-cyan-500/[0.03]">
                 <p className="text-xs font-semibold text-cyan-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                   <Dna size={12} /> PAR(2) Translation
                 </p>
-                <p className="text-sm font-medium text-white mb-1.5">{activeRule.par2Label}</p>
-                <p className="text-xs text-slate-400 leading-relaxed mb-2">{activeRule.par2Detail}</p>
+                <p className="text-sm font-medium text-slate-900 mb-1.5">{activeRule.par2Label}</p>
+                <p className="text-xs text-slate-500 leading-relaxed mb-2">{activeRule.par2Detail}</p>
                 <p className="text-[10px] text-emerald-400/70 font-mono">{activeRule.par2Evidence}</p>
                 <Link href={activeRule.link} className="text-[10px] text-cyan-500 hover:underline mt-1 inline-block">View full analysis →</Link>
               </div>
@@ -442,7 +442,7 @@ function FiveRulesSection() {
           {TISSUE_CODE_RULES.map(r => (
             <button
               key={r.id}
-              className="text-left p-3 rounded-lg border border-slate-700/50 bg-slate-800/50 hover:border-purple-500/40 transition-colors"
+              className="text-left p-3 rounded-lg border border-slate-200 bg-slate-50 hover:border-purple-500/40 transition-colors"
               onClick={() => setSelectedRule(r.rule)}
               data-testid={`button-rule-${r.rule}`}
             >
@@ -454,8 +454,8 @@ function FiveRulesSection() {
                   {r.confidence}%
                 </Badge>
               </div>
-              <p className="text-xs font-medium text-white">{r.bomanLabel}</p>
-              <p className="text-[10px] text-slate-400 mt-0.5">→ {r.par2Label}</p>
+              <p className="text-xs font-medium text-slate-900">{r.bomanLabel}</p>
+              <p className="text-[10px] text-slate-500 mt-0.5">→ {r.par2Label}</p>
               {r.speculative && <p className="text-[9px] text-orange-400/70 mt-1 uppercase tracking-wider">Speculative Translation</p>}
             </button>
           ))}
@@ -464,7 +464,7 @@ function FiveRulesSection() {
 
       <div className="bg-amber-500/5 border border-amber-500/20 rounded-lg p-4 mb-8">
         <p className="text-xs text-amber-400 font-semibold mb-1">Important Context</p>
-        <p className="text-xs text-slate-400 leading-relaxed">
+        <p className="text-xs text-slate-500 leading-relaxed">
           Boman's five rules were discovered through mathematical modeling of crypt renewal dynamics using discrete and continuous ODE models, validated against immunohistochemistry and lineage-tracing data. The PAR(2) translations are independent observations from fitting a two-coefficient regression to publicly available time-series data. The mappings above show where AR(2) outputs are <em>consistent with</em> each tissue code rule — they do not constitute independent proof. Both approaches could share biases (e.g., focus on colonic tissue, similar gene panels). Prospective experimental testing is needed to confirm these associations.
         </p>
       </div>
@@ -626,7 +626,7 @@ function CircadianCanonSection() {
             <Activity size={24} className="text-amber-400" />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-white" data-testid="text-circadian-canon-heading">
+            <h2 className="text-xl font-bold text-slate-900" data-testid="text-circadian-canon-heading">
               Circadian Canon → PAR(2) Convergence
             </h2>
             <p className="text-sm text-muted-foreground">
@@ -634,12 +634,12 @@ function CircadianCanonSection() {
             </p>
           </div>
         </div>
-        <p className="text-xs text-slate-400 mt-2 max-w-3xl leading-relaxed">
+        <p className="text-xs text-slate-500 mt-2 max-w-3xl leading-relaxed">
           Joseph Takahashi (UT Southwestern) defined the molecular architecture of mammalian circadian clocks. John Hogenesch (Cincinnati) mapped genome-wide circadian expression across tissues and species. Together their work established the circadian canon — the foundational principles of how biological clocks organize gene expression. The six convergence points below show where AR(2) eigenvalue analysis independently recovers the same principles from time-series data alone.
         </p>
       </div>
 
-      <Card className="bg-slate-900/80 border-amber-500/30 mb-6" data-testid="card-circadian-3d">
+      <Card className="bg-white border-amber-500/30 mb-6" data-testid="card-circadian-3d">
         <CardContent className="p-0">
           <div className="h-[550px] w-full rounded-lg overflow-hidden" data-testid="canvas-circadian-3d">
             <WebGLErrorBoundary>
@@ -654,23 +654,23 @@ function CircadianCanonSection() {
       <div className="flex items-center gap-3 mb-4 flex-wrap">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-amber-500" />
-          <span className="text-xs text-slate-400">Circadian Canon (Published)</span>
+          <span className="text-xs text-slate-500">Circadian Canon (Published)</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-cyan-500" />
-          <span className="text-xs text-slate-400">PAR(2) Independent Discovery</span>
+          <span className="text-xs text-slate-500">PAR(2) Independent Discovery</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-emerald-500" />
-          <span className="text-xs text-slate-400">≥85% confidence</span>
+          <span className="text-xs text-slate-500">≥85% confidence</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-yellow-500" />
-          <span className="text-xs text-slate-400">75–84%</span>
+          <span className="text-xs text-slate-500">75–84%</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-orange-500" />
-          <span className="text-xs text-slate-400">&lt;75%</span>
+          <span className="text-xs text-slate-500">&lt;75%</span>
         </div>
         <Button variant="ghost" size="sm" className="text-xs ml-auto gap-1" onClick={startCircAnim} data-testid="button-replay-circadian">
           <Zap size={12} /> Replay
@@ -678,32 +678,32 @@ function CircadianCanonSection() {
       </div>
 
       {activeCC && (
-        <Card className="bg-slate-900/80 border-amber-500/30 mb-6" data-testid={`circadian-detail-${activeCC.num}`}>
+        <Card className="bg-white border-amber-500/30 mb-6" data-testid={`circadian-detail-${activeCC.num}`}>
           <CardContent className="p-0">
-            <div className="bg-slate-800/50 px-5 py-3 flex items-center gap-3 border-b border-slate-700/50">
+            <div className="bg-slate-50 px-5 py-3 flex items-center gap-3 border-b border-slate-200">
               <div className="w-8 h-8 rounded-lg bg-amber-500/20 flex items-center justify-center text-amber-400 font-bold text-sm shrink-0">
                 {activeCC.num}
               </div>
-              <p className="text-sm font-semibold text-white flex-1">{activeCC.canonLabel}</p>
+              <p className="text-sm font-semibold text-slate-900 flex-1">{activeCC.canonLabel}</p>
               <Badge className={`${activeCC.confidence >= 85 ? "bg-emerald-500/15 text-emerald-400 border-emerald-500/30" : activeCC.confidence >= 75 ? "bg-amber-500/15 text-amber-400 border-amber-500/30" : "bg-orange-500/15 text-orange-400 border-orange-500/30"} text-xs`}>
                 {activeCC.confidence}% convergence confidence
               </Badge>
             </div>
-            <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-700/50">
+            <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200/50">
               <div className="p-5 bg-amber-500/[0.03]">
                 <p className="text-xs font-semibold text-amber-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                   <Activity size={12} /> Circadian Canon
                 </p>
-                <p className="text-sm font-medium text-white mb-1.5">{activeCC.canonLabel}</p>
-                <p className="text-xs text-slate-400 leading-relaxed">{activeCC.canonDetail}</p>
-                <p className="text-[10px] text-slate-400 italic mt-2">{activeCC.canonSource}</p>
+                <p className="text-sm font-medium text-slate-900 mb-1.5">{activeCC.canonLabel}</p>
+                <p className="text-xs text-slate-500 leading-relaxed">{activeCC.canonDetail}</p>
+                <p className="text-[10px] text-slate-500 italic mt-2">{activeCC.canonSource}</p>
               </div>
               <div className="p-5 bg-cyan-500/[0.03]">
                 <p className="text-xs font-semibold text-cyan-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                   <Dna size={12} /> PAR(2) Discovery
                 </p>
-                <p className="text-sm font-medium text-white mb-1.5">{activeCC.par2Label}</p>
-                <p className="text-xs text-slate-400 leading-relaxed mb-2">{activeCC.par2Detail}</p>
+                <p className="text-sm font-medium text-slate-900 mb-1.5">{activeCC.par2Label}</p>
+                <p className="text-xs text-slate-500 leading-relaxed mb-2">{activeCC.par2Detail}</p>
                 <p className="text-[10px] text-emerald-400/70 font-mono">{activeCC.par2Evidence}</p>
                 <Link href={activeCC.link} className="text-[10px] text-cyan-500 hover:underline mt-1 inline-block">View full analysis →</Link>
               </div>
@@ -717,7 +717,7 @@ function CircadianCanonSection() {
           {CIRCADIAN_CONVERGENCES.map(cc => (
             <button
               key={cc.id}
-              className="text-left p-3 rounded-lg border border-slate-700/50 bg-slate-800/50 hover:border-amber-500/40 transition-colors"
+              className="text-left p-3 rounded-lg border border-slate-200 bg-slate-50 hover:border-amber-500/40 transition-colors"
               onClick={() => setSelectedNum(cc.num)}
               data-testid={`button-circadian-${cc.num}`}
             >
@@ -729,8 +729,8 @@ function CircadianCanonSection() {
                   {cc.confidence}%
                 </Badge>
               </div>
-              <p className="text-xs font-medium text-white">{cc.canonLabel}</p>
-              <p className="text-[10px] text-slate-400 mt-0.5">→ {cc.par2Label}</p>
+              <p className="text-xs font-medium text-slate-900">{cc.canonLabel}</p>
+              <p className="text-[10px] text-slate-500 mt-0.5">→ {cc.par2Label}</p>
             </button>
           ))}
         </div>
@@ -738,7 +738,7 @@ function CircadianCanonSection() {
 
       <div className="bg-amber-500/5 border border-amber-500/20 rounded-lg p-4 mb-8">
         <p className="text-xs text-amber-400 font-semibold mb-1">Scientific Context</p>
-        <p className="text-xs text-slate-400 leading-relaxed">
+        <p className="text-xs text-slate-500 leading-relaxed">
           Takahashi's TTFL architecture and Hogenesch's genome-wide circadian atlas represent the foundational canon of circadian biology, established through decades of mutagenesis screens, ChIP-seq, RNA-seq time courses, and cross-species comparisons. The PAR(2) convergence points above show where a single autoregressive equation, applied to publicly available data, recovers principles consistent with this canon. However, consistency is not proof — AR(2) is a statistical tool that measures temporal autocorrelation. It cannot distinguish whether high persistence reflects circadian regulation specifically vs. other slow-changing processes. The convergences are strongest where PAR(2) predictions align with specific published values (e.g., clock gene rankings) and weakest where the mapping is conceptual rather than quantitative.
         </p>
       </div>
@@ -758,7 +758,7 @@ function WaddingtonSection() {
             <Zap size={24} className="text-purple-400" />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-white" data-testid="text-waddington-heading">
+            <h2 className="text-xl font-bold text-slate-900" data-testid="text-waddington-heading">
               Waddington's Epigenetic Landscape → Root-Space Geometry
             </h2>
             <p className="text-sm text-muted-foreground">
@@ -766,24 +766,24 @@ function WaddingtonSection() {
             </p>
           </div>
         </div>
-        <p className="text-xs text-slate-400 mt-2 max-w-3xl leading-relaxed">
+        <p className="text-xs text-slate-500 mt-2 max-w-3xl leading-relaxed">
           Conrad Waddington proposed that cell fates are valleys in a landscape shaped by gene regulatory networks. Modern formalizations (Huang 2012, Wang 2011, Ferrell 2012) made this metaphor mathematically rigorous — valleys are attractors, ridges are barriers, and bifurcations are fate decisions. The AR(2) root-space independently produces a structured parameter landscape with clusters, voids, and boundaries that parallel Waddington's framework — from time-series regression alone, without knowledge of underlying regulatory networks. The key insight isn't that these parallels exist (both frameworks describe dynamics, so structural similarities are expected), but that AR(2) recovers landscape-like structure from regression coefficients alone.
         </p>
       </div>
 
-      <Card className="bg-slate-900/80 border-purple-500/30 mb-6" data-testid="card-waddington-linear">
+      <Card className="bg-white border-purple-500/30 mb-6" data-testid="card-waddington-linear">
         <CardContent className="p-0">
           <div className="grid grid-cols-[1fr_auto_1fr] items-stretch">
-            <div className="px-5 py-3 bg-purple-500/[0.04] border-b border-slate-700/50">
+            <div className="px-5 py-3 bg-purple-500/[0.04] border-b border-slate-200">
               <p className="text-xs font-bold text-purple-400 uppercase tracking-wider">Waddington Landscape</p>
-              <p className="text-[10px] text-slate-400">Cell Fate Framework (1957–2025)</p>
+              <p className="text-[10px] text-slate-500">Cell Fate Framework (1957–2025)</p>
             </div>
-            <div className="flex items-center justify-center px-4 border-b border-slate-700/50 bg-slate-800/30">
-              <p className="text-[10px] text-slate-400 font-medium">Confidence</p>
+            <div className="flex items-center justify-center px-4 border-b border-slate-200 bg-slate-50">
+              <p className="text-[10px] text-slate-500 font-medium">Confidence</p>
             </div>
-            <div className="px-5 py-3 bg-cyan-500/[0.04] border-b border-slate-700/50">
+            <div className="px-5 py-3 bg-cyan-500/[0.04] border-b border-slate-200">
               <p className="text-xs font-bold text-cyan-400 uppercase tracking-wider">PAR(2) Root-Space</p>
-              <p className="text-[10px] text-slate-400">Independent Discovery</p>
+              <p className="text-[10px] text-slate-500">Independent Discovery</p>
             </div>
           </div>
 
@@ -794,7 +794,7 @@ function WaddingtonSection() {
             return (
               <div key={wc.id}>
                 <button
-                  className={`w-full grid grid-cols-[1fr_auto_1fr] items-center transition-colors hover:bg-slate-800/40 ${!isLast || isExpanded ? "border-b border-slate-700/30" : ""}`}
+                  className={`w-full grid grid-cols-[1fr_auto_1fr] items-center transition-colors hover:bg-slate-100 ${!isLast || isExpanded ? "border-b border-slate-200" : ""}`}
                   onClick={() => setExpandedNum(isExpanded ? null : wc.num)}
                   data-testid={`button-waddington-${wc.num}`}
                 >
@@ -802,11 +802,11 @@ function WaddingtonSection() {
                     <div className="w-7 h-7 rounded-lg bg-purple-500/15 flex items-center justify-center text-purple-400 font-bold text-xs shrink-0 border border-purple-500/20">
                       {wc.num}
                     </div>
-                    <p className="text-sm text-white font-medium leading-tight">{wc.wadLabel}</p>
+                    <p className="text-sm text-slate-900 font-medium leading-tight">{wc.wadLabel}</p>
                   </div>
 
                   <div className="px-4 flex flex-col items-center gap-1">
-                    <div className="w-16 h-1.5 rounded-full bg-slate-700/50 overflow-hidden">
+                    <div className="w-16 h-1.5 rounded-full bg-slate-100 overflow-hidden">
                       <div
                         className={`h-full rounded-full ${wc.confidence >= 80 ? "bg-emerald-500" : wc.confidence >= 75 ? "bg-amber-500" : "bg-orange-500"}`}
                         style={{ width: `${wc.confidence}%` }}
@@ -818,25 +818,25 @@ function WaddingtonSection() {
                   </div>
 
                   <div className="px-5 py-3.5 text-left flex items-center gap-3">
-                    <p className="text-sm text-white font-medium leading-tight">{wc.par2Label}</p>
-                    <ChevronDown size={14} className={`text-slate-400 shrink-0 ml-auto transition-transform ${isExpanded ? "rotate-180" : ""}`} />
+                    <p className="text-sm text-slate-900 font-medium leading-tight">{wc.par2Label}</p>
+                    <ChevronDown size={14} className={`text-slate-500 shrink-0 ml-auto transition-transform ${isExpanded ? "rotate-180" : ""}`} />
                   </div>
                 </button>
 
                 {isExpanded && (
-                  <div className={`grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-700/30 ${!isLast ? "border-b border-slate-700/30" : ""}`}>
+                  <div className={`grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200/30 ${!isLast ? "border-b border-slate-200" : ""}`}>
                     <div className="p-5 bg-purple-500/[0.03]">
                       <p className="text-xs font-semibold text-purple-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                         <Zap size={12} /> Waddington Framework
                       </p>
-                      <p className="text-xs text-slate-400 leading-relaxed">{wc.wadDetail}</p>
-                      <p className="text-[10px] text-slate-400 italic mt-2">{wc.wadSource}</p>
+                      <p className="text-xs text-slate-500 leading-relaxed">{wc.wadDetail}</p>
+                      <p className="text-[10px] text-slate-500 italic mt-2">{wc.wadSource}</p>
                     </div>
                     <div className="p-5 bg-cyan-500/[0.03]">
                       <p className="text-xs font-semibold text-cyan-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                         <Dna size={12} /> PAR(2) Root-Space
                       </p>
-                      <p className="text-xs text-slate-400 leading-relaxed mb-2">{wc.par2Detail}</p>
+                      <p className="text-xs text-slate-500 leading-relaxed mb-2">{wc.par2Detail}</p>
                       <p className="text-[10px] text-emerald-400/70 font-mono">{wc.par2Evidence}</p>
                       <Link href={wc.link} className="text-[10px] text-cyan-500 hover:underline mt-1 inline-block">View full analysis →</Link>
                     </div>
@@ -850,7 +850,7 @@ function WaddingtonSection() {
 
       <div className="bg-purple-500/5 border border-purple-500/20 rounded-lg p-4 mb-8">
         <p className="text-xs text-purple-400 font-semibold mb-1">Important Caveat — Conceptual Analogy, Not Causal Proof</p>
-        <p className="text-xs text-slate-400 leading-relaxed">
+        <p className="text-xs text-slate-500 leading-relaxed">
           Waddington's landscape describes <span className="text-purple-300">cell-level</span> fate decisions through gene regulatory network dynamics. AR(2) root-space describes <span className="text-cyan-300">gene-level</span> temporal dynamics from time-series regression. The structural parallels — clusters/valleys, voids/ridges, boundaries/barriers — are conceptually striking, but the two frameworks operate at different levels of biological organization. A dynamical systems researcher would expect some parallels since both describe dynamics — the non-obvious contribution is that AR(2) recovers these structures from regression alone, without network knowledge. Formal mathematical proof connecting the two frameworks remains an open problem. These mappings are associative, not causal.
         </p>
       </div>
@@ -867,7 +867,7 @@ function DetailPanel({ node }: { node: DiscoveryNode }) {
     <div className={`border rounded-lg p-4 ${sourceBg}`} data-testid={`detail-${node.id}`}>
       <div className="flex items-start justify-between mb-2">
         <div>
-          <h3 className="font-bold text-white text-lg">{node.label}</h3>
+          <h3 className="font-bold text-slate-900 text-lg">{node.label}</h3>
           <p className={`text-xs font-medium ${sourceColor}`}>{sourceLabel} — {node.year}</p>
         </div>
         {node.confidence && (
@@ -876,9 +876,9 @@ function DetailPanel({ node }: { node: DiscoveryNode }) {
           </Badge>
         )}
       </div>
-      <p className="text-sm text-slate-300 leading-relaxed">{node.detail}</p>
+      <p className="text-sm text-slate-600 leading-relaxed">{node.detail}</p>
       {node.citation && (
-        <p className="text-xs text-slate-400 mt-2 italic">{node.citation}</p>
+        <p className="text-xs text-slate-500 mt-2 italic">{node.citation}</p>
       )}
     </div>
   );
@@ -928,7 +928,7 @@ export default function ConvergenceMap() {
   const convergenceNodes = DISCOVERIES.filter(d => d.source === "convergence");
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950" data-testid="convergence-map-page">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50" data-testid="convergence-map-page">
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex items-center gap-3 mb-2">
           <Link href="/">
@@ -944,7 +944,7 @@ export default function ConvergenceMap() {
               <GitMerge size={24} className="text-amber-500" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white" data-testid="text-heading">
+              <h1 className="text-2xl font-bold text-slate-900" data-testid="text-heading">
                 Convergence Map
               </h1>
               <p className="text-sm text-muted-foreground">
@@ -960,7 +960,7 @@ export default function ConvergenceMap() {
           </div>
         </div>
 
-        <Card className="bg-slate-900/80 border-slate-700 mb-6">
+        <Card className="bg-white border-slate-200 mb-6">
           <CardContent className="p-0">
             <div className="h-[550px] w-full rounded-lg overflow-hidden" data-testid="canvas-3d">
               <WebGLErrorBoundary>
@@ -978,15 +978,15 @@ export default function ConvergenceMap() {
         <div className="flex items-center gap-3 mb-4 flex-wrap">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-blue-500" />
-            <span className="text-xs text-slate-400">Boman Lab (Published)</span>
+            <span className="text-xs text-slate-500">Boman Lab (Published)</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-cyan-500" />
-            <span className="text-xs text-slate-400">PAR(2) Engine (Independent)</span>
+            <span className="text-xs text-slate-500">PAR(2) Engine (Independent)</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded bg-amber-500 rotate-45" style={{ width: 10, height: 10 }} />
-            <span className="text-xs text-slate-400">Convergence Points</span>
+            <span className="text-xs text-slate-500">Convergence Points</span>
           </div>
           <Button variant="ghost" size="sm" className="text-xs ml-auto gap-1" onClick={startAnimation} data-testid="button-replay">
             <Zap size={12} /> Replay Animation
@@ -998,7 +998,7 @@ export default function ConvergenceMap() {
             <DetailPanel node={selectedNode} />
             {connectedNodes.length > 0 && (
               <div className="space-y-2">
-                <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Connected Discoveries</p>
+                <p className="text-xs text-slate-500 font-semibold uppercase tracking-wider">Connected Discoveries</p>
                 {connectedNodes.map(n => (
                   <DetailPanel key={n.id} node={n} />
                 ))}
@@ -1013,18 +1013,18 @@ export default function ConvergenceMap() {
               <CardTitle className="text-sm text-blue-400 flex items-center gap-2">
                 <Microscope size={16} /> Boman Lab Stream
               </CardTitle>
-              <CardDescription className="text-xs text-slate-400">Published research (2001–2025)</CardDescription>
+              <CardDescription className="text-xs text-slate-500">Published research (2001–2025)</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
               {bomanNodes.map(n => (
                 <button
                   key={n.id}
-                  className={`w-full text-left p-3 rounded-lg border transition-colors ${selected === n.id ? "bg-blue-500/15 border-blue-500/40" : "bg-slate-800/50 border-slate-700/50 hover:border-blue-500/30"}`}
+                  className={`w-full text-left p-3 rounded-lg border transition-colors ${selected === n.id ? "bg-blue-500/15 border-blue-500/40" : "bg-slate-50 border-slate-200 hover:border-blue-500/30"}`}
                   onClick={() => setSelected(selected === n.id ? null : n.id)}
                   data-testid={`button-node-${n.id}`}
                 >
-                  <p className="text-sm font-medium text-white">{n.label}</p>
-                  <p className="text-xs text-slate-400 mt-0.5">{n.year}</p>
+                  <p className="text-sm font-medium text-slate-900">{n.label}</p>
+                  <p className="text-xs text-slate-500 mt-0.5">{n.year}</p>
                 </button>
               ))}
             </CardContent>
@@ -1035,18 +1035,18 @@ export default function ConvergenceMap() {
               <CardTitle className="text-sm text-amber-400 flex items-center gap-2">
                 <GitMerge size={16} /> Convergence Points
               </CardTitle>
-              <CardDescription className="text-xs text-slate-400">Where independent paths reach the same conclusion</CardDescription>
+              <CardDescription className="text-xs text-slate-500">Where independent paths reach the same conclusion</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
               {convergenceNodes.map(n => (
                 <button
                   key={n.id}
-                  className={`w-full text-left p-3 rounded-lg border transition-colors ${selected === n.id ? "bg-amber-500/15 border-amber-500/40" : "bg-slate-800/50 border-slate-700/50 hover:border-amber-500/30"}`}
+                  className={`w-full text-left p-3 rounded-lg border transition-colors ${selected === n.id ? "bg-amber-500/15 border-amber-500/40" : "bg-slate-50 border-slate-200 hover:border-amber-500/30"}`}
                   onClick={() => setSelected(selected === n.id ? null : n.id)}
                   data-testid={`button-node-${n.id}`}
                 >
-                  <p className="text-sm font-medium text-white">{n.label}</p>
-                  <p className="text-xs text-slate-400 mt-0.5">{n.detail.slice(0, 80)}...</p>
+                  <p className="text-sm font-medium text-slate-900">{n.label}</p>
+                  <p className="text-xs text-slate-500 mt-0.5">{n.detail.slice(0, 80)}...</p>
                 </button>
               ))}
             </CardContent>
@@ -1057,18 +1057,18 @@ export default function ConvergenceMap() {
               <CardTitle className="text-sm text-cyan-400 flex items-center gap-2">
                 <Dna size={16} /> PAR(2) Engine Stream
               </CardTitle>
-              <CardDescription className="text-xs text-slate-400">Independent discoveries (2024–2025)</CardDescription>
+              <CardDescription className="text-xs text-slate-500">Independent discoveries (2024–2025)</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
               {par2Nodes.map(n => (
                 <button
                   key={n.id}
-                  className={`w-full text-left p-3 rounded-lg border transition-colors ${selected === n.id ? "bg-cyan-500/15 border-cyan-500/40" : "bg-slate-800/50 border-slate-700/50 hover:border-cyan-500/30"}`}
+                  className={`w-full text-left p-3 rounded-lg border transition-colors ${selected === n.id ? "bg-cyan-500/15 border-cyan-500/40" : "bg-slate-50 border-slate-200 hover:border-cyan-500/30"}`}
                   onClick={() => setSelected(selected === n.id ? null : n.id)}
                   data-testid={`button-node-${n.id}`}
                 >
-                  <p className="text-sm font-medium text-white">{n.label}</p>
-                  <p className="text-xs text-slate-400 mt-0.5">{n.year}{n.confidence ? ` — ${n.confidence}% confidence` : ""}</p>
+                  <p className="text-sm font-medium text-slate-900">{n.label}</p>
+                  <p className="text-xs text-slate-500 mt-0.5">{n.year}{n.confidence ? ` — ${n.confidence}% confidence` : ""}</p>
                 </button>
               ))}
             </CardContent>
@@ -1081,33 +1081,33 @@ export default function ConvergenceMap() {
 
         <WaddingtonSection />
 
-        <Card className="bg-slate-900/80 border-slate-700 mb-8">
+        <Card className="bg-white border-slate-200 mb-8">
           <CardHeader>
-            <CardTitle className="text-white flex items-center gap-2">
+            <CardTitle className="text-slate-900 flex items-center gap-2">
               <Activity size={18} className="text-amber-400" />
               Why Convergence Matters
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4 text-sm text-slate-300 leading-relaxed">
+          <CardContent className="space-y-4 text-sm text-slate-600 leading-relaxed">
             <p>
-              <strong className="text-white">Independent convergence is the strongest form of scientific validation.</strong> When multiple research programs — using completely different methodologies, data types, and theoretical frameworks — arrive at structurally similar conclusions, the probability that all are wrong drops dramatically. This page documents convergence across four independent frameworks.
+              <strong className="text-slate-900">Independent convergence is the strongest form of scientific validation.</strong> When multiple research programs — using completely different methodologies, data types, and theoretical frameworks — arrive at structurally similar conclusions, the probability that all are wrong drops dramatically. This page documents convergence across four independent frameworks.
             </p>
             <div className="grid md:grid-cols-2 gap-4">
               <div className="bg-blue-500/5 border border-blue-500/20 rounded-lg p-4">
                 <p className="font-semibold text-blue-400 mb-2 flex items-center gap-2"><Microscope size={14} /> Boman Lab — Tissue Renewal</p>
-                <p className="text-xs text-slate-400">Population dynamics modeling, immunohistochemistry, stem cell counting, lineage tracing, Western blots, mouse models. Decades of wet-lab evidence establishing five rules of tissue renewal.</p>
+                <p className="text-xs text-slate-500">Population dynamics modeling, immunohistochemistry, stem cell counting, lineage tracing, Western blots, mouse models. Decades of wet-lab evidence establishing five rules of tissue renewal.</p>
               </div>
               <div className="bg-amber-500/5 border border-amber-500/20 rounded-lg p-4">
                 <p className="font-semibold text-amber-400 mb-2 flex items-center gap-2"><Activity size={14} /> Takahashi / Hogenesch — Circadian Canon</p>
-                <p className="text-xs text-slate-400">TTFL mutagenesis screens, ChIP-seq, RNA-seq time courses, cross-species comparisons. The foundational architecture of circadian biology — 43% genome-wide rhythmicity, tissue-specific programs, chronotherapy targets.</p>
+                <p className="text-xs text-slate-500">TTFL mutagenesis screens, ChIP-seq, RNA-seq time courses, cross-species comparisons. The foundational architecture of circadian biology — 43% genome-wide rhythmicity, tissue-specific programs, chronotherapy targets.</p>
               </div>
               <div className="bg-purple-500/5 border border-purple-500/20 rounded-lg p-4">
                 <p className="font-semibold text-purple-400 mb-2 flex items-center gap-2"><Zap size={14} /> Waddington — Epigenetic Landscape</p>
-                <p className="text-xs text-slate-400">Cell fate as valleys in a potential landscape. Formalized mathematically (Huang 2012, Ferrell 2012) through dynamical systems theory — attractors, barriers, bifurcations. A framework spanning developmental biology for 70 years.</p>
+                <p className="text-xs text-slate-500">Cell fate as valleys in a potential landscape. Formalized mathematically (Huang 2012, Ferrell 2012) through dynamical systems theory — attractors, barriers, bifurcations. A framework spanning developmental biology for 70 years.</p>
               </div>
               <div className="bg-cyan-500/5 border border-cyan-500/20 rounded-lg p-4">
                 <p className="font-semibold text-cyan-400 mb-2 flex items-center gap-2"><Dna size={14} /> PAR(2) — Time-Series Regression</p>
-                <p className="text-xs text-slate-400">One equation applied to publicly available time-series data. No wet lab, no antibodies, no microscopes. Pure mathematical extraction of temporal dynamics from existing datasets — producing clusters, voids, hierarchies, and boundaries.</p>
+                <p className="text-xs text-slate-500">One equation applied to publicly available time-series data. No wet lab, no antibodies, no microscopes. Pure mathematical extraction of temporal dynamics from existing datasets — producing clusters, voids, hierarchies, and boundaries.</p>
               </div>
             </div>
             <p>

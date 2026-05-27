@@ -1,0 +1,76 @@
+{
+  "metadata": {
+    "nPermutations": 1000,
+    "timestamp": "2025-12-20T17:49:44.929Z",
+    "datasetsAnalyzed": 4
+  },
+  "results": [
+    {
+      "dataset": "CGM Combined",
+      "type": "Metabolomics",
+      "nSubjects": 118,
+      "realModulus": 0.5511760767630459,
+      "realFibProx": 27.080205254483836,
+      "nullModulusMean": 0.4282741152855172,
+      "nullModulusStd": 0.01472055008611315,
+      "nullFibProxMean": 60.16768955105624,
+      "nullFibProxStd": 2.777760479686741,
+      "modulusZscore": 8.349006032965448,
+      "fibProxZscore": -11.911568523828885,
+      "modulusPvalue": 1,
+      "fibProxPvalue": 1
+    },
+    {
+      "dataset": "ShanghaiT2DM",
+      "type": "Metabolomics",
+      "nSubjects": 10,
+      "realModulus": 0.739864044419282,
+      "realFibProx": 53.384466451483874,
+      "nullModulusMean": 0.42842479411772993,
+      "nullModulusStd": 0.05092590493000112,
+      "nullFibProxMean": 60.22948474989849,
+      "nullFibProxStd": 9.830150678785417,
+      "modulusZscore": 6.115536890893403,
+      "fibProxZscore": -0.6963289294422458,
+      "modulusPvalue": 1,
+      "fibProxPvalue": 0.764
+    },
+    {
+      "dataset": "Human Plasma Proteome",
+      "type": "Proteomics",
+      "nSubjects": 138,
+      "realModulus": 0.9762290021585331,
+      "realFibProx": 82.20842976996222,
+      "nullModulusMean": 0.6750392012965761,
+      "nullModulusStd": 0.01919291726350291,
+      "nullFibProxMean": 61.95991604914772,
+      "nullFibProxStd": 2.606501240625452,
+      "modulusZscore": 15.692757735932984,
+      "fibProxZscore": 7.768465023233865,
+      "modulusPvalue": 1,
+      "fibProxPvalue": 0
+    },
+    {
+      "dataset": "Mouse Liver Proteome",
+      "type": "Proteomics",
+      "nSubjects": 7,
+      "realModulus": 0.6008358502671582,
+      "realFibProx": 74.07759090310584,
+      "nullModulusMean": 0.49142036737963707,
+      "nullModulusStd": 0.06948261373131975,
+      "nullFibProxMean": 63.80543330896921,
+      "nullFibProxStd": 10.047018374743995,
+      "modulusZscore": 1.5747174294654005,
+      "fibProxZscore": 1.0224085605296187,
+      "modulusPvalue": 0.955,
+      "fibProxPvalue": 0.16
+    }
+  ],
+  "summary": {
+    "significantModulus": 0,
+    "significantFibonacci": 1,
+    "allStable": true,
+    "avgModulus": 0.7170262434020048,
+    "avgFibProx": 59.18767309475894
+  }
+}

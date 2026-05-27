@@ -26,20 +26,20 @@ export default function LoadedReportBanner({ title, summary, geneCount, sourcePa
   if (dismissed) return null;
 
   return (
-    <Alert className="bg-cyan-950/40 border-cyan-800/60 mb-4" data-testid="loaded-report-banner">
-      <FolderOpen className="h-4 w-4 text-cyan-400" />
+    <Alert className="bg-cyan-50 border-cyan-200 mb-4" data-testid="loaded-report-banner">
+      <FolderOpen className="h-4 w-4 text-cyan-600" />
       <AlertDescription className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3 flex-wrap">
-          <span className="text-cyan-300 font-medium text-sm">Loaded Report:</span>
-          <span className="text-slate-300 text-sm">{title}</span>
+          <span className="text-cyan-700 font-medium text-sm">Loaded Report:</span>
+          <span className="text-slate-700 text-sm">{title}</span>
           {geneCount && (
-            <Badge variant="outline" className="text-[10px] border-cyan-800 text-cyan-400">
+            <Badge variant="outline" className="text-[10px] border-cyan-300 text-cyan-700">
               <Dna size={10} className="mr-1" />
               {geneCount} genes
             </Badge>
           )}
           {highlightedCount !== undefined && highlightedCount > 0 && (
-            <Badge variant="outline" className="text-[10px] border-emerald-800 text-emerald-400">
+            <Badge variant="outline" className="text-[10px] border-emerald-300 text-emerald-700">
               {highlightedCount} highlighted
             </Badge>
           )}
@@ -47,14 +47,14 @@ export default function LoadedReportBanner({ title, summary, geneCount, sourcePa
         </div>
         <div className="flex items-center gap-2 shrink-0">
           <Link href="/reports">
-            <Button variant="ghost" size="sm" className="text-xs text-slate-400 h-7" data-testid="button-view-reports">
+            <Button variant="ghost" size="sm" className="text-xs text-slate-600 h-7 hover:text-slate-900" data-testid="button-view-reports">
               View All Reports
             </Button>
           </Link>
           <Button
             variant="ghost"
             size="sm"
-            className="text-slate-500 h-7 w-7 p-0"
+            className="text-slate-500 h-7 w-7 p-0 hover:text-slate-800"
             onClick={() => { setDismissed(true); onDismiss?.(); }}
             data-testid="button-dismiss-banner"
           >

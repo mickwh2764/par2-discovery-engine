@@ -1,10 +1,9 @@
 import express, { type Request, Response, NextFunction } from "express";
-import helmet from "helmet";
 import { registerRoutes } from "./routes";
 import { setupAuth, registerAuthRoutes } from "./replit_integrations/auth";
 import { serveStatic } from "./static";
 import { createServer } from "http";
-import { apiLimiter, heavyLimiter, uploadLimiter } from "./security";
+import path from "path";
 
 process.on('uncaughtException', (err) => {
   console.error('[FATAL] Uncaught exception (kept alive):', err.message);
@@ -15,20 +14,6 @@ process.on('unhandledRejection', (reason) => {
 
 const app = express();
 const httpServer = createServer(app);
-
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      imgSrc: ["'self'", "data:", "blob:"],
-      connectSrc: ["'self'", "https://api.github.com"],
-    },
-  },
-  crossOriginEmbedderPolicy: false,
-}));
 
 declare module "http" {
   interface IncomingMessage {
@@ -46,34 +31,41 @@ app.use(
 
 app.use(express.urlencoded({ extended: false }));
 
-// CORS — allow the frontend origin and common dev ports
-const ALLOWED_ORIGINS = new Set([
-  process.env.CORS_ORIGIN,
-  `http://localhost:${process.env.PORT || 5000}`,
-  'http://localhost:5173',
-  'http://localhost:3000',
-].filter(Boolean) as string[]);
-
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (origin && ALLOWED_ORIGINS.has(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
+// Block direct access to draft paper static files — require password
+const DRAFT_STATIC_FILES = new Set([
+  '/PaperH_GlialClockInversion_Supplement.zip',
+  '/PaperM_GigaScience.pdf',
+  '/PaperO_Organoid_Circadian_Hierarchy.pdf',
+]);
+app.use("/downloads", (req, res, next) => {
+  if (!DRAFT_STATIC_FILES.has(req.path)) return next();
+  const envPassword = process.env.DRAFT_PAPER_PASSWORD;
+  const provided = (req.query.password as string) || (req.headers['x-download-password'] as string);
+  if (!envPassword || !provided || provided !== envPassword) {
+    res.status(401).json({ error: 'Password required for draft manuscripts.' });
+    return;
   }
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Download-Password');
-  res.setHeader('Access-Control-Max-Age', '86400');
-  if (req.method === 'OPTIONS') { res.sendStatus(204); return; }
   next();
 });
 
-// Rate limiting
-app.use('/api/download', apiLimiter);
-app.use('/api/upload', uploadLimiter);
-app.use('/api/monte-carlo', heavyLimiter);
-app.use('/api/genome-wide', heavyLimiter);
-app.use('/api/run-full-adversarial', heavyLimiter);
-app.use('/api/run-stress-test', heavyLimiter);
-app.use('/api/v1/analyze', uploadLimiter);
+// Serve static figures (SVG/PNG for papers, X posts, etc.)
+app.use("/figures", express.static(path.resolve(process.cwd(), "public", "figures"), {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith(".svg")) res.setHeader("Content-Type", "image/svg+xml");
+    if (filePath.endsWith(".png")) res.setHeader("Content-Type", "image/png");
+  },
+}));
+
+// Serve downloadable files (PDFs etc.) from the workspace public/downloads directory
+// Must be registered before Vite middleware, which uses client/ as its root
+app.use("/downloads", express.static(path.resolve(process.cwd(), "public", "downloads"), {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith(".pdf")) {
+      res.setHeader("Content-Type", "application/pdf");
+      res.setHeader("Content-Disposition", "inline");
+    }
+  },
+}));
 
 // Block common scanner/exploit probe paths
 app.use((req, res, next) => {
@@ -81,6 +73,38 @@ app.use((req, res, next) => {
   if (blocked.test(req.path)) {
     res.status(404).end();
     return;
+  }
+  next();
+});
+
+// Block internal/draft pages in production — only accessible in development preview
+app.use((req, res, next) => {
+  if (process.env.NODE_ENV === 'production') {
+    const internalPages = [
+      // Paper G draft review pages
+      '/paper-g-original',
+      '/paper-g-revision',
+      // Private analytics dashboard
+      '/analytics',
+      // Internal manuscript cross-validation tool
+      '/manuscript-validation',
+      // Paper N correction detail (misreadable without paper context)
+      '/myc-on-discrepancy',
+      // GSE11923 post-hoc exclusion checkpoint (Paper N)
+      '/gse11923-checkpoint',
+      // Internal report library
+      '/reports',
+      // Exploratory analyses not yet tied to any submitted paper
+      '/mnd-als',
+      '/gbm-zman-seq',
+      '/retinal-analysis',
+      '/wearable-analysis',
+      '/evolutionary-gene-age',
+    ];
+    if (internalPages.includes(req.path)) {
+      res.status(404).end();
+      return;
+    }
   }
   next();
 });

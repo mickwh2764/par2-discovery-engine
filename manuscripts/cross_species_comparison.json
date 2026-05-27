@@ -1,0 +1,1474 @@
+{
+  "mouseLiver": {
+    "proteins": 7,
+    "meanRatio": -0.03541038541022706,
+    "medianRatio": 0.4340282838092287,
+    "stdDevRatio": 0.9772614108434862,
+    "meanModulus": 0.6008358502671582,
+    "meanFibProximity": 74.07759090310584,
+    "distanceToPhI": 1.653444374160122,
+    "results": [
+      {
+        "gene": "Clock",
+        "species": "Mouse",
+        "tissue": "Liver",
+        "beta1": 0.4587507053629043,
+        "beta2": -0.3451372170972832,
+        "ratio": -1.3291835323386672,
+        "modulus": 0.5874838015616117,
+        "fibProximity": 74.91242237515037
+      },
+      {
+        "gene": "Arntl",
+        "species": "Mouse",
+        "tissue": "Liver",
+        "beta1": 0.39008167081201095,
+        "beta2": -0.3400974127160983,
+        "ratio": -1.1469704156133578,
+        "modulus": 0.5831787142172615,
+        "fibProximity": 62.43378860320661
+      },
+      {
+        "gene": "Nr1d1",
+        "species": "Mouse",
+        "tissue": "Liver",
+        "beta1": 0.5142196053889213,
+        "beta2": -0.5470813863964167,
+        "ratio": -0.9399325551469528,
+        "modulus": 0.7396495023971941,
+        "fibProximity": 72.47717028066482
+      },
+      {
+        "gene": "Nr1d2",
+        "species": "Mouse",
+        "tissue": "Liver",
+        "beta1": -0.3926272537605874,
+        "beta2": -0.4270790685572622,
+        "ratio": 0.9193315305452495,
+        "modulus": 0.6535128679354847,
+        "fibProximity": 73.98576014342106
+      },
+      {
+        "gene": "Wee1",
+        "species": "Mouse",
+        "tissue": "Liver",
+        "beta1": -0.39620259685029735,
+        "beta2": -0.5264132685788391,
+        "ratio": 0.7526455363101462,
+        "modulus": 0.7255434298364496,
+        "fibProximity": 87.40553746939246
+      },
+      {
+        "gene": "Yap1",
+        "species": "Mouse",
+        "tissue": "Liver",
+        "beta1": -0.1018306635041501,
+        "beta2": -0.23461757517376078,
+        "ratio": 0.4340282838092287,
+        "modulus": 0.4843733840476382,
+        "fibProximity": 83.19310576958111
+      },
+      {
+        "gene": "Bax",
+        "species": "Mouse",
+        "tissue": "Liver",
+        "beta1": -0.19833386900354405,
+        "beta2": -0.18671840555551225,
+        "ratio": 1.062208454562764,
+        "modulus": 0.4321092518744678,
+        "fibProximity": 64.13535168032449
+      }
+    ]
+  },
+  "humanPlasma": {
+    "proteins": 138,
+    "meanRatio": -1.444097307211906,
+    "medianRatio": -1.4185156641425904,
+    "stdDevRatio": 0.12525348366386613,
+    "meanModulus": 0.9762290021585331,
+    "meanFibProximity": 82.20842976996222,
+    "distanceToPhi": 3.062131295961801,
+    "results": [
+      {
+        "gene": "SERPINF1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.1601188984363944,
+        "beta2": -0.720317490924117,
+        "ratio": -1.6105660532386112,
+        "modulus": 0.8487152001255291,
+        "fibProximity": 99.25598802339829
+      },
+      {
+        "gene": "NCAM1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4279096231302901,
+        "beta2": -0.8686728863808639,
+        "ratio": -1.6437828848087617,
+        "modulus": 0.9320262262301764,
+        "fibProximity": 97.45797797097731
+      },
+      {
+        "gene": "ITIH2",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.0804327877413016,
+        "beta2": -0.6791250174201195,
+        "ratio": -1.5909188441410713,
+        "modulus": 0.8240904182309848,
+        "fibProximity": 97.32491706772382
+      },
+      {
+        "gene": "C3",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 0.9343502676167645,
+        "beta2": -0.5671461768397421,
+        "ratio": -1.6474593425334556,
+        "modulus": 0.7530910813704689,
+        "fibProximity": 97.10033566627429
+      },
+      {
+        "gene": "LDHA",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.5029244221099702,
+        "beta2": -0.9542838592622047,
+        "ratio": -1.574923863086128,
+        "modulus": 0.9768745360905896,
+        "fibProximity": 95.78059052477691
+      },
+      {
+        "gene": "AMY2A",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.375292930494055,
+        "beta2": -0.8748493626071081,
+        "ratio": -1.5720339858231052,
+        "modulus": 0.9353338241543006,
+        "fibProximity": 95.50419593955077
+      },
+      {
+        "gene": "PROC",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.2794820879202007,
+        "beta2": -0.7675815544439502,
+        "ratio": -1.6669005143656435,
+        "modulus": 0.8761173177400103,
+        "fibProximity": 95.23082299706138
+      },
+      {
+        "gene": "PCOLCE",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.308597082557469,
+        "beta2": -0.7848742023627437,
+        "ratio": -1.6672698358770586,
+        "modulus": 0.8859312627753598,
+        "fibProximity": 95.19565869944427
+      },
+      {
+        "gene": "IGHA2",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3971305928959055,
+        "beta2": -0.8918457962373623,
+        "ratio": -1.5665607202392005,
+        "modulus": 0.9443758765647089,
+        "fibProximity": 94.98290399676657
+      },
+      {
+        "gene": "CD14",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3539316308911111,
+        "beta2": -0.867025743526483,
+        "ratio": -1.5615818111515576,
+        "modulus": 0.9311421714896619,
+        "fibProximity": 94.51116809248586
+      },
+      {
+        "gene": "F5",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.2937631673150918,
+        "beta2": -0.828822047648373,
+        "ratio": -1.5609661579176157,
+        "modulus": 0.9103966430344375,
+        "fibProximity": 94.4529998937632
+      },
+      {
+        "gene": "GSN",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4602513073057253,
+        "beta2": -0.9389070073502808,
+        "ratio": -1.5552672371960954,
+        "modulus": 0.9689721396151082,
+        "fibProximity": 93.9162506338961
+      },
+      {
+        "gene": "APOE",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.2799854309062084,
+        "beta2": -0.8297919372043907,
+        "ratio": -1.5425378019682157,
+        "modulus": 0.9109291614633878,
+        "fibProximity": 92.72832664607974
+      },
+      {
+        "gene": "APCS",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3390732642128,
+        "beta2": -0.8682032175821632,
+        "ratio": -1.5423500363681566,
+        "modulus": 0.931774231014232,
+        "fibProximity": 92.71091709069353
+      },
+      {
+        "gene": "FN1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3165930018617473,
+        "beta2": -0.855065282949397,
+        "ratio": -1.539757288847457,
+        "modulus": 0.9246974007476159,
+        "fibProximity": 92.47085243826405
+      },
+      {
+        "gene": "GSR",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3163277973412733,
+        "beta2": -0.7685371758002475,
+        "ratio": -1.7127704928140046,
+        "modulus": 0.8766625210423037,
+        "fibProximity": 90.96125821123759
+      },
+      {
+        "gene": "LYZ",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3669609770515763,
+        "beta2": -0.9020353579596758,
+        "ratio": -1.51541839794786,
+        "modulus": 0.9497554200738608,
+        "fibProximity": 90.24738260502427
+      },
+      {
+        "gene": "PF4V1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3943761704858275,
+        "beta2": -0.9244166010326325,
+        "ratio": -1.508385038659215,
+        "modulus": 0.961465860565331,
+        "fibProximity": 89.6148672994475
+      },
+      {
+        "gene": "PEBP4",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.375362488328335,
+        "beta2": -0.9118594205510817,
+        "ratio": -1.5083054002963916,
+        "modulus": 0.9549133052539804,
+        "fibProximity": 89.60773080230437
+      },
+      {
+        "gene": "PGK1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4357097937202852,
+        "beta2": -0.9569306233259454,
+        "ratio": -1.5003279848337137,
+        "modulus": 0.9782283083850852,
+        "fibProximity": 88.89573641841982
+      },
+      {
+        "gene": "ALB",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.1458337546475832,
+        "beta2": -0.7671615471629138,
+        "ratio": -1.4936016525920255,
+        "modulus": 0.875877586859553,
+        "fibProximity": 88.29980063827823
+      },
+      {
+        "gene": "C1R",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.239999673279499,
+        "beta2": -0.8329553122021025,
+        "ratio": -1.4886749086229898,
+        "modulus": 0.9126638549882988,
+        "fibProximity": 87.86584001225157
+      },
+      {
+        "gene": "SERPIND1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.151420972402775,
+        "beta2": -0.6586381595570856,
+        "ratio": -1.748184425234443,
+        "modulus": 0.8115652528029312,
+        "fibProximity": 87.79633432664862
+      },
+      {
+        "gene": "HLA-B",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3523561782089502,
+        "beta2": -0.9141002212159606,
+        "ratio": -1.47943972315203,
+        "modulus": 0.9560858858993582,
+        "fibProximity": 87.0581181545433
+      },
+      {
+        "gene": "PROZ",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3401229481228256,
+        "beta2": -0.9064192746848221,
+        "ratio": -1.4784801973554786,
+        "modulus": 0.9520605415018638,
+        "fibProximity": 86.97462370831835
+      },
+      {
+        "gene": "SPP2",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4122212649132564,
+        "beta2": -0.9553611630020669,
+        "ratio": -1.478206692509439,
+        "modulus": 0.9774257838844169,
+        "fibProximity": 86.95083898001914
+      },
+      {
+        "gene": "ILK",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3562868612347572,
+        "beta2": -0.9287608985648177,
+        "ratio": -1.4603186496444678,
+        "modulus": 0.9637224177971672,
+        "fibProximity": 85.40928742090335
+      },
+      {
+        "gene": "VCL",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3697864844587286,
+        "beta2": -0.9384911285061861,
+        "ratio": -1.4595625284588927,
+        "modulus": 0.9687575179095056,
+        "fibProximity": 85.34473205815387
+      },
+      {
+        "gene": "ALDOA",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3520324068520893,
+        "beta2": -0.9273583991716237,
+        "ratio": -1.4579394633831018,
+        "modulus": 0.962994495919693,
+        "fibProximity": 85.20632435688505
+      },
+      {
+        "gene": "MGP",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4224429943677421,
+        "beta2": -0.9760328565535019,
+        "ratio": -1.4573720390833687,
+        "modulus": 0.987943751715401,
+        "fibProximity": 85.15798993231436
+      },
+      {
+        "gene": "CAVIN2",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3808467296406164,
+        "beta2": -0.9476414220977176,
+        "ratio": -1.457140535904337,
+        "modulus": 0.9734687576382293,
+        "fibProximity": 85.13827786871582
+      },
+      {
+        "gene": "COMP",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4539259345733058,
+        "beta2": -0.9994539582235973,
+        "ratio": -1.4547202726151336,
+        "modulus": 0.999726941831417,
+        "fibProximity": 84.93246997539154
+      },
+      {
+        "gene": "IGKV2-29",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.2814255162758172,
+        "beta2": -0.7192626605208261,
+        "ratio": -1.7815821487909893,
+        "modulus": 0.8480935446758371,
+        "fibProximity": 84.9125604092854
+      },
+      {
+        "gene": "MB",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3852576742955165,
+        "beta2": -0.9532617403941401,
+        "ratio": -1.4531766204345526,
+        "modulus": 0.9763512382304537,
+        "fibProximity": 84.80146492204396
+      },
+      {
+        "gene": "IGFBP4",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4130201787749002,
+        "beta2": -0.9753463148278456,
+        "ratio": -1.448736881754976,
+        "modulus": 0.9875962306670908,
+        "fibProximity": 84.42580311533601
+      },
+      {
+        "gene": "MMRN1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.376621611318967,
+        "beta2": -0.9506984712429016,
+        "ratio": -1.448010755207413,
+        "modulus": 0.9750376768324912,
+        "fibProximity": 84.36452155017291
+      },
+      {
+        "gene": "APOC2",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3491302613377911,
+        "beta2": -0.9336438884859035,
+        "ratio": -1.445015897362842,
+        "modulus": 0.9662524972727903,
+        "fibProximity": 84.11223976361188
+      },
+      {
+        "gene": "CFD",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.2813205425389071,
+        "beta2": -0.8870048795237153,
+        "ratio": -1.4445473436706717,
+        "modulus": 0.9418093647462396,
+        "fibProximity": 84.07283789478036
+      },
+      {
+        "gene": "CALML3",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4000774157783553,
+        "beta2": -0.9702298658263828,
+        "ratio": -1.4430368153899844,
+        "modulus": 0.9850024699595341,
+        "fibProximity": 83.94593936154293
+      },
+      {
+        "gene": "PLEK",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.362780226495886,
+        "beta2": -0.9459579120252641,
+        "ratio": -1.440635158469386,
+        "modulus": 0.9726036767487897,
+        "fibProximity": 83.74457191986396
+      },
+      {
+        "gene": "PDLIM1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3904113074776916,
+        "beta2": -0.9670762999066369,
+        "ratio": -1.437747267316885,
+        "modulus": 0.9834003761981368,
+        "fibProximity": 83.50307558694642
+      },
+      {
+        "gene": "ACTB",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3770169278566513,
+        "beta2": -0.957967921371349,
+        "ratio": -1.4374353223492347,
+        "modulus": 0.9787583569867228,
+        "fibProximity": 83.47703128513939
+      },
+      {
+        "gene": "ARPC5",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4112893382909206,
+        "beta2": -0.9836925253397055,
+        "ratio": -1.4346854346621676,
+        "modulus": 0.9918127471149509,
+        "fibProximity": 83.24779415728844
+      },
+      {
+        "gene": "ANG",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.2921727332953878,
+        "beta2": -0.90072630329351,
+        "ratio": -1.4345897622513655,
+        "modulus": 0.9490660162989243,
+        "fibProximity": 83.23983002110758
+      },
+      {
+        "gene": "RSU1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4179716964651234,
+        "beta2": -0.9884487235568145,
+        "ratio": -1.4345424933756017,
+        "modulus": 0.9942075857469679,
+        "fibProximity": 83.23589546091557
+      },
+      {
+        "gene": "IGFBP7",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3911442855115865,
+        "beta2": -0.9706176381547493,
+        "ratio": -1.4332567540770271,
+        "modulus": 0.9851992885476265,
+        "fibProximity": 83.12894456928522
+      },
+      {
+        "gene": "PPIA",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3874619718298788,
+        "beta2": -0.9696597991917599,
+        "ratio": -1.4308750068698004,
+        "modulus": 0.9847130542405539,
+        "fibProximity": 82.93118803423994
+      },
+      {
+        "gene": "THBS1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4037741020564027,
+        "beta2": -0.9814364875882688,
+        "ratio": -1.430325976065924,
+        "modulus": 0.9906747637788442,
+        "fibProximity": 82.88566875429392
+      },
+      {
+        "gene": "S100A8",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4462809845630602,
+        "beta2": -1.0111942220713956,
+        "ratio": -1.4302702220750478,
+        "modulus": 1.005581534273276,
+        "fibProximity": 82.8810476762974
+      },
+      {
+        "gene": "THBS4",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4334246706708313,
+        "beta2": -1.0031021931908413,
+        "ratio": -1.428991662465761,
+        "modulus": 1.0015498955073787,
+        "fibProximity": 82.77514703093343
+      },
+      {
+        "gene": "APOC4",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.384567057942803,
+        "beta2": -0.9695550088270011,
+        "ratio": -1.4280438400477111,
+        "modulus": 0.9846598442238828,
+        "fibProximity": 82.69672806042001
+      },
+      {
+        "gene": "CST6",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4372759835316558,
+        "beta2": -1.007208999399083,
+        "ratio": -1.4269888219715647,
+        "modulus": 1.0035980268011107,
+        "fibProximity": 82.60952752463717
+      },
+      {
+        "gene": "CRTAC1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3903442848818486,
+        "beta2": -0.9749519687734391,
+        "ratio": -1.4260643902601717,
+        "modulus": 0.9873965610500368,
+        "fibProximity": 82.5331959448326
+      },
+      {
+        "gene": "S100A9",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.371607800274397,
+        "beta2": -0.9621839229977454,
+        "ratio": -1.4255151925642922,
+        "modulus": 0.9809097425338099,
+        "fibProximity": 82.48788134826111
+      },
+      {
+        "gene": "IGLV3-19",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3922487267479937,
+        "beta2": -0.9770320486177297,
+        "ratio": -1.4249775416453307,
+        "modulus": 0.9884493151485967,
+        "fibProximity": 82.44354358323913
+      },
+      {
+        "gene": "TFRC",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.2115739482790104,
+        "beta2": -0.8503602459904869,
+        "ratio": -1.4247772682127058,
+        "modulus": 0.9221497958523261,
+        "fibProximity": 82.42703398504008
+      },
+      {
+        "gene": "MYL6",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4310730870688744,
+        "beta2": -1.0045834551217112,
+        "ratio": -1.4245437547002917,
+        "modulus": 1.0022891075541585,
+        "fibProximity": 82.4077884059552
+      },
+      {
+        "gene": "SEMA4B",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4110068541343486,
+        "beta2": -0.9906355840766494,
+        "ratio": -1.4243450132568358,
+        "modulus": 0.9953067788760657,
+        "fibProximity": 82.39141219050565
+      },
+      {
+        "gene": "ACTA1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4262688760264552,
+        "beta2": -1.0025728248118355,
+        "ratio": -1.422608752929384,
+        "modulus": 1.0012855860401844,
+        "fibProximity": 82.24848336692567
+      },
+      {
+        "gene": "ENO1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4258134794948631,
+        "beta2": -1.0023311158305148,
+        "ratio": -1.4224974731164142,
+        "modulus": 1.0011648794431989,
+        "fibProximity": 82.23933128031022
+      },
+      {
+        "gene": "PPBP",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4149332820658742,
+        "beta2": -0.9947835043374624,
+        "ratio": -1.4223529802177777,
+        "modulus": 0.9973883417894268,
+        "fibProximity": 82.22744913941477
+      },
+      {
+        "gene": "ZYX",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3784249713419285,
+        "beta2": -0.9694947567842576,
+        "ratio": -1.4217972420130072,
+        "modulus": 0.9846292483895944,
+        "fibProximity": 82.18176489986159
+      },
+      {
+        "gene": "CST3",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3473124952000148,
+        "beta2": -0.9483286152531036,
+        "ratio": -1.4207232319362468,
+        "modulus": 0.9738216547464447,
+        "fibProximity": 82.09354823750516
+      },
+      {
+        "gene": "RAP1B",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4289714059404446,
+        "beta2": -1.0061780959275382,
+        "ratio": -1.4201972908415954,
+        "modulus": 1.0030842915366276,
+        "fibProximity": 82.05038321900484
+      },
+      {
+        "gene": "SRGN",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.41887988585232,
+        "beta2": -0.9991387997174286,
+        "ratio": -1.4201028788528685,
+        "modulus": 0.9995693071105318,
+        "fibProximity": 82.04263704482095
+      },
+      {
+        "gene": "ACTN1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3996715674977622,
+        "beta2": -0.9866768559003276,
+        "ratio": -1.4185713986577533,
+        "modulus": 0.9933160906279167,
+        "fibProximity": 81.91708653463088
+      },
+      {
+        "gene": "CALR",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.401175129004585,
+        "beta2": -0.9878143892105697,
+        "ratio": -1.4184599296274276,
+        "modulus": 0.9938885195083852,
+        "fibProximity": 81.90795582533286
+      },
+      {
+        "gene": "HSPA8",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4099859420193148,
+        "beta2": -0.9942673145557848,
+        "ratio": -1.418115552404801,
+        "modulus": 0.9971295375004116,
+        "fibProximity": 81.87975344740173
+      },
+      {
+        "gene": "MTPN",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4060028438235364,
+        "beta2": -0.9931461604005136,
+        "ratio": -1.41570586474052,
+        "modulus": 0.9965671881014916,
+        "fibProximity": 81.68268634600419
+      },
+      {
+        "gene": "LIMS1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4062168988721737,
+        "beta2": -0.9943829881635509,
+        "ratio": -1.414160253756158,
+        "modulus": 0.9971875391136569,
+        "fibProximity": 81.55653420493694
+      },
+      {
+        "gene": "TUBA1C",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4128035213747,
+        "beta2": -0.9993372364393629,
+        "ratio": -1.4137404970603487,
+        "modulus": 0.9996685632945366,
+        "fibProximity": 81.52230748756686
+      },
+      {
+        "gene": "FERMT3",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.416840167682878,
+        "beta2": -1.0025915219471955,
+        "ratio": -1.4131778861755626,
+        "modulus": 1.0012949225613779,
+        "fibProximity": 81.47645504977126
+      },
+      {
+        "gene": "IGLV2-11",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3316580995652885,
+        "beta2": -0.942615108622249,
+        "ratio": -1.4127273023574543,
+        "modulus": 0.970883674093992,
+        "fibProximity": 81.4397513472372
+      },
+      {
+        "gene": "CFL1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.403392996423186,
+        "beta2": -0.9936484970722006,
+        "ratio": -1.41236362814245,
+        "modulus": 0.9968191897592064,
+        "fibProximity": 81.41013919451042
+      },
+      {
+        "gene": "FLNA",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.394549404963854,
+        "beta2": -0.9877031068580493,
+        "ratio": -1.4119115301763203,
+        "modulus": 0.9938325346143833,
+        "fibProximity": 81.37334215471842
+      },
+      {
+        "gene": "IGFBP6",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4498230779319101,
+        "beta2": -1.0280081773706229,
+        "ratio": -1.4103225147879463,
+        "modulus": 1.013907381061319,
+        "fibProximity": 81.24414134005818
+      },
+      {
+        "gene": "B2M",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4272711512364253,
+        "beta2": -1.012390704239806,
+        "ratio": -1.4098027029082107,
+        "modulus": 1.00617627890932,
+        "fibProximity": 81.20192064459091
+      },
+      {
+        "gene": "PKM",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3989657172124907,
+        "beta2": -0.9926462725568115,
+        "ratio": -1.4093295425460077,
+        "modulus": 0.9963163516458071,
+        "fibProximity": 81.16350820274624
+      },
+      {
+        "gene": "TUBB1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.407391964684649,
+        "beta2": -0.9987239016007337,
+        "ratio": -1.409190230081518,
+        "modulus": 0.9993617471169955,
+        "fibProximity": 81.15220190196449
+      },
+      {
+        "gene": "TLN1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4234653579233623,
+        "beta2": -1.0103125004567985,
+        "ratio": -1.4089357077931457,
+        "modulus": 1.0051430248759619,
+        "fibProximity": 81.1315494861915
+      },
+      {
+        "gene": "YWHAZ",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4064839954565826,
+        "beta2": -0.9991309706675935,
+        "ratio": -1.4077073344216389,
+        "modulus": 0.9995653908912581,
+        "fibProximity": 81.03195083590221
+      },
+      {
+        "gene": "TAGLN2",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4347120712509422,
+        "beta2": -1.0193817790981754,
+        "ratio": -1.4074335059433771,
+        "modulus": 1.0096443824922592,
+        "fibProximity": 81.00976501780727
+      },
+      {
+        "gene": "ITGB3",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4372976952582661,
+        "beta2": -1.0224180965979315,
+        "ratio": -1.4057827223919797,
+        "modulus": 1.0111469213709408,
+        "fibProximity": 80.87614574880267
+      },
+      {
+        "gene": "PTGDS",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4471230340324155,
+        "beta2": -1.0294389600774707,
+        "ratio": -1.4057395242973045,
+        "modulus": 1.0146127143287091,
+        "fibProximity": 80.87265212886106
+      },
+      {
+        "gene": "PARVB",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.389677298568671,
+        "beta2": -0.9900432678461186,
+        "ratio": -1.403653096487362,
+        "modulus": 0.9950091797798243,
+        "fibProximity": 80.7040930826837
+      },
+      {
+        "gene": "MYL12A",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4188208810455762,
+        "beta2": -1.0110611137127705,
+        "ratio": -1.4032988330798815,
+        "modulus": 1.0055153473283094,
+        "fibProximity": 80.67550763935786
+      },
+      {
+        "gene": "GAPDH",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4371277640551199,
+        "beta2": -1.0243197564404056,
+        "ratio": -1.4030069761118888,
+        "modulus": 1.012086832460736,
+        "fibProximity": 80.65196536596235
+      },
+      {
+        "gene": "IGLV3-1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.446323594856608,
+        "beta2": -1.0312679212794365,
+        "ratio": -1.4024712346935364,
+        "modulus": 1.0155136243691842,
+        "fibProximity": 80.60876833989548
+      },
+      {
+        "gene": "CKM",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4343852839998021,
+        "beta2": -1.0227628013255412,
+        "ratio": -1.4024613352585584,
+        "modulus": 1.011317359351426,
+        "fibProximity": 80.60797036258441
+      },
+      {
+        "gene": "PRAP1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3682698512043885,
+        "beta2": -0.9779614009557207,
+        "ratio": -1.3991041465105225,
+        "modulus": 0.9889193096283037,
+        "fibProximity": 80.33780793835015
+      },
+      {
+        "gene": "TPM1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3937201076977885,
+        "beta2": -0.9965761795053254,
+        "ratio": -1.3985083492459103,
+        "modulus": 0.998286621920441,
+        "fibProximity": 80.28995714823594
+      },
+      {
+        "gene": "ARF1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3584409408694427,
+        "beta2": -0.9727324474924615,
+        "ratio": -1.396520640769486,
+        "modulus": 0.9862719946812143,
+        "fibProximity": 80.13052262700889
+      },
+      {
+        "gene": "TPM3",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4082867073710617,
+        "beta2": -1.00932475025013,
+        "ratio": -1.3952761061512278,
+        "modulus": 1.0046515566354983,
+        "fibProximity": 80.03085944762267
+      },
+      {
+        "gene": "TKT",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4038904159439412,
+        "beta2": -1.0065682656594248,
+        "ratio": -1.3947294623124462,
+        "modulus": 1.0032787577036728,
+        "fibProximity": 79.98712302660488
+      },
+      {
+        "gene": "IGKV2D-29",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.428936606051309,
+        "beta2": -1.0246263889415559,
+        "ratio": -1.394592820830437,
+        "modulus": 1.01223830639902,
+        "fibProximity": 79.97619421425443
+      },
+      {
+        "gene": "LCP1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4430235781810552,
+        "beta2": -1.0350095154944938,
+        "ratio": -1.3942128614070042,
+        "modulus": 1.017354174068448,
+        "fibProximity": 79.94581227792946
+      },
+      {
+        "gene": "ITGA2B",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4239807434281886,
+        "beta2": -1.021445784505616,
+        "ratio": -1.3940835284932926,
+        "modulus": 1.0106660103642626,
+        "fibProximity": 79.9354733216866
+      },
+      {
+        "gene": "CAP1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4119126431701439,
+        "beta2": -1.0148730512669815,
+        "ratio": -1.3912209427647062,
+        "modulus": 1.0074090784120329,
+        "fibProximity": 79.70697837576526
+      },
+      {
+        "gene": "RAB15",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4612895650623443,
+        "beta2": -1.051137222133832,
+        "ratio": -1.3901986670169417,
+        "modulus": 1.0252498340081952,
+        "fibProximity": 79.62553749945296
+      },
+      {
+        "gene": "AZGP1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3392855422234788,
+        "beta2": -0.9634321055900728,
+        "ratio": -1.3901192771681687,
+        "modulus": 0.9815457735582549,
+        "fibProximity": 79.61921629099562
+      },
+      {
+        "gene": "IGHV3-35",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3435227741066456,
+        "beta2": -0.9682602774404074,
+        "ratio": -1.3875636596992733,
+        "modulus": 0.9840021734937415,
+        "fibProximity": 79.41599981337629
+      },
+      {
+        "gene": "CFHR1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.383349295928781,
+        "beta2": -0.9978716079581318,
+        "ratio": -1.3862998855728772,
+        "modulus": 0.9989352371190696,
+        "fibProximity": 79.31569931952413
+      },
+      {
+        "gene": "PFN1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4304845851160977,
+        "beta2": -1.032113570863018,
+        "ratio": -1.385975948286365,
+        "modulus": 1.0159299045027752,
+        "fibProximity": 79.29001016817038
+      },
+      {
+        "gene": "MYH9",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.435929982579978,
+        "beta2": -1.0377903832975193,
+        "ratio": -1.383641634852496,
+        "modulus": 1.018719972955041,
+        "fibProximity": 79.10513829066434
+      },
+      {
+        "gene": "SERPINA5",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4320925285041852,
+        "beta2": -1.0351037602387123,
+        "ratio": -1.3835255783187577,
+        "modulus": 1.017400491565987,
+        "fibProximity": 79.09595815523109
+      },
+      {
+        "gene": "TPM4",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.431231020011431,
+        "beta2": -1.0365784059641499,
+        "ratio": -1.380726254547242,
+        "modulus": 1.018124946145683,
+        "fibProximity": 78.87485257677311
+      },
+      {
+        "gene": "PRDX6",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4666984249381159,
+        "beta2": -1.063212480129522,
+        "ratio": -1.3794969983417056,
+        "modulus": 1.031121952113096,
+        "fibProximity": 78.77795474311561
+      },
+      {
+        "gene": "TXN",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.406720688579071,
+        "beta2": -1.0221305936083809,
+        "ratio": -1.3762631677161619,
+        "modulus": 1.0110047446023094,
+        "fibProximity": 78.52361165333896
+      },
+      {
+        "gene": "CCL14",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.429995289278338,
+        "beta2": -1.0394059035447754,
+        "ratio": -1.3757813808845054,
+        "modulus": 1.0195125813567851,
+        "fibProximity": 78.48578912320036
+      },
+      {
+        "gene": "HSP90AA1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4365385510984936,
+        "beta2": -1.0450928171541989,
+        "ratio": -1.3745559509347758,
+        "modulus": 1.0222978123590987,
+        "fibProximity": 78.38966919272985
+      },
+      {
+        "gene": "CDH1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4467707970664208,
+        "beta2": -1.0532996354218653,
+        "ratio": -1.3735605220132476,
+        "modulus": 1.0263038708988022,
+        "fibProximity": 78.31167667331123
+      },
+      {
+        "gene": "CORO1C",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4402353649462611,
+        "beta2": -1.0502016725039027,
+        "ratio": -1.3713893270731856,
+        "modulus": 1.0247934779768568,
+        "fibProximity": 78.14183120770032
+      },
+      {
+        "gene": "CALM1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4412030148280621,
+        "beta2": -1.0509337191227672,
+        "ratio": -1.3713548139182932,
+        "modulus": 1.0251505836328472,
+        "fibProximity": 78.13913433311535
+      },
+      {
+        "gene": "CORO1A",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4457837401291158,
+        "beta2": -1.0568717078723182,
+        "ratio": -1.3679841454359212,
+        "modulus": 1.028042658585877,
+        "fibProximity": 77.87619660268443
+      },
+      {
+        "gene": "MSN",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4600470732813733,
+        "beta2": -1.0695375079138785,
+        "ratio": -1.3651200284964102,
+        "modulus": 1.0341844651288659,
+        "fibProximity": 77.65346917975826
+      },
+      {
+        "gene": "GSTO1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4500811267299127,
+        "beta2": -1.0637964450127129,
+        "ratio": -1.3631189815760134,
+        "modulus": 1.0314050828906716,
+        "fibProximity": 77.4982363103241
+      },
+      {
+        "gene": "AMBP",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.2347558369895069,
+        "beta2": -0.9092471933938668,
+        "ratio": -1.3579979635467916,
+        "modulus": 0.9535445419034533,
+        "fibProximity": 77.10238090139198
+      },
+      {
+        "gene": "CPN2",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.140933257764118,
+        "beta2": -0.841015117551251,
+        "ratio": -1.356614445987756,
+        "modulus": 0.91706876380741,
+        "fibProximity": 76.99578216118945
+      },
+      {
+        "gene": "APOC3",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4506696373074703,
+        "beta2": -1.0722561774739745,
+        "ratio": -1.3529132942138546,
+        "modulus": 1.0354980335442334,
+        "fibProximity": 76.71133579974614
+      },
+      {
+        "gene": "IGLV3-25",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.504035188592752,
+        "beta2": -1.111804996620549,
+        "ratio": -1.352786858454881,
+        "modulus": 1.054421640815736,
+        "fibProximity": 76.70163735691033
+      },
+      {
+        "gene": "APOA4",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.387834048169566,
+        "beta2": -1.026459674343073,
+        "ratio": -1.3520590071478162,
+        "modulus": 1.0131434618764872,
+        "fibProximity": 76.64583028199603
+      },
+      {
+        "gene": "SERPINC1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3915892044210523,
+        "beta2": -1.029848669272269,
+        "ratio": -1.3512560106567921,
+        "modulus": 1.0148145984721884,
+        "fibProximity": 76.5843086533597
+      },
+      {
+        "gene": "F11",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.0561202991120808,
+        "beta2": -0.557918414332562,
+        "ratio": -1.8929654802226201,
+        "modulus": 0.7469393645621858,
+        "fibProximity": 75.96241621750252
+      },
+      {
+        "gene": "IGKV2-28",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.471424105067058,
+        "beta2": -1.096264900724691,
+        "ratio": -1.3422158313144628,
+        "modulus": 1.0470266953257166,
+        "fibProximity": 75.89509277970855
+      },
+      {
+        "gene": "SERPINA6",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3206588714883765,
+        "beta2": -0.9863375436634669,
+        "ratio": -1.3389522481149498,
+        "modulus": 0.993145278226437,
+        "fibProximity": 75.6478065690351
+      },
+      {
+        "gene": "IGLL5",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.1738792868138717,
+        "beta2": -0.8772417348521913,
+        "ratio": -1.3381480157366905,
+        "modulus": 0.9366118378774588,
+        "fibProximity": 75.58699261120277
+      },
+      {
+        "gene": "SERPINA10",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4306411710269913,
+        "beta2": -1.0704529320514666,
+        "ratio": -1.3364820892080167,
+        "modulus": 1.0346269530857326,
+        "fibProximity": 75.46117506548127
+      },
+      {
+        "gene": "IGF1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4024496314897306,
+        "beta2": -1.072731359360887,
+        "ratio": -1.3073633200443433,
+        "modulus": 1.0357274541890287,
+        "fibProximity": 73.29552212176395
+      },
+      {
+        "gene": "MASP1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.2506187652306835,
+        "beta2": -0.9620422652169509,
+        "ratio": -1.2999623929710151,
+        "modulus": 0.9808375325286808,
+        "fibProximity": 72.7550696991029
+      },
+      {
+        "gene": "NRP1",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.2925013775559364,
+        "beta2": -0.9993794427981015,
+        "ratio": -1.293303946634264,
+        "modulus": 0.9996896732477042,
+        "fibProximity": 72.27224319281362
+      },
+      {
+        "gene": "RNASE4",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.4121207907299436,
+        "beta2": -1.0928245420032,
+        "ratio": -1.2921752179370518,
+        "modulus": 1.0453824859845318,
+        "fibProximity": 72.19071345904102
+      },
+      {
+        "gene": "PI16",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.2253225188849228,
+        "beta2": -0.9483032919399648,
+        "ratio": -1.2921209166934913,
+        "modulus": 0.9738086526314935,
+        "fibProximity": 72.18679351995641
+      },
+      {
+        "gene": "F9",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.2540721867119373,
+        "beta2": -0.9738958967641338,
+        "ratio": -1.2876860770013685,
+        "modulus": 0.9868616401320571,
+        "fibProximity": 71.86736549239188
+      },
+      {
+        "gene": "HGFAC",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3337645457731924,
+        "beta2": -1.0465852177464967,
+        "ratio": -1.274396506999257,
+        "modulus": 1.023027476535453,
+        "fibProximity": 70.9185974312595
+      },
+      {
+        "gene": "FCGBP",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.389038889435028,
+        "beta2": -0.6924803952874754,
+        "ratio": -2.005889118143748,
+        "modulus": 0.8321540694411554,
+        "fibProximity": 67.85106323909211
+      },
+      {
+        "gene": "LGALS3BP",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.1998996385492546,
+        "beta2": -0.9826089407920335,
+        "ratio": -1.2211364956460438,
+        "modulus": 0.9912663319169241,
+        "fibProximity": 67.24029480392508
+      },
+      {
+        "gene": "SLC3A2",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.3627731073285076,
+        "beta2": -1.1404634958580573,
+        "ratio": -1.194929177722773,
+        "modulus": 1.0679248549678284,
+        "fibProximity": 65.50099772454331
+      },
+      {
+        "gene": "FGA",
+        "species": "Human",
+        "tissue": "Plasma",
+        "beta1": 1.040258353848003,
+        "beta2": -0.48466213031952066,
+        "ratio": -2.1463578207816596,
+        "modulus": 0.696176795303837,
+        "fibProximity": 58.95923977909761
+      }
+    ]
+  }
+}

@@ -1,0 +1,62 @@
+\documentclass[11pt]{letter}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{parskip}
+
+\signature{Michael Whiteside \\ Independent Researcher, Scotland, UK \\ ORCID: 0009-0000-0643-5791 \\ mickwh@msn.com}
+\address{Michael Whiteside \\ Independent Researcher \\ Scotland, United Kingdom \\ mickwh@msn.com \\ April 2026}
+
+\begin{document}
+
+\begin{letter}{Editor-in-Chief \\ PLOS ONE}
+
+\opening{Dear Editor,}
+
+I am pleased to submit my manuscript entitled \textbf{``PAR(2): A Phase-Gated Autoregressive Framework Reveals Tissue-Specific Circadian Gating of Cancer-Relevant Genes Across Mammalian Tissues''} for consideration in \textit{PLOS ONE}.
+
+This manuscript was previously considered at \textit{PLOS Computational Biology} and is submitted here following transfer. The scientific content is unchanged. I believe \textit{PLOS ONE} is well suited to this work because the journal's scope encompasses methodologically rigorous, reproducible research across the biological sciences regardless of disciplinary boundary --- and the PAR(2) framework sits at the intersection of computational biology, circadian medicine, and cancer biology in a way that makes cross-disciplinary placement appropriate.
+
+\textbf{What the paper does and why it matters}
+
+I present PAR(2), a second-order autoregressive framework that extracts a single scalar quantity --- the eigenvalue modulus $|\lambda|$ --- from two-parameter fits to gene expression time series. This metric quantifies \emph{temporal persistence}: the degree to which a gene's expression state carries forward across circadian cycles. The core analytical step is a two-parameter ordinary least squares regression, making the method computationally deterministic, parameter-light (three parameters total), and free from the convergence failures that affect maximum-likelihood state-space alternatives.
+
+Applied to 3,588 clock-target gene interactions across 12 mouse tissues (GSE54650, Hughes Circadian Atlas) with replication in the gold-standard GSE11923 dataset (48 hourly timepoints), four principal findings emerge:
+
+\begin{enumerate}
+
+\item \textbf{Wee1 as the broadly conserved circadian gatekeeper.} The Cry1$\rightarrow$Wee1 gating relationship is conserved across $\geq$6 tissues, making Wee1 the leading broadly conserved circadian checkpoint among the 23 cancer-relevant genes tested. Myc --- often regarded as the canonical circadian-cancer target --- is gated in only 2 tissues. Wee1 is additionally the gene whose eigenvalue sits closest to 1/$\varphi \approx 0.618$ across all 12 tissues ($|\lambda|=0.612$), providing a temporal analogue to Boman's spatial Fibonacci observations in colonic crypt geometry.
+
+\item \textbf{Nine-category persistence hierarchy.} Extension to $\sim$1,594 genes across nine functional categories reveals a fine-grained hierarchy: Clock $>$ Chromatin $>$ Metabolic $>$ Housekeeping $>$ Immune $>$ Signalling $>$ DNA Repair $>$ Target $>$ Stem Cell ($H=144.8$, $p<0.001$). Chromatin remodelling genes unexpectedly outrank housekeeping genes. Stem cell markers show the lowest persistence across all categories, reframing stemness as a low-memory dynamical state rather than a high-stability one.
+
+\item \textbf{Root-space functional geography.} Plotting genes in AR(2) coefficient space reveals that functional categories occupy distinct dynamical neighbourhoods in the stationarity triangle. This ``root-space geography'' captures information orthogonal to expression-level PCA, demonstrated empirically side-by-side. A data-driven dynamical exclusion zone contains $<$3\% of genes genome-wide.
+
+\item \textbf{Drug target chronotherapy overlay.} Mapping 326 FDA-approved and investigational drug targets onto root-space identifies clock-gated targets amenable to tissue-specific time-of-day dosing optimisation, with 168 genes across 16 drug classes positioned relative to the four dynamical poles.
+
+\end{enumerate}
+
+\textbf{Methodological rigour and reproducibility}
+
+The framework is validated against two mechanistic ODE systems (the Leloup--Goldbeter circadian clock model and the Boman colonic crypt compartment model), tested with four permutation null models (time-shuffle, expression-matched, label-shuffle, circular-shift), and subjected to an eleven-analysis robustness suite including leave-one-tissue-out cross-validation (hierarchy confirmed in 12/12 tissues independently), bootstrap resampling, population-level cross-validation (25/25 folds), and decomposition method sensitivity. Literature cross-validation recovers 58 of 59 curated circadian genes (98.3\%) at $\sim$180$\times$ enrichment over background. The framework has additionally been replicated across 22 GEO datasets spanning six species (mouse, human, baboon, Arabidopsis, Drosophila, yeast).
+
+I report limitations explicitly: PAR(2) is a descriptive discovery framework (cross-validation win rate 45.2\%), not a predictive model. Moderate single-tissue FDR ($\sim$16\%) is reduced to $\sim$1--5\% by cross-tissue consensus filtering. The framework operates on bulk-tissue data and cannot resolve cell-type heterogeneity within a tissue.
+
+\textbf{Transparency and open data}
+
+All source data are publicly available from NCBI GEO. Analysis code, datasets, and pre-computed results are available at \url{https://github.com/mickwh2764/par2-discovery-engine} and Zenodo (DOI: 10.5281/zenodo.18730681). An interactive Discovery Engine platform is accessible at \url{https://par2discovery.com}. A preprint is deposited on Research Square (DOI: 10.21203/rs.3.rs-9283100/v1).
+
+Large language models (Claude, GPT-4) and the Replit development platform were used for code development, visualisation, and manuscript drafting. All analytical decisions, framework conceptualisation, and falsification test design are the author's own.
+
+\textbf{Suggested reviewers}
+
+\begin{enumerate}
+    \item Dr John Hogenesch (Cincinnati Children's Hospital) --- circadian genomics and tissue atlas methodology
+    \item Dr Achim Kramer (Charit\'{e} -- Universit\"{a}tsmedizin Berlin) --- circadian chronotherapy and drug timing
+    \item Dr David Suter (EPFL) --- gene expression memory and temporal persistence at single-cell resolution
+\end{enumerate}
+
+This manuscript is not under consideration at any other journal. I confirm that the work is original, the data are publicly available, and the methods are fully described and reproducible.
+
+\closing{Sincerely,}
+
+\end{letter}
+\end{document}

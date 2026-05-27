@@ -7,7 +7,8 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ResponsiveContainer, ReferenceLine, Cell
 } from "recharts";
-import { Search, Plus, X, Loader2, ArrowLeft, ArrowRight, BarChart3, GitCompare, Sparkles, TrendingUp } from "lucide-react";
+import { Search, Plus, X, Loader2, ArrowLeft, ArrowRight, BarChart3, GitCompare, Sparkles, TrendingUp, Download } from "lucide-react";
+import { downloadAsCSV } from "@/components/DownloadResultsButton";
 import { Link } from "wouter";
 import HowTo from "@/components/HowTo";
 import GeneTooltip from "@/components/GeneTooltip";
@@ -102,15 +103,15 @@ function GeneTrackerSection() {
   }, [data]);
 
   return (
-    <Card className="bg-slate-900/80 border-slate-700/50">
+    <Card className="bg-white border-slate-200">
       <CardHeader>
         <div className="flex items-center gap-3">
           <div className="p-2 rounded-lg bg-blue-500/20">
             <Search className="h-5 w-5 text-blue-400" />
           </div>
           <div>
-            <CardTitle className="text-white">Cross-Dataset Gene Tracker</CardTitle>
-            <CardDescription className="text-slate-400">Track a single gene across all analyzed datasets</CardDescription>
+            <CardTitle className="text-slate-900">Cross-Dataset Gene Tracker</CardTitle>
+            <CardDescription className="text-slate-500">Track a single gene across all analyzed datasets</CardDescription>
           </div>
         </div>
       </CardHeader>
@@ -120,7 +121,7 @@ function GeneTrackerSection() {
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder="Enter gene name (e.g. Per1, CLOCK, Bmal1)"
-            className="bg-slate-800/50 border-slate-600 text-white"
+            className="bg-slate-50 border-slate-300 text-slate-900"
             data-testid="input-gene-tracker-search"
           />
         </div>
@@ -128,7 +129,7 @@ function GeneTrackerSection() {
         {isLoading && (
           <div className="flex items-center justify-center py-8">
             <Loader2 className="h-6 w-6 animate-spin text-blue-400" />
-            <span className="ml-2 text-slate-400">Loading gene data...</span>
+            <span className="ml-2 text-slate-500">Loading gene data...</span>
           </div>
         )}
 
@@ -140,31 +141,31 @@ function GeneTrackerSection() {
 
         {data && !isLoading && (
           <>
-            <Card className="bg-slate-800/50 border-slate-700/50">
+            <Card className="bg-slate-50 border-slate-200">
               <CardContent className="pt-4">
                 <div className="flex flex-wrap items-center gap-4">
                   <div>
-                    <span className="text-xs text-slate-400 uppercase tracking-wider">Gene</span>
-                    <p className="text-lg font-bold text-white font-mono" data-testid="text-tracker-gene-name"><GeneTooltip gene={data.gene}>{data.gene}</GeneTooltip></p>
+                    <span className="text-xs text-slate-500 uppercase tracking-wider">Gene</span>
+                    <p className="text-lg font-bold text-slate-900 font-mono" data-testid="text-tracker-gene-name"><GeneTooltip gene={data.gene}>{data.gene}</GeneTooltip></p>
                   </div>
                   <Badge className="bg-cyan-900/50 text-cyan-300 border-cyan-700" data-testid="badge-tracker-category">
                     {data.geneCategory}
                   </Badge>
                   <div>
-                    <span className="text-xs text-slate-400">Mean |λ|</span>
-                    <p className="text-white font-mono" data-testid="text-tracker-mean">{data.summary.meanEigenvalue?.toFixed(4) ?? "—"}</p>
+                    <span className="text-xs text-slate-500">Mean |λ|</span>
+                    <p className="text-slate-900 font-mono" data-testid="text-tracker-mean">{data.summary.meanEigenvalue?.toFixed(4) ?? "—"}</p>
                   </div>
                   <div>
-                    <span className="text-xs text-slate-400">Min |λ|</span>
-                    <p className="text-white font-mono" data-testid="text-tracker-min">{data.summary.minEigenvalue?.toFixed(4) ?? "—"}</p>
+                    <span className="text-xs text-slate-500">Min |λ|</span>
+                    <p className="text-slate-900 font-mono" data-testid="text-tracker-min">{data.summary.minEigenvalue?.toFixed(4) ?? "—"}</p>
                   </div>
                   <div>
-                    <span className="text-xs text-slate-400">Max |λ|</span>
-                    <p className="text-white font-mono" data-testid="text-tracker-max">{data.summary.maxEigenvalue?.toFixed(4) ?? "—"}</p>
+                    <span className="text-xs text-slate-500">Max |λ|</span>
+                    <p className="text-slate-900 font-mono" data-testid="text-tracker-max">{data.summary.maxEigenvalue?.toFixed(4) ?? "—"}</p>
                   </div>
                   <div>
-                    <span className="text-xs text-slate-400">Datasets</span>
-                    <p className="text-white font-mono" data-testid="text-tracker-datasets-count">{data.summary.datasetsFound}</p>
+                    <span className="text-xs text-slate-500">Datasets</span>
+                    <p className="text-slate-900 font-mono" data-testid="text-tracker-datasets-count">{data.summary.datasetsFound}</p>
                   </div>
                 </div>
               </CardContent>
@@ -196,9 +197,9 @@ function GeneTrackerSection() {
             )}
 
             {data.results && data.results.length > 0 && (
-              <Card className="bg-slate-800/50 border-slate-700/50">
+              <Card className="bg-slate-50 border-slate-200">
                 <CardContent className="pt-4">
-                  <p className="text-xs text-slate-400 uppercase tracking-wider mb-2">Root-Space Positions</p>
+                  <p className="text-xs text-slate-500 uppercase tracking-wider mb-2">Root-Space Positions</p>
                   <svg viewBox="0 0 120 80" width={120} height={80} className="block" data-testid="svg-mini-rootspace">
                     <title>Root-Space Position</title>
                     <polygon points="10,70 110,70 60,10" fill="none" stroke="#475569" strokeWidth="0.5" strokeDasharray="2 2" />
@@ -216,11 +217,37 @@ function GeneTrackerSection() {
               </Card>
             )}
 
-            <Link href="/root-space">
-              <Button variant="ghost" size="sm" className="text-cyan-400 hover:text-cyan-300 mt-2" data-testid="link-gene-rootspace">
-                <ArrowRight className="h-4 w-4 mr-1" /> Explore in Root-Space
+            <div className="flex gap-2 mt-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-slate-600 border-slate-300"
+                onClick={() => downloadAsCSV(
+                  data.results.map(r => ({
+                    gene: data.gene,
+                    category: data.geneCategory,
+                    dataset_id: r.datasetId,
+                    dataset_name: r.datasetName,
+                    species: r.species,
+                    eigenvalue: r.eigenvalue,
+                    beta1: r.beta1,
+                    beta2: r.beta2,
+                    r2: r.r2,
+                    confidence: r.confidence,
+                    stable: r.stable,
+                  })),
+                  `gene_cross_dataset_${data.gene}.csv`
+                )}
+                data-testid="button-download-gene-csv"
+              >
+                <Download className="h-4 w-4 mr-1" /> Download CSV
               </Button>
-            </Link>
+              <Link href="/root-space">
+                <Button variant="ghost" size="sm" className="text-cyan-400 hover:text-cyan-300" data-testid="link-gene-rootspace">
+                  <ArrowRight className="h-4 w-4 mr-1" /> Explore in Root-Space
+                </Button>
+              </Link>
+            </div>
           </>
         )}
       </CardContent>
@@ -249,15 +276,15 @@ function GeneComparisonSection() {
   }, []);
 
   return (
-    <Card className="bg-slate-900/80 border-slate-700/50">
+    <Card className="bg-white border-slate-200">
       <CardHeader>
         <div className="flex items-center gap-3">
           <div className="p-2 rounded-lg bg-purple-500/20">
             <GitCompare className="h-5 w-5 text-purple-400" />
           </div>
           <div>
-            <CardTitle className="text-white">Gene Comparison Tool</CardTitle>
-            <CardDescription className="text-slate-400">Compare up to 5 genes across datasets</CardDescription>
+            <CardTitle className="text-slate-900">Gene Comparison Tool</CardTitle>
+            <CardDescription className="text-slate-500">Compare up to 5 genes across datasets</CardDescription>
           </div>
         </div>
       </CardHeader>
@@ -268,7 +295,7 @@ function GeneComparisonSection() {
             onChange={(e) => setAddInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && addGene()}
             placeholder="Gene name (e.g. Per2)"
-            className="bg-slate-800/50 border-slate-600 text-white max-w-xs"
+            className="bg-slate-50 border-slate-300 text-slate-900 max-w-xs"
             data-testid="input-comparison-add"
           />
           <Button onClick={addGene} disabled={genes.length >= 5 || !addInput.trim()} size="sm" data-testid="button-comparison-add">
@@ -286,7 +313,7 @@ function GeneComparisonSection() {
             {genes.map((gene, i) => (
               <Badge
                 key={gene}
-                className="text-white border"
+                className="text-slate-900 border"
                 style={{ backgroundColor: COMPARISON_COLORS[i] + "30", borderColor: COMPARISON_COLORS[i] }}
                 data-testid={`badge-comparison-gene-${gene}`}
               >
@@ -339,7 +366,7 @@ function ComparisonResults({ genes }: { genes: string[] }) {
     return (
       <div className="flex items-center justify-center py-8">
         <Loader2 className="h-6 w-6 animate-spin text-purple-400" />
-        <span className="ml-2 text-slate-400">Loading comparison data...</span>
+        <span className="ml-2 text-slate-500">Loading comparison data...</span>
       </div>
     );
   }
@@ -367,9 +394,9 @@ function ComparisonResults({ genes }: { genes: string[] }) {
       )}
 
       {allData.length > 0 && (
-        <Card className="bg-slate-800/50 border-slate-700/50">
+        <Card className="bg-slate-50 border-slate-200">
           <CardContent className="pt-4">
-            <p className="text-xs text-slate-400 uppercase tracking-wider mb-2">Root-Space Comparison</p>
+            <p className="text-xs text-slate-500 uppercase tracking-wider mb-2">Root-Space Comparison</p>
             <div className="flex items-start gap-4">
               <svg viewBox="0 0 200 140" width={200} height={140} className="block" data-testid="svg-comparison-rootspace">
                 <title>Root-Space Comparison</title>
@@ -397,7 +424,7 @@ function ComparisonResults({ genes }: { genes: string[] }) {
                 {allData.map((gd, gi) => (
                   <div key={gd.gene} className="flex items-center gap-1.5 text-xs">
                     <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ backgroundColor: COMPARISON_COLORS[gi] }} />
-                    <span className="text-slate-300">{gd.gene}</span>
+                    <span className="text-slate-600">{gd.gene}</span>
                   </div>
                 ))}
               </div>
@@ -410,26 +437,26 @@ function ComparisonResults({ genes }: { genes: string[] }) {
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left" data-testid="table-comparison-summary">
             <thead>
-              <tr className="border-b border-slate-700">
-                <th className="px-3 py-2 text-slate-400 font-medium">Gene</th>
-                <th className="px-3 py-2 text-slate-400 font-medium">Category</th>
-                <th className="px-3 py-2 text-slate-400 font-medium">Mean |λ|</th>
-                <th className="px-3 py-2 text-slate-400 font-medium">Datasets Found</th>
-                <th className="px-3 py-2 text-slate-400 font-medium">Min</th>
-                <th className="px-3 py-2 text-slate-400 font-medium">Max</th>
+              <tr className="border-b border-slate-200">
+                <th className="px-3 py-2 text-slate-500 font-medium">Gene</th>
+                <th className="px-3 py-2 text-slate-500 font-medium">Category</th>
+                <th className="px-3 py-2 text-slate-500 font-medium">Mean |λ|</th>
+                <th className="px-3 py-2 text-slate-500 font-medium">Datasets Found</th>
+                <th className="px-3 py-2 text-slate-500 font-medium">Min</th>
+                <th className="px-3 py-2 text-slate-500 font-medium">Max</th>
               </tr>
             </thead>
             <tbody>
               {allData.map((gd, i) => (
-                <tr key={gd.gene} className="border-b border-slate-700" data-testid={`row-comparison-${gd.gene}`}>
-                  <td className="px-3 py-2 text-white font-mono font-bold" style={{ color: COMPARISON_COLORS[i] }}><GeneTooltip gene={gd.gene}>{gd.gene}</GeneTooltip></td>
+                <tr key={gd.gene} className="border-b border-slate-200" data-testid={`row-comparison-${gd.gene}`}>
+                  <td className="px-3 py-2 text-slate-900 font-mono font-bold" style={{ color: COMPARISON_COLORS[i] }}><GeneTooltip gene={gd.gene}>{gd.gene}</GeneTooltip></td>
                   <td className="px-3 py-2">
-                    <Badge className="bg-slate-800 text-slate-300 border-slate-600 text-xs">{gd.geneCategory}</Badge>
+                    <Badge className="bg-slate-100 text-slate-600 border-slate-300 text-xs">{gd.geneCategory}</Badge>
                   </td>
-                  <td className="px-3 py-2 text-white font-mono">{gd.summary.meanEigenvalue?.toFixed(4) ?? "—"}</td>
-                  <td className="px-3 py-2 text-white">{gd.summary.datasetsFound}</td>
-                  <td className="px-3 py-2 text-white font-mono">{gd.summary.minEigenvalue?.toFixed(4) ?? "—"}</td>
-                  <td className="px-3 py-2 text-white font-mono">{gd.summary.maxEigenvalue?.toFixed(4) ?? "—"}</td>
+                  <td className="px-3 py-2 text-slate-900 font-mono">{gd.summary.meanEigenvalue?.toFixed(4) ?? "—"}</td>
+                  <td className="px-3 py-2 text-slate-900">{gd.summary.datasetsFound}</td>
+                  <td className="px-3 py-2 text-slate-900 font-mono">{gd.summary.minEigenvalue?.toFixed(4) ?? "—"}</td>
+                  <td className="px-3 py-2 text-slate-900 font-mono">{gd.summary.maxEigenvalue?.toFixed(4) ?? "—"}</td>
                 </tr>
               ))}
             </tbody>
@@ -467,21 +494,23 @@ function FibonacciEnrichmentSection() {
   ];
 
   return (
-    <Card className="bg-slate-900/80 border-slate-700/50">
+    <Card className="bg-white border-slate-200">
       <CardHeader>
         <div className="flex items-center gap-3">
           <div className="p-2 rounded-lg bg-amber-500/20">
             <Sparkles className="h-5 w-5 text-amber-400" />
           </div>
           <div className="flex-1">
-            <CardTitle className="text-white flex items-center gap-2">Fibonacci Enrichment Analysis <span className="px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 text-xs font-medium">EXPLORATORY</span></CardTitle>
-            <CardDescription className="text-slate-400">Hypothesis-generating analysis — enrichment of gene categories near Fibonacci-related eigenvalues. Statistical patterns may reflect mathematical curiosity rather than biological mechanism.</CardDescription>
+            <CardTitle className="text-slate-900 flex items-center gap-2">Fibonacci Enrichment Analysis <span className="px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 text-xs font-medium">EXPLORATORY — NOT SIGNIFICANT</span></CardTitle>
+            <CardDescription className="text-slate-500">
+              The mathematical connection is real: AR(2) and Fibonacci sequences share the same recurrence structure. However, genome-wide enrichment of biological genes near the golden-ratio locus is <strong className="text-slate-600">not statistically significant (p = 0.154)</strong>. The φ₁ ≈ 1.618 values seen in circadian datasets arise from the period-to-sampling-interval ratio — a mathematical consequence, not a biological preference. This analysis is hypothesis-generating only. See the Root-Space Geometry page for full details.
+            </CardDescription>
           </div>
           <div className="flex items-center gap-2">
             <select
               value={sampleSize}
               onChange={(e) => setSampleSize(Number(e.target.value))}
-              className="bg-slate-800 border border-slate-600 text-white text-sm rounded-md px-3 py-1.5"
+              className="bg-slate-100 border border-slate-300 text-slate-900 text-sm rounded-md px-3 py-1.5"
               data-testid="select-fibonacci-sample-size"
             >
               <option value={50}>Top 50</option>
@@ -493,7 +522,7 @@ function FibonacciEnrichmentSection() {
             <select
               value={selectedDataset}
               onChange={(e) => setSelectedDataset(e.target.value)}
-              className="bg-slate-800 border border-slate-600 text-white text-sm rounded-md px-3 py-1.5"
+              className="bg-slate-100 border border-slate-300 text-slate-900 text-sm rounded-md px-3 py-1.5"
               data-testid="select-fibonacci-dataset"
             >
               {datasets.map(ds => (
@@ -507,7 +536,7 @@ function FibonacciEnrichmentSection() {
         {isLoading && (
           <div className="flex items-center justify-center py-8">
             <Loader2 className="h-6 w-6 animate-spin text-amber-400" />
-            <span className="ml-2 text-slate-400">Loading enrichment analysis...</span>
+            <span className="ml-2 text-slate-500">Loading enrichment analysis...</span>
           </div>
         )}
 
@@ -521,16 +550,16 @@ function FibonacciEnrichmentSection() {
           <>
             <div className="flex flex-wrap gap-4 text-sm">
               <div>
-                <span className="text-slate-400">Dataset:</span>
-                <span className="ml-2 text-white font-mono" data-testid="text-fibonacci-dataset">{data.dataset.name}</span>
+                <span className="text-slate-500">Dataset:</span>
+                <span className="ml-2 text-slate-900 font-mono" data-testid="text-fibonacci-dataset">{data.dataset.name}</span>
               </div>
               <div>
-                <span className="text-slate-400">Total Genes:</span>
-                <span className="ml-2 text-white font-mono" data-testid="text-fibonacci-total">{data.totalGenes}</span>
+                <span className="text-slate-500">Total Genes:</span>
+                <span className="ml-2 text-slate-900 font-mono" data-testid="text-fibonacci-total">{data.totalGenes}</span>
               </div>
               <div>
-                <span className="text-slate-400">Fibonacci Nearest:</span>
-                <span className="ml-2 text-white font-mono" data-testid="text-fibonacci-nearest-count">{data.fibonacciNearestCount}</span>
+                <span className="text-slate-500">Fibonacci Nearest:</span>
+                <span className="ml-2 text-slate-900 font-mono" data-testid="text-fibonacci-nearest-count">{data.fibonacciNearestCount}</span>
               </div>
             </div>
 
@@ -540,35 +569,35 @@ function FibonacciEnrichmentSection() {
               const anySignificant = data.enrichmentResults.some(r => r.pValue < 0.05);
               return (
               <div className="overflow-x-auto">
-                <h3 className="text-sm font-semibold text-slate-300 mb-2 flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-slate-600 mb-2 flex items-center gap-2">
                   <TrendingUp className="h-4 w-4 text-amber-400" /> Enrichment Results
-                  <span className="text-xs text-slate-400 font-normal ml-2">
+                  <span className="text-xs text-slate-500 font-normal ml-2">
                     {totalObserved} categorized genes found (expected {totalExpected.toFixed(1)}) — {anySignificant ? 'significant enrichment detected' : 'no significant enrichment'}
                   </span>
                 </h3>
                 <table className="w-full text-sm text-left" data-testid="table-enrichment-results">
                   <thead>
-                    <tr className="border-b border-slate-700">
-                      <th className="px-3 py-2 text-slate-400 font-medium">Category</th>
-                      <th className="px-3 py-2 text-slate-400 font-medium">Observed</th>
-                      <th className="px-3 py-2 text-slate-400 font-medium">Expected</th>
-                      <th className="px-3 py-2 text-slate-400 font-medium">Fold Enrichment</th>
-                      <th className="px-3 py-2 text-slate-400 font-medium">p-value</th>
+                    <tr className="border-b border-slate-200">
+                      <th className="px-3 py-2 text-slate-500 font-medium">Category</th>
+                      <th className="px-3 py-2 text-slate-500 font-medium">Observed</th>
+                      <th className="px-3 py-2 text-slate-500 font-medium">Expected</th>
+                      <th className="px-3 py-2 text-slate-500 font-medium">Fold Enrichment</th>
+                      <th className="px-3 py-2 text-slate-500 font-medium">p-value</th>
                     </tr>
                   </thead>
                   <tbody>
                     {data.enrichmentResults.map((row, i) => (
-                      <tr key={i} className="border-b border-slate-700" data-testid={`row-enrichment-${i}`}>
-                        <td className="px-3 py-2 text-white">{row.category}</td>
-                        <td className="px-3 py-2 text-white font-mono">{row.observedCount}</td>
-                        <td className="px-3 py-2 text-slate-300 font-mono">{row.expectedCount.toFixed(2)}</td>
+                      <tr key={i} className="border-b border-slate-200" data-testid={`row-enrichment-${i}`}>
+                        <td className="px-3 py-2 text-slate-900">{row.category}</td>
+                        <td className="px-3 py-2 text-slate-900 font-mono">{row.observedCount}</td>
+                        <td className="px-3 py-2 text-slate-600 font-mono">{row.expectedCount.toFixed(2)}</td>
                         <td className="px-3 py-2 font-mono">
-                          <span className={row.pValue < 0.05 && typeof row.foldEnrichment === 'number' && row.foldEnrichment > 1.5 ? "text-emerald-400" : "text-slate-300"}>
+                          <span className={row.pValue < 0.05 && typeof row.foldEnrichment === 'number' && row.foldEnrichment > 1.5 ? "text-emerald-400" : "text-slate-600"}>
                             {typeof row.foldEnrichment === 'number' ? row.foldEnrichment.toFixed(2) + "×" : "∞"}
                           </span>
                         </td>
                         <td className="px-3 py-2 font-mono">
-                          <span className={row.pValue < 0.05 ? "text-amber-400 font-bold" : "text-slate-400"}>
+                          <span className={row.pValue < 0.05 ? "text-amber-400 font-bold" : "text-slate-500"}>
                             {row.pValue < 0.001 ? row.pValue.toExponential(2) : row.pValue.toFixed(4)}
                           </span>
                         </td>
@@ -582,33 +611,33 @@ function FibonacciEnrichmentSection() {
 
             {data.functionalAnnotation && data.functionalAnnotation.length > 0 && (
               <div className="overflow-x-auto">
-                <h3 className="text-sm font-semibold text-slate-300 mb-2 flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-slate-600 mb-2 flex items-center gap-2">
                   <BarChart3 className="h-4 w-4 text-cyan-400" /> Nearest Genes to Fibonacci Position (showing top 30 of {data.fibonacciNearestCount})
                 </h3>
                 <div className="max-h-[400px] overflow-y-auto">
                 <table className="w-full text-sm text-left" data-testid="table-functional-annotations">
-                  <thead className="sticky top-0 bg-slate-900">
-                    <tr className="border-b border-slate-700">
-                      <th className="px-3 py-2 text-slate-400 font-medium">#</th>
-                      <th className="px-3 py-2 text-slate-400 font-medium">Gene</th>
-                      <th className="px-3 py-2 text-slate-400 font-medium">|λ|</th>
-                      <th className="px-3 py-2 text-slate-400 font-medium">dΦ</th>
-                      <th className="px-3 py-2 text-slate-400 font-medium">Category</th>
+                  <thead className="sticky top-0 bg-slate-50">
+                    <tr className="border-b border-slate-200">
+                      <th className="px-3 py-2 text-slate-500 font-medium">#</th>
+                      <th className="px-3 py-2 text-slate-500 font-medium">Gene</th>
+                      <th className="px-3 py-2 text-slate-500 font-medium">|λ|</th>
+                      <th className="px-3 py-2 text-slate-500 font-medium">dΦ</th>
+                      <th className="px-3 py-2 text-slate-500 font-medium">Category</th>
                     </tr>
                   </thead>
                   <tbody>
                     {data.functionalAnnotation.slice(0, 30).map((row, i) => {
                       const isKnown = row.categories.some(c => c !== 'other');
                       return (
-                        <tr key={i} className={`border-b border-slate-700/50 ${isKnown ? 'bg-amber-500/5' : ''}`} data-testid={`row-annotation-${i}`}>
-                          <td className="px-3 py-2 text-slate-400 font-mono text-xs">{i + 1}</td>
-                          <td className="px-3 py-2 text-white font-mono font-bold"><GeneTooltip gene={row.gene}>{row.gene}</GeneTooltip></td>
-                          <td className="px-3 py-2 text-white font-mono">{row.eigenvalue.toFixed(4)}</td>
-                          <td className="px-3 py-2 text-slate-300 font-mono">{row.dPhi.toFixed(4)}</td>
+                        <tr key={i} className={`border-b border-slate-200 ${isKnown ? 'bg-amber-500/5' : ''}`} data-testid={`row-annotation-${i}`}>
+                          <td className="px-3 py-2 text-slate-500 font-mono text-xs">{i + 1}</td>
+                          <td className="px-3 py-2 text-slate-900 font-mono font-bold"><GeneTooltip gene={row.gene}>{row.gene}</GeneTooltip></td>
+                          <td className="px-3 py-2 text-slate-900 font-mono">{row.eigenvalue.toFixed(4)}</td>
+                          <td className="px-3 py-2 text-slate-600 font-mono">{row.dPhi.toFixed(4)}</td>
                           <td className="px-3 py-2">
                             <div className="flex flex-wrap gap-1">
                               {row.categories.map((cat, ci) => (
-                                <Badge key={ci} className={`text-xs ${cat !== 'other' ? 'bg-amber-500/20 text-amber-300 border-amber-500/30' : 'bg-slate-800 text-slate-400 border-slate-700'}`}>{cat}</Badge>
+                                <Badge key={ci} className={`text-xs ${cat !== 'other' ? 'bg-amber-500/20 text-amber-300 border-amber-500/30' : 'bg-slate-100 text-slate-500 border-slate-200'}`}>{cat}</Badge>
                               ))}
                             </div>
                           </td>
@@ -629,23 +658,23 @@ function FibonacciEnrichmentSection() {
 
 export default function GeneExplorer() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         <Link href="/">
-          <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white" data-testid="button-back-home">
+          <Button variant="ghost" size="sm" className="text-slate-500 hover:text-slate-700" data-testid="button-back-home">
             <ArrowLeft className="h-4 w-4 mr-1" /> Back to Home
           </Button>
         </Link>
 
-        <Card className="bg-slate-900/80 border-slate-700/50">
+        <Card className="bg-white border-slate-200">
           <CardHeader>
             <div className="flex items-center gap-3">
               <div className="p-2 rounded-lg bg-emerald-500/20">
                 <BarChart3 className="h-6 w-6 text-emerald-400" />
               </div>
               <div>
-                <CardTitle className="text-2xl text-white">Gene Explorer</CardTitle>
-                <CardDescription className="text-slate-400">
+                <CardTitle className="text-2xl text-slate-900">Gene Explorer</CardTitle>
+                <CardDescription className="text-slate-500">
                   Track genes across datasets, compare eigenvalue profiles, and explore Fibonacci enrichment patterns
                 </CardDescription>
               </div>

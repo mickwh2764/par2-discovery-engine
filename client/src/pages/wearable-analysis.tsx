@@ -160,7 +160,7 @@ const SIGNAL_INFO: Record<SignalType, SignalInfo> = {
     resampleStrategy: "Resample to hourly averages"
   },
   generic: {
-    type: "generic", label: "Generic Time Series", icon: Activity, color: "text-slate-400",
+    type: "generic", label: "Generic Time Series", icon: Activity, color: "text-slate-500",
     circadianRelevance: "medium",
     idealSampling: "Regular intervals over 3+ days",
     minDays: 3,
@@ -421,6 +421,39 @@ const SAMPLE_DATASETS = [
     description: "Hourly step counts from a Fitbit tracker over 8 days. Activity data is behavioral rather than physiological — it reflects your schedule, not your internal clock. Included to demonstrate the difference.",
     whatItMeasures: "How regular your daily activity pattern is — whether step counts follow a repeatable daily rhythm.",
     whatItDoesNotMeasure: "Circadian clock function. Steps are driven by behavior (work schedule, habits), not by the endogenous circadian oscillator. Expect lower |λ| than HR or CGM.",
+  },
+  {
+    id: "mimic_icu_hr",
+    url: "/downloads/MIMIC_Demo_ICU_HeartRate.csv",
+    label: "MIMIC-IV ICU — Heart Rate (20 days)",
+    points: "481",
+    icon: "clinical",
+    source: "MIMIC-IV Demo, PhysioNet (CC BY 4.0). De-identified; dates shifted to 2000-01-01 baseline.",
+    description: "Hourly heart rate from a critically ill ICU patient over 20 days. ICU patients have severely disrupted circadian rhythms due to constant light, sedation, and mechanical interventions. Compare against the Apple Watch / Fitbit datasets to see how illness affects temporal persistence.",
+    whatItMeasures: "Temporal persistence of heart rate in a clinical ICU setting — expected to be lower than healthy wearable data due to circadian disruption.",
+    whatItDoesNotMeasure: "Individual health status or clinical outcomes. This is a de-identified research dataset for methodological demonstration only.",
+  },
+  {
+    id: "mimic_icu_spo2",
+    url: "/downloads/MIMIC_Demo_ICU_SpO2.csv",
+    label: "MIMIC-IV ICU — SpO₂ (20 days)",
+    points: "474",
+    icon: "clinical",
+    source: "MIMIC-IV Demo, PhysioNet (CC BY 4.0). De-identified; dates shifted to 2000-01-01 baseline.",
+    description: "Hourly blood oxygen saturation from the same ICU patient over 20 days. SpO₂ in ICU patients on supplemental oxygen tends to be artificially stabilised — expect very high |λ| driven by clinical management rather than biological rhythm.",
+    whatItMeasures: "Temporal persistence of SpO₂ in a clinical ICU setting. High persistence here likely reflects oxygen therapy keeping values in a fixed range.",
+    whatItDoesNotMeasure: "Circadian rhythm quality. Clinically managed SpO₂ does not reflect endogenous circadian regulation.",
+  },
+  {
+    id: "mimic_icu_rr",
+    url: "/downloads/MIMIC_Demo_ICU_RespiratoryRate.csv",
+    label: "MIMIC-IV ICU — Respiratory Rate (20 days)",
+    points: "483",
+    icon: "clinical",
+    source: "MIMIC-IV Demo, PhysioNet (CC BY 4.0). De-identified; dates shifted to 2000-01-01 baseline.",
+    description: "Hourly respiratory rate from the same ICU patient over 20 days. Respiratory rate in a ventilated patient may be largely machine-set — persistence reflects ventilator settings as much as biology.",
+    whatItMeasures: "Temporal persistence of respiratory rate in an ICU patient — a mix of biological and machine-driven regularity.",
+    whatItDoesNotMeasure: "Circadian lung function or respiratory health. Clinical context is essential to interpret this signal.",
   },
 ];
 
@@ -768,7 +801,7 @@ function EigenvalueGauge({ value, label, size = 120 }: { value: number; label: s
 
 function CircadianScoreCard({ score, circadianScore }: { score: ReturnType<typeof computeCircadianScore>; circadianScore: number }) {
   return (
-    <Card className="bg-slate-900/50 border-slate-700/50" data-testid="card-circadian-score">
+    <Card className="bg-white border-slate-200" data-testid="card-circadian-score">
       <CardHeader className="pb-2">
         <CardTitle className="text-sm flex items-center gap-2">
           <Sun className="w-4 h-4 text-amber-400" />
@@ -822,7 +855,7 @@ function ReferenceRangeChart({ eigenvalue, signalType }: { eigenvalue: number; s
   const range = applicableRanges[0];
 
   return (
-    <Card className="bg-slate-900/50 border-slate-700/50" data-testid="card-reference-ranges">
+    <Card className="bg-white border-slate-200" data-testid="card-reference-ranges">
       <CardHeader className="pb-2">
         <CardTitle className="text-sm flex items-center gap-2">
           <BarChart3 className="w-4 h-4 text-cyan-400" />
@@ -833,7 +866,7 @@ function ReferenceRangeChart({ eigenvalue, signalType }: { eigenvalue: number; s
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="relative h-12 bg-slate-800 rounded-lg overflow-hidden mb-3">
+        <div className="relative h-12 bg-slate-100 rounded-lg overflow-hidden mb-3">
           <div className="absolute inset-y-0 flex w-full">
             <div className="bg-red-500/20 border-r border-red-500/30" style={{ width: `${range.disrupted[1] * 100}%` }}>
               <span className="text-[8px] text-red-400 absolute bottom-0.5 left-1">Disrupted</span>
@@ -844,8 +877,8 @@ function ReferenceRangeChart({ eigenvalue, signalType }: { eigenvalue: number; s
             <div className="bg-green-500/20" style={{ width: `${(range.healthy[1] - range.moderate[1]) * 100}%` }}>
               <span className="text-[8px] text-green-400 absolute bottom-0.5 left-1">Healthy</span>
             </div>
-            <div className="bg-slate-700/30 flex-1">
-              <span className="text-[8px] text-slate-400 absolute bottom-0.5 left-1">Near-Critical</span>
+            <div className="bg-slate-100 flex-1">
+              <span className="text-[8px] text-slate-500 absolute bottom-0.5 left-1">Near-Critical</span>
             </div>
           </div>
           <div className="absolute inset-y-0 w-0.5 bg-white z-10" style={{ left: `${Math.min(eigenvalue, 1) * 100}%` }}>
@@ -854,7 +887,7 @@ function ReferenceRangeChart({ eigenvalue, signalType }: { eigenvalue: number; s
             </div>
           </div>
         </div>
-        <p className="text-[9px] text-slate-400 italic">{range.source}</p>
+        <p className="text-[9px] text-slate-500 italic">{range.source}</p>
       </CardContent>
     </Card>
   );
@@ -968,24 +1001,24 @@ function CircadianFingerprint({ entries }: { entries: ComparisonEntry[] }) {
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <div className="p-3 rounded-lg bg-slate-800/60 border border-slate-700/40 text-center">
+          <div className="p-3 rounded-lg bg-slate-50 border border-slate-200/40 text-center">
             <div className={`text-xl font-bold font-mono ${overallColor}`}>{meanEV.toFixed(3)}</div>
-            <div className="text-[10px] text-slate-400 mt-0.5">Mean |λ|</div>
+            <div className="text-[10px] text-slate-500 mt-0.5">Mean |λ|</div>
             <div className={`text-[9px] font-medium mt-0.5 ${overallColor}`}>{overallLabel}</div>
           </div>
-          <div className="p-3 rounded-lg bg-slate-800/60 border border-slate-700/40 text-center">
+          <div className="p-3 rounded-lg bg-slate-50 border border-slate-200/40 text-center">
             <div className={`text-xl font-bold font-mono ${coherenceColor}`}>{gap.toFixed(3)}</div>
-            <div className="text-[10px] text-slate-400 mt-0.5">Persistence Gap</div>
+            <div className="text-[10px] text-slate-500 mt-0.5">Persistence Gap</div>
             <div className={`text-[9px] font-medium mt-0.5 ${coherenceColor}`}>{coherenceLabel}</div>
           </div>
-          <div className="p-3 rounded-lg bg-slate-800/60 border border-slate-700/40 text-center">
+          <div className="p-3 rounded-lg bg-slate-50 border border-slate-200/40 text-center">
             <div className="text-xl font-bold font-mono text-purple-400">{meanR2.toFixed(3)}</div>
-            <div className="text-[10px] text-slate-400 mt-0.5">Mean R²</div>
+            <div className="text-[10px] text-slate-500 mt-0.5">Mean R²</div>
             <div className="text-[9px] font-medium mt-0.5 text-purple-400">{meanR2 >= 0.7 ? "Good Fit" : meanR2 >= 0.4 ? "Fair Fit" : "Poor Fit"}</div>
           </div>
-          <div className="p-3 rounded-lg bg-slate-800/60 border border-slate-700/40 text-center">
+          <div className="p-3 rounded-lg bg-slate-50 border border-slate-200/40 text-center">
             <div className="text-xl font-bold font-mono text-emerald-400">{entries.length}</div>
-            <div className="text-[10px] text-slate-400 mt-0.5">Signals</div>
+            <div className="text-[10px] text-slate-500 mt-0.5">Signals</div>
             <div className="text-[9px] font-medium mt-0.5 text-emerald-400">{circadianSignals.length} circadian-relevant</div>
           </div>
         </div>
@@ -997,15 +1030,15 @@ function CircadianFingerprint({ entries }: { entries: ComparisonEntry[] }) {
                 <PolarGrid stroke="#334155" />
                 <PolarAngleAxis dataKey="signal" tick={{ fontSize: 9, fill: "#64748b" }} />
                 <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 8, fill: "#64748b" }} tickCount={5} />
-                <Radar name="Eigenvalue %" dataKey="eigenvalue" stroke="#818cf8" fill="#818cf8" fillOpacity={0.25} strokeWidth={2} />
-                <Radar name="R² %" dataKey="r2" stroke="#34d399" fill="#34d399" fillOpacity={0.1} strokeWidth={1} strokeDasharray="4 2" />
+                <Radar name="Eigenvalue %" dataKey="eigenvalue" stroke="#818cf8" fill="#818cf8" fillOpacity={0.55} strokeWidth={2} />
+                <Radar name="R² %" dataKey="r2" stroke="#34d399" fill="#34d399" fillOpacity={0.3} strokeWidth={1} strokeDasharray="4 2" />
                 <Legend wrapperStyle={{ fontSize: 10, color: "#94a3b8" }} />
               </RadarChart>
             </ResponsiveContainer>
           </div>
 
           <div className="space-y-2">
-            <h4 className="text-[11px] font-semibold text-slate-300 uppercase tracking-wider">Signal Hierarchy</h4>
+            <h4 className="text-[11px] font-semibold text-slate-600 uppercase tracking-wider">Signal Hierarchy</h4>
             {sorted.map((entry, i) => {
               const info = SIGNAL_INFO[entry.result.signalType];
               const ev = entry.result.ar2Hourly.eigenvalue;
@@ -1013,16 +1046,16 @@ function CircadianFingerprint({ entries }: { entries: ComparisonEntry[] }) {
               const barColor = ev >= 0.8 ? "#22c55e" : ev >= 0.6 ? "#06b6d4" : ev >= 0.4 ? "#eab308" : "#f97316";
               return (
                 <div key={entry.id} className="flex items-center gap-2">
-                  <span className="text-[9px] text-slate-400 w-3 text-right font-mono">{i + 1}</span>
-                  <span className="text-[10px] text-slate-300 w-24 truncate">{info.label}</span>
-                  <div className="flex-1 h-3.5 bg-slate-800 rounded-full overflow-hidden relative">
+                  <span className="text-[9px] text-slate-500 w-3 text-right font-mono">{i + 1}</span>
+                  <span className="text-[10px] text-slate-600 w-24 truncate">{info.label}</span>
+                  <div className="flex-1 h-3.5 bg-slate-100 rounded-full overflow-hidden relative">
                     <div className="h-full rounded-full transition-all" style={{ width: `${barWidth}%`, backgroundColor: barColor }} />
-                    <span className="absolute right-1.5 top-0 text-[8px] font-mono text-slate-300 leading-[14px]">{ev.toFixed(3)}</span>
+                    <span className="absolute right-1.5 top-0 text-[8px] font-mono text-slate-600 leading-[14px]">{ev.toFixed(3)}</span>
                   </div>
                   {info.circadianRelevance === "high" && <span className="text-[7px] text-green-400 font-bold">HIGH</span>}
                   {info.circadianRelevance === "medium" && <span className="text-[7px] text-yellow-400 font-bold">MED</span>}
                   {info.circadianRelevance === "low" && <span className="text-[7px] text-orange-400 font-bold">LOW</span>}
-                  {info.circadianRelevance === "none" && <span className="text-[7px] text-slate-400 font-bold">N/A</span>}
+                  {info.circadianRelevance === "none" && <span className="text-[7px] text-slate-500 font-bold">N/A</span>}
                 </div>
               );
             })}
@@ -1033,7 +1066,7 @@ function CircadianFingerprint({ entries }: { entries: ComparisonEntry[] }) {
           <h4 className="text-[11px] font-semibold text-indigo-300 flex items-center gap-2 mb-2">
             <BrainCircuit className="w-3.5 h-3.5" /> Interpretation
           </h4>
-          <p className="text-[10px] text-slate-400 leading-relaxed">{interpretation}</p>
+          <p className="text-[10px] text-slate-500 leading-relaxed">{interpretation}</p>
         </div>
 
         <div className="p-3 rounded-lg bg-amber-500/5 border border-amber-500/20">
@@ -1054,8 +1087,8 @@ function CircadianFingerprint({ entries }: { entries: ComparisonEntry[] }) {
               <div key={i} className="flex items-start gap-1.5 py-0.5">
                 <span className="text-[9px] text-amber-400 mt-0.5 shrink-0">*</span>
                 <div>
-                  <span className="text-[10px] text-slate-300 font-medium">{item.q}</span>
-                  <span className="text-[9px] text-slate-400"> — {item.why}</span>
+                  <span className="text-[10px] text-slate-600 font-medium">{item.q}</span>
+                  <span className="text-[9px] text-slate-500"> — {item.why}</span>
                 </div>
               </div>
             ))}
@@ -1066,7 +1099,7 @@ function CircadianFingerprint({ entries }: { entries: ComparisonEntry[] }) {
           <h4 className="text-[11px] font-semibold text-red-400 flex items-center gap-2 mb-1">
             <ShieldAlert className="w-3.5 h-3.5" /> Limitations
           </h4>
-          <p className="text-[10px] text-slate-400 leading-relaxed">
+          <p className="text-[10px] text-slate-500 leading-relaxed">
             This fingerprint measures <em>signal regularity</em> using AR(2) modeling — real math on real data.
             It does not measure molecular clock gene activity, diagnose any condition, or predict health outcomes.
             The connection between wearable signal persistence and tissue-level circadian biology is a hypothesis under investigation, not an established fact.
@@ -1205,7 +1238,7 @@ function BenchmarkComparison({ entries }: { entries: ComparisonEntry[] }) {
             <div key={sigType} className="space-y-2">
               <div className="flex items-center gap-2">
                 <Icon className={`w-3.5 h-3.5 ${info.color}`} />
-                <span className="text-[11px] font-semibold text-slate-200">{info.label}</span>
+                <span className="text-[11px] font-semibold text-slate-800">{info.label}</span>
               </div>
 
               {benchmarks.map((bench, bi) => {
@@ -1216,10 +1249,10 @@ function BenchmarkComparison({ entries }: { entries: ComparisonEntry[] }) {
                 return (
                   <div key={bi} className="ml-5 space-y-1">
                     <div className="flex items-center justify-between">
-                      <span className="text-[9px] text-slate-400">{bench.label} — {bench.source}</span>
-                      <span className="text-[8px] text-slate-400">{bench.population} {bench.provenance === "estimated" ? "(estimate)" : "(computed)"}</span>
+                      <span className="text-[9px] text-slate-500">{bench.label} — {bench.source}</span>
+                      <span className="text-[8px] text-slate-500">{bench.population} {bench.provenance === "estimated" ? "(estimate)" : "(computed)"}</span>
                     </div>
-                    <div className="relative h-6 bg-slate-800/80 rounded-full border border-slate-700/40">
+                    <div className="relative h-6 bg-slate-50 rounded-full border border-slate-200/40">
                       <div className="absolute top-0 h-full rounded-full opacity-25"
                         style={{ left: `${rangeLeft}%`, width: `${rangeWidth}%`, backgroundColor: color }} />
                       <div className="absolute top-0 h-full w-0.5 opacity-50"
@@ -1247,14 +1280,14 @@ function BenchmarkComparison({ entries }: { entries: ComparisonEntry[] }) {
                       })}
 
                       {[0, 0.25, 0.5, 0.75, 1.0].map(v => (
-                        <div key={v} className="absolute top-full w-px h-1 bg-slate-700" style={{ left: `${v * 100}%` }}>
+                        <div key={v} className="absolute top-full w-px h-1 bg-slate-200" style={{ left: `${v * 100}%` }}>
                           {(v === 0 || v === 0.5 || v === 1.0) && (
-                            <span className="absolute top-1.5 -translate-x-1/2 text-[7px] text-slate-400">{v.toFixed(1)}</span>
+                            <span className="absolute top-1.5 -translate-x-1/2 text-[7px] text-slate-500">{v.toFixed(1)}</span>
                           )}
                         </div>
                       ))}
                     </div>
-                    <div className="flex items-center justify-between text-[8px] text-slate-400 mt-1">
+                    <div className="flex items-center justify-between text-[8px] text-slate-500 mt-1">
                       <span>Range: {bench.eigenvalueRange[0].toFixed(2)}–{bench.eigenvalueRange[1].toFixed(2)} | Mean: {bench.eigenvalueMean.toFixed(2)}</span>
                       <span>{bench.daysRecorded} | {bench.device}</span>
                     </div>
@@ -1276,7 +1309,7 @@ function BenchmarkComparison({ entries }: { entries: ComparisonEntry[] }) {
                         </div>
                       );
                     })}
-                    <p className="text-[8px] text-slate-400 italic">{bench.note}</p>
+                    <p className="text-[8px] text-slate-500 italic">{bench.note}</p>
                   </div>
                 );
               })}
@@ -1284,7 +1317,7 @@ function BenchmarkComparison({ entries }: { entries: ComparisonEntry[] }) {
           );
         })}
 
-        <div className="flex items-center gap-4 pt-2 border-t border-slate-700/30 text-[9px] text-slate-400">
+        <div className="flex items-center gap-4 pt-2 border-t border-slate-200 text-[9px] text-slate-500">
           <div className="flex items-center gap-1">
             <div className="w-3 h-3 rounded-full bg-green-500/20 border border-green-500 flex items-center justify-center"><span className="text-[6px] text-green-400 font-bold">Y</span></div>
             <span>Your data (in range)</span>
@@ -1298,7 +1331,7 @@ function BenchmarkComparison({ entries }: { entries: ComparisonEntry[] }) {
             <span>Your data (below)</span>
           </div>
           <div className="flex items-center gap-1">
-            <div className="w-3 h-3 rounded-full bg-slate-500/20 border border-slate-500 flex items-center justify-center"><span className="text-[6px] text-slate-400 font-bold">R</span></div>
+            <div className="w-3 h-3 rounded-full bg-slate-500/20 border border-slate-300 flex items-center justify-center"><span className="text-[6px] text-slate-500 font-bold">R</span></div>
             <span>Reference mean</span>
           </div>
         </div>
@@ -1307,7 +1340,7 @@ function BenchmarkComparison({ entries }: { entries: ComparisonEntry[] }) {
           <h5 className="text-[10px] font-semibold text-amber-400 mb-1 flex items-center gap-1">
             <AlertTriangle className="w-3 h-3" /> Important context
           </h5>
-          <ul className="text-[9px] text-slate-400 space-y-0.5">
+          <ul className="text-[9px] text-slate-500 space-y-0.5">
             <li>- Reference ranges are from small public datasets and literature estimates, not large clinical studies</li>
             <li>- Different devices, sampling rates, and wear patterns affect eigenvalues — direct comparison across devices has limitations</li>
             <li>- "Within range" means your value falls within the observed range, not that it's clinically normal or abnormal</li>
@@ -1345,7 +1378,7 @@ function ResilienceMap({ entries }: { entries: ComparisonEntry[] }) {
 
   return (
     <div className="space-y-6">
-      <Card className="bg-slate-900/50 border-slate-700/50" data-testid="card-resilience-map">
+      <Card className="bg-white border-slate-200" data-testid="card-resilience-map">
         <CardHeader>
           <CardTitle className="text-sm flex items-center gap-2">
             <Target className="w-4 h-4 text-cyan-400" />
@@ -1357,15 +1390,15 @@ function ResilienceMap({ entries }: { entries: ComparisonEntry[] }) {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="relative">
-            <div className="flex items-center justify-between text-[9px] text-slate-400 mb-1 px-1">
+            <div className="flex items-center justify-between text-[9px] text-slate-500 mb-1 px-1">
               <span>Low persistence (0.0)</span>
               <span>High persistence (1.0)</span>
             </div>
-            <div className="h-4 rounded-full bg-gradient-to-r from-blue-500/20 via-green-500/20 via-60% to-red-500/20 border border-slate-700/50 relative mb-6">
+            <div className="h-4 rounded-full bg-gradient-to-r from-blue-500/20 via-green-500/20 via-60% to-red-500/20 border border-slate-200 relative mb-6">
               <div className="absolute -bottom-1 left-0 w-full h-0.5">
                 {[0, 0.2, 0.4, 0.6, 0.8, 1.0].map(v => (
                   <div key={v} className="absolute top-0 w-px h-2 bg-slate-600" style={{ left: `${v * 100}%` }}>
-                    <span className="absolute top-2.5 -translate-x-1/2 text-[8px] text-slate-400">{v.toFixed(1)}</span>
+                    <span className="absolute top-2.5 -translate-x-1/2 text-[8px] text-slate-500">{v.toFixed(1)}</span>
                   </div>
                 ))}
               </div>
@@ -1392,7 +1425,7 @@ function ResilienceMap({ entries }: { entries: ComparisonEntry[] }) {
               const color = colorMap[entry.result.signalType] || "#94a3b8";
               const role = roleMap[entry.result.signalType] || roleMap.generic;
               return (
-                <div key={entry.id} className="flex items-start gap-3 p-3 rounded-lg bg-slate-800/50 border border-slate-700/30">
+                <div key={entry.id} className="flex items-start gap-3 p-3 rounded-lg bg-slate-50 border border-slate-200">
                   <div className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0"
                     style={{ backgroundColor: `${color}20`, color, border: `1px solid ${color}40` }}>
                     {i + 1}
@@ -1400,12 +1433,12 @@ function ResilienceMap({ entries }: { entries: ComparisonEntry[] }) {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <Icon className={`w-3.5 h-3.5 ${info.color}`} />
-                      <span className="text-xs font-medium text-slate-200">{info.label}</span>
+                      <span className="text-xs font-medium text-slate-800">{info.label}</span>
                       <span className="text-[10px] font-mono font-bold" style={{ color }}>|λ| = {ev.toFixed(4)}</span>
                       <Badge variant="outline" className="text-[8px] px-1.5 py-0">{role.role}</Badge>
                     </div>
-                    <p className="text-[10px] text-slate-400 mt-1">{role.analogy}</p>
-                    <div className="flex gap-3 mt-1 text-[9px] text-slate-400">
+                    <p className="text-[10px] text-slate-500 mt-1">{role.analogy}</p>
+                    <div className="flex gap-3 mt-1 text-[9px] text-slate-500">
                       <span>R² = {entry.result.ar2Hourly.r2.toFixed(3)}</span>
                       <span>{entry.result.daysOfData.toFixed(1)} days</span>
                       <span>{entry.result.sampleCount.toLocaleString()} samples</span>
@@ -1425,22 +1458,22 @@ function ResilienceMap({ entries }: { entries: ComparisonEntry[] }) {
                 </h4>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  <div className="p-3 rounded-lg bg-slate-800/50 text-center">
+                  <div className="p-3 rounded-lg bg-slate-50 text-center">
                     <div className="text-lg font-bold text-cyan-400">{persistenceGap.toFixed(4)}</div>
-                    <div className="text-[10px] text-slate-400 mt-1">Persistence Gap</div>
-                    <div className="text-[9px] text-slate-400">(highest - lowest |λ|)</div>
+                    <div className="text-[10px] text-slate-500 mt-1">Persistence Gap</div>
+                    <div className="text-[9px] text-slate-500">(highest - lowest |λ|)</div>
                   </div>
-                  <div className="p-3 rounded-lg bg-slate-800/50 text-center">
+                  <div className="p-3 rounded-lg bg-slate-50 text-center">
                     <div className="text-lg font-bold text-amber-400">
                       {(entries.reduce((s, e) => s + e.result.ar2Hourly.eigenvalue, 0) / entries.length).toFixed(4)}
                     </div>
-                    <div className="text-[10px] text-slate-400 mt-1">Mean Persistence</div>
-                    <div className="text-[9px] text-slate-400">across all signals</div>
+                    <div className="text-[10px] text-slate-500 mt-1">Mean Persistence</div>
+                    <div className="text-[9px] text-slate-500">across all signals</div>
                   </div>
-                  <div className="p-3 rounded-lg bg-slate-800/50 text-center">
+                  <div className="p-3 rounded-lg bg-slate-50 text-center">
                     <div className="text-lg font-bold text-green-400">{entries.length}</div>
-                    <div className="text-[10px] text-slate-400 mt-1">Signals Compared</div>
-                    <div className="text-[9px] text-slate-400">in this analysis</div>
+                    <div className="text-[10px] text-slate-500 mt-1">Signals Compared</div>
+                    <div className="text-[9px] text-slate-500">in this analysis</div>
                   </div>
                 </div>
 
@@ -1448,7 +1481,7 @@ function ResilienceMap({ entries }: { entries: ComparisonEntry[] }) {
                   <h5 className="text-[10px] font-semibold text-green-400 mb-1 flex items-center gap-1">
                     <CheckCircle2 className="w-3 h-3" /> What this comparison actually shows
                   </h5>
-                  <p className="text-[10px] text-slate-400 leading-relaxed">
+                  <p className="text-[10px] text-slate-500 leading-relaxed">
                     Each signal has its own temporal persistence when measured by AR(2). Signals with higher |λ| maintain their pattern more
                     consistently from one time step to the next. The persistence gap shows how much variation exists between your most
                     and least persistent signals — a kind of "dynamic range" of your body's timing signatures.
@@ -1459,7 +1492,7 @@ function ResilienceMap({ entries }: { entries: ComparisonEntry[] }) {
                   <h5 className="text-[10px] font-semibold text-amber-400 mb-1 flex items-center gap-1">
                     <AlertTriangle className="w-3 h-3" /> Same-person requirement
                   </h5>
-                  <p className="text-[10px] text-slate-400 leading-relaxed">
+                  <p className="text-[10px] text-slate-500 leading-relaxed">
                     Cross-signal comparison is only meaningful when all datasets come from the <strong>same person</strong> during
                     overlapping time periods. Comparing signals from different people tells you nothing about one individual's
                     circadian coordination. The sample datasets here are from different studies and different individuals —
@@ -1471,7 +1504,7 @@ function ResilienceMap({ entries }: { entries: ComparisonEntry[] }) {
                   <h5 className="text-[10px] font-semibold text-red-400 mb-1 flex items-center gap-1">
                     <ShieldAlert className="w-3 h-3" /> What this comparison does NOT show
                   </h5>
-                  <ul className="text-[10px] text-slate-400 leading-relaxed space-y-1">
+                  <ul className="text-[10px] text-slate-500 leading-relaxed space-y-1">
                     <li>- Whether these signals are causally related to each other (they're analyzed independently)</li>
                     <li>- Whether your persistence pattern matches tissue-level clock gene behavior (untested hypothesis)</li>
                     <li>- Any clinical diagnosis or health status — this is a research exploration tool</li>
@@ -1484,7 +1517,7 @@ function ResilienceMap({ entries }: { entries: ComparisonEntry[] }) {
                     <h5 className="text-[10px] font-semibold text-amber-400 mb-1 flex items-center gap-1">
                       <AlertTriangle className="w-3 h-3" /> Data Duration Warning
                     </h5>
-                    <p className="text-[10px] text-slate-400 leading-relaxed">
+                    <p className="text-[10px] text-slate-500 leading-relaxed">
                       Some signals have less than 1 day of data. Circadian analysis ideally requires 3+ days of continuous recording
                       to distinguish real daily patterns from noise. Short recordings show within-session temporal persistence, not circadian rhythm.
                     </p>
@@ -1797,7 +1830,7 @@ export default function WearableAnalysis() {
       "• The link between wearable-derived |λ| and tissue-level",
       "  circadian health is an UNTESTED HYPOTHESIS",
       "",
-      "Engine: PAR(2) Discovery Engine v2.3.0 (Locked Feb 27 2026)",
+      "Engine: PAR(2) Discovery Engine v2.5.0 (April 2026)",
       "Algorithm: AR(2) Ordinary Least Squares",
       "Model: y(t) = φ₁·y(t-1) + φ₂·y(t-2) + ε",
       "═══════════════════════════════════════════════════════════",
@@ -1859,13 +1892,13 @@ export default function WearableAnalysis() {
   const dayColors = ["#22d3ee", "#a78bfa", "#fb923c", "#34d399", "#f472b6", "#facc15", "#60a5fa"];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 text-slate-100 p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
         <div className="mb-4 bg-amber-500/8 border border-amber-500/25 rounded-lg px-4 py-3 flex items-start gap-3" data-testid="banner-research-preview">
           <FlaskConical className="w-5 h-5 text-amber-400 mt-0.5 shrink-0" />
           <div>
             <p className="text-sm font-medium text-amber-300">Research Preview</p>
-            <p className="text-xs text-slate-400 leading-relaxed mt-0.5">
+            <p className="text-xs text-slate-500 leading-relaxed mt-0.5">
               This tool is under active development for research purposes. AR(2) eigenvalue analysis measures signal regularity and temporal persistence in your wearable data — it is not a clinical or diagnostic instrument. Results should be interpreted alongside professional medical guidance.
             </p>
           </div>
@@ -1900,7 +1933,7 @@ export default function WearableAnalysis() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="bg-slate-800/50 border border-slate-700/50">
+          <TabsList className="bg-slate-50 border border-slate-200">
             <TabsTrigger value="upload" data-testid="tab-upload">
               <Upload className="w-3.5 h-3.5 mr-1.5" /> Upload & Analyze
             </TabsTrigger>
@@ -1924,7 +1957,7 @@ export default function WearableAnalysis() {
           {/* UPLOAD TAB */}
           <TabsContent value="upload" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card className="bg-slate-900/50 border-slate-700/50">
+              <Card className="bg-white border-slate-200">
                 <CardHeader>
                   <CardTitle className="text-sm flex items-center gap-2">
                     <FileUp className="w-4 h-4 text-cyan-400" />
@@ -1945,7 +1978,7 @@ export default function WearableAnalysis() {
                     data-testid="input-file-upload"
                   />
                   <div
-                    className="border-2 border-dashed border-slate-600 rounded-xl p-8 text-center cursor-pointer hover:border-cyan-500/50 transition-colors"
+                    className="border-2 border-dashed border-slate-300 rounded-xl p-8 text-center cursor-pointer hover:border-cyan-500/50 transition-colors"
                     onClick={() => fileInputRef.current?.click()}
                     data-testid="dropzone-upload"
                   >
@@ -1956,7 +1989,7 @@ export default function WearableAnalysis() {
                       </div>
                     ) : (
                       <div className="flex flex-col items-center gap-3">
-                        <Upload className="w-10 h-10 text-slate-400" />
+                        <Upload className="w-10 h-10 text-slate-500" />
                         <p className="text-sm font-medium">Click to upload CSV or Apple Health ZIP</p>
                         <p className="text-xs text-muted-foreground">
                           Apple Health export ZIP, Fitbit, Garmin, Dexcom, Oura, Libre, or any CSV with numeric data
@@ -1991,7 +2024,7 @@ export default function WearableAnalysis() {
                         <Watch className="w-4 h-4" />
                         Apple Health Export Detected
                       </h4>
-                      <p className="text-[11px] text-slate-400 mb-3">
+                      <p className="text-[11px] text-slate-500 mb-3">
                         Found {appleHealthData.signals.length} signal type{appleHealthData.signals.length !== 1 ? "s" : ""} in your export. Pick which one to analyze:
                       </p>
                       <div className="space-y-2 max-h-80 overflow-y-auto">
@@ -2003,7 +2036,7 @@ export default function WearableAnalysis() {
                             <button
                               key={sig.type}
                               onClick={() => handleAppleHealthSignalSelect(sig.type)}
-                              className="w-full text-left p-3 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/50 hover:border-green-500/30 transition-all group"
+                              className="w-full text-left p-3 rounded-lg bg-slate-50 hover:bg-slate-200/80 border border-slate-200 hover:border-green-500/30 transition-all group"
                               data-testid={`btn-apple-signal-${sig.type}`}
                             >
                               <div className="flex items-center justify-between">
@@ -2013,17 +2046,17 @@ export default function WearableAnalysis() {
                                   {typeInfo?.signalType === "activity" && <Zap className="w-3.5 h-3.5 text-yellow-400" />}
                                   {typeInfo?.signalType === "temperature" && <Sun className="w-3.5 h-3.5 text-orange-400" />}
                                   {typeInfo?.signalType === "spo2" && <Droplets className="w-3.5 h-3.5 text-blue-400" />}
-                                  {typeInfo?.signalType === "generic" && <Activity className="w-3.5 h-3.5 text-slate-400" />}
+                                  {typeInfo?.signalType === "generic" && <Activity className="w-3.5 h-3.5 text-slate-500" />}
                                   <span className="text-[11px] font-medium text-green-300 group-hover:text-green-200">{sig.label}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                   <Badge variant="outline" className={`text-[8px] ${isGood ? "text-green-400 border-green-500/30" : isOk ? "text-yellow-400 border-yellow-500/30" : "text-orange-400 border-orange-500/30"}`}>
                                     {isGood ? "ideal" : isOk ? "may work" : "limited"}
                                   </Badge>
-                                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-green-400 transition-colors" />
+                                  <ArrowRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-green-400 transition-colors" />
                                 </div>
                               </div>
-                              <div className="text-[9px] text-slate-400 mt-1 ml-5.5 flex flex-wrap gap-x-3">
+                              <div className="text-[9px] text-slate-500 mt-1 ml-5.5 flex flex-wrap gap-x-3">
                                 <span>{sig.count.toLocaleString()} readings</span>
                                 <span>{sig.daysSpan} days</span>
                                 <span>{sig.firstDate} to {sig.lastDate}</span>
@@ -2035,7 +2068,7 @@ export default function WearableAnalysis() {
                       <div className="mt-3 flex items-center gap-2 flex-wrap">
                         <Button
                           size="sm"
-                          className="bg-green-600 hover:bg-green-500 text-white text-[10px]"
+                          className="bg-green-600 hover:bg-green-500 text-slate-900 text-[10px]"
                           onClick={handleAnalyzeAllSignals}
                           data-testid="btn-analyze-all-signals"
                         >
@@ -2044,12 +2077,12 @@ export default function WearableAnalysis() {
                         <Button
                           variant="outline"
                           size="sm"
-                          className="border-slate-600 text-slate-400 text-[10px]"
+                          className="border-slate-300 text-slate-500 text-[10px]"
                           onClick={() => setAppleHealthData(null)}
                         >
                           <X className="w-3 h-3 mr-1" /> Cancel
                         </Button>
-                        <p className="text-[9px] text-slate-400">
+                        <p className="text-[9px] text-slate-500">
                           Your data stays in your browser — nothing is uploaded to any server.
                         </p>
                       </div>
@@ -2057,7 +2090,7 @@ export default function WearableAnalysis() {
                   )}
 
                   <div className="mt-4 space-y-2">
-                    <h4 className="text-xs font-semibold text-slate-400">What happens when you upload:</h4>
+                    <h4 className="text-xs font-semibold text-slate-500">What happens when you upload:</h4>
                     <div className="space-y-1.5 text-[10px] text-muted-foreground">
                       <div className="flex gap-2"><Badge variant="outline" className="text-[9px] shrink-0">1</Badge> Format detected (Apple Health ZIP, Fitbit CSV, Dexcom, etc.)</div>
                       <div className="flex gap-2"><Badge variant="outline" className="text-[9px] shrink-0">2</Badge> Signal classified (HR, HRV, CGM, activity, etc.)</div>
@@ -2072,14 +2105,14 @@ export default function WearableAnalysis() {
                     <h4 className="text-xs font-semibold text-green-300 mb-2 flex items-center gap-1.5">
                       <Watch className="w-3.5 h-3.5" /> How to export from Apple Watch
                     </h4>
-                    <div className="space-y-1 text-[10px] text-slate-400">
+                    <div className="space-y-1 text-[10px] text-slate-500">
                       <p>1. Open the <strong>Health</strong> app on your iPhone</p>
                       <p>2. Tap your profile picture (top right)</p>
                       <p>3. Scroll down and tap <strong>Export All Health Data</strong></p>
                       <p>4. Wait for the export to prepare (can take a few minutes)</p>
                       <p>5. Save/share the ZIP file, then upload it here</p>
                     </div>
-                    <p className="text-[9px] text-slate-400 mt-2">
+                    <p className="text-[9px] text-slate-500 mt-2">
                       The engine extracts heart rate, HRV, steps, and other signals from the ZIP automatically.
                       Your data stays in your browser — nothing is uploaded to any server.
                     </p>
@@ -2098,7 +2131,7 @@ export default function WearableAnalysis() {
                           key={ds.id}
                           onClick={() => loadSampleDataset(ds)}
                           disabled={loadingSampleId !== null}
-                          className="w-full text-left p-2.5 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/50 hover:border-cyan-500/30 transition-all group disabled:opacity-50"
+                          className="w-full text-left p-2.5 rounded-lg bg-slate-50 hover:bg-slate-200/80 border border-slate-200 hover:border-cyan-500/30 transition-all group disabled:opacity-50"
                           data-testid={`btn-sample-${ds.id}`}
                         >
                           <div className="flex items-center justify-between">
@@ -2106,22 +2139,23 @@ export default function WearableAnalysis() {
                               {ds.icon === "heart" && <Heart className="w-3.5 h-3.5 text-rose-400" />}
                               {ds.icon === "cgm" && <Droplets className="w-3.5 h-3.5 text-purple-400" />}
                               {ds.icon === "activity" && <Zap className="w-3.5 h-3.5 text-yellow-400" />}
+                              {ds.icon === "clinical" && <Stethoscope className="w-3.5 h-3.5 text-cyan-400" />}
                               <span className="text-[11px] font-medium text-cyan-300 group-hover:text-cyan-200">{ds.label}</span>
-                              <Badge variant="outline" className="text-[8px] px-1 py-0 group-hover:text-slate-200 group-hover:border-slate-400 transition-colors">{ds.points} pts</Badge>
+                              <Badge variant="outline" className="text-[8px] px-1 py-0 group-hover:text-slate-800 group-hover:border-slate-400 transition-colors">{ds.points} pts</Badge>
                             </div>
                             {loadingSampleId === ds.id ? (
                               <Loader2 className="w-3.5 h-3.5 text-cyan-400 animate-spin" />
                             ) : (
-                              <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-cyan-400 transition-colors" />
+                              <ArrowRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-cyan-400 transition-colors" />
                             )}
                           </div>
-                          <p className="text-[9px] text-slate-400 group-hover:text-slate-200 mt-1 ml-5.5 leading-relaxed transition-colors">{ds.description}</p>
-                          <p className="text-[9px] text-slate-400 group-hover:text-slate-300 mt-0.5 ml-5.5 italic transition-colors">Source: {ds.source}</p>
+                          <p className="text-[9px] text-slate-500 group-hover:text-slate-800 mt-1 ml-5.5 leading-relaxed transition-colors">{ds.description}</p>
+                          <p className="text-[9px] text-slate-500 group-hover:text-slate-600 mt-0.5 ml-5.5 italic transition-colors">Source: {ds.source}</p>
                         </button>
                       ))}
                     </div>
 
-                    <div className="mt-3 pt-3 border-t border-slate-700/30">
+                    <div className="mt-3 pt-3 border-t border-slate-200">
                       <Button
                         size="sm"
                         variant="outline"
@@ -2136,7 +2170,7 @@ export default function WearableAnalysis() {
                           <><Layers className="w-3.5 h-3.5 mr-1.5" /> Load Both &amp; Compare (HR + CGM)</>
                         )}
                       </Button>
-                      <p className="text-[9px] text-slate-400 mt-1.5 text-center">
+                      <p className="text-[9px] text-slate-500 mt-1.5 text-center">
                         Loads both multi-day datasets and opens the cross-signal comparison
                       </p>
                     </div>
@@ -2144,10 +2178,10 @@ export default function WearableAnalysis() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-900/50 border-slate-700/50">
+              <Card className="bg-white border-slate-200">
                 <CardHeader>
                   <CardTitle className="text-sm flex items-center gap-2">
-                    <Smartphone className="w-4 h-4 text-slate-400" />
+                    <Smartphone className="w-4 h-4 text-slate-500" />
                     What Works Best
                   </CardTitle>
                   <CardDescription className="text-xs">
@@ -2159,7 +2193,7 @@ export default function WearableAnalysis() {
                     <h5 className="text-[11px] font-semibold text-green-400 flex items-center gap-1.5">
                       <CheckCircle2 className="w-3.5 h-3.5" /> Ideal data
                     </h5>
-                    <div className="space-y-1.5 text-[10px] text-slate-300">
+                    <div className="space-y-1.5 text-[10px] text-slate-600">
                       <div className="flex items-start gap-2">
                         <Heart className="w-3.5 h-3.5 text-rose-400 shrink-0 mt-0.5" />
                         <div><strong>Heart rate</strong> — 3+ days of continuous monitoring (e.g., Apple Watch, Fitbit, Garmin). Sampling every 5-15 minutes.</div>
@@ -2175,7 +2209,7 @@ export default function WearableAnalysis() {
                     <h5 className="text-[11px] font-semibold text-amber-400 flex items-center gap-1.5">
                       <AlertTriangle className="w-3.5 h-3.5" /> Can work, with caveats
                     </h5>
-                    <div className="space-y-1 text-[10px] text-slate-400">
+                    <div className="space-y-1 text-[10px] text-slate-500">
                       <p><strong>HRV, skin temperature, activity/steps</strong> — the engine will process them, but they need 3+ days of continuous data to show circadian patterns. Single-session recordings are too short.</p>
                     </div>
                   </div>
@@ -2184,13 +2218,13 @@ export default function WearableAnalysis() {
                     <h5 className="text-[11px] font-semibold text-red-400 flex items-center gap-1.5">
                       <ShieldAlert className="w-3.5 h-3.5" /> Won't produce meaningful results
                     </h5>
-                    <div className="space-y-1 text-[10px] text-slate-400">
+                    <div className="space-y-1 text-[10px] text-slate-500">
                       <p><strong>Raw ECG waveform</strong> — measures heartbeat shape (milliseconds), not circadian rhythm (hours). Wrong timescale entirely.</p>
                       <p><strong>Any data under 24 hours</strong> — you need at least one full day/night cycle, ideally 3+.</p>
                     </div>
                   </div>
 
-                  <p className="text-[10px] text-muted-foreground p-2 rounded bg-slate-800/50">
+                  <p className="text-[10px] text-muted-foreground p-2 rounded bg-slate-50">
                     <strong>Key requirement:</strong> The engine resamples your data to hourly averages and fits an AR(2) model.
                     It needs enough daily cycles (3-7 days) to distinguish real circadian persistence from noise.
                   </p>
@@ -2209,25 +2243,25 @@ export default function WearableAnalysis() {
                   <div className="flex items-center justify-between flex-wrap gap-3">
                     <div className="flex items-center gap-3">
                       <Badge className="bg-green-600/20 text-green-400 border-green-600/30">Analysis Complete</Badge>
-                      <span className="text-sm text-slate-400">{uploadResult.fileName}</span>
+                      <span className="text-sm text-slate-500">{uploadResult.fileName}</span>
                     </div>
                     <div className="flex gap-2">
-                      <Button variant="outline" size="sm" className="border-slate-700 text-slate-300" onClick={generateReport} data-testid="button-download-report">
+                      <Button variant="outline" size="sm" className="border-slate-200 text-slate-600" onClick={generateReport} data-testid="button-download-report">
                         <Download className="w-3.5 h-3.5 mr-1.5" /> Download Report
                       </Button>
-                      <Button variant="outline" size="sm" className="border-slate-700 text-slate-300" onClick={() => { setUploadResult(null); setSampleContext(null); setActiveTab("upload"); }} data-testid="button-new-analysis">
+                      <Button variant="outline" size="sm" className="border-slate-200 text-slate-600" onClick={() => { setUploadResult(null); setSampleContext(null); setActiveTab("upload"); }} data-testid="button-new-analysis">
                         <X className="w-3.5 h-3.5 mr-1.5" /> New Analysis
                       </Button>
                     </div>
                   </div>
 
                   {appleHealthData && appleHealthData.signals.length > 1 && (
-                    <Card className="bg-slate-800/50 border-slate-700/50" data-testid="card-signal-switcher">
+                    <Card className="bg-slate-50 border-slate-200" data-testid="card-signal-switcher">
                       <CardContent className="p-3">
                         <div className="flex items-center gap-2 mb-2">
                           <Watch className="w-3.5 h-3.5 text-green-400" />
                           <span className="text-[11px] font-semibold text-green-300">Switch Signal</span>
-                          <span className="text-[9px] text-slate-400">({appleHealthData.signals.length} available from your Apple Health export)</span>
+                          <span className="text-[9px] text-slate-500">({appleHealthData.signals.length} available from your Apple Health export)</span>
                         </div>
                         <div className="flex flex-wrap gap-1.5">
                           {appleHealthData.signals.map((sig) => {
@@ -2240,7 +2274,7 @@ export default function WearableAnalysis() {
                                 className={`px-2.5 py-1.5 rounded-md text-[10px] font-medium transition-all flex items-center gap-1.5 ${
                                   isActive
                                     ? "bg-green-600/20 text-green-300 border border-green-500/40"
-                                    : "bg-slate-700/50 text-slate-400 border border-slate-600/30 hover:bg-slate-600/50 hover:text-slate-200"
+                                    : "bg-slate-100 text-slate-500 border border-slate-300/30 hover:bg-slate-600/50 hover:text-slate-800"
                                 }`}
                                 data-testid={`btn-switch-signal-${sig.type}`}
                               >
@@ -2249,9 +2283,9 @@ export default function WearableAnalysis() {
                                 {typeInfo?.signalType === "activity" && <Zap className="w-3 h-3 text-yellow-400" />}
                                 {typeInfo?.signalType === "temperature" && <Sun className="w-3 h-3 text-orange-400" />}
                                 {typeInfo?.signalType === "spo2" && <Droplets className="w-3 h-3 text-blue-400" />}
-                                {typeInfo?.signalType === "generic" && <Activity className="w-3 h-3 text-slate-400" />}
+                                {typeInfo?.signalType === "generic" && <Activity className="w-3 h-3 text-slate-500" />}
                                 {sig.label}
-                                <span className="text-[8px] text-slate-400">{sig.count.toLocaleString()}</span>
+                                <span className="text-[8px] text-slate-500">{sig.count.toLocaleString()}</span>
                               </button>
                             );
                           })}
@@ -2266,22 +2300,22 @@ export default function WearableAnalysis() {
                         <h3 className="text-sm font-semibold text-indigo-300 mb-2 flex items-center gap-2">
                           <Info className="w-4 h-4" /> About this dataset
                         </h3>
-                        <p className="text-xs text-slate-300 leading-relaxed mb-3">{sampleContext.description}</p>
+                        <p className="text-xs text-slate-600 leading-relaxed mb-3">{sampleContext.description}</p>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                           <div className="p-2.5 rounded-lg bg-green-500/5 border border-green-500/15">
                             <h4 className="text-[10px] font-semibold text-green-400 mb-1 flex items-center gap-1">
                               <CheckCircle2 className="w-3 h-3" /> What AR(2) actually measures here
                             </h4>
-                            <p className="text-[10px] text-slate-400 leading-relaxed">{sampleContext.whatItMeasures}</p>
+                            <p className="text-[10px] text-slate-500 leading-relaxed">{sampleContext.whatItMeasures}</p>
                           </div>
                           <div className="p-2.5 rounded-lg bg-red-500/5 border border-red-500/15">
                             <h4 className="text-[10px] font-semibold text-red-400 mb-1 flex items-center gap-1">
                               <ShieldAlert className="w-3 h-3" /> What it does NOT measure
                             </h4>
-                            <p className="text-[10px] text-slate-400 leading-relaxed">{sampleContext.whatItDoesNotMeasure}</p>
+                            <p className="text-[10px] text-slate-500 leading-relaxed">{sampleContext.whatItDoesNotMeasure}</p>
                           </div>
                         </div>
-                        <p className="text-[9px] text-slate-400 mt-2 italic">Source: {sampleContext.source}</p>
+                        <p className="text-[9px] text-slate-500 mt-2 italic">Source: {sampleContext.source}</p>
                       </CardContent>
                     </Card>
                   )}
@@ -2291,25 +2325,25 @@ export default function WearableAnalysis() {
                     <CardContent className="p-4">
                       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-xs">
                         <div>
-                          <span className="text-slate-400 block">Signal Type</span>
+                          <span className="text-slate-500 block">Signal Type</span>
                           <span className="font-semibold flex items-center gap-1.5 mt-0.5">
                             <Icon className={`w-3.5 h-3.5 ${info.color}`} /> {info.label}
                           </span>
                         </div>
                         <div>
-                          <span className="text-slate-400 block">Device Format</span>
+                          <span className="text-slate-500 block">Device Format</span>
                           <span className="font-semibold mt-0.5 capitalize">{uploadResult.deviceFormat.replace("_", " ")}</span>
                         </div>
                         <div>
-                          <span className="text-slate-400 block">Raw Samples</span>
+                          <span className="text-slate-500 block">Raw Samples</span>
                           <span className="font-semibold mt-0.5">{uploadResult.sampleCount.toLocaleString()}</span>
                         </div>
                         <div>
-                          <span className="text-slate-400 block">Hourly Points</span>
+                          <span className="text-slate-500 block">Hourly Points</span>
                           <span className="font-semibold mt-0.5">{uploadResult.hourlySampleCount}</span>
                         </div>
                         <div>
-                          <span className="text-slate-400 block">Days of Data</span>
+                          <span className="text-slate-500 block">Days of Data</span>
                           <span className="font-semibold mt-0.5">{uploadResult.daysOfData.toFixed(1)}</span>
                         </div>
                       </div>
@@ -2363,7 +2397,7 @@ export default function WearableAnalysis() {
                       <CircadianScoreCard score={uploadResult.circadianScore} circadianScore={uploadResult.circadianScore.score} />
 
                       {/* Hourly Time Series */}
-                      <Card className="bg-slate-900/50 border-slate-700/50" data-testid="card-hourly-timeseries">
+                      <Card className="bg-white border-slate-200" data-testid="card-hourly-timeseries">
                         <CardHeader className="pb-2">
                           <CardTitle className="text-sm flex items-center gap-2">
                             <Activity className="w-4 h-4 text-cyan-400" />
@@ -2404,12 +2438,12 @@ export default function WearableAnalysis() {
                         const okCorrs = corrs.filter(c => c > 0.5 && c <= 0.8).length;
                         const weakCorrs = corrs.filter(c => c <= 0.5).length;
                         return (
-                        <Card className="bg-slate-900/50 border-slate-700/50" data-testid="card-day-consistency">
+                        <Card className="bg-white border-slate-200" data-testid="card-day-consistency">
                           <CardHeader className="pb-2">
                             <CardTitle className="text-sm flex items-center gap-2">
                               <Clock className="w-4 h-4 text-purple-400" />
                               Day-Over-Day Consistency
-                              <Badge variant="outline" className="text-[9px] text-slate-400 border-slate-600">{totalDays} days</Badge>
+                              <Badge variant="outline" className="text-[9px] text-slate-500 border-slate-300">{totalDays} days</Badge>
                             </CardTitle>
                             <CardDescription className="text-[10px]">
                               Mean daily pattern (bold line) with interquartile range (shaded). Mean correlation: {uploadResult.dayConsistency.meanCorrelation.toFixed(3)}
@@ -2449,7 +2483,7 @@ export default function WearableAnalysis() {
 
                             <Collapsible>
                               <CollapsibleTrigger asChild>
-                                <Button variant="ghost" size="sm" className="mt-2 text-[10px] text-slate-400 hover:text-slate-200 p-1 h-auto" data-testid="btn-expand-individual-days">
+                                <Button variant="ghost" size="sm" className="mt-2 text-[10px] text-slate-500 hover:text-slate-800 p-1 h-auto" data-testid="btn-expand-individual-days">
                                   <Layers className="w-3 h-3 mr-1" /> Show individual days (first {Math.min(totalDays, MAX_INDIVIDUAL_DAYS)} of {totalDays})
                                 </Button>
                               </CollapsibleTrigger>
@@ -2471,7 +2505,7 @@ export default function WearableAnalysis() {
                                 </div>
                                 <Collapsible>
                                   <CollapsibleTrigger asChild>
-                                    <Button variant="ghost" size="sm" className="mt-1 text-[9px] text-slate-400 hover:text-slate-300 p-1 h-auto" data-testid="btn-expand-correlations">
+                                    <Button variant="ghost" size="sm" className="mt-1 text-[9px] text-slate-500 hover:text-slate-600 p-1 h-auto" data-testid="btn-expand-correlations">
                                       Show all {corrs.length} day-pair correlations
                                     </Button>
                                   </CollapsibleTrigger>
@@ -2496,7 +2530,7 @@ export default function WearableAnalysis() {
                     {/* Right Column */}
                     <div className="space-y-4">
                       {/* Eigenvalue Gauge */}
-                      <Card className="bg-slate-900/50 border-slate-700/50" data-testid="card-eigenvalue-result">
+                      <Card className="bg-white border-slate-200" data-testid="card-eigenvalue-result">
                         <CardHeader className="pb-2">
                           <CardTitle className="text-sm">AR(2) Eigenvalue (Hourly)</CardTitle>
                           <CardDescription className="text-[10px]">Persistence of circadian-scale signal</CardDescription>
@@ -2519,7 +2553,7 @@ export default function WearableAnalysis() {
                       <ReferenceRangeChart eigenvalue={uploadResult.ar2Hourly.eigenvalue} signalType={uploadResult.signalType} />
 
                       {/* What It Tells You */}
-                      <Card className="bg-slate-900/50 border-slate-700/50" data-testid="card-interpretation">
+                      <Card className="bg-white border-slate-200" data-testid="card-interpretation">
                         <CardHeader className="pb-2">
                           <CardTitle className="text-sm flex items-center gap-2">
                             <Info className="w-4 h-4 text-blue-400" />
@@ -2567,7 +2601,7 @@ export default function WearableAnalysis() {
                 { key: "disrupted" as const, label: "Circadian Disrupted", icon: Moon, color: "text-red-400", desc: "Shift-work pattern, minimal structure" },
               ]).map(({ key, label, icon: Icon, color, desc }) => (
                 <Card key={key}
-                  className={`cursor-pointer transition-all ${selectedProfile === key ? "bg-slate-800/80 border-cyan-500/50 ring-1 ring-cyan-500/30" : "bg-slate-900/50 border-slate-700/50 hover:border-slate-600/50"}`}
+                  className={`cursor-pointer transition-all ${selectedProfile === key ? "bg-slate-50 border-cyan-500/50 ring-1 ring-cyan-500/30" : "bg-white border-slate-200 hover:border-slate-200"}`}
                   onClick={() => setSelectedProfile(key)} data-testid={`card-profile-${key}`}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-2">
@@ -2583,7 +2617,7 @@ export default function WearableAnalysis() {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-2 space-y-4">
-                <Card className="bg-slate-900/50 border-slate-700/50">
+                <Card className="bg-white border-slate-200">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-sm flex items-center gap-2">
                       <Droplets className="w-4 h-4 text-cyan-400" /> 72-Hour Glucose Trace (Simulated)
@@ -2611,7 +2645,7 @@ export default function WearableAnalysis() {
                   </CardContent>
                 </Card>
 
-                <Card className="bg-slate-900/50 border-slate-700/50">
+                <Card className="bg-white border-slate-200">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-sm flex items-center gap-2">
                       <Clock className="w-4 h-4 text-purple-400" /> Day-Over-Day Overlay
@@ -2635,7 +2669,7 @@ export default function WearableAnalysis() {
               </div>
 
               <div className="space-y-4">
-                <Card className="bg-slate-900/50 border-slate-700/50">
+                <Card className="bg-white border-slate-200">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-sm">AR(2) Eigenvalue</CardTitle>
                   </CardHeader>
@@ -2649,7 +2683,7 @@ export default function WearableAnalysis() {
                     </div>
                   </CardContent>
                 </Card>
-                <Card className="bg-slate-900/50 border-slate-700/50">
+                <Card className="bg-white border-slate-200">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-sm">Three-Profile Comparison</CardTitle>
                   </CardHeader>
@@ -2674,14 +2708,14 @@ export default function WearableAnalysis() {
 
           {/* SIGNAL GUIDE TAB */}
           <TabsContent value="guide" className="space-y-6">
-            <Card className="bg-slate-900/50 border-slate-700/50">
+            <Card className="bg-white border-slate-200">
               <CardHeader>
                 <CardTitle className="text-sm flex items-center gap-2">
                   <FlaskConical className="w-4 h-4 text-cyan-400" />
                   What This Engine Does
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-2 text-[11px] text-slate-300">
+              <CardContent className="space-y-2 text-[11px] text-slate-600">
                 <p>
                   The wearable engine takes a CSV of time-stamped physiological data, resamples it to hourly averages,
                   and fits an AR(2) autoregressive model. From this model it extracts the eigenvalue modulus |λ|,
@@ -2695,13 +2729,13 @@ export default function WearableAnalysis() {
               </CardContent>
             </Card>
 
-            <h3 className="text-sm font-semibold text-slate-300">Signals with sample data available</h3>
+            <h3 className="text-sm font-semibold text-slate-600">Signals with sample data available</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {(["heart_rate", "cgm"] as SignalType[]).map((type) => {
                 const info = SIGNAL_INFO[type];
                 const Icon = info.icon;
                 return (
-                  <Card key={info.type} className="bg-slate-900/50 border-cyan-500/20">
+                  <Card key={info.type} className="bg-white border-cyan-500/20">
                     <CardHeader className="pb-2">
                       <CardTitle className="text-sm flex items-center gap-2">
                         <Icon className={`w-4 h-4 ${info.color}`} />
@@ -2714,8 +2748,8 @@ export default function WearableAnalysis() {
                     <CardContent className="space-y-3 text-[10px] text-muted-foreground">
                       <p>{info.description}</p>
                       <div className="flex gap-4">
-                        <div><span className="text-slate-400">Ideal sampling:</span> {info.idealSampling}</div>
-                        <div><span className="text-slate-400">Min days:</span> {info.minDays}+</div>
+                        <div><span className="text-slate-500">Ideal sampling:</span> {info.idealSampling}</div>
+                        <div><span className="text-slate-500">Min days:</span> {info.minDays}+</div>
                       </div>
                       <div className="p-2 rounded bg-emerald-500/5 border border-emerald-500/10">
                         <p className="font-semibold text-emerald-300 mb-1">Tells you:</p>
@@ -2729,15 +2763,15 @@ export default function WearableAnalysis() {
                           {info.whatItDoesnt.map((s, i) => <li key={i}>{s}</li>)}
                         </ul>
                       </div>
-                      <p className="text-[9px] text-slate-400 italic">Strategy: {info.resampleStrategy}</p>
+                      <p className="text-[9px] text-slate-500 italic">Strategy: {info.resampleStrategy}</p>
                     </CardContent>
                   </Card>
                 );
               })}
             </div>
 
-            <h3 className="text-sm font-semibold text-slate-300 mt-4">Other signals the engine can process</h3>
-            <p className="text-[10px] text-slate-400 -mt-2">
+            <h3 className="text-sm font-semibold text-slate-600 mt-4">Other signals the engine can process</h3>
+            <p className="text-[10px] text-slate-500 -mt-2">
               If you upload your own multi-day data in these formats, the engine will analyze it — but no sample datasets are provided.
               All require 3+ days of continuous recording for meaningful circadian analysis.
             </p>
@@ -2746,45 +2780,45 @@ export default function WearableAnalysis() {
                 const info = SIGNAL_INFO[type];
                 const Icon = info.icon;
                 return (
-                  <Card key={info.type} className="bg-slate-900/50 border-slate-700/50">
+                  <Card key={info.type} className="bg-white border-slate-200">
                     <CardContent className="p-3 space-y-2">
                       <div className="flex items-center gap-2">
                         <Icon className={`w-3.5 h-3.5 ${info.color}`} />
-                        <span className="text-[11px] font-medium text-slate-200">{info.label}</span>
+                        <span className="text-[11px] font-medium text-slate-800">{info.label}</span>
                         <Badge variant="outline" className={`ml-auto text-[8px] ${info.circadianRelevance === "high" ? "text-green-400" : info.circadianRelevance === "medium" ? "text-yellow-400" : "text-orange-400"}`}>
                           {info.circadianRelevance}
                         </Badge>
                       </div>
-                      <p className="text-[9px] text-slate-400">{info.description}</p>
-                      <p className="text-[9px] text-slate-400">Min: {info.minDays}+ days, {info.idealSampling}</p>
+                      <p className="text-[9px] text-slate-500">{info.description}</p>
+                      <p className="text-[9px] text-slate-500">Min: {info.minDays}+ days, {info.idealSampling}</p>
                     </CardContent>
                   </Card>
                 );
               })}
-              <Card className="bg-slate-900/50 border-red-500/20">
+              <Card className="bg-white border-red-500/20">
                 <CardContent className="p-3 space-y-2">
                   <div className="flex items-center gap-2">
                     <Heart className="w-3.5 h-3.5 text-red-400" />
-                    <span className="text-[11px] font-medium text-slate-200">Raw ECG Waveform</span>
+                    <span className="text-[11px] font-medium text-slate-800">Raw ECG Waveform</span>
                     <Badge variant="outline" className="ml-auto text-[8px] text-red-400">
                       not suitable
                     </Badge>
                   </div>
-                  <p className="text-[9px] text-slate-400">
+                  <p className="text-[9px] text-slate-500">
                     Sub-second electrical signals. Wrong timescale for circadian analysis — the engine will flag this automatically.
                   </p>
                 </CardContent>
               </Card>
-              <Card className="bg-slate-900/50 border-slate-700/50">
+              <Card className="bg-white border-slate-200">
                 <CardContent className="p-3 space-y-2">
                   <div className="flex items-center gap-2">
-                    <Activity className="w-3.5 h-3.5 text-slate-400" />
-                    <span className="text-[11px] font-medium text-slate-200">Any CSV Time Series</span>
-                    <Badge variant="outline" className="ml-auto text-[8px] text-slate-400">
+                    <Activity className="w-3.5 h-3.5 text-slate-500" />
+                    <span className="text-[11px] font-medium text-slate-800">Any CSV Time Series</span>
+                    <Badge variant="outline" className="ml-auto text-[8px] text-slate-500">
                       auto-detect
                     </Badge>
                   </div>
-                  <p className="text-[9px] text-slate-400">
+                  <p className="text-[9px] text-slate-500">
                     Upload any timestamped numeric data. The engine auto-detects the signal type, resamples to hourly, and runs AR(2).
                   </p>
                 </CardContent>
@@ -2796,11 +2830,11 @@ export default function WearableAnalysis() {
           <TabsContent value="comparison" className="space-y-6">
             <div className="flex items-center justify-between flex-wrap gap-3">
               <div>
-                <h3 className="text-sm font-semibold text-slate-200 flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-slate-800 flex items-center gap-2">
                   <Layers className="w-4 h-4 text-cyan-400" />
                   Cross-Signal Resilience Map
                 </h3>
-                <p className="text-xs text-slate-400 mt-1">
+                <p className="text-xs text-slate-500 mt-1">
                   Comparing AR(2) eigenvalue persistence across multiple physiological signals
                 </p>
               </div>
@@ -2836,23 +2870,23 @@ export default function WearableAnalysis() {
                 <CardContent className="space-y-3">
                   <div className="bg-amber-500/5 border border-amber-500/20 rounded-lg p-4 space-y-2">
                     <p className="text-xs text-amber-300/90 font-medium">Why is this locked?</p>
-                    <p className="text-xs text-slate-400 leading-relaxed">
+                    <p className="text-xs text-slate-500 leading-relaxed">
                       Our current reference data comes from single-participant sample files and illustrative estimates — not from validated population studies. Showing your eigenvalue "above" or "below" a single person's recording could be misleading. We're locking this panel until we have properly computed reference ranges from multi-participant datasets with known demographics.
                     </p>
                     <div className="flex items-start gap-2 mt-2">
                       <AlertTriangle className="w-3.5 h-3.5 text-amber-500/70 mt-0.5 shrink-0" />
-                      <p className="text-[10px] text-slate-400 leading-relaxed">
+                      <p className="text-[10px] text-slate-500 leading-relaxed">
                         The AR(2) eigenvalue computation on <em>your</em> data is fully functional and mathematically sound. Only the population comparison is gated — it needs real population data to be meaningful.
                       </p>
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-2">
                     {["Heart Rate", "Glucose (CGM)", "Steps"].map(sig => (
-                      <div key={sig} className="bg-slate-800/40 border border-slate-700/30 rounded-md p-3 text-center">
-                        <div className="h-8 bg-slate-700/20 rounded mb-2 flex items-center justify-center">
-                          <Lock className="w-3 h-3 text-slate-400" />
+                      <div key={sig} className="bg-slate-100 border border-slate-200 rounded-md p-3 text-center">
+                        <div className="h-8 bg-slate-100 rounded mb-2 flex items-center justify-center">
+                          <Lock className="w-3 h-3 text-slate-500" />
                         </div>
-                        <span className="text-[9px] text-slate-400">{sig}</span>
+                        <span className="text-[9px] text-slate-500">{sig}</span>
                       </div>
                     ))}
                   </div>
@@ -2863,10 +2897,10 @@ export default function WearableAnalysis() {
             {comparisonEntries.length >= 2 ? (
               <ResilienceMap entries={comparisonEntries} />
             ) : (
-              <Card className="bg-slate-900/50 border-slate-700/50">
+              <Card className="bg-white border-slate-200">
                 <CardContent className="p-8 text-center">
-                  <Layers className="w-8 h-8 text-slate-400 mx-auto mb-3" />
-                  <p className="text-sm text-slate-400">
+                  <Layers className="w-8 h-8 text-slate-500 mx-auto mb-3" />
+                  <p className="text-sm text-slate-500">
                     Load at least 2 datasets to compare. Each analysis you run is automatically added here.
                   </p>
                 </CardContent>
@@ -2925,7 +2959,7 @@ export default function WearableAnalysis() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-900/50 border-slate-700/50">
+              <Card className="bg-white border-slate-200">
                 <CardHeader>
                   <CardTitle className="text-sm flex items-center gap-2">
                     <FlaskConical className="w-4 h-4 text-blue-400" />
@@ -2940,10 +2974,10 @@ export default function WearableAnalysis() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-900/50 border-slate-700/50">
+              <Card className="bg-white border-slate-200">
                 <CardHeader>
                   <CardTitle className="text-sm flex items-center gap-2">
-                    <Shield className="w-4 h-4 text-slate-400" />
+                    <Shield className="w-4 h-4 text-slate-500" />
                     Medical Disclaimer
                   </CardTitle>
                 </CardHeader>

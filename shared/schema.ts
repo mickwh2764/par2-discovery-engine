@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, integer, timestamp, jsonb, boolean, doublePrecision, index } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, integer, serial, timestamp, jsonb, boolean, doublePrecision, index } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -222,3 +222,12 @@ export const insertSavedReportSchema = createInsertSchema(savedReports).omit({
 
 export type InsertSavedReport = z.infer<typeof insertSavedReportSchema>;
 export type SavedReport = typeof savedReports.$inferSelect;
+
+export const paperDownloads = pgTable("paper_downloads", {
+  id: serial("id").primaryKey(),
+  paperId: text("paper_id").notNull(),
+  isSelf: boolean("is_self").default(false).notNull(),
+  downloadedAt: timestamp("downloaded_at").defaultNow().notNull(),
+});
+
+export type PaperDownload = typeof paperDownloads.$inferSelect;

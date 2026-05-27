@@ -192,12 +192,12 @@ export default function ManuscriptValidation() {
 
   const tabs: { key: Tab; label: string; icon: React.ReactNode }[] = [
     { key: 'paperA', label: 'Paper A: Core Methods & Pan-Tissue Atlas', icon: <FlaskConical size={14} /> },
-    { key: 'paperB', label: 'Paper B: Resonance Zone Discovery', icon: <Target size={14} /> },
-    { key: 'paperC', label: 'Paper C: 12-Tissue Coupling Atlas', icon: <Layers size={14} /> },
-    { key: 'paperD', label: 'Paper D: Memory Independence', icon: <GitCompare size={14} /> },
     { key: 'paperE', label: 'Paper E: Phase-Gated PAR(2) & Organoid Paradox', icon: <Dna size={14} /> },
     { key: 'paperF', label: 'Paper F: Expression Persistence', icon: <Timer size={14} /> },
     { key: 'paperG', label: 'Paper G: Fibonacci Reply', icon: <Leaf size={14} /> },
+    { key: 'paperB', label: 'Resonance Zone Analysis (archived)', icon: <Target size={14} /> },
+    { key: 'paperC', label: 'Coupling Atlas Analysis (archived)', icon: <Layers size={14} /> },
+    { key: 'paperD', label: 'Cross-Metric Independence (archived)', icon: <GitCompare size={14} /> },
   ];
 
   return (
@@ -264,6 +264,16 @@ export default function ManuscriptValidation() {
 
         {tab === 'paperA' && pA && (
           <div className="space-y-4">
+            <Card className="bg-slate-800/50 border-cyan-500/30 mb-4" data-testid="card-paper-a-notice">
+              <CardContent className="py-3">
+                <div className="flex items-start gap-2">
+                  <CheckCircle2 size={16} className="text-cyan-400 mt-0.5 shrink-0" />
+                  <div className="text-xs text-cyan-200">
+                    Paper A is currently in active submission at <em>PLOS ONE</em> (PONE-D-26-21015, transferred April 2026 from PLOS Computational Biology). Revised v2.2 ready May 2026 — peer review response integrated. Preprint available on Research Square: doi:10.21203/rs.3.rs-9283100/v1.
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
             <ClaimCard
               title={`Claim 1: ${pA.totalSignificant ?? 177} significant circadian gating relationships (${pA.totalSignificant != null ? (pA.overallDiscoveryRate * 100).toFixed(1) : '4.9'}% discovery rate)`}
               status={pA.totalSignificant > 0 ? 'confirmed' : 'pending'}
@@ -833,6 +843,16 @@ export default function ManuscriptValidation() {
 
         {tab === 'paperE' && pE && (
           <div className="space-y-4">
+            <Card className="bg-slate-800/50 border-pink-500/30 mb-4" data-testid="card-paper-e-notice">
+              <CardContent className="py-3">
+                <div className="flex items-start gap-2">
+                  <AlertTriangle size={16} className="text-pink-400 mt-0.5 shrink-0" />
+                  <div className="text-xs text-pink-200">
+                    Paper E has been fully revised and is available as a preprint on Research Square (<a href="https://doi.org/10.21203/rs.3.rs-9214347/v1" target="_blank" rel="noopener noreferrer" className="underline hover:text-pink-100">doi:10.21203/rs.3.rs-9214347/v1</a>). The manuscript is targeting <em>Journal of Biological Rhythms</em> or <em>Chronobiology International</em>. The scientific claims below are unchanged.
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
             <ClaimCard
               title="Claim 1: APC mutation doubles circadian gating discovery rate (11.2% → 22.4%)"
               status={pE.apcCompensation?.apcRate > pE.apcCompensation?.wtRate ? 'confirmed' : 'partial'}
@@ -1113,6 +1133,16 @@ export default function ManuscriptValidation() {
 
         {tab === 'paperF' && (
           <div className="space-y-4">
+            <Card className="bg-slate-800/50 border-emerald-500/30 mb-4" data-testid="card-paper-f-notice">
+              <CardContent className="py-3">
+                <div className="flex items-start gap-2">
+                  <AlertTriangle size={16} className="text-emerald-400 mt-0.5 shrink-0" />
+                  <div className="text-xs text-emerald-200">
+                    Paper F is not currently in active submission. Preprint available on Research Square: doi:10.21203/rs.3.rs-9385465/v1. Targeting <em>Genome Biology</em> for submission.
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
             <ClaimCard
               title="Claim 1: Near-zero correlation between |λ| and mRNA half-life (ρ = 0.006)"
               status="confirmed"
@@ -1275,7 +1305,7 @@ export default function ManuscriptValidation() {
                 <div className="flex items-start gap-2">
                   <AlertTriangle size={16} className="text-amber-400 mt-0.5 shrink-0" />
                   <div className="text-xs text-amber-300">
-                    Paper G — "A Time-Domain Analogue to Fibonacci Structure via Phase-Gated AR(2) Dynamics: Reply to Boman on Tissue Fibonacci Patterns and Colonic Crypt Renewal" — was submitted to The Fibonacci Quarterly on November 16, 2025 and is currently under review. These are platform cross-validation results for the submitted claims. The November 2025 PDF is the canonical version; the downloadable package is the anticipated March 2026 revision incorporating 6 post-submission corrections.
+                    Paper G — "A Time-Domain Analogue to Fibonacci Structure via Phase-Gated AR(2) Dynamics: Reply to Boman on Tissue Fibonacci Patterns and Colonic Crypt Renewal" — was submitted to The Fibonacci Quarterly on November 16, 2025 and is currently under review. These are platform cross-validation results for the submitted claims. The November 2025 PDF is the canonical version; the downloadable package is the anticipated March 2026 revision incorporating 7 post-submission amendments.
                   </div>
                 </div>
               </CardContent>
@@ -1335,7 +1365,7 @@ export default function ManuscriptValidation() {
             </ClaimCard>
 
             <ClaimCard
-              title="Claim 4: Clock > target hierarchy — strongly confirmed across 22 datasets, 5 species"
+              title="Claim 4: Clock > target hierarchy — strongly confirmed across 22 datasets, 4 species"
               status="confirmed"
               testId="claim-g-hierarchy"
             >
@@ -1355,13 +1385,13 @@ export default function ManuscriptValidation() {
             </ClaimCard>
 
             <ClaimCard
-              title="Claim 5: APC-KO inverts hierarchy (+0.39 → -0.12)"
+              title="Claim 5: APC-KO inverts hierarchy (+0.033 → -0.127)"
               status="confirmed"
               testId="claim-g-apc-inversion"
             >
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-                <StatBox label="WT Gap" value="+0.392" testId="stat-g-wt-gap" highlight />
-                <StatBox label="APC-KO Gap" value="-0.122" testId="stat-g-apc-gap" highlight />
+                <StatBox label="WT Gap" value="+0.033" testId="stat-g-wt-gap" highlight />
+                <StatBox label="APC-KO Gap" value="-0.127" testId="stat-g-apc-gap" highlight />
                 <StatBox label="Direction" value="Inverted" testId="stat-g-direction" />
                 <StatBox label="Dataset" value="GSE157357" testId="stat-g-apc-ds" />
               </div>
@@ -1377,8 +1407,8 @@ export default function ManuscriptValidation() {
               testId="claim-g-bmalko"
             >
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
-                <StatBox label="WT Gap" value="+0.392" testId="stat-g-bmalko-wt" />
-                <StatBox label="BMAL1-KO Gap" value="-0.082" testId="stat-g-bmalko-gap" />
+                <StatBox label="WT Gap" value="+0.033" testId="stat-g-bmalko-wt" />
+                <StatBox label="BMAL1-KO Gap" value="-0.095" testId="stat-g-bmalko-gap" />
                 <StatBox label="Direction" value="Inverted" testId="stat-g-bmalko-status" />
               </div>
               <div className="text-xs text-slate-500">

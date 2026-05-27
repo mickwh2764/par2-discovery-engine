@@ -160,6 +160,14 @@ const PRIMARY_PAPERS: PaperConfig[] = [
       "Simulation_null_fpr_results.txt — False positive rate analysis",
       "cross_tissue_gating.json — Cross-tissue gating module data",
       "phase_dependent_coefficients.json — Phase-dependent AR(2) coefficients",
+      "Supplementary_Table_S1_Tissue_Gating_Modules.csv — Cross-tissue gating architecture summary",
+      "Supplementary_Table_S2_Golden_Ratio_Enrichment.csv — Golden-ratio-like eigenstructure enrichment by tissue",
+      "Supplementary_Table_S3_Tiered_Hits.csv — Tiered discovery results (Tier 0/1/2) across tissues",
+      "Supplementary_Table_S4a_Gating_Analysis.csv — PAR(2) gating counts by genotype (Section A) — clean data only",
+      "Supplementary_Table_S4b_Hierarchy_Gap.csv — Eigenvalue hierarchy gap by condition; corrected May 2026 values (Section B) — clean data only",
+      "Supplementary_Table_S4c_Pairwise_Comparisons.csv — Pairwise perturbation comparisons (Section C) — clean data only",
+      "Supplementary_Table_S4d_Key_Gene_Trajectories.csv — Key gene four-condition trajectories (Section D) — clean data only",
+      "Supplementary_Table_S4_Notes.md — Full correction history, retracted values, and methodology notes for S4",
       "README.md — Package guide, key numbers, correction log",
     ],
   },
@@ -223,9 +231,10 @@ const PRIMARY_PAPERS: PaperConfig[] = [
       "Figure2_MYC_ON_vs_OFF_PerGene.png — Per-gene |λ|: MYC-ON vs MYC-OFF neuroblastoma",
       "Figure3_TP53_Trajectory.png — TP53 |λ| trajectory across all 8 conditions",
       "Figure4_MouseAtlas_TissueOrdering.png — PRO vs SUR ordering, 5 mouse tissues (GSE54650, N=24)",
-      "TableS1_PerGene_Eigenvalues.csv — Per-gene |λ| across 10 datasets (with IQR and range)",
+      "TableS1_PerGene_Eigenvalues.csv — Per-gene |λ| across 10 datasets — clean data only (column header + data rows)",
+      "TableS1_Notes.md — Methodology notes, dataset descriptions, and coding conventions for TableS1",
       "generate_figures.py — Python reproducibility script for all 4 figures",
-      "README.md — Package guide, key numbers, all datasets, corrections log (v0.3, May 2026)",
+      "README.md — Package guide, key numbers, all datasets, corrections log (v0.4, May 2026)",
     ],
   },
   {
@@ -255,11 +264,12 @@ const PRIMARY_PAPERS: PaperConfig[] = [
       "LITERATURE_SUPPORT.pdf — Independent literature evidence for all key claims (8 sources, refs 19–26)",
       "LITERATURE_SUPPORT.md — Literature support source (Markdown)",
       "CoverLetter_JBR.txt — Cover letter for Journal of Biological Rhythms",
-      "TableS1_Condition_Summaries.csv — Condition-level eigenvalue summaries (4 genotypes, corrected)",
-      "TableS2_PerGene_AllConditions.csv — Per-gene |λ| across all 4 conditions with ApcKO delta",
-      "TableS3_TCGA_Concordance.csv — 15-gene TCGA-COAD cross-validation (10/15 p=0.151; target 7/8 p=0.035)",
-      "TableS4_ThreeLayer_Hierarchy.csv — Three-layer temporal hierarchy from Nguyen et al. (2025) markers",
-      "TableS5_Condition_Mechanism_Summary.csv — Mechanistic decomposition: clock-delta vs target-delta per condition",
+      "TableS1_Condition_Summaries.csv — Condition-level eigenvalue summaries (4 genotypes) — clean data only",
+      "TableS2_PerGene_AllConditions.csv — Per-gene |λ| across all 4 conditions — clean data only",
+      "TableS3_TCGA_Concordance.csv — 15-gene TCGA-COAD cross-validation — clean data only (10/15 p=0.151; target 7/8 p=0.035)",
+      "TableS4_ThreeLayer_Hierarchy.csv — Three-layer temporal hierarchy — clean data only",
+      "TableS5_Condition_Mechanism_Summary.csv — Mechanistic decomposition per condition — clean data only",
+      "Supplementary_Notes.md — Methodology notes, full correction history, and interpretation for all tables",
       "TableS6_PerGene_Eigenvalues_R2_Uncapped.csv — Per-gene |λ| (capped + raw), R², root type, all 4 conditions (NEW v1.4)",
       "Figure1_HierarchyGap_FourConditions.svg — Figure 1: Four-condition clock–target hierarchy gap bar chart with bootstrap CIs",
       "Figure2_ThreeLayer_Hierarchy.svg — Figure 2: Three-layer temporal persistence hierarchy (Cell Identity > Clock > Proliferation)",
@@ -295,10 +305,11 @@ const PRIMARY_PAPERS: PaperConfig[] = [
       "Paper_P_Temporal_Correlation.pdf — Compiled manuscript (14 pages)",
       "cover_letter.tex / cover_letter.pdf — PLOS Computational Biology cover letter",
       "references.bib — 20 bibliography entries (natbib/plainnat)",
-      "Supplementary_Table_S1_PerTissue_TauC.csv — Per-tissue τ_c for 13 datasets",
-      "Supplementary_Table_S2_Test2_Covariates.csv — Tissue gap vs rhythmic gene count & GR",
-      "Supplementary_Table_S3_Disease_Phase_Diagram.csv — Disease phase diagram (4 conditions)",
-      "Supplementary_Table_S4_AutocorrelationFunction.csv — G(τ) values for 72 time lags",
+      "Supplementary_Table_S1_PerTissue_TauC.csv — Per-tissue τ_c for 13 datasets — clean data only",
+      "Supplementary_Table_S2_Test2_Covariates.csv — Tissue gap vs rhythmic gene count & GR — clean data only",
+      "Supplementary_Table_S3_Disease_Phase_Diagram.csv — Disease phase diagram (6 conditions) — clean data only",
+      "Supplementary_Table_S4_AutocorrelationFunction.csv — G(τ) values for 13 time lags — clean data only",
+      "Supplementary_Notes.md — All methodology notes, convention explanations, and statistical summaries for S1–S4",
       "README.md — Package guide, key numbers, submission checklist",
     ],
   },
@@ -344,7 +355,7 @@ const PRIMARY_PAPERS: PaperConfig[] = [
     letter: "F",
     endpoint: "/api/download/paper-f-package",
     title: "Half-Life Independence",
-    subtitle: "AR(2) eigenvalue |λ| is orthogonal to intrinsic mRNA half-life across non-circadian datasets",
+    subtitle: "AR(2) eigenvalue |λ| shows no detectable correlation with intrinsic mRNA half-life across non-circadian datasets",
     status: "archive",
     statusLabel: "",
     preprintUrl: "https://doi.org/10.21203/rs.3.rs-9385465/v1",
@@ -354,7 +365,7 @@ const PRIMARY_PAPERS: PaperConfig[] = [
     accentColor: "text-emerald-400",
     borderColor: "border-emerald-500/50",
     bgColor: "bg-emerald-600/20",
-    abstract: "Demonstrates that AR(2) eigenvalue |λ| is nearly independent of intrinsic mRNA half-life (Spearman ρ = 0.006, n = 5,945 genes, p = 0.63), ruling out the confound that |λ| simply tracks biochemical decay rate. Cross-validated in four non-circadian datasets (immune response, yeast metabolic cycle, Drosophila development, human influenza). Key example: IFIT1 has a 31-minute mRNA half-life yet |λ| = 0.72, explained by sustained interferon-driven retranscription. Three automated bias audits confirm the independence holds after matching for expression level, shuffling time coordinates, and correlating against irrelevant metrics.",
+    abstract: "Shows no detectable correlation between AR(2) eigenvalue |λ| and intrinsic mRNA half-life (Spearman ρ = 0.006, n = 5,945 genes, p = 0.63, R² < 0.0001), consistent with |λ| capturing regulatory dynamics rather than biochemical decay rate. Cross-validated in four non-circadian datasets (immune response, yeast metabolic cycle, Drosophila development, human influenza). Key example: IFIT1 has a 31-minute mRNA half-life yet |λ| = 0.72, explained by sustained interferon-driven retranscription. Three automated bias audits confirm the null result holds after matching for expression level, shuffling time coordinates, and correlating against irrelevant metrics. Note: cross-tissue half-life proxies limit the precision of the inference; a same-tissue liver-matched comparison would provide a more sensitive test, but no publicly available genome-wide mouse liver half-life dataset currently exists — this is the identified priority future analysis pending such data.",
     keyNumbers: [
       { label: "Spearman ρ (half-life)", value: "0.006 (p = 0.63)" },
       { label: "Genes tested", value: "5,945" },
@@ -380,21 +391,21 @@ const REVIEW_PAPER: PaperConfig = {
   letter: "G",
   endpoint: "/api/download/fibonacci-reply-zip",
   title: "A Time-Domain Analogue to Fibonacci Structure via Phase-Gated AR(2) Dynamics: Reply to Boman on Tissue Fibonacci Patterns and Colonic Crypt Renewal",
-  subtitle: "Reply to Boman (Fibonacci Quarterly) — Submitted November 2025 (under review). Download = April 2026 revision incorporating 9 post-submission amendments.",
+  subtitle: "Reply to Boman (Fibonacci Quarterly) — submitted November 2025, currently under review.",
   status: "under-review",
   statusLabel: "Under review since Nov 2025 — DO NOT resubmit or contact journal",
-  version: "Revision (Apr 2026)",
+  version: "Platform package",
   lastUpdated: "2026-04-22",
   icon: <Clock className="w-6 h-6" />,
   accentColor: "text-purple-400",
   borderColor: "border-purple-500/50",
   bgColor: "bg-purple-600/20",
-  abstract: "A reply to Boman et al. proposing that Fibonacci-like structure in colonic crypts appears not only in static spatial cell counts but also in the dynamics of phase-aligned renewal observables. The Phase-Gated AR(2) (PAR(2)) companion matrix plays an analogous role to Boman's age-structured renewal matrix: its eigenvalues encode growth, decay and oscillation of crypt-level variables. Key crypt genes (Lgr5, Arntl, Per2, Axin2) from GSE157357 show stable complex AR(2) roots (|r| = 0.06–0.52), consistent with damped discrete-time oscillators. Boman's five biological rules are mapped onto PAR(2) parameters. Four falsifiable predictions are derived for BMAL1 disruption, tuft overshoot after injury, chronotherapy alignment, and Boman-compatible simulation signatures. The downloadable package is the anticipated April 2026 revision incorporating 9 post-submission amendments: (1) BMAL1-KO hierarchy collapses (not preserved as originally stated); (2) tuft readout qualified as delayed and accumulative; (3) bidirectional tuft CRC pattern (reduced in tumours; upregulated post-FOLFIRI); (4) φ-enrichment fully characterised — genome-wide p=0.154 (not significant); focused test of 14 pre-specified direct BMAL1/CLOCK E-box targets yields p=0.041 in mouse multi-tissue atlas (GSE54650) and independently replicates at p=0.029 in human intestinal enteroid cells (GSE161566, 24 timepoints); not significant in single-tissue mouse liver (p=0.262), mouse enteroid (p=0.136), or baboon 60-tissue atlas (GSE98965, p=0.599); (5) M-cell terminology clarified; (6) Nguyen 2025 crypt census integrated; (7) new Mathematical Results section with formal proof that Fibonacci point (1,1) lies outside stationarity region (dominant root φ≈1.618>1); (8) Floquet monodromy analysis completed — 251/252 gene–tissue cases globally stable, 38.9% show transient Fibonacci proximity in at least one phase gate; (9) Boman p-number extension — PAR(2) stable band [0.52, 0.72] brackets exactly the biologically simplest p-number families (standard Fibonacci q=0.618 and Narayana q=0.682); p≥3 families exceed the band. Package includes compiled PDFs of both main manuscript (18 pages) and supplementary note (9 pages).",
+  abstract: "A reply to Boman et al. proposing that Fibonacci-like structure in colonic crypts appears not only in static spatial cell counts but also in the dynamics of phase-aligned renewal observables. The Phase-Gated AR(2) (PAR(2)) companion matrix plays an analogous role to Boman's age-structured renewal matrix: its eigenvalues encode growth, decay and oscillation of crypt-level variables. Key crypt genes (Lgr5, Arntl, Per2, Axin2) from GSE157357 show stable complex AR(2) roots, consistent with a damped discrete-time oscillator. Boman's five biological rules are mapped onto PAR(2) parameters. Falsifiable predictions are derived for BMAL1 disruption, tuft cell dynamics after injury, chronotherapy alignment, and Boman-compatible simulation signatures. The platform package includes supplementary data tables, cross-validation results across 22 datasets and 5 species, and supporting materials.",
   keyNumbers: [
     { label: "Status", value: "Under peer review (Nov 2025)" },
     { label: "Journal", value: "Fibonacci Quarterly" },
-    { label: "Download", value: "Anticipated revision (Apr 2026)" },
-    { label: "Amendments", value: "9 post-submission" },
+    { label: "Cross-validation", value: "22 datasets, 5 species" },
+    { label: "Package", value: "Password protected" },
   ],
   contents: [
     "Paper_G_Fibonacci_Reply.pdf — Compiled PDF, main manuscript (18 pages, Apr 2026)",
@@ -465,6 +476,7 @@ function PaperCard({ paper, downloadCount, viewCount }: { paper: PaperConfig; do
   const [pendingEndpoint, setPendingEndpoint] = useState<string>("");
   const [showAbstract, setShowAbstract] = useState(false);
   const [hasTrackedView, setHasTrackedView] = useState(false);
+  const [paperGPassword, setPaperGPassword] = useState("");
 
   useEffect(() => {
     if (showAbstract && !hasTrackedView) {
@@ -477,11 +489,16 @@ function PaperCard({ paper, downloadCount, viewCount }: { paper: PaperConfig; do
     }
   }, [showAbstract, hasTrackedView, paper.id]);
 
-  const doPublicDownload = async () => {
+  const doPublicDownload = async (overrideGPassword?: string) => {
     setLoading(true);
     setError("");
     try {
-      const response = await fetch(paper.endpoint);
+      const headers: Record<string, string> = {};
+      const gPass = overrideGPassword ?? paperGPassword;
+      if (paper.id === "fibonacci-reply" && gPass) {
+        headers["x-paper-g-password"] = gPass;
+      }
+      const response = await fetch(paper.endpoint, { headers });
       if (!response.ok) {
         const data = await response.json();
         setError(data.error || "Download failed");
@@ -526,9 +543,10 @@ function PaperCard({ paper, downloadCount, viewCount }: { paper: PaperConfig; do
         });
         const data = await res.json();
         if (data.valid) {
+          setPaperGPassword(passwordInput);
           setShowPasswordPrompt(false);
           setPasswordError("");
-          await doPublicDownload();
+          await doPublicDownload(passwordInput);
         } else {
           setPasswordError("Incorrect password.");
         }
@@ -654,9 +672,11 @@ function PaperCard({ paper, downloadCount, viewCount }: { paper: PaperConfig; do
             This manuscript is currently under peer review. The download package is provided for reference only.
           </div>
         )}
-        {PAPER_PDF_VIEW_URLS[paper.id] && !showPasswordPrompt && (
+        {PAPER_PDF_VIEW_URLS[paper.id] && !showPasswordPrompt && (paper.id !== "fibonacci-reply" || paperGPassword) && (
           <a
-            href={PAPER_PDF_VIEW_URLS[paper.id]}
+            href={paper.id === "fibonacci-reply" && paperGPassword
+              ? `${PAPER_PDF_VIEW_URLS[paper.id]}&password=${encodeURIComponent(paperGPassword)}`
+              : PAPER_PDF_VIEW_URLS[paper.id]}
             target="_blank"
             rel="noopener noreferrer"
             data-testid={`button-view-${paper.id}`}
@@ -956,7 +976,20 @@ export default function ManuscriptDownload() {
             </div>
           </div>
 
-          <div className="mt-5 flex items-center gap-3">
+          <div className="mt-5 flex flex-wrap items-center gap-3">
+            <a
+              href="/api/download/all-papers-pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold transition-colors"
+              data-testid="button-download-all-papers-pdf"
+            >
+              <FileText size={16} />
+              Download Combined PDF (A, E, F, G, H, M, N, O, P, Q)
+            </a>
+            <span className="text-xs text-slate-400">Single PDF · all manuscripts merged</span>
+          </div>
+          <div className="mt-3 flex items-center gap-3">
             {!showDownloadAllPassword && (
               <button
                 onClick={() => { setShowDownloadAllPassword(true); setDownloadAllPassword(""); setDownloadAllPasswordError(""); }}
