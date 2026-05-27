@@ -330,9 +330,9 @@ export default function CrossContextValidation() {
             <p className="text-muted-foreground mt-1">
               Validating eigenvalue hierarchies across species and tissues
             </p>
-            <div className="rounded-lg bg-slate-800/40 border border-slate-700/50 p-4 mt-3">
-              <p className="text-sm text-slate-300 leading-relaxed">
-                <strong className="text-white">What you can do:</strong> Combines cross-species and cross-tissue comparisons with statistical tests (permutation and bootstrap). If the hierarchy holds across multiple contexts, it validates AR(2) persistence as a universal biological signal. Download audit reports in CSV or JSON format.
+            <div className="rounded-lg bg-slate-100 border border-slate-200 p-4 mt-3">
+              <p className="text-sm text-slate-600 leading-relaxed">
+                <strong className="text-slate-900">What you can do:</strong> Combines cross-species and cross-tissue comparisons with statistical tests (permutation and bootstrap). If the hierarchy holds across multiple contexts, it validates AR(2) persistence as a universal biological signal. Download audit reports in CSV or JSON format.
               </p>
             </div>
           </div>
@@ -1154,7 +1154,7 @@ export default function CrossContextValidation() {
                     <div className="grid grid-cols-2 gap-4 mt-4">
                       <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
                         <p className="text-sm font-semibold text-red-300">Identity–Clock Gap (Bootstrap 95% CI)</p>
-                        <p className="text-xl font-bold text-white mt-1">
+                        <p className="text-xl font-bold text-slate-900 mt-1">
                           [{tissueData.bootstrapCI.identityClockGap.lower.toFixed(3)}, {tissueData.bootstrapCI.identityClockGap.upper.toFixed(3)}]
                         </p>
                         <p className="text-xs text-muted-foreground mt-1">
@@ -1164,7 +1164,7 @@ export default function CrossContextValidation() {
                       </div>
                       <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
                         <p className="text-sm font-semibold text-blue-300">Clock–Proliferation Gap (Bootstrap 95% CI)</p>
-                        <p className="text-xl font-bold text-white mt-1">
+                        <p className="text-xl font-bold text-slate-900 mt-1">
                           [{tissueData.bootstrapCI.clockProlifGap.lower.toFixed(3)}, {tissueData.bootstrapCI.clockProlifGap.upper.toFixed(3)}]
                         </p>
                         <p className="text-xs text-muted-foreground mt-1">
@@ -1312,7 +1312,7 @@ export default function CrossContextValidation() {
                                 {p.pValue < 0.05 ? (
                                   <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30">p&lt;0.05</Badge>
                                 ) : (
-                                  <Badge className="bg-slate-500/20 text-slate-300 border-slate-500/30">n.s.</Badge>
+                                  <Badge className="bg-slate-500/20 text-slate-600 border-slate-300/30">n.s.</Badge>
                                 )}
                               </td>
                             </tr>

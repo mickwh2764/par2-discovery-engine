@@ -58,3 +58,14 @@ replit.nix
 
 # Package lock (regenerated on install)
 package-lock.json
+
+# Python build artifacts
+__pycache__/
+*.egg-info/
+*.pyc
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.out

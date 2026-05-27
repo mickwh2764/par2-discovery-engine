@@ -1,0 +1,392 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{enumitem}
+\usepackage{microtype}
+
+% Reviewer comment box
+\newmdenv[
+  backgroundcolor=gray!10,
+  linecolor=gray!40,
+  linewidth=0.8pt,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  innertopmargin=8pt,
+  innerbottommargin=8pt,
+  skipabove=10pt,
+  skipbelow=4pt
+]{reviewbox}
+
+% Response formatting
+\newcommand{\reviewer}[1]{\medskip\noindent{\large\textbf{#1}}\par\smallskip}
+\newcommand{\point}[1]{\medskip\noindent\textbf{Comment #1.}\enspace}
+\newcommand{\response}{\noindent\textit{Response:}\enspace}
+\newcommand{\change}{\noindent\textit{Change made:}\enspace}
+
+\begin{document}
+
+%----------------------------------------------------------------------
+% Header
+%----------------------------------------------------------------------
+\begin{center}
+  {\Large\textbf{Author's Response to Reviewers}}\\[6pt]
+  {\large\textit{The Fibonacci Quarterly}}\\[4pt]
+  {\normalsize Manuscript: ``A Time-Domain Analogue to Fibonacci Structure
+  via Phase-Gated AR(2) Dynamics''}\\[4pt]
+  {\normalsize Author: M.\ Whiteside \quad Date: \today}
+\end{center}
+
+\bigskip
+\hrule
+\bigskip
+
+I thank the reviewer and the Academic Editor for their careful
+reading of the manuscript and for the constructive and detailed feedback.
+The revision addresses every point raised.
+Below I respond to each comment in turn, quoting the reviewer's text
+in shaded boxes, followed by my response and a precise description of
+the change made.
+All section numbers refer to the revised manuscript
+(\textit{Whiteside\_FQ\_Revision\_v1}).
+
+\bigskip
+\hrule
+
+%======================================================================
+\reviewer{Reviewer 1}
+%======================================================================
+
+\point{1}
+
+\begin{reviewbox}
+It would strengthen the story for the reader if a clear rationale was
+provided for analysis of data on rhythmic organoids as well as on tuft
+cells, deep crypt secretory cells, and long-lived lineages.
+\end{reviewbox}
+
+\response
+I agree that the original manuscript did not make the selection
+rationale sufficiently explicit.
+The PAR(2) framework requires three specific inputs: (i) a rhythmic
+time-series from crypt-relevant tissue; (ii) a long-lived cell type
+whose dynamics accumulate temporal perturbations across many renewal
+cycles; and (iii) a niche-supporting cell type whose sustained
+signalling activity can physically implement the PAR(2) memory kernels.
+Each choice is now justified individually.
+GSE157357 (Stokes et al.) is the only publicly available circadian
+time-series that simultaneously profiles crypt stem cell behaviour in
+wild-type and clock-disrupted conditions, making it uniquely suited to
+test the PAR(2) kernel architecture.
+Tuft cells are chosen because their lifespan ($\geq$28 days) far exceeds
+the 3--5-day average crypt turnover, so they accumulate the effects of
+eigenvalue perturbations across many cycles and provide the most
+sensitive available readout.
+DCS cells are chosen because their position at the crypt base---providing
+continuous WNT, EGF, and Notch ligands to LGR5$^{+}$ stem cells---makes
+them the natural physical implementors of the slow and fast memory
+kernels $\alpha_2$ and $\alpha_1$ in the PAR(2) model.
+
+\change
+Section~5 now opens with a new structured paragraph giving these
+three justifications explicitly before proceeding to the biological
+discussion of each cell type.
+
+%----------------------------------------------------------------------
+\point{2}
+
+\begin{reviewbox}
+A potential weakness should be noted since the study by Boman et al.\
+modeled human large intestinal crypts while the study by Stokes et al.\
+involved data on crypts from mouse small intestinal organoids.
+\end{reviewbox}
+
+\response
+This is a genuine and important limitation.
+The species difference (human vs.\ mouse) and anatomical region
+difference (large intestine vs.\ small intestine) mean that the AR(2)
+fits cannot be taken as a direct quantitative test of Boman's
+human-colon tissue code.
+I have made this caveat much more prominent.
+
+\change
+A bold-labelled \textbf{Limitation: model--data mismatch} paragraph has
+been added directly after the introduction of the Stokes et al.\ dataset
+in Section~4.
+The paragraph names the specific biological differences (LGR5$^{+}$
+stem cell density, villus structure, crypt length, cancer
+susceptibility) and states explicitly that these data serve as a
+proof-of-concept demonstration only, not a validated quantitative test.
+Direct validation against a human large-intestinal circadian time-series
+is named as an important open objective.
+
+\medskip
+\noindent\textit{Note to reviewer.}
+As reassurance that the Fibonacci-proximate AR(2) signal is not
+species-specific, I note that preliminary analysis of the human
+intestinal enteroid dataset (GSE161566, Rosselot et al.\ 2022 ---
+the human subseries of GSE179028, 24 timepoints at 2-hour intervals)
+shows consistent Fibonacci-proximate dynamics: a pre-specified
+14-gene E-box target set clusters significantly closer to the $1/\varphi$
+boundary in AR(2) parameter space than expression-matched random
+gene sets ($p = 0.029$, permutation test).
+This cross-species result is not included in the current revision,
+which I have kept within the scope of the original submission,
+but it supports the biological plausibility of the PAR(2) framework
+in human intestinal tissue and will be developed in subsequent work.
+
+%----------------------------------------------------------------------
+\point{3}
+
+\begin{reviewbox}
+Reference~5 appears to contain a few inaccuracies regarding the author,
+journal volume, and year. Specifically: the paper is by Edward
+Bormashenko, not M.\ Pinto. It was published in 2022, but in a
+different journal than the main \textit{Symmetry} journal (which was at
+Volume~14 in 2022). It appears as Article~27 in Volume~2, Issue~3 of
+the MDPI journal \textit{Foundations} (formerly part of the Symmetry
+topic family).
+\end{reviewbox}
+
+\response
+I thank the reviewer for the detailed correction.
+The in-text attribution (``Bormashenko'') was already correct in the
+submitted manuscript; the error resided in the reference list entry,
+which incorrectly listed the author as M.\ Pinto.
+The reviewer correctly identifies the article coordinates
+(Vol.~2, Issue~3, Art.~27, 2022).
+On the journal name: while the reviewer suggests \textit{Foundations},
+the published DOI \texttt{10.3390/biophysica2030027} resolves
+unambiguously to \textit{Biophysica}, a distinct MDPI journal.
+The reference has been corrected accordingly.
+
+\change
+The reference list entry has been corrected: author changed from
+``M.\ Pinto'' to ``Bormashenko, E.''; journal corrected from
+\textit{Foundations} (as suggested by the reviewer) to
+\textit{Biophysica} (per the published DOI);
+volume, issue, and article number verified.
+The corrected entry reads:
+Bormashenko, E. Fibonacci sequences, symmetry and order in biological
+patterns, their sources, information origin and the Landauer principle.
+\textit{Biophysica.} 2(3):Art.\ 27, 2022.
+doi:10.3390/biophysica2030027.
+
+%----------------------------------------------------------------------
+\point{4}
+
+\begin{reviewbox}
+To make the Fibonacci-consistent manifold more robust, perhaps a formal
+definition or a visualization of this manifold could be provided. Where
+exactly in the parameter plane does ``Boman-like'' behavior live?
+\end{reviewbox}
+
+\response
+I agree that ``manifold'' was used without a precise definition.
+The Fibonacci-consistent manifold is now defined concretely in
+Section~6.
+
+\change
+A new paragraph at the end of Section~6 defines the manifold as the
+subset of the stable AR(2) stationarity triangle---the biologically
+admissible parameter space---in which the coefficient pair
+$(\varphi_1,\varphi_2)$ lies close to the Fibonacci boundary landmark
+at $(1,1)$, with the admissible neighbourhood bounded above and below
+by the division-limit (Rule~3) and lifespan (Rule~4) constraints of
+Boman's tissue code.
+The previously vague future-work sentence (``formalise a
+Fibonacci-consistent region in AR(2) parameter space'') has been removed
+and replaced with a cross-reference to this definition, together with a
+revised future-work sentence focused on experimental validation of the
+manifold boundary rather than its creation.
+
+%----------------------------------------------------------------------
+\point{5}
+
+\begin{reviewbox}
+Can mapping the temporal parameters onto Boman's spatial rules be put
+into context of the biology? In Table~1, the roots for genes are quite
+small indicating stability. However, in a true Fibonacci recurrence the
+roots involve the golden ratio ($+0.618\ldots$). While the data shows
+stability (strongly damped oscillations), it is mathematically ``far''
+from the unstable or marginally stable growth typically associated with
+Fibonacci sequences. Perhaps it might be clarified how the heavily
+damped regime relates to, or is consistent with, the Fibonacci analogy.
+\end{reviewbox}
+
+\response
+This is an important conceptual point and I am grateful for it being
+raised.
+The Fibonacci recurrence $x_n = x_{n-1}+x_{n-2}$ has dominant root
+$|\lambda|\approx 1.618$, which lies outside the AR(2) stationarity
+triangle: exact Fibonacci dynamics would be explosive, not stable.
+Biological tissues must operate with $|\lambda|<1$; the observed root
+magnitudes in Table~1 range from 0.063 to 0.521, far from the explosive
+boundary.
+The biological content of the Fibonacci analogy is therefore that
+homeostatic regulation holds AR(2) coefficients near the stable twin of
+the Fibonacci eigenvalue, $1/\varphi\approx 0.618$, and Boman's five
+rules are precisely the biological mechanisms that enforce this heavily
+damped sub-unit-root regime.
+
+\change
+A ``Critical clarification'' paragraph has been added in Section~6
+immediately after the five-rules mapping, making this distinction
+explicit with reference to the measured eigenvalue magnitudes from
+Table~1.
+
+\bigskip
+\hrule
+
+%======================================================================
+\reviewer{Reviewer 2 (Academic Editor)}
+%======================================================================
+
+\response
+I thank the Academic Editor for the careful line-by-line review.
+All formatting corrections have been applied.
+I address each point below.
+
+\point{1--12 (``e.g.'' without comma)}
+
+\begin{reviewbox}
+Throughout the manuscript, ``e.g.'' should be followed by a comma:
+``e.g.,''.
+\end{reviewbox}
+
+\change
+All instances of ``e.g.'' have been corrected to ``e.g.,''.
+A \texttt{grep} search of the revised \texttt{.tex} source confirms that
+zero instances of ``e.g.'' without a trailing comma remain.
+
+%----------------------------------------------------------------------
+\point{13 (Disclosure statement)}
+
+\begin{reviewbox}
+Add a Disclosure Statement reading ``No conflict of interest has been
+reported by the author.''
+\end{reviewbox}
+
+\response
+On reflection, a patent application relevant to the methodology
+described in this work existed at the time of original submission and
+must be declared to ensure full transparency.
+UK patent application GB2518973.9, covering the AR(2) eigenvalue
+methodology, was filed on 13 November 2025 --- three days before the
+manuscript was submitted on 16 November 2025.
+It should have been declared at submission; I correct this omission now.
+
+\change
+The Disclosure Statement has been added and updated to read:
+``The author filed a UK patent application (GB2518973.9) related to the
+AR(2) eigenvalue methodology described in this work on 13 November 2025,
+three days prior to the original manuscript submission on 16 November 2025.
+The author declares no other conflicts of interest.''
+
+%----------------------------------------------------------------------
+\point{14 (Reference formatting)}
+
+\begin{reviewbox}
+Rewrite the Reference section in the accepted Fibonacci Association
+style: alphabetical order, Last Name First Initial format, no quotation
+marks for article titles, abbreviated journal names.
+\end{reviewbox}
+
+\change
+All 11 references have been reformatted to Fibonacci Quarterly style:
+alphabetical order by first author's last name; Last Name, Initial(s)
+format; no quotation marks around article titles; abbreviated journal
+names (e.g., \textit{Fibonacci Quart.}, \textit{Biol.\ Cell},
+\textit{Front.\ Immunol.}).
+
+%----------------------------------------------------------------------
+\point{15 (Phys.org news article)}
+
+\begin{reviewbox}
+Reference for the Phys.org news article must include an author name,
+or the reference should be removed.
+\end{reviewbox}
+
+\change
+The Phys.org news article reference has been removed from the reference
+list entirely.
+
+%----------------------------------------------------------------------
+\point{16 (``and co-authors'' $\to$ ``et al.'')}
+
+\begin{reviewbox}
+Change ``and co-authors'' to ``et al.''
+\end{reviewbox}
+
+\change
+The phrase ``Boman and co-authors'' has been changed to
+``Boman et al.'' throughout.
+
+%----------------------------------------------------------------------
+\point{17 (Duplicate reference)}
+
+\begin{reviewbox}
+Remove the redundant reference, which is already included as another
+reference.
+\end{reviewbox}
+
+\change
+The duplicate reference to the Bormashenko \textit{Biophysica} paper
+has been removed.
+The reference list has been renumbered accordingly and now contains
+11 unique entries.
+
+%----------------------------------------------------------------------
+\point{18 (Pages 11--19)}
+
+\begin{reviewbox}
+Are pages 11--19 extraneous and intended for a different document?
+\end{reviewbox}
+
+\response
+Yes. Those pages belonged to supplementary material associated with the
+original submission and were inadvertently included in the submitted PDF.
+They are not part of the reply and have been removed.
+
+\change
+The revised manuscript is 8 pages in length.
+
+\bigskip
+\hrule
+\bigskip
+
+\noindent\textbf{Summary of all changes.}
+The table below provides a concise cross-reference.
+
+\medskip
+\begin{center}
+\small
+\begin{tabular}{lll}
+\hline
+\textbf{Reviewer} & \textbf{Comment} & \textbf{Location in revision} \\
+\hline
+R1 & 1. Cell-type rationale & Section~5, opening paragraph \\
+R1 & 2. Mouse/human mismatch & Section~4, bold Limitation paragraph \\
+R1 & 3. Reference attribution & Reference~[3]; in-text citation \\
+R1 & 4. Manifold definition & Section~6, final paragraph \\
+R1 & 5. Damped regime clarification & Section~6, Critical clarification paragraph \\
+\hline
+Editor & 1--12. e.g.\ $\to$ e.g., & Throughout \\
+Editor & 13. Disclosure statement & AI Use Declaration / Disclosure section \\
+Editor & 14. Reference formatting & Full reference list \\
+Editor & 15. Phys.org reference & Removed \\
+Editor & 16. et al. & Section~1 \\
+Editor & 17. Duplicate reference & Reference list (11 unique entries) \\
+Editor & 18. Pages 11--19 & Removed; revised MS is 8 pages \\
+\hline
+\end{tabular}
+\end{center}
+
+\bigskip
+I hope that the revised manuscript now fully meets the standards of
+\textit{The Fibonacci Quarterly} and am grateful for the opportunity
+to improve the work.
+
+\end{document}

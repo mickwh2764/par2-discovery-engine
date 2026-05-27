@@ -116,11 +116,11 @@ function TrajectoryMap({ genes }: { genes: TrajectoryGene[] }) {
       </svg>
       {hoveredGene && (
         <div
-          className="absolute pointer-events-none bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm shadow-xl z-10"
+          className="absolute pointer-events-none bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm shadow-xl z-10"
           style={{ left: tooltipPos.x, top: tooltipPos.y, transform: "translate(-50%, -100%)" }}
           data-testid="trajectory-tooltip"
         >
-          <div className="font-bold text-white"><GeneTooltip gene={hoveredGene.gene}>{hoveredGene.gene}</GeneTooltip></div>
+          <div className="font-bold text-slate-900"><GeneTooltip gene={hoveredGene.gene}>{hoveredGene.gene}</GeneTooltip></div>
           <div className="text-emerald-400">Before |λ|: {Math.abs(hoveredGene.beforeEigenvalue).toFixed(4)}</div>
           <div className="text-red-400">After |λ|: {Math.abs(hoveredGene.afterEigenvalue).toFixed(4)}</div>
           <div className="text-cyan-400">Shift: {hoveredGene.shift > 0 ? "+" : ""}{hoveredGene.shift.toFixed(4)}</div>
@@ -243,7 +243,7 @@ export default function BeforeAfter() {
 
   const SortHeader = ({ field, label }: { field: SortField; label: string }) => (
     <th
-      className="text-center p-3 text-slate-400 cursor-pointer hover:text-white select-none"
+      className="text-center p-3 text-slate-500 cursor-pointer hover:text-slate-700 select-none"
       onClick={() => toggleSort(field)}
       data-testid={`sort-${field}`}
     >
@@ -252,7 +252,7 @@ export default function BeforeAfter() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 p-4 md:p-8" data-testid="before-after-page">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 p-4 md:p-8" data-testid="before-after-page">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex items-center gap-3">
           <Link href="/">
@@ -268,9 +268,9 @@ export default function BeforeAfter() {
             <p className="text-sm text-muted-foreground">
               Compare how gene dynamics shift between two experimental conditions
             </p>
-            <div className="rounded-lg bg-slate-800/40 border border-slate-700/50 p-4 mt-3">
-              <p className="text-sm text-slate-300 leading-relaxed">
-                <strong className="text-white">What you can do:</strong> Upload two CSV files representing different conditions and see which genes show the largest AR(2) eigenvalue shifts between them. The trajectory map displays the direction and magnitude of each shift. Download results for further analysis in your own workflow.
+            <div className="rounded-lg bg-slate-100 border border-slate-200 p-4 mt-3">
+              <p className="text-sm text-slate-600 leading-relaxed">
+                <strong className="text-slate-900">What you can do:</strong> Upload two CSV files representing different conditions and see which genes show the largest AR(2) eigenvalue shifts between them. The trajectory map displays the direction and magnitude of each shift. Download results for further analysis in your own workflow.
               </p>
             </div>
           </div>
@@ -306,13 +306,13 @@ export default function BeforeAfter() {
         />
 
         {preloadedPairs && preloadedPairs.length > 0 && (
-          <Card className="border-slate-700" data-testid="card-preloaded-pairs">
+          <Card className="border-slate-200" data-testid="card-preloaded-pairs">
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Zap className="h-5 w-5 text-amber-400" />
                 Pre-loaded Comparison Pairs
               </CardTitle>
-              <p className="text-sm text-slate-400">
+              <p className="text-sm text-slate-500">
                 Ready-to-run comparisons using platform datasets. Click any pair to instantly analyze.
               </p>
             </CardHeader>
@@ -326,12 +326,12 @@ export default function BeforeAfter() {
                     className={`text-left p-4 rounded-lg border transition-all hover:scale-[1.02] ${
                       selectedPairId === pair.id && preloadedMutation.data
                         ? 'border-cyan-500/60 bg-cyan-500/10'
-                        : 'border-slate-700 hover:border-slate-600 bg-slate-800/30 hover:bg-slate-800/60'
+                        : 'border-slate-200 hover:border-slate-300 bg-slate-50 hover:bg-slate-50'
                     }`}
                     data-testid={`button-pair-${pair.id}`}
                   >
-                    <div className="font-medium text-sm text-white mb-1">{pair.name}</div>
-                    <div className="text-xs text-slate-400 leading-relaxed">{pair.description}</div>
+                    <div className="font-medium text-sm text-slate-900 mb-1">{pair.name}</div>
+                    <div className="text-xs text-slate-500 leading-relaxed">{pair.description}</div>
                     {selectedPairId === pair.id && preloadedMutation.isPending && (
                       <div className="mt-2 flex items-center gap-1 text-xs text-cyan-400">
                         <Loader2 className="h-3 w-3 animate-spin" /> Analyzing...
@@ -344,7 +344,7 @@ export default function BeforeAfter() {
           </Card>
         )}
 
-        <Card className="border-slate-700" data-testid="card-upload">
+        <Card className="border-slate-200" data-testid="card-upload">
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
               <Upload className="h-5 w-5 text-cyan-400" />
@@ -355,7 +355,7 @@ export default function BeforeAfter() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div
                 className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all ${
-                  beforeFile ? "border-green-500/50 bg-green-500/5" : "border-slate-700 hover:border-slate-600 hover:bg-slate-800/50"
+                  beforeFile ? "border-green-500/50 bg-green-500/5" : "border-slate-200 hover:border-slate-300 hover:bg-slate-50"
                 }`}
                 onClick={() => beforeRef.current?.click()}
                 data-testid="dropzone-before"
@@ -368,17 +368,17 @@ export default function BeforeAfter() {
                   onChange={(e) => e.target.files?.[0] && setBeforeFile(e.target.files[0])}
                   data-testid="input-before-file"
                 />
-                <Upload className="h-8 w-8 text-slate-400 mx-auto mb-2" />
-                <p className="font-medium text-slate-300">Before / Control</p>
+                <Upload className="h-8 w-8 text-slate-500 mx-auto mb-2" />
+                <p className="font-medium text-slate-600">Before / Control</p>
                 {beforeFile ? (
                   <p className="text-sm text-green-400 mt-1" data-testid="text-before-filename">{beforeFile.name}</p>
                 ) : (
-                  <p className="text-xs text-slate-400 mt-1">.csv, .tsv, .csv.gz</p>
+                  <p className="text-xs text-slate-500 mt-1">.csv, .tsv, .csv.gz</p>
                 )}
               </div>
               <div
                 className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all ${
-                  afterFile ? "border-green-500/50 bg-green-500/5" : "border-slate-700 hover:border-slate-600 hover:bg-slate-800/50"
+                  afterFile ? "border-green-500/50 bg-green-500/5" : "border-slate-200 hover:border-slate-300 hover:bg-slate-50"
                 }`}
                 onClick={() => afterRef.current?.click()}
                 data-testid="dropzone-after"
@@ -391,12 +391,12 @@ export default function BeforeAfter() {
                   onChange={(e) => e.target.files?.[0] && setAfterFile(e.target.files[0])}
                   data-testid="input-after-file"
                 />
-                <Upload className="h-8 w-8 text-slate-400 mx-auto mb-2" />
-                <p className="font-medium text-slate-300">After / Treatment</p>
+                <Upload className="h-8 w-8 text-slate-500 mx-auto mb-2" />
+                <p className="font-medium text-slate-600">After / Treatment</p>
                 {afterFile ? (
                   <p className="text-sm text-green-400 mt-1" data-testid="text-after-filename">{afterFile.name}</p>
                 ) : (
-                  <p className="text-xs text-slate-400 mt-1">.csv, .tsv, .csv.gz</p>
+                  <p className="text-xs text-slate-500 mt-1">.csv, .tsv, .csv.gz</p>
                 )}
               </div>
             </div>
@@ -404,7 +404,7 @@ export default function BeforeAfter() {
               <Button
                 onClick={handleCompare}
                 disabled={!beforeFile || !afterFile || isLoading}
-                className="gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white px-8"
+                className="gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-slate-900 px-8"
                 data-testid="button-compare"
               >
                 {mutation.isPending ? (
@@ -431,31 +431,31 @@ export default function BeforeAfter() {
         {result && (
           <>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3" data-testid="summary-stats">
-              <Card className="border-slate-700">
+              <Card className="border-slate-200">
                 <CardContent className="p-4 text-center">
-                  <div className="text-2xl font-bold text-white" data-testid="stat-shared-genes">{result.sharedGenes.toLocaleString()}</div>
+                  <div className="text-2xl font-bold text-slate-900" data-testid="stat-shared-genes">{result.sharedGenes.toLocaleString()}</div>
                   <div className="text-xs text-muted-foreground">Shared Genes</div>
                 </CardContent>
               </Card>
-              <Card className="border-slate-700">
+              <Card className="border-slate-200">
                 <CardContent className="p-4 text-center">
-                  <div className="text-2xl font-bold text-white" data-testid="stat-analyzed">{result.analyzedGenes.toLocaleString()}</div>
+                  <div className="text-2xl font-bold text-slate-900" data-testid="stat-analyzed">{result.analyzedGenes.toLocaleString()}</div>
                   <div className="text-xs text-muted-foreground">Analyzed</div>
                 </CardContent>
               </Card>
-              <Card className="border-slate-700">
+              <Card className="border-slate-200">
                 <CardContent className="p-4 text-center">
                   <div className="text-2xl font-bold text-cyan-400" data-testid="stat-mean-abs-shift">{result.meanAbsShift.toFixed(4)}</div>
                   <div className="text-xs text-muted-foreground">Mean |Shift|</div>
                 </CardContent>
               </Card>
-              <Card className="border-slate-700">
+              <Card className="border-slate-200">
                 <CardContent className="p-4 text-center">
                   <div className="text-2xl font-bold text-amber-400" data-testid="stat-mean-shift">{result.meanShift > 0 ? "+" : ""}{result.meanShift.toFixed(4)}</div>
                   <div className="text-xs text-muted-foreground">Mean Shift</div>
                 </CardContent>
               </Card>
-              <Card className="border-slate-700">
+              <Card className="border-slate-200">
                 <CardContent className="p-4 text-center">
                   <div className="text-2xl font-bold text-red-400" data-testid="stat-regime-changes">{result.regimeChanges}</div>
                   <div className="text-xs text-muted-foreground">Regime Changes</div>
@@ -463,7 +463,7 @@ export default function BeforeAfter() {
               </Card>
             </div>
 
-            <Card className="border-slate-700" data-testid="card-trajectory-map">
+            <Card className="border-slate-200" data-testid="card-trajectory-map">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <GitCompare className="h-5 w-5 text-cyan-400" />
@@ -475,7 +475,7 @@ export default function BeforeAfter() {
               </CardContent>
             </Card>
 
-            <Card className="border-slate-700" data-testid="card-top-shifts">
+            <Card className="border-slate-200" data-testid="card-top-shifts">
               <CardHeader>
                 <CardTitle className="text-lg">Top Shifts</CardTitle>
               </CardHeader>
@@ -483,7 +483,7 @@ export default function BeforeAfter() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm" data-testid="table-top-shifts">
                     <thead>
-                      <tr className="border-b border-slate-700">
+                      <tr className="border-b border-slate-200">
                         <SortHeader field="gene" label="Gene" />
                         <SortHeader field="beforeEigenvalue" label="Before |λ|" />
                         <SortHeader field="afterEigenvalue" label="After |λ|" />
@@ -495,7 +495,7 @@ export default function BeforeAfter() {
                     </thead>
                     <tbody>
                       {sortedShifts.map((g, idx) => (
-                        <tr key={idx} className="border-b border-slate-700 hover:bg-slate-800/50" data-testid={`row-shift-${idx}`}>
+                        <tr key={idx} className="border-b border-slate-200 hover:bg-slate-50" data-testid={`row-shift-${idx}`}>
                           <td className="p-3 font-mono font-medium text-center"><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></td>
                           <td className="p-3 text-center font-mono">{Math.abs(g.beforeEigenvalue).toFixed(4)}</td>
                           <td className="p-3 text-center font-mono">{Math.abs(g.afterEigenvalue).toFixed(4)}</td>
@@ -510,7 +510,7 @@ export default function BeforeAfter() {
                             {g.regimeChange ? (
                               <Badge className="bg-red-900/50 text-red-300 border-red-700">Yes</Badge>
                             ) : (
-                              <span className="text-slate-400">—</span>
+                              <span className="text-slate-500">—</span>
                             )}
                           </td>
                         </tr>
@@ -522,7 +522,7 @@ export default function BeforeAfter() {
             </Card>
 
             {shiftDistribution.length > 0 && (
-              <Card className="border-slate-700" data-testid="card-shift-distribution">
+              <Card className="border-slate-200" data-testid="card-shift-distribution">
                 <CardHeader>
                   <CardTitle className="text-lg">Shift Distribution</CardTitle>
                 </CardHeader>
@@ -536,8 +536,8 @@ export default function BeforeAfter() {
                         content={({ active, payload }) => {
                           if (!active || !payload?.length) return null;
                           return (
-                            <div className="bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm shadow-xl">
-                              <div className="text-slate-300">Shift: {payload[0].payload.center.toFixed(4)}</div>
+                            <div className="bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm shadow-xl">
+                              <div className="text-slate-600">Shift: {payload[0].payload.center.toFixed(4)}</div>
                               <div className="text-cyan-400">Count: {payload[0].value}</div>
                             </div>
                           );

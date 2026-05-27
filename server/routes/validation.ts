@@ -736,14 +736,16 @@ export async function registerValidationRoutes(app: Express, upload: any): Promi
                 datasetName: dataset.name, eigenvalue: match.eigenvalue,
                 r2: match.r2, confidence: match.confidence, species: dataset.species,
               });
+              continue;
             }
-            continue;
+            // Gene not found in warm cache — fall through to file scan
           }
           const filePath = path.join(process.cwd(), 'datasets', dataset.file);
           if (!fs.existsSync(filePath)) continue;
           const content = fs.readFileSync(filePath, 'utf-8');
           const lines = content.trim().split('\n');
           if (lines.length < 2) continue;
+          let foundInDataset = false;
           for (let i = 1; i < lines.length; i++) {
             const parts = lines[i].split(',');
             if (parts.length < 2) continue;
@@ -756,16 +758,23 @@ export async function registerValidationRoutes(app: Express, upload: any): Promi
               const v = parseFloat(parts[j]);
               if (!isNaN(v)) values.push(v);
             }
-            if (values.length < 5) break;
-            const result = fitAR2WithDiagnostics(values);
-            if (!result) break;
-            crossResults.push({
-              datasetName: dataset.name, eigenvalue: +result.eigenvalue.toFixed(4),
-              r2: +result.rSquared.toFixed(4), confidence: result.diagnostics.overallConfidence, species: dataset.species,
-            });
+            if (values.length < 5) continue;
+            try {
+              const result = fitAR2WithDiagnostics(values);
+              if (!result) continue;
+              crossResults.push({
+                datasetName: dataset.name, eigenvalue: +result.eigenvalue.toFixed(4),
+                r2: +result.rSquared.toFixed(4), confidence: result.diagnostics.overallConfidence, species: dataset.species,
+              });
+              foundInDataset = true;
+            } catch (fitErr) {
+              console.error(`[gene-profile] fitAR2 failed for ${rg} in ${dataset.id}:`, fitErr);
+            }
             break;
           }
-        } catch { }
+        } catch (err) {
+          console.error(`[gene-profile] cross-dataset scan error for ${dataset.id}:`, err);
+        }
       }
 
       const eigenvalues = crossResults.map(r => r.eigenvalue);
@@ -820,9 +829,12 @@ export async function registerValidationRoutes(app: Express, upload: any): Promi
 
       const literatureConfirmed = literature.found;
       const couplingValidated = tissueResults.some(t => t.significant);
+      const isCouplingReference = ['BMAL1', 'ARNTL'].includes(rawGene.toUpperCase());
 
       let agreementSummary: string;
-      if (literatureConfirmed && couplingValidated) {
+      if (isCouplingReference) {
+        agreementSummary = `${normalizedGene} (ARNTL) is the master circadian transcription factor and the coupling reference gene used in PAR(2) analyses. It drives expression of clock-controlled genes — self-coupling is not tested. Cross-dataset |λ| values reflect its own temporal persistence dynamics.`;
+      } else if (literatureConfirmed && couplingValidated) {
         const firstCitation = litEntries[0]?.citation || '';
         const citShort = firstCitation.split(',')[0] || firstCitation;
         const yearStr = litEntries[0]?.year ? ` ${litEntries[0].year}` : '';
@@ -851,7 +863,7 @@ export async function registerValidationRoutes(app: Express, upload: any): Promi
         category,
         categoryMeta,
         literature,
-        par2: { crossDataset, tissueCoupling },
+        par2: { crossDataset, tissueCoupling, isCouplingReference },
         connection: {
           literatureConfirmed,
           couplingValidated,
@@ -2845,6 +2857,55 @@ echo "========================================"
     } catch (error) {
       console.error('Error generating all papers package:', error);
       res.status(500).json({ error: 'Failed to generate package' });
+    }
+  });
+
+  app.get("/api/download/all-papers-pdf", async (_req, res) => {
+    try {
+      const { PDFDocument } = await import('pdf-lib');
+      const mergedPdf = await PDFDocument.create();
+
+      const papers = [
+        { label: 'Paper A — Core Methods',        file: 'paper-packages/paper-a-core-methods/Paper_A_Core_Methods.pdf' },
+        { label: 'Paper E — Phase-Gated PAR(2)',   file: 'paper-packages/paper-e-cell-systems/Paper_E_Phase_Gated_PAR2.pdf' },
+        { label: 'Paper F — Expression Persistence', file: 'paper-packages/paper-f-expression-persistence/Paper_F_Expression_Persistence.pdf' },
+        { label: 'Paper G — Fibonacci Reply',      file: 'paper-packages/paper-g-fibonacci-reply/Paper_G_Fibonacci_Reply.pdf' },
+        { label: 'Paper H — AD Glial Clock',       file: 'paper-packages/paper-ad-glial/Paper_AD_Glial_Clock_Inversion.pdf' },
+        { label: 'Paper M — Methods Platform',     file: 'paper-packages/methods-platform/PAR2_Methods_Platform_Paper.pdf' },
+        { label: 'Paper N — p53 Regulon',          file: 'paper-packages/paper-n-p53-regulon/PaperN_p53_Regulon_Draft.pdf' },
+        { label: 'Paper O — Organoid Hierarchy',   file: 'paper-packages/paper-o-organoid/PaperO_Organoid_Circadian_Hierarchy.pdf' },
+        { label: 'Paper P — Temporal Correlation', file: 'paper-packages/paper-p-temporal-correlation/Paper_P_Temporal_Correlation.pdf' },
+        { label: 'Paper Q — Light Entrainment',    file: 'paper-packages/paper-q-light-entrainment/PaperQ_LightEntrainment_Manuscript.pdf' },
+      ];
+
+      for (const paper of papers) {
+        const fullPath = path.join(process.cwd(), paper.file);
+        if (!fs.existsSync(fullPath)) {
+          console.warn(`[all-papers-pdf] Skipping missing file: ${paper.file}`);
+          continue;
+        }
+        try {
+          const pdfBytes = fs.readFileSync(fullPath);
+          const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
+          const indices = pdfDoc.getPageIndices();
+          const copiedPages = await mergedPdf.copyPages(pdfDoc, indices);
+          for (const page of copiedPages) {
+            mergedPdf.addPage(page);
+          }
+        } catch (pageErr) {
+          console.warn(`[all-papers-pdf] Could not merge ${paper.label}:`, pageErr);
+        }
+      }
+
+      const mergedBytes = await mergedPdf.save();
+      const timestamp = new Date().toISOString().split('T')[0];
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename=PAR2_All_Papers_${timestamp}.pdf`);
+      res.setHeader('Content-Length', mergedBytes.length);
+      res.send(Buffer.from(mergedBytes));
+    } catch (error) {
+      console.error('[all-papers-pdf] Error generating combined PDF:', error);
+      res.status(500).json({ error: 'Failed to generate combined PDF' });
     }
   });
 

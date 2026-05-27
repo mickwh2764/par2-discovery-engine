@@ -13,11 +13,11 @@ import {
 } from "recharts";
 import {
   ArrowLeft, FlaskConical, Beaker, Loader2, AlertCircle,
-  ChevronDown, ChevronUp, ArrowUpRight, ArrowDownRight, Minus, Zap,
+  ChevronDown, ChevronUp, ArrowUpRight, ArrowDownRight, Minus, Zap, Download,
 } from "lucide-react";
 import HowTo from "@/components/HowTo";
 import InsightCallout from "@/components/InsightCallout";
-import DownloadResultsButton from "@/components/DownloadResultsButton";
+import DownloadResultsButton, { downloadAsCSV } from "@/components/DownloadResultsButton";
 import GeneTooltip from "@/components/GeneTooltip";
 
 interface MatchedGene {
@@ -68,7 +68,7 @@ const PRESET_GENE_SETS: Record<string, { label: string; color: string; genes: st
   },
   housekeeping: {
     label: "Housekeeping",
-    color: "border-slate-500/50 text-slate-300 hover:bg-slate-700/30",
+    color: "border-slate-300/50 text-slate-600 hover:bg-slate-100",
     genes: ["GAPDH", "ACTB", "TUBB", "RPL13A", "RPS18", "B2M", "HPRT1", "UBC", "YWHAZ", "SDHA", "TBP", "HMBS", "PPIA", "GUSB", "TFRC", "PGK1", "RPLP0", "RPL19", "EEF1A1", "HSP90AB1"],
   },
   cellCycle: {
@@ -149,15 +149,15 @@ export default function GeneSetTester() {
   const directionConfig = {
     higher: { label: "Higher Persistence", icon: ArrowUpRight, color: "text-red-400", bg: "bg-red-500/20 border-red-500/30" },
     lower: { label: "Lower Persistence", icon: ArrowDownRight, color: "text-blue-400", bg: "bg-blue-500/20 border-blue-500/30" },
-    similar: { label: "Similar to Background", icon: Minus, color: "text-slate-400", bg: "bg-slate-500/20 border-slate-500/30" },
+    similar: { label: "Similar to Background", icon: Minus, color: "text-slate-500", bg: "bg-slate-500/20 border-slate-300/30" },
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 text-slate-900">
       <div className="max-w-6xl mx-auto px-4 py-6">
         <div className="flex items-center gap-3 mb-6">
           <Link href="/">
-            <Button variant="outline" size="sm" className="gap-2 border-slate-700 text-slate-300 hover:bg-slate-800" data-testid="link-back-home">
+            <Button variant="outline" size="sm" className="gap-2 border-slate-200 text-slate-600 hover:bg-slate-100" data-testid="link-back-home">
               <ArrowLeft size={14} />
               Home
             </Button>
@@ -167,10 +167,10 @@ export default function GeneSetTester() {
               <FlaskConical size={24} className="text-cyan-400" />
               Gene Set Hypothesis Tester
             </h1>
-            <p className="text-sm text-slate-400 mt-1">Test whether a custom gene set has significantly different AR(2) eigenvalues</p>
-            <div className="rounded-lg bg-slate-800/40 border border-slate-700/50 p-4 mt-3">
-              <p className="text-sm text-slate-300 leading-relaxed">
-                <strong className="text-white">What you can do:</strong> Enter a list of gene names and run a permutation test (5,000 permutations) to see if your gene set has significantly different persistence compared to random genes. Results include Cohen's d effect size and p-value. Download the matched results for your analysis.
+            <p className="text-sm text-slate-500 mt-1">Test whether a custom gene set has significantly different AR(2) eigenvalues</p>
+            <div className="rounded-lg bg-slate-100 border border-slate-200 p-4 mt-3">
+              <p className="text-sm text-slate-600 leading-relaxed">
+                <strong className="text-slate-900">What you can do:</strong> Enter a list of gene names and run a permutation test (5,000 permutations) to see if your gene set has significantly different persistence compared to random genes. Results include Cohen's d effect size and p-value. Download the matched results for your analysis.
               </p>
             </div>
           </div>
@@ -203,7 +203,7 @@ export default function GeneSetTester() {
           ]}
         />
 
-        <Card className="bg-slate-900/80 border-slate-700 mb-6" data-testid="card-input-form">
+        <Card className="bg-white border-slate-200 mb-6" data-testid="card-input-form">
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
               <Beaker size={18} className="text-cyan-400" />
@@ -212,12 +212,12 @@ export default function GeneSetTester() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <label className="text-sm font-medium text-slate-300 mb-1.5 block">Dataset</label>
+              <label className="text-sm font-medium text-slate-600 mb-1.5 block">Dataset</label>
               <Select value={datasetId} onValueChange={setDatasetId} data-testid="select-dataset">
-                <SelectTrigger className="bg-slate-800 border-slate-700 text-white" data-testid="select-dataset-trigger">
+                <SelectTrigger className="bg-slate-100 border-slate-200 text-slate-900" data-testid="select-dataset-trigger">
                   <SelectValue placeholder="Select a dataset..." />
                 </SelectTrigger>
-                <SelectContent className="bg-slate-800 border-slate-700">
+                <SelectContent className="bg-slate-100 border-slate-200">
                   {datasetsQuery.data?.map((ds) => (
                     <SelectItem key={ds.id} value={ds.id} data-testid={`select-dataset-item-${ds.id}`}>
                       {ds.name}
@@ -228,16 +228,16 @@ export default function GeneSetTester() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-slate-300 mb-1.5 block">Gene Symbols</label>
+              <label className="text-sm font-medium text-slate-600 mb-1.5 block">Gene Symbols</label>
               <Textarea
                 rows={8}
                 value={geneInput}
                 onChange={(e) => setGeneInput(e.target.value)}
                 placeholder={"Paste gene symbols, one per line or comma-separated\n\nExample:\nMYC\nCCND1\nTP53\nBCL2\nCDK1"}
-                className="bg-slate-800 border-slate-700 text-white font-mono text-sm"
+                className="bg-slate-100 border-slate-200 text-slate-900 font-mono text-sm"
                 data-testid="textarea-genes"
               />
-              <p className="text-xs text-slate-400 mt-1.5" data-testid="text-parsed-count">
+              <p className="text-xs text-slate-500 mt-1.5" data-testid="text-parsed-count">
                 {parsedGenes.length > 0
                   ? `${parsedGenes.length} unique gene${parsedGenes.length !== 1 ? "s" : ""} parsed`
                   : "No genes entered"}
@@ -245,7 +245,7 @@ export default function GeneSetTester() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-slate-300 mb-1.5 block flex items-center gap-1.5">
+              <label className="text-sm font-medium text-slate-600 mb-1.5 block flex items-center gap-1.5">
                 <Zap size={14} className="text-amber-400" />
                 Quick-Load Preset Gene Sets
               </label>
@@ -263,14 +263,14 @@ export default function GeneSetTester() {
                   </Button>
                 ))}
               </div>
-              <p className="text-xs text-slate-400 mt-1">Click a preset to populate the gene list, or type your own above</p>
+              <p className="text-xs text-slate-500 mt-1">Click a preset to populate the gene list, or type your own above</p>
             </div>
 
             <div className="flex items-center gap-3">
               <Button
                 onClick={handleSubmit}
                 disabled={!datasetId || parsedGenes.length === 0 || mutation.isPending}
-                className="gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white px-6"
+                className="gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-slate-900 px-6"
                 data-testid="button-submit"
               >
                 {mutation.isPending ? (
@@ -299,40 +299,40 @@ export default function GeneSetTester() {
         {result && (
           <div className="space-y-6" data-testid="results-section">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4" data-testid="summary-cards">
-              <Card className="bg-slate-900/80 border-slate-700">
+              <Card className="bg-white border-slate-200">
                 <CardContent className="pt-4 pb-3 px-4">
-                  <p className="text-xs text-slate-400 mb-1">Matched / Unmatched</p>
-                  <p className="text-2xl font-bold text-white" data-testid="text-matched-count">
+                  <p className="text-xs text-slate-500 mb-1">Matched / Unmatched</p>
+                  <p className="text-2xl font-bold text-slate-900" data-testid="text-matched-count">
                     {result.matchedGenes.length}
-                    <span className="text-sm text-slate-400 font-normal ml-1">/ {result.unmatchedGenes.length}</span>
+                    <span className="text-sm text-slate-500 font-normal ml-1">/ {result.unmatchedGenes.length}</span>
                   </p>
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-900/80 border-slate-700">
+              <Card className="bg-white border-slate-200">
                 <CardContent className="pt-4 pb-3 px-4">
-                  <p className="text-xs text-slate-400 mb-1">Set Mean vs Genome Mean</p>
-                  <p className="text-2xl font-bold text-white" data-testid="text-mean-comparison">
+                  <p className="text-xs text-slate-500 mb-1">Set Mean vs Genome Mean</p>
+                  <p className="text-2xl font-bold text-slate-900" data-testid="text-mean-comparison">
                     {result.setMeanEigenvalue.toFixed(3)}
-                    <span className="text-sm text-slate-400 font-normal ml-1">vs {result.genomeMeanEigenvalue.toFixed(3)}</span>
+                    <span className="text-sm text-slate-500 font-normal ml-1">vs {result.genomeMeanEigenvalue.toFixed(3)}</span>
                   </p>
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-900/80 border-slate-700">
+              <Card className="bg-white border-slate-200">
                 <CardContent className="pt-4 pb-3 px-4">
-                  <p className="text-xs text-slate-400 mb-1">Permutation P-value</p>
-                  <p className={`text-2xl font-bold ${result.permutationPValue < 0.05 ? "text-green-400" : "text-slate-300"}`} data-testid="text-pvalue">
+                  <p className="text-xs text-slate-500 mb-1">Permutation P-value</p>
+                  <p className={`text-2xl font-bold ${result.permutationPValue < 0.05 ? "text-green-400" : "text-slate-600"}`} data-testid="text-pvalue">
                     {result.permutationPValue < 0.001 ? "<0.001" : result.permutationPValue.toFixed(3)}
                   </p>
-                  <p className="text-[10px] text-slate-400">{result.nPermutations.toLocaleString()} permutations</p>
+                  <p className="text-[10px] text-slate-500">{result.nPermutations.toLocaleString()} permutations</p>
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-900/80 border-slate-700">
+              <Card className="bg-white border-slate-200">
                 <CardContent className="pt-4 pb-3 px-4">
-                  <p className="text-xs text-slate-400 mb-1">Effect Size (Cohen's d)</p>
-                  <p className="text-2xl font-bold text-white" data-testid="text-effect-size">
+                  <p className="text-xs text-slate-500 mb-1">Effect Size (Cohen's d)</p>
+                  <p className="text-2xl font-bold text-slate-900" data-testid="text-effect-size">
                     {result.effectSize.toFixed(3)}
                   </p>
                 </CardContent>
@@ -352,10 +352,10 @@ export default function GeneSetTester() {
               })()}
             </div>
 
-            <Card className="bg-slate-800/50 border-slate-700" data-testid="card-null-baseline">
+            <Card className="bg-slate-50 border-slate-200" data-testid="card-null-baseline">
               <CardContent className="pt-4 pb-3 px-4">
-                <p className="text-xs text-slate-400 font-semibold mb-2">Null Baseline: What Random Gene Sets Produce</p>
-                <p className="text-xs text-slate-400 leading-relaxed">
+                <p className="text-xs text-slate-500 font-semibold mb-2">Null Baseline: What Random Gene Sets Produce</p>
+                <p className="text-xs text-slate-500 leading-relaxed">
                   When {result.matchedGenes.length} genes are drawn at random from this genome, the expected mean |λ| is approximately {result.genomeMeanEigenvalue.toFixed(3)} ± ~0.02 (based on {result.nPermutations.toLocaleString()} permutations). A significant p-value means your gene set deviates from this null — but small gene sets ({"<"}20 genes) can produce significant results by chance more often than expected. Effect size (Cohen's d) is more informative than p-value for small sets.
                 </p>
                 {result.matchedGenes.length < 20 && (
@@ -366,9 +366,9 @@ export default function GeneSetTester() {
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-900/80 border-slate-700" data-testid="card-histogram">
+            <Card className="bg-white border-slate-200" data-testid="card-histogram">
               <CardHeader>
-                <CardTitle className="text-sm text-slate-300">Eigenvalue Distribution: Genome vs Gene Set</CardTitle>
+                <CardTitle className="text-sm text-slate-600">Eigenvalue Distribution: Genome vs Gene Set</CardTitle>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300} minWidth={1} minHeight={1}>
@@ -393,17 +393,44 @@ export default function GeneSetTester() {
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-900/80 border-slate-700" data-testid="card-matched-genes">
+            <Card className="bg-white border-slate-200" data-testid="card-matched-genes">
               <CardHeader>
-                <CardTitle className="text-sm text-slate-300">
-                  Matched Genes ({result.matchedGenes.length})
-                </CardTitle>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-sm text-slate-600">
+                    Matched Genes ({result.matchedGenes.length})
+                  </CardTitle>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-slate-600 border-slate-300 text-xs"
+                    onClick={() => downloadAsCSV(
+                      result.matchedGenes.map(g => ({
+                        dataset: result.datasetName,
+                        gene: g.gene,
+                        gene_type: g.geneType,
+                        eigenvalue: g.eigenvalue,
+                        phi1: g.phi1,
+                        phi2: g.phi2,
+                        r2: g.r2,
+                        set_mean_eigenvalue: result.setMeanEigenvalue,
+                        genome_mean_eigenvalue: result.genomeMeanEigenvalue,
+                        permutation_p_value: result.permutationPValue,
+                        effect_size_cohens_d: result.effectSize,
+                        direction: result.direction,
+                      })),
+                      `gene_set_results_${result.datasetId}.csv`
+                    )}
+                    data-testid="button-download-gene-set-csv"
+                  >
+                    <Download size={13} className="mr-1" /> Download CSV
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm" data-testid="table-matched-genes">
                     <thead>
-                      <tr className="border-b border-slate-700 text-slate-400">
+                      <tr className="border-b border-slate-200 text-slate-500">
                         {(
                           [
                             ["gene", "Gene"],
@@ -416,7 +443,7 @@ export default function GeneSetTester() {
                         ).map(([key, label]) => (
                           <th
                             key={key}
-                            className="py-2 px-3 text-left cursor-pointer hover:text-white select-none"
+                            className="py-2 px-3 text-left cursor-pointer hover:text-slate-700 select-none"
                             onClick={() => handleSort(key)}
                             data-testid={`th-sort-${key}`}
                           >
@@ -430,14 +457,14 @@ export default function GeneSetTester() {
                     </thead>
                     <tbody>
                       {sortedGenes.map((g) => (
-                        <tr key={g.gene} className="border-b border-slate-700 hover:bg-slate-800/50" data-testid={`row-gene-${g.gene}`}>
+                        <tr key={g.gene} className="border-b border-slate-200 hover:bg-slate-50" data-testid={`row-gene-${g.gene}`}>
                           <td className="py-2 px-3 font-mono font-medium text-cyan-300"><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></td>
                           <td className="py-2 px-3">{g.eigenvalue.toFixed(4)}</td>
                           <td className="py-2 px-3">{g.r2.toFixed(3)}</td>
                           <td className="py-2 px-3">{g.phi1.toFixed(4)}</td>
                           <td className="py-2 px-3">{g.phi2.toFixed(4)}</td>
                           <td className="py-2 px-3">
-                            <Badge variant="outline" className="text-xs border-slate-600 text-slate-300">{g.geneType}</Badge>
+                            <Badge variant="outline" className="text-xs border-slate-300 text-slate-600">{g.geneType}</Badge>
                           </td>
                         </tr>
                       ))}
@@ -448,11 +475,11 @@ export default function GeneSetTester() {
             </Card>
 
             {result.unmatchedGenes.length > 0 && (
-              <Card className="bg-slate-900/80 border-slate-700" data-testid="card-unmatched-genes">
+              <Card className="bg-white border-slate-200" data-testid="card-unmatched-genes">
                 <CardContent className="pt-4">
                   <button
                     onClick={() => setUnmatchedOpen(!unmatchedOpen)}
-                    className="flex items-center gap-2 text-sm text-slate-400 hover:text-white cursor-pointer w-full"
+                    className="flex items-center gap-2 text-sm text-slate-500 hover:text-slate-700 cursor-pointer w-full"
                     data-testid="button-toggle-unmatched"
                   >
                     {unmatchedOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
@@ -461,7 +488,7 @@ export default function GeneSetTester() {
                   {unmatchedOpen && (
                     <div className="mt-3 flex flex-wrap gap-2" data-testid="list-unmatched-genes">
                       {result.unmatchedGenes.map((g) => (
-                        <Badge key={g} variant="outline" className="text-xs border-slate-600 text-slate-400 font-mono" data-testid={`badge-unmatched-${g}`}>
+                        <Badge key={g} variant="outline" className="text-xs border-slate-300 text-slate-500 font-mono" data-testid={`badge-unmatched-${g}`}>
                           {g}
                         </Badge>
                       ))}
@@ -471,9 +498,9 @@ export default function GeneSetTester() {
               </Card>
             )}
 
-            <Card className="bg-slate-900/80 border-slate-700" data-testid="card-interpretation">
+            <Card className="bg-white border-slate-200" data-testid="card-interpretation">
               <CardContent className="pt-4">
-                <p className="text-sm text-slate-300 leading-relaxed" data-testid="text-interpretation">
+                <p className="text-sm text-slate-600 leading-relaxed" data-testid="text-interpretation">
                   {result.interpretation}
                 </p>
               </CardContent>

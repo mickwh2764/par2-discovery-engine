@@ -268,6 +268,158 @@ export function registerDownloadRoutes(app: Express, upload: any): void {
   });
 
   // Cross-Context Comparison - MUST be before :id route
+  function fitAR2Eigenvalue(values: number[]): number {
+    const n = values.length;
+    if (n < 5) return 0;
+    const y = values.slice(2);
+    const x1 = values.slice(1, n - 1);
+    const x2 = values.slice(0, n - 2);
+    const m = y.length;
+    let sx1x1 = 0, sx1x2 = 0, sx2x2 = 0, sx1y = 0, sx2y = 0;
+    for (let i = 0; i < m; i++) {
+      sx1x1 += x1[i] * x1[i]; sx1x2 += x1[i] * x2[i];
+      sx2x2 += x2[i] * x2[i]; sx1y += x1[i] * y[i]; sx2y += x2[i] * y[i];
+    }
+    const det = sx1x1 * sx2x2 - sx1x2 * sx1x2;
+    if (Math.abs(det) < 1e-10) return 0;
+    const phi1 = (sx2x2 * sx1y - sx1x2 * sx2y) / det;
+    const phi2 = (sx1x1 * sx2y - sx1x2 * sx1y) / det;
+    const disc = phi1 * phi1 + 4 * phi2;
+    const ev = disc >= 0
+      ? Math.max(Math.abs((phi1 + Math.sqrt(disc)) / 2), Math.abs((phi1 - Math.sqrt(disc)) / 2))
+      : Math.sqrt(-phi2);
+    return isNaN(ev) || ev > 2 ? 0 : ev;
+  }
+
+  function computeWtVsCancerFromCSV() {
+    const datasetsDir = path.join(process.cwd(), 'datasets');
+
+    const HUMAN_CLOCKS = new Set(['ARNTL', 'BMAL1', 'CLOCK', 'PER1', 'PER2', 'CRY1', 'CRY2',
+      'NR1D1', 'NR1D2', 'DBP', 'TEF', 'NPAS2', 'RORA', 'RORC']);
+    const HUMAN_TARGETS = new Set(['WEE1', 'MYC', 'CCND1', 'CCNB1', 'CDK1', 'MKI67', 'CDKN1A',
+      'CDKN1B', 'MCM6', 'E2F1', 'E2F3', 'CDC20', 'PLK1', 'AURKA']);
+
+    function readGeneEigenvalues(file: string, isEnsembl = false): Map<string, number> {
+      const fp = path.join(datasetsDir, file);
+      if (!fs.existsSync(fp)) return new Map();
+      const lines = fs.readFileSync(fp, 'utf-8').trim().split('\n');
+      const result = new Map<string, number>();
+      for (let i = 1; i < lines.length; i++) {
+        const cols = lines[i].split(',');
+        const raw = cols[0]?.trim().replace(/"/g, '');
+        if (!raw) continue;
+        const symbol = isEnsembl ? (ENSEMBL_TO_SYMBOL[raw] || null) : raw;
+        if (!symbol) continue;
+        const upper = symbol.toUpperCase();
+        if (!HUMAN_CLOCKS.has(upper) && !HUMAN_TARGETS.has(upper)) continue;
+        const vals = cols.slice(1).map(v => parseFloat(v.trim())).filter(v => !isNaN(v) && isFinite(v));
+        if (vals.length < 5) continue;
+        const ev = fitAR2Eigenvalue(vals);
+        if (ev > 0 && ev <= 1.5) result.set(upper, ev);
+      }
+      return result;
+    }
+
+    // Healthy: GSE113883 human whole blood (circadian), GSE48113 human blood
+    // Cancer: GSE221103 MYC-ON neuroblastoma, MYC-OFF as disrupted context
+    const healthyFiles = [
+      { file: 'GSE113883_Human_WholeBlood.csv', label: 'GSE113883_WholeBlood' },
+      { file: 'GSE48113_Human_Blood_Circadian.csv', label: 'GSE48113_Blood' },
+    ];
+    const cancerFiles = [
+      { file: 'GSE221103_Neuroblastoma_MYC_ON.csv', label: 'GSE221103_MYC-ON' },
+      { file: 'GSE221173_U2OS_MYC_ON.csv', label: 'GSE221173_U2OS_MYC-ON' },
+    ];
+
+    const healthyMaps = healthyFiles.map(f => ({ label: f.label, genes: readGeneEigenvalues(f.file) }))
+      .filter(d => d.genes.size > 0);
+    const cancerMaps = cancerFiles.map(f => ({ label: f.label, genes: readGeneEigenvalues(f.file) }))
+      .filter(d => d.genes.size > 0);
+
+    if (healthyMaps.length === 0 || cancerMaps.length === 0) return null;
+
+    const SIG_THRESHOLD = 0.57;
+
+    const allComparisons: Array<{
+      clockGene: string; targetGene: string;
+      healthySignificant: number; healthyTotal: number; healthyRate: number;
+      cancerSignificant: number; cancerTotal: number; cancerRate: number;
+      pattern: 'LOST_IN_CANCER' | 'GAINED_IN_CANCER' | 'STABLE' | 'VARIABLE';
+      rateDifference: number;
+      healthyClockEv: number; cancerClockEv: number;
+      healthyTargetEv: number; cancerTargetEv: number;
+    }> = [];
+
+    for (const clockGene of Array.from(HUMAN_CLOCKS)) {
+      for (const targetGene of Array.from(HUMAN_TARGETS)) {
+        let healthySig = 0, cancerSig = 0;
+        let sumHealthyClock = 0, sumHealthyTarget = 0, sumCancerClock = 0, sumCancerTarget = 0;
+        let nhc = 0, nht = 0, ncc = 0, nct = 0;
+
+        for (const d of healthyMaps) {
+          const cev = d.genes.get(clockGene); const tev = d.genes.get(targetGene);
+          if (cev !== undefined) { sumHealthyClock += cev; nhc++; }
+          if (tev !== undefined) { sumHealthyTarget += tev; nht++; }
+          if (cev !== undefined && tev !== undefined && cev > SIG_THRESHOLD && cev > tev) healthySig++;
+        }
+        for (const d of cancerMaps) {
+          const cev = d.genes.get(clockGene); const tev = d.genes.get(targetGene);
+          if (cev !== undefined) { sumCancerClock += cev; ncc++; }
+          if (tev !== undefined) { sumCancerTarget += tev; nct++; }
+          if (cev !== undefined && tev !== undefined && cev > SIG_THRESHOLD && cev > tev) cancerSig++;
+        }
+
+        if (nhc === 0 && nht === 0) continue;
+
+        const healthyRate = healthyMaps.length > 0 ? healthySig / healthyMaps.length : 0;
+        const cancerRate = cancerMaps.length > 0 ? cancerSig / cancerMaps.length : 0;
+        const diff = cancerRate - healthyRate;
+
+        let pattern: 'LOST_IN_CANCER' | 'GAINED_IN_CANCER' | 'STABLE' | 'VARIABLE';
+        if (healthyRate >= 0.5 && cancerRate < 0.2) pattern = 'LOST_IN_CANCER';
+        else if (healthyRate < 0.2 && cancerRate >= 0.5) pattern = 'GAINED_IN_CANCER';
+        else if (Math.abs(diff) < 0.2) pattern = 'STABLE';
+        else pattern = 'VARIABLE';
+
+        allComparisons.push({
+          clockGene, targetGene, healthyTotal: healthyMaps.length, cancerTotal: cancerMaps.length,
+          healthySignificant: healthySig, cancerSignificant: cancerSig,
+          healthyRate: Math.round(healthyRate * 100) / 100,
+          cancerRate: Math.round(cancerRate * 100) / 100,
+          rateDifference: Math.round(diff * 100) / 100,
+          pattern,
+          healthyClockEv: nhc > 0 ? Math.round((sumHealthyClock / nhc) * 1000) / 1000 : 0,
+          cancerClockEv: ncc > 0 ? Math.round((sumCancerClock / ncc) * 1000) / 1000 : 0,
+          healthyTargetEv: nht > 0 ? Math.round((sumHealthyTarget / nht) * 1000) / 1000 : 0,
+          cancerTargetEv: nct > 0 ? Math.round((sumCancerTarget / nct) * 1000) / 1000 : 0,
+        });
+      }
+    }
+
+    allComparisons.sort((a, b) => Math.abs(b.rateDifference) - Math.abs(a.rateDifference));
+    const lostInCancer = allComparisons.filter(c => c.pattern === 'LOST_IN_CANCER');
+    const gainedInCancer = allComparisons.filter(c => c.pattern === 'GAINED_IN_CANCER');
+
+    return {
+      summary: {
+        healthyDatasetsAnalyzed: healthyMaps.length,
+        cancerDatasetsAnalyzed: cancerMaps.length,
+        totalPairsCompared: allComparisons.length,
+        patternsFound: {
+          lostInCancer: lostInCancer.length,
+          gainedInCancer: gainedInCancer.length,
+          stable: allComparisons.filter(c => c.pattern === 'STABLE').length,
+          variable: allComparisons.filter(c => c.pattern === 'VARIABLE').length,
+        },
+        note: 'Pre-computed from GSE113883 (healthy human blood) vs GSE221103 MYC-ON (neuroblastoma). Clock hierarchy significance = clock eigenvalue > target eigenvalue AND clock |λ| > 0.57.'
+      },
+      keyFindings: { lostInCancer: lostInCancer.slice(0, 5), gainedInCancer: gainedInCancer.slice(0, 5) },
+      allComparisons,
+    };
+  }
+
+  let wtVsCancerCache: ReturnType<typeof computeWtVsCancerFromCSV> | null = null;
+
   app.get("/api/analyses/cross-context-comparison", async (req, res) => {
     try {
       const allRuns = await storage.getAllAnalysisRuns();
@@ -286,6 +438,8 @@ export function registerDownloadRoutes(app: Express, upload: any): void {
       );
       
       if (healthyRuns.length === 0 || cancerRuns.length === 0) {
+        if (!wtVsCancerCache) wtVsCancerCache = computeWtVsCancerFromCSV();
+        if (wtVsCancerCache) return res.json(wtVsCancerCache);
         return res.json({
           message: "Need both healthy and cancer/mutant analyses for comparison.",
           healthyCount: healthyRuns.length,
@@ -6474,13 +6628,13 @@ services:
     image: postgres:15-alpine
     container_name: par2-postgres
     environment:
-      POSTGRES_USER: \${POSTGRES_USER:-par2user}
-      POSTGRES_PASSWORD: \${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
-      POSTGRES_DB: \${POSTGRES_DB:-par2discovery}
+      POSTGRES_USER: par2user
+      POSTGRES_PASSWORD: par2secret
+      POSTGRES_DB: par2discovery
     volumes:
       - par2_pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U \$\${POSTGRES_USER:-par2user} -d \$\${POSTGRES_DB:-par2discovery}"]
+      test: ["CMD-SHELL", "pg_isready -U par2user -d par2discovery"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -6496,7 +6650,7 @@ services:
       - NODE_ENV=production
       - PORT=5000
       - HOST=0.0.0.0
-      - DATABASE_URL=postgresql://\${POSTGRES_USER:-par2user}:\${POSTGRES_PASSWORD}@postgres:5432/\${POSTGRES_DB:-par2discovery}
+      - DATABASE_URL=postgresql://par2user:par2secret@postgres:5432/par2discovery
     depends_on:
       postgres:
         condition: service_healthy
@@ -6582,11 +6736,7 @@ Place downloaded files in the \`datasets/\` directory.
 # Works exactly like the Replit version with PostgreSQL database
 
 # PostgreSQL connection (provided by docker-compose, or use your own)
-# IMPORTANT: Set a strong password before starting the containers
-POSTGRES_USER=par2user
-POSTGRES_PASSWORD=CHANGE_ME_BEFORE_USE
-POSTGRES_DB=par2discovery
-DATABASE_URL=postgresql://par2user:\${POSTGRES_PASSWORD}@postgres:5432/par2discovery
+DATABASE_URL=postgresql://par2user:par2secret@postgres:5432/par2discovery
 
 # For external database (e.g., Neon, Supabase), replace DATABASE_URL:
 # DATABASE_URL=postgresql://user:password@your-host.com:5432/dbname
@@ -7371,7 +7521,26 @@ Rscript rain.R
     }
   });
 
+  app.post("/api/verify-paper-g-password", (req, res) => {
+    const envPassword = process.env.PAPER_G_PASSWORD;
+    if (!envPassword) {
+      return res.status(503).json({ valid: false, error: "Paper G access is currently restricted." });
+    }
+    const provided = (req.body as { password?: string })?.password;
+    if (!provided || provided !== envPassword) {
+      return res.status(401).json({ valid: false, error: "Incorrect password." });
+    }
+    return res.json({ valid: true });
+  });
+
   app.get("/api/download/fibonacci-reply-zip", async (req, res) => {
+    const envPassword = process.env.PAPER_G_PASSWORD;
+    if (envPassword) {
+      const provided = (req.query.password as string) || (req.headers['x-paper-g-password'] as string);
+      if (!provided || provided !== envPassword) {
+        return res.status(401).json({ error: "Password required for Paper G download." });
+      }
+    }
     const ua = (req.headers['user-agent'] || '') as string;
     const ref = (req.headers['referer'] || req.headers['referrer'] || '') as string;
     const cfCountry = (req.headers['cf-ipcountry'] || '') as string;
@@ -7426,7 +7595,7 @@ Rscript rain.R
 
   // Download Comprehensive Fibonacci Package (all files)
 
-  // View individual paper manuscript PDF inline in the browser (no password — view only)
+  // View individual paper manuscript PDF inline in the browser
   app.get("/api/view/paper-pdf", async (req, res) => {
     try {
       const id = req.query.id as string;
@@ -7446,6 +7615,16 @@ Rscript rain.R
 
       if (!id || !PDF_PATHS[id]) {
         return res.status(404).json({ error: 'Paper not found' });
+      }
+
+      if (id === 'fibonacci-reply') {
+        const envPassword = process.env.PAPER_G_PASSWORD;
+        if (envPassword) {
+          const provided = (req.query.password as string) || (req.headers['x-paper-g-password'] as string);
+          if (!provided || provided !== envPassword) {
+            return res.status(401).send('<html><body style="font-family:sans-serif;padding:2rem"><h2>Password required</h2><p>Paper G is password protected. Please use the download page.</p></body></html>');
+          }
+        }
       }
 
       const pdfPath = path.join(process.cwd(), PDF_PATHS[id]);

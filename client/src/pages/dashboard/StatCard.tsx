@@ -94,7 +94,7 @@ export function ResultCard({ result, index, onClick }: ResultCardProps) {
                              ? 'bg-blue-500/20 text-blue-300 border-blue-400/40'
                              : (result.significantAfterFDR || (result.effectSizeCohensF2 ?? 0) >= 0.35) && (result.qValue ?? 1) < 0.10
                                ? 'bg-amber-500/20 text-amber-300 border-amber-400/40'
-                               : 'bg-gray-500/20 text-gray-400 border-gray-400/40'
+                               : 'bg-gray-500/20 text-slate-500 border-gray-400/40'
                        }`}
                        data-testid={`badge-tier-${result.targetGene}`}
                        title={

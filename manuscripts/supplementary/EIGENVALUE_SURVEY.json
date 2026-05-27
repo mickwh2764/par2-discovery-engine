@@ -1,0 +1,1422 @@
+{
+  "timestamp": "2025-12-04T14:08:44.115Z",
+  "version": "1.0.0",
+  "datasets": [
+    {
+      "datasetId": "GSE54650_Adrenal",
+      "study": "GSE54650",
+      "tissue": "Adrenal",
+      "condition": null,
+      "samplingIntervalHours": 2,
+      "pairsAnalyzed": 136,
+      "stablePairs": 136,
+      "unstablePairs": 0,
+      "meanEigenperiod": 9.582592128390864,
+      "medianEigenperiod": 7.717982692404155,
+      "eigenperiodRange": {
+        "min": 4.604735661291563,
+        "max": 22.80014636458873
+      },
+      "meanFibonacciSimilarity": 0.32474880802932854,
+      "fibonacciLikePairs": 8,
+      "eigenperiodDistribution": {
+        "ultradian_lt12h": 56,
+        "circadian_12_36h": 16,
+        "infradian_36_60h": 0,
+        "multiday_gt60h": 0
+      },
+      "topEigenperiodPairs": [
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Nr1d1",
+          "beta1": 1.1519537548605274,
+          "beta2": -0.4570999604171915,
+          "eigenperiodHours": 22.80014636458873,
+          "isStable": true,
+          "maxModulus": 0.6760916804821603,
+          "fibonacciSimilarity": 0.44247071620377665,
+          "isFibonacciLike": false,
+          "halfLife": 1.7708229283746086
+        },
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Arntl",
+          "beta1": 1.1519537548605272,
+          "beta2": -0.4570999604171918,
+          "eigenperiodHours": 22.8001463645887,
+          "isStable": true,
+          "maxModulus": 0.6760916804821605,
+          "fibonacciSimilarity": 0.4424707162037781,
+          "isFibonacciLike": false,
+          "halfLife": 1.7708229283746102
+        },
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Cry2",
+          "beta1": 1.1519537548605299,
+          "beta2": -0.45709996041719403,
+          "eigenperiodHours": 22.800146364588688,
+          "isStable": true,
+          "maxModulus": 0.6760916804821622,
+          "fibonacciSimilarity": 0.44247071620378187,
+          "isFibonacciLike": false,
+          "halfLife": 1.770822928374621
+        },
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Cry1",
+          "beta1": 1.1519537548605283,
+          "beta2": -0.4570999604171929,
+          "eigenperiodHours": 22.80014636458868,
+          "isStable": true,
+          "maxModulus": 0.6760916804821613,
+          "fibonacciSimilarity": 0.4424707162037803,
+          "isFibonacciLike": false,
+          "halfLife": 1.7708229283746153
+        },
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Clock",
+          "beta1": 1.1519537548605288,
+          "beta2": -0.4570999604171934,
+          "eigenperiodHours": 22.80014636458867,
+          "isStable": true,
+          "maxModulus": 0.6760916804821616,
+          "fibonacciSimilarity": 0.4424707162037813,
+          "isFibonacciLike": false,
+          "halfLife": 1.7708229283746173
+        }
+      ]
+    },
+    {
+      "datasetId": "GSE54650_Aorta",
+      "study": "GSE54650",
+      "tissue": "Aorta",
+      "condition": null,
+      "samplingIntervalHours": 2,
+      "pairsAnalyzed": 136,
+      "stablePairs": 136,
+      "unstablePairs": 0,
+      "meanEigenperiod": 11.409788393093033,
+      "medianEigenperiod": 7.887173074498072,
+      "eigenperiodRange": {
+        "min": 5.151588689745286,
+        "max": 44.38877593721613
+      },
+      "meanFibonacciSimilarity": 0.33401901131200556,
+      "fibonacciLikePairs": 0,
+      "eigenperiodDistribution": {
+        "ultradian_lt12h": 96,
+        "circadian_12_36h": 8,
+        "infradian_36_60h": 8,
+        "multiday_gt60h": 0
+      },
+      "topEigenperiodPairs": [
+        {
+          "targetGene": "Tead1",
+          "clockGene": "Per2",
+          "beta1": 0.6225550411690796,
+          "beta2": -0.10509375521813559,
+          "eigenperiodHours": 44.38877593721613,
+          "isStable": true,
+          "maxModulus": 0.3241816700835129,
+          "fibonacciSimilarity": 0,
+          "isFibonacciLike": false,
+          "halfLife": 0.6153370641238334
+        },
+        {
+          "targetGene": "Tead1",
+          "clockGene": "Nr1d1",
+          "beta1": 0.6225550411690804,
+          "beta2": -0.10509375521813685,
+          "eigenperiodHours": 44.388775937213666,
+          "isStable": true,
+          "maxModulus": 0.32418167008351484,
+          "fibonacciSimilarity": 0,
+          "isFibonacciLike": false,
+          "halfLife": 0.6153370641238367
+        },
+        {
+          "targetGene": "Tead1",
+          "clockGene": "Arntl",
+          "beta1": 0.6225550411690806,
+          "beta2": -0.10509375521813982,
+          "eigenperiodHours": 44.38877593720612,
+          "isStable": true,
+          "maxModulus": 0.3241816700835194,
+          "fibonacciSimilarity": 0,
+          "isFibonacciLike": false,
+          "halfLife": 0.6153370641238445
+        },
+        {
+          "targetGene": "Tead1",
+          "clockGene": "Clock",
+          "beta1": 0.622555041169076,
+          "beta2": -0.10509375521814089,
+          "eigenperiodHours": 44.38877593719945,
+          "isStable": true,
+          "maxModulus": 0.32418167008352106,
+          "fibonacciSimilarity": 0,
+          "isFibonacciLike": false,
+          "halfLife": 0.6153370641238471
+        },
+        {
+          "targetGene": "Tead1",
+          "clockGene": "Cry1",
+          "beta1": 0.6225550411690806,
+          "beta2": -0.105093755218146,
+          "eigenperiodHours": 44.38877593719029,
+          "isStable": true,
+          "maxModulus": 0.32418167008352894,
+          "fibonacciSimilarity": 0,
+          "isFibonacciLike": false,
+          "halfLife": 0.6153370641238605
+        }
+      ]
+    },
+    {
+      "datasetId": "GSE54650_Brainstem",
+      "study": "GSE54650",
+      "tissue": "Brainstem",
+      "condition": null,
+      "samplingIntervalHours": 2,
+      "pairsAnalyzed": 136,
+      "stablePairs": 136,
+      "unstablePairs": 0,
+      "meanEigenperiod": 8.37825324573963,
+      "medianEigenperiod": 8.928613715013814,
+      "eigenperiodRange": {
+        "min": 5.906267194192252,
+        "max": 10.201108366431273
+      },
+      "meanFibonacciSimilarity": 0.45620462923281874,
+      "fibonacciLikePairs": 16,
+      "eigenperiodDistribution": {
+        "ultradian_lt12h": 72,
+        "circadian_12_36h": 0,
+        "infradian_36_60h": 0,
+        "multiday_gt60h": 0
+      },
+      "topEigenperiodPairs": [
+        {
+          "targetGene": "Myc",
+          "clockGene": "Arntl",
+          "beta1": 0.22659699653290302,
+          "beta2": -0.11612200434611364,
+          "eigenperiodHours": 10.201108366431273,
+          "isStable": true,
+          "maxModulus": 0.3407667887956713,
+          "fibonacciSimilarity": 0.7939870105190521,
+          "isFibonacciLike": false,
+          "halfLife": 0.6438555687418455
+        },
+        {
+          "targetGene": "Myc",
+          "clockGene": "Nr1d1",
+          "beta1": 0.22659699653287657,
+          "beta2": -0.11612200434609848,
+          "eigenperiodHours": 10.201108366431123,
+          "isStable": true,
+          "maxModulus": 0.34076678879564903,
+          "fibonacciSimilarity": 0.7939870105190354,
+          "isFibonacciLike": false,
+          "halfLife": 0.6438555687418064
+        },
+        {
+          "targetGene": "Myc",
+          "clockGene": "Cry1",
+          "beta1": 0.22659699653287918,
+          "beta2": -0.11612200434610943,
+          "eigenperiodHours": 10.201108366431018,
+          "isStable": true,
+          "maxModulus": 0.3407667887956651,
+          "fibonacciSimilarity": 0.7939870105191352,
+          "isFibonacciLike": false,
+          "halfLife": 0.6438555687418346
+        },
+        {
+          "targetGene": "Myc",
+          "clockGene": "Cry2",
+          "beta1": 0.2265969965328862,
+          "beta2": -0.11612200434611776,
+          "eigenperiodHours": 10.201108366431004,
+          "isStable": true,
+          "maxModulus": 0.34076678879567734,
+          "fibonacciSimilarity": 0.7939870105191844,
+          "isFibonacciLike": false,
+          "halfLife": 0.643855568741856
+        },
+        {
+          "targetGene": "Myc",
+          "clockGene": "Per2",
+          "beta1": 0.22659699653292936,
+          "beta2": -0.1161220043461661,
+          "eigenperiodHours": 10.201108366430953,
+          "isStable": true,
+          "maxModulus": 0.34076678879574823,
+          "fibonacciSimilarity": 0.7939870105194566,
+          "isFibonacciLike": false,
+          "halfLife": 0.6438555687419805
+        }
+      ]
+    },
+    {
+      "datasetId": "GSE54650_Brown_Fat",
+      "study": "GSE54650",
+      "tissue": "Brown Fat",
+      "condition": null,
+      "samplingIntervalHours": 2,
+      "pairsAnalyzed": 136,
+      "stablePairs": 136,
+      "unstablePairs": 0,
+      "meanEigenperiod": 12.396173418878744,
+      "medianEigenperiod": 9.236902531732813,
+      "eigenperiodRange": {
+        "min": 7.10610490143978,
+        "max": 24.64895273148807
+      },
+      "meanFibonacciSimilarity": 0.34820449632499234,
+      "fibonacciLikePairs": 0,
+      "eigenperiodDistribution": {
+        "ultradian_lt12h": 64,
+        "circadian_12_36h": 24,
+        "infradian_36_60h": 0,
+        "multiday_gt60h": 0
+      },
+      "topEigenperiodPairs": [
+        {
+          "targetGene": "Tead1",
+          "clockGene": "Nr1d2",
+          "beta1": 0.8282805440040549,
+          "beta2": -0.2251283160183268,
+          "eigenperiodHours": 24.64895273148807,
+          "isStable": true,
+          "maxModulus": 0.47447688670611426,
+          "fibonacciSimilarity": 0,
+          "isFibonacciLike": false,
+          "halfLife": 0.9297220462583531
+        },
+        {
+          "targetGene": "Tead1",
+          "clockGene": "Cry2",
+          "beta1": 0.8282805440040522,
+          "beta2": -0.2251283160183281,
+          "eigenperiodHours": 24.648952731487526,
+          "isStable": true,
+          "maxModulus": 0.47447688670611565,
+          "fibonacciSimilarity": 0,
+          "isFibonacciLike": false,
+          "halfLife": 0.9297220462583567
+        },
+        {
+          "targetGene": "Tead1",
+          "clockGene": "Per1",
+          "beta1": 0.8282805440040528,
+          "beta2": -0.22512831601832892,
+          "eigenperiodHours": 24.64895273148744,
+          "isStable": true,
+          "maxModulus": 0.4744768867061165,
+          "fibonacciSimilarity": 0,
+          "isFibonacciLike": false,
+          "halfLife": 0.929722046258359
+        },
+        {
+          "targetGene": "Tead1",
+          "clockGene": "Per2",
+          "beta1": 0.8282805440040525,
+          "beta2": -0.2251283160183297,
+          "eigenperiodHours": 24.64895273148726,
+          "isStable": true,
+          "maxModulus": 0.4744768867061173,
+          "fibonacciSimilarity": 0,
+          "isFibonacciLike": false,
+          "halfLife": 0.9297220462583611
+        },
+        {
+          "targetGene": "Tead1",
+          "clockGene": "Cry1",
+          "beta1": 0.828280544004049,
+          "beta2": -0.2251283160183294,
+          "eigenperiodHours": 24.64895273148696,
+          "isStable": true,
+          "maxModulus": 0.474476886706117,
+          "fibonacciSimilarity": 0,
+          "isFibonacciLike": false,
+          "halfLife": 0.9297220462583602
+        }
+      ]
+    },
+    {
+      "datasetId": "GSE54650_Cerebellum",
+      "study": "GSE54650",
+      "tissue": "Cerebellum",
+      "condition": null,
+      "samplingIntervalHours": 2,
+      "pairsAnalyzed": 136,
+      "stablePairs": 136,
+      "unstablePairs": 0,
+      "meanEigenperiod": 7.2497324743622,
+      "medianEigenperiod": 7.403469198640556,
+      "eigenperiodRange": {
+        "min": 4.653846670294456,
+        "max": 10.684184331348323
+      },
+      "meanFibonacciSimilarity": 0.32181881275354796,
+      "fibonacciLikePairs": 16,
+      "eigenperiodDistribution": {
+        "ultradian_lt12h": 72,
+        "circadian_12_36h": 0,
+        "infradian_36_60h": 0,
+        "multiday_gt60h": 0
+      },
+      "topEigenperiodPairs": [
+        {
+          "targetGene": "Axin2",
+          "clockGene": "Nr1d2",
+          "beta1": 0.3804192527541718,
+          "beta2": -0.2447632544424727,
+          "eigenperiodHours": 10.684184331348323,
+          "isStable": true,
+          "maxModulus": 0.49473553990235297,
+          "fibonacciSimilarity": 0.960569137358705,
+          "isFibonacciLike": true,
+          "halfLife": 0.984959128447533
+        },
+        {
+          "targetGene": "Axin2",
+          "clockGene": "Cry2",
+          "beta1": 0.380419252754179,
+          "beta2": -0.24476325444249983,
+          "eigenperiodHours": 10.684184331348186,
+          "isStable": true,
+          "maxModulus": 0.49473553990238045,
+          "fibonacciSimilarity": 0.9605691373586166,
+          "isFibonacciLike": true,
+          "halfLife": 0.9849591284476106
+        },
+        {
+          "targetGene": "Axin2",
+          "clockGene": "Cry1",
+          "beta1": 0.3804192527541594,
+          "beta2": -0.24476325444248337,
+          "eigenperiodHours": 10.684184331348117,
+          "isStable": true,
+          "maxModulus": 0.4947355399023638,
+          "fibonacciSimilarity": 0.9605691373586317,
+          "isFibonacciLike": true,
+          "halfLife": 0.9849591284475635
+        },
+        {
+          "targetGene": "Axin2",
+          "clockGene": "Clock",
+          "beta1": 0.3804192527541494,
+          "beta2": -0.24476325444247218,
+          "eigenperiodHours": 10.684184331348105,
+          "isStable": true,
+          "maxModulus": 0.4947355399023524,
+          "fibonacciSimilarity": 0.9605691373586503,
+          "isFibonacciLike": true,
+          "halfLife": 0.9849591284475312
+        },
+        {
+          "targetGene": "Axin2",
+          "clockGene": "Arntl",
+          "beta1": 0.3804192527541557,
+          "beta2": -0.24476325444248145,
+          "eigenperiodHours": 10.684184331348096,
+          "isStable": true,
+          "maxModulus": 0.49473553990236185,
+          "fibonacciSimilarity": 0.96056913735863,
+          "isFibonacciLike": true,
+          "halfLife": 0.984959128447558
+        }
+      ]
+    },
+    {
+      "datasetId": "GSE54650_Heart",
+      "study": "GSE54650",
+      "tissue": "Heart",
+      "condition": null,
+      "samplingIntervalHours": 2,
+      "pairsAnalyzed": 136,
+      "stablePairs": 136,
+      "unstablePairs": 0,
+      "meanEigenperiod": 13.318062577481344,
+      "medianEigenperiod": 8.412158331258706,
+      "eigenperiodRange": {
+        "min": 6.1512859377396465,
+        "max": 32.62545340769105
+      },
+      "meanFibonacciSimilarity": 0.3784787703258101,
+      "fibonacciLikePairs": 0,
+      "eigenperiodDistribution": {
+        "ultradian_lt12h": 56,
+        "circadian_12_36h": 40,
+        "infradian_36_60h": 0,
+        "multiday_gt60h": 0
+      },
+      "topEigenperiodPairs": [
+        {
+          "targetGene": "Myc",
+          "clockGene": "Arntl",
+          "beta1": 0.15349481921038693,
+          "beta2": -0.00685830803635687,
+          "eigenperiodHours": 32.62545340769105,
+          "isStable": true,
+          "maxModulus": 0.08281490226014199,
+          "fibonacciSimilarity": 0,
+          "isFibonacciLike": false,
+          "halfLife": 0.27824416209235986
+        },
+        {
+          "targetGene": "Myc",
+          "clockGene": "Nr1d1",
+          "beta1": 0.1534948192103772,
+          "beta2": -0.006858308036359911,
+          "eigenperiodHours": 32.62545340763147,
+          "isStable": true,
+          "maxModulus": 0.08281490226016035,
+          "fibonacciSimilarity": 0,
+          "isFibonacciLike": false,
+          "halfLife": 0.2782441620923846
+        },
+        {
+          "targetGene": "Myc",
+          "clockGene": "Cry2",
+          "beta1": 0.15349481921037536,
+          "beta2": -0.00685830803636052,
+          "eigenperiodHours": 32.6254534076197,
+          "isStable": true,
+          "maxModulus": 0.08281490226016403,
+          "fibonacciSimilarity": 0,
+          "isFibonacciLike": false,
+          "halfLife": 0.27824416209238956
+        },
+        {
+          "targetGene": "Myc",
+          "clockGene": "Per1",
+          "beta1": 0.15349481921038835,
+          "beta2": -0.0068583080363649445,
+          "eigenperiodHours": 32.625453407569985,
+          "isStable": true,
+          "maxModulus": 0.08281490226019074,
+          "fibonacciSimilarity": 0,
+          "isFibonacciLike": false,
+          "halfLife": 0.27824416209242564
+        },
+        {
+          "targetGene": "Myc",
+          "clockGene": "Cry1",
+          "beta1": 0.15349481921039895,
+          "beta2": -0.006858308036372517,
+          "eigenperiodHours": 32.625453407469095,
+          "isStable": true,
+          "maxModulus": 0.08281490226023645,
+          "fibonacciSimilarity": 0,
+          "isFibonacciLike": false,
+          "halfLife": 0.2782441620924873
+        }
+      ]
+    },
+    {
+      "datasetId": "GSE54650_Hypothalamus",
+      "study": "GSE54650",
+      "tissue": "Hypothalamus",
+      "condition": null,
+      "samplingIntervalHours": 2,
+      "pairsAnalyzed": 136,
+      "stablePairs": 136,
+      "unstablePairs": 0,
+      "meanEigenperiod": 7.574046433749962,
+      "medianEigenperiod": 7.71398507466253,
+      "eigenperiodRange": {
+        "min": 4.827469841733142,
+        "max": 10.317702803928771
+      },
+      "meanFibonacciSimilarity": 0.4530608760849142,
+      "fibonacciLikePairs": 40,
+      "eigenperiodDistribution": {
+        "ultradian_lt12h": 88,
+        "circadian_12_36h": 0,
+        "infradian_36_60h": 0,
+        "multiday_gt60h": 0
+      },
+      "topEigenperiodPairs": [
+        {
+          "targetGene": "Bcl2",
+          "clockGene": "Arntl",
+          "beta1": 0.1701766670771628,
+          "beta2": -0.060624792266729254,
+          "eigenperiodHours": 10.317702803928771,
+          "isStable": true,
+          "maxModulus": 0.24622102320218162,
+          "fibonacciSimilarity": 0.26514928276988736,
+          "isFibonacciLike": false,
+          "halfLife": 0.4945661655554864
+        },
+        {
+          "targetGene": "Bcl2",
+          "clockGene": "Per1",
+          "beta1": 0.1701766670771586,
+          "beta2": -0.0606247922667266,
+          "eigenperiodHours": 10.317702803928762,
+          "isStable": true,
+          "maxModulus": 0.24622102320217623,
+          "fibonacciSimilarity": 0.2651492827698544,
+          "isFibonacciLike": false,
+          "halfLife": 0.49456616555547867
+        },
+        {
+          "targetGene": "Bcl2",
+          "clockGene": "Cry1",
+          "beta1": 0.1701766670771619,
+          "beta2": -0.060624792266736,
+          "eigenperiodHours": 10.317702803928581,
+          "isStable": true,
+          "maxModulus": 0.24622102320219533,
+          "fibonacciSimilarity": 0.26514928277008964,
+          "isFibonacciLike": false,
+          "halfLife": 0.49456616555550603
+        },
+        {
+          "targetGene": "Bcl2",
+          "clockGene": "Cry2",
+          "beta1": 0.1701766670771542,
+          "beta2": -0.06062479226673147,
+          "eigenperiodHours": 10.317702803928556,
+          "isStable": true,
+          "maxModulus": 0.2462210232021861,
+          "fibonacciSimilarity": 0.26514928277003835,
+          "isFibonacciLike": false,
+          "halfLife": 0.4945661655554929
+        },
+        {
+          "targetGene": "Bcl2",
+          "clockGene": "Nr1d2",
+          "beta1": 0.17017666707715956,
+          "beta2": -0.060624792266735415,
+          "eigenperiodHours": 10.317702803928553,
+          "isStable": true,
+          "maxModulus": 0.2462210232021941,
+          "fibonacciSimilarity": 0.26514928277009675,
+          "isFibonacciLike": false,
+          "halfLife": 0.4945661655555043
+        }
+      ]
+    },
+    {
+      "datasetId": "GSE54650_Kidney",
+      "study": "GSE54650",
+      "tissue": "Kidney",
+      "condition": null,
+      "samplingIntervalHours": 2,
+      "pairsAnalyzed": 136,
+      "stablePairs": 136,
+      "unstablePairs": 0,
+      "meanEigenperiod": 12.150319348870637,
+      "medianEigenperiod": 8.358086067341874,
+      "eigenperiodRange": {
+        "min": 6.050303952826377,
+        "max": 23.720503079366704
+      },
+      "meanFibonacciSimilarity": 0.2687286286955737,
+      "fibonacciLikePairs": 0,
+      "eigenperiodDistribution": {
+        "ultradian_lt12h": 48,
+        "circadian_12_36h": 32,
+        "infradian_36_60h": 0,
+        "multiday_gt60h": 0
+      },
+      "topEigenperiodPairs": [
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Per2",
+          "beta1": 1.183915623333877,
+          "beta2": -0.4705830021693506,
+          "eigenperiodHours": 23.720503079366704,
+          "isStable": true,
+          "maxModulus": 0.6859905262970842,
+          "fibonacciSimilarity": 0.44512000718412237,
+          "isFibonacciLike": false,
+          "halfLife": 1.839116168774746
+        },
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Cry1",
+          "beta1": 1.1839156233338701,
+          "beta2": -0.4705830021693461,
+          "eigenperiodHours": 23.720503079366626,
+          "isStable": true,
+          "maxModulus": 0.6859905262970809,
+          "fibonacciSimilarity": 0.4451200071841164,
+          "isFibonacciLike": false,
+          "halfLife": 1.8391161687747224
+        },
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Nr1d1",
+          "beta1": 1.1839156233338735,
+          "beta2": -0.4705830021693488,
+          "eigenperiodHours": 23.72050307936662,
+          "isStable": true,
+          "maxModulus": 0.6859905262970829,
+          "fibonacciSimilarity": 0.44512000718412104,
+          "isFibonacciLike": false,
+          "halfLife": 1.8391161687747364
+        },
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Arntl",
+          "beta1": 1.1839156233338828,
+          "beta2": -0.47058300216935656,
+          "eigenperiodHours": 23.7205030793666,
+          "isStable": true,
+          "maxModulus": 0.6859905262970886,
+          "fibonacciSimilarity": 0.44512000718413414,
+          "isFibonacciLike": false,
+          "halfLife": 1.8391161687747768
+        },
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Cry2",
+          "beta1": 1.1839156233338806,
+          "beta2": -0.47058300216935467,
+          "eigenperiodHours": 23.7205030793666,
+          "isStable": true,
+          "maxModulus": 0.6859905262970872,
+          "fibonacciSimilarity": 0.4451200071841309,
+          "isFibonacciLike": false,
+          "halfLife": 1.8391161687747672
+        }
+      ]
+    },
+    {
+      "datasetId": "GSE54650_Liver",
+      "study": "GSE54650",
+      "tissue": "Liver",
+      "condition": null,
+      "samplingIntervalHours": 2,
+      "pairsAnalyzed": 136,
+      "stablePairs": 136,
+      "unstablePairs": 0,
+      "meanEigenperiod": 10.378734979859539,
+      "medianEigenperiod": 8.136421186183153,
+      "eigenperiodRange": {
+        "min": 5.680032356592152,
+        "max": 22.272743797771675
+      },
+      "meanFibonacciSimilarity": 0.4400521847521557,
+      "fibonacciLikePairs": 16,
+      "eigenperiodDistribution": {
+        "ultradian_lt12h": 40,
+        "circadian_12_36h": 8,
+        "infradian_36_60h": 0,
+        "multiday_gt60h": 0
+      },
+      "topEigenperiodPairs": [
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Cry1",
+          "beta1": 1.1271652709979418,
+          "beta2": -0.44482260307191307,
+          "eigenperiodHours": 22.272743797771675,
+          "isStable": true,
+          "maxModulus": 0.6669502253331301,
+          "fibonacciSimilarity": 0.43392299850690663,
+          "isFibonacciLike": false,
+          "halfLife": 1.7113060913004754
+        },
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Per2",
+          "beta1": 1.127165270997942,
+          "beta2": -0.4448226030719143,
+          "eigenperiodHours": 22.272743797771597,
+          "isStable": true,
+          "maxModulus": 0.666950225333131,
+          "fibonacciSimilarity": 0.4339229985069105,
+          "isFibonacciLike": false,
+          "halfLife": 1.711306091300481
+        },
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Cry2",
+          "beta1": 1.1271652709979392,
+          "beta2": -0.4448226030719125,
+          "eigenperiodHours": 22.27274379777156,
+          "isStable": true,
+          "maxModulus": 0.6669502253331298,
+          "fibonacciSimilarity": 0.4339229985069083,
+          "isFibonacciLike": false,
+          "halfLife": 1.7113060913004732
+        },
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Nr1d2",
+          "beta1": 1.1271652709979443,
+          "beta2": -0.4448226030719166,
+          "eigenperiodHours": 22.272743797771557,
+          "isStable": true,
+          "maxModulus": 0.6669502253331328,
+          "fibonacciSimilarity": 0.43392299850691574,
+          "isFibonacciLike": false,
+          "halfLife": 1.7113060913004923
+        },
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Clock",
+          "beta1": 1.1271652709979438,
+          "beta2": -0.44482260307191634,
+          "eigenperiodHours": 22.27274379777155,
+          "isStable": true,
+          "maxModulus": 0.6669502253331326,
+          "fibonacciSimilarity": 0.4339229985069152,
+          "isFibonacciLike": false,
+          "halfLife": 1.7113060913004916
+        }
+      ]
+    },
+    {
+      "datasetId": "GSE54650_Lung",
+      "study": "GSE54650",
+      "tissue": "Lung",
+      "condition": null,
+      "samplingIntervalHours": 2,
+      "pairsAnalyzed": 136,
+      "stablePairs": 136,
+      "unstablePairs": 0,
+      "meanEigenperiod": 12.08738229581146,
+      "medianEigenperiod": 9.094190770375903,
+      "eigenperiodRange": {
+        "min": 5.626186127279123,
+        "max": 25.456217233399975
+      },
+      "meanFibonacciSimilarity": 0.3209266206290973,
+      "fibonacciLikePairs": 8,
+      "eigenperiodDistribution": {
+        "ultradian_lt12h": 80,
+        "circadian_12_36h": 40,
+        "infradian_36_60h": 0,
+        "multiday_gt60h": 0
+      },
+      "topEigenperiodPairs": [
+        {
+          "targetGene": "Axin2",
+          "clockGene": "Arntl",
+          "beta1": 0.8338168679349148,
+          "beta2": -0.22413684448595336,
+          "eigenperiodHours": 25.456217233399975,
+          "isStable": true,
+          "maxModulus": 0.473430928949465,
+          "fibonacciSimilarity": 0,
+          "isFibonacciLike": false,
+          "halfLife": 0.9269781015506019
+        },
+        {
+          "targetGene": "Axin2",
+          "clockGene": "Cry1",
+          "beta1": 0.8338168679349394,
+          "beta2": -0.22413684448596685,
+          "eigenperiodHours": 25.456217233399915,
+          "isStable": true,
+          "maxModulus": 0.47343092894947925,
+          "fibonacciSimilarity": 0,
+          "isFibonacciLike": false,
+          "halfLife": 0.9269781015506392
+        },
+        {
+          "targetGene": "Axin2",
+          "clockGene": "Per2",
+          "beta1": 0.8338168679349246,
+          "beta2": -0.22413684448596366,
+          "eigenperiodHours": 25.456217233398895,
+          "isStable": true,
+          "maxModulus": 0.47343092894947586,
+          "fibonacciSimilarity": 0,
+          "isFibonacciLike": false,
+          "halfLife": 0.9269781015506304
+        },
+        {
+          "targetGene": "Axin2",
+          "clockGene": "Cry2",
+          "beta1": 0.8338168679349148,
+          "beta2": -0.2241368444859593,
+          "eigenperiodHours": 25.456217233398707,
+          "isStable": true,
+          "maxModulus": 0.47343092894947125,
+          "fibonacciSimilarity": 0,
+          "isFibonacciLike": false,
+          "halfLife": 0.9269781015506183
+        },
+        {
+          "targetGene": "Axin2",
+          "clockGene": "Per1",
+          "beta1": 0.8338168679349033,
+          "beta2": -0.22413684448595347,
+          "eigenperiodHours": 25.456217233398625,
+          "isStable": true,
+          "maxModulus": 0.4734309289494651,
+          "fibonacciSimilarity": 0,
+          "isFibonacciLike": false,
+          "halfLife": 0.9269781015506022
+        }
+      ]
+    },
+    {
+      "datasetId": "GSE54650_Muscle",
+      "study": "GSE54650",
+      "tissue": "Muscle",
+      "condition": null,
+      "samplingIntervalHours": 2,
+      "pairsAnalyzed": 136,
+      "stablePairs": 136,
+      "unstablePairs": 0,
+      "meanEigenperiod": 11.062838141738052,
+      "medianEigenperiod": 10.285570409032424,
+      "eigenperiodRange": {
+        "min": 6.258797331542481,
+        "max": 18.397366522691513
+      },
+      "meanFibonacciSimilarity": 0.524266153124178,
+      "fibonacciLikePairs": 8,
+      "eigenperiodDistribution": {
+        "ultradian_lt12h": 80,
+        "circadian_12_36h": 40,
+        "infradian_36_60h": 0,
+        "multiday_gt60h": 0
+      },
+      "topEigenperiodPairs": [
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Arntl",
+          "beta1": 0.8358969619122614,
+          "beta2": -0.2903450099652813,
+          "eigenperiodHours": 18.397366522691513,
+          "isStable": true,
+          "maxModulus": 0.5388367192065526,
+          "fibonacciSimilarity": 0.2206936030471851,
+          "isFibonacciLike": false,
+          "halfLife": 1.1209757879646407
+        },
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Per1",
+          "beta1": 0.8358969619122595,
+          "beta2": -0.2903450099652802,
+          "eigenperiodHours": 18.397366522691502,
+          "isStable": true,
+          "maxModulus": 0.5388367192065516,
+          "fibonacciSimilarity": 0.22069360304718233,
+          "isFibonacciLike": false,
+          "halfLife": 1.1209757879646376
+        },
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Nr1d1",
+          "beta1": 0.8358969619122627,
+          "beta2": -0.2903450099652824,
+          "eigenperiodHours": 18.3973665226915,
+          "isStable": true,
+          "maxModulus": 0.5388367192065537,
+          "fibonacciSimilarity": 0.22069360304718888,
+          "isFibonacciLike": false,
+          "halfLife": 1.1209757879646447
+        },
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Cry1",
+          "beta1": 0.8358969619122619,
+          "beta2": -0.29034500996528195,
+          "eigenperiodHours": 18.397366522691495,
+          "isStable": true,
+          "maxModulus": 0.5388367192065533,
+          "fibonacciSimilarity": 0.22069360304718777,
+          "isFibonacciLike": false,
+          "halfLife": 1.120975787964643
+        },
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Cry2",
+          "beta1": 0.8358969619122614,
+          "beta2": -0.2903450099652818,
+          "eigenperiodHours": 18.397366522691485,
+          "isStable": true,
+          "maxModulus": 0.5388367192065532,
+          "fibonacciSimilarity": 0.2206936030471881,
+          "isFibonacciLike": false,
+          "halfLife": 1.120975787964643
+        }
+      ]
+    },
+    {
+      "datasetId": "GSE54650_White_Fat",
+      "study": "GSE54650",
+      "tissue": "White Fat",
+      "condition": null,
+      "samplingIntervalHours": 2,
+      "pairsAnalyzed": 136,
+      "stablePairs": 136,
+      "unstablePairs": 0,
+      "meanEigenperiod": 9.782634708070386,
+      "medianEigenperiod": 7.695031044811255,
+      "eigenperiodRange": {
+        "min": 6.368363863999319,
+        "max": 22.3199263193944
+      },
+      "meanFibonacciSimilarity": 0.3708358473821723,
+      "fibonacciLikePairs": 8,
+      "eigenperiodDistribution": {
+        "ultradian_lt12h": 88,
+        "circadian_12_36h": 32,
+        "infradian_36_60h": 0,
+        "multiday_gt60h": 0
+      },
+      "topEigenperiodPairs": [
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Per1",
+          "beta1": 1.286255922480391,
+          "beta2": -0.578377935640022,
+          "eigenperiodHours": 22.3199263193944,
+          "isStable": true,
+          "maxModulus": 0.7605116275508363,
+          "fibonacciSimilarity": 0.6255528965778144,
+          "isFibonacciLike": false,
+          "halfLife": 2.531916136995696
+        },
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Cry1",
+          "beta1": 1.2862559224803916,
+          "beta2": -0.5783779356400229,
+          "eigenperiodHours": 22.319926319394384,
+          "isStable": true,
+          "maxModulus": 0.7605116275508369,
+          "fibonacciSimilarity": 0.6255528965778159,
+          "isFibonacciLike": false,
+          "halfLife": 2.531916136995703
+        },
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Arntl",
+          "beta1": 1.286255922480397,
+          "beta2": -0.5783779356400285,
+          "eigenperiodHours": 22.319926319394355,
+          "isStable": true,
+          "maxModulus": 0.7605116275508406,
+          "fibonacciSimilarity": 0.6255528965778232,
+          "isFibonacciLike": false,
+          "halfLife": 2.5319161369957475
+        },
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Clock",
+          "beta1": 1.2862559224803953,
+          "beta2": -0.5783779356400269,
+          "eigenperiodHours": 22.31992631939435,
+          "isStable": true,
+          "maxModulus": 0.7605116275508396,
+          "fibonacciSimilarity": 0.6255528965778213,
+          "isFibonacciLike": false,
+          "halfLife": 2.531916136995735
+        },
+        {
+          "targetGene": "Wee1",
+          "clockGene": "Cry2",
+          "beta1": 1.2862559224803924,
+          "beta2": -0.5783779356400246,
+          "eigenperiodHours": 22.319926319394337,
+          "isStable": true,
+          "maxModulus": 0.760511627550838,
+          "fibonacciSimilarity": 0.6255528965778188,
+          "isFibonacciLike": false,
+          "halfLife": 2.531916136995717
+        }
+      ]
+    },
+    {
+      "datasetId": "GSE221103_MYC_ON",
+      "study": "GSE221103",
+      "tissue": "Neuroblastoma",
+      "condition": "MYC_ON",
+      "samplingIntervalHours": 4,
+      "pairsAnalyzed": 152,
+      "stablePairs": 64,
+      "unstablePairs": 88,
+      "meanEigenperiod": 22.702621628563048,
+      "medianEigenperiod": 20.836856855100166,
+      "eigenperiodRange": {
+        "min": 12.173345921811825,
+        "max": 34.802124880288524
+      },
+      "meanFibonacciSimilarity": 0.497312422321099,
+      "fibonacciLikePairs": 16,
+      "eigenperiodDistribution": {
+        "ultradian_lt12h": 0,
+        "circadian_12_36h": 96,
+        "infradian_36_60h": 0,
+        "multiday_gt60h": 0
+      },
+      "topEigenperiodPairs": [
+        {
+          "targetGene": "Sirt1",
+          "clockGene": "Cry1",
+          "beta1": 1.383771498726726,
+          "beta2": -0.8501733027084156,
+          "eigenperiodHours": 34.802124880288524,
+          "isStable": true,
+          "maxModulus": 0.9220484275288449,
+          "fibonacciSimilarity": 0.9940664848543086,
+          "isFibonacciLike": true,
+          "halfLife": 8.54076214883673
+        },
+        {
+          "targetGene": "Sirt1",
+          "clockGene": "Nr1d1",
+          "beta1": 1.3837714987265757,
+          "beta2": -0.8501733027083671,
+          "eigenperiodHours": 34.80212488028415,
+          "isStable": true,
+          "maxModulus": 0.9220484275288187,
+          "fibonacciSimilarity": 0.9940664848543606,
+          "isFibonacciLike": true,
+          "halfLife": 8.54076214883374
+        },
+        {
+          "targetGene": "Sirt1",
+          "clockGene": "Per2",
+          "beta1": 1.383771498725532,
+          "beta2": -0.8501733027075865,
+          "eigenperiodHours": 34.802124880268,
+          "isStable": true,
+          "maxModulus": 0.9220484275283954,
+          "fibonacciSimilarity": 0.9940664848541956,
+          "isFibonacciLike": true,
+          "halfLife": 8.540762148785436
+        },
+        {
+          "targetGene": "Sirt1",
+          "clockGene": "Cry2",
+          "beta1": 1.383771498724326,
+          "beta2": -0.8501733027062484,
+          "eigenperiodHours": 34.80212488026338,
+          "isStable": true,
+          "maxModulus": 0.9220484275276697,
+          "fibonacciSimilarity": 0.9940664848534889,
+          "isFibonacciLike": true,
+          "halfLife": 8.540762148702605
+        },
+        {
+          "targetGene": "Sirt1",
+          "clockGene": "Per1",
+          "beta1": 1.3837714987247327,
+          "beta2": -0.8501733027068165,
+          "eigenperiodHours": 34.802124880261175,
+          "isStable": true,
+          "maxModulus": 0.9220484275279777,
+          "fibonacciSimilarity": 0.9940664848538655,
+          "isFibonacciLike": true,
+          "halfLife": 8.540762148737755
+        }
+      ]
+    },
+    {
+      "datasetId": "GSE221103_MYC_OFF",
+      "study": "GSE221103",
+      "tissue": "Neuroblastoma",
+      "condition": "MYC_OFF",
+      "samplingIntervalHours": 4,
+      "pairsAnalyzed": 152,
+      "stablePairs": 88,
+      "unstablePairs": 64,
+      "meanEigenperiod": 23.398138685565627,
+      "medianEigenperiod": 21.078626831315212,
+      "eigenperiodRange": {
+        "min": 13.462579415338018,
+        "max": 44.07075789534947
+      },
+      "meanFibonacciSimilarity": 0.4049726156958482,
+      "fibonacciLikePairs": 0,
+      "eigenperiodDistribution": {
+        "ultradian_lt12h": 0,
+        "circadian_12_36h": 56,
+        "infradian_36_60h": 8,
+        "multiday_gt60h": 0
+      },
+      "topEigenperiodPairs": [
+        {
+          "targetGene": "Pparg",
+          "clockGene": "Nr1d1",
+          "beta1": 2.311172393217043,
+          "beta2": -1.8846880559815755,
+          "eigenperiodHours": 44.07075789534947,
+          "isStable": false,
+          "maxModulus": 1.3728394137631594,
+          "fibonacciSimilarity": 0.757888335067017,
+          "isFibonacciLike": false,
+          "halfLife": null
+        },
+        {
+          "targetGene": "Pparg",
+          "clockGene": "Per1",
+          "beta1": 2.3111723932169976,
+          "beta2": -1.884688055981545,
+          "eigenperiodHours": 44.07075789534809,
+          "isStable": false,
+          "maxModulus": 1.3728394137631486,
+          "fibonacciSimilarity": 0.7578883350670145,
+          "isFibonacciLike": false,
+          "halfLife": null
+        },
+        {
+          "targetGene": "Pparg",
+          "clockGene": "Per2",
+          "beta1": 2.3111723932169035,
+          "beta2": -1.8846880559814658,
+          "eigenperiodHours": 44.07075789534571,
+          "isStable": false,
+          "maxModulus": 1.3728394137631195,
+          "fibonacciSimilarity": 0.7578883350670156,
+          "isFibonacciLike": false,
+          "halfLife": null
+        },
+        {
+          "targetGene": "Pparg",
+          "clockGene": "Arntl",
+          "beta1": 2.3111723932168893,
+          "beta2": -1.8846880559814563,
+          "eigenperiodHours": 44.07075789534528,
+          "isStable": false,
+          "maxModulus": 1.372839413763116,
+          "fibonacciSimilarity": 0.7578883350670147,
+          "isFibonacciLike": false,
+          "halfLife": null
+        },
+        {
+          "targetGene": "Pparg",
+          "clockGene": "Cry1",
+          "beta1": 2.311172393216874,
+          "beta2": -1.88468805598144,
+          "eigenperiodHours": 44.070757895345004,
+          "isStable": false,
+          "maxModulus": 1.3728394137631101,
+          "fibonacciSimilarity": 0.7578883350670162,
+          "isFibonacciLike": false,
+          "halfLife": null
+        }
+      ]
+    },
+    {
+      "datasetId": "GSE59396_Lung_Basal",
+      "study": "GSE59396",
+      "tissue": "Lung",
+      "condition": "Basal",
+      "samplingIntervalHours": 4,
+      "pairsAnalyzed": 144,
+      "stablePairs": 64,
+      "unstablePairs": 80,
+      "meanEigenperiod": 25.70584052886415,
+      "medianEigenperiod": 21.286329113797883,
+      "eigenperiodRange": {
+        "min": 10.161530688381278,
+        "max": 59.78862371815721
+      },
+      "meanFibonacciSimilarity": 0.5059590590115031,
+      "fibonacciLikePairs": 16,
+      "eigenperiodDistribution": {
+        "ultradian_lt12h": 16,
+        "circadian_12_36h": 72,
+        "infradian_36_60h": 24,
+        "multiday_gt60h": 0
+      },
+      "topEigenperiodPairs": [
+        {
+          "targetGene": "Yap1",
+          "clockGene": "Nr1d2",
+          "beta1": 2.4833365177430125,
+          "beta2": -2.0629012622550817,
+          "eigenperiodHours": 47.723157222514565,
+          "isStable": false,
+          "maxModulus": 1.4362803564259596,
+          "fibonacciSimilarity": 0.7439941026509531,
+          "isFibonacciLike": false,
+          "halfLife": null
+        },
+        {
+          "targetGene": "Yap1",
+          "clockGene": "Cry1",
+          "beta1": 2.4833365176930142,
+          "beta2": -2.0629012622120917,
+          "eigenperiodHours": 47.72315722100058,
+          "isStable": false,
+          "maxModulus": 1.4362803564109938,
+          "fibonacciSimilarity": 0.7439941026514785,
+          "isFibonacciLike": false,
+          "halfLife": null
+        },
+        {
+          "targetGene": "Yap1",
+          "clockGene": "Per1",
+          "beta1": 2.483336517672119,
+          "beta2": -2.062901262194168,
+          "eigenperiodHours": 47.723157220366254,
+          "isStable": false,
+          "maxModulus": 1.4362803564047542,
+          "fibonacciSimilarity": 0.7439941026516825,
+          "isFibonacciLike": false,
+          "halfLife": null
+        },
+        {
+          "targetGene": "Yap1",
+          "clockGene": "Nr1d1",
+          "beta1": 2.483336517643815,
+          "beta2": -2.062901262169558,
+          "eigenperiodHours": 47.72315721951949,
+          "isStable": false,
+          "maxModulus": 1.436280356396187,
+          "fibonacciSimilarity": 0.7439941026520785,
+          "isFibonacciLike": false,
+          "halfLife": null
+        },
+        {
+          "targetGene": "Yap1",
+          "clockGene": "Arntl",
+          "beta1": 2.4833365176276216,
+          "beta2": -2.062901262155301,
+          "eigenperiodHours": 47.723157219041745,
+          "isStable": false,
+          "maxModulus": 1.4362803563912239,
+          "fibonacciSimilarity": 0.7439941026523689,
+          "isFibonacciLike": false,
+          "halfLife": null
+        }
+      ]
+    }
+  ],
+  "globalSummary": {
+    "totalPairsAnalyzed": 2080,
+    "overallMeanEigenperiod": 13.145143932602577,
+    "overallMedianEigenperiod": 11.409788393093033,
+    "stableSystemsPercent": 88.84615384615384,
+    "fibonacciLikePercent": 7.307692307692308,
+    "tissueComparison": [
+      {
+        "tissue": "Adrenal",
+        "condition": null,
+        "meanEigenperiod": 9.582592128390864,
+        "fibonacciSimilarity": 0.32474880802932854
+      },
+      {
+        "tissue": "Aorta",
+        "condition": null,
+        "meanEigenperiod": 11.409788393093033,
+        "fibonacciSimilarity": 0.33401901131200556
+      },
+      {
+        "tissue": "Brainstem",
+        "condition": null,
+        "meanEigenperiod": 8.37825324573963,
+        "fibonacciSimilarity": 0.45620462923281874
+      },
+      {
+        "tissue": "Brown Fat",
+        "condition": null,
+        "meanEigenperiod": 12.396173418878744,
+        "fibonacciSimilarity": 0.34820449632499234
+      },
+      {
+        "tissue": "Cerebellum",
+        "condition": null,
+        "meanEigenperiod": 7.2497324743622,
+        "fibonacciSimilarity": 0.32181881275354796
+      },
+      {
+        "tissue": "Heart",
+        "condition": null,
+        "meanEigenperiod": 13.318062577481344,
+        "fibonacciSimilarity": 0.3784787703258101
+      },
+      {
+        "tissue": "Hypothalamus",
+        "condition": null,
+        "meanEigenperiod": 7.574046433749962,
+        "fibonacciSimilarity": 0.4530608760849142
+      },
+      {
+        "tissue": "Kidney",
+        "condition": null,
+        "meanEigenperiod": 12.150319348870637,
+        "fibonacciSimilarity": 0.2687286286955737
+      },
+      {
+        "tissue": "Liver",
+        "condition": null,
+        "meanEigenperiod": 10.378734979859539,
+        "fibonacciSimilarity": 0.4400521847521557
+      },
+      {
+        "tissue": "Lung",
+        "condition": null,
+        "meanEigenperiod": 12.08738229581146,
+        "fibonacciSimilarity": 0.3209266206290973
+      },
+      {
+        "tissue": "Muscle",
+        "condition": null,
+        "meanEigenperiod": 11.062838141738052,
+        "fibonacciSimilarity": 0.524266153124178
+      },
+      {
+        "tissue": "White Fat",
+        "condition": null,
+        "meanEigenperiod": 9.782634708070386,
+        "fibonacciSimilarity": 0.3708358473821723
+      },
+      {
+        "tissue": "Neuroblastoma",
+        "condition": "MYC_ON",
+        "meanEigenperiod": 22.702621628563048,
+        "fibonacciSimilarity": 0.497312422321099
+      },
+      {
+        "tissue": "Neuroblastoma",
+        "condition": "MYC_OFF",
+        "meanEigenperiod": 23.398138685565627,
+        "fibonacciSimilarity": 0.4049726156958482
+      },
+      {
+        "tissue": "Lung",
+        "condition": "Basal",
+        "meanEigenperiod": 25.70584052886415,
+        "fibonacciSimilarity": 0.5059590590115031
+      }
+    ],
+    "eigenperiodClusters": {
+      "around24h": [
+        "Neuroblastoma (MYC_ON)",
+        "Neuroblastoma (MYC_OFF)",
+        "Lung (Basal)"
+      ],
+      "around48h": [],
+      "other": [
+        "Adrenal: 9.6h",
+        "Aorta: 11.4h",
+        "Brainstem: 8.4h",
+        "Brown Fat: 12.4h",
+        "Cerebellum: 7.2h",
+        "Heart: 13.3h",
+        "Hypothalamus: 7.6h",
+        "Kidney: 12.2h",
+        "Liver: 10.4h",
+        "Lung: 12.1h",
+        "Muscle: 11.1h",
+        "White Fat: 9.8h"
+      ]
+    }
+  },
+  "conclusions": [
+    "~24h eigenperiods in 3 tissue(s) show circadian rhythm alignment with AR(2) dynamics.",
+    "High stability (88.8%) indicates robust temporal memory in gene expression.",
+    "Limited Fibonacci-like dynamics (7.3%) - golden ratio connection is weak in these tissues."
+  ]
+}

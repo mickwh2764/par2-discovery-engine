@@ -93,6 +93,12 @@ const WearableAnalysis = lazy(() => import("@/pages/wearable-analysis"));
 const LightEntrainment = lazy(() => import("@/pages/light-entrainment"));
 const RetinalAnalysis = lazy(() => import("@/pages/retinal-analysis"));
 const MixtureSimulation = lazy(() => import("@/pages/mixture-simulation"));
+const EvolutionaryGeneAge = lazy(() => import("@/pages/evolutionary-gene-age"));
+const DiseasePhaseDiagram = lazy(() => import("@/pages/disease-phase-diagram"));
+const FiguresGallery = lazy(() => import("@/pages/figures-gallery"));
+const MNDALSAnalysis = lazy(() => import("@/pages/mnd-als-analysis"));
+const PaperGOriginal = lazy(() => import("@/pages/paper-g-original"));
+const PaperGRevision = lazy(() => import("@/pages/paper-g-revision"));
 
 const NotFound = lazy(() => import("@/pages/not-found"));
 
@@ -201,6 +207,12 @@ function Router() {
         <Route path="/light-entrainment" component={LightEntrainment} />
         <Route path="/retinal-analysis" component={RetinalAnalysis} />
         <Route path="/mixture-simulation" component={MixtureSimulation} />
+        <Route path="/evolutionary-gene-age" component={EvolutionaryGeneAge} />
+        <Route path="/disease-phase-diagram" component={DiseasePhaseDiagram} />
+        <Route path="/figure-gallery" component={FiguresGallery} />
+        <Route path="/mnd-als" component={MNDALSAnalysis} />
+        <Route path="/paper-g-original" component={PaperGOriginal} />
+        <Route path="/paper-g-revision" component={PaperGRevision} />
 
         <Route path="/shared/:id" component={SharedAnalysis} />
 
@@ -222,8 +234,8 @@ function Router() {
   );
 }
 
-const SUBMISSION_TIMESTAMP = "April 2026";
-const VERSION = "2.5.0";
+const SUBMISSION_TIMESTAMP = "May 2026";
+const VERSION = "2.6.0";
 
 
 function SubmissionFooter() {
@@ -240,7 +252,7 @@ function SubmissionFooter() {
               Michael Whiteside · <a href="https://orcid.org/0009-0000-0643-5791" target="_blank" rel="noopener noreferrer" className="underline text-foreground/70 hover:text-foreground font-mono">ORCID</a>
             </span>
             <span className="text-[11px] text-muted-foreground">·</span>
-            <a href="https://x.com/Michael94211007" target="_blank" rel="noopener noreferrer" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors" aria-label="X (Twitter)">
+            <a href="https://x.com/Michael_PAR2" target="_blank" rel="noopener noreferrer" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors" aria-label="X (Twitter)">
               <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current inline-block" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             </a>
             <span className="text-[11px] text-muted-foreground">·</span>

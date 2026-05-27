@@ -1,0 +1,55 @@
+Paper N — Supplementary Table S-NB
+Clock-target hierarchy in GSE221103 (Altman/Dang 2023 PubMed 37639465) — per-condition, per-cell-line
+Source: Circadian time-series RNA-seq of inducible N-MYC-ER human neuroblastoma cells
+Protocol: RNA collected every 4h for 52h after dexamethasone entrainment. MYC-ON = 4-OHT treatment 24h prior; MYC-OFF = vehicle
+N=14 time points per condition. AR(2) eigenvalue modulus (|λ|) on log2-normalised mean-centred expression data
+
+Section A — Group-level summary (clock mean vs target mean)
+
+Condition,CellLine,MYCN_Status,MYC_State,Total_Genes,Clock_Genes,Clock_Mean_Lambda,Target_Mean_Lambda,Clock_Target_Gap,Hierarchy_Present
+SHEP_MYC-OFF,SHEP,Non-amplified,MYC-OFF,33559,23,0.9166,0.7254,0.1911,TRUE
+SHEP_MYC-ON,SHEP,Non-amplified,MYC-ON,33559,23,0.9595,0.7404,0.2192,TRUE
+SKNAS_MYC-OFF,SKNAS,MYCN-amplified,MYC-OFF,33559,23,0.8809,0.7003,0.1806,TRUE
+SKNAS_MYC-ON,SKNAS,MYCN-amplified,MYC-ON,33559,23,0.9288,0.6902,0.2386,TRUE
+
+Section B — Per-gene clock |λ| for all four conditions
+
+Gene,SHEP_MYC-OFF,SHEP_MYC-ON,Delta_SHEP,SKNAS_MYC-OFF,SKNAS_MYC-ON,Delta_SKNAS
+TIMELESS,1.0170,0.9414,-0.076,0.9381,0.9349,-0.003
+FBXL3,1.0021,0.9721,-0.030,0.9686,0.9564,-0.012
+CSNK1E,0.9975,1.0554,+0.058,0.9326,0.9326,0.000
+ARNTL,0.9969,1.0244,+0.028,0.9198,0.9044,-0.015
+CLOCK,0.9965,0.9810,-0.016,0.8808,—,—
+TIPIN,0.9905,0.9852,-0.005,0.9836,0.9688,-0.015
+NPAS2,0.9891,—,—,0.9060,0.9415,+0.036
+CSNK1D,0.9889,0.9908,+0.002,0.9336,0.9458,+0.012
+ARNTL2,0.9875,1.0059,+0.018,0.9565,—,—
+NFIL3,0.9873,1.0216,+0.034,0.9552,0.9426,-0.013
+RORA,0.9739,1.0661,+0.092,0.9381,0.9642,+0.026
+DBP,0.9729,1.0038,+0.031,0.9935,1.0586,+0.065
+NR1D2,0.9691,0.9836,+0.015,0.9208,0.9261,+0.005
+NR1D1,0.9650,1.0184,+0.053,0.9022,0.9392,+0.037
+PER1,0.9501,0.9830,+0.033,0.8056,0.8856,+0.080
+CRY1,0.9228,1.0214,+0.099,0.9195,0.9688,+0.049
+RORB,0.9169,1.0877,+0.171,0.9178,—,—
+CRY2,0.8947,0.9596,+0.065,0.8448,0.8847,+0.040
+PER3,0.8840,0.9845,+0.105,0.8374,0.9108,+0.073
+PER2,0.8485,0.9043,+0.056,—,0.8841,—
+HLF,—,1.0150,—,—,0.9309,—
+TEF,—,—,—,—,0.9803,—
+RORC,—,—,—,0.7966,0.9757,+0.118
+GROUP_MEAN,0.9166,0.9595,+0.043,0.8809,0.9288,+0.048
+
+Section C — MYC-ON effect summary
+
+Cell_Line,Clock_MYC-OFF,Clock_MYC-ON,Clock_Delta,Target_MYC-OFF,Target_MYC-ON,Target_Delta,Gap_MYC-OFF,Gap_MYC-ON,Gap_Delta
+SHEP,0.9166,0.9595,+0.043,0.7254,0.7404,+0.015,0.191,0.219,+0.028
+SKNAS,0.8809,0.9288,+0.048,0.7003,0.6902,-0.010,0.181,0.239,+0.058
+
+Notes:
+- MYC-ON increases clock |λ| in both cell lines; effect is larger in SKNAS (MYCN-amplified)
+- MYC-ON leaves target |λ| approximately unchanged (SHEP +0.015; SKNAS -0.010)
+- Clock-target gap widens under MYC-ON in both cell lines; clocks are NOT suppressed but locked high
+- This is inconsistent with simple BMAL1 suppression; instead consistent with constitutive non-oscillatory clock gene expression
+- Per-gene data: — indicates gene absent or below quality threshold in that condition
+- N=14 time points; predicted individual-gene AR(2) bias ±0.08 at this resolution

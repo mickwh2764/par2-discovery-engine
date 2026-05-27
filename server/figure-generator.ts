@@ -9,10 +9,10 @@ const MANUSCRIPT_DATA = {
     { condition: "MYC-OFF\n(Normal)", clock: 0.614, target: 0.488, gap: 0.127 },
   ],
   organoids: [
-    { condition: "WT-WT\n(Healthy)", clock: 0.723, target: 0.331, gap: 0.392 },
-    { condition: "ApcKO-WT\n(Cancer)", clock: 0.530, target: 0.652, gap: -0.122 },
-    { condition: "WT-BmalKO", clock: 0.459, target: 0.540, gap: -0.082 },
-    { condition: "ApcKO-BmalKO", clock: 0.511, target: 0.465, gap: 0.046 },
+    { condition: "WT-WT\n(Healthy)", clock: 0.588, target: 0.556, gap: 0.033 },
+    { condition: "ApcKO-WT\n(Cancer)", clock: 0.663, target: 0.790, gap: -0.127 },
+    { condition: "WT-BmalKO", clock: 0.499, target: 0.594, gap: -0.095 },
+    { condition: "ApcKO-BmalKO", clock: 0.583, target: 0.572, gap: 0.011 },
   ],
   baboon: [
     { tissue: "Lung", clock: 0.675, target: 0.525, gap: 0.150, preserved: true },

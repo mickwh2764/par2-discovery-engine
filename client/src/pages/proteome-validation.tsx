@@ -9,7 +9,7 @@ import {
 } from "recharts";
 import {
   ArrowLeft, Loader2, CheckCircle2, XCircle, AlertTriangle, Beaker, Activity,
-  Download, ShieldCheck, FlaskConical, Dna, TrendingUp
+  Download, ShieldCheck, FlaskConical, Dna, TrendingUp, ExternalLink
 } from "lucide-react";
 import { downloadAsCSV } from "@/components/DownloadResultsButton";
 import PaperCrossLinks from "@/components/PaperCrossLinks";
@@ -90,10 +90,10 @@ interface ProteomeData {
 
 function StatBox({ label, value, sub, color }: { label: string; value: string; sub?: string; color?: string }) {
   return (
-    <div className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-3 text-center">
-      <div className="text-xs text-slate-400">{label}</div>
-      <div className={`text-lg font-bold font-mono ${color || "text-white"}`}>{value}</div>
-      {sub && <div className="text-[10px] text-slate-400 mt-0.5">{sub}</div>}
+    <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
+      <div className="text-xs text-slate-500">{label}</div>
+      <div className={`text-lg font-bold font-mono ${color || "text-slate-900"}`}>{value}</div>
+      {sub && <div className="text-[10px] text-slate-500 mt-0.5">{sub}</div>}
     </div>
   );
 }
@@ -138,10 +138,10 @@ export default function ProteomeValidation() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 flex items-center justify-center">
         <div className="text-center space-y-4">
           <Loader2 className="h-8 w-8 animate-spin text-teal-400 mx-auto" />
-          <p className="text-slate-400">Running AR(2) on proteome data...</p>
+          <p className="text-slate-500">Running AR(2) on proteome data...</p>
         </div>
       </div>
     );
@@ -149,7 +149,7 @@ export default function ProteomeValidation() {
 
   if (error || !data) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 p-6">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 p-6">
         <div className="max-w-2xl mx-auto mt-20">
           <Card className="bg-red-900/20 border-red-500/30">
             <CardContent className="p-6 text-center">
@@ -180,11 +180,11 @@ export default function ProteomeValidation() {
   })) || [];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 text-slate-900">
       <div className="max-w-6xl mx-auto px-4 py-6">
         <div className="flex items-center justify-between mb-4">
           <Link href="/">
-            <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white" data-testid="link-back-home">
+            <Button variant="ghost" size="sm" className="text-slate-500 hover:text-slate-700" data-testid="link-back-home">
               <ArrowLeft size={16} className="mr-1" />
               Home
             </Button>
@@ -192,7 +192,7 @@ export default function ProteomeValidation() {
           <Button
             variant="outline"
             size="sm"
-            className="text-slate-300 border-slate-600"
+            className="text-slate-600 border-slate-300"
             onClick={() => {
               const rows = [
                 ...data.perGene.clock.map(g => ({ ...g, category: 'clock' })),
@@ -221,7 +221,7 @@ export default function ProteomeValidation() {
               <p className="text-sm text-teal-400 font-medium">{data.source}</p>
             </div>
           </div>
-          <p className="text-slate-400 max-w-3xl mt-2">
+          <p className="text-slate-500 max-w-3xl mt-2">
             Tests whether the AR(2) eigenvalue hierarchy (clock &gt; target &gt; background) holds at the
             protein abundance level using whole-cell liver proteome data from the Mouse Circadian Proteome Atlas
             (32 tissues, ~19,000 proteins, Orbitrap Astral mass spectrometry). This is a fundamentally different
@@ -230,9 +230,9 @@ export default function ProteomeValidation() {
           </p>
           <div className="flex gap-2 mt-2">
             <Badge variant="outline" className="border-teal-500/50 text-teal-400">Protein Level</Badge>
-            <Badge variant="outline" className="border-slate-500/50 text-slate-400">{data.tissue}</Badge>
-            <Badge variant="outline" className="border-slate-500/50 text-slate-400">{data.timepoints.length} time points</Badge>
-            <Badge variant="outline" className="border-slate-500/50 text-slate-400">{data.totalProteins} proteins</Badge>
+            <Badge variant="outline" className="border-slate-300/50 text-slate-500">{data.tissue}</Badge>
+            <Badge variant="outline" className="border-slate-300/50 text-slate-500">{data.timepoints.length} time points</Badge>
+            <Badge variant="outline" className="border-slate-300/50 text-slate-500">{data.totalProteins} proteins</Badge>
           </div>
         </div>
 
@@ -241,7 +241,7 @@ export default function ProteomeValidation() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
           <StatBox label="Clock Mean |λ|" value={data.hierarchy.clockMean.toFixed(3)} sub={`n=${data.hierarchy.clockN}`} color="text-cyan-400" />
           <StatBox label="Target Mean |λ|" value={data.hierarchy.targetMean.toFixed(3)} sub={`n=${data.hierarchy.targetN}`} color="text-amber-400" />
-          <StatBox label="Background Mean |λ|" value={data.hierarchy.backgroundMean.toFixed(3)} sub={`n=${data.hierarchy.backgroundN}`} color="text-slate-400" />
+          <StatBox label="Background Mean |λ|" value={data.hierarchy.backgroundMean.toFixed(3)} sub={`n=${data.hierarchy.backgroundN}`} color="text-slate-500" />
           <StatBox
             label="Hierarchy"
             value={data.hierarchy.hierarchyPreserved ? "PRESERVED" : "DISRUPTED"}
@@ -251,13 +251,13 @@ export default function ProteomeValidation() {
         </div>
 
         <div className="space-y-6">
-          <Card className="bg-slate-800/50 border-slate-700/50">
+          <Card className="bg-slate-50 border-slate-200">
             <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
+              <CardTitle className="text-slate-900 flex items-center gap-2">
                 <Activity className="h-5 w-5 text-teal-400" />
                 Category Eigenvalue Comparison (Protein Level)
               </CardTitle>
-              <CardDescription className="text-slate-400">
+              <CardDescription className="text-slate-500">
                 Mean AR(2) eigenvalue |λ| by gene category — clock genes should show highest persistence
               </CardDescription>
             </CardHeader>
@@ -283,7 +283,7 @@ export default function ProteomeValidation() {
                 {hierarchyBarData.map(cat => (
                   <div key={cat.category} className="text-center">
                     <div className="text-sm font-semibold" style={{ color: cat.fill }}>{cat.category}</div>
-                    <div className="text-xs text-slate-400">
+                    <div className="text-xs text-slate-500">
                       {cat.mean.toFixed(4)} ± {cat.std.toFixed(4)} (n={cat.n})
                     </div>
                   </div>
@@ -292,13 +292,13 @@ export default function ProteomeValidation() {
             </CardContent>
           </Card>
 
-          <Card className="bg-slate-800/50 border-slate-700/50">
+          <Card className="bg-slate-50 border-slate-200">
             <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
+              <CardTitle className="text-slate-900 flex items-center gap-2">
                 <ShieldCheck className="h-5 w-5 text-emerald-400" />
                 Robustness & Validation Verdicts
               </CardTitle>
-              <CardDescription className="text-slate-400">
+              <CardDescription className="text-slate-500">
                 Permutation test, bootstrap CIs, and edge case diagnostics — {data.passRate} checks passed
               </CardDescription>
             </CardHeader>
@@ -307,8 +307,8 @@ export default function ProteomeValidation() {
                 <VerdictBadge key={i} verdict={v} />
               ))}
 
-              <div className="mt-4 pt-4 border-t border-slate-700/50">
-                <h4 className="text-sm font-semibold text-slate-300 mb-3">Edge Case Diagnostics</h4>
+              <div className="mt-4 pt-4 border-t border-slate-200">
+                <h4 className="text-sm font-semibold text-slate-600 mb-3">Edge Case Diagnostics</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {Object.entries(data.edgeCaseDiagnostics).map(([key, diag]) => (
                     <div key={key} className={`flex items-center gap-2 p-2 rounded border ${
@@ -319,7 +319,7 @@ export default function ProteomeValidation() {
                         <AlertTriangle className="h-4 w-4 text-amber-400 shrink-0" />
                       }
                       <div className="min-w-0">
-                        <span className="text-xs text-slate-300">{diag.note}</span>
+                        <span className="text-xs text-slate-600">{diag.note}</span>
                         <span className="text-xs text-slate-500 ml-2">({String(diag.value)})</span>
                       </div>
                     </div>
@@ -329,13 +329,13 @@ export default function ProteomeValidation() {
             </CardContent>
           </Card>
 
-          <Card className="bg-slate-800/50 border-slate-700/50">
+          <Card className="bg-slate-50 border-slate-200">
             <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
+              <CardTitle className="text-slate-900 flex items-center gap-2">
                 <Beaker className="h-5 w-5 text-cyan-400" />
                 Per-Gene Eigenvalue Results
               </CardTitle>
-              <CardDescription className="text-slate-400">
+              <CardDescription className="text-slate-500">
                 Individual protein-level AR(2) eigenvalues for clock, target, and top background genes
               </CardDescription>
             </CardHeader>
@@ -368,21 +368,21 @@ export default function ProteomeValidation() {
                 </BarChart>
               </ResponsiveContainer>
               <div className="flex justify-center gap-6 mt-3">
-                <div className="flex items-center gap-2"><div className="w-3 h-3 rounded" style={{ backgroundColor: CATEGORY_COLORS.clock }} /><span className="text-xs text-slate-400">Clock</span></div>
-                <div className="flex items-center gap-2"><div className="w-3 h-3 rounded" style={{ backgroundColor: CATEGORY_COLORS.target }} /><span className="text-xs text-slate-400">Target</span></div>
-                <div className="flex items-center gap-2"><div className="w-3 h-3 rounded" style={{ backgroundColor: CATEGORY_COLORS.background }} /><span className="text-xs text-slate-400">Background</span></div>
+                <div className="flex items-center gap-2"><div className="w-3 h-3 rounded" style={{ backgroundColor: CATEGORY_COLORS.clock }} /><span className="text-xs text-slate-500">Clock</span></div>
+                <div className="flex items-center gap-2"><div className="w-3 h-3 rounded" style={{ backgroundColor: CATEGORY_COLORS.target }} /><span className="text-xs text-slate-500">Target</span></div>
+                <div className="flex items-center gap-2"><div className="w-3 h-3 rounded" style={{ backgroundColor: CATEGORY_COLORS.background }} /><span className="text-xs text-slate-500">Background</span></div>
               </div>
             </CardContent>
           </Card>
 
           {data.mrnaComparison && (
-            <Card className="bg-slate-800/50 border-slate-700/50">
+            <Card className="bg-slate-50 border-slate-200">
               <CardHeader>
-                <CardTitle className="text-white flex items-center gap-2">
+                <CardTitle className="text-slate-900 flex items-center gap-2">
                   <TrendingUp className="h-5 w-5 text-purple-400" />
                   mRNA vs Protein Eigenvalue Comparison
                 </CardTitle>
-                <CardDescription className="text-slate-400">
+                <CardDescription className="text-slate-500">
                   Same genes measured at protein level (this study) vs mRNA level (GSE54650 Liver) — Pearson r = {data.mrnaComparison.correlation.toFixed(3)}
                 </CardDescription>
               </CardHeader>
@@ -414,10 +414,10 @@ export default function ProteomeValidation() {
                         if (!active || !payload?.[0]) return null;
                         const d = payload[0].payload as PairedGene;
                         return (
-                          <div className="bg-slate-800 border border-slate-600 rounded-lg p-3 text-xs">
-                            <p className="font-bold text-white">{d.gene} ({d.category})</p>
-                            <p className="text-slate-300">Protein |λ|: {d.proteinEigenvalue.toFixed(4)}</p>
-                            <p className="text-slate-300">mRNA |λ|: {d.mrnaEigenvalue.toFixed(4)}</p>
+                          <div className="bg-slate-100 border border-slate-300 rounded-lg p-3 text-xs">
+                            <p className="font-bold text-slate-900">{d.gene} ({d.category})</p>
+                            <p className="text-slate-600">Protein |λ|: {d.proteinEigenvalue.toFixed(4)}</p>
+                            <p className="text-slate-600">mRNA |λ|: {d.mrnaEigenvalue.toFixed(4)}</p>
                           </div>
                         );
                       }}
@@ -429,12 +429,12 @@ export default function ProteomeValidation() {
                     <Legend />
                   </ScatterChart>
                 </ResponsiveContainer>
-                <div className="mt-3 p-3 bg-slate-700/30 rounded-lg">
-                  <p className="text-sm text-slate-300">
+                <div className="mt-3 p-3 bg-slate-100 rounded-lg">
+                  <p className="text-sm text-slate-600">
                     <span className="font-semibold text-purple-400">Correlation: r = {data.mrnaComparison.correlation.toFixed(3)}</span>
-                    <span className="text-slate-400 ml-2">({data.mrnaComparison.totalPaired} paired genes)</span>
+                    <span className="text-slate-500 ml-2">({data.mrnaComparison.totalPaired} paired genes)</span>
                   </p>
-                  <p className="text-xs text-slate-400 mt-1">{data.mrnaComparison.interpretation}</p>
+                  <p className="text-xs text-slate-500 mt-1">{data.mrnaComparison.interpretation}</p>
                 </div>
               </CardContent>
             </Card>
@@ -455,10 +455,10 @@ export default function ProteomeValidation() {
             </CardContent>
           </Card>
 
-          <Card className="bg-slate-800/50 border-slate-700/50">
+          <Card className="bg-slate-50 border-slate-200">
             <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
-                <FlaskConical className="h-5 w-5 text-slate-400" />
+              <CardTitle className="text-slate-900 flex items-center gap-2">
+                <FlaskConical className="h-5 w-5 text-slate-500" />
                 Gene Tables
               </CardTitle>
             </CardHeader>
@@ -475,10 +475,10 @@ export default function ProteomeValidation() {
                       </h4>
                       <div className="space-y-1 max-h-[300px] overflow-y-auto">
                         {genes.map(g => (
-                          <div key={g.gene} className="flex justify-between items-center text-xs bg-slate-700/30 rounded px-2 py-1" data-testid={`gene-${g.gene}`}>
-                            <span className="text-slate-300 font-mono">{g.gene}</span>
+                          <div key={g.gene} className="flex justify-between items-center text-xs bg-slate-100 rounded px-2 py-1" data-testid={`gene-${g.gene}`}>
+                            <span className="text-slate-600 font-mono">{g.gene}</span>
                             <div className="flex items-center gap-2">
-                              <span className="font-mono text-white">{g.eigenvalue.toFixed(3)}</span>
+                              <span className="font-mono text-slate-900">{g.eigenvalue.toFixed(3)}</span>
                               {g.stable ?
                                 <CheckCircle2 className="h-3 w-3 text-emerald-400" /> :
                                 <XCircle className="h-3 w-3 text-red-400" />
@@ -493,6 +493,44 @@ export default function ProteomeValidation() {
               </div>
             </CardContent>
           </Card>
+
+          {/* COFE pan-cancer protein rhythmicity note */}
+          <div className="bg-slate-50 border border-teal-300/40 rounded-lg p-4 mt-4" data-testid="cofe-proteome-crossref">
+            <div className="flex items-start gap-2 mb-2">
+              <ExternalLink size={13} className="text-teal-500 mt-0.5 flex-shrink-0" />
+              <span className="text-sm font-semibold text-teal-700">COFE cross-reference — pan-cancer protein rhythmicity (Gupta et al. 2024)</span>
+            </div>
+            <p className="text-xs text-slate-600 leading-relaxed mb-3">
+              Independently of the proteomics time-series analysis above, Gupta et al. applied COFE to TCGA RNA-seq from
+              11 human adenocarcinomas and linked pseudo-time labels to protein expression data from the Cancer Proteome
+              Atlas (TCPA, 258 proteins). 237 of the 258 proteins were rhythmic in at least one cancer, and at least half
+              were rhythmic in every cancer type tested. Three proteins stood out as rhythmic in <em>all</em> 11 cancers:
+            </p>
+            <div className="grid grid-cols-3 gap-2 text-xs mb-3">
+              {[
+                { protein: "AR (androgen receptor)", note: "Largest amplitude in BRCA despite BRCA having among the fewest rhythmic genes", gene: "AR" },
+                { protein: "SRC pY416 + pY527", note: "Phosphorylated forms rhythmic — timing of kinase activation, not just expression", gene: "SRC" },
+                { protein: "Tuberin pT1462 (TSC2)", note: "mTORC1 pathway gate; Tuberin phosphorylation controls mTOR activity timing", gene: "TSC2" },
+              ].map((p, i) => (
+                <div key={i} className="bg-white rounded p-2 border border-slate-200" data-testid={`cofe-protein-${p.gene}`}>
+                  <div className="font-semibold text-slate-700 mb-0.5">{p.protein}</div>
+                  <div className="text-teal-600 font-medium mb-0.5">Rhythmic in 11/11 cancers</div>
+                  <div className="text-slate-500">{p.note}</div>
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              <strong className="text-slate-700">BRCA paradox:</strong> BRCA had the most rhythmic proteins of all 11
+              cancers (179 of 258) despite having among the fewest rhythmic genes. This is the clearest example of why
+              amplitude (COFE) and persistence (PAR|2|) measure different things — gene-level rhythmicity and
+              protein-level rhythmicity can diverge, and PAR(2) persistence may capture regulatory memory that drives
+              protein cycling even when the transcript amplitude is small.
+            </p>
+            <div className="mt-2 text-xs text-slate-400">
+              Gupta et al. (2024) bioRxiv doi:10.1101/2024.03.13.584582 ·{' '}
+              <a href="/cofe-context" className="text-teal-500 hover:text-teal-400 underline">Full COFE cross-reference</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>

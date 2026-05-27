@@ -28,11 +28,13 @@ import {
   sharedAnalyses,
   analyticsEvents,
   feedbackSubmissions,
-  savedReports
+  savedReports,
+  paperDownloads,
+  type PaperDownload
 } from "@shared/schema";
 import { drizzle } from "drizzle-orm/neon-serverless";
 import { Pool, neonConfig } from "@neondatabase/serverless";
-import { eq, desc, sql, gte, lt } from "drizzle-orm";
+import { eq, desc, sql, gte, lt, like } from "drizzle-orm";
 import ws from "ws";
 import { randomUUID } from "crypto";
 
@@ -133,6 +135,11 @@ export interface IStorage {
   listSavedReports(limit?: number): Promise<SavedReport[]>;
   deleteSavedReport(id: string): Promise<boolean>;
   
+  // Paper download tracking
+  recordPaperDownload(paperId: string, isSelf?: boolean): Promise<void>;
+  getDownloadCounts(): Promise<Record<string, number>>;
+  getPaperViewCounts(): Promise<Record<string, number>>;
+
   // Health check
   healthCheck(): Promise<boolean>;
 }
@@ -341,6 +348,9 @@ export class DatabaseStorage implements IStorage {
         const ref = e.referrer || '';
         if (ua.includes('HeadlessChrome')) return false;
         if (ref.includes('__replco/workspace_iframe') || ref.includes('riker.replit.dev/__replco')) return false;
+        if (ref.includes('replit.com')) return false;
+        if (e.country === 'Ireland' || e.city === 'Dublin') return false;
+        if (e.page === '/analytics') return false;
         return true;
       });
     }
@@ -442,6 +452,39 @@ export class DatabaseStorage implements IStorage {
   async deleteSavedReport(id: string): Promise<boolean> {
     const result = await db.delete(savedReports).where(eq(savedReports.id, id)).returning();
     return result.length > 0;
+  }
+
+  async recordPaperDownload(paperId: string, isSelf = false): Promise<void> {
+    await db.insert(paperDownloads).values({ paperId, isSelf });
+  }
+
+  async getDownloadCounts(): Promise<Record<string, number>> {
+    const rows = await db
+      .select({ paperId: paperDownloads.paperId, count: sql<number>`cast(count(*) as int)` })
+      .from(paperDownloads)
+      .where(eq(paperDownloads.isSelf, false))
+      .groupBy(paperDownloads.paperId);
+    const result: Record<string, number> = {};
+    for (const row of rows) result[row.paperId] = row.count;
+    return result;
+  }
+
+  async getPaperViewCounts(): Promise<Record<string, number>> {
+    const events = await db.select().from(analyticsEvents)
+      .where(like(analyticsEvents.page, '/manuscript/paper-%'));
+    const result: Record<string, number> = {};
+    for (const e of events) {
+      const ua = e.userAgent || '';
+      const ref = e.referrer || '';
+      if (ua.includes('HeadlessChrome')) continue;
+      if (ref.includes('replit.com') || ref.includes('riker.replit.dev')) continue;
+      if (e.country === 'Ireland' || e.city === 'Dublin') continue;
+      const page = e.page || '';
+      const match = page.match(/\/manuscript\/(paper-[\w-]+|methods-platform)/);
+      if (!match) continue;
+      result[match[1]] = (result[match[1]] || 0) + 1;
+    }
+    return result;
   }
 
   async healthCheck(): Promise<boolean> {
@@ -796,6 +839,9 @@ export class InMemoryStorage implements IStorage {
         const ref = e.referrer || '';
         if (ua.includes('HeadlessChrome')) return false;
         if (ref.includes('__replco/workspace_iframe') || ref.includes('riker.replit.dev/__replco')) return false;
+        if (ref.includes('replit.com')) return false;
+        if (e.country === 'Ireland' || e.city === 'Dublin') return false;
+        if (e.page === '/analytics') return false;
         return true;
       });
     }
@@ -878,6 +924,8 @@ export class InMemoryStorage implements IStorage {
   }
 
   private savedReportsMap: Map<string, SavedReport> = new Map();
+  private paperDownloadCounts: Map<string, number> = new Map();
+  private paperExternalDownloadCounts: Map<string, number> = new Map();
 
   async createSavedReport(report: InsertSavedReport): Promise<SavedReport> {
     const saved: SavedReport = {
@@ -906,6 +954,23 @@ export class InMemoryStorage implements IStorage {
 
   async deleteSavedReport(id: string): Promise<boolean> {
     return this.savedReportsMap.delete(id);
+  }
+
+  async recordPaperDownload(paperId: string, isSelf = false): Promise<void> {
+    const count = this.paperDownloadCounts.get(paperId) ?? 0;
+    this.paperDownloadCounts.set(paperId, count + 1);
+    if (!isSelf) {
+      const ext = this.paperExternalDownloadCounts.get(paperId) ?? 0;
+      this.paperExternalDownloadCounts.set(paperId, ext + 1);
+    }
+  }
+
+  async getDownloadCounts(): Promise<Record<string, number>> {
+    return Object.fromEntries(this.paperExternalDownloadCounts);
+  }
+
+  async getPaperViewCounts(): Promise<Record<string, number>> {
+    return {};
   }
 
   async healthCheck(): Promise<boolean> {

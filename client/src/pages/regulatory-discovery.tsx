@@ -118,23 +118,23 @@ function GeneRow({ c, expanded, onToggle }: { c: Candidate; expanded: boolean; o
         <td className="p-3 text-center">
           <Badge
             variant="outline"
-            className={c.knownCategory === 'other' ? 'border-cyan-500 text-cyan-400' : 'border-gray-600 text-gray-400'}
+            className={c.knownCategory === 'other' ? 'border-cyan-500 text-cyan-400' : 'border-slate-300 text-slate-500'}
           >
             {c.knownCategory === 'other' ? 'NOVEL' : c.knownCategory}
           </Badge>
         </td>
         <td className="p-3 text-center font-mono font-bold">
-          <span className={c.tissuesFound >= 6 ? 'text-green-400' : c.tissuesFound >= 4 ? 'text-yellow-400' : 'text-gray-300'}>
+          <span className={c.tissuesFound >= 6 ? 'text-green-400' : c.tissuesFound >= 4 ? 'text-yellow-400' : 'text-slate-600'}>
             {c.tissuesFound}
           </span>
         </td>
         <td className="p-3 text-right font-mono">{c.meanCrossTissueEV.toFixed(3)}</td>
         <td className="p-3 text-right font-mono">{c.eigenvalue.toFixed(3)}</td>
-        <td className="p-3 text-right font-mono text-gray-400">{c.crossTissueConsistency.toFixed(2)}</td>
-        <td className="p-3 text-right font-mono text-gray-400">{c.r2.toFixed(3)}</td>
+        <td className="p-3 text-right font-mono text-slate-500">{c.crossTissueConsistency.toFixed(2)}</td>
+        <td className="p-3 text-right font-mono text-slate-500">{c.r2.toFixed(3)}</td>
       </tr>
       {expanded && (
-        <tr className="border-b border-gray-800 bg-gray-900/50">
+        <tr className="border-b border-gray-800 bg-white">
           <td colSpan={7} className="p-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
               <div><span className="text-gray-500">β₁:</span> <span className="font-mono">{c.beta1.toFixed(4)}</span></div>
@@ -142,12 +142,12 @@ function GeneRow({ c, expanded, onToggle }: { c: Candidate; expanded: boolean; o
               <div><span className="text-gray-500">Mean Expression:</span> <span className="font-mono">{c.meanExpression.toFixed(1)}</span></div>
               <div><span className="text-gray-500">Expression CV:</span> <span className="font-mono">{c.expressionCV.toFixed(3)}</span></div>
             </div>
-            <div className="mt-3 text-xs text-gray-400">
+            <div className="mt-3 text-xs text-slate-500">
               <span className="text-gray-500 font-medium">Tissue breakdown:</span>
             </div>
             <div className="mt-1 flex flex-wrap gap-2">
               {c.tissueEigenvalues.map(te => (
-                <Badge key={te.tissue} variant="outline" className="text-xs border-gray-600">
+                <Badge key={te.tissue} variant="outline" className="text-xs border-slate-300">
                   {te.tissue}: <span className="font-mono ml-1">{te.eigenvalue.toFixed(3)}</span>
                   {te.isComplex && <span className="text-purple-400 ml-1">osc</span>}
                   <span className="text-gray-500 ml-1">R²={te.r2.toFixed(2)}</span>
@@ -172,7 +172,7 @@ export default function RegulatoryDiscovery() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 text-slate-900">
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex items-center gap-3 mb-6">
           <Link href="/robustness-suite">
@@ -185,7 +185,7 @@ export default function RegulatoryDiscovery() {
               <Search className="w-8 h-8 text-cyan-400" />
               Regulatory Core Discovery
             </h1>
-            <p className="text-gray-400 mt-1">
+            <p className="text-slate-500 mt-1">
               Pathway-agnostic identification of genes with clock-like dynamics across {data?.genomeStats?.totalTissues || '12'} tissues
             </p>
           </div>
@@ -194,7 +194,7 @@ export default function RegulatoryDiscovery() {
         {isLoading && (
           <div className="flex items-center justify-center py-20" data-testid="status-loading">
             <Loader2 className="w-8 h-8 animate-spin text-cyan-400 mr-3" />
-            <span className="text-lg text-gray-300">Scanning ~21,000 genes across 12 tissues... this takes a moment</span>
+            <span className="text-lg text-slate-600">Scanning ~21,000 genes across 12 tissues... this takes a moment</span>
           </div>
         )}
 
@@ -209,44 +209,44 @@ export default function RegulatoryDiscovery() {
         {data?.success && (
           <>
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-              <Card className="bg-gray-800/60 border-gray-700">
+              <Card className="bg-slate-100/60 border-slate-200">
                 <CardContent className="p-4 text-center">
                   <div className="text-2xl font-bold text-cyan-400" data-testid="text-genes-scanned">
                     {(data.genomeStats.totalGenesScanned / 1000).toFixed(0)}K
                   </div>
-                  <div className="text-xs text-gray-400">Gene×Tissue Scans</div>
+                  <div className="text-xs text-slate-500">Gene×Tissue Scans</div>
                 </CardContent>
               </Card>
-              <Card className="bg-gray-800/60 border-gray-700">
+              <Card className="bg-slate-100/60 border-slate-200">
                 <CardContent className="p-4 text-center">
                   <div className="text-2xl font-bold text-blue-400" data-testid="text-tissues">
                     {data.genomeStats.totalTissues}
                   </div>
-                  <div className="text-xs text-gray-400">Independent Tissues</div>
+                  <div className="text-xs text-slate-500">Independent Tissues</div>
                 </CardContent>
               </Card>
-              <Card className="bg-gray-800/60 border-gray-700">
+              <Card className="bg-slate-100/60 border-slate-200">
                 <CardContent className="p-4 text-center">
                   <div className="text-2xl font-bold text-amber-400" data-testid="text-clock-recovered">
                     {data.knownClockRecovered.length}
                   </div>
-                  <div className="text-xs text-gray-400">Clock Genes Recovered</div>
+                  <div className="text-xs text-slate-500">Clock Genes Recovered</div>
                 </CardContent>
               </Card>
-              <Card className="bg-gray-800/60 border-gray-700">
+              <Card className="bg-slate-100/60 border-slate-200">
                 <CardContent className="p-4 text-center">
                   <div className="text-2xl font-bold text-green-400" data-testid="text-total-candidates">
                     {data.candidates.length}
                   </div>
-                  <div className="text-xs text-gray-400">Total Candidates</div>
+                  <div className="text-xs text-slate-500">Total Candidates</div>
                 </CardContent>
               </Card>
-              <Card className="bg-gray-800/60 border-gray-700">
+              <Card className="bg-slate-100/60 border-slate-200">
                 <CardContent className="p-4 text-center">
                   <div className="text-2xl font-bold text-cyan-300" data-testid="text-novel-candidates">
                     {data.novelCandidates.length}
                   </div>
-                  <div className="text-xs text-gray-400">Novel (Uncategorised)</div>
+                  <div className="text-xs text-slate-500">Novel (Uncategorised)</div>
                 </CardContent>
               </Card>
             </div>
@@ -259,7 +259,7 @@ export default function RegulatoryDiscovery() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-300 mb-3">
+                <p className="text-sm text-slate-600 mb-3">
                   These known clock genes were independently identified in the top 5% persistent + oscillatory zone
                   across multiple tissues — validating the discovery protocol.
                 </p>
@@ -298,7 +298,7 @@ export default function RegulatoryDiscovery() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-gray-300 mb-3">
+                  <p className="text-sm text-slate-600 mb-3">
                     Genes with NO pre-existing category assignment that appear in the high-persistence oscillatory zone
                     across ≥{Math.max(3, Math.floor(data.genomeStats.totalTissues / 2))} tissues.
                     These are the strongest candidates for unknown regulatory cores.
@@ -306,7 +306,7 @@ export default function RegulatoryDiscovery() {
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm" data-testid="table-replicators">
                       <thead>
-                        <tr className="border-b border-gray-700 text-gray-400">
+                        <tr className="border-b border-slate-200 text-slate-500">
                           <th className="text-left p-2">Gene</th>
                           <th className="text-center p-2">Tissues</th>
                           <th className="text-right p-2">Mean |λ|</th>
@@ -322,8 +322,8 @@ export default function RegulatoryDiscovery() {
                             <td className="p-2 text-center font-mono font-bold text-green-400">{c.tissuesFound}</td>
                             <td className="p-2 text-right font-mono">{c.meanCrossTissueEV.toFixed(3)}</td>
                             <td className="p-2 text-right font-mono">{c.eigenvalue.toFixed(3)}</td>
-                            <td className="p-2 text-right font-mono text-gray-400">{c.crossTissueConsistency.toFixed(2)}</td>
-                            <td className="p-2 text-xs text-gray-400">{c.tissueList.join(', ')}</td>
+                            <td className="p-2 text-right font-mono text-slate-500">{c.crossTissueConsistency.toFixed(2)}</td>
+                            <td className="p-2 text-xs text-slate-500">{c.tissueList.join(', ')}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -334,7 +334,7 @@ export default function RegulatoryDiscovery() {
             )}
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-              <Card className="bg-gray-800/60 border-gray-700">
+              <Card className="bg-slate-100/60 border-slate-200">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-base">Candidates by Cross-Tissue Replication Count</CardTitle>
                 </CardHeader>
@@ -367,7 +367,7 @@ export default function RegulatoryDiscovery() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-gray-800/60 border-gray-700">
+              <Card className="bg-slate-100/60 border-slate-200">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-base">Tissue Genome Statistics (P95 Threshold)</CardTitle>
                 </CardHeader>
@@ -395,7 +395,7 @@ export default function RegulatoryDiscovery() {
               </Card>
             </div>
 
-            <Card className="bg-gray-800/60 border-gray-700 mb-6">
+            <Card className="bg-slate-100/60 border-slate-200 mb-6">
               <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-lg flex items-center gap-2">
@@ -434,7 +434,7 @@ export default function RegulatoryDiscovery() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm" data-testid="table-all-candidates">
                     <thead>
-                      <tr className="border-b border-gray-700 text-gray-400">
+                      <tr className="border-b border-slate-200 text-slate-500">
                         <th className="text-left p-3">Gene</th>
                         <th className="text-center p-3">Category</th>
                         <th className="text-center p-3">Tissues</th>
@@ -459,14 +459,14 @@ export default function RegulatoryDiscovery() {
               </CardContent>
             </Card>
 
-            <Card className="bg-gray-800/60 border-gray-700 mb-6">
+            <Card className="bg-slate-100/60 border-slate-200 mb-6">
               <CardHeader className="pb-2">
                 <CardTitle className="text-base flex items-center gap-2">
                   <AlertTriangle className="w-4 h-4 text-amber-400" />
                   Caveats and Interpretation
                 </CardTitle>
               </CardHeader>
-              <CardContent className="text-sm text-gray-300 space-y-2">
+              <CardContent className="text-sm text-slate-600 space-y-2">
                 <p><strong>These are candidates, not validated regulatory cores.</strong> High |λ| + complex roots + cross-tissue replication makes a gene statistically interesting, but does not prove it drives oscillation. It could be a robust downstream readout of a true regulatory core.</p>
                 <p><strong>Bulk tissue data.</strong> Cell-type composition changes over the circadian cycle could create apparent dynamics. A gene scoring high might reflect cell-type proportion shifts rather than intracellular oscillation.</p>
                 <p><strong>12-timepoint resolution.</strong> Individual gene |λ| estimates are noisy. Cross-tissue replication mitigates this — a gene appearing in the top 5% oscillatory zone across 6+ independent tissues is unlikely to be noise.</p>
@@ -474,7 +474,7 @@ export default function RegulatoryDiscovery() {
               </CardContent>
             </Card>
 
-            <Card className="bg-gray-800/60 border-gray-700 mb-6">
+            <Card className="bg-slate-100/60 border-slate-200 mb-6">
               <CardHeader className="pb-2">
                 <CardTitle className="text-base flex items-center gap-2">
                   <Info className="w-4 h-4 text-blue-400" />
@@ -482,7 +482,7 @@ export default function RegulatoryDiscovery() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <pre className="text-xs text-gray-400 whitespace-pre-wrap font-mono" data-testid="text-methodology">
+                <pre className="text-xs text-slate-500 whitespace-pre-wrap font-mono" data-testid="text-methodology">
                   {data.methodology}
                 </pre>
               </CardContent>

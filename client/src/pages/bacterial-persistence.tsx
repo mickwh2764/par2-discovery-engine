@@ -193,7 +193,7 @@ export default function BacterialPersistence() {
                       className="h-6 rounded-full bg-emerald-500 transition-all"
                       style={{ width: `${(bin.count / maxCount) * 100}%` }}
                     />
-                    <span className="absolute inset-0 flex items-center pl-2 text-xs font-mono font-bold text-white drop-shadow">
+                    <span className="absolute inset-0 flex items-center pl-2 text-xs font-mono font-bold text-slate-900 drop-shadow">
                       {bin.count > 50 ? `${bin.count} (${bin.pct}%)` : ""}
                     </span>
                   </div>

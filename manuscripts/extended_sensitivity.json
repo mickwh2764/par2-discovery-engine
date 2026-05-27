@@ -1,0 +1,71 @@
+{
+  "timestamp": "2026-01-12T11:53:52.573Z",
+  "panels": {
+    "mouseLiver": {
+      "label": "Mouse Liver",
+      "deltaT": 1,
+      "raw": {
+        "n": 44972,
+        "meanLambda": 0.9915723731876476,
+        "stdLambda": 0.029227697991456105,
+        "nearCriticalPct": 99.09721604553945,
+        "stableBandPct": 0.146757982744819,
+        "meanRho": 0.008358179537162455,
+        "stdRho": 0.026505495048684026
+      },
+      "residual": {
+        "n": 44553,
+        "meanLambda": 0.5873720018232779,
+        "stdLambda": 0.23241826298763402,
+        "nearCriticalPct": 5.510291113954167,
+        "stableBandPct": 36.50483693578435,
+        "meanRho": 0.42235780932278966,
+        "stdRho": 0.27192137795594506
+      }
+    },
+    "baboonLiver": {
+      "label": "Baboon Liver",
+      "deltaT": 2,
+      "raw": {
+        "n": 14320,
+        "meanLambda": 0.901875334593907,
+        "stdLambda": 0.15639624508045136,
+        "nearCriticalPct": 70.37709497206703,
+        "stableBandPct": 13.002793296089385,
+        "meanRho": 0.06266311373078227,
+        "stdRho": 0.11899372609796009
+      },
+      "residual": {
+        "n": 14251,
+        "meanLambda": 0.5172258061388848,
+        "stdLambda": 0.1805135769743036,
+        "nearCriticalPct": 0.6455687320188057,
+        "stableBandPct": 49.0281383762543,
+        "meanRho": 0.36086644440472093,
+        "stdRho": 0.19645104346791123
+      }
+    },
+    "baboonBrain": {
+      "label": "Baboon Cerebellum",
+      "deltaT": 2,
+      "raw": {
+        "n": 15610,
+        "meanLambda": 0.9667067336756411,
+        "stdLambda": 0.09984937447535128,
+        "nearCriticalPct": 84.16399743754003,
+        "stableBandPct": 4.971172325432415,
+        "meanRho": 0.020281899975119724,
+        "stdRho": 0.06310920144447409
+      },
+      "residual": {
+        "n": 15550,
+        "meanLambda": 0.5476442953789777,
+        "stdLambda": 0.1968852332164165,
+        "nearCriticalPct": 3.7491961414791,
+        "stableBandPct": 48.37942122186495,
+        "meanRho": 0.33335090727376,
+        "stdRho": 0.19607537529508628
+      }
+    }
+  }
+}

@@ -81,10 +81,8 @@ export default function MycOnDiscrepancy() {
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="max-w-5xl mx-auto px-6 py-8">
-        <Link href="/">
-          <a className="inline-flex items-center gap-2 text-slate-500 hover:text-slate-700 text-sm mb-6 transition-colors">
-            <ArrowLeft size={16} /> Back to dashboard
-          </a>
+        <Link href="/" className="inline-flex items-center gap-2 text-slate-500 hover:text-slate-700 text-sm mb-6 transition-colors">
+          <ArrowLeft size={16} /> Back to dashboard
         </Link>
 
         <div className="mb-8">

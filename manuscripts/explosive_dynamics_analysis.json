@@ -1,0 +1,1088 @@
+{
+  "metadata": {
+    "analysis": "Explosive Dynamics - Phase 1",
+    "date": "2025-12-28T06:29:31.221Z",
+    "description": "Removed stability constraint to identify genes with |λ| > 1"
+  },
+  "classification": {
+    "stable": "|λ| < 0.95",
+    "boundary": "|λ| 0.95-1.05",
+    "preExplosive": "|λ| 1.05-1.20",
+    "explosive": "|λ| > 1.20"
+  },
+  "summary": {
+    "totalGenes": 292554,
+    "stableCount": 289049,
+    "stablePercent": 98.80193058375548,
+    "boundaryCount": 1619,
+    "boundaryPercent": 0.5534021069614499,
+    "preExplosiveCount": 1046,
+    "preExplosivePercent": 0.35754083006897874,
+    "explosiveCount": 840,
+    "explosivePercent": 0.2871264792140938
+  },
+  "datasetResults": [
+    {
+      "dataset": "Mouse Liver",
+      "type": "Transcriptomics",
+      "totalGenes": 20955,
+      "stableCount": 20954,
+      "boundaryCount": 1,
+      "preExplosiveCount": 0,
+      "explosiveCount": 0,
+      "avgModulus": 0.4870679373079329,
+      "avgFibProximity": 56.27317455228239,
+      "topExplosiveGenes": [
+        {
+          "gene": "Zdhhc19",
+          "beta1": 0.5018483629979187,
+          "beta2": 0.5039855209938651,
+          "modulus": 1.0038839851105386,
+          "category": "Boundary",
+          "fibProximity": 68.54186246018277,
+          "meanExpr": 55.541666666666664
+        }
+      ]
+    },
+    {
+      "dataset": "Mouse Kidney",
+      "type": "Transcriptomics",
+      "totalGenes": 20955,
+      "stableCount": 20954,
+      "boundaryCount": 1,
+      "preExplosiveCount": 0,
+      "explosiveCount": 0,
+      "avgModulus": 0.4587097865115965,
+      "avgFibProximity": 53.51559664578052,
+      "topExplosiveGenes": []
+    },
+    {
+      "dataset": "Mouse Heart",
+      "type": "Transcriptomics",
+      "totalGenes": 20955,
+      "stableCount": 20954,
+      "boundaryCount": 0,
+      "preExplosiveCount": 0,
+      "explosiveCount": 1,
+      "avgModulus": 0.4364702209279079,
+      "avgFibProximity": 54.934817102993996,
+      "topExplosiveGenes": [
+        {
+          "gene": "Jchain",
+          "beta1": -0.04929841159394305,
+          "beta2": 1.4092250565041962,
+          "modulus": 1.2120129410738318,
+          "category": "Explosive",
+          "fibProximity": 55.819252477655944,
+          "meanExpr": 67.08333333333333
+        }
+      ]
+    },
+    {
+      "dataset": "Mouse Lung",
+      "type": "Transcriptomics",
+      "totalGenes": 20955,
+      "stableCount": 20911,
+      "boundaryCount": 34,
+      "preExplosiveCount": 10,
+      "explosiveCount": 0,
+      "avgModulus": 0.4899207048428814,
+      "avgFibProximity": 50.070837929404405,
+      "topExplosiveGenes": [
+        {
+          "gene": "1110012L19Rik",
+          "beta1": 0.41165991721002726,
+          "beta2": 0.9206214704319393,
+          "modulus": 1.187149194272633,
+          "category": "Pre-explosive",
+          "fibProximity": 84.29230427809553,
+          "meanExpr": 100.28541666666666
+        },
+        {
+          "gene": "Pdp2",
+          "beta1": 0.7279327220061411,
+          "beta2": 0.5074405343470971,
+          "modulus": 1.163911388044876,
+          "category": "Pre-explosive",
+          "fibProximity": 83.23387997675198,
+          "meanExpr": 89.99166666666667
+        },
+        {
+          "gene": "Cd200r4",
+          "beta1": 0.4737858787790401,
+          "beta2": 0.7916240968140755,
+          "modulus": 1.1576221946794139,
+          "category": "Pre-explosive",
+          "fibProximity": 98.06541472268547,
+          "meanExpr": 30.65833333333333
+        },
+        {
+          "gene": "Olfr1306",
+          "beta1": -0.11483467060950048,
+          "beta2": 1.1867798200267998,
+          "modulus": 1.1483236421983798,
+          "category": "Pre-explosive",
+          "fibProximity": 59.37645459399483,
+          "meanExpr": 18.304166666666667
+        },
+        {
+          "gene": "Mrpl42",
+          "beta1": 0.8083597607142963,
+          "beta2": 0.33360857454206894,
+          "modulus": 1.1091408368842366,
+          "category": "Pre-explosive",
+          "fibProximity": 44.706803148356634,
+          "meanExpr": 55.44583333333333
+        },
+        {
+          "gene": "Bex4",
+          "beta1": 0.5033951977091213,
+          "beta2": 0.6500923391480171,
+          "modulus": 1.0963537539953188,
+          "category": "Pre-explosive",
+          "fibProximity": 85.5293872934482,
+          "meanExpr": 95
+        },
+        {
+          "gene": "A230065N10Rik",
+          "beta1": 0.6450768264349449,
+          "beta2": 0.49259231266171355,
+          "modulus": 1.0949523829659218,
+          "category": "Pre-explosive",
+          "fibProximity": 73.45635358911416,
+          "meanExpr": 98.68333333333334
+        },
+        {
+          "gene": "Cacna1e",
+          "beta1": 0.33425498876059123,
+          "beta2": 0.8066848892376584,
+          "modulus": 1.080700966310985,
+          "category": "Pre-explosive",
+          "fibProximity": 81.57252692906528,
+          "meanExpr": 60.12916666666666
+        },
+        {
+          "gene": "Col18a1",
+          "beta1": 0.5942215751372828,
+          "beta2": 0.497508917803998,
+          "modulus": 1.0624758886110501,
+          "category": "Pre-explosive",
+          "fibProximity": 65.46594042301643,
+          "meanExpr": 169.53333333333333
+        },
+        {
+          "gene": "Lin9",
+          "beta1": 0.5125931943338315,
+          "beta2": 0.5708301560383688,
+          "modulus": 1.0541174428194402,
+          "category": "Pre-explosive",
+          "fibProximity": 75.58256972482522,
+          "meanExpr": 39.666666666666664
+        }
+      ]
+    },
+    {
+      "dataset": "Mouse Muscle",
+      "type": "Transcriptomics",
+      "totalGenes": 20955,
+      "stableCount": 20953,
+      "boundaryCount": 2,
+      "preExplosiveCount": 0,
+      "explosiveCount": 0,
+      "avgModulus": 0.4498182843518276,
+      "avgFibProximity": 57.92661558763242,
+      "topExplosiveGenes": []
+    },
+    {
+      "dataset": "Mouse Brown Fat",
+      "type": "Transcriptomics",
+      "totalGenes": 20955,
+      "stableCount": 20945,
+      "boundaryCount": 4,
+      "preExplosiveCount": 4,
+      "explosiveCount": 2,
+      "avgModulus": 0.42159858496415775,
+      "avgFibProximity": 53.29922378377005,
+      "topExplosiveGenes": [
+        {
+          "gene": "Gpx5",
+          "beta1": 6.744939648647005,
+          "beta2": -8.858809490680073,
+          "modulus": 4.958264018187423,
+          "category": "Explosive",
+          "fibProximity": 86.64523285315444,
+          "meanExpr": 34.112500000000004
+        },
+        {
+          "gene": "Adam7",
+          "beta1": -1.1139641960601807,
+          "beta2": 1.8872919187674313,
+          "modulus": 2.0393858811787413,
+          "category": "Explosive",
+          "fibProximity": 97.25933555885887,
+          "meanExpr": 38.166666666666664
+        },
+        {
+          "gene": "Spag11b",
+          "beta1": 0.5030542603680697,
+          "beta2": -1.3798859049677645,
+          "modulus": 1.1746854493726244,
+          "category": "Pre-explosive",
+          "fibProximity": 77.61016501586082,
+          "meanExpr": 34.5375
+        },
+        {
+          "gene": "9230104L09Rik",
+          "beta1": 0.8361085097705114,
+          "beta2": -1.2365534653240502,
+          "modulus": 1.112004255982885,
+          "category": "Pre-explosive",
+          "fibProximity": 94.3530648666675,
+          "meanExpr": 34.92916666666667
+        },
+        {
+          "gene": "Svs5",
+          "beta1": -0.937389008805809,
+          "beta2": -1.1527435046641585,
+          "modulus": 1.0736589331180355,
+          "category": "Pre-explosive",
+          "fibProximity": 82.27137774046909,
+          "meanExpr": 30.84583333333333
+        },
+        {
+          "gene": "Wfdc10",
+          "beta1": -0.5256294674679047,
+          "beta2": -1.117002215089144,
+          "modulus": 1.056883255184386,
+          "category": "Pre-explosive",
+          "fibProximity": 86.28948520265337,
+          "meanExpr": 72.90833333333333
+        },
+        {
+          "gene": "Defb48",
+          "beta1": 0.35833886467737486,
+          "beta2": -1.0777686319001987,
+          "modulus": 1.0381563619706804,
+          "category": "Boundary",
+          "fibProximity": 75.15994010284786,
+          "meanExpr": 26.2375
+        },
+        {
+          "gene": "Mir17",
+          "beta1": -1.3967349409938379,
+          "beta2": -1.0067403925371536,
+          "modulus": 1.0033645362166004,
+          "category": "Boundary",
+          "fibProximity": 79.40168814510155,
+          "meanExpr": 41.90833333333333
+        },
+        {
+          "gene": "Trmt10a",
+          "beta1": 0.28661358846991725,
+          "beta2": 0.7153513469557709,
+          "modulus": 1.0011460473760536,
+          "category": "Boundary",
+          "fibProximity": 80.46300231796688,
+          "meanExpr": 180.125
+        }
+      ]
+    },
+    {
+      "dataset": "Mouse White Fat",
+      "type": "Transcriptomics",
+      "totalGenes": 20955,
+      "stableCount": 20951,
+      "boundaryCount": 2,
+      "preExplosiveCount": 2,
+      "explosiveCount": 0,
+      "avgModulus": 0.41502749498222424,
+      "avgFibProximity": 56.85293747924449,
+      "topExplosiveGenes": [
+        {
+          "gene": "Kcnn4",
+          "beta1": -0.18795717988321048,
+          "beta2": 0.9286090347275433,
+          "modulus": 1.062193963758276,
+          "category": "Pre-explosive",
+          "fibProximity": 65.99265344887637,
+          "meanExpr": 144.41666666666666
+        },
+        {
+          "gene": "Akr1c12",
+          "beta1": -0.9250391939869402,
+          "beta2": -1.113400325735114,
+          "modulus": 1.0551778645020535,
+          "category": "Pre-explosive",
+          "fibProximity": 80.83262349748466,
+          "meanExpr": 24.954166666666666
+        }
+      ]
+    },
+    {
+      "dataset": "Mouse Adrenal",
+      "type": "Transcriptomics",
+      "totalGenes": 20955,
+      "stableCount": 20924,
+      "boundaryCount": 31,
+      "preExplosiveCount": 0,
+      "explosiveCount": 0,
+      "avgModulus": 0.42741531281232675,
+      "avgFibProximity": 56.90531002840259,
+      "topExplosiveGenes": [
+        {
+          "gene": "Olfr338",
+          "beta1": -0.2381747116901849,
+          "beta2": 0.8339968236497626,
+          "modulus": 1.0400534909292976,
+          "category": "Boundary",
+          "fibProximity": 71.71632984007282,
+          "meanExpr": 49.3125
+        },
+        {
+          "gene": "Olfr689",
+          "beta1": -0.24213731874672817,
+          "beta2": 0.7981987479420951,
+          "modulus": 1.0226541340925162,
+          "category": "Boundary",
+          "fibProximity": 73.00229422934974,
+          "meanExpr": 41.87083333333333
+        },
+        {
+          "gene": "Olfr930",
+          "beta1": -0.15702365719887723,
+          "beta2": 0.8566582867955859,
+          "modulus": 1.007394164541733,
+          "category": "Boundary",
+          "fibProximity": 64.74355041619792,
+          "meanExpr": 30.712500000000002
+        }
+      ]
+    },
+    {
+      "dataset": "Organoid Healthy (APC-WT)",
+      "type": "Transcriptomics",
+      "totalGenes": 27515,
+      "stableCount": 27493,
+      "boundaryCount": 15,
+      "preExplosiveCount": 1,
+      "explosiveCount": 6,
+      "avgModulus": 0.4142573476600634,
+      "avgFibProximity": 59.93399664315214,
+      "topExplosiveGenes": [
+        {
+          "gene": "ENSMUSG00000022818",
+          "beta1": 1.9233289646133684,
+          "beta2": 0.38794233289646135,
+          "modulus": 2.1074135427150464,
+          "category": "Explosive",
+          "fibProximity": 3.5446304334594614,
+          "meanExpr": 0.011363636363636364
+        },
+        {
+          "gene": "ENSMUSG00000066101",
+          "beta1": -0.05555555555555555,
+          "beta2": 2.1111111111111103,
+          "modulus": 1.4810095955031473,
+          "category": "Explosive",
+          "fibProximity": 55.33756577715886,
+          "meanExpr": 0.008636363636363636
+        },
+        {
+          "gene": "ENSMUSG00000086170",
+          "beta1": -0.12500000000000008,
+          "beta2": 1.625,
+          "modulus": 1.3387861160413836,
+          "category": "Explosive",
+          "fibProximity": 58.210122990736735,
+          "meanExpr": 0.010000000000000002
+        },
+        {
+          "gene": "ENSMUSG00000008496",
+          "beta1": -0.5821231335651461,
+          "beta2": 0.9850685211699735,
+          "modulus": 1.3253658531644383,
+          "category": "Explosive",
+          "fibProximity": 97.327642175596,
+          "meanExpr": 0.015909090909090907
+        },
+        {
+          "gene": "ENSMUSG00000088254",
+          "beta1": 1.3275718772295,
+          "beta2": -0.0966347532918094,
+          "modulus": 1.2502814791015087,
+          "category": "Explosive",
+          "fibProximity": 0.0005449407653061335,
+          "meanExpr": 0.30136363636363633
+        },
+        {
+          "gene": "ENSMUSG00000107597",
+          "beta1": -0.27907172594883145,
+          "beta2": 1.1718628534904214,
+          "modulus": 1.2310179336225946,
+          "category": "Explosive",
+          "fibProximity": 68.39364231828998,
+          "meanExpr": 0.04727272727272727
+        },
+        {
+          "gene": "ENSMUSG00000086534",
+          "beta1": -0.14285714285714285,
+          "beta2": 1.1904761904761902,
+          "modulus": 1.1648535717338127,
+          "category": "Pre-explosive",
+          "fibProximity": 60.77242787629381,
+          "meanExpr": 0.002727272727272727
+        },
+        {
+          "gene": "ENSMUSG00000090061",
+          "beta1": 0.14045936395759706,
+          "beta2": 0.9483215547703183,
+          "modulus": 1.0465768348917168,
+          "category": "Boundary",
+          "fibProximity": 62.50520568209797,
+          "meanExpr": 0.015454545454545455
+        },
+        {
+          "gene": "ENSMUSG00000105226",
+          "beta1": 0.6064545417027777,
+          "beta2": 0.45619248070653295,
+          "modulus": 1.0435915450397877,
+          "category": "Boundary",
+          "fibProximity": 74.92736862672929,
+          "meanExpr": 0.030454545454545456
+        },
+        {
+          "gene": "ENSMUSG00000019577",
+          "beta1": -0.29260219427512446,
+          "beta2": 0.7764379272059543,
+          "modulus": 1.0395210802490065,
+          "category": "Boundary",
+          "fibProximity": 78.56986336993197,
+          "meanExpr": 0.2772727272727273
+        }
+      ]
+    },
+    {
+      "dataset": "Organoid Tumor (APC-Mut)",
+      "type": "Transcriptomics",
+      "totalGenes": 29207,
+      "stableCount": 29138,
+      "boundaryCount": 50,
+      "preExplosiveCount": 7,
+      "explosiveCount": 12,
+      "avgModulus": 0.48738304663165244,
+      "avgFibProximity": 60.312457827996084,
+      "topExplosiveGenes": [
+        {
+          "gene": "ENSMUSG00000069189",
+          "beta1": 1.6111111111111112,
+          "beta2": -2.7407407407407414,
+          "modulus": 1.6555182695279267,
+          "category": "Explosive",
+          "fibProximity": 97.02551984398139,
+          "meanExpr": 0.0036363636363636364
+        },
+        {
+          "gene": "ENSMUSG00000055865",
+          "beta1": -0.11516946363935501,
+          "beta2": 2.440194142810134,
+          "modulus": 1.6207578329664694,
+          "category": "Explosive",
+          "fibProximity": 56.505221046856825,
+          "meanExpr": 0.013181818181818182
+        },
+        {
+          "gene": "ENSMUSG00000084708",
+          "beta1": 1.5535353535353538,
+          "beta2": -2.5553351698806246,
+          "modulus": 1.5985415758999277,
+          "category": "Explosive",
+          "fibProximity": 98.99741756035992,
+          "meanExpr": 0.2609090909090909
+        },
+        {
+          "gene": "ENSMUSG00000021718",
+          "beta1": 1.4444444444444438,
+          "beta2": -2.222222222222221,
+          "modulus": 1.4907119849998596,
+          "category": "Explosive",
+          "fibProximity": 96.853950096662,
+          "meanExpr": 0.002272727272727273
+        },
+        {
+          "gene": "ENSMUSG00000040037",
+          "beta1": -0.3636363636363638,
+          "beta2": 1.6363636363636358,
+          "modulus": 1.4738791275956267,
+          "category": "Explosive",
+          "fibProximity": 67.31333902483433,
+          "meanExpr": 0.007272727272727273
+        },
+        {
+          "gene": "ENSMUSG00000115919",
+          "beta1": -0.03488372093023255,
+          "beta2": 1.941860465116279,
+          "modulus": 1.4110575476661336,
+          "category": "Explosive",
+          "fibProximity": 54.87732662306216,
+          "meanExpr": 0.0013636363636363635
+        },
+        {
+          "gene": "ENSMUSG00000027254",
+          "beta1": -0.10644208556306115,
+          "beta2": -1.929657572301668,
+          "modulus": 1.3891211510525885,
+          "category": "Explosive",
+          "fibProximity": 56.95704138615418,
+          "meanExpr": 0.019090909090909092
+        },
+        {
+          "gene": "ENSMUSG00000105650",
+          "beta1": -0.055555555555555594,
+          "beta2": 1.6944444444444449,
+          "modulus": 1.329782405028663,
+          "category": "Explosive",
+          "fibProximity": 55.696821600870564,
+          "meanExpr": 0.010000000000000002
+        },
+        {
+          "gene": "ENSMUSG00000100918",
+          "beta1": 1.2777777777777766,
+          "beta2": -1.759259259259258,
+          "modulus": 1.3263707095903687,
+          "category": "Explosive",
+          "fibProximity": 89.73746799617632,
+          "meanExpr": 0.006363636363636364
+        },
+        {
+          "gene": "ENSMUSG00000082085",
+          "beta1": 1.2301587301587296,
+          "beta2": -1.637188208616779,
+          "modulus": 1.2795265564328,
+          "category": "Explosive",
+          "fibProximity": 87.51578115747026,
+          "meanExpr": 0.007272727272727273
+        }
+      ]
+    },
+    {
+      "dataset": "Neuroblastoma MYC-ON",
+      "type": "Transcriptomics",
+      "totalGenes": 34642,
+      "stableCount": 31716,
+      "boundaryCount": 1256,
+      "preExplosiveCount": 932,
+      "explosiveCount": 738,
+      "avgModulus": 0.5745334171810682,
+      "avgFibProximity": 57.06074223952904,
+      "topExplosiveGenes": [
+        {
+          "gene": "AL357093.2",
+          "beta1": 6.206967141248696,
+          "beta2": 6.148012848656082,
+          "modulus": 7.075840946514807,
+          "category": "Explosive",
+          "fibProximity": 67.60047519316115,
+          "meanExpr": 0.020457142857142858
+        },
+        {
+          "gene": "RN7SKP160",
+          "beta1": 4.860222752585523,
+          "beta2": -24.20778748000854,
+          "modulus": 4.920141002045423,
+          "category": "Explosive",
+          "fibProximity": 65.8847656287679,
+          "meanExpr": 0.05351428571428572
+        },
+        {
+          "gene": "ASB10",
+          "beta1": 4.08279569892472,
+          "beta2": -17.17750028905071,
+          "modulus": 4.144574801961078,
+          "category": "Explosive",
+          "fibProximity": 68.3621260409468,
+          "meanExpr": 0.0034428571428571425
+        },
+        {
+          "gene": "AC000032.1",
+          "beta1": 4.029353233830871,
+          "beta2": -16.738622806366283,
+          "modulus": 4.091286204406419,
+          "category": "Explosive",
+          "fibProximity": 68.57020466897154,
+          "meanExpr": 0.022092857142857143
+        },
+        {
+          "gene": "GLP1R",
+          "beta1": 3.9909090909091054,
+          "beta2": -16.426446280991797,
+          "modulus": 4.052955252774424,
+          "category": "Explosive",
+          "fibProximity": 68.7235906315783,
+          "meanExpr": 0.0008
+        },
+        {
+          "gene": "RAD51AP1P1",
+          "beta1": 3.9164835164835408,
+          "beta2": -15.83049148653554,
+          "modulus": 3.9787550171549313,
+          "category": "Explosive",
+          "fibProximity": 69.02974203712601,
+          "meanExpr": 0.006521428571428571
+        },
+        {
+          "gene": "TNMD",
+          "beta1": 3.913888888888867,
+          "beta2": -15.809915123456701,
+          "modulus": 3.9761683972710085,
+          "category": "Explosive",
+          "fibProximity": 69.04064096873182,
+          "meanExpr": 0.0051571428571428575
+        },
+        {
+          "gene": "AC008695.2",
+          "beta1": 3.911976047904169,
+          "beta2": -15.794754204166432,
+          "modulus": 3.974261466507511,
+          "category": "Explosive",
+          "fibProximity": 69.04868595804297,
+          "meanExpr": 0.005978571428571429
+        },
+        {
+          "gene": "AC129507.2",
+          "beta1": 3.8558823529411774,
+          "beta2": -0.043106180665610144,
+          "modulus": 3.844670421634127,
+          "category": "Explosive",
+          "fibProximity": 7.156724773916797e-37,
+          "meanExpr": 0.014135714285714284
+        },
+        {
+          "gene": "CCDC73",
+          "beta1": -0.4132625557873394,
+          "beta2": 11.029139213496897,
+          "modulus": 3.534068083980431,
+          "category": "Explosive",
+          "fibProximity": 55.9582715211574,
+          "meanExpr": 0.10775000000000001
+        }
+      ]
+    },
+    {
+      "dataset": "Neuroblastoma MYC-OFF",
+      "type": "Transcriptomics",
+      "totalGenes": 33550,
+      "stableCount": 33156,
+      "boundaryCount": 223,
+      "preExplosiveCount": 90,
+      "explosiveCount": 81,
+      "avgModulus": 0.48825471994696057,
+      "avgFibProximity": 60.13204307457388,
+      "topExplosiveGenes": [
+        {
+          "gene": "AC105940.2",
+          "beta1": 4.884709209259311,
+          "beta2": -2.484777051656944,
+          "modulus": 4.307915904372641,
+          "category": "Explosive",
+          "fibProximity": 70.62258913444943,
+          "meanExpr": 0.04101428571428572
+        },
+        {
+          "gene": "LINC02263",
+          "beta1": 4.256028473534934,
+          "beta2": -0.5711956521739089,
+          "modulus": 4.117297760981931,
+          "category": "Explosive",
+          "fibProximity": 0.29291208043064026,
+          "meanExpr": 0.01992857142857143
+        },
+        {
+          "gene": "AC009093.2",
+          "beta1": 3.2255610027240547,
+          "beta2": 1.0401819290907879,
+          "modulus": 3.5209845980624666,
+          "category": "Explosive",
+          "fibProximity": 22.69729301395218,
+          "meanExpr": 0.045178571428571436
+        },
+        {
+          "gene": "AC114550.3",
+          "beta1": 3.444342507645262,
+          "beta2": -12.30792956073657,
+          "modulus": 3.508265890826488,
+          "category": "Explosive",
+          "fibProximity": 71.30622504681408,
+          "meanExpr": 0.031842857142857145
+        },
+        {
+          "gene": "AC010247.1",
+          "beta1": 2.896820349761524,
+          "beta2": -7.865510905088204,
+          "modulus": 2.8045518189343914,
+          "category": "Explosive",
+          "fibProximity": 77.9003294131445,
+          "meanExpr": 0.02207142857142857
+        },
+        {
+          "gene": "AC020917.1",
+          "beta1": 2.8188034188034186,
+          "beta2": -0.09831932773109248,
+          "modulus": 2.783480983218678,
+          "category": "Explosive",
+          "fibProximity": 1.7845640904676314e-10,
+          "meanExpr": 0.0165
+        },
+        {
+          "gene": "H1-12P",
+          "beta1": 2.602823179791976,
+          "beta2": -0.07669515669515667,
+          "modulus": 2.573015683008481,
+          "category": "Explosive",
+          "fibProximity": 9.203227274670945e-13,
+          "meanExpr": 0.04813571428571428
+        },
+        {
+          "gene": "LINC01898",
+          "beta1": -0.09999999999999998,
+          "beta2": 6.251562500000001,
+          "modulus": 2.550812368011643,
+          "category": "Explosive",
+          "fibProximity": 54.76943036441796,
+          "meanExpr": 0.006721428571428572
+        },
+        {
+          "gene": "CCDC175",
+          "beta1": 0.08270096481128299,
+          "beta2": 5.33375267549446,
+          "modulus": 2.3512124994728167,
+          "category": "Explosive",
+          "fibProximity": 54.74255671356657,
+          "meanExpr": 0.01704285714285714
+        },
+        {
+          "gene": "AC104938.1",
+          "beta1": 1.6668365995879835,
+          "beta2": 1.1617767656861901,
+          "modulus": 2.1959023650651046,
+          "category": "Explosive",
+          "fibProximity": 83.25154867425594,
+          "meanExpr": 0.11926428571428571
+        }
+      ]
+    }
+  ],
+  "topExplosiveGenes": [
+    {
+      "dataset": "Neuroblastoma MYC-ON",
+      "gene": "AL357093.2",
+      "modulus": 7.075840946514807,
+      "beta1": 6.206967141248696,
+      "beta2": 6.148012848656082,
+      "fibProximity": 67.60047519316115
+    },
+    {
+      "dataset": "Mouse Brown Fat",
+      "gene": "Gpx5",
+      "modulus": 4.958264018187423,
+      "beta1": 6.744939648647005,
+      "beta2": -8.858809490680073,
+      "fibProximity": 86.64523285315444
+    },
+    {
+      "dataset": "Neuroblastoma MYC-ON",
+      "gene": "RN7SKP160",
+      "modulus": 4.920141002045423,
+      "beta1": 4.860222752585523,
+      "beta2": -24.20778748000854,
+      "fibProximity": 65.8847656287679
+    },
+    {
+      "dataset": "Neuroblastoma MYC-OFF",
+      "gene": "AC105940.2",
+      "modulus": 4.307915904372641,
+      "beta1": 4.884709209259311,
+      "beta2": -2.484777051656944,
+      "fibProximity": 70.62258913444943
+    },
+    {
+      "dataset": "Neuroblastoma MYC-ON",
+      "gene": "ASB10",
+      "modulus": 4.144574801961078,
+      "beta1": 4.08279569892472,
+      "beta2": -17.17750028905071,
+      "fibProximity": 68.3621260409468
+    },
+    {
+      "dataset": "Neuroblastoma MYC-OFF",
+      "gene": "LINC02263",
+      "modulus": 4.117297760981931,
+      "beta1": 4.256028473534934,
+      "beta2": -0.5711956521739089,
+      "fibProximity": 0.29291208043064026
+    },
+    {
+      "dataset": "Neuroblastoma MYC-ON",
+      "gene": "AC000032.1",
+      "modulus": 4.091286204406419,
+      "beta1": 4.029353233830871,
+      "beta2": -16.738622806366283,
+      "fibProximity": 68.57020466897154
+    },
+    {
+      "dataset": "Neuroblastoma MYC-ON",
+      "gene": "GLP1R",
+      "modulus": 4.052955252774424,
+      "beta1": 3.9909090909091054,
+      "beta2": -16.426446280991797,
+      "fibProximity": 68.7235906315783
+    },
+    {
+      "dataset": "Neuroblastoma MYC-ON",
+      "gene": "RAD51AP1P1",
+      "modulus": 3.9787550171549313,
+      "beta1": 3.9164835164835408,
+      "beta2": -15.83049148653554,
+      "fibProximity": 69.02974203712601
+    },
+    {
+      "dataset": "Neuroblastoma MYC-ON",
+      "gene": "TNMD",
+      "modulus": 3.9761683972710085,
+      "beta1": 3.913888888888867,
+      "beta2": -15.809915123456701,
+      "fibProximity": 69.04064096873182
+    },
+    {
+      "dataset": "Neuroblastoma MYC-ON",
+      "gene": "AC008695.2",
+      "modulus": 3.974261466507511,
+      "beta1": 3.911976047904169,
+      "beta2": -15.794754204166432,
+      "fibProximity": 69.04868595804297
+    },
+    {
+      "dataset": "Neuroblastoma MYC-ON",
+      "gene": "AC129507.2",
+      "modulus": 3.844670421634127,
+      "beta1": 3.8558823529411774,
+      "beta2": -0.043106180665610144,
+      "fibProximity": 7.156724773916797e-37
+    },
+    {
+      "dataset": "Neuroblastoma MYC-ON",
+      "gene": "CCDC73",
+      "modulus": 3.534068083980431,
+      "beta1": -0.4132625557873394,
+      "beta2": 11.029139213496897,
+      "fibProximity": 55.9582715211574
+    },
+    {
+      "dataset": "Neuroblastoma MYC-OFF",
+      "gene": "AC009093.2",
+      "modulus": 3.5209845980624666,
+      "beta1": 3.2255610027240547,
+      "beta2": 1.0401819290907879,
+      "fibProximity": 22.69729301395218
+    },
+    {
+      "dataset": "Neuroblastoma MYC-OFF",
+      "gene": "AC114550.3",
+      "modulus": 3.508265890826488,
+      "beta1": 3.444342507645262,
+      "beta2": -12.30792956073657,
+      "fibProximity": 71.30622504681408
+    },
+    {
+      "dataset": "Neuroblastoma MYC-OFF",
+      "gene": "AC010247.1",
+      "modulus": 2.8045518189343914,
+      "beta1": 2.896820349761524,
+      "beta2": -7.865510905088204,
+      "fibProximity": 77.9003294131445
+    },
+    {
+      "dataset": "Neuroblastoma MYC-OFF",
+      "gene": "AC020917.1",
+      "modulus": 2.783480983218678,
+      "beta1": 2.8188034188034186,
+      "beta2": -0.09831932773109248,
+      "fibProximity": 1.7845640904676314e-10
+    },
+    {
+      "dataset": "Neuroblastoma MYC-OFF",
+      "gene": "H1-12P",
+      "modulus": 2.573015683008481,
+      "beta1": 2.602823179791976,
+      "beta2": -0.07669515669515667,
+      "fibProximity": 9.203227274670945e-13
+    },
+    {
+      "dataset": "Neuroblastoma MYC-OFF",
+      "gene": "LINC01898",
+      "modulus": 2.550812368011643,
+      "beta1": -0.09999999999999998,
+      "beta2": 6.251562500000001,
+      "fibProximity": 54.76943036441796
+    },
+    {
+      "dataset": "Neuroblastoma MYC-OFF",
+      "gene": "CCDC175",
+      "modulus": 2.3512124994728167,
+      "beta1": 0.08270096481128299,
+      "beta2": 5.33375267549446,
+      "fibProximity": 54.74255671356657
+    },
+    {
+      "dataset": "Neuroblastoma MYC-OFF",
+      "gene": "AC104938.1",
+      "modulus": 2.1959023650651046,
+      "beta1": 1.6668365995879835,
+      "beta2": 1.1617767656861901,
+      "fibProximity": 83.25154867425594
+    },
+    {
+      "dataset": "Organoid Healthy (APC-WT)",
+      "gene": "ENSMUSG00000022818",
+      "modulus": 2.1074135427150464,
+      "beta1": 1.9233289646133684,
+      "beta2": 0.38794233289646135,
+      "fibProximity": 3.5446304334594614
+    },
+    {
+      "dataset": "Mouse Brown Fat",
+      "gene": "Adam7",
+      "modulus": 2.0393858811787413,
+      "beta1": -1.1139641960601807,
+      "beta2": 1.8872919187674313,
+      "fibProximity": 97.25933555885887
+    },
+    {
+      "dataset": "Organoid Tumor (APC-Mut)",
+      "gene": "ENSMUSG00000069189",
+      "modulus": 1.6555182695279267,
+      "beta1": 1.6111111111111112,
+      "beta2": -2.7407407407407414,
+      "fibProximity": 97.02551984398139
+    },
+    {
+      "dataset": "Organoid Tumor (APC-Mut)",
+      "gene": "ENSMUSG00000055865",
+      "modulus": 1.6207578329664694,
+      "beta1": -0.11516946363935501,
+      "beta2": 2.440194142810134,
+      "fibProximity": 56.505221046856825
+    },
+    {
+      "dataset": "Organoid Tumor (APC-Mut)",
+      "gene": "ENSMUSG00000084708",
+      "modulus": 1.5985415758999277,
+      "beta1": 1.5535353535353538,
+      "beta2": -2.5553351698806246,
+      "fibProximity": 98.99741756035992
+    },
+    {
+      "dataset": "Organoid Tumor (APC-Mut)",
+      "gene": "ENSMUSG00000021718",
+      "modulus": 1.4907119849998596,
+      "beta1": 1.4444444444444438,
+      "beta2": -2.222222222222221,
+      "fibProximity": 96.853950096662
+    },
+    {
+      "dataset": "Organoid Healthy (APC-WT)",
+      "gene": "ENSMUSG00000066101",
+      "modulus": 1.4810095955031473,
+      "beta1": -0.05555555555555555,
+      "beta2": 2.1111111111111103,
+      "fibProximity": 55.33756577715886
+    },
+    {
+      "dataset": "Organoid Tumor (APC-Mut)",
+      "gene": "ENSMUSG00000040037",
+      "modulus": 1.4738791275956267,
+      "beta1": -0.3636363636363638,
+      "beta2": 1.6363636363636358,
+      "fibProximity": 67.31333902483433
+    },
+    {
+      "dataset": "Organoid Tumor (APC-Mut)",
+      "gene": "ENSMUSG00000115919",
+      "modulus": 1.4110575476661336,
+      "beta1": -0.03488372093023255,
+      "beta2": 1.941860465116279,
+      "fibProximity": 54.87732662306216
+    },
+    {
+      "dataset": "Organoid Tumor (APC-Mut)",
+      "gene": "ENSMUSG00000027254",
+      "modulus": 1.3891211510525885,
+      "beta1": -0.10644208556306115,
+      "beta2": -1.929657572301668,
+      "fibProximity": 56.95704138615418
+    },
+    {
+      "dataset": "Organoid Healthy (APC-WT)",
+      "gene": "ENSMUSG00000086170",
+      "modulus": 1.3387861160413836,
+      "beta1": -0.12500000000000008,
+      "beta2": 1.625,
+      "fibProximity": 58.210122990736735
+    },
+    {
+      "dataset": "Organoid Tumor (APC-Mut)",
+      "gene": "ENSMUSG00000105650",
+      "modulus": 1.329782405028663,
+      "beta1": -0.055555555555555594,
+      "beta2": 1.6944444444444449,
+      "fibProximity": 55.696821600870564
+    },
+    {
+      "dataset": "Organoid Tumor (APC-Mut)",
+      "gene": "ENSMUSG00000100918",
+      "modulus": 1.3263707095903687,
+      "beta1": 1.2777777777777766,
+      "beta2": -1.759259259259258,
+      "fibProximity": 89.73746799617632
+    },
+    {
+      "dataset": "Organoid Healthy (APC-WT)",
+      "gene": "ENSMUSG00000008496",
+      "modulus": 1.3253658531644383,
+      "beta1": -0.5821231335651461,
+      "beta2": 0.9850685211699735,
+      "fibProximity": 97.327642175596
+    },
+    {
+      "dataset": "Organoid Tumor (APC-Mut)",
+      "gene": "ENSMUSG00000082085",
+      "modulus": 1.2795265564328,
+      "beta1": 1.2301587301587296,
+      "beta2": -1.637188208616779,
+      "fibProximity": 87.51578115747026
+    },
+    {
+      "dataset": "Organoid Healthy (APC-WT)",
+      "gene": "ENSMUSG00000088254",
+      "modulus": 1.2502814791015087,
+      "beta1": 1.3275718772295,
+      "beta2": -0.0966347532918094,
+      "fibProximity": 0.0005449407653061335
+    },
+    {
+      "dataset": "Organoid Healthy (APC-WT)",
+      "gene": "ENSMUSG00000107597",
+      "modulus": 1.2310179336225946,
+      "beta1": -0.27907172594883145,
+      "beta2": 1.1718628534904214,
+      "fibProximity": 68.39364231828998
+    },
+    {
+      "dataset": "Mouse Heart",
+      "gene": "Jchain",
+      "modulus": 1.2120129410738318,
+      "beta1": -0.04929841159394305,
+      "beta2": 1.4092250565041962,
+      "fibProximity": 55.819252477655944
+    }
+  ]
+}

@@ -52,6 +52,7 @@ interface GeneProfileResponse {
         amplitude: number;
       }>;
     };
+    isCouplingReference?: boolean;
   };
   connection: {
     literatureConfirmed: boolean;
@@ -271,7 +272,11 @@ export default function GeneSearchPalette() {
 
                     <div className="rounded-lg border border-border/40 bg-card/50 p-3">
                       <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">BMAL1 Coupling</div>
-                      {totalTissues > 0 ? (
+                      {data.par2.isCouplingReference ? (
+                        <div className="text-xs text-amber-500 leading-relaxed" data-testid="text-coupling-reference">
+                          Coupling reference gene — drives other genes, self-coupling not tested
+                        </div>
+                      ) : totalTissues > 0 ? (
                         <>
                           <div className="text-lg font-bold" data-testid="text-coupling-count">
                             {coupledCount}/{totalTissues}

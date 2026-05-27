@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as crypto from 'crypto';
 import { parse } from 'csv-parse/sync';
+import { ENSEMBL_TO_SYMBOL } from './gene-categories';
 
 interface DatasetMetadata {
   filename: string;
@@ -13,18 +14,6 @@ interface DatasetMetadata {
   keyGenes: string[];
   publication?: string;
 }
-
-const ENSEMBL_TO_SYMBOL: Record<string, string> = {
-  'ENSMUSG00000055866': 'Per2',
-  'ENSMUSG00000020893': 'Per1',
-  'ENSMUSG00000020038': 'Arntl',
-  'ENSMUSG00000029238': 'Clock',
-  'ENSMUSG00000020893': 'Cry1',
-  'ENSMUSG00000068742': 'Cry2',
-  'ENSMUSG00000012428': 'Lgr5',
-  'ENSMUSG00000022346': 'Myc',
-  'ENSMUSG00000020063': 'Sirt1',
-};
 
 const DATASET_REGISTRY: DatasetMetadata[] = [
   {

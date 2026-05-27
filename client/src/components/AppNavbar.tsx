@@ -24,7 +24,7 @@ import {
   BookOpen, Info, Lock, ShieldCheck, Sparkles, ChevronDown,
   Menu, Home, Upload, Search, Award, CircleDot, BarChart3, FolderOpen, Zap, ChevronRight,
   FileText, Compass, TestTube, Brain, Clock, TrendingDown, Map, Watch, Sun, Eye,
-  BarChart2, Download, Database, RefreshCw,
+  BarChart2, Download, Database, RefreshCw, History,
 } from "lucide-react";
 
 const NAV_GROUPS = [
@@ -96,6 +96,7 @@ const NAV_GROUPS = [
     items: [
       { label: "Disease & Cancer", href: "#disease", icon: Target, color: "text-slate-400", isSection: true, desc: "" },
       { href: "/glial-analysis", icon: Brain, color: "text-blue-400", label: "Glial Circadian Analysis", desc: "GSE261698 · Astrocyte vs Microglia · Alzheimer's" },
+      { href: "/mnd-als", icon: Zap, color: "text-red-400", label: "MND/ALS Motor Neuron Analysis", desc: "GSE297373 + GSE18597 · ALS-RBPs mean |λ|=0.812 · pre-loaded vulnerability" },
       { href: "/gbm-zman-seq", icon: FlaskConical, color: "text-orange-400", label: "GBM Immune Clock — Zman-seq", desc: "GSE232040 · NK clock suppression · non-circadian true-negative" },
       { href: "/p53-regulon", icon: Shield, color: "text-violet-400", label: "p53 Regulon Persistence", desc: "Apoptotic vs survival arm eigenvalue profiling" },
       { href: "/p53-oscillator", icon: FlaskConical, color: "text-fuchsia-400", label: "p53–MDM2 Oscillator", desc: "Pre-specified: feedback loop → complex roots · GOF → real roots" },
@@ -142,6 +143,8 @@ const NAV_GROUPS = [
       { href: "/cofe-context", icon: Layers, color: "text-violet-400", label: "COFE Context", desc: "Stability-constrained coefficient-ratio clustering" },
       { label: "Platform", href: "#more-platform", icon: Target, color: "text-slate-400", isSection: true, desc: "" },
       { href: "/analytics", icon: BarChart2, color: "text-emerald-400", label: "Platform Analytics", desc: "Usage statistics and page-view metrics" },
+      { href: "/figure-gallery", icon: FolderOpen, color: "text-violet-400", label: "Figures Gallery", desc: "All paper figures — view & download" },
+      { href: "/disease-phase-diagram", icon: Activity, color: "text-red-400", label: "Disease Phase Diagram", desc: "Clock/target τ_c ratio: Healthy 1.74× → APC-KO 0.43×" },
     ],
   },
   {

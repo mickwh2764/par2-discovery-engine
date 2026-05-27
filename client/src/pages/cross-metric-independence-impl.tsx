@@ -154,16 +154,16 @@ function strengthLabel(rho: number): { label: string; color: string } {
   if (abs >= 0.7) return { label: "Strong", color: "text-red-400" };
   if (abs >= 0.4) return { label: "Moderate", color: "text-amber-400" };
   if (abs >= 0.2) return { label: "Weak", color: "text-blue-400" };
-  return { label: "Negligible", color: "text-gray-400" };
+  return { label: "Negligible", color: "text-slate-500" };
 }
 
 const CustomScatterTooltip = ({ active, payload }: any) => {
   if (!active || !payload?.length) return null;
   const d = payload[0].payload;
   return (
-    <div className="bg-gray-900 border border-gray-700 rounded-lg p-3 text-sm shadow-xl" data-testid="scatter-tooltip">
-      <div className="font-bold text-white"><GeneTooltip gene={d.gene}>{d.gene}</GeneTooltip></div>
-      <div className="text-gray-400 capitalize">{d.geneType} gene {d.tissue ? `• ${d.tissue}` : ''}</div>
+    <div className="bg-white border border-slate-200 rounded-lg p-3 text-sm shadow-xl" data-testid="scatter-tooltip">
+      <div className="font-bold text-slate-900"><GeneTooltip gene={d.gene}>{d.gene}</GeneTooltip></div>
+      <div className="text-slate-500 capitalize">{d.geneType} gene {d.tissue ? `• ${d.tissue}` : ''}</div>
       <div className="mt-1 space-y-0.5">
         <div className="text-blue-300">|λ| = {d.eigenvalue?.toFixed(4)}</div>
         {d.networkDegree !== undefined && <div className="text-emerald-300">Network Degree = {d.networkDegree}</div>}
@@ -394,10 +394,10 @@ export function CrossMetricIndependenceImpl() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 flex items-center justify-center">
         <div className="text-center space-y-4">
           <div className="animate-spin w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full mx-auto" />
-          <p className="text-gray-400">Computing cross-metric independence analysis...</p>
+          <p className="text-slate-500">Computing cross-metric independence analysis...</p>
         </div>
       </div>
     );
@@ -405,7 +405,7 @@ export function CrossMetricIndependenceImpl() {
 
   if (error || !data) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 flex items-center justify-center">
         <Card className="bg-red-950/30 border-red-800/50 max-w-md">
           <CardContent className="pt-6 text-center">
             <p className="text-red-400">Failed to load analysis data</p>
@@ -424,12 +424,12 @@ export function CrossMetricIndependenceImpl() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 text-slate-900">
       <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div className="flex items-center gap-4">
             <Link href="/">
-              <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white" data-testid="link-back">
+              <Button variant="ghost" size="sm" className="text-slate-500 hover:text-slate-700" data-testid="link-back">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Home
               </Button>
@@ -438,7 +438,7 @@ export function CrossMetricIndependenceImpl() {
               <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent" data-testid="text-page-title">
                 Cross-Metric Independence
               </h1>
-              <p className="text-gray-400 mt-1">
+              <p className="text-slate-500 mt-1">
                 Quantifying what |λ| captures that other metrics miss
               </p>
             </div>
@@ -469,9 +469,9 @@ export function CrossMetricIndependenceImpl() {
 
         <PaperCrossLinks currentPage="/cross-metric-independence" />
 
-        <div className="rounded-lg bg-slate-800/30 border border-slate-700/50 p-4">
+        <div className="rounded-lg bg-slate-50 border border-slate-200 p-4">
           <div className="flex items-center gap-3 mb-3">
-            <span className="text-sm font-medium text-white">Species / Dataset:</span>
+            <span className="text-sm font-medium text-slate-900">Species / Dataset:</span>
             <div className="flex flex-wrap gap-2" data-testid="species-selector">
               {SPECIES_OPTIONS.map(opt => (
                 <button
@@ -480,7 +480,7 @@ export function CrossMetricIndependenceImpl() {
                   className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
                     species === opt.value
                       ? 'bg-cyan-600/30 text-cyan-300 border border-cyan-500/50'
-                      : 'bg-gray-800/50 text-gray-400 border border-gray-700/50 hover:border-gray-600 hover:text-gray-300'
+                      : 'bg-slate-50 text-slate-500 border border-slate-200 hover:border-slate-300 hover:text-slate-600'
                   }`}
                   data-testid={`btn-species-${opt.value}`}
                 >
@@ -496,7 +496,7 @@ export function CrossMetricIndependenceImpl() {
               className={`text-xs font-medium px-3 py-1 rounded-md transition-all ${
                 showCrossSpecies
                   ? 'bg-violet-600/30 text-violet-300 border border-violet-500/50'
-                  : 'bg-gray-800/50 text-gray-500 border border-gray-700/50 hover:text-gray-300'
+                  : 'bg-slate-50 text-gray-500 border border-slate-200 hover:text-slate-600'
               }`}
               data-testid="btn-cross-species-toggle"
             >
@@ -517,7 +517,7 @@ export function CrossMetricIndependenceImpl() {
             return +((pts.filter(p => p.isComplex).length / pts.length) * 100).toFixed(1);
           };
           return (
-            <Card className="bg-gray-900/50 border-violet-800/50" data-testid="card-cross-species">
+            <Card className="bg-white border-violet-800/50" data-testid="card-cross-species">
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm text-violet-300 flex items-center gap-2">
                   <GitCompare className="w-4 h-4" />
@@ -531,24 +531,24 @@ export function CrossMetricIndependenceImpl() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-xs" data-testid="table-cross-species">
                     <thead>
-                      <tr className="border-b border-gray-700/50">
-                        <th className="text-left text-gray-400 py-2 pr-4 font-medium">Metric</th>
+                      <tr className="border-b border-slate-200">
+                        <th className="text-left text-slate-500 py-2 pr-4 font-medium">Metric</th>
                         {datasets.map(d => (
-                          <th key={d.key} className="text-center text-gray-400 py-2 px-3 font-medium">{d.label}</th>
+                          <th key={d.key} className="text-center text-slate-500 py-2 px-3 font-medium">{d.label}</th>
                         ))}
-                        <th className="text-center text-gray-400 py-2 pl-3 font-medium">Conserved?</th>
+                        <th className="text-center text-slate-500 py-2 pl-3 font-medium">Conserved?</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-800/50">
                       <tr>
-                        <td className="py-2.5 pr-4 text-gray-300 font-medium">Genes analyzed</td>
+                        <td className="py-2.5 pr-4 text-slate-600 font-medium">Genes analyzed</td>
                         {datasets.map(d => (
-                          <td key={d.key} className="py-2.5 px-3 text-center text-white font-mono">{d.data.summary.uniqueGenes}</td>
+                          <td key={d.key} className="py-2.5 px-3 text-center text-slate-900 font-mono">{d.data.summary.uniqueGenes}</td>
                         ))}
                         <td className="py-2.5 pl-3 text-center text-gray-500">—</td>
                       </tr>
                       <tr>
-                        <td className="py-2.5 pr-4 text-gray-300 font-medium">|λ| vs Network Degree (ρ)</td>
+                        <td className="py-2.5 pr-4 text-slate-600 font-medium">|λ| vs Network Degree (ρ)</td>
                         {datasets.map(d => {
                           const rho = d.data.correlations.eigenvalue_vs_networkDegree.rho;
                           const s = strengthLabel(rho);
@@ -566,7 +566,7 @@ export function CrossMetricIndependenceImpl() {
                         </td>
                       </tr>
                       <tr>
-                        <td className="py-2.5 pr-4 text-gray-300 font-medium">|λ| vs Amplitude (ρ)</td>
+                        <td className="py-2.5 pr-4 text-slate-600 font-medium">|λ| vs Amplitude (ρ)</td>
                         {datasets.map(d => {
                           const rho = d.data.correlations.eigenvalue_vs_amplitude.rho;
                           const s = strengthLabel(rho);
@@ -584,7 +584,7 @@ export function CrossMetricIndependenceImpl() {
                         </td>
                       </tr>
                       <tr>
-                        <td className="py-2.5 pr-4 text-gray-300 font-medium">Oscillatory genes (%)</td>
+                        <td className="py-2.5 pr-4 text-slate-600 font-medium">Oscillatory genes (%)</td>
                         {datasets.map(d => {
                           const pct = getOscPct(d.data);
                           return (
@@ -596,7 +596,7 @@ export function CrossMetricIndependenceImpl() {
                         </td>
                       </tr>
                       <tr>
-                        <td className="py-2.5 pr-4 text-gray-300 font-medium">Clock &gt; Target hierarchy</td>
+                        <td className="py-2.5 pr-4 text-slate-600 font-medium">Clock &gt; Target hierarchy</td>
                         {datasets.map(d => {
                           const conserved = d.data.conservationSummary?.clockMoreConserved;
                           return (
@@ -616,8 +616,8 @@ export function CrossMetricIndependenceImpl() {
                     </tbody>
                   </table>
                 </div>
-                <div className="mt-3 p-2 bg-gray-800/40 rounded text-[11px] text-gray-500 leading-relaxed">
-                  <strong className="text-gray-400">Interpretation:</strong> If |λ| is a genuinely independent metric, we expect weak-to-moderate correlations with network degree and amplitude across all species. If the oscillatory fraction or clock &gt; target hierarchy changes across species, it reflects genuine biological differences in how circadian dynamics manifest — not a failure of the method.
+                <div className="mt-3 p-2 bg-slate-100/40 rounded text-[11px] text-gray-500 leading-relaxed">
+                  <strong className="text-slate-500">Interpretation:</strong> If |λ| is a genuinely independent metric, we expect weak-to-moderate correlations with network degree and amplitude across all species. If the oscillatory fraction or clock &gt; target hierarchy changes across species, it reflects genuine biological differences in how circadian dynamics manifest — not a failure of the method.
                 </div>
 
                 <div className="mt-4">
@@ -635,8 +635,8 @@ export function CrossMetricIndependenceImpl() {
                       const meanDamping = osc.length > 0 ? osc.reduce((s: number, p: any) => s + p.dampingRate, 0) / osc.length : 0;
                       const meanPeriod = osc.length > 0 ? osc.reduce((s: number, p: any) => s + p.naturalPeriod, 0) / osc.length : 0;
                       return (
-                        <div key={ds.key} className="bg-gray-800/30 rounded-lg p-2" data-testid={`cross-species-damping-${ds.key}`}>
-                          <div className="text-[10px] text-gray-400 font-medium mb-1">{ds.label}</div>
+                        <div key={ds.key} className="bg-slate-100/30 rounded-lg p-2" data-testid={`cross-species-damping-${ds.key}`}>
+                          <div className="text-[10px] text-slate-500 font-medium mb-1">{ds.label}</div>
                           <div className="h-[220px]">
                             <ResponsiveContainer width="100%" height="100%">
                               <ScatterChart margin={{ top: 5, right: 10, bottom: 25, left: 35 }}>
@@ -649,9 +649,9 @@ export function CrossMetricIndependenceImpl() {
                                   if (!payload?.[0]) return null;
                                   const d = payload[0].payload;
                                   return (
-                                    <div className="bg-gray-900 border border-gray-700 rounded p-1.5 text-[10px] shadow-lg">
-                                      <div className="font-medium text-white"><GeneTooltip gene={d.gene}>{d.gene}</GeneTooltip></div>
-                                      <div className="text-gray-400">ζ={d.dampingRate?.toFixed(3)}, T={d.naturalPeriod?.toFixed(1)}h</div>
+                                    <div className="bg-white border border-slate-200 rounded p-1.5 text-[10px] shadow-lg">
+                                      <div className="font-medium text-slate-900"><GeneTooltip gene={d.gene}>{d.gene}</GeneTooltip></div>
+                                      <div className="text-slate-500">ζ={d.dampingRate?.toFixed(3)}, T={d.naturalPeriod?.toFixed(1)}h</div>
                                     </div>
                                   );
                                 }} />
@@ -668,8 +668,8 @@ export function CrossMetricIndependenceImpl() {
                       );
                     })}
                   </div>
-                  <div className="mt-2 p-2 bg-gray-800/40 rounded text-[10px] text-gray-500 leading-relaxed">
-                    <strong className="text-gray-400">Damping landscape:</strong> Each panel shows oscillatory genes in damping rate vs natural period space. The green zone marks the circadian resonance region (20–28h period, low damping). Consistent clustering patterns across species confirm that AR(2) dynamics reflect conserved biology, not dataset-specific artifacts.
+                  <div className="mt-2 p-2 bg-slate-100/40 rounded text-[10px] text-gray-500 leading-relaxed">
+                    <strong className="text-slate-500">Damping landscape:</strong> Each panel shows oscillatory genes in damping rate vs natural period space. The green zone marks the circadian resonance region (20–28h period, low damping). Consistent clustering patterns across species confirm that AR(2) dynamics reflect conserved biology, not dataset-specific artifacts.
                   </div>
                 </div>
               </CardContent>
@@ -678,31 +678,31 @@ export function CrossMetricIndependenceImpl() {
         })()}
 
         {showCrossSpecies && !(mouseData && humanBloodData && humanSleepData) && (
-          <Card className="bg-gray-900/50 border-violet-800/50">
+          <Card className="bg-white border-violet-800/50">
             <CardContent className="py-6 flex items-center justify-center gap-3">
               {crossSpeciesError ? (
                 <span className="text-red-400 text-sm">Failed to load cross-species data. Try toggling the panel.</span>
               ) : (
                 <>
                   <div className="animate-spin w-5 h-5 border-2 border-violet-500 border-t-transparent rounded-full" />
-                  <span className="text-gray-400 text-sm">Loading cross-species data...</span>
+                  <span className="text-slate-500 text-sm">Loading cross-species data...</span>
                 </>
               )}
             </CardContent>
           </Card>
         )}
 
-        <div className="rounded-lg bg-slate-800/30 border border-slate-700/50 p-4">
-          <p className="text-sm text-slate-300 leading-relaxed">
-            <strong className="text-white">What you can do:</strong> Select one or more genes to compare their eigenvalue |λ|, network centrality, cosinor amplitude, and chromatin state side by side. Selected genes are highlighted across all scatter plots so you can see where they fall relative to the full distribution. Spearman correlations and partial correlations quantify the independent information content of each metric. Cross-tissue conservation compares eigenvalue coefficient of variation across tissues for clock vs target genes.
+        <div className="rounded-lg bg-slate-50 border border-slate-200 p-4">
+          <p className="text-sm text-slate-600 leading-relaxed">
+            <strong className="text-slate-900">What you can do:</strong> Select one or more genes to compare their eigenvalue |λ|, network centrality, cosinor amplitude, and chromatin state side by side. Selected genes are highlighted across all scatter plots so you can see where they fall relative to the full distribution. Spearman correlations and partial correlations quantify the independent information content of each metric. Cross-tissue conservation compares eigenvalue coefficient of variation across tissues for clock vs target genes.
           </p>
         </div>
 
-        <Card className="bg-gray-900/50 border-gray-800">
+        <Card className="bg-white border-gray-800">
           <CardContent className="pt-4 pb-4">
             <div className="flex items-center gap-2 mb-2">
               <Plus className="w-4 h-4 text-cyan-400" />
-              <span className="text-sm font-medium text-white">Select genes to compare across all metrics</span>
+              <span className="text-sm font-medium text-slate-900">Select genes to compare across all metrics</span>
             </div>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
@@ -711,16 +711,16 @@ export function CrossMetricIndependenceImpl() {
                 onChange={e => setGeneInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder={species === 'mouse' ? "Type a gene name (e.g. Per2, Myc, Wee1)..." : "Type a gene name (e.g. PER2, CRY1, TP53)..."}
-                className="pl-10 bg-gray-900/50 border-gray-700 text-gray-200"
+                className="pl-10 bg-white border-slate-200 text-slate-800"
                 data-testid="input-gene-search"
               />
               {suggestions.length > 0 && (
-                <div className="absolute z-50 top-full left-0 right-0 mt-1 bg-gray-900 border border-gray-700 rounded-lg shadow-xl max-h-48 overflow-y-auto" data-testid="gene-suggestions">
+                <div className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-lg shadow-xl max-h-48 overflow-y-auto" data-testid="gene-suggestions">
                   {suggestions.map(gene => (
                     <button
                       key={gene}
                       onClick={() => addGene(gene)}
-                      className="w-full text-left px-4 py-2 hover:bg-gray-800 text-sm text-gray-200 flex items-center justify-between"
+                      className="w-full text-left px-4 py-2 hover:bg-slate-100 text-sm text-slate-800 flex items-center justify-between"
                       data-testid={`suggestion-${gene}`}
                     >
                       <span>{gene}</span>
@@ -748,7 +748,7 @@ export function CrossMetricIndependenceImpl() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="text-xs text-gray-500 hover:text-gray-300 h-6"
+                  className="text-xs text-gray-500 hover:text-slate-600 h-6"
                   onClick={() => setSelectedGenes([])}
                   data-testid="button-clear-genes"
                 >
@@ -765,7 +765,7 @@ export function CrossMetricIndependenceImpl() {
         </Card>
 
         {selectedGeneProfiles.length > 0 && (
-          <Card className="bg-gray-900/50 border-cyan-800/50">
+          <Card className="bg-white border-cyan-800/50">
             <CardHeader className="pb-3">
               <CardTitle className="text-lg flex items-center gap-2">
                 <GitCompare className="w-5 h-5 text-cyan-400" />
@@ -780,13 +780,13 @@ export function CrossMetricIndependenceImpl() {
                 <table className="w-full text-sm" data-testid="table-gene-profiles">
                   <thead>
                     <tr className="border-b border-gray-800">
-                      <th className="text-left py-2 px-3 text-gray-400 font-medium">Gene</th>
-                      <th className="text-left py-2 px-3 text-gray-400 font-medium">Type</th>
-                      <th className="text-right py-2 px-3 text-gray-400 font-medium">|λ| (mean)</th>
-                      <th className="text-right py-2 px-3 text-gray-400 font-medium">Network Degree</th>
-                      <th className="text-right py-2 px-3 text-gray-400 font-medium">Amplitude</th>
-                      <th className="text-right py-2 px-3 text-gray-400 font-medium">Cross-Tissue CV</th>
-                      <th className="text-left py-2 px-3 text-gray-400 font-medium">Tissues</th>
+                      <th className="text-left py-2 px-3 text-slate-500 font-medium">Gene</th>
+                      <th className="text-left py-2 px-3 text-slate-500 font-medium">Type</th>
+                      <th className="text-right py-2 px-3 text-slate-500 font-medium">|λ| (mean)</th>
+                      <th className="text-right py-2 px-3 text-slate-500 font-medium">Network Degree</th>
+                      <th className="text-right py-2 px-3 text-slate-500 font-medium">Amplitude</th>
+                      <th className="text-right py-2 px-3 text-slate-500 font-medium">Cross-Tissue CV</th>
+                      <th className="text-left py-2 px-3 text-slate-500 font-medium">Tissues</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -801,18 +801,18 @@ export function CrossMetricIndependenceImpl() {
                         <td className="py-2 px-3 text-right font-mono text-cyan-400">{p.eigenvalue?.toFixed(4) ?? '—'}</td>
                         <td className="py-2 px-3 text-right font-mono text-emerald-400">{p.networkDegree ?? '—'}</td>
                         <td className="py-2 px-3 text-right font-mono text-amber-400">{p.amplitude?.toFixed(4) ?? '—'}</td>
-                        <td className="py-2 px-3 text-right font-mono text-gray-300">{p.cv?.toFixed(4) ?? '—'}</td>
-                        <td className="py-2 px-3 text-gray-400 text-xs">{p.tissues.length > 0 ? p.tissues.join(', ') : '—'}</td>
+                        <td className="py-2 px-3 text-right font-mono text-slate-600">{p.cv?.toFixed(4) ?? '—'}</td>
+                        <td className="py-2 px-3 text-slate-500 text-xs">{p.tissues.length > 0 ? p.tissues.join(', ') : '—'}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
               {selectedGeneProfiles.length >= 2 && (
-                <div className="mt-4 rounded-lg bg-slate-800/20 border border-slate-700/30 p-3">
+                <div className="mt-4 rounded-lg bg-slate-50 border border-slate-200 p-3">
                   <div className="flex items-start gap-2">
                     <Info className="w-4 h-4 text-cyan-500 mt-0.5 flex-shrink-0" />
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-slate-500">
                       {(() => {
                         const clockProfiles = selectedGeneProfiles.filter(p => p.geneType === 'clock' && p.eigenvalue !== null);
                         const targetProfiles = selectedGeneProfiles.filter(p => p.geneType === 'target' && p.eigenvalue !== null);
@@ -840,11 +840,11 @@ export function CrossMetricIndependenceImpl() {
             const corr = data.correlations[key];
             const strength = strengthLabel(corr.rho);
             return (
-              <Card key={key} className="bg-gray-900/50 border-gray-800" data-testid={`card-corr-${key}`}>
+              <Card key={key} className="bg-white border-gray-800" data-testid={`card-corr-${key}`}>
                 <CardContent className="pt-4 pb-4">
                   <div className="flex items-center gap-2 mb-2">
                     <Icon className={`w-4 h-4 ${iconClass}`} />
-                    <span className="text-xs text-gray-400">{corr.label}</span>
+                    <span className="text-xs text-slate-500">{corr.label}</span>
                   </div>
                   <div className={`text-2xl font-bold ${strength.color}`}>
                     ρ = {corr.rho.toFixed(3)}
@@ -859,7 +859,7 @@ export function CrossMetricIndependenceImpl() {
         </div>
 
         {data.partialCorrelations.eigenvalue_amplitude_controllingNetwork && (
-          <Card className="bg-gray-900/50 border-gray-800">
+          <Card className="bg-white border-gray-800">
             <CardHeader className="pb-3">
               <CardTitle className="text-lg flex items-center gap-2">
                 <GitCompare className="w-5 h-5 text-cyan-400" />
@@ -871,8 +871,8 @@ export function CrossMetricIndependenceImpl() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="rounded-lg bg-slate-800/30 border border-slate-700/50 p-4">
-                  <div className="text-sm text-gray-400 mb-1">|λ| vs Amplitude, controlling for Network Degree</div>
+                <div className="rounded-lg bg-slate-50 border border-slate-200 p-4">
+                  <div className="text-sm text-slate-500 mb-1">|λ| vs Amplitude, controlling for Network Degree</div>
                   <div className={`text-xl font-bold ${strengthLabel(data.partialCorrelations.eigenvalue_amplitude_controllingNetwork.rho).color}`}>
                     ρ_partial = {data.partialCorrelations.eigenvalue_amplitude_controllingNetwork.rho.toFixed(3)}
                   </div>
@@ -881,8 +881,8 @@ export function CrossMetricIndependenceImpl() {
                   </div>
                 </div>
                 {data.partialCorrelations.eigenvalue_network_controllingAmplitude && (
-                  <div className="rounded-lg bg-slate-800/30 border border-slate-700/50 p-4">
-                    <div className="text-sm text-gray-400 mb-1">|λ| vs Network Degree, controlling for Amplitude</div>
+                  <div className="rounded-lg bg-slate-50 border border-slate-200 p-4">
+                    <div className="text-sm text-slate-500 mb-1">|λ| vs Network Degree, controlling for Amplitude</div>
                     <div className={`text-xl font-bold ${strengthLabel(data.partialCorrelations.eigenvalue_network_controllingAmplitude.rho).color}`}>
                       ρ_partial = {data.partialCorrelations.eigenvalue_network_controllingAmplitude.rho.toFixed(3)}
                     </div>
@@ -898,7 +898,7 @@ export function CrossMetricIndependenceImpl() {
         )}
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="bg-gray-900/50">
+          <TabsList className="bg-white">
             <TabsTrigger value="network" data-testid="tab-network">Network Centrality</TabsTrigger>
             <TabsTrigger value="amplitude" data-testid="tab-amplitude">Cosinor Amplitude</TabsTrigger>
             <TabsTrigger value="chromatin" data-testid="tab-chromatin">Chromatin State</TabsTrigger>
@@ -908,7 +908,7 @@ export function CrossMetricIndependenceImpl() {
           </TabsList>
 
           <TabsContent value="network" className="space-y-4 mt-4">
-            <Card className="bg-gray-900/50 border-gray-800">
+            <Card className="bg-white border-gray-800">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Network className="w-5 h-5 text-emerald-400" />
@@ -977,7 +977,7 @@ export function CrossMetricIndependenceImpl() {
                     </ScatterChart>
                   </ResponsiveContainer>
                 </div>
-                <div className="mt-4 rounded-lg bg-slate-800/20 border border-slate-700/30 p-3">
+                <div className="mt-4 rounded-lg bg-slate-50 border border-slate-200 p-3">
                   <div className="flex items-start gap-2">
                     <Info className="w-4 h-4 text-gray-500 mt-0.5 flex-shrink-0" />
                     <p className="text-xs text-gray-500">
@@ -990,7 +990,7 @@ export function CrossMetricIndependenceImpl() {
           </TabsContent>
 
           <TabsContent value="amplitude" className="space-y-4 mt-4">
-            <Card className="bg-gray-900/50 border-gray-800">
+            <Card className="bg-white border-gray-800">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Activity className="w-5 h-5 text-amber-400" />
@@ -1059,7 +1059,7 @@ export function CrossMetricIndependenceImpl() {
                     </ScatterChart>
                   </ResponsiveContainer>
                 </div>
-                <div className="mt-4 rounded-lg bg-slate-800/20 border border-slate-700/30 p-3">
+                <div className="mt-4 rounded-lg bg-slate-50 border border-slate-200 p-3">
                   <div className="flex items-start gap-2">
                     <Info className="w-4 h-4 text-gray-500 mt-0.5 flex-shrink-0" />
                     <p className="text-xs text-gray-500">
@@ -1072,7 +1072,7 @@ export function CrossMetricIndependenceImpl() {
           </TabsContent>
 
           <TabsContent value="chromatin" className="space-y-4 mt-4">
-            <Card className="bg-gray-900/50 border-gray-800">
+            <Card className="bg-white border-gray-800">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Layers className="w-5 h-5 text-purple-400" />
@@ -1113,9 +1113,9 @@ export function CrossMetricIndependenceImpl() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
                   {data.chromatinBoxData.map(box => (
-                    <div key={box.state} className="rounded-lg bg-slate-800/30 border border-slate-700/50 p-3">
-                      <div className="text-sm font-medium text-white">{box.state}</div>
-                      <div className="text-xs text-gray-400 mt-1">
+                    <div key={box.state} className="rounded-lg bg-slate-50 border border-slate-200 p-3">
+                      <div className="text-sm font-medium text-slate-900">{box.state}</div>
+                      <div className="text-xs text-slate-500 mt-1">
                         Mean: {box.mean.toFixed(4)} | Median: {box.median.toFixed(4)}
                       </div>
                       <div className="text-xs text-gray-500">
@@ -1125,7 +1125,7 @@ export function CrossMetricIndependenceImpl() {
                   ))}
                 </div>
 
-                <div className="mt-4 rounded-lg bg-slate-800/20 border border-slate-700/30 p-3">
+                <div className="mt-4 rounded-lg bg-slate-50 border border-slate-200 p-3">
                   <div className="flex items-start gap-2">
                     <Info className="w-4 h-4 text-gray-500 mt-0.5 flex-shrink-0" />
                     <p className="text-xs text-gray-500">
@@ -1138,7 +1138,7 @@ export function CrossMetricIndependenceImpl() {
           </TabsContent>
 
           <TabsContent value="functional" className="space-y-4 mt-4">
-            <Card className="bg-gray-900/50 border-gray-800">
+            <Card className="bg-white border-gray-800">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <BarChart3 className="w-5 h-5 text-cyan-400" />
@@ -1241,7 +1241,7 @@ export function CrossMetricIndependenceImpl() {
           </TabsContent>
 
           <TabsContent value="conservation" className="space-y-4 mt-4">
-            <Card className="bg-gray-900/50 border-gray-800">
+            <Card className="bg-white border-gray-800">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Dna className="w-5 h-5 text-rose-400" />
@@ -1254,19 +1254,19 @@ export function CrossMetricIndependenceImpl() {
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                   <div className="rounded-lg bg-blue-950/20 border border-blue-800/30 p-4 text-center">
-                    <div className="text-xs text-gray-400 mb-1">Clock Gene Mean CV</div>
+                    <div className="text-xs text-slate-500 mb-1">Clock Gene Mean CV</div>
                     <div className="text-2xl font-bold text-blue-400" data-testid="text-clock-cv">
                       {data.conservationSummary.clockMeanCV.toFixed(3)}
                     </div>
                   </div>
                   <div className="rounded-lg bg-amber-950/20 border border-amber-800/30 p-4 text-center">
-                    <div className="text-xs text-gray-400 mb-1">Target Gene Mean CV</div>
+                    <div className="text-xs text-slate-500 mb-1">Target Gene Mean CV</div>
                     <div className="text-2xl font-bold text-amber-400" data-testid="text-target-cv">
                       {data.conservationSummary.targetMeanCV.toFixed(3)}
                     </div>
                   </div>
-                  <div className="rounded-lg bg-gray-800/50 border border-gray-700/50 p-4 text-center">
-                    <div className="text-xs text-gray-400 mb-1">Clock More Conserved?</div>
+                  <div className="rounded-lg bg-slate-50 border border-slate-200 p-4 text-center">
+                    <div className="text-xs text-slate-500 mb-1">Clock More Conserved?</div>
                     <div className={`text-2xl font-bold ${data.conservationSummary.clockMoreConserved ? 'text-emerald-400' : 'text-red-400'}`} data-testid="text-conserved">
                       {data.conservationSummary.clockMoreConserved ? 'Yes' : 'No'}
                     </div>
@@ -1327,27 +1327,27 @@ export function CrossMetricIndependenceImpl() {
                   <table className="w-full text-sm" data-testid="table-conservation">
                     <thead>
                       <tr className="border-b border-gray-800">
-                        <th className="text-left py-2 px-3 text-gray-400 font-medium">Gene</th>
-                        <th className="text-left py-2 px-3 text-gray-400 font-medium">Type</th>
-                        <th className="text-left py-2 px-3 text-gray-400 font-medium">Tissues</th>
-                        <th className="text-right py-2 px-3 text-gray-400 font-medium">Mean |λ|</th>
-                        <th className="text-right py-2 px-3 text-gray-400 font-medium">CV</th>
-                        <th className="text-right py-2 px-3 text-gray-400 font-medium">Range</th>
+                        <th className="text-left py-2 px-3 text-slate-500 font-medium">Gene</th>
+                        <th className="text-left py-2 px-3 text-slate-500 font-medium">Type</th>
+                        <th className="text-left py-2 px-3 text-slate-500 font-medium">Tissues</th>
+                        <th className="text-right py-2 px-3 text-slate-500 font-medium">Mean |λ|</th>
+                        <th className="text-right py-2 px-3 text-slate-500 font-medium">CV</th>
+                        <th className="text-right py-2 px-3 text-slate-500 font-medium">Range</th>
                       </tr>
                     </thead>
                     <tbody>
                       {filteredConservation.map(g => (
-                        <tr key={g.gene} className={`border-b border-gray-800/50 ${highlightedSet.has(g.gene) ? 'bg-cyan-950/30 ring-1 ring-cyan-700/50' : 'hover:bg-gray-800/30'}`}>
-                          <td className={`py-2 px-3 font-medium ${highlightedSet.has(g.gene) ? 'text-cyan-300' : 'text-white'}`}><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></td>
+                        <tr key={g.gene} className={`border-b border-gray-800/50 ${highlightedSet.has(g.gene) ? 'bg-cyan-950/30 ring-1 ring-cyan-700/50' : 'hover:bg-slate-100/30'}`}>
+                          <td className={`py-2 px-3 font-medium ${highlightedSet.has(g.gene) ? 'text-cyan-300' : 'text-slate-900'}`}><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></td>
                           <td className="py-2 px-3">
                             <Badge variant="outline" className={g.geneType === 'clock' ? 'text-blue-400 border-blue-800' : 'text-amber-400 border-amber-800'}>
                               {g.geneType}
                             </Badge>
                           </td>
-                          <td className="py-2 px-3 text-gray-400 text-xs">{g.tissues.join(', ')}</td>
+                          <td className="py-2 px-3 text-slate-500 text-xs">{g.tissues.join(', ')}</td>
                           <td className="py-2 px-3 text-right font-mono text-cyan-400">{g.mean.toFixed(4)}</td>
-                          <td className="py-2 px-3 text-right font-mono text-gray-300">{g.cv.toFixed(4)}</td>
-                          <td className="py-2 px-3 text-right font-mono text-gray-400">{g.range.toFixed(4)}</td>
+                          <td className="py-2 px-3 text-right font-mono text-slate-600">{g.cv.toFixed(4)}</td>
+                          <td className="py-2 px-3 text-right font-mono text-slate-500">{g.range.toFixed(4)}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -1358,7 +1358,7 @@ export function CrossMetricIndependenceImpl() {
           </TabsContent>
 
           <TabsContent value="rootspace" className="space-y-4 mt-4">
-            <Card className="bg-gray-900/50 border-gray-800">
+            <Card className="bg-white border-gray-800">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <GitCompare className="w-5 h-5 text-cyan-400" />
@@ -1369,17 +1369,17 @@ export function CrossMetricIndependenceImpl() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="rounded-lg bg-slate-800/20 border border-slate-700/30 p-3">
+                <div className="rounded-lg bg-slate-50 border border-slate-200 p-3">
                   <div className="flex items-start gap-2">
                     <Info className="w-4 h-4 text-cyan-500 mt-0.5 flex-shrink-0" />
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-slate-500">
                       Each dot is a gene plotted by its AR(2) coefficients (φ₁, φ₂). The position in this space determines the gene's dynamical behavior — this is the same coordinate system used in the Root-Space Geometry and Waddington Landscape pages. Use the color selector to overlay different external metrics and see whether root-space position predicts network connectivity, oscillation amplitude, or chromatin accessibility.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-4 flex-wrap">
-                  <span className="text-sm text-gray-400">Color by:</span>
+                  <span className="text-sm text-slate-500">Color by:</span>
                   <div className="flex gap-2 flex-wrap">
                     {[
                       { value: 'geneType' as const, label: 'Gene Type', bg: 'bg-blue-600', ring: 'ring-blue-400' },
@@ -1394,20 +1394,20 @@ export function CrossMetricIndependenceImpl() {
                         size="sm"
                         onClick={() => setRootSpaceColorBy(opt.value)}
                         className={rootSpaceColorBy === opt.value
-                          ? `${opt.bg} text-white ring-2 ${opt.ring} font-semibold`
-                          : 'border-gray-700 text-gray-400 hover:text-white hover:border-gray-500'}
+                          ? `${opt.bg} text-slate-900 ring-2 ${opt.ring} font-semibold`
+                          : 'border-slate-200 text-slate-500 hover:text-slate-700 hover:border-gray-500'}
                         data-testid={`btn-color-${opt.value}`}
                       >
                         {opt.label}
                       </Button>
                     ))}
                   </div>
-                  <label className="flex items-center gap-2 text-sm text-gray-400 cursor-pointer ml-2">
+                  <label className="flex items-center gap-2 text-sm text-slate-500 cursor-pointer ml-2">
                     <input
                       type="checkbox"
                       checked={showBoundary}
                       onChange={(e) => setShowBoundary(e.target.checked)}
-                      className="rounded border-gray-600 bg-gray-800 text-amber-500 focus:ring-amber-500"
+                      className="rounded border-slate-300 bg-slate-100 text-amber-500 focus:ring-amber-500"
                       data-testid="toggle-boundary"
                     />
                     Show boundary
@@ -1441,9 +1441,9 @@ export function CrossMetricIndependenceImpl() {
                               if (!active || !payload?.length) return null;
                               const d = payload[0].payload;
                               return (
-                                <div className="bg-gray-900 border border-gray-700 rounded-lg p-3 text-sm shadow-xl">
-                                  <div className="font-bold text-white"><GeneTooltip gene={d.gene}>{d.gene}</GeneTooltip></div>
-                                  <div className="text-gray-400 capitalize">{d.geneType} gene - {d.tissue}</div>
+                                <div className="bg-white border border-slate-200 rounded-lg p-3 text-sm shadow-xl">
+                                  <div className="font-bold text-slate-900"><GeneTooltip gene={d.gene}>{d.gene}</GeneTooltip></div>
+                                  <div className="text-slate-500 capitalize">{d.geneType} gene - {d.tissue}</div>
                                   <div className={`text-xs font-medium mt-1 ${d.isComplex ? 'text-rose-400' : 'text-sky-400'}`}>
                                     {d.isComplex ? 'Oscillatory (complex roots)' : 'Overdamped (real roots)'}
                                   </div>
@@ -1599,13 +1599,13 @@ export function CrossMetricIndependenceImpl() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <Card className="bg-gray-900/50 border-gray-800">
+                      <Card className="bg-white border-gray-800">
                         <CardContent className="pt-4 pb-4">
-                          <div className="text-sm font-medium text-white mb-3">Root-Space Position vs External Metrics</div>
+                          <div className="text-sm font-medium text-slate-900 mb-3">Root-Space Position vs External Metrics</div>
                           <div className="space-y-2 text-xs">
                             {data.rootSpaceCorrespondence.correlations.r_vs_networkDegree && (
                               <div className="flex justify-between items-center">
-                                <span className="text-gray-400">|r| (radius) vs Network Degree</span>
+                                <span className="text-slate-500">|r| (radius) vs Network Degree</span>
                                 <span className={`font-mono ${strengthLabel(data.rootSpaceCorrespondence.correlations.r_vs_networkDegree.rho).color}`}>
                                   ρ = {data.rootSpaceCorrespondence.correlations.r_vs_networkDegree.rho.toFixed(3)}
                                 </span>
@@ -1613,7 +1613,7 @@ export function CrossMetricIndependenceImpl() {
                             )}
                             {data.rootSpaceCorrespondence.correlations.theta_vs_networkDegree && (
                               <div className="flex justify-between items-center">
-                                <span className="text-gray-400">θ (angle) vs Network Degree</span>
+                                <span className="text-slate-500">θ (angle) vs Network Degree</span>
                                 <span className={`font-mono ${strengthLabel(data.rootSpaceCorrespondence.correlations.theta_vs_networkDegree.rho).color}`}>
                                   ρ = {data.rootSpaceCorrespondence.correlations.theta_vs_networkDegree.rho.toFixed(3)}
                                 </span>
@@ -1621,7 +1621,7 @@ export function CrossMetricIndependenceImpl() {
                             )}
                             {data.rootSpaceCorrespondence.correlations.r_vs_amplitude && (
                               <div className="flex justify-between items-center">
-                                <span className="text-gray-400">|r| (radius) vs Amplitude</span>
+                                <span className="text-slate-500">|r| (radius) vs Amplitude</span>
                                 <span className={`font-mono ${strengthLabel(data.rootSpaceCorrespondence.correlations.r_vs_amplitude.rho).color}`}>
                                   ρ = {data.rootSpaceCorrespondence.correlations.r_vs_amplitude.rho.toFixed(3)}
                                 </span>
@@ -1629,7 +1629,7 @@ export function CrossMetricIndependenceImpl() {
                             )}
                             {data.rootSpaceCorrespondence.correlations.theta_vs_amplitude && (
                               <div className="flex justify-between items-center">
-                                <span className="text-gray-400">θ (angle) vs Amplitude</span>
+                                <span className="text-slate-500">θ (angle) vs Amplitude</span>
                                 <span className={`font-mono ${strengthLabel(data.rootSpaceCorrespondence.correlations.theta_vs_amplitude.rho).color}`}>
                                   ρ = {data.rootSpaceCorrespondence.correlations.theta_vs_amplitude.rho.toFixed(3)}
                                 </span>
@@ -1639,12 +1639,12 @@ export function CrossMetricIndependenceImpl() {
                         </CardContent>
                       </Card>
 
-                      <Card className="bg-gray-900/50 border-gray-800">
+                      <Card className="bg-white border-gray-800">
                         <CardContent className="pt-4 pb-4">
-                          <div className="text-sm font-medium text-white mb-3">What This Tells Us</div>
-                          <div className="text-xs text-gray-400 space-y-2">
+                          <div className="text-sm font-medium text-slate-900 mb-3">What This Tells Us</div>
+                          <div className="text-xs text-slate-500 space-y-2">
                             <p>
-                              If genes with high network degree clustered in one region of root space and low-degree genes in another, it would mean root-space position is redundant with network topology. Instead, the scatter shows that genes of different network connectivity are <strong className="text-white">distributed across root space</strong> — meaning the landscape captures something structurally different.
+                              If genes with high network degree clustered in one region of root space and low-degree genes in another, it would mean root-space position is redundant with network topology. Instead, the scatter shows that genes of different network connectivity are <strong className="text-slate-900">distributed across root space</strong> — meaning the landscape captures something structurally different.
                             </p>
                             <p>
                               The same logic applies to amplitude and chromatin: root-space position is not predictable from these established metrics, confirming the landscape reflects an independent biological property — temporal persistence dynamics.
@@ -1655,9 +1655,9 @@ export function CrossMetricIndependenceImpl() {
                     </div>
 
                     {dampingChartData && (<>
-                      <Card className="bg-gray-900/50 border-gray-800" data-testid="card-damping-frequency">
+                      <Card className="bg-white border-gray-800" data-testid="card-damping-frequency">
                         <CardContent className="pt-4 pb-4">
-                          <div className="text-sm font-medium text-white mb-3 flex items-center gap-2">
+                          <div className="text-sm font-medium text-slate-900 mb-3 flex items-center gap-2">
                             <div className="w-3 h-3 rounded-full bg-violet-500" />
                             Damping Rate vs Natural Period (Oscillatory Genes Only)
                           </div>
@@ -1667,12 +1667,12 @@ export function CrossMetricIndependenceImpl() {
                                 <span className="text-[10px] text-gray-500">Color by:</span>
                                 <button
                                   onClick={() => setDampingColorBy('geneType')}
-                                  className={`text-[10px] px-2 py-0.5 rounded ${dampingColorBy === 'geneType' ? 'bg-cyan-900/50 text-cyan-300 border border-cyan-700/50' : 'text-gray-500 hover:text-gray-300'}`}
+                                  className={`text-[10px] px-2 py-0.5 rounded ${dampingColorBy === 'geneType' ? 'bg-cyan-900/50 text-cyan-300 border border-cyan-700/50' : 'text-gray-500 hover:text-slate-600'}`}
                                   data-testid="btn-damping-color-genetype"
                                 >Gene Type</button>
                                 <button
                                   onClick={() => setDampingColorBy('function')}
-                                  className={`text-[10px] px-2 py-0.5 rounded ${dampingColorBy === 'function' ? 'bg-cyan-900/50 text-cyan-300 border border-cyan-700/50' : 'text-gray-500 hover:text-gray-300'}`}
+                                  className={`text-[10px] px-2 py-0.5 rounded ${dampingColorBy === 'function' ? 'bg-cyan-900/50 text-cyan-300 border border-cyan-700/50' : 'text-gray-500 hover:text-slate-600'}`}
                                   data-testid="btn-damping-color-function"
                                 >Function</button>
                               </div>
@@ -1698,9 +1698,9 @@ export function CrossMetricIndependenceImpl() {
                                       if (!payload?.[0]) return null;
                                       const d = payload[0].payload;
                                       return (
-                                        <div className="bg-gray-900 border border-gray-700 rounded p-2 text-xs shadow-lg">
-                                          <div className="font-medium text-white"><GeneTooltip gene={d.gene}>{d.gene}</GeneTooltip></div>
-                                          <div className="text-gray-400">{d.tissue} · {d.geneType} · {d.primaryCategory || 'Other'}</div>
+                                        <div className="bg-white border border-slate-200 rounded p-2 text-xs shadow-lg">
+                                          <div className="font-medium text-slate-900"><GeneTooltip gene={d.gene}>{d.gene}</GeneTooltip></div>
+                                          <div className="text-slate-500">{d.tissue} · {d.geneType} · {d.primaryCategory || 'Other'}</div>
                                           <div className="mt-1 space-y-0.5">
                                             <div>Damping rate: <span className="text-violet-400">{d.dampingRate?.toFixed(3)}</span></div>
                                             <div>Natural period: <span className="text-cyan-400">{d.naturalPeriod?.toFixed(1)}h</span></div>
@@ -1728,8 +1728,8 @@ export function CrossMetricIndependenceImpl() {
                               </ResponsiveContainer>
                             </div>
                             <div className="space-y-3">
-                              <div className="bg-gray-800/50 rounded-lg p-3">
-                                <div className="text-xs text-gray-400 mb-2 font-medium">Mean Values (Oscillatory Genes)</div>
+                              <div className="bg-slate-50 rounded-lg p-3">
+                                <div className="text-xs text-slate-500 mb-2 font-medium">Mean Values (Oscillatory Genes)</div>
                                 <div className="grid grid-cols-2 gap-3">
                                   <div>
                                     <div className="text-orange-400 font-semibold text-sm">Clock ({dampingChartData.clockOsc.length})</div>
@@ -1755,7 +1755,7 @@ export function CrossMetricIndependenceImpl() {
                               {dampingChartData.resonanceGenes.length > 0 && (
                                 <div className="bg-emerald-900/20 border border-emerald-800/30 rounded-lg p-3">
                                   <div className="text-xs text-emerald-400 mb-1 font-medium">Resonance Zone (20–28h, low damping)</div>
-                                  <div className="text-[11px] text-gray-400">
+                                  <div className="text-[11px] text-slate-500">
                                     {dampingChartData.resonanceGenes.length} gene measurements near circadian frequency with slow decay:
                                   </div>
                                   <div className="flex flex-wrap gap-1 mt-1">
@@ -1773,8 +1773,8 @@ export function CrossMetricIndependenceImpl() {
 
 
                               {dampingChartData.dfCorr && (
-                                <div className="bg-gray-800/50 rounded-lg p-3">
-                                  <div className="text-xs text-gray-400 mb-1 font-medium">Damping–Period Correlation</div>
+                                <div className="bg-slate-50 rounded-lg p-3">
+                                  <div className="text-xs text-slate-500 mb-1 font-medium">Damping–Period Correlation</div>
                                   <div className="text-xs text-gray-500">
                                     ρ = <span className={`font-mono ${strengthLabel(dampingChartData.dfCorr.rho).color}`}>{dampingChartData.dfCorr.rho.toFixed(3)}</span>
                                     {' '}(p = {dampingChartData.dfCorr.pValue < 0.001 ? dampingChartData.dfCorr.pValue.toExponential(1) : dampingChartData.dfCorr.pValue.toFixed(3)}, n = {dampingChartData.dfCorr.n})
@@ -1788,7 +1788,7 @@ export function CrossMetricIndependenceImpl() {
                                   </div>
                                 </div>
                               )}
-                              <div className="text-xs text-gray-400 space-y-2">
+                              <div className="text-xs text-slate-500 space-y-2">
                                 <p>
                                   For oscillatory genes, the AR(2) complex roots decompose into two independent parameters:
                                   <strong className="text-violet-400"> damping rate</strong> (-ln r, how fast oscillations decay) and
@@ -1805,7 +1805,7 @@ export function CrossMetricIndependenceImpl() {
 
                       <Card className="bg-emerald-950/30 border-emerald-800/50" data-testid="card-resonance-scan">
                             <CardContent className="pt-4 pb-4">
-                              <div className="text-sm font-medium text-white mb-3 flex items-center gap-2">
+                              <div className="text-sm font-medium text-slate-900 mb-3 flex items-center gap-2">
                                 <div className="w-3 h-3 rounded-full bg-emerald-500" />
                                 Genome-Wide Resonance Zone Scan
                                 <Badge className="bg-emerald-900/50 text-emerald-400 text-[10px] ml-2">All Genes</Badge>
@@ -1818,7 +1818,7 @@ export function CrossMetricIndependenceImpl() {
                                   <button
                                     key={d.value}
                                     onClick={() => setScanDataset(d.value)}
-                                    className={`text-[10px] px-2 py-1 rounded transition-colors ${scanDataset === d.value ? 'bg-emerald-900/50 text-emerald-300 border border-emerald-700/50' : 'text-gray-500 hover:text-gray-300 border border-transparent'}`}
+                                    className={`text-[10px] px-2 py-1 rounded transition-colors ${scanDataset === d.value ? 'bg-emerald-900/50 text-emerald-300 border border-emerald-700/50' : 'text-gray-500 hover:text-slate-600 border border-transparent'}`}
                                     data-testid={`btn-scan-${d.value}`}
                                   >{d.label}</button>
                                 ))}
@@ -1827,18 +1827,18 @@ export function CrossMetricIndependenceImpl() {
                               {scanLoading && (
                                 <div className="flex items-center justify-center py-8 gap-3">
                                   <div className="animate-spin w-5 h-5 border-2 border-emerald-500 border-t-transparent rounded-full" />
-                                  <span className="text-gray-400 text-sm">Scanning all genes (~20K)...</span>
+                                  <span className="text-slate-500 text-sm">Scanning all genes (~20K)...</span>
                                 </div>
                               )}
 
                               {scanData && (
                                 <div className="space-y-4">
                                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                    <div className="bg-gray-800/50 rounded-lg p-3 text-center">
-                                      <div className="text-white font-semibold text-lg">{scanData.totalGenes?.toLocaleString()}</div>
+                                    <div className="bg-slate-50 rounded-lg p-3 text-center">
+                                      <div className="text-slate-900 font-semibold text-lg">{scanData.totalGenes?.toLocaleString()}</div>
                                       <div className="text-gray-500 text-[10px]">Total genes</div>
                                     </div>
-                                    <div className="bg-gray-800/50 rounded-lg p-3 text-center">
+                                    <div className="bg-slate-50 rounded-lg p-3 text-center">
                                       <div className="text-rose-400 font-semibold text-lg">{scanData.oscillatoryGenes?.toLocaleString()}</div>
                                       <div className="text-gray-500 text-[10px]">Oscillatory</div>
                                     </div>
@@ -1846,7 +1846,7 @@ export function CrossMetricIndependenceImpl() {
                                       <div className="text-emerald-400 font-semibold text-lg">{scanData.resonanceZone?.count}</div>
                                       <div className="text-gray-500 text-[10px]">In resonance zone</div>
                                     </div>
-                                    <div className="bg-gray-800/50 rounded-lg p-3 text-center">
+                                    <div className="bg-slate-50 rounded-lg p-3 text-center">
                                       <div className="text-amber-400 font-semibold text-lg">{scanData.stats?.resonancePct}%</div>
                                       <div className="text-gray-500 text-[10px]">Of oscillatory genes</div>
                                     </div>
@@ -1854,7 +1854,7 @@ export function CrossMetricIndependenceImpl() {
 
                                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                                     <div className="h-[350px]">
-                                      <div className="text-[10px] text-gray-400 mb-1">All oscillatory genes — resonance zone highlighted</div>
+                                      <div className="text-[10px] text-slate-500 mb-1">All oscillatory genes — resonance zone highlighted</div>
                                       <ResponsiveContainer width="100%" height="95%">
                                         <ScatterChart margin={{ top: 5, right: 15, bottom: 35, left: 45 }}>
                                           <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
@@ -1866,9 +1866,9 @@ export function CrossMetricIndependenceImpl() {
                                             if (!payload?.[0]) return null;
                                             const d = payload[0].payload;
                                             return (
-                                              <div className="bg-gray-900 border border-gray-700 rounded p-2 text-xs shadow-lg">
-                                                <div className="font-medium text-white"><GeneTooltip gene={d.gene}>{d.gene}</GeneTooltip></div>
-                                                <div className="text-gray-400">{d.geneType} · {d.classification}</div>
+                                              <div className="bg-white border border-slate-200 rounded p-2 text-xs shadow-lg">
+                                                <div className="font-medium text-slate-900"><GeneTooltip gene={d.gene}>{d.gene}</GeneTooltip></div>
+                                                <div className="text-slate-500">{d.geneType} · {d.classification}</div>
                                                 <div className="mt-1 space-y-0.5">
                                                   <div>Damping: <span className="text-violet-400">{d.dampingRate?.toFixed(3)}</span></div>
                                                   <div>Period: <span className="text-cyan-400">{d.naturalPeriod?.toFixed(1)}h</span></div>
@@ -1886,30 +1886,30 @@ export function CrossMetricIndependenceImpl() {
 
                                     <div>
                                       <div className="flex items-center gap-2 mb-2">
-                                        <div className="text-[10px] text-gray-400">Sort by:</div>
+                                        <div className="text-[10px] text-slate-500">Sort by:</div>
                                         {(['dampingRate', 'naturalPeriod', 'eigenvalue'] as const).map(s => (
-                                          <button key={s} onClick={() => setScanSort(s)} className={`text-[10px] px-2 py-0.5 rounded ${scanSort === s ? 'bg-emerald-900/50 text-emerald-300 border border-emerald-700/50' : 'text-gray-500 hover:text-gray-300'}`} data-testid={`btn-sort-${s}`}>
+                                          <button key={s} onClick={() => setScanSort(s)} className={`text-[10px] px-2 py-0.5 rounded ${scanSort === s ? 'bg-emerald-900/50 text-emerald-300 border border-emerald-700/50' : 'text-gray-500 hover:text-slate-600'}`} data-testid={`btn-sort-${s}`}>
                                             {s === 'dampingRate' ? 'Lowest damping' : s === 'naturalPeriod' ? 'Nearest 24h' : 'Highest |λ|'}
                                           </button>
                                         ))}
                                       </div>
                                       <div className="max-h-[310px] overflow-y-auto border border-gray-800 rounded-lg">
                                         <table className="w-full text-[10px]" data-testid="table-resonance-genes">
-                                          <thead className="sticky top-0 bg-gray-900">
-                                            <tr className="border-b border-gray-700/50">
-                                              <th className="text-left text-gray-400 py-1.5 px-2 font-medium">Gene</th>
-                                              <th className="text-center text-gray-400 py-1.5 px-2 font-medium">Type</th>
-                                              <th className="text-right text-gray-400 py-1.5 px-2 font-medium">Period</th>
-                                              <th className="text-right text-gray-400 py-1.5 px-2 font-medium">Damping</th>
-                                              <th className="text-right text-gray-400 py-1.5 px-2 font-medium">|λ|</th>
+                                          <thead className="sticky top-0 bg-white">
+                                            <tr className="border-b border-slate-200">
+                                              <th className="text-left text-slate-500 py-1.5 px-2 font-medium">Gene</th>
+                                              <th className="text-center text-slate-500 py-1.5 px-2 font-medium">Type</th>
+                                              <th className="text-right text-slate-500 py-1.5 px-2 font-medium">Period</th>
+                                              <th className="text-right text-slate-500 py-1.5 px-2 font-medium">Damping</th>
+                                              <th className="text-right text-slate-500 py-1.5 px-2 font-medium">|λ|</th>
                                             </tr>
                                           </thead>
                                           <tbody className="divide-y divide-gray-800/50">
                                             {sortedResonance.slice(0, 100).map((g: any, i: number) => (
-                                              <tr key={`${g.gene}-${i}`} className="hover:bg-gray-800/30">
-                                                <td className="py-1 px-2 text-white font-medium"><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></td>
+                                              <tr key={`${g.gene}-${i}`} className="hover:bg-slate-100/30">
+                                                <td className="py-1 px-2 text-slate-900 font-medium"><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></td>
                                                 <td className="py-1 px-2 text-center">
-                                                  <span className={`px-1 py-0.5 rounded text-[9px] ${g.geneType === 'clock' ? 'bg-orange-900/30 text-orange-300' : g.geneType === 'target' ? 'bg-indigo-900/30 text-indigo-300' : 'bg-gray-700/50 text-gray-400'}`}>{g.geneType}</span>
+                                                  <span className={`px-1 py-0.5 rounded text-[9px] ${g.geneType === 'clock' ? 'bg-orange-900/30 text-orange-300' : g.geneType === 'target' ? 'bg-indigo-900/30 text-indigo-300' : 'bg-slate-200/50 text-slate-500'}`}>{g.geneType}</span>
                                                 </td>
                                                 <td className="py-1 px-2 text-right text-cyan-400 font-mono">{g.naturalPeriod}h</td>
                                                 <td className="py-1 px-2 text-right text-violet-400 font-mono">{g.dampingRate?.toFixed(3)}</td>
@@ -1934,50 +1934,51 @@ export function CrossMetricIndependenceImpl() {
                                       <div className="text-indigo-400 font-semibold">{scanData.stats?.targetInResonance || 0}</div>
                                       <div className="text-gray-500">Target genes</div>
                                     </div>
-                                    <div className="bg-gray-800/50 rounded p-2 text-center">
-                                      <div className="text-gray-300 font-semibold">{scanData.stats?.otherInResonance || 0}</div>
+                                    <div className="bg-slate-50 rounded p-2 text-center">
+                                      <div className="text-slate-600 font-semibold">{scanData.stats?.otherInResonance || 0}</div>
                                       <div className="text-gray-500">Novel / other</div>
                                     </div>
                                   </div>
 
-                                  <div className="p-2 bg-gray-800/40 rounded text-[10px] text-gray-500 leading-relaxed">
-                                    <strong className="text-gray-400">What this tells you:</strong> Out of {scanData.totalGenes?.toLocaleString()} genes, {scanData.resonanceZone?.count} ({scanData.stats?.resonancePct}% of oscillatory) have natural periods near 24 hours AND slow damping. These genes sustain circadian-frequency oscillations — they don't just oscillate, they oscillate at the right speed for day/night biology. The "novel / other" genes are ones not in the curated clock/target panel, making them potential new discoveries.
+                                  <div className="p-2 bg-slate-100/40 rounded text-[10px] text-gray-500 leading-relaxed">
+                                    <strong className="text-slate-500">What this tells you:</strong> Out of {scanData.totalGenes?.toLocaleString()} genes, {scanData.resonanceZone?.count} ({scanData.stats?.resonancePct}% of oscillatory) have natural periods near 24 hours AND slow damping. These genes sustain circadian-frequency oscillations — they don't just oscillate, they oscillate at the right speed for day/night biology. The "novel / other" genes are ones not in the curated clock/target panel, making them potential new discoveries.
                                   </div>
                                 </div>
                               )}
                             </CardContent>
                       </Card>
 
-                      <Card className="bg-gray-900/50 border-gray-800" data-testid="card-dynamical-mode">
+                      <Card className="bg-white border-gray-800" data-testid="card-dynamical-mode">
                         <CardContent className="pt-4 pb-4">
-                          <div className="text-sm font-medium text-white mb-3 flex items-center gap-2">
+                          <div className="text-sm font-medium text-slate-900 mb-3 flex items-center gap-2">
                             <div className="w-3 h-3 rounded-full bg-rose-500" />
                             Oscillatory vs Overdamped Classification
                           </div>
+                          {(() => { const dms = dynamicalModeStats!; return (
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-3">
-                              <div className="flex items-center justify-between bg-gray-800/50 rounded-lg p-3">
+                              <div className="flex items-center justify-between bg-slate-50 rounded-lg p-3">
                                 <div>
-                                  <div className="text-rose-400 font-semibold text-lg">{dynamicalModeStats.oscillatory}</div>
-                                  <div className="text-gray-400 text-xs">Oscillatory ({dynamicalModeStats.oscPct}%)</div>
+                                  <div className="text-rose-400 font-semibold text-lg">{dms.oscillatory}</div>
+                                  <div className="text-slate-500 text-xs">Oscillatory ({dms.oscPct}%)</div>
                                 </div>
                                 <div className="text-xs text-gray-500 text-right">
-                                  <div>{dynamicalModeStats.oscClock} clock, {dynamicalModeStats.oscTarget} target</div>
+                                  <div>{dms.oscClock} clock, {dms.oscTarget} target</div>
                                   <div className="text-gray-600 mt-0.5">Complex conjugate roots</div>
                                 </div>
                               </div>
-                              <div className="flex items-center justify-between bg-gray-800/50 rounded-lg p-3">
+                              <div className="flex items-center justify-between bg-slate-50 rounded-lg p-3">
                                 <div>
-                                  <div className="text-sky-400 font-semibold text-lg">{dynamicalModeStats.overdamped}</div>
-                                  <div className="text-gray-400 text-xs">Overdamped ({dynamicalModeStats.odPct}%)</div>
+                                  <div className="text-sky-400 font-semibold text-lg">{dms.overdamped}</div>
+                                  <div className="text-slate-500 text-xs">Overdamped ({dms.odPct}%)</div>
                                 </div>
                                 <div className="text-xs text-gray-500 text-right">
-                                  <div>{dynamicalModeStats.odClock} clock, {dynamicalModeStats.odTarget} target</div>
+                                  <div>{dms.odClock} clock, {dms.odTarget} target</div>
                                   <div className="text-gray-600 mt-0.5">Real roots</div>
                                 </div>
                               </div>
                             </div>
-                            <div className="text-xs text-gray-400 space-y-2">
+                            <div className="text-xs text-slate-500 space-y-2">
                               <p>
                                 The dashed yellow parabola (φ₂ = -φ₁²/4) is the <strong className="text-amber-400">discriminant boundary</strong> from the AR(2) characteristic equation. It separates two fundamentally different types of temporal dynamics:
                               </p>
@@ -1987,11 +1988,12 @@ export function CrossMetricIndependenceImpl() {
                               <p>
                                 <strong className="text-sky-400">Below the boundary</strong> — overdamped dynamics (real roots). Expression decays smoothly back to baseline without ringing.
                               </p>
-                              <p className="bg-gray-800/60 rounded p-2 border border-gray-700/50">
-                                In this dataset: <strong className="text-rose-400">{dynamicalModeStats.clockOscPct}% of clock gene measurements</strong> are oscillatory vs <strong className="text-sky-400">{dynamicalModeStats.targetOscPct}% of target gene measurements</strong>. The discriminant boundary naturally separates clock from target behavior — clock genes overwhelmingly sit in the oscillatory region while target genes spread across both.
+                              <p className="bg-slate-100/60 rounded p-2 border border-slate-200">
+                                In this dataset: <strong className="text-rose-400">{dms.clockOscPct}% of clock gene measurements</strong> are oscillatory vs <strong className="text-sky-400">{dms.targetOscPct}% of target gene measurements</strong>. The discriminant boundary naturally separates clock from target behavior — clock genes overwhelmingly sit in the oscillatory region while target genes spread across both.
                               </p>
                             </div>
                           </div>
+                          ); })()}
                         </CardContent>
                       </Card>
                     </>)}
@@ -2002,15 +2004,15 @@ export function CrossMetricIndependenceImpl() {
           </TabsContent>
         </Tabs>
 
-        <Card className="bg-gray-900/50 border-gray-800">
+        <Card className="bg-white border-gray-800">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm text-gray-400">Data Sources</CardTitle>
+            <CardTitle className="text-sm text-slate-500">Data Sources</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-gray-500">
               {Object.entries(data.dataSources).map(([key, value]) => (
                 <div key={key} className="flex gap-2">
-                  <span className="text-gray-400 capitalize font-medium">{key}:</span>
+                  <span className="text-slate-500 capitalize font-medium">{key}:</span>
                   <span>{value}</span>
                 </div>
               ))}

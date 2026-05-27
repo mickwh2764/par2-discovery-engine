@@ -10,7 +10,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell,
 } from "recharts";
-import { ArrowLeft, Globe, BarChart3, Users, Activity, MapPin, Clock, Eye, Download, Trash2, CalendarDays, X, Upload, UserX, Route, Layers, Monitor, Smartphone, Tablet, LogIn, LogOut, TrendingDown, Map, MessageSquare } from "lucide-react";
+import { ArrowLeft, Globe, BarChart3, Users, Activity, MapPin, Clock, Eye, Download, Trash2, CalendarDays, X, Upload, UserX, Route, Layers, Monitor, Smartphone, Tablet, LogIn, LogOut, TrendingDown, Map, MessageSquare, FlaskConical } from "lucide-react";
 import WorldHeatMap from "@/components/WorldHeatMap";
 import { Switch } from "@/components/ui/switch";
 
@@ -504,7 +504,7 @@ export default function Analytics() {
               data-testid="input-analytics-password"
             />
             {error && <p className="text-sm text-red-500" data-testid="text-analytics-error">{error}</p>}
-            <Button onClick={loadAnalytics} disabled={loading} className="w-full" data-testid="button-analytics-login">
+            <Button onClick={() => loadAnalytics()} disabled={loading} className="w-full" data-testid="button-analytics-login">
               {loading ? "Loading..." : "View Analytics"}
             </Button>
             <Link href="/">
@@ -1371,6 +1371,110 @@ export default function Analytics() {
                   </CardContent>
                 </Card>
               ) : null;
+            })()}
+
+            {/* Discovery Engine Activity */}
+            {(() => {
+              const deUploads = data.recentVisits
+                .filter((e: any) => e.eventType === 'file_upload' && e.page === '/discovery-engine')
+                .map((e: any) => {
+                  let meta: any = {};
+                  try { meta = e.referrer ? JSON.parse(e.referrer) : {}; } catch {}
+                  return { ...e, meta };
+                });
+
+              const datasetRuns = data.recentVisits
+                .filter((e: any) => e.eventType === 'dataset_run')
+                .map((e: any) => {
+                  let meta: any = {};
+                  try { meta = e.referrer ? JSON.parse(e.referrer) : {}; } catch {}
+                  return { ...e, meta };
+                });
+
+              const datasetCounts: Record<string, { label: string; count: number; last: string }> = {};
+              for (const run of datasetRuns) {
+                const key = run.meta.datasetKey || 'unknown';
+                if (!datasetCounts[key]) {
+                  datasetCounts[key] = { label: run.meta.datasetLabel || key, count: 0, last: run.createdAt };
+                }
+                datasetCounts[key].count++;
+                if (new Date(run.createdAt) > new Date(datasetCounts[key].last)) {
+                  datasetCounts[key].last = run.createdAt;
+                }
+              }
+
+              const hasActivity = deUploads.length > 0 || datasetRuns.length > 0;
+              if (!hasActivity) return null;
+
+              return (
+                <Card data-testid="card-discovery-engine-activity">
+                  <CardHeader>
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <FlaskConical size={16} />
+                      Discovery Engine Activity
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+
+                    {/* Summary row */}
+                    <div className="flex gap-3">
+                      <div className="flex-1 rounded-lg bg-cyan-500/10 border border-cyan-500/20 px-3 py-2 text-center">
+                        <div className="text-xl font-bold text-cyan-400">{deUploads.length}</div>
+                        <div className="text-[10px] text-muted-foreground uppercase tracking-wide">User Uploads</div>
+                      </div>
+                      <div className="flex-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 px-3 py-2 text-center">
+                        <div className="text-xl font-bold text-emerald-400">{datasetRuns.length}</div>
+                        <div className="text-[10px] text-muted-foreground uppercase tracking-wide">Preloaded Runs</div>
+                      </div>
+                      <div className="flex-1 rounded-lg bg-slate-500/10 border border-slate-500/20 px-3 py-2 text-center">
+                        <div className="text-xl font-bold text-slate-300">{Object.keys(datasetCounts).length}</div>
+                        <div className="text-[10px] text-muted-foreground uppercase tracking-wide">Distinct Datasets</div>
+                      </div>
+                    </div>
+
+                    {/* Dataset breakdown */}
+                    {Object.keys(datasetCounts).length > 0 && (
+                      <div>
+                        <p className="text-xs text-muted-foreground mb-2 font-medium">Preloaded datasets run (all time)</p>
+                        <div className="space-y-1">
+                          {Object.entries(datasetCounts)
+                            .sort((a, b) => b[1].count - a[1].count)
+                            .map(([key, info]) => (
+                            <div key={key} className="flex items-center gap-2 text-xs py-1 border-b border-border/20 last:border-0">
+                              <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 tabular-nums min-w-[28px] text-center">
+                                {info.count}×
+                              </span>
+                              <span className="text-slate-300 flex-1">{info.label}</span>
+                              <span className="text-muted-foreground whitespace-nowrap">
+                                last {new Date(info.last).toLocaleDateString()}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* User uploads log */}
+                    {deUploads.length > 0 && (
+                      <div>
+                        <p className="text-xs text-muted-foreground mb-2 font-medium">User-uploaded files</p>
+                        <div className="space-y-1 max-h-40 overflow-y-auto">
+                          {deUploads.map((event: any) => (
+                            <div key={event.id} className="flex items-center gap-2 text-xs py-1 border-b border-border/20 last:border-0">
+                              <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-cyan-500/10 text-cyan-400">UPLOAD</span>
+                              <span className="font-mono text-slate-300 truncate max-w-40">{event.meta.fileName || 'Unknown file'}</span>
+                              {event.meta.geneCount && <span className="text-muted-foreground">{event.meta.geneCount.toLocaleString()} genes</span>}
+                              {event.meta.timepointCount && <span className="text-muted-foreground">{event.meta.timepointCount} timepoints</span>}
+                              {event.country && <span className="text-muted-foreground">{event.city ? `${event.city}, ` : ''}{event.country}</span>}
+                              <span className="ml-auto text-muted-foreground whitespace-nowrap">{new Date(event.createdAt).toLocaleString()}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              );
             })()}
           </>
         )}

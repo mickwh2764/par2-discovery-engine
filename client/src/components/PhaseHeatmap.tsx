@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Grid3X3, ExternalLink, Download, SortAsc } from "lucide-react";
+import { Grid3X3, ExternalLink, Download, SortAsc, Loader2, ChevronDown, ChevronUp } from "lucide-react";
 
 interface GenePhaseData {
   gene: string;
@@ -27,6 +27,31 @@ interface PhaseHeatmapProps {
   } | null;
   isLoading?: boolean;
 }
+
+interface EnrichrHit {
+  term: string;
+  rank: number;
+  pValue: number;
+  genes: string[];
+}
+
+interface EnrichrResults {
+  enrichrUrl: string;
+  enrichmentResults: Record<string, EnrichrHit[]>;
+}
+
+const CLOCK_GENES = new Set([
+  'CLOCK', 'ARNTL', 'BMAL1', 'PER1', 'PER2', 'PER3',
+  'CRY1', 'CRY2', 'NR1D1', 'NR1D2', 'RORA', 'RORB', 'RORC',
+  'TEF', 'DBP', 'HLF', 'NFIL3', 'SIRT1', 'FBXL3', 'CSNK1E',
+]);
+
+const DB_DESCRIPTIONS: Record<string, string> = {
+  'ChEA 2022': 'TF ChIP-seq binding',
+  'TRRUST 2019': 'curated direct regulation',
+  'JASPAR PWM Mouse 2025': 'PWM motif binding',
+  'TF PPIs': 'TF protein interactions',
+};
 
 const getHeatmapColor = (value: number): string => {
   const clampedValue = Math.max(0, Math.min(1, value));
@@ -62,9 +87,22 @@ const formatZT = (hours: number): string => {
   return `ZT${h}`;
 };
 
+function extractTFName(term: string): string {
+  return term.split(/[\s_\-]/)[0].toUpperCase();
+}
+
+function isCircadianTF(term: string): boolean {
+  const tf = extractTFName(term);
+  return CLOCK_GENES.has(tf);
+}
+
 export function PhaseHeatmap({ data, isLoading }: PhaseHeatmapProps) {
   const [selectedGenes, setSelectedGenes] = useState<Set<string>>(new Set());
   const [sortBy, setSortBy] = useState<'phase' | 'amplitude' | 'eigenvalue'>('phase');
+  const [enrichrResults, setEnrichrResults] = useState<EnrichrResults | null>(null);
+  const [enrichrLoading, setEnrichrLoading] = useState(false);
+  const [enrichrError, setEnrichrError] = useState<string | null>(null);
+  const [enrichrExpanded, setEnrichrExpanded] = useState(true);
   const heatmapRef = useRef<HTMLDivElement>(null);
   
   const sortedGenes = useMemo(() => {
@@ -82,7 +120,7 @@ export function PhaseHeatmap({ data, isLoading }: PhaseHeatmapProps) {
     }
   }, [data?.genes, sortBy]);
   
-  const unstableGenes = useMemo(() => {
+  const highPersistenceGenes = useMemo(() => {
     if (!data?.genes) return [];
     return data.genes.filter(g => g.eigenvalue && g.eigenvalue > 0.80 && !g.isClockGene);
   }, [data?.genes]);
@@ -97,13 +135,17 @@ export function PhaseHeatmap({ data, isLoading }: PhaseHeatmapProps) {
     setSelectedGenes(newSelection);
   };
   
-  const selectUnstableGenes = () => {
-    setSelectedGenes(new Set(unstableGenes.map(g => g.gene)));
+  const selectHighPersistenceGenes = () => {
+    setSelectedGenes(new Set(highPersistenceGenes.map(g => g.gene)));
   };
   
-  const openEnrichr = async () => {
+  const analyzeInEnrichr = async () => {
     const geneList = Array.from(selectedGenes);
     if (geneList.length === 0) return;
+
+    setEnrichrLoading(true);
+    setEnrichrError(null);
+    setEnrichrResults(null);
     
     try {
       const response = await fetch('/api/enrichr/addList', {
@@ -121,12 +163,17 @@ export function PhaseHeatmap({ data, isLoading }: PhaseHeatmapProps) {
         throw new Error('Failed to submit to Enrichr');
       }
       
-      const data = await response.json();
-      window.open(data.enrichrUrl, '_blank');
+      const result = await response.json();
+      setEnrichrResults({
+        enrichrUrl: result.enrichrUrl,
+        enrichmentResults: result.enrichmentResults || {},
+      });
+      setEnrichrExpanded(true);
     } catch (error) {
       console.error('Enrichr submission error:', error);
-      const fallbackUrl = `https://maayanlab.cloud/Enrichr/#find!gene=${encodeURIComponent(geneList.join('\n'))}`;
-      window.open(fallbackUrl, '_blank');
+      setEnrichrError('Failed to fetch Enrichr results. Please try again.');
+    } finally {
+      setEnrichrLoading(false);
     }
   };
   
@@ -194,6 +241,8 @@ export function PhaseHeatmap({ data, isLoading }: PhaseHeatmapProps) {
   const targetGenes = sortedGenes.filter(g => !g.isClockGene);
   const cellWidth = Math.max(20, Math.min(40, 600 / data.timepoints.length));
   const cellHeight = 24;
+
+  const dbOrder = ['ChEA 2022', 'TRRUST 2019', 'JASPAR PWM Mouse 2025', 'TF PPIs'];
   
   return (
     <Card className="border-border/50 bg-card/50 backdrop-blur-sm rounded-xl" data-testid="phase-heatmap-card">
@@ -249,7 +298,7 @@ export function PhaseHeatmap({ data, isLoading }: PhaseHeatmapProps) {
             Clock genes
           </Badge>
           <Badge variant="outline" className="text-xs bg-amber-500/10 text-amber-400 border-amber-500/30">
-            |λ| &gt; 0.80 (unstable)
+            |λ| &gt; 0.80 (high persistence)
           </Badge>
         </div>
         
@@ -272,7 +321,7 @@ export function PhaseHeatmap({ data, isLoading }: PhaseHeatmapProps) {
             {clockGenes.length > 0 && (
               <>
                 <div className="text-[10px] text-blue-400 font-semibold mb-1 mt-2">Clock Genes</div>
-                {clockGenes.map((gene, geneIdx) => (
+                {clockGenes.map((gene) => (
                   <div key={gene.gene} className="flex items-center gap-1 mb-0.5">
                     <TooltipProvider>
                       <Tooltip>
@@ -323,7 +372,7 @@ export function PhaseHeatmap({ data, isLoading }: PhaseHeatmapProps) {
             {targetGenes.length > 0 && (
               <>
                 <div className="text-[10px] text-emerald-400 font-semibold mb-1 mt-3">Target Genes</div>
-                {targetGenes.map((gene, geneIdx) => (
+                {targetGenes.map((gene) => (
                   <div key={gene.gene} className="flex items-center gap-1 mb-0.5">
                     <TooltipProvider>
                       <Tooltip>
@@ -381,18 +430,18 @@ export function PhaseHeatmap({ data, isLoading }: PhaseHeatmapProps) {
         
         <div className="flex items-center justify-between pt-3 border-t border-border/30">
           <div className="flex items-center gap-2">
-            <span className="text-xs text-muted-foreground">
+            <span className="text-xs text-muted-foreground" data-testid="text-selected-count">
               {selectedGenes.size} gene{selectedGenes.size !== 1 ? 's' : ''} selected
             </span>
-            {unstableGenes.length > 0 && (
+            {highPersistenceGenes.length > 0 && (
               <Button 
                 variant="ghost" 
                 size="sm" 
-                onClick={selectUnstableGenes}
+                onClick={selectHighPersistenceGenes}
                 className="text-xs h-7"
-                data-testid="btn-select-unstable"
+                data-testid="btn-select-high-persistence"
               >
-                Select {unstableGenes.length} unstable genes
+                Select {highPersistenceGenes.length} high-|λ| genes
               </Button>
             )}
           </div>
@@ -400,15 +449,109 @@ export function PhaseHeatmap({ data, isLoading }: PhaseHeatmapProps) {
           <Button
             variant="default"
             size="sm"
-            onClick={openEnrichr}
-            disabled={selectedGenes.size === 0}
+            onClick={analyzeInEnrichr}
+            disabled={selectedGenes.size === 0 || enrichrLoading}
             className="text-xs"
             data-testid="btn-enrichr"
           >
-            <ExternalLink size={14} className="mr-1" />
-            Analyze in Enrichr ({selectedGenes.size})
+            {enrichrLoading ? (
+              <Loader2 size={14} className="mr-1 animate-spin" />
+            ) : (
+              <ExternalLink size={14} className="mr-1" />
+            )}
+            {enrichrLoading ? 'Analyzing…' : `Analyze in Enrichr (${selectedGenes.size})`}
           </Button>
         </div>
+
+        {enrichrError && (
+          <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-xs text-destructive" data-testid="enrichr-error">
+            {enrichrError}
+          </div>
+        )}
+
+        {enrichrResults && (
+          <div className="rounded-lg border border-border/40 bg-secondary/20 overflow-hidden" data-testid="enrichr-results-panel">
+            <div className="flex items-center justify-between px-4 py-2 border-b border-border/30">
+              <span className="text-sm font-semibold text-foreground">Enrichr Results</span>
+              <div className="flex items-center gap-3">
+                <a
+                  href={enrichrResults.enrichrUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-primary flex items-center gap-1 hover:underline"
+                  data-testid="link-enrichr-full"
+                >
+                  <ExternalLink size={11} />
+                  View full results in Enrichr
+                </a>
+                <button
+                  onClick={() => setEnrichrExpanded(v => !v)}
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  data-testid="btn-enrichr-toggle"
+                  aria-label={enrichrExpanded ? 'Collapse' : 'Expand'}
+                >
+                  {enrichrExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                </button>
+              </div>
+            </div>
+
+            {enrichrExpanded && (
+              <div className="p-4 space-y-5" data-testid="enrichr-results-body">
+                {dbOrder
+                  .filter(db => enrichrResults.enrichmentResults[db] && enrichrResults.enrichmentResults[db].length > 0)
+                  .map(db => (
+                    <div key={db} data-testid={`enrichr-db-${db.replace(/\s+/g, '-').toLowerCase()}`}>
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-xs font-semibold text-foreground/90">{db}</span>
+                        <span className="text-[10px] text-muted-foreground">— {DB_DESCRIPTIONS[db] || ''}</span>
+                      </div>
+                      <div className="space-y-1">
+                        {enrichrResults.enrichmentResults[db].map((hit, idx) => {
+                          const circadian = isCircadianTF(hit.term);
+                          return (
+                            <div
+                              key={idx}
+                              className={`flex items-center justify-between rounded px-2 py-1 text-xs ${
+                                circadian
+                                  ? 'bg-amber-500/15 border border-amber-500/30'
+                                  : 'bg-secondary/30'
+                              }`}
+                              data-testid={`enrichr-hit-${db.replace(/\s+/g, '-').toLowerCase()}-${idx}`}
+                            >
+                              <div className="flex items-center gap-2 min-w-0">
+                                <span className="text-muted-foreground font-mono w-4 shrink-0">#{hit.rank}</span>
+                                <span className={`font-medium truncate ${circadian ? 'text-amber-300' : 'text-foreground/90'}`}>
+                                  {hit.term}
+                                </span>
+                                {circadian && (
+                                  <Badge
+                                    variant="outline"
+                                    className="text-[9px] px-1 py-0 h-4 shrink-0 border-amber-500/50 text-amber-400 bg-amber-500/10"
+                                    data-testid={`badge-circadian-${db.replace(/\s+/g, '-').toLowerCase()}-${idx}`}
+                                  >
+                                    circadian
+                                  </Badge>
+                                )}
+                              </div>
+                              <span className="text-[10px] text-muted-foreground font-mono shrink-0 ml-2">
+                                p={hit.pValue < 0.001 ? hit.pValue.toExponential(1) : hit.pValue.toFixed(3)}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+
+                {dbOrder.filter(db => enrichrResults.enrichmentResults[db] && enrichrResults.enrichmentResults[db].length > 0).length === 0 && (
+                  <p className="text-xs text-muted-foreground text-center py-2" data-testid="enrichr-no-results">
+                    No enrichment hits found across the queried databases.
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
+        )}
       </CardContent>
     </Card>
   );

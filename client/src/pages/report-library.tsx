@@ -54,11 +54,11 @@ export default function ReportLibrary() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 text-slate-900">
       <div className="max-w-5xl mx-auto px-4 py-8 space-y-6">
         <div className="flex items-center gap-3">
           <Link href="/">
-            <Button variant="ghost" size="sm" className="text-slate-400" data-testid="button-back">
+            <Button variant="ghost" size="sm" className="text-slate-500" data-testid="button-back">
               <ArrowLeft size={16} className="mr-1" /> Home
             </Button>
           </Link>
@@ -68,7 +68,7 @@ export default function ReportLibrary() {
           <FolderOpen className="text-cyan-400" size={28} />
           <div>
             <h1 className="text-2xl font-bold" data-testid="text-page-title">Saved Reports</h1>
-            <p className="text-slate-400 text-sm">
+            <p className="text-slate-500 text-sm">
               Reports saved from analysis pages. Load them into compatible pages for further analysis.
             </p>
           </div>
@@ -79,10 +79,10 @@ export default function ReportLibrary() {
             <Loader2 className="animate-spin text-cyan-400" size={32} />
           </div>
         ) : !reports || reports.length === 0 ? (
-          <Card className="bg-slate-900/50 border-slate-800">
+          <Card className="bg-white border-slate-800">
             <CardContent className="py-16 text-center">
               <FileText className="mx-auto text-slate-600 mb-4" size={48} />
-              <h3 className="text-lg font-semibold text-slate-300 mb-2" data-testid="text-empty-state">No saved reports yet</h3>
+              <h3 className="text-lg font-semibold text-slate-600 mb-2" data-testid="text-empty-state">No saved reports yet</h3>
               <p className="text-slate-500 text-sm max-w-md mx-auto">
                 Run an analysis on the Discovery Engine and click "Save to Reports" to save results here.
                 You can then load them into other analysis pages like Root-Space or Health Score.
@@ -100,12 +100,12 @@ export default function ReportLibrary() {
             {reports.map((report) => {
               const consumers = CONSUMER_PAGES[report.reportType] || [];
               return (
-                <Card key={report.id} className="bg-slate-900/60 border-slate-800 hover:border-slate-700 transition-colors" data-testid={`card-report-${report.id}`}>
+                <Card key={report.id} className="bg-white border-slate-800 hover:border-slate-200 transition-colors" data-testid={`card-report-${report.id}`}>
                   <CardContent className="py-4 px-5">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-semibold text-slate-200 truncate" data-testid={`text-report-title-${report.id}`}>{report.title}</h3>
+                          <h3 className="font-semibold text-slate-800 truncate" data-testid={`text-report-title-${report.id}`}>{report.title}</h3>
                           <Badge variant="outline" className="text-[10px] border-cyan-800 text-cyan-400 shrink-0">
                             {report.reportType.replace(/_/g, ' ')}
                           </Badge>
@@ -124,7 +124,7 @@ export default function ReportLibrary() {
                           )}
                         </div>
                         {report.summary && (
-                          <p className="text-xs text-slate-400 line-clamp-2">{report.summary}</p>
+                          <p className="text-xs text-slate-500 line-clamp-2">{report.summary}</p>
                         )}
                       </div>
 
@@ -136,7 +136,7 @@ export default function ReportLibrary() {
                                 key={c.path}
                                 variant="outline"
                                 size="sm"
-                                className="text-xs border-slate-700 text-slate-300 hover:bg-slate-800"
+                                className="text-xs border-slate-200 text-slate-600 hover:bg-slate-100"
                                 onClick={() => navigate(`${c.path}?reportId=${report.id}`)}
                                 data-testid={`button-open-in-${c.path.slice(1)}-${report.id}`}
                               >

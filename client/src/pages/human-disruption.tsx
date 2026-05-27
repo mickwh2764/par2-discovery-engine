@@ -102,10 +102,10 @@ const DISRUPTION_STUDIES: { studyKey: string; study: string; citation: string; d
 
 const GapBar = ({ label, gap, preserved, color }: { label: string; gap: number; preserved: boolean; color: string }) => (
   <div className="flex items-center gap-3">
-    <div className="w-32 text-sm text-gray-400 truncate">{label}</div>
-    <div className="flex-1 bg-gray-800 rounded-full h-6 relative overflow-hidden">
+    <div className="w-32 text-sm text-slate-500 truncate">{label}</div>
+    <div className="flex-1 bg-slate-100 rounded-full h-6 relative overflow-hidden">
       <div
-        className="h-full rounded-full flex items-center justify-end pr-2 text-xs font-mono text-white"
+        className="h-full rounded-full flex items-center justify-end pr-2 text-xs font-mono text-slate-900"
         style={{ width: `${Math.max(5, Math.min(100, (gap / 0.35) * 100))}%`, backgroundColor: color }}
       >
         {gap.toFixed(4)}
@@ -120,8 +120,8 @@ const GapBar = ({ label, gap, preserved, color }: { label: string; gap: number; 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-gray-900 border border-gray-700 rounded-lg p-3 text-sm shadow-xl">
-      <div className="font-bold text-white">{label}</div>
+    <div className="bg-white border border-slate-200 rounded-lg p-3 text-sm shadow-xl">
+      <div className="font-bold text-slate-900">{label}</div>
       {payload.map((p: any, i: number) => (
         <div key={i} style={{ color: p.color }}>{p.name}: {typeof p.value === 'number' ? p.value.toFixed(4) : p.value}</div>
       ))}
@@ -234,11 +234,11 @@ export default function HumanDisruption() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 text-slate-900">
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex items-center gap-4 mb-8">
           <Link href="/">
-            <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white" data-testid="link-back">
+            <Button variant="ghost" size="sm" className="text-slate-500 hover:text-slate-700" data-testid="link-back">
               <ArrowLeft className="w-4 h-4 mr-2" /> Home
             </Button>
           </Link>
@@ -246,7 +246,7 @@ export default function HumanDisruption() {
           <Button
             variant="outline"
             size="sm"
-            className="gap-2 border-slate-600 text-slate-300 hover:bg-slate-800"
+            className="gap-2 border-slate-300 text-slate-600 hover:bg-slate-100"
             data-testid="button-download-results"
             onClick={() => {
               const csvData = pairs.map(p => ({
@@ -270,7 +270,7 @@ export default function HumanDisruption() {
             <Download className="h-4 w-4" />
             Download Results (CSV)
           </Button>
-          <Button variant="outline" size="sm" onClick={handleCopy} className="text-gray-400" data-testid="button-copy">
+          <Button variant="outline" size="sm" onClick={handleCopy} className="text-slate-500" data-testid="button-copy">
             {copied ? <Check className="w-4 h-4 mr-2" /> : <Copy className="w-4 h-4 mr-2" />}
             {copied ? 'Copied' : 'Copy Results'}
           </Button>
@@ -280,14 +280,14 @@ export default function HumanDisruption() {
           <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent" data-testid="text-page-title">
             Human Circadian Disruption Validation
           </h1>
-          <p className="text-gray-400 mt-2 max-w-3xl">
+          <p className="text-slate-500 mt-2 max-w-3xl">
             Three independent human studies testing whether the clock &gt; target eigenvalue hierarchy survives
             real-world circadian disruption: forced desynchrony, sleep restriction, and shift work.
             If |λ| captures genuine biological persistence, the hierarchy should be maintained even under disruption.
           </p>
-          <div className="rounded-lg bg-slate-800/40 border border-slate-700/50 p-4 mt-3">
-            <p className="text-sm text-slate-300 leading-relaxed">
-              <strong className="text-white">What you can do:</strong> Results show whether clock genes maintain lower eigenvalues than target genes in datasets collected under circadian disruption conditions (forced desynchrony, sleep restriction, shift work). Download the data to include these comparisons in your analysis.
+          <div className="rounded-lg bg-slate-100 border border-slate-200 p-4 mt-3">
+            <p className="text-sm text-slate-600 leading-relaxed">
+              <strong className="text-slate-900">What you can do:</strong> Results show whether clock genes maintain lower eigenvalues than target genes in datasets collected under circadian disruption conditions (forced desynchrony, sleep restriction, shift work). Download the data to include these comparisons in your analysis.
             </p>
           </div>
         </div>
@@ -307,7 +307,7 @@ export default function HumanDisruption() {
         {isLoading && (
           <div className="flex items-center justify-center py-20">
             <Loader2 className="w-8 h-8 animate-spin text-violet-400" />
-            <span className="ml-3 text-gray-400">Analyzing 3 human disruption studies...</span>
+            <span className="ml-3 text-slate-500">Analyzing 3 human disruption studies...</span>
           </div>
         )}
 
@@ -322,28 +322,28 @@ export default function HumanDisruption() {
           <>
             {/* Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              <Card className="bg-gray-900/50 border-gray-700">
+              <Card className="bg-white border-slate-200">
                 <CardContent className="pt-6 text-center">
-                  <div className="text-4xl font-bold text-white" data-testid="text-study-count">3</div>
-                  <div className="text-sm text-gray-400 mt-1">Independent Human Studies</div>
-                  <div className="text-xs text-gray-400 mt-1">54 total subjects</div>
+                  <div className="text-4xl font-bold text-slate-900" data-testid="text-study-count">3</div>
+                  <div className="text-sm text-slate-500 mt-1">Independent Human Studies</div>
+                  <div className="text-xs text-slate-500 mt-1">54 total subjects</div>
                 </CardContent>
               </Card>
-              <Card className="bg-gray-900/50 border-gray-700">
+              <Card className="bg-white border-slate-200">
                 <CardContent className="pt-6 text-center">
-                  <div className="text-4xl font-bold text-white" data-testid="text-conditions-count">6</div>
-                  <div className="text-sm text-gray-400 mt-1">Conditions Tested</div>
-                  <div className="text-xs text-gray-400 mt-1">3 control + 3 disrupted</div>
+                  <div className="text-4xl font-bold text-slate-900" data-testid="text-conditions-count">6</div>
+                  <div className="text-sm text-slate-500 mt-1">Conditions Tested</div>
+                  <div className="text-xs text-slate-500 mt-1">3 control + 3 disrupted</div>
                 </CardContent>
               </Card>
-              <Card className="bg-gray-900/50 border-gray-700">
+              <Card className="bg-white border-slate-200">
                 <CardContent className="pt-6 text-center">
                   <div className={`text-4xl font-bold ${allPreserved ? 'text-emerald-400' : 'text-amber-400'}`} data-testid="text-preserved-count">
                     {validPairs.filter(p => p.control?.hierarchyPreserved && p.disrupted?.hierarchyPreserved).length * 2 +
                      validPairs.filter(p => (p.control?.hierarchyPreserved ? 1 : 0) + (p.disrupted?.hierarchyPreserved ? 1 : 0) === 1).length}/{validPairs.length * 2}
                   </div>
-                  <div className="text-sm text-gray-400 mt-1">Conditions Preserving Hierarchy</div>
-                  <div className="text-xs text-gray-400 mt-1">clock &gt; target maintained</div>
+                  <div className="text-sm text-slate-500 mt-1">Conditions Preserving Hierarchy</div>
+                  <div className="text-xs text-slate-500 mt-1">clock &gt; target maintained</div>
                   <div className="flex items-center gap-2 flex-wrap mt-2">
                     <EvidenceLink label="Cross-context validation" to="/cross-context-validation" hash="hierarchy-summary" />
                     <EvidenceLink label="Robustness suite" to="/robustness-suite" />
@@ -356,7 +356,7 @@ export default function HumanDisruption() {
             <Alert className="mb-6 border-violet-700/50 bg-violet-950/20">
               <ShieldCheck className="w-4 h-4 text-violet-400" />
               <AlertTitle className="text-violet-300">Key Finding</AlertTitle>
-              <AlertDescription className="text-gray-300">
+              <AlertDescription className="text-slate-600">
                 The clock &gt; target eigenvalue hierarchy persists across all three disruption paradigms.
                 Even under forced desynchrony, sleep restriction, and chronic shift work, clock genes maintain
                 higher temporal persistence than target genes in human blood cells. This demonstrates that
@@ -366,9 +366,9 @@ export default function HumanDisruption() {
 
             {/* Comparison Chart */}
             {comparisonChartData.length > 0 && (
-              <Card className="bg-gray-900/50 border-gray-700 mb-6">
+              <Card className="bg-white border-slate-200 mb-6">
                 <CardHeader>
-                  <CardTitle className="text-lg text-white">Control vs Disrupted: Eigenvalue Gap</CardTitle>
+                  <CardTitle className="text-lg text-slate-900">Control vs Disrupted: Eigenvalue Gap</CardTitle>
                   <CardDescription>Each pair compares the same study under normal vs disrupted conditions</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -390,9 +390,9 @@ export default function HumanDisruption() {
 
             {/* Effect-Size Comparison */}
             {effectSizeData.length > 0 && (
-              <Card className="bg-gray-900/50 border-gray-700 mb-6" data-testid="card-effect-size">
+              <Card className="bg-white border-slate-200 mb-6" data-testid="card-effect-size">
                 <CardHeader>
-                  <CardTitle className="text-lg text-white flex items-center gap-2">
+                  <CardTitle className="text-lg text-slate-900 flex items-center gap-2">
                     <BarChart3 className="w-5 h-5 text-rose-400" />
                     Ranked Effect-Size Comparison
                   </CardTitle>
@@ -410,12 +410,12 @@ export default function HumanDisruption() {
                         if (!active || !payload?.length) return null;
                         const d = payload[0].payload;
                         return (
-                          <div className="bg-gray-900 border border-gray-700 rounded-lg p-3 text-sm shadow-xl">
-                            <div className="font-bold text-white">{d.study}</div>
+                          <div className="bg-white border border-slate-200 rounded-lg p-3 text-sm shadow-xl">
+                            <div className="font-bold text-slate-900">{d.study}</div>
                             <div className="text-rose-300">Effect Size: {(d.effectSize * 100).toFixed(1)}%</div>
-                            <div className="text-gray-400">Control Gap: {d.controlGap.toFixed(4)}</div>
-                            <div className="text-gray-400">Disrupted Gap: {d.disruptedGap.toFixed(4)}</div>
-                            <div className="text-gray-400">Absolute Reduction: {d.reduction.toFixed(4)}</div>
+                            <div className="text-slate-500">Control Gap: {d.controlGap.toFixed(4)}</div>
+                            <div className="text-slate-500">Disrupted Gap: {d.disruptedGap.toFixed(4)}</div>
+                            <div className="text-slate-500">Absolute Reduction: {d.reduction.toFixed(4)}</div>
                           </div>
                         );
                       }} />
@@ -432,9 +432,9 @@ export default function HumanDisruption() {
                       const badge = getEffectLabel(i, effectSizeData.length);
                       return (
                         <div key={d.study} className="flex items-center gap-2" data-testid={`effect-badge-${i}`}>
-                          <span className="text-sm text-gray-400">{d.study}:</span>
+                          <span className="text-sm text-slate-500">{d.study}:</span>
                           <Badge variant="outline" className={badge.className}>{badge.label}</Badge>
-                          <span className="text-xs font-mono text-gray-400">{(d.effectSize * 100).toFixed(1)}%</span>
+                          <span className="text-xs font-mono text-slate-500">{(d.effectSize * 100).toFixed(1)}%</span>
                         </div>
                       );
                     })}
@@ -445,9 +445,9 @@ export default function HumanDisruption() {
 
             {/* Summary Statistics */}
             {summaryStats && (
-              <Card className="bg-gray-900/50 border-gray-700 mb-6" data-testid="card-summary-stats">
+              <Card className="bg-white border-slate-200 mb-6" data-testid="card-summary-stats">
                 <CardHeader>
-                  <CardTitle className="text-lg text-white flex items-center gap-2">
+                  <CardTitle className="text-lg text-slate-900 flex items-center gap-2">
                     <Activity className="w-5 h-5 text-cyan-400" />
                     Summary Statistics
                   </CardTitle>
@@ -455,42 +455,42 @@ export default function HumanDisruption() {
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="border border-gray-700 rounded-lg p-4">
-                      <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">Largest Gap Reduction</div>
+                    <div className="border border-slate-200 rounded-lg p-4">
+                      <div className="text-xs text-slate-500 uppercase tracking-wide mb-1">Largest Gap Reduction</div>
                       <div className="text-2xl font-bold font-mono text-rose-300" data-testid="text-max-reduction">
                         {Math.abs(summaryStats.maxReduction.reduction).toFixed(4)}
                       </div>
-                      <div className="text-sm text-gray-400 mt-1">{summaryStats.maxReduction.study}</div>
-                      <div className="text-xs text-gray-400 mt-1">
+                      <div className="text-sm text-slate-500 mt-1">{summaryStats.maxReduction.study}</div>
+                      <div className="text-xs text-slate-500 mt-1">
                         {summaryStats.maxReduction.controlGap.toFixed(4)} → {summaryStats.maxReduction.disruptedGap.toFixed(4)}
                       </div>
                     </div>
-                    <div className="border border-gray-700 rounded-lg p-4">
-                      <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">Hierarchy Inversion</div>
+                    <div className="border border-slate-200 rounded-lg p-4">
+                      <div className="text-xs text-slate-500 uppercase tracking-wide mb-1">Hierarchy Inversion</div>
                       <div className={`text-2xl font-bold ${summaryStats.anyInversion ? 'text-red-400' : 'text-emerald-400'}`} data-testid="text-inversion-status">
                         {summaryStats.anyInversion ? 'Yes' : 'None'}
                       </div>
-                      <div className="text-sm text-gray-400 mt-1">
+                      <div className="text-sm text-slate-500 mt-1">
                         {summaryStats.anyInversion
                           ? 'At least one condition shows target > clock'
                           : 'Clock > target preserved in all conditions'}
                       </div>
                     </div>
-                    <div className="border border-gray-700 rounded-lg p-4">
-                      <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">Mean Hierarchy Gap</div>
+                    <div className="border border-slate-200 rounded-lg p-4">
+                      <div className="text-xs text-slate-500 uppercase tracking-wide mb-1">Mean Hierarchy Gap</div>
                       <div className="flex items-baseline gap-3">
                         <div>
                           <div className="text-lg font-bold font-mono text-blue-300" data-testid="text-mean-control-gap">
                             {summaryStats.meanControlGap.toFixed(4)}
                           </div>
-                          <div className="text-xs text-gray-400">Control</div>
+                          <div className="text-xs text-slate-500">Control</div>
                         </div>
-                        <TrendingDown className="w-4 h-4 text-gray-400" />
+                        <TrendingDown className="w-4 h-4 text-slate-500" />
                         <div>
                           <div className="text-lg font-bold font-mono text-amber-300" data-testid="text-mean-disrupted-gap">
                             {summaryStats.meanDisruptedGap.toFixed(4)}
                           </div>
-                          <div className="text-xs text-gray-400">Disrupted</div>
+                          <div className="text-xs text-slate-500">Disrupted</div>
                         </div>
                       </div>
                     </div>
@@ -500,15 +500,15 @@ export default function HumanDisruption() {
             )}
 
             {/* Gene Search/Filter Controls */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-6 p-4 bg-gray-900/50 border border-gray-700 rounded-lg">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-6 p-4 bg-white border border-slate-200 rounded-lg">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                 <Input
                   data-testid="input-gene-search"
                   placeholder="Search genes by name..."
                   value={geneSearch}
                   onChange={(e) => setGeneSearch(e.target.value)}
-                  className="pl-9 bg-gray-800 border-gray-600 text-white placeholder:text-gray-500"
+                  className="pl-9 bg-slate-100 border-slate-300 text-slate-900 placeholder:text-gray-500"
                 />
               </div>
               <div className="flex items-center gap-1">
@@ -520,8 +520,8 @@ export default function HumanDisruption() {
                     size="sm"
                     onClick={() => setTypeFilter(t)}
                     className={typeFilter === t
-                      ? 'bg-violet-600 hover:bg-violet-700 text-white'
-                      : 'border-gray-600 text-gray-400 hover:text-white hover:bg-gray-800'}
+                      ? 'bg-violet-600 hover:bg-violet-700 text-slate-900'
+                      : 'border-slate-300 text-slate-500 hover:text-slate-700 hover:bg-slate-100'}
                   >
                     {t === 'all' && 'All'}
                     {t === 'clock' && <><Clock className="w-3.5 h-3.5 mr-1" /> Clock</>}
@@ -537,11 +537,11 @@ export default function HumanDisruption() {
                 const pair = pairs[idx];
                 const isExpanded = expandedStudy === study.studyKey;
                 return (
-                  <Card key={study.studyKey} className="bg-gray-900/50 border-gray-700">
+                  <Card key={study.studyKey} className="bg-white border-slate-200">
                     <CardHeader className="cursor-pointer" onClick={() => setExpandedStudy(isExpanded ? null : study.studyKey)}>
                       <div className="flex items-center justify-between">
                         <div>
-                          <CardTitle className="text-lg text-white flex items-center gap-2">
+                          <CardTitle className="text-lg text-slate-900 flex items-center gap-2">
                             <HeartPulse className="w-5 h-5 text-violet-400" />
                             {study.study}
                           </CardTitle>
@@ -558,7 +558,7 @@ export default function HumanDisruption() {
                     </CardHeader>
                     {isExpanded && (
                       <CardContent className="space-y-4">
-                        <p className="text-sm text-gray-400">{study.description}</p>
+                        <p className="text-sm text-slate-500">{study.description}</p>
 
                         {/* Gap Comparison */}
                         <div className="space-y-3">
@@ -572,8 +572,8 @@ export default function HumanDisruption() {
 
                         {/* Paired Before/After Slope Chart */}
                         {pair.control && pair.disrupted && (
-                          <div className="border border-gray-700 rounded-lg p-4 mt-2" data-testid={`slope-chart-${study.studyKey}`}>
-                            <h4 className="text-sm font-medium text-gray-300 mb-2 flex items-center gap-2">
+                          <div className="border border-slate-200 rounded-lg p-4 mt-2" data-testid={`slope-chart-${study.studyKey}`}>
+                            <h4 className="text-sm font-medium text-slate-600 mb-2 flex items-center gap-2">
                               <TrendingDown className="w-4 h-4 text-violet-400" />
                               Paired Before/After: Mean |λ| Shift
                             </h4>
@@ -588,7 +588,7 @@ export default function HumanDisruption() {
                                 <Legend />
                               </LineChart>
                             </ResponsiveContainer>
-                            <div className="flex gap-4 text-xs text-gray-400 mt-2">
+                            <div className="flex gap-4 text-xs text-slate-500 mt-2">
                               <span>Clock Δ: {(pair.disrupted.clockMeanEV - pair.control.clockMeanEV) >= 0 ? '+' : ''}{(pair.disrupted.clockMeanEV - pair.control.clockMeanEV).toFixed(4)}</span>
                               <span>Target Δ: {(pair.disrupted.targetMeanEV - pair.control.targetMeanEV) >= 0 ? '+' : ''}{(pair.disrupted.targetMeanEV - pair.control.targetMeanEV).toFixed(4)}</span>
                               <span>Gap Δ: {(pair.disrupted.gap - pair.control.gap) >= 0 ? '+' : ''}{(pair.disrupted.gap - pair.control.gap).toFixed(4)}</span>
@@ -602,30 +602,30 @@ export default function HumanDisruption() {
                             { label: study.controlLabel, data: pair.control, color: 'blue' },
                             { label: study.disruptedLabel, data: pair.disrupted, color: 'amber' },
                           ].map(({ label, data, color }) => data && (
-                            <div key={label} className="border border-gray-700 rounded-lg p-3">
+                            <div key={label} className="border border-slate-200 rounded-lg p-3">
                               <h4 className={`font-medium text-${color}-300 mb-2 flex items-center gap-2`}>
                                 {color === 'blue' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
                                 {label}
                               </h4>
                               <div className="grid grid-cols-2 gap-2 text-sm mb-3">
                                 <div>
-                                  <span className="text-gray-400">Clock mean |λ|: </span>
+                                  <span className="text-slate-500">Clock mean |λ|: </span>
                                   <span className="font-mono text-blue-300">{data.clockMeanEV.toFixed(4)}</span>
                                 </div>
                                 <div>
-                                  <span className="text-gray-400">Target mean |λ|: </span>
+                                  <span className="text-slate-500">Target mean |λ|: </span>
                                   <span className="font-mono text-amber-300">{data.targetMeanEV.toFixed(4)}</span>
                                 </div>
                                 <div>
-                                  <span className="text-gray-400">Gap: </span>
-                                  <span className="font-mono text-white">{data.gap.toFixed(4)}</span>
+                                  <span className="text-slate-500">Gap: </span>
+                                  <span className="font-mono text-slate-900">{data.gap.toFixed(4)}</span>
                                 </div>
                                 <div>
-                                  <span className="text-gray-400">ADF pass: </span>
-                                  <span className="font-mono text-gray-300">{data.adfStationarityPassRate.toFixed(1)}%</span>
+                                  <span className="text-slate-500">ADF pass: </span>
+                                  <span className="font-mono text-slate-600">{data.adfStationarityPassRate.toFixed(1)}%</span>
                                 </div>
                               </div>
-                              <div className="text-xs text-gray-400">
+                              <div className="text-xs text-slate-500">
                                 {data.clockN} clock genes, {data.targetN} target genes
                               </div>
                             </div>
@@ -643,16 +643,16 @@ export default function HumanDisruption() {
                           const totalFiltered = clockFiltered.length + targetFiltered.length;
                           const isOpen = expandedGeneTables[condKey] ?? false;
                           return (
-                            <div key={condKey} className="border border-gray-700 rounded-lg mt-2">
+                            <div key={condKey} className="border border-slate-200 rounded-lg mt-2">
                               <button
-                                className="w-full flex items-center justify-between p-3 text-sm text-gray-300 hover:bg-gray-800/50 transition-colors"
+                                className="w-full flex items-center justify-between p-3 text-sm text-slate-600 hover:bg-slate-50 transition-colors"
                                 onClick={() => toggleGeneTable(condKey)}
                                 data-testid={`toggle-gene-table-${condKey}`}
                               >
                                 <span className="flex items-center gap-2">
                                   {isOpen ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
                                   {label} — Per-Gene Eigenvalues
-                                  <Badge variant="outline" className="text-xs border-gray-600 text-gray-400">{totalFiltered} genes</Badge>
+                                  <Badge variant="outline" className="text-xs border-slate-300 text-slate-500">{totalFiltered} genes</Badge>
                                 </span>
                               </button>
                               {isOpen && (
@@ -662,7 +662,7 @@ export default function HumanDisruption() {
                                   ) : (
                                     <table className="w-full text-sm" data-testid={`gene-table-${condKey}`}>
                                       <thead>
-                                        <tr className="text-xs text-gray-400 border-b border-gray-700">
+                                        <tr className="text-xs text-slate-500 border-b border-slate-200">
                                           <th className="text-left py-1.5 pr-4">Gene</th>
                                           <th className="text-left py-1.5 pr-4">Type</th>
                                           <th className="text-right py-1.5 pr-4">|λ|</th>
@@ -674,7 +674,7 @@ export default function HumanDisruption() {
                                           <tr key={`clock-${g.gene}`} className="border-b border-gray-800/50" data-testid={`gene-row-${condKey}-${g.gene}`}>
                                             <td className="py-1.5 pr-4 font-mono text-blue-300">{g.gene}</td>
                                             <td className="py-1.5 pr-4"><Badge variant="outline" className="text-xs border-blue-700 text-blue-400">Clock</Badge></td>
-                                            <td className="py-1.5 pr-4 text-right font-mono text-white">{g.eigenvalue.toFixed(4)}</td>
+                                            <td className="py-1.5 pr-4 text-right font-mono text-slate-900">{g.eigenvalue.toFixed(4)}</td>
                                             <td className="py-1.5 text-right">{g.adfStationary ? <span className="text-emerald-400">✓</span> : <span className="text-red-400">✗</span>}</td>
                                           </tr>
                                         ))}
@@ -682,7 +682,7 @@ export default function HumanDisruption() {
                                           <tr key={`target-${g.gene}`} className="border-b border-gray-800/50" data-testid={`gene-row-${condKey}-${g.gene}`}>
                                             <td className="py-1.5 pr-4 font-mono text-amber-300">{g.gene}</td>
                                             <td className="py-1.5 pr-4"><Badge variant="outline" className="text-xs border-amber-700 text-amber-400">Target</Badge></td>
-                                            <td className="py-1.5 pr-4 text-right font-mono text-white">{g.eigenvalue.toFixed(4)}</td>
+                                            <td className="py-1.5 pr-4 text-right font-mono text-slate-900">{g.eigenvalue.toFixed(4)}</td>
                                             <td className="py-1.5 text-right">{g.adfStationary ? <span className="text-emerald-400">✓</span> : <span className="text-red-400">✗</span>}</td>
                                           </tr>
                                         ))}
@@ -713,16 +713,16 @@ export default function HumanDisruption() {
             </div>
 
             {/* Root-Space Connection */}
-            <Card className="bg-gray-900/50 border-gray-700 mb-6" data-testid="card-root-space">
+            <Card className="bg-white border-slate-200 mb-6" data-testid="card-root-space">
               <CardHeader>
-                <CardTitle className="text-lg text-white flex items-center gap-2">
+                <CardTitle className="text-lg text-slate-900 flex items-center gap-2">
                   <GitBranch className="w-5 h-5 text-teal-400" />
                   Root-Space Connection
                 </CardTitle>
                 <CardDescription>How circadian disruption maps to the complex eigenvalue root-space</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="text-sm text-gray-400 space-y-3">
+                <div className="text-sm text-slate-500 space-y-3">
                   <p>
                     The AR(2) eigenvalues λ = r·e<sup>iθ</sup> live in the complex plane. Each disruption shifts
                     genes along two orthogonal axes: <strong className="text-teal-300">r (damping radius)</strong> — how
@@ -731,8 +731,8 @@ export default function HumanDisruption() {
                     attenuates persistence or shifts timing.
                   </p>
                   <p>
-                    The <strong className="text-gray-300">Forced Desynchrony (Aligned vs Misaligned)</strong> and{' '}
-                    <strong className="text-gray-300">Sleep Restriction</strong> studies are now included as perturbation
+                    The <strong className="text-slate-600">Forced Desynchrony (Aligned vs Misaligned)</strong> and{' '}
+                    <strong className="text-slate-600">Sleep Restriction</strong> studies are now included as perturbation
                     conditions in the root-space analysis. Their eigenvalue shifts can be directly visualized in the
                     complex plane alongside tissue-level and cross-species comparisons, providing a unified view of
                     how biological disruptions move genes through eigenvalue space.
@@ -753,29 +753,29 @@ export default function HumanDisruption() {
             </Card>
 
             {/* Methodology */}
-            <Card className="bg-gray-900/50 border-gray-700">
+            <Card className="bg-white border-slate-200">
               <CardHeader>
-                <CardTitle className="text-lg text-white">Methodology</CardTitle>
+                <CardTitle className="text-lg text-slate-900">Methodology</CardTitle>
               </CardHeader>
-              <CardContent className="text-sm text-gray-400 space-y-3">
+              <CardContent className="text-sm text-slate-500 space-y-3">
                 <p>
-                  <strong className="text-gray-300">Study 1 — Forced Desynchrony (GSE48113):</strong> Archer et al. (2014)
+                  <strong className="text-slate-600">Study 1 — Forced Desynchrony (GSE48113):</strong> Archer et al. (2014)
                   subjected 22 subjects to a 28-hour forced desynchrony protocol. Blood samples were collected when
                   sleep was aligned vs misaligned with the circadian melatonin rhythm. This is the gold-standard
                   protocol for separating circadian and sleep-dependent effects.
                 </p>
                 <p>
-                  <strong className="text-gray-300">Study 2 — Sleep Restriction (GSE39445):</strong> Moller-Levet et al. (2013)
+                  <strong className="text-slate-600">Study 2 — Sleep Restriction (GSE39445):</strong> Moller-Levet et al. (2013)
                   collected blood from 26 subjects after 1 week of sufficient sleep (8.5h/night) and 1 week of
                   restricted sleep (6h/night), with 10 timepoints sampled over 24h in each condition.
                 </p>
                 <p>
-                  <strong className="text-gray-300">Study 3 — Shift Work (GSE122541):</strong> Gamble et al. (2019)
+                  <strong className="text-slate-600">Study 3 — Shift Work (GSE122541):</strong> Gamble et al. (2019)
                   compared PBMCs from hospital nurses working permanent day shifts vs permanent night shifts,
                   with 8 timepoints every 3 hours over 24h.
                 </p>
                 <p>
-                  <strong className="text-gray-300">Analysis:</strong> Standard AR(2) eigenvalue extraction with
+                  <strong className="text-slate-600">Analysis:</strong> Standard AR(2) eigenvalue extraction with
                   stability filtering (|λ| &lt; 1.0), ADF stationarity testing, and full edge-case diagnostics.
                   The clock-target gap and hierarchy preservation are computed identically to all other datasets
                   in the platform.

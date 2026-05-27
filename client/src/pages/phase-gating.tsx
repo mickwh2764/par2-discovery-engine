@@ -135,10 +135,10 @@ function formatP(p: number): string {
 
 function StatBox({ label, value, sub, highlight }: { label: string; value: string; sub?: string; highlight?: boolean }) {
   return (
-    <div className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-3 text-center">
-      <div className="text-xs text-slate-400">{label}</div>
-      <div className={`text-lg font-bold font-mono ${highlight ? "text-emerald-400" : "text-white"}`}>{value}</div>
-      {sub && <div className="text-[10px] text-slate-400">{sub}</div>}
+    <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
+      <div className="text-xs text-slate-500">{label}</div>
+      <div className={`text-lg font-bold font-mono ${highlight ? "text-emerald-400" : "text-slate-900"}`}>{value}</div>
+      {sub && <div className="text-[10px] text-slate-500">{sub}</div>}
     </div>
   );
 }
@@ -152,15 +152,15 @@ function LiteratureCard({ ref: litRef }: { ref: LitRef }) {
         </div>
         <div className="space-y-2 min-w-0">
           <div>
-            <p className="text-sm font-medium text-white">{litRef.finding}</p>
-            <p className="text-xs text-slate-400 mt-1">{litRef.agreement}</p>
+            <p className="text-sm font-medium text-slate-900">{litRef.finding}</p>
+            <p className="text-xs text-slate-500 mt-1">{litRef.agreement}</p>
           </div>
           <div className="flex flex-wrap gap-2 text-xs">
-            <Badge variant="outline" className="border-slate-600 text-slate-300 text-[10px]">
+            <Badge variant="outline" className="border-slate-300 text-slate-600 text-[10px]">
               <BookOpen className="h-3 w-3 mr-1" />
               {litRef.citation}
             </Badge>
-            <Badge variant="outline" className="border-slate-600 text-slate-400 text-[10px]">
+            <Badge variant="outline" className="border-slate-300 text-slate-500 text-[10px]">
               {litRef.method}
             </Badge>
           </div>
@@ -310,26 +310,26 @@ function PhaseClockDiagram({ nodes, selectedGene, onSelectGene }: {
       </svg>
 
       {selectedNode && (
-        <div className="mt-4 bg-slate-800/60 border border-slate-700 rounded-lg p-4 w-full max-w-md" data-testid="panel-clock-gene-detail">
+        <div className="mt-4 bg-slate-50 border border-slate-200 rounded-lg p-4 w-full max-w-md" data-testid="panel-clock-gene-detail">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: CATEGORY_COLORS[selectedNode.category] || CATEGORY_COLORS.other }} />
-            <span className="font-mono font-bold text-white"><GeneTooltip gene={selectedNode.gene}>{selectedNode.gene}</GeneTooltip></span>
-            <Badge variant="outline" className="text-[10px] border-slate-600 text-slate-300 capitalize">{selectedNode.category}</Badge>
+            <span className="font-mono font-bold text-slate-900"><GeneTooltip gene={selectedNode.gene}>{selectedNode.gene}</GeneTooltip></span>
+            <Badge variant="outline" className="text-[10px] border-slate-300 text-slate-600 capitalize">{selectedNode.category}</Badge>
           </div>
           <div className="grid grid-cols-2 gap-3 text-sm">
             <div>
-              <span className="text-xs text-slate-400">Peak Phase</span>
-              <div className="font-mono text-white">CT{selectedNode.peakPhase.toFixed(1)}</div>
+              <span className="text-xs text-slate-500">Peak Phase</span>
+              <div className="font-mono text-slate-900">CT{selectedNode.peakPhase.toFixed(1)}</div>
             </div>
             <div>
-              <span className="text-xs text-slate-400">|λ| Eigenvalue</span>
-              <div className="font-mono text-white">{selectedNode.eigenvalue.toFixed(4)}</div>
+              <span className="text-xs text-slate-500">|λ| Eigenvalue</span>
+              <div className="font-mono text-slate-900">{selectedNode.eigenvalue.toFixed(4)}</div>
             </div>
           </div>
         </div>
       )}
 
-      <div className="flex items-center gap-4 mt-3 text-xs text-slate-400">
+      <div className="flex items-center gap-4 mt-3 text-xs text-slate-500">
         <div className="flex items-center gap-1.5">
           <div className="w-3 h-3 rounded-full bg-yellow-400" />
           <span>Clock ({clockNodes.length})</span>
@@ -367,11 +367,11 @@ export default function PhaseGating() {
   const unverifiedRefs = data?.literatureCrossReferences.filter(r => !r.verified) || [];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 text-slate-900">
       <div className="max-w-6xl mx-auto px-4 py-6">
         <div className="flex items-center gap-3 mb-6">
           <Link href="/">
-            <Button variant="outline" size="sm" className="gap-2 border-slate-700 text-slate-300 hover:bg-slate-800" data-testid="link-back-home">
+            <Button variant="outline" size="sm" className="gap-2 border-slate-200 text-slate-600 hover:bg-slate-100" data-testid="link-back-home">
               <ArrowLeft size={14} />
               Home
             </Button>
@@ -381,10 +381,10 @@ export default function PhaseGating() {
               <Clock size={24} className="text-cyan-400" />
               Phase-Gating Analysis
             </h1>
-            <p className="text-sm text-slate-400 mt-1">Time-varying AR(2) dynamics, phase-eigenvalue structure, and knockout validation</p>
-            <div className="rounded-lg bg-slate-800/40 border border-slate-700/50 p-4 mt-3">
-              <p className="text-sm text-slate-300 leading-relaxed">
-                <strong className="text-white">What you can do:</strong> Phase gating examines how eigenvalues change across different phases of the circadian cycle. This reveals whether persistence is constant or varies with time of day. Download results to analyze phase-dependent dynamics.
+            <p className="text-sm text-slate-500 mt-1">Time-varying AR(2) dynamics, phase-eigenvalue structure, and knockout validation</p>
+            <div className="rounded-lg bg-slate-100 border border-slate-200 p-4 mt-3">
+              <p className="text-sm text-slate-600 leading-relaxed">
+                <strong className="text-slate-900">What you can do:</strong> Phase gating examines how eigenvalues change across different phases of the circadian cycle. This reveals whether persistence is constant or varies with time of day. Download results to analyze phase-dependent dynamics.
               </p>
             </div>
           </div>
@@ -396,7 +396,7 @@ export default function PhaseGating() {
             <Button
               variant="outline"
               size="sm"
-              className="gap-2 border-slate-600 text-slate-300 hover:bg-slate-800"
+              className="gap-2 border-slate-300 text-slate-600 hover:bg-slate-100"
               data-testid="button-download-results"
               onClick={() => {
                 const csvData = data.timeVaryingEigenvalues.genes.map(g => ({
@@ -421,15 +421,15 @@ export default function PhaseGating() {
 
         <PaperCrossLinks currentPage="/phase-gating" />
 
-        <Card className="bg-slate-900/80 border-slate-700 mb-6" data-testid="card-dataset-selector">
+        <Card className="bg-white border-slate-200 mb-6" data-testid="card-dataset-selector">
           <CardContent className="pt-4">
             <div className="flex items-center gap-4">
-              <label className="text-sm font-medium text-slate-300 whitespace-nowrap">Dataset</label>
+              <label className="text-sm font-medium text-slate-600 whitespace-nowrap">Dataset</label>
               <Select value={dataset} onValueChange={setDataset}>
-                <SelectTrigger className="bg-slate-800 border-slate-700 text-white max-w-lg" data-testid="select-dataset-trigger">
+                <SelectTrigger className="bg-slate-100 border-slate-200 text-slate-900 max-w-lg" data-testid="select-dataset-trigger">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-slate-800 border-slate-700">
+                <SelectContent className="bg-slate-100 border-slate-200">
                   {DATASETS.map(ds => (
                     <SelectItem key={ds.id} value={ds.id} data-testid={`select-dataset-item-${ds.id}`}>
                       {ds.label}
@@ -444,8 +444,8 @@ export default function PhaseGating() {
         {isLoading && (
           <div className="flex flex-col items-center justify-center py-20" data-testid="loading-state">
             <Loader2 className="h-10 w-10 animate-spin text-cyan-400 mb-4" />
-            <p className="text-slate-400 text-lg">Running extended phase-gating analysis...</p>
-            <p className="text-slate-400 text-sm mt-1">Computing time-varying eigenvalues, genome-wide correlations, and KO comparison</p>
+            <p className="text-slate-500 text-lg">Running extended phase-gating analysis...</p>
+            <p className="text-slate-500 text-sm mt-1">Computing time-varying eigenvalues, genome-wide correlations, and KO comparison</p>
           </div>
         )}
 
@@ -459,39 +459,39 @@ export default function PhaseGating() {
 
         {data && !isLoading && (
           <Tabs defaultValue="time-varying" className="space-y-6">
-            <TabsList className="bg-slate-800/80 border border-slate-700 p-1">
-              <TabsTrigger value="time-varying" className="data-[state=active]:bg-cyan-600 data-[state=active]:text-white gap-2" data-testid="tab-time-varying">
+            <TabsList className="bg-slate-50 border border-slate-200 p-1">
+              <TabsTrigger value="time-varying" className="data-[state=active]:bg-cyan-600 data-[state=active]:text-slate-900 gap-2" data-testid="tab-time-varying">
                 <Sun size={14} />
                 Day vs Night Dynamics
               </TabsTrigger>
-              <TabsTrigger value="phase-correlation" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white gap-2" data-testid="tab-phase-correlation">
+              <TabsTrigger value="phase-correlation" className="data-[state=active]:bg-purple-600 data-[state=active]:text-slate-900 gap-2" data-testid="tab-phase-correlation">
                 <TrendingUp size={14} />
                 Phase-Eigenvalue Map
               </TabsTrigger>
-              <TabsTrigger value="phase-clock" className="data-[state=active]:bg-amber-600 data-[state=active]:text-white gap-2" data-testid="tab-phase-clock">
+              <TabsTrigger value="phase-clock" className="data-[state=active]:bg-amber-600 data-[state=active]:text-slate-900 gap-2" data-testid="tab-phase-clock">
                 <CircleDot size={14} />
                 24h Clock Diagram
               </TabsTrigger>
-              <TabsTrigger value="ko-comparison" className="data-[state=active]:bg-red-600 data-[state=active]:text-white gap-2" data-testid="tab-ko-comparison">
+              <TabsTrigger value="ko-comparison" className="data-[state=active]:bg-red-600 data-[state=active]:text-slate-900 gap-2" data-testid="tab-ko-comparison">
                 <FlaskConical size={14} />
                 KO Validation
               </TabsTrigger>
-              <TabsTrigger value="literature" className="data-[state=active]:bg-emerald-600 data-[state=active]:text-white gap-2" data-testid="tab-literature">
+              <TabsTrigger value="literature" className="data-[state=active]:bg-emerald-600 data-[state=active]:text-slate-900 gap-2" data-testid="tab-literature">
                 <BookOpen size={14} />
                 Literature ({verifiedRefs.length} Verified)
               </TabsTrigger>
             </TabsList>
 
             <TabsContent value="time-varying" className="space-y-6">
-              <Card className="bg-slate-900/80 border-slate-700" data-testid="card-time-varying">
+              <Card className="bg-white border-slate-200" data-testid="card-time-varying">
                 <CardHeader>
                   <div className="flex items-center gap-3">
                     <div className="p-2 rounded-lg bg-cyan-500/20">
                       <ArrowRightLeft className="h-5 w-5 text-cyan-400" />
                     </div>
                     <div>
-                      <CardTitle className="text-white">Time-Varying AR(2) Eigenvalues: Day vs Night</CardTitle>
-                      <CardDescription className="text-slate-400">
+                      <CardTitle className="text-slate-900">Time-Varying AR(2) Eigenvalues: Day vs Night</CardTitle>
+                      <CardDescription className="text-slate-500">
                         Do gene dynamics genuinely shift between circadian day (CT0-12) and night (CT12-24) phases?
                       </CardDescription>
                     </div>
@@ -558,7 +558,7 @@ export default function PhaseGating() {
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm" data-testid="table-time-varying">
                       <thead>
-                        <tr className="border-b border-slate-700 text-slate-400">
+                        <tr className="border-b border-slate-200 text-slate-500">
                           <th className="py-2 px-3 text-left">Gene</th>
                           <th className="py-2 px-3 text-left">Type</th>
                           <th className="py-2 px-3 text-right">Full |λ|</th>
@@ -571,20 +571,20 @@ export default function PhaseGating() {
                       </thead>
                       <tbody>
                         {data.timeVaryingEigenvalues.genes.map(g => (
-                          <tr key={g.gene} className="border-b border-slate-700/50 hover:bg-slate-800/50" data-testid={`row-tv-${g.gene}`}>
+                          <tr key={g.gene} className="border-b border-slate-200 hover:bg-slate-50" data-testid={`row-tv-${g.gene}`}>
                             <td className={`py-2 px-3 font-mono font-medium ${g.category === 'clock' ? 'text-amber-300' : 'text-cyan-300'}`}><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></td>
-                            <td className="py-2 px-3 text-slate-400 text-xs capitalize">{g.category}</td>
-                            <td className="py-2 px-3 text-right font-mono text-white">{g.fullEigenvalue.toFixed(4)}</td>
+                            <td className="py-2 px-3 text-slate-500 text-xs capitalize">{g.category}</td>
+                            <td className="py-2 px-3 text-right font-mono text-slate-900">{g.fullEigenvalue.toFixed(4)}</td>
                             <td className="py-2 px-3 text-right font-mono text-yellow-300">{g.dayEigenvalue.toFixed(4)}</td>
                             <td className="py-2 px-3 text-right font-mono text-blue-300">{g.nightEigenvalue.toFixed(4)}</td>
-                            <td className={`py-2 px-3 text-right font-mono ${Math.abs(g.dayNightShift) > 0.05 ? 'text-emerald-400' : 'text-slate-400'}`}>
+                            <td className={`py-2 px-3 text-right font-mono ${Math.abs(g.dayNightShift) > 0.05 ? 'text-emerald-400' : 'text-slate-500'}`}>
                               {g.dayNightShift > 0 ? '+' : ''}{g.dayNightShift.toFixed(4)}
                             </td>
-                            <td className={`py-2 px-3 text-right font-mono ${g.permutationP < 0.05 ? 'text-emerald-400' : 'text-slate-400'}`}>
+                            <td className={`py-2 px-3 text-right font-mono ${g.permutationP < 0.05 ? 'text-emerald-400' : 'text-slate-500'}`}>
                               {formatP(g.permutationP)}
                             </td>
                             <td className="py-2 px-3 text-center">
-                              {g.significantShift ? <CheckCircle2 className="h-4 w-4 text-emerald-400 mx-auto" /> : <XCircle className="h-4 w-4 text-slate-400 mx-auto" />}
+                              {g.significantShift ? <CheckCircle2 className="h-4 w-4 text-emerald-400 mx-auto" /> : <XCircle className="h-4 w-4 text-slate-500 mx-auto" />}
                             </td>
                           </tr>
                         ))}
@@ -592,8 +592,8 @@ export default function PhaseGating() {
                     </table>
                   </div>
 
-                  <div className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-4">
-                    <p className="text-xs text-slate-400 leading-relaxed" data-testid="text-interpretation-tv">
+                  <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
+                    <p className="text-xs text-slate-500 leading-relaxed" data-testid="text-interpretation-tv">
                       {data.timeVaryingEigenvalues.summary.interpretation}
                     </p>
                   </div>
@@ -603,7 +603,7 @@ export default function PhaseGating() {
                       <BookOpen className="h-4 w-4 text-blue-400" />
                       <span className="text-sm font-medium text-blue-400">Independent Literature Verification</span>
                     </div>
-                    <p className="text-xs text-slate-400 leading-relaxed">
+                    <p className="text-xs text-slate-500 leading-relaxed">
                       Day-night differences in liver gene expression were independently established by Storch et al. (2002, Nature 417:78-83) using Affymetrix microarrays, showing ~10% of transcripts oscillate with dramatic day-night phase differences.
                       Panda et al. (2002, Cell 109:307-320) confirmed this using serial analysis of gene expression (SAGE) in SCN and liver. These studies used entirely different methods from AR(2) modeling.
                     </p>
@@ -613,15 +613,15 @@ export default function PhaseGating() {
             </TabsContent>
 
             <TabsContent value="phase-correlation" className="space-y-6">
-              <Card className="bg-slate-900/80 border-slate-700" data-testid="card-phase-correlation">
+              <Card className="bg-white border-slate-200" data-testid="card-phase-correlation">
                 <CardHeader>
                   <div className="flex items-center gap-3">
                     <div className="p-2 rounded-lg bg-purple-500/20">
                       <TrendingUp className="h-5 w-5 text-purple-400" />
                     </div>
                     <div>
-                      <CardTitle className="text-white">Phase-Eigenvalue Correlation</CardTitle>
-                      <CardDescription className="text-slate-400">
+                      <CardTitle className="text-slate-900">Phase-Eigenvalue Correlation</CardTitle>
+                      <CardDescription className="text-slate-500">
                         Does a gene's peak expression time predict its AR(2) persistence? Genome-wide analysis across {data.phaseEigenvalueCorrelation.nGenes.toLocaleString()} oscillating genes.
                       </CardDescription>
                     </div>
@@ -645,7 +645,7 @@ export default function PhaseGating() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <h4 className="text-sm text-slate-300 font-medium mb-3">Mean |λ| by Phase Bin</h4>
+                      <h4 className="text-sm text-slate-600 font-medium mb-3">Mean |λ| by Phase Bin</h4>
                       <div className="h-64">
                         <ResponsiveContainer width="100%" height="100%">
                           <BarChart
@@ -681,24 +681,24 @@ export default function PhaseGating() {
                     </div>
 
                     <div className="space-y-3">
-                      <h4 className="text-sm text-slate-300 font-medium">Phase Bin Details</h4>
+                      <h4 className="text-sm text-slate-600 font-medium">Phase Bin Details</h4>
                       {data.phaseEigenvalueCorrelation.phaseBins.map((bin, i) => (
-                        <div key={i} className={`border rounded-lg p-3 ${bin.binLabel === data.phaseEigenvalueCorrelation.highestPersistenceBin ? 'bg-cyan-500/10 border-cyan-500/30' : 'bg-slate-800/50 border-slate-700/50'}`} data-testid={`card-bin-${bin.binLabel}`}>
+                        <div key={i} className={`border rounded-lg p-3 ${bin.binLabel === data.phaseEigenvalueCorrelation.highestPersistenceBin ? 'bg-cyan-500/10 border-cyan-500/30' : 'bg-slate-50 border-slate-200'}`} data-testid={`card-bin-${bin.binLabel}`}>
                           <div className="flex items-center justify-between mb-1">
-                            <span className="text-sm font-medium text-white">{bin.binLabel}</span>
-                            <span className="text-xs text-slate-400">{bin.binRange}</span>
+                            <span className="text-sm font-medium text-slate-900">{bin.binLabel}</span>
+                            <span className="text-xs text-slate-500">{bin.binRange}</span>
                           </div>
                           <div className="flex items-center justify-between">
-                            <span className="text-xs text-slate-400">{bin.nGenes} genes</span>
-                            <span className="font-mono text-sm text-white">|λ| = {bin.meanEigenvalue.toFixed(4)}</span>
+                            <span className="text-xs text-slate-500">{bin.nGenes} genes</span>
+                            <span className="font-mono text-sm text-slate-900">|λ| = {bin.meanEigenvalue.toFixed(4)}</span>
                           </div>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  <div className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-4">
-                    <p className="text-xs text-slate-400 leading-relaxed" data-testid="text-interpretation-pc">
+                  <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
+                    <p className="text-xs text-slate-500 leading-relaxed" data-testid="text-interpretation-pc">
                       {data.phaseEigenvalueCorrelation.interpretation}
                     </p>
                   </div>
@@ -708,7 +708,7 @@ export default function PhaseGating() {
                       <BookOpen className="h-4 w-4 text-blue-400" />
                       <span className="text-sm font-medium text-blue-400">Independent Literature Context</span>
                     </div>
-                    <p className="text-xs text-slate-400 leading-relaxed">
+                    <p className="text-xs text-slate-500 leading-relaxed">
                       Phase-dependent gene regulation was characterized by Panda et al. (2002, Cell 109:307-320) showing output genes cluster at specific circadian phases, with genes at dawn/dusk transitions showing distinct regulation patterns.
                       Ueda et al. (2002, Nature 418:534-539) mapped phase-specific transcription factor binding, showing that genes peaking at different phases are driven by different regulatory elements.
                       Neither study used autoregressive models.
@@ -719,15 +719,15 @@ export default function PhaseGating() {
             </TabsContent>
 
             <TabsContent value="phase-clock" className="space-y-6">
-              <Card className="bg-slate-900/80 border-slate-700" data-testid="card-phase-clock">
+              <Card className="bg-white border-slate-200" data-testid="card-phase-clock">
                 <CardHeader>
                   <div className="flex items-center gap-3">
                     <div className="p-2 rounded-lg bg-amber-500/20">
                       <CircleDot className="h-5 w-5 text-amber-400" />
                     </div>
                     <div>
-                      <CardTitle className="text-white">24-Hour Phase Clock Diagram</CardTitle>
-                      <CardDescription className="text-slate-400">
+                      <CardTitle className="text-slate-900">24-Hour Phase Clock Diagram</CardTitle>
+                      <CardDescription className="text-slate-500">
                         Genes positioned by peak expression phase on a 24h circadian clock. Node size reflects |λ| eigenvalue persistence. Click any gene for details.
                       </CardDescription>
                     </div>
@@ -741,7 +741,7 @@ export default function PhaseGating() {
                       onSelectGene={setSelectedClockGene}
                     />
                   ) : (
-                    <div className="text-center py-8 text-slate-400">
+                    <div className="text-center py-8 text-slate-500">
                       <CircleDot className="h-12 w-12 mx-auto mb-3 opacity-40" />
                       <p className="text-sm">No oscillating genes detected (cosinor R² &gt; 0.1 filter). Try a different dataset.</p>
                     </div>
@@ -751,15 +751,15 @@ export default function PhaseGating() {
             </TabsContent>
 
             <TabsContent value="ko-comparison" className="space-y-6">
-              <Card className="bg-slate-900/80 border-slate-700" data-testid="card-ko-comparison">
+              <Card className="bg-white border-slate-200" data-testid="card-ko-comparison">
                 <CardHeader>
                   <div className="flex items-center gap-3">
                     <div className="p-2 rounded-lg bg-red-500/20">
                       <FlaskConical className="h-5 w-5 text-red-400" />
                     </div>
                     <div>
-                      <CardTitle className="text-white">BMAL1-KO vs Wild-Type Comparison</CardTitle>
-                      <CardDescription className="text-slate-400">
+                      <CardTitle className="text-slate-900">BMAL1-KO vs Wild-Type Comparison</CardTitle>
+                      <CardDescription className="text-slate-500">
                         {data.koComparison.available
                           ? `Does removing the master clock gene abolish AR(2) dynamics? Comparing ${data.koComparison.wtDataset} vs ${data.koComparison.koDataset}`
                           : 'KO comparison datasets not available for this selection'}
@@ -769,7 +769,7 @@ export default function PhaseGating() {
                 </CardHeader>
                 <CardContent className="space-y-6">
                   {!data.koComparison.available ? (
-                    <div className="text-center py-8 text-slate-400" data-testid="text-ko-unavailable">
+                    <div className="text-center py-8 text-slate-500" data-testid="text-ko-unavailable">
                       <FlaskConical className="h-12 w-12 mx-auto mb-3 opacity-40" />
                       <p className="text-sm">No paired KO dataset available. Select a BMAL1-WT or BMAL1-KO dataset to enable this comparison.</p>
                     </div>
@@ -855,7 +855,7 @@ export default function PhaseGating() {
                       <div className="overflow-x-auto">
                         <table className="w-full text-sm" data-testid="table-ko-comparison">
                           <thead>
-                            <tr className="border-b border-slate-700 text-slate-400">
+                            <tr className="border-b border-slate-200 text-slate-500">
                               <th className="py-2 px-3 text-left">Gene</th>
                               <th className="py-2 px-3 text-left">Type</th>
                               <th className="py-2 px-3 text-right">WT |λ|</th>
@@ -868,17 +868,17 @@ export default function PhaseGating() {
                           </thead>
                           <tbody>
                             {data.koComparison.perGene.map(g => (
-                              <tr key={g.gene} className="border-b border-slate-700/50 hover:bg-slate-800/50" data-testid={`row-ko-${g.gene}`}>
+                              <tr key={g.gene} className="border-b border-slate-200 hover:bg-slate-50" data-testid={`row-ko-${g.gene}`}>
                                 <td className={`py-2 px-3 font-mono font-medium ${g.category === 'clock' ? 'text-amber-300' : 'text-cyan-300'}`}><GeneTooltip gene={g.gene}>{g.gene}</GeneTooltip></td>
-                                <td className="py-2 px-3 text-slate-400 text-xs capitalize">{g.category}</td>
+                                <td className="py-2 px-3 text-slate-500 text-xs capitalize">{g.category}</td>
                                 <td className="py-2 px-3 text-right font-mono text-emerald-300">{g.wtEigenvalue.toFixed(4)}</td>
                                 <td className="py-2 px-3 text-right font-mono text-red-300">{g.koEigenvalue.toFixed(4)}</td>
                                 <td className={`py-2 px-3 text-right font-mono ${g.eigenvalueShift < 0 ? 'text-red-400' : 'text-emerald-400'}`}>
                                   {g.eigenvalueShift > 0 ? '+' : ''}{g.eigenvalueShift.toFixed(4)}
                                 </td>
-                                <td className="py-2 px-3 text-right font-mono text-slate-300">{g.wtRhythmicity.toFixed(3)}</td>
-                                <td className="py-2 px-3 text-right font-mono text-slate-300">{g.koRhythmicity.toFixed(3)}</td>
-                                <td className={`py-2 px-3 text-right font-mono ${g.rhythmicityShift < 0 ? 'text-red-400' : 'text-slate-400'}`}>
+                                <td className="py-2 px-3 text-right font-mono text-slate-600">{g.wtRhythmicity.toFixed(3)}</td>
+                                <td className="py-2 px-3 text-right font-mono text-slate-600">{g.koRhythmicity.toFixed(3)}</td>
+                                <td className={`py-2 px-3 text-right font-mono ${g.rhythmicityShift < 0 ? 'text-red-400' : 'text-slate-500'}`}>
                                   {g.rhythmicityShift > 0 ? '+' : ''}{g.rhythmicityShift.toFixed(3)}
                                 </td>
                               </tr>
@@ -887,8 +887,8 @@ export default function PhaseGating() {
                         </table>
                       </div>
 
-                      <div className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-4">
-                        <p className="text-xs text-slate-400 leading-relaxed" data-testid="text-interpretation-ko">
+                      <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
+                        <p className="text-xs text-slate-500 leading-relaxed" data-testid="text-interpretation-ko">
                           {data.koComparison.summary.interpretation}
                         </p>
                       </div>
@@ -898,7 +898,7 @@ export default function PhaseGating() {
                           <BookOpen className="h-4 w-4 text-blue-400" />
                           <span className="text-sm font-medium text-blue-400">Independent Literature Verification</span>
                         </div>
-                        <p className="text-xs text-slate-400 leading-relaxed">
+                        <p className="text-xs text-slate-500 leading-relaxed">
                           BMAL1 knockout effects on circadian gene expression were independently established by:
                           (1) Bunger et al. (2000, Cell 103:1009-1017) showing BMAL1-null mice are arrhythmic in constant darkness.
                           (2) Kondratov et al. (2006, Genes Dev 20:1868-1873) demonstrating BMAL1-KO mice exhibit premature aging.
@@ -913,15 +913,15 @@ export default function PhaseGating() {
             </TabsContent>
 
             <TabsContent value="literature" className="space-y-6">
-              <Card className="bg-slate-900/80 border-slate-700" data-testid="card-literature">
+              <Card className="bg-white border-slate-200" data-testid="card-literature">
                 <CardHeader>
                   <div className="flex items-center gap-3">
                     <div className="p-2 rounded-lg bg-emerald-500/20">
                       <BookOpen className="h-5 w-5 text-emerald-400" />
                     </div>
                     <div>
-                      <CardTitle className="text-white">Literature Cross-References</CardTitle>
-                      <CardDescription className="text-slate-400">
+                      <CardTitle className="text-slate-900">Literature Cross-References</CardTitle>
+                      <CardDescription className="text-slate-500">
                         Findings from this analysis cross-referenced against published studies using entirely different methods.
                         Verification means an independent lab confirmed the same biological pattern using orthogonal techniques.
                       </CardDescription>
@@ -935,7 +935,7 @@ export default function PhaseGating() {
                         <CheckCircle2 className="h-4 w-4" />
                         Independently Verified ({verifiedRefs.length})
                       </h3>
-                      <p className="text-xs text-slate-400 mb-2">
+                      <p className="text-xs text-slate-500 mb-2">
                         These findings were confirmed by other research groups using different experimental methods (microarrays, knockouts, reporters, ChIP-seq).
                         "Verified" means the biological pattern matches, not that the AR(2) method itself has been independently validated.
                       </p>
@@ -951,7 +951,7 @@ export default function PhaseGating() {
                         <AlertTriangle className="h-4 w-4" />
                         Unverified or Partially Supported ({unverifiedRefs.length})
                       </h3>
-                      <p className="text-xs text-slate-400 mb-2">
+                      <p className="text-xs text-slate-500 mb-2">
                         These findings have not been independently confirmed by published literature using orthogonal methods.
                         They should be treated as hypotheses requiring experimental validation.
                       </p>
@@ -966,13 +966,13 @@ export default function PhaseGating() {
                       <AlertTriangle className="h-4 w-4 text-amber-400" />
                       <span className="text-sm font-medium text-amber-400">Interpretation Limitations</span>
                     </div>
-                    <ul className="space-y-1.5 text-xs text-slate-400">
-                      <li className="flex items-start gap-2"><span className="text-slate-400 mt-0.5">1.</span>Statistical significance in AR(2) modeling does not constitute biological confirmation.</li>
-                      <li className="flex items-start gap-2"><span className="text-slate-400 mt-0.5">2.</span>Literature verification means the biological pattern was found by others, not that AR(2) is the right model for it.</li>
-                      <li className="flex items-start gap-2"><span className="text-slate-400 mt-0.5">3.</span>Most analyses here use a single dataset per condition. Multi-dataset replication is needed.</li>
-                      <li className="flex items-start gap-2"><span className="text-slate-400 mt-0.5">4.</span>mRNA expression levels do not directly reflect protein activity, post-translational modifications, or functional output.</li>
-                      <li className="flex items-start gap-2"><span className="text-slate-400 mt-0.5">5.</span>Correlation between phase and eigenvalue does not imply causation.</li>
-                      <li className="flex items-start gap-2"><span className="text-slate-400 mt-0.5">6.</span>KO comparison uses datasets from different experimental conditions, which may introduce confounds beyond BMAL1 loss.</li>
+                    <ul className="space-y-1.5 text-xs text-slate-500">
+                      <li className="flex items-start gap-2"><span className="text-slate-500 mt-0.5">1.</span>Statistical significance in AR(2) modeling does not constitute biological confirmation.</li>
+                      <li className="flex items-start gap-2"><span className="text-slate-500 mt-0.5">2.</span>Literature verification means the biological pattern was found by others, not that AR(2) is the right model for it.</li>
+                      <li className="flex items-start gap-2"><span className="text-slate-500 mt-0.5">3.</span>Most analyses here use a single dataset per condition. Multi-dataset replication is needed.</li>
+                      <li className="flex items-start gap-2"><span className="text-slate-500 mt-0.5">4.</span>mRNA expression levels do not directly reflect protein activity, post-translational modifications, or functional output.</li>
+                      <li className="flex items-start gap-2"><span className="text-slate-500 mt-0.5">5.</span>Correlation between phase and eigenvalue does not imply causation.</li>
+                      <li className="flex items-start gap-2"><span className="text-slate-500 mt-0.5">6.</span>KO comparison uses datasets from different experimental conditions, which may introduce confounds beyond BMAL1 loss.</li>
                     </ul>
                   </div>
                 </CardContent>

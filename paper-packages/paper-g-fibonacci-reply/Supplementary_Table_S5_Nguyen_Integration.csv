@@ -1,0 +1,10 @@
+Cell_Type,Nguyen_Markers,Epithelium_Fraction,Normal_Role,CRC_Change,Post_FOLFIRI,PAR2_Interpretation,PAR2_Layer_Assignment,Reply_Paper_Section
+Stem cells,LGR5/Ascl2/Smoc2/Olfm4/Bmi1,~10%,Self-renewal and regeneration,LGR5 upregulated; enhanced plasticity,,Readout of renewal index R_n,Readout,Section 4
+Transit-amplifying,MKI67 (Ki-67),~30%,Rapid division and migration,Hyperproliferation,,Captured by short-memory AR(2) components,Transient,Section 2
+Colonocytes,VIL1/CDX1,~15%,Water reabsorption,Metabolic reprogramming,,Long-memory absorptive output,Readout,Not discussed
+Goblet cells,Atoh1/Muc2/Fcgbp/Clca1,~20%,Mucus secretion,Loss of secretory phenotype,,Secretory lineage gated by α₁ (NOTCH),Readout (NOTCH-gated),Section 3.2
+Paneth-like/DCS,REG4/Lyz/MMP7,~10%,Niche support for stem cells,Foster SC niches; expand,,Physical kernel components supplying α₁ and α₂ signals,Kernel component,Section 3.4
+M cells (microfold),GP2/PGLYRP1,<1%,Antigen sampling for immune system,Upregulated,,Not modelled (distinct from Boman M cells),Not assigned,Section 1 (terminology)
+Tuft cells,DCLK1/POU2AF2,<0.5%,Innate immune sentinel,LOWER in tumours (Broad/TCGA),Most dramatic upregulation,Delayed accumulative readout of temporal coherence,Readout (delayed),Section 5
+Enteroendocrine,SYP/ChgA,~1%,Hormone secretion,Heterogeneity/resistance,Significantly upregulated,Co-regulated secretory lineage; not isolated signal,Readout (co-gated),Section 5.3
+Mesenchymal,CD34/gp38,Lamina propria,WNT ligand supply; niche support,Disrupted,,Source of WNT gradient (α₂ kernel input),Kernel input (α₂),Section 3.3

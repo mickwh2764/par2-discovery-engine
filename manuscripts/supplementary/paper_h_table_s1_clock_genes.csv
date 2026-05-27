@@ -1,0 +1,30 @@
+Paper H — Supplementary Table S1
+Per-gene circadian clock |λ| values — WT Astrocyte vs WT Microglia vs APP Astrocyte vs Aged Astrocyte (GSE261698)
+All values: AR(2) eigenvalue modulus computed on log2(CPM+1) normalised time-series
+WT Astrocyte: N=12 time points (ZT0–ZT22 every 2h); n=14025 genes; genome median=0.533
+WT Microglia: N=12 time points (ZT0–ZT22 every 2h); n=17078 genes; genome median=0.521
+APP Astrocyte: N=12 time points (ZT0–ZT22 every 2h); n=14383 genes; genome median=0.514
+Aged Astrocyte: N=6 time points (ZT2/6/10/14/18/22); biological replicates averaged; n=30556 genes; genome median=0.549
+NOTE: Aged Astrocyte uses only 6 time points — AR(2) estimates have higher uncertainty (~±0.15) than 12-point series (~±0.05).
+NOTE: APP Microglia and Aged Microglia data files not available; analysis pending GEO download.
+Dataset: GSE261698 Sheehan/Musiek et al. Nat Neurosci 2025. PMID 38853870.
+
+Gene,TTFL_Arm,WT_Astrocyte_lambda,WT_Microglia_lambda,APP_Astrocyte_lambda,Aged_Astrocyte_lambda,Delta_APP_minus_WT,Delta_Aged_minus_WT,APP_Direction,Aged_Direction
+Per1,Negative feedback,0.7312,0.6063,0.3599,0.8095,-0.3713,+0.0783,COLLAPSE,RISE
+Per2,Negative feedback,0.6050,0.7808,0.3334,0.7256,-0.2716,+0.1206,COLLAPSE,RISE
+Cry2,Negative feedback,0.6523,0.5248,0.2316,0.2587,-0.4207,-0.3936,COLLAPSE,COLLAPSE
+Clock,Negative feedback,0.5748,0.2086,0.2043,0.7183,-0.3705,+0.1435,COLLAPSE,RISE
+Cry1,Stabilising loop,0.5684,0.6777,0.6873,0.7121,+0.1189,+0.1437,GAIN,GAIN
+Bmal1/Arntl,Stabilising loop,0.4913,0.5029,0.4302,0.5606,-0.0611,+0.0693,STABLE,STABLE
+Nr1d1,Stabilising loop,0.4466,0.6567,0.3504,0.2859,-0.0962,-0.1607,STABLE,COLLAPSE
+Nr1d2,Stabilising loop,0.5425,0.4093,0.5696,0.6868,+0.0271,+0.1443,STABLE,GAIN
+Dbp,D-box output,0.6910,0.6538,0.8652,0.7294,+0.1742,+0.0384,GAIN,STABLE
+Tef,D-box output,0.4889,0.7881,0.6779,0.6722,+0.1890,+0.1833,GAIN,GAIN
+Hlf,D-box output,0.5293,0.6161,0.3819,0.7501,-0.1474,+0.2208,COLLAPSE,GAIN
+Per3,D-box/output,0.5418,0.7523,0.7975,0.5161,+0.2557,-0.0257,GAIN,STABLE
+Npas2,Positive arm,0.2777,0.6671,0.4363,0.3382,+0.1586,+0.0605,GAIN,STABLE
+GENOME_MEDIAN,,0.5326,0.5208,0.5136,0.5491,,,,
+GENOME_IQR,,0.390-0.663,0.393-0.645,0.382-0.639,0.383-0.673,,,,
+GENOME_N,,14025,17078,14383,30556,,,,
+COLLAPSE defined as Delta < -0.15; GAIN defined as Delta > +0.10; STABLE defined as |Delta| <= 0.10.,,,,,,,
+Aged Astrocyte estimates are indicative only due to N=6 time points — see manuscript Section 4.4.,,,,,,,

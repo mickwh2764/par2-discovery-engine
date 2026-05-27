@@ -154,7 +154,7 @@ export default function CategoryTests() {
               size="sm"
               onClick={() => setDataset(ds.id)}
               data-testid={`button-dataset-${ds.id}`}
-              className={dataset === ds.id ? "bg-amber-600 hover:bg-amber-700 text-white" : ""}
+              className={dataset === ds.id ? "bg-amber-600 hover:bg-amber-700 text-slate-900" : ""}
             >
               {ds.label}
             </Button>
@@ -259,10 +259,10 @@ export default function CategoryTests() {
                           </td>
                           <td className="text-right p-3 text-slate-500">{c.n}</td>
                           <td className="text-right p-3 font-mono text-slate-800">{c.medianLambda.toFixed(3)}</td>
-                          <td className="text-right p-3 font-mono text-slate-400">{c.backgroundMedianLambda.toFixed(3)}</td>
+                          <td className="text-right p-3 font-mono text-slate-500">{c.backgroundMedianLambda.toFixed(3)}</td>
                           <td className="text-right p-3 font-mono text-slate-700">{formatP(c.mannWhitneyP)}</td>
                           <td className="text-right p-3 font-mono font-bold">
-                            <span className={c.significant ? 'text-green-600' : 'text-slate-400'}>
+                            <span className={c.significant ? 'text-green-600' : 'text-slate-500'}>
                               {formatP(c.mannWhitneyPAdjusted)} {sigStars(c.mannWhitneyPAdjusted)}
                             </span>
                           </td>
@@ -273,12 +273,12 @@ export default function CategoryTests() {
                           </td>
                           <td className="text-right p-3 font-mono text-slate-500">{c.rankBiserialR.toFixed(3)}</td>
                           <td className="text-right p-3 font-mono text-slate-700">{(c.pctComplexRoots ?? 0).toFixed(1)}%</td>
-                          <td className="text-right p-3 font-mono text-slate-400">{(c.backgroundPctComplexRoots ?? 0).toFixed(1)}%</td>
+                          <td className="text-right p-3 font-mono text-slate-500">{(c.backgroundPctComplexRoots ?? 0).toFixed(1)}%</td>
                           <td className="text-right p-3 font-mono text-slate-700">
                             {c.fisherOddsRatio == null ? '—' : c.fisherOddsRatio === Infinity ? '∞' : c.fisherOddsRatio.toFixed(2)}
                           </td>
                           <td className="text-right p-3 font-mono">
-                            <span className={c.complexEnriched ? 'text-purple-600 font-bold' : 'text-slate-400'}>
+                            <span className={c.complexEnriched ? 'text-purple-600 font-bold' : 'text-slate-500'}>
                               {c.fisherPAdjusted != null ? formatP(c.fisherPAdjusted) : '—'} {c.complexEnriched ? '↑' : ''}
                             </span>
                           </td>
@@ -286,7 +286,7 @@ export default function CategoryTests() {
                             {c.significant ? (
                               <CheckCircle2 className="w-4 h-4 text-green-600 mx-auto" />
                             ) : (
-                              <XCircle className="w-4 h-4 text-slate-300 mx-auto" />
+                              <XCircle className="w-4 h-4 text-slate-600 mx-auto" />
                             )}
                           </td>
                         </tr>
@@ -391,7 +391,7 @@ export default function CategoryTests() {
                       </Scatter>
                     </ScatterChart>
                   </ResponsiveContainer>
-                  <div className="text-xs text-slate-400 mt-1 text-center">
+                  <div className="text-xs text-slate-500 mt-1 text-center">
                     Circle size ~ n genes. Purple outline = significant enrichment (BH-adjusted p &lt; 0.05).
                     Dashed line = OR = 1 (no enrichment).
                   </div>
@@ -441,7 +441,7 @@ export default function CategoryTests() {
                               Math.abs(p.cohensD) >= 0.8 ? 'border-green-500 text-green-600' :
                               Math.abs(p.cohensD) >= 0.5 ? 'border-yellow-500 text-yellow-600' :
                               Math.abs(p.cohensD) >= 0.2 ? 'border-blue-500 text-blue-600' :
-                              'border-slate-300 text-slate-400'
+                              'border-slate-300 text-slate-500'
                             }>
                               {effectLabel(p.cohensD)}
                             </Badge>
@@ -463,12 +463,12 @@ export default function CategoryTests() {
                         <span className="w-4 h-4 rounded-full" style={{ backgroundColor: c.color }} />
                         <span className="font-bold text-lg text-slate-900">{c.label}</span>
                         <Badge variant="outline" className="text-xs">{c.n} genes</Badge>
-                        {c.significant && <Badge className="bg-green-600 text-white text-xs">MW significant</Badge>}
-                        {c.complexEnriched && <Badge className="bg-purple-600 text-white text-xs">Complex enriched</Badge>}
+                        {c.significant && <Badge className="bg-green-600 text-slate-900 text-xs">MW significant</Badge>}
+                        {c.complexEnriched && <Badge className="bg-purple-600 text-slate-900 text-xs">Complex enriched</Badge>}
                       </div>
                       <div className="flex gap-4 text-sm text-slate-500">
                         <span>Median |λ|: <span className="font-mono font-bold text-slate-900">{c.medianLambda.toFixed(3)}</span> (bg: {c.backgroundMedianLambda.toFixed(3)})</span>
-                        <span>Direction: <span className={c.direction === 'higher' ? 'text-green-600' : c.direction === 'lower' ? 'text-red-600' : 'text-slate-400'}>{c.direction}</span></span>
+                        <span>Direction: <span className={c.direction === 'higher' ? 'text-green-600' : c.direction === 'lower' ? 'text-red-600' : 'text-slate-500'}>{c.direction}</span></span>
                       </div>
                     </div>
                     <div className="mt-2 grid grid-cols-2 md:grid-cols-5 gap-3 text-xs text-slate-500">
@@ -478,7 +478,7 @@ export default function CategoryTests() {
                       <div>Complex: {(c.pctComplexRoots ?? 0).toFixed(1)}% (bg: {(c.backgroundPctComplexRoots ?? 0).toFixed(1)}%)</div>
                       <div>Fisher OR = {c.fisherOddsRatio == null ? '—' : c.fisherOddsRatio === Infinity ? '∞' : c.fisherOddsRatio.toFixed(2)}, p(adj) = <span className={c.complexEnriched ? 'text-purple-600 font-bold' : ''}>{c.fisherPAdjusted != null ? formatP(c.fisherPAdjusted) : '—'}</span></div>
                     </div>
-                    <div className="mt-2 text-xs text-slate-400">
+                    <div className="mt-2 text-xs text-slate-500">
                       {c.fisherContingency ? `Contingency: [${c.fisherContingency.a} complex in-cat, ${c.fisherContingency.b} real in-cat | ${c.fisherContingency.c} complex bg, ${c.fisherContingency.d} real bg]` : 'Contingency: insufficient data'}
                     </div>
                   </CardContent>

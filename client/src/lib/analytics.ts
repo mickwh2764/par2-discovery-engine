@@ -89,6 +89,26 @@ function attachInteractionListeners(): void {
   window.addEventListener('keydown', onInteraction, { once: true });
 }
 
+let heartbeatInterval: ReturnType<typeof setInterval> | null = null;
+
+function startHeartbeat(): void {
+  if (heartbeatInterval !== null) return;
+
+  const sendHeartbeat = () => {
+    if (document.visibilityState === 'visible') {
+      sendTrack('heartbeat', normalizePage(window.location.pathname));
+    }
+  };
+
+  heartbeatInterval = setInterval(sendHeartbeat, 60000);
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      sendHeartbeat();
+    }
+  });
+}
+
 export function trackPageView(page: string) {
   try {
     const normalizedPage = normalizePage(page);
@@ -113,6 +133,7 @@ export function trackPageView(page: string) {
     }).catch(() => {});
 
     attachInteractionListeners();
+    startHeartbeat();
   } catch {
   }
 }

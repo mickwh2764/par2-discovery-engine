@@ -8,10 +8,11 @@ import {
   LineChart, Line, ScatterChart, Scatter, ZAxis, ReferenceLine
 } from "recharts";
 import {
-  ArrowLeft, Loader2, CheckCircle2, XCircle, Dna, FlaskConical, Activity, Beaker
+  ArrowLeft, Loader2, CheckCircle2, XCircle, Dna, FlaskConical, Activity, Beaker, Download
 } from "lucide-react";
 import { Link } from "wouter";
 import EvidenceLink from "@/components/EvidenceLink";
+import { downloadAsCSV } from "@/components/DownloadResultsButton";
 
 const CATEGORY_COLORS: Record<string, string> = {
   core_oscillator: '#f59e0b',
@@ -77,9 +78,29 @@ export default function YeastValidation() {
         </div>
 
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2" data-testid="text-page-title">
-            Cross-Kingdom Validation: Yeast Metabolic Cycle
-          </h1>
+          <div className="flex items-start justify-between gap-4">
+            <h1 className="text-3xl font-bold mb-2" data-testid="text-page-title">
+              Cross-Kingdom Validation: Yeast Metabolic Cycle
+            </h1>
+            <Button
+              variant="outline"
+              size="sm"
+              className="shrink-0 text-xs"
+              onClick={() => downloadAsCSV(
+                (data.categoryStats || []).map((c: any) => ({
+                  category: c.category,
+                  n_genes: c.count,
+                  mean_eigenvalue: c.meanEigenvalue,
+                  mean_r2: c.meanR2,
+                  complex_pct: c.complexPct,
+                })),
+                'yeast_metabolic_cycle_AR2_category_stats.csv'
+              )}
+              data-testid="button-download-yeast-csv"
+            >
+              <Download size={13} className="mr-1" /> Download CSV
+            </Button>
+          </div>
           <p className="text-muted-foreground max-w-3xl">
             Testing whether the AR(2) eigenvalue hierarchy (core oscillator &gt; downstream targets) is a 
             universal property of biological oscillator networks — not just mammalian circadian clocks.

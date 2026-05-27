@@ -29,7 +29,7 @@ export function StabilityTriangleDiagram({
   ];
   
   return (
-    <div className="bg-slate-800/50 rounded-lg p-3" data-testid="diagram-stability-triangle">
+    <div className="bg-slate-50 rounded-lg p-3" data-testid="diagram-stability-triangle">
       <div className="text-xs font-medium text-purple-400 mb-2 flex items-center gap-2">
         <Activity size={14} />
         {title}

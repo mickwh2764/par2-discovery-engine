@@ -1,0 +1,88 @@
+Table,Gene,Role,Clock_Gene,Clock_Role,Tissue_Condition,P_Value,Significant_Terms,Discovery
+S1,Wee1,G2/M Checkpoint,Nr1d1,Rev-Erb Alpha,Liver,0.0104,"R_n_1_cos,R_n_2_sin",Yes
+S1,Wee1,G2/M Checkpoint,Cry1,Cryptochrome/Negative,Liver,0.0104,R_n_2_sin,Yes
+S1,Wee1,G2/M Checkpoint,Cry2,Cryptochrome/Negative,Liver,0.0110,R_n_2_cos,Yes
+S1,Wee1,G2/M Checkpoint,Per2,Negative Limb,Liver,0.0135,R_n_2_cos,Yes
+S1,Wee1,G2/M Checkpoint,Per1,Negative Limb,Liver,0.0141,"R_n_1_sin,R_n_2_cos",Yes
+S1,Wee1,G2/M Checkpoint,Clock,Core Activator,Liver,0.0145,"R_n_1_sin,R_n_2_cos",Yes
+S1,Wee1,G2/M Checkpoint,Nr1d2,Rev-Erb Beta,Liver,0.0167,"R_n_1_sin,R_n_2_sin",Yes
+S1,Wee1,G2/M Checkpoint,Arntl,Positive Limb/BMAL1,Liver,0.0203,"R_n_1_sin,R_n_2_cos,R_n_2_sin",Yes
+S1,Atm,DNA Damage Sensor,Per1,Negative Limb,Liver,0.0193,R_n_2_sin,Yes
+S1,Atm,DNA Damage Sensor,Clock,Core Activator,Liver,0.0194,R_n_2_sin,Yes
+S1,Atm,DNA Damage Sensor,Arntl,Positive Limb/BMAL1,Liver,0.0221,R_n_2_sin,Yes
+S1,Atm,DNA Damage Sensor,Nr1d1,Rev-Erb Alpha,Liver,0.0241,R_n_2_cos,Yes
+S1,Atm,DNA Damage Sensor,Nr1d2,Rev-Erb Beta,Liver,0.0359,R_n_2_sin,Yes
+S1,Atm,DNA Damage Sensor,Cry1,Cryptochrome/Negative,Liver,0.0424,R_n_2_cos,Yes
+S1,Atm,DNA Damage Sensor,Per2,Negative Limb,Liver,0.0473,R_n_2_cos,Yes
+S1,Ccnd1,Cell Cycle G1/S,Cry1,Cryptochrome/Negative,Liver,0.0273,R_n_2_cos,Yes
+S1,Ccnd1,Cell Cycle G1/S,Nr1d1,Rev-Erb Alpha,Liver,0.0288,R_n_2_cos,Yes
+S1,Ccnd1,Cell Cycle G1/S,Cry2,Cryptochrome/Negative,Liver,0.0290,R_n_2_sin,Yes
+S1,Ccnd1,Cell Cycle G1/S,Per2,Negative Limb,Liver,0.0381,R_n_2_sin,Yes
+S1,Ccnd1,Cell Cycle G1/S,Per1,Negative Limb,Liver,0.0457,R_n_2_sin,Yes
+S1,Ccnd1,Cell Cycle G1/S,Clock,Core Activator,Liver,0.0475,R_n_2_sin,Yes
+S2,Tead1,YAP Co-activator,Nr1d1,Rev-Erb Alpha,Heart,0.0061,R_n_1_cos,Yes
+S2,Tead1,YAP Co-activator,Cry2,Cryptochrome/Negative,Heart,0.0065,R_n_1_sin,Yes
+S2,Tead1,YAP Co-activator,Per2,Negative Limb,Heart,0.0066,R_n_1_sin,Yes
+S2,Tead1,YAP Co-activator,Clock,Core Activator,Heart,0.0072,"R_n_1_sin,R_n_2_sin",Yes
+S2,Tead1,YAP Co-activator,Cry1,Cryptochrome/Negative,Heart,0.0093,"R_n_1_cos,R_n_2_cos",Yes
+S2,Tead1,YAP Co-activator,Arntl,Positive Limb/BMAL1,Heart,0.0103,"R_n_1_sin,R_n_2_sin",Yes
+S2,Tead1,YAP Co-activator,Nr1d2,Rev-Erb Beta,Heart,0.0195,"R_n_1_sin,R_n_2_sin",Yes
+S2,Tead1,YAP Co-activator,Per1,Negative Limb,Heart,0.0209,"R_n_1_sin,R_n_2_sin",Yes
+S2,Yap1,Hippo Effector,Cry2,Cryptochrome/Negative,Heart,0.0166,R_n_1_sin,Yes
+S2,Yap1,Hippo Effector,Per2,Negative Limb,Heart,0.0166,R_n_1_sin,Yes
+S2,Yap1,Hippo Effector,Nr1d1,Rev-Erb Alpha,Heart,0.0167,R_n_1_cos,Yes
+S2,Yap1,Hippo Effector,Clock,Core Activator,Heart,0.0168,"R_n_1_sin,R_n_2_sin",Yes
+S2,Yap1,Hippo Effector,Cry1,Cryptochrome/Negative,Heart,0.0179,"R_n_1_cos,R_n_2_cos",Yes
+S2,Yap1,Hippo Effector,Arntl,Positive Limb/BMAL1,Heart,0.0186,"R_n_1_sin,R_n_2_sin",Yes
+S2,Yap1,Hippo Effector,Nr1d2,Rev-Erb Beta,Heart,0.0262,"R_n_1_sin,R_n_2_sin",Yes
+S2,Yap1,Hippo Effector,Per1,Negative Limb,Heart,0.0298,"R_n_1_sin,R_n_2_sin",Yes
+S3,Cdk1,CDK1/Mitosis Driver,Nr1d1,Rev-Erb Alpha,Cerebellum,0.0110,R_n_2_cos,Yes
+S3,Cdk1,CDK1/Mitosis Driver,Per1,Negative Limb,Cerebellum,0.0132,"R_n_1_cos,R_n_2_cos",Yes
+S3,Cdk1,CDK1/Mitosis Driver,Nr1d2,Rev-Erb Beta,Cerebellum,0.0133,"R_n_1_cos,R_n_2_cos",Yes
+S3,Cdk1,CDK1/Mitosis Driver,Cry1,Cryptochrome/Negative,Cerebellum,0.0161,"R_n_1_sin,R_n_2_sin",Yes
+S3,Cdk1,CDK1/Mitosis Driver,Per2,Negative Limb,Cerebellum,0.0161,R_n_2_sin,Yes
+S3,Cdk1,CDK1/Mitosis Driver,Cry2,Cryptochrome/Negative,Cerebellum,0.0203,R_n_1_cos,Yes
+S3,Cdk1,CDK1/Mitosis Driver,Arntl,Positive Limb/BMAL1,Cerebellum,0.0210,R_n_1_cos,Yes
+S3,Cdk1,CDK1/Mitosis Driver,Clock,Core Activator,Cerebellum,0.0261,"R_n_1_cos,R_n_2_sin",Yes
+S4,Pparg,Lipid Metabolism,Nr1d2,Rev-Erb Beta,WT Intestine,0.0052,R_n_1_cos,Yes
+S4,Pparg,Lipid Metabolism,Clock,Core Activator,WT Intestine,0.0054,R_n_1_sin,Yes
+S4,Pparg,Lipid Metabolism,Cry1,Cryptochrome/Negative,WT Intestine,0.0059,"R_n_1_cos,R_n_2_cos",Yes
+S4,Pparg,Lipid Metabolism,Per1,Negative Limb,WT Intestine,0.0063,R_n_1_sin,Yes
+S4,Pparg,Lipid Metabolism,Per2,Negative Limb,WT Intestine,0.0071,R_n_2_cos,Yes
+S4,Pparg,Lipid Metabolism,Cry2,Cryptochrome/Negative,WT Intestine,0.0093,R_n_1_sin,Yes
+S4,Pparg,Lipid Metabolism,Nr1d1,Rev-Erb Alpha,WT Intestine,0.0096,R_n_2_sin,Yes
+S4,Pparg,Lipid Metabolism,Arntl,Positive Limb/BMAL1,WT Intestine,0.0108,"R_n_1_sin,R_n_2_sin",Yes
+S4,Tead1,YAP Co-activator,Cry1,Cryptochrome/Negative,WT Intestine,0.0042,R_n_1_cos,Yes
+S4,Tead1,YAP Co-activator,Per1,Negative Limb,WT Intestine,0.0045,R_n_1_sin,Yes
+S4,Tead1,YAP Co-activator,Nr1d2,Rev-Erb Beta,WT Intestine,0.0046,R_n_1_cos,Yes
+S4,Tead1,YAP Co-activator,Per2,Negative Limb,WT Intestine,0.0058,R_n_2_sin,Yes
+S4,Tead1,YAP Co-activator,Clock,Core Activator,WT Intestine,0.0071,"R_n_1_sin,R_n_2_sin",Yes
+S4,Tead1,YAP Co-activator,Nr1d1,Rev-Erb Alpha,WT Intestine,0.0127,R_n_2_cos,Yes
+S4,Tead1,YAP Co-activator,Arntl,Positive Limb/BMAL1,WT Intestine,0.0178,"R_n_1_sin,R_n_2_sin",Yes
+S4,Tead1,YAP Co-activator,Cry2,Cryptochrome/Negative,WT Intestine,0.0221,R_n_1_sin,Yes
+S5,Ccnb1,Cyclin B1/G2-M,Clock,Core Activator,APC-Mut,0.0014,"R_n_1_sin,R_n_2_cos",Yes
+S5,Wee1,G2/M Checkpoint,Clock,Core Activator,APC-Mut,0.0016,"R_n_1_cos,R_n_2_sin",Yes
+S5,Sirt1,NAD+ Sensor,Clock,Core Activator,APC-Mut,0.0021,R_n_1_sin,Yes
+S5,Ccnb1,Cyclin B1/G2-M,Nr1d1,Rev-Erb Alpha,APC-Mut,0.0026,R_n_2_cos,Yes
+S5,Sirt1,NAD+ Sensor,Nr1d1,Rev-Erb Alpha,APC-Mut,0.0077,R_n_2_sin,Yes
+S5,Wee1,G2/M Checkpoint,Nr1d1,Rev-Erb Alpha,APC-Mut,0.0070,R_n_1_cos,Yes
+S5,Ccnb1,Cyclin B1/G2-M,Per2,Negative Limb,APC-Mut,0.0086,R_n_2_cos,Yes
+S5,Ccnb1,Cyclin B1/G2-M,Cry1,Cryptochrome/Negative,APC-Mut,0.0100,"R_n_1_cos,R_n_2_cos",Yes
+S5,Tp53,Tumor Suppressor,Clock,Core Activator,APC-Mut,0.0165,R_n_1_sin,Yes
+S5,Tp53,Tumor Suppressor,Nr1d1,Rev-Erb Alpha,APC-Mut,0.0228,R_n_2_cos,Yes
+S6,Lgr5,Stem Cell Marker,Arntl,Positive Limb/BMAL1,BMAL-Mut,0.0120,"R_n_1_sin,R_n_2_cos",Yes
+S6,Lgr5,Stem Cell Marker,Per2,Negative Limb,BMAL-Mut,0.0132,R_n_2_sin,Yes
+S6,Lgr5,Stem Cell Marker,Cry1,Cryptochrome/Negative,BMAL-Mut,0.0142,"R_n_1_cos,R_n_2_cos",Yes
+S6,Lgr5,Stem Cell Marker,Per1,Negative Limb,BMAL-Mut,0.0193,R_n_1_sin,Yes
+S6,Lgr5,Stem Cell Marker,Clock,Core Activator,BMAL-Mut,0.0210,"R_n_1_sin,R_n_2_sin",Yes
+S6,Lgr5,Stem Cell Marker,Cry2,Cryptochrome/Negative,BMAL-Mut,0.0301,R_n_1_cos,Yes
+S6,Lgr5,Stem Cell Marker,Nr1d2,Rev-Erb Beta,BMAL-Mut,0.0414,R_n_2_cos,Yes
+S6,Lgr5,Stem Cell Marker,Nr1d1,Rev-Erb Alpha,BMAL-Mut,0.0455,R_n_1_sin,Yes
+S6,Mdm2,p53 Regulator,Arntl,Positive Limb/BMAL1,BMAL-Mut,0.0234,R_n_2_sin,Yes
+S6,Mdm2,p53 Regulator,Per2,Negative Limb,BMAL-Mut,0.0240,"R_n_1_sin,R_n_2_cos",Yes
+S6,Mdm2,p53 Regulator,Cry1,Cryptochrome/Negative,BMAL-Mut,0.0246,R_n_1_cos,Yes
+S6,Mdm2,p53 Regulator,Per1,Negative Limb,BMAL-Mut,0.0283,R_n_1_sin,Yes
+S6,Mdm2,p53 Regulator,Cry2,Cryptochrome/Negative,BMAL-Mut,0.0357,R_n_2_cos,Yes
+S6,Mdm2,p53 Regulator,Nr1d1,Rev-Erb Alpha,BMAL-Mut,0.0449,R_n_2_sin,Yes
+S7,Cdk1,CDK1/Mitosis Driver,Clock,Core Activator,Double-Mut,0.0358,R_n_1_cos,Yes
+S7,Sirt1,NAD+ Sensor,Clock,Core Activator,Double-Mut,0.0404,R_n_2_sin,Yes

@@ -137,7 +137,7 @@ export default function GEOReplication() {
           <h1 className="text-3xl font-bold text-slate-100 mb-2">Independent Replication — Public GEO Datasets</h1>
           <p className="text-slate-400 max-w-3xl">
             AR(2) eigenvalue |λ| analysis run on two independently generated, peer-reviewed public datasets from NCBI GEO.
-            Neither dataset was collected by this lab. Results are computed fresh from raw expression data using the same PAR(2) pipeline.
+            Neither dataset was collected by this author. Results are computed fresh from raw expression data using the same PAR(2) pipeline.
           </p>
           <div className="flex flex-wrap gap-3 mt-4">
             <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE221103" target="_blank" rel="noopener noreferrer"

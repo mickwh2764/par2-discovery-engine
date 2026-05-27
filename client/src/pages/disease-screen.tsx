@@ -127,11 +127,11 @@ const CATEGORY_COLORS: Record<string, string> = {
 function geneTypeBadge(geneType: string) {
   if (geneType === "clock") return <Badge className="bg-blue-900/50 text-blue-300 border-blue-700">clock</Badge>;
   if (geneType === "target") return <Badge className="bg-amber-900/50 text-amber-300 border-amber-700">target</Badge>;
-  return <Badge variant="outline" className="text-slate-400 border-slate-600">{geneType}</Badge>;
+  return <Badge variant="outline" className="text-slate-500 border-slate-300">{geneType}</Badge>;
 }
 
 function categoryBadge(cat: string) {
-  const cls = CATEGORY_COLORS[cat] || "text-slate-400 border-slate-600";
+  const cls = CATEGORY_COLORS[cat] || "text-slate-500 border-slate-300";
   return <Badge className={cls}>{cat}</Badge>;
 }
 
@@ -206,11 +206,11 @@ function TrajectoryMap({ highlights }: { highlights: ShiftEntry[] }) {
       </svg>
       {hoveredGene && (
         <div
-          className="absolute pointer-events-none bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm shadow-xl z-10"
+          className="absolute pointer-events-none bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm shadow-xl z-10"
           style={{ left: tooltipPos.x, top: tooltipPos.y, transform: "translate(-50%, -100%)" }}
           data-testid="trajectory-tooltip"
         >
-          <div className="font-bold text-white">{hoveredGene.gene}</div>
+          <div className="font-bold text-slate-900">{hoveredGene.gene}</div>
           <div className="text-emerald-400">Healthy |λ|: {Math.abs(hoveredGene.healthyEigenvalue).toFixed(4)}</div>
           <div className="text-red-400">Disease |λ|: {Math.abs(hoveredGene.diseaseEigenvalue).toFixed(4)}</div>
           <div className="text-cyan-400">Shift: {hoveredGene.shift > 0 ? "+" : ""}{hoveredGene.shift.toFixed(4)}</div>
@@ -224,8 +224,8 @@ function TrajectoryMap({ highlights }: { highlights: ShiftEntry[] }) {
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm shadow-xl">
-      <div className="font-bold text-white">{label}</div>
+    <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm shadow-xl">
+      <div className="font-bold text-slate-900">{label}</div>
       {payload.map((p: any, i: number) => (
         <div key={i} style={{ color: p.color }}>{p.name}: {typeof p.value === "number" ? p.value.toFixed(4) : p.value}</div>
       ))}
@@ -305,14 +305,14 @@ export default function DiseaseScreen() {
 
   if (pairsLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center" data-testid="loading-screen">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 flex items-center justify-center" data-testid="loading-screen">
         <Loader2 className="w-8 h-8 animate-spin text-cyan-400" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 p-4 md:p-8" data-testid="disease-screen-page">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 p-4 md:p-8" data-testid="disease-screen-page">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -329,9 +329,9 @@ export default function DiseaseScreen() {
               <p className="text-sm text-muted-foreground">
                 Differential persistence analysis across matched disease/healthy pairs — comparing temporal dynamics of every gene
               </p>
-              <div className="rounded-lg bg-slate-800/40 border border-slate-700/50 p-4 mt-3">
-                <p className="text-sm text-slate-300 leading-relaxed">
-                  <strong className="text-white">What you can do:</strong> Compare computed eigenvalue distributions between healthy and disease-condition datasets. Statistical tests show whether the distributions differ significantly between groups. Download results to include these comparisons in your research.
+              <div className="rounded-lg bg-slate-100 border border-slate-200 p-4 mt-3">
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  <strong className="text-slate-900">What you can do:</strong> Compare computed eigenvalue distributions between healthy and disease-condition datasets. Statistical tests show whether the distributions differ significantly between groups. Download results to include these comparisons in your research.
                 </p>
               </div>
             </div>
@@ -381,7 +381,7 @@ export default function DiseaseScreen() {
           ]}
         />
 
-        <Card className="border-slate-700">
+        <Card className="border-slate-200">
           <CardHeader className="pb-3">
             <CardTitle className="text-lg flex items-center gap-2">
               <Activity className="h-5 w-5 text-cyan-400" />
@@ -400,7 +400,7 @@ export default function DiseaseScreen() {
                         key={p.id}
                         variant={selectedPair === p.id ? "default" : "outline"}
                         size="sm"
-                        className={selectedPair === p.id ? "bg-cyan-700 hover:bg-cyan-600" : "border-slate-600 hover:bg-slate-800"}
+                        className={selectedPair === p.id ? "bg-cyan-700 hover:bg-cyan-600" : "border-slate-300 hover:bg-slate-100"}
                         onClick={() => setSelectedPair(p.id)}
                         data-testid={`button-pair-${p.id}`}
                       >
@@ -414,7 +414,7 @@ export default function DiseaseScreen() {
           </CardContent>
         </Card>
 
-        <Card className="border-slate-700">
+        <Card className="border-slate-200">
           <CardContent className="py-4">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <div className="flex items-center gap-2">
@@ -426,7 +426,7 @@ export default function DiseaseScreen() {
                       key={val}
                       variant={minR2 === val ? "default" : "outline"}
                       size="sm"
-                      className={`h-7 px-2 text-xs ${minR2 === val ? "bg-cyan-700 hover:bg-cyan-600" : "border-slate-600"}`}
+                      className={`h-7 px-2 text-xs ${minR2 === val ? "bg-cyan-700 hover:bg-cyan-600" : "border-slate-300"}`}
                       onClick={() => setMinR2(val)}
                       data-testid={`button-r2-${val}`}
                     >
@@ -438,6 +438,9 @@ export default function DiseaseScreen() {
               <div className="flex items-center gap-2">
                 <span className="text-sm text-muted-foreground">Stable only:</span>
                 <Switch checked={onlyStable} onCheckedChange={setOnlyStable} data-testid="switch-stable-only" />
+                <span className="text-xs text-amber-500 ml-1" title="When off, genes with |λ| ≥ 1.0 (non-stationary explosive AR(2) fits) are included and flagged ⚠">
+                  ⚠ values ≥1.0 are explosive fits
+                </span>
               </div>
               <div className="relative flex-1 min-w-[200px]">
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -445,7 +448,7 @@ export default function DiseaseScreen() {
                   placeholder="Search gene..."
                   value={geneSearch}
                   onChange={(e) => setGeneSearch(e.target.value)}
-                  className="pl-9 bg-slate-800 border-slate-700"
+                  className="pl-9 bg-slate-100 border-slate-200"
                   data-testid="input-gene-search"
                 />
               </div>
@@ -463,13 +466,13 @@ export default function DiseaseScreen() {
         {screenData && !screenLoading && (
           <>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3" data-testid="summary-stats">
-              <Card className="border-slate-700">
+              <Card className="border-slate-200">
                 <CardContent className="p-4 text-center">
-                  <div className="text-2xl font-bold text-white" data-testid="stat-shared-genes">{screenData.summary.sharedGenes.toLocaleString()}</div>
+                  <div className="text-2xl font-bold text-slate-900" data-testid="stat-shared-genes">{screenData.summary.sharedGenes.toLocaleString()}</div>
                   <div className="text-xs text-muted-foreground">Shared Genes</div>
                 </CardContent>
               </Card>
-              <Card className="border-slate-700">
+              <Card className="border-slate-200">
                 <CardContent className="p-4 text-center">
                   <div className="text-2xl font-bold text-emerald-400 flex items-center justify-center gap-1" data-testid="stat-genes-up">
                     <TrendingUp className="h-5 w-5" /> {screenData.summary.genesUp.toLocaleString()}
@@ -477,7 +480,7 @@ export default function DiseaseScreen() {
                   <div className="text-xs text-muted-foreground">Genes Up</div>
                 </CardContent>
               </Card>
-              <Card className="border-slate-700">
+              <Card className="border-slate-200">
                 <CardContent className="p-4 text-center">
                   <div className="text-2xl font-bold text-red-400 flex items-center justify-center gap-1" data-testid="stat-genes-down">
                     <TrendingDown className="h-5 w-5" /> {screenData.summary.genesDown.toLocaleString()}
@@ -485,13 +488,13 @@ export default function DiseaseScreen() {
                   <div className="text-xs text-muted-foreground">Genes Down</div>
                 </CardContent>
               </Card>
-              <Card className="border-slate-700">
+              <Card className="border-slate-200">
                 <CardContent className="p-4 text-center">
                   <div className="text-2xl font-bold text-cyan-400" data-testid="stat-mean-shift">{screenData.summary.meanAbsShift.toFixed(4)}</div>
                   <div className="text-xs text-muted-foreground">Mean |Shift|</div>
                 </CardContent>
               </Card>
-              <Card className="border-slate-700">
+              <Card className="border-slate-200">
                 <CardContent className="p-4 text-center">
                   <div className="text-2xl font-bold text-amber-400" data-testid="stat-regime-changes">{screenData.summary.regimeChangePercent.toFixed(1)}%</div>
                   <div className="text-xs text-muted-foreground">Regime Changes</div>
@@ -500,7 +503,7 @@ export default function DiseaseScreen() {
             </div>
 
             {screenData.highlights.length > 0 && (
-              <Card className="border-slate-700">
+              <Card className="border-slate-200">
                 <CardHeader>
                   <CardTitle className="text-lg flex items-center gap-2">
                     <AlertTriangle className="h-5 w-5 text-amber-400" />
@@ -514,23 +517,31 @@ export default function DiseaseScreen() {
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm" data-testid="table-highlights">
                       <thead>
-                        <tr className="border-b border-slate-700">
-                          <th className="text-left p-3 text-slate-400">Gene</th>
-                          <th className="text-left p-3 text-slate-400">Type</th>
-                          <th className="text-center p-3 text-slate-400">Healthy |λ|</th>
-                          <th className="text-center p-3 text-slate-400">Disease |λ|</th>
-                          <th className="text-center p-3 text-slate-400">Shift</th>
-                          <th className="text-center p-3 text-slate-400">R² Change</th>
-                          <th className="text-center p-3 text-slate-400">Regime</th>
+                        <tr className="border-b border-slate-200">
+                          <th className="text-left p-3 text-slate-500">Gene</th>
+                          <th className="text-left p-3 text-slate-500">Type</th>
+                          <th className="text-center p-3 text-slate-500">Healthy |λ|</th>
+                          <th className="text-center p-3 text-slate-500">Disease |λ|</th>
+                          <th className="text-center p-3 text-slate-500">Shift</th>
+                          <th className="text-center p-3 text-slate-500">R² Change</th>
+                          <th className="text-center p-3 text-slate-500">Regime</th>
                         </tr>
                       </thead>
                       <tbody>
                         {screenData.highlights.map((h, idx) => (
-                          <tr key={idx} className="border-b border-slate-700 hover:bg-slate-800/50" data-testid={`row-highlight-${idx}`}>
+                          <tr key={idx} className="border-b border-slate-200 hover:bg-slate-50" data-testid={`row-highlight-${idx}`}>
                             <td className="p-3 font-mono font-medium"><GeneTooltip gene={h.gene}>{h.gene}</GeneTooltip></td>
                             <td className="p-3">{geneTypeBadge(h.geneType)}</td>
-                            <td className="p-3 text-center font-mono">{Math.abs(h.healthyEigenvalue).toFixed(4)}</td>
-                            <td className="p-3 text-center font-mono">{Math.abs(h.diseaseEigenvalue).toFixed(4)}</td>
+                            <td className="p-3 text-center font-mono">
+                              <span className={!h.healthyStable ? "text-amber-500 font-semibold" : ""} title={!h.healthyStable ? `|λ|=${h.healthyEigenvalue.toFixed(4)} — explosive/non-stationary AR(2) fit (root outside unit circle)` : undefined}>
+                                {Math.abs(h.healthyEigenvalue).toFixed(4)}{!h.healthyStable && " ⚠"}
+                              </span>
+                            </td>
+                            <td className="p-3 text-center font-mono">
+                              <span className={!h.diseaseStable ? "text-amber-500 font-semibold" : ""} title={!h.diseaseStable ? `|λ|=${h.diseaseEigenvalue.toFixed(4)} — explosive/non-stationary AR(2) fit (root outside unit circle)` : undefined}>
+                                {Math.abs(h.diseaseEigenvalue).toFixed(4)}{!h.diseaseStable && " ⚠"}
+                              </span>
+                            </td>
                             <td className="p-3 text-center font-mono">
                               <span className={h.shift > 0 ? "text-emerald-400" : "text-red-400"}>
                                 {h.shift > 0 ? "+" : ""}{h.shift.toFixed(4)}
@@ -543,7 +554,7 @@ export default function DiseaseScreen() {
                               {h.regimeChange ? (
                                 <Badge className="bg-red-900/50 text-red-300 border-red-700">Yes</Badge>
                               ) : (
-                                <span className="text-slate-400">—</span>
+                                <span className="text-slate-500">—</span>
                               )}
                             </td>
                           </tr>
@@ -556,7 +567,7 @@ export default function DiseaseScreen() {
             )}
 
             {screenData.highlights.length > 0 && (
-              <Card className="border-slate-700" data-testid="card-trajectory">
+              <Card className="border-slate-200" data-testid="card-trajectory">
                 <CardHeader>
                   <CardTitle className="text-lg flex items-center gap-2">
                     <GitBranch className="h-5 w-5 text-cyan-400" />
@@ -582,7 +593,7 @@ export default function DiseaseScreen() {
               </Card>
             )}
 
-            <Card className="border-slate-700">
+            <Card className="border-slate-200">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <BarChart3 className="h-5 w-5 text-cyan-400" />
@@ -622,7 +633,7 @@ export default function DiseaseScreen() {
             </Card>
 
             {screenData.categoryStats.length > 0 && (
-              <Card className="border-slate-700">
+              <Card className="border-slate-200">
                 <CardHeader>
                   <CardTitle className="text-lg flex items-center gap-2">
                     <Activity className="h-5 w-5 text-purple-400" />
@@ -651,7 +662,7 @@ export default function DiseaseScreen() {
               </Card>
             )}
 
-            <Card className="border-slate-700">
+            <Card className="border-slate-200">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Dna className="h-5 w-5 text-cyan-400" />
@@ -665,40 +676,48 @@ export default function DiseaseScreen() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm" data-testid="table-rankings">
                     <thead>
-                      <tr className="border-b border-slate-700">
-                        <th className="text-left p-3 text-slate-400 cursor-pointer hover:text-white" onClick={() => toggleSort("gene")} data-testid="sort-gene">
+                      <tr className="border-b border-slate-200">
+                        <th className="text-left p-3 text-slate-500 cursor-pointer hover:text-slate-700" onClick={() => toggleSort("gene")} data-testid="sort-gene">
                           Gene {sortField === "gene" ? (sortDir === "asc" ? "↑" : "↓") : ""}
                         </th>
-                        <th className="text-left p-3 text-slate-400 cursor-pointer hover:text-white" onClick={() => toggleSort("geneCategory")} data-testid="sort-category">
+                        <th className="text-left p-3 text-slate-500 cursor-pointer hover:text-slate-700" onClick={() => toggleSort("geneCategory")} data-testid="sort-category">
                           Category {sortField === "geneCategory" ? (sortDir === "asc" ? "↑" : "↓") : ""}
                         </th>
-                        <th className="text-center p-3 text-slate-400 cursor-pointer hover:text-white" onClick={() => toggleSort("healthyEigenvalue")} data-testid="sort-healthy-ev">
+                        <th className="text-center p-3 text-slate-500 cursor-pointer hover:text-slate-700" onClick={() => toggleSort("healthyEigenvalue")} data-testid="sort-healthy-ev">
                           Healthy |λ| {sortField === "healthyEigenvalue" ? (sortDir === "asc" ? "↑" : "↓") : ""}
                         </th>
-                        <th className="text-center p-3 text-slate-400 cursor-pointer hover:text-white" onClick={() => toggleSort("diseaseEigenvalue")} data-testid="sort-disease-ev">
+                        <th className="text-center p-3 text-slate-500 cursor-pointer hover:text-slate-700" onClick={() => toggleSort("diseaseEigenvalue")} data-testid="sort-disease-ev">
                           Disease |λ| {sortField === "diseaseEigenvalue" ? (sortDir === "asc" ? "↑" : "↓") : ""}
                         </th>
-                        <th className="text-center p-3 text-slate-400 cursor-pointer hover:text-white" onClick={() => toggleSort("shift")} data-testid="sort-shift">
+                        <th className="text-center p-3 text-slate-500 cursor-pointer hover:text-slate-700" onClick={() => toggleSort("shift")} data-testid="sort-shift">
                           Shift {sortField === "shift" ? (sortDir === "asc" ? "↑" : "↓") : ""}
                         </th>
-                        <th className="text-center p-3 text-slate-400 cursor-pointer hover:text-white" onClick={() => toggleSort("healthyR2")} data-testid="sort-r2-healthy">
+                        <th className="text-center p-3 text-slate-500 cursor-pointer hover:text-slate-700" onClick={() => toggleSort("healthyR2")} data-testid="sort-r2-healthy">
                           R²(H) {sortField === "healthyR2" ? (sortDir === "asc" ? "↑" : "↓") : ""}
                         </th>
-                        <th className="text-center p-3 text-slate-400 cursor-pointer hover:text-white" onClick={() => toggleSort("diseaseR2")} data-testid="sort-r2-disease">
+                        <th className="text-center p-3 text-slate-500 cursor-pointer hover:text-slate-700" onClick={() => toggleSort("diseaseR2")} data-testid="sort-r2-disease">
                           R²(D) {sortField === "diseaseR2" ? (sortDir === "asc" ? "↑" : "↓") : ""}
                         </th>
-                        <th className="text-center p-3 text-slate-400 cursor-pointer hover:text-white" onClick={() => toggleSort("regimeChange")} data-testid="sort-regime">
+                        <th className="text-center p-3 text-slate-500 cursor-pointer hover:text-slate-700" onClick={() => toggleSort("regimeChange")} data-testid="sort-regime">
                           Regime {sortField === "regimeChange" ? (sortDir === "asc" ? "↑" : "↓") : ""}
                         </th>
                       </tr>
                     </thead>
                     <tbody>
                       {sortedShifts.map((s, idx) => (
-                        <tr key={idx} className="border-b border-slate-700 hover:bg-slate-800/50" data-testid={`row-ranking-${idx}`}>
+                        <tr key={idx} className="border-b border-slate-200 hover:bg-slate-50" data-testid={`row-ranking-${idx}`}>
                           <td className="p-3 font-mono font-medium"><GeneTooltip gene={s.gene}>{s.gene}</GeneTooltip></td>
                           <td className="p-3">{categoryBadge(s.geneCategory)}</td>
-                          <td className="p-3 text-center font-mono">{Math.abs(s.healthyEigenvalue).toFixed(4)}</td>
-                          <td className="p-3 text-center font-mono">{Math.abs(s.diseaseEigenvalue).toFixed(4)}</td>
+                          <td className="p-3 text-center font-mono">
+                            <span className={!s.healthyStable ? "text-amber-500 font-semibold" : ""} title={!s.healthyStable ? `|λ|=${s.healthyEigenvalue.toFixed(4)} — explosive/non-stationary AR(2) fit (root outside unit circle)` : undefined}>
+                              {Math.abs(s.healthyEigenvalue).toFixed(4)}{!s.healthyStable && " ⚠"}
+                            </span>
+                          </td>
+                          <td className="p-3 text-center font-mono">
+                            <span className={!s.diseaseStable ? "text-amber-500 font-semibold" : ""} title={!s.diseaseStable ? `|λ|=${s.diseaseEigenvalue.toFixed(4)} — explosive/non-stationary AR(2) fit (root outside unit circle)` : undefined}>
+                              {Math.abs(s.diseaseEigenvalue).toFixed(4)}{!s.diseaseStable && " ⚠"}
+                            </span>
+                          </td>
                           <td className="p-3 text-center font-mono">
                             <span className={s.shift > 0 ? "text-emerald-400" : "text-red-400"}>
                               {s.shift > 0 ? "+" : ""}{s.shift.toFixed(4)}
@@ -710,7 +729,7 @@ export default function DiseaseScreen() {
                             {s.regimeChange ? (
                               <Badge className="bg-red-900/50 text-red-300 border-red-700">Yes</Badge>
                             ) : (
-                              <span className="text-slate-400">—</span>
+                              <span className="text-slate-500">—</span>
                             )}
                           </td>
                         </tr>
@@ -723,7 +742,7 @@ export default function DiseaseScreen() {
 
             <div data-testid="robustness-section">
               <div
-                className="flex items-center justify-between cursor-pointer p-4 rounded-lg border border-slate-700 bg-slate-800/50 hover:bg-slate-800"
+                className="flex items-center justify-between cursor-pointer p-4 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100"
                 onClick={() => setRobustnessOpen(!robustnessOpen)}
                 data-testid="button-toggle-robustness"
               >
@@ -745,7 +764,7 @@ export default function DiseaseScreen() {
 
                   {robustnessData && !robustnessLoading && (
                     <>
-                      <Card className="border-slate-700" data-testid="card-permutation-tests">
+                      <Card className="border-slate-200" data-testid="card-permutation-tests">
                         <CardHeader>
                           <CardTitle className="text-lg flex items-center gap-2">
                             <BarChart3 className="h-5 w-5 text-purple-400" />
@@ -794,7 +813,7 @@ export default function DiseaseScreen() {
                         </CardContent>
                       </Card>
 
-                      <Card className="border-slate-700" data-testid="card-bootstrap-ci">
+                      <Card className="border-slate-200" data-testid="card-bootstrap-ci">
                         <CardHeader>
                           <CardTitle className="text-lg flex items-center gap-2">
                             <Activity className="h-5 w-5 text-cyan-400" />
@@ -806,18 +825,18 @@ export default function DiseaseScreen() {
                           <div className="overflow-x-auto">
                             <table className="w-full text-sm" data-testid="table-bootstrap">
                               <thead>
-                                <tr className="border-b border-slate-700">
-                                  <th className="text-left p-3 text-slate-400">Gene</th>
-                                  <th className="text-left p-3 text-slate-400">Category</th>
-                                  <th className="text-center p-3 text-slate-400">Point Estimate</th>
-                                  <th className="text-center p-3 text-slate-400">95% CI</th>
-                                  <th className="text-center p-3 text-slate-400">CI Width</th>
-                                  <th className="text-center p-3 text-slate-400">Excludes Zero</th>
+                                <tr className="border-b border-slate-200">
+                                  <th className="text-left p-3 text-slate-500">Gene</th>
+                                  <th className="text-left p-3 text-slate-500">Category</th>
+                                  <th className="text-center p-3 text-slate-500">Point Estimate</th>
+                                  <th className="text-center p-3 text-slate-500">95% CI</th>
+                                  <th className="text-center p-3 text-slate-500">CI Width</th>
+                                  <th className="text-center p-3 text-slate-500">Excludes Zero</th>
                                 </tr>
                               </thead>
                               <tbody>
                                 {sortedBootstrapShifts.map((bs, idx) => (
-                                  <tr key={idx} className="border-b border-slate-700 hover:bg-slate-800/50" data-testid={`row-bootstrap-${idx}`}>
+                                  <tr key={idx} className="border-b border-slate-200 hover:bg-slate-50" data-testid={`row-bootstrap-${idx}`}>
                                     <td className="p-3 font-mono font-medium"><GeneTooltip gene={bs.gene}>{bs.gene}</GeneTooltip></td>
                                     <td className="p-3">{categoryBadge(bs.category)}</td>
                                     <td className="p-3 text-center font-mono">
@@ -833,7 +852,7 @@ export default function DiseaseScreen() {
                                       {bs.excludesZero ? (
                                         <CheckCircle2 className="w-4 h-4 text-emerald-400 inline-block" />
                                       ) : (
-                                        <span className="text-slate-400">—</span>
+                                        <span className="text-slate-500">—</span>
                                       )}
                                     </td>
                                   </tr>
@@ -844,7 +863,7 @@ export default function DiseaseScreen() {
                         </CardContent>
                       </Card>
 
-                      <Card className="border-slate-700" data-testid="card-fdr">
+                      <Card className="border-slate-200" data-testid="card-fdr">
                         <CardHeader>
                           <CardTitle className="text-lg flex items-center gap-2">
                             <Filter className="h-5 w-5 text-amber-400" />
@@ -854,15 +873,15 @@ export default function DiseaseScreen() {
                         </CardHeader>
                         <CardContent>
                           <div className="grid grid-cols-3 gap-3 mb-4" data-testid="fdr-summary-stats">
-                            <div className="border border-slate-700 rounded-lg p-3 text-center">
+                            <div className="border border-slate-200 rounded-lg p-3 text-center">
                               <div className="text-2xl font-bold text-emerald-400" data-testid="stat-fdr-005">{robustnessData.fdr.significantAt005}</div>
                               <div className="text-xs text-muted-foreground">Sig at FDR 0.05</div>
                             </div>
-                            <div className="border border-slate-700 rounded-lg p-3 text-center">
+                            <div className="border border-slate-200 rounded-lg p-3 text-center">
                               <div className="text-2xl font-bold text-amber-400" data-testid="stat-fdr-010">{robustnessData.fdr.significantAt010}</div>
                               <div className="text-xs text-muted-foreground">Sig at FDR 0.10</div>
                             </div>
-                            <div className="border border-slate-700 rounded-lg p-3 text-center">
+                            <div className="border border-slate-200 rounded-lg p-3 text-center">
                               <div className="text-2xl font-bold text-cyan-400" data-testid="stat-fdr-020">{robustnessData.fdr.significantAt020}</div>
                               <div className="text-xs text-muted-foreground">Sig at FDR 0.20</div>
                             </div>
@@ -870,22 +889,22 @@ export default function DiseaseScreen() {
                           <div className="overflow-x-auto">
                             <table className="w-full text-sm" data-testid="table-fdr">
                               <thead>
-                                <tr className="border-b border-slate-700">
-                                  <th className="text-left p-3 text-slate-400">Gene</th>
-                                  <th className="text-center p-3 text-slate-400">Raw p-value</th>
-                                  <th className="text-center p-3 text-slate-400">q-value (FDR)</th>
-                                  <th className="text-center p-3 text-slate-400">Significance</th>
+                                <tr className="border-b border-slate-200">
+                                  <th className="text-left p-3 text-slate-500">Gene</th>
+                                  <th className="text-center p-3 text-slate-500">Raw p-value</th>
+                                  <th className="text-center p-3 text-slate-500">q-value (FDR)</th>
+                                  <th className="text-center p-3 text-slate-500">Significance</th>
                                 </tr>
                               </thead>
                               <tbody>
                                 {robustnessData.fdr.highlightQValues.map((fq, idx) => (
-                                  <tr key={idx} className="border-b border-slate-700 hover:bg-slate-800/50" data-testid={`row-fdr-${idx}`}>
+                                  <tr key={idx} className="border-b border-slate-200 hover:bg-slate-50" data-testid={`row-fdr-${idx}`}>
                                     <td className="p-3 font-mono font-medium"><GeneTooltip gene={fq.gene}>{fq.gene}</GeneTooltip></td>
                                     <td className="p-3 text-center font-mono text-muted-foreground">
                                       {fq.pValue < 0.001 ? fq.pValue.toExponential(2) : fq.pValue.toFixed(4)}
                                     </td>
                                     <td className="p-3 text-center font-mono">
-                                      <span className={fq.qValue < 0.05 ? "text-emerald-400" : fq.qValue < 0.20 ? "text-amber-400" : "text-slate-400"}>
+                                      <span className={fq.qValue < 0.05 ? "text-emerald-400" : fq.qValue < 0.20 ? "text-amber-400" : "text-slate-500"}>
                                         {fq.qValue < 0.001 ? fq.qValue.toExponential(2) : fq.qValue.toFixed(4)}
                                       </span>
                                     </td>
@@ -895,7 +914,7 @@ export default function DiseaseScreen() {
                                       ) : fq.qValue < 0.20 ? (
                                         <Badge className="bg-amber-900/50 text-amber-300 border-amber-700">FDR &lt; 0.20</Badge>
                                       ) : (
-                                        <Badge variant="outline" className="text-slate-400 border-slate-600">NS</Badge>
+                                        <Badge variant="outline" className="text-slate-500 border-slate-300">NS</Badge>
                                       )}
                                     </td>
                                   </tr>
@@ -906,7 +925,7 @@ export default function DiseaseScreen() {
                         </CardContent>
                       </Card>
 
-                      <Card className="border-slate-700" data-testid="card-diagnostics">
+                      <Card className="border-slate-200" data-testid="card-diagnostics">
                         <CardHeader>
                           <CardTitle className="text-lg flex items-center gap-2">
                             <AlertTriangle className="h-5 w-5 text-amber-400" />
@@ -916,14 +935,14 @@ export default function DiseaseScreen() {
                         </CardHeader>
                         <CardContent>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                            <div className="border border-slate-700 rounded-lg p-4" data-testid="block-healthy-confidence">
+                            <div className="border border-slate-200 rounded-lg p-4" data-testid="block-healthy-confidence">
                               <h4 className="text-sm font-semibold text-emerald-400 mb-3">Healthy Condition</h4>
                               <div className="space-y-2">
                                 {Object.entries(robustnessData.diagnosticsSummary.healthyCounts).map(([level, count]) => (
                                   <div key={level} className="flex items-center justify-between">
                                     <span className="text-sm text-muted-foreground">{level}</span>
                                     <div className="flex items-center gap-2">
-                                      <div className="w-24 h-2 bg-slate-800 rounded-full overflow-hidden">
+                                      <div className="w-24 h-2 bg-slate-100 rounded-full overflow-hidden">
                                         <div
                                           className="h-full rounded-full bg-emerald-500"
                                           style={{ width: `${Math.min(100, (count / Math.max(1, robustnessData.sharedGeneCount)) * 100)}%` }}
@@ -935,14 +954,14 @@ export default function DiseaseScreen() {
                                 ))}
                               </div>
                             </div>
-                            <div className="border border-slate-700 rounded-lg p-4" data-testid="block-disease-confidence">
+                            <div className="border border-slate-200 rounded-lg p-4" data-testid="block-disease-confidence">
                               <h4 className="text-sm font-semibold text-red-400 mb-3">Disease Condition</h4>
                               <div className="space-y-2">
                                 {Object.entries(robustnessData.diagnosticsSummary.diseaseCounts).map(([level, count]) => (
                                   <div key={level} className="flex items-center justify-between">
                                     <span className="text-sm text-muted-foreground">{level}</span>
                                     <div className="flex items-center gap-2">
-                                      <div className="w-24 h-2 bg-slate-800 rounded-full overflow-hidden">
+                                      <div className="w-24 h-2 bg-slate-100 rounded-full overflow-hidden">
                                         <div
                                           className="h-full rounded-full bg-red-500"
                                           style={{ width: `${Math.min(100, (count / Math.max(1, robustnessData.sharedGeneCount)) * 100)}%` }}
@@ -962,15 +981,15 @@ export default function DiseaseScreen() {
                             <div className="overflow-x-auto">
                               <table className="w-full text-sm" data-testid="table-diagnostics">
                                 <thead>
-                                  <tr className="border-b border-slate-700">
-                                    <th className="text-left p-3 text-slate-400">Gene</th>
-                                    <th className="text-center p-3 text-slate-400">Healthy Confidence</th>
-                                    <th className="text-center p-3 text-slate-400">Disease Confidence</th>
+                                  <tr className="border-b border-slate-200">
+                                    <th className="text-left p-3 text-slate-500">Gene</th>
+                                    <th className="text-center p-3 text-slate-500">Healthy Confidence</th>
+                                    <th className="text-center p-3 text-slate-500">Disease Confidence</th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                   {robustnessData.diagnosticsSummary.highlightDiagnostics.map((d, idx) => (
-                                    <tr key={idx} className="border-b border-slate-700 hover:bg-slate-800/50" data-testid={`row-diagnostic-${idx}`}>
+                                    <tr key={idx} className="border-b border-slate-200 hover:bg-slate-50" data-testid={`row-diagnostic-${idx}`}>
                                       <td className="p-3 font-mono font-medium"><GeneTooltip gene={d.gene}>{d.gene}</GeneTooltip></td>
                                       <td className="p-3 text-center">
                                         <Badge className="bg-emerald-900/50 text-emerald-300 border-emerald-700">{d.healthyConfidence}</Badge>
@@ -994,7 +1013,7 @@ export default function DiseaseScreen() {
                         </CardContent>
                       </Card>
 
-                      <div className="border border-slate-700 rounded-lg p-4 bg-slate-800/30" data-testid="text-robustness-conclusion">
+                      <div className="border border-slate-200 rounded-lg p-4 bg-slate-50" data-testid="text-robustness-conclusion">
                         <p className="text-sm text-muted-foreground italic">{robustnessData.conclusion}</p>
                       </div>
                     </>
@@ -1003,7 +1022,7 @@ export default function DiseaseScreen() {
               )}
             </div>
 
-            <Card className="border-slate-700 bg-slate-900/50">
+            <Card className="border-slate-200 bg-white">
               <CardContent className="p-6">
                 <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Methodology</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">

@@ -1,0 +1,593 @@
+\documentclass[]{interact}
+\setlength{\voffset}{-.25in}
+\sloppy
+% packages already loaded by interact.cls: amsmath,amssymb,amsfonts,amsbsy,amsthm,booktabs,epsfig,graphicx,rotating
+\usepackage{latexsym}
+\usepackage{anyfontsize}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{breakurl}
+\newcommand{\bburl}[1]{\textcolor{blue}{\url{#1}}}
+
+\makeatletter
+\newcommand{\monthyear}[1]{\def\@monthyear{\uppercase{#1}}}
+\newcommand{\volnumber}[1]{\def\@volnumber{\uppercase{#1}}}
+\makeatother
+
+\begin{document}
+
+\monthyear{[Month Year]}
+\volnumber{[Volume, Number]}
+\setcounter{page}{1}
+
+\title{A Time-Domain Analogue to Fibonacci Structure via Phase-Gated AR(2) Dynamics:
+Reply to Boman on Tissue Fibonacci Patterns and Colonic Crypt Renewal}
+
+\author{
+\name{Michael Whiteside\thanks{Email address: mickwh@msn.com}}
+\affil{Independent Researcher, Scotland}
+}
+
+\maketitle
+
+{\bf Article type}: applications to science
+
+\bigskip
+
+\begin{abstract}
+Boman and co-workers have developed an elegant spatial framework in which simple
+rules for asymmetric division and niche geometry generate Fibonacci-like
+cell-number patterns in renewing tissues [1, 2].
+Their tissue-renewal model based on age-structured, asymmetric cell division
+produces Fibonacci sequences in time, and their recent five-rule tissue code
+for colonic crypts explains how spatial organization is maintained [2].
+In this reply, I propose a complementary time-domain analogue: a Phase-Gated
+Order-2 Autoregressive (PAR(2)) model for crypt renewal in which Fibonacci-like
+structure appears in the dynamics of phase-aligned observables rather than only
+in static spatial counts.
+I outline the minimal mathematics of the PAR(2) construction, show that
+crypt-relevant circadian genes in intestinal organoids are well-described by
+stable, complex AR(2) roots, and map the temporal parameters onto Boman's
+five spatial rules.
+Finally, I derive testable predictions for tuft cell and deep crypt secretory
+(DCS) behaviour under circadian disruption, injury, and chronotherapy.
+The aim is to offer a simple time-domain model that sits naturally alongside
+Boman's spatial code and invites joint experimental tests.
+\end{abstract}
+
+\begin{keywords}
+AR(2); autoregressive model; circadian; colonic crypt; Fibonacci; phase-gated; tissue renewal; tuft cells
+\end{keywords}
+
+%---------------------------------------------------------------------
+\section{Context: From Spatial Fibonacci Patterns to a Tissue Code}
+%---------------------------------------------------------------------
+
+Fibonacci numbers and related sequences appear widely in biology, from
+phyllotaxis to branching and aperiodic order in tissues.
+A recent survey by Bormashenko reviews how Fibonacci-like structure can arise
+from symmetry, scaling, and growth constraints across multiple systems [3].
+
+Boman et al.\ built on earlier work by Spears and Bicknell-Johnson on
+age-structured asymmetric division to propose a tissue-renewal model in which
+mature and immature cells follow simple division rules that yield Fibonacci
+sequences in time and hierarchical patterns in tissues [1].
+In their \emph{Fibonacci Quarterly} paper, they show that asymmetric cell
+division with appropriate maturation delays generates Fibonacci cell number
+sequences and rational ratios of immature to mature cells over time.
+
+In their recent \emph{Biology of the Cell} article, Boman and colleagues go
+further, proposing that a small set of five biological rules---a ``tissue
+code''---governs dynamic organization of cells in colonic epithelium [2].
+These rules constrain: where stem cells reside; how, when, and in which
+direction they divide; how many times progeny may divide; how long
+differentiated lineages live; and when and where crypt fission occurs.
+Agent-based simulations driven by these rules quantitatively match real crypt
+architecture and suggest that the same code may generalize to other tissues [2].
+
+Complementing this, Nguyen, Lausten and Boman provide a comprehensive review of
+colonic crypt cellular composition and signalling pathways, including detailed
+discussion of LGR5$^{+}$ stem cells, transit-amplifying progenitors,
+colonocytes, goblet cells, Paneth-like deep crypt secretory cells (DCS),
+enteroendocrine cells, M cells and tuft cells, together with WNT, Notch, BMP
+and FGF signalling and their disruption during colorectal cancer and
+EMT-driven plasticity [6].
+This review offers a biologically rich backdrop for the present time-domain
+model.
+
+Taken together, Boman's work therefore offers: (1) a time-based Fibonacci model
+for population growth under asymmetric division [1]; (2) a spatial five-rule
+code that reproduces static tissue organization [2]; and (3) an integrated
+crypt-level description of cell types and signalling, including tuft and DCS
+lineages, via Nguyen--Lausten--Boman [6].
+This reply asks: what is the simplest time-series model at the crypt level that
+could implement and complement this spatial code?
+
+%---------------------------------------------------------------------
+\section{Aim of This Reply}
+%---------------------------------------------------------------------
+
+The main proposal is a Phase-Gated AR(2) (PAR(2)) model, originally developed
+in a more general form for crypt dynamics in the Integrated Temporal-Spatial
+Oscillator Hypothesis for Crypt Renewal [11] and applied here specifically to
+Boman's Fibonacci tissue code:
+
+\begin{itemize}
+  \item The state variable $x_t$ is a phase-aligned crypt-level observable,
+        such as the proportion of tuft cells, a weighted renewal index, or a
+        composite of several stem and niche markers.
+  \item The dynamics obey a second-order autoregression in discrete time:
+        $x_t = \varphi_1(\theta_t)\,x_{t-1} + \varphi_2(\theta_t)\,x_{t-2}
+        + \varepsilon_t$, where $\theta_t$ is a phase variable (for example,
+        circadian or cell-cycle phase), and the coefficients switch or vary
+        smoothly with phase.
+  \item Under mild constraints on $(\varphi_1, \varphi_2)$, the characteristic
+        roots approximate those of a Fibonacci-like recurrence, so that Boman's
+        spatial Fibonacci structure is mirrored in temporal return dynamics.
+\end{itemize}
+
+The PAR(2) model is deliberately minimal.
+It is not intended as a fully mechanistic molecular network, but as a compact
+time-domain analogue of Boman's code, with three goals:
+(1) to provide a language for stability and overshoot in crypt renewal in
+terms of AR(2) roots;
+(2) to relate circadian clock disruption and niche signalling to deviations
+from Fibonacci-consistent behaviour; and
+(3) to generate concrete, falsifiable predictions for tuft cell and DCS
+dynamics that can be tested in organoids and animal models.
+
+%---------------------------------------------------------------------
+\section{A Phase-Gated AR(2) Model}
+%---------------------------------------------------------------------
+
+\subsection{Baseline AR(2) dynamics}
+
+Consider a scalar time series $\{x_t\}$ indexed in discrete steps
+(for example, equally spaced circadian sampling times or aligned cell-cycle
+checkpoints).
+A standard AR(2) process is
+$x_t = \varphi_1 x_{t-1} + \varphi_2 x_{t-2} + \varepsilon_t$,
+with innovations $\varepsilon_t$ of mean zero and finite variance.
+The associated characteristic polynomial
+$r^2 - \varphi_1 r - \varphi_2 = 0$
+has roots
+$r_{1,2} = \bigl(\varphi_1 \pm \sqrt{\varphi_1^2 + 4\varphi_2}\bigr)/2$.
+If both roots satisfy $|r_{1,2}| < 1$, the process is stable;
+complex-conjugate roots with $|r| < 1$ correspond to a damped discrete-time
+oscillator with angular frequency $\arg(r)$ and decay determined by $|r|$.
+
+\subsection{Phase gating}
+
+To introduce phase structure, let $\theta_t \in [0, 2\pi)$ be a phase variable
+evolving approximately linearly in time,
+$\theta_t = \theta_0 + \Omega t \pmod{2\pi}$,
+with $\Omega$ corresponding to a circadian or cell-cycle frequency.
+A phase-gated AR(2) model takes
+$x_t = \varphi_1(\theta_t)\,x_{t-1} + \varphi_2(\theta_t)\,x_{t-2}
++ \varepsilon_t$,
+with $\varphi_1(\cdot)$ and $\varphi_2(\cdot)$ either piecewise constant or
+smooth functions of phase.
+A minimal two-gate construction uses
+$(\varphi_1, \varphi_2) = (\varphi_1^A, \varphi_2^A)$ for $\theta$ in gate A,
+and $(\varphi_1^B, \varphi_2^B)$ for $\theta$ in gate B, partitioning the
+cycle (for example, subjective day vs.\ night, or G1/S vs.\ G2/M).
+Biologically, the gates can encode a proliferative vs.\ quiescent phase, a
+high-Wnt vs.\ high-YAP state in crypt bases [8], or a tuft/DCS recruitment
+versus maintenance phase conditioned on inflammatory or microbial cues [5, 10].
+
+\subsection{Fibonacci-consistent constraints in time}
+
+Boman's age-structured asymmetric division model yields Fibonacci sequences for
+cell counts over discrete time steps by imposing simple rules on division and
+maturation [1].
+In the scalar AR(2) setting, exact Fibonacci dynamics arise when
+$x_n = x_{n-1} + x_{n-2}$, that is, $(\varphi_1, \varphi_2) = (1, 1)$,
+whose characteristic roots are the golden ratio $\varphi = (1+\sqrt{5})/2$ and
+its conjugate.
+
+In a crypt-level stochastic setting, it is neither necessary nor realistic to
+demand exact Fibonacci coefficients.
+Instead, I require that the AR(2) coefficients for a phase-aligned observable
+$x_t$ lie within a compact, stable region of the parameter plane, that the
+associated roots are complex with $|r| < 1$ and phases within a narrow range,
+and that under projection into a reduced parameter space, the coefficient cloud
+falls near a golden-ratio-consistent manifold associated with Boman-like
+asymmetric division rules.
+Boman's Fibonacci structure is treated as an attractor in coefficient space
+rather than an exact equality.
+
+It is important to note that the Fibonacci point $(\varphi_1,\varphi_2)=(1,1)$
+lies \emph{outside} the AR(2) stationarity triangle, with dominant root
+$|\lambda| = \varphi \approx 1.618 > 1$.
+Consequently, no covariance-stationary gene expression series can operate at
+the exact Fibonacci point; all observed gene eigenvalues satisfy $|\lambda|<1$.
+The Fibonacci connection is therefore a geometric boundary landmark of the
+admissible parameter space, not an attainable operating point.
+The stable twin of the Fibonacci characteristic polynomial is $1/\varphi
+\approx 0.618$, which lies well inside the stationarity region and is the
+biologically relevant reference value.
+
+%---------------------------------------------------------------------
+\section{Application to Rhythmic Organoid Data}
+%---------------------------------------------------------------------
+
+Stokes et al.\ studied the role of the core clock gene \textit{Bmal1}
+(\textit{Arntl}) in intestinal stem cell signalling and tumour initiation [8].
+Using organoids derived from mouse intestine, they showed that loss of
+\textit{Bmal1} increases self-renewal via YAP1-dependent pathways and disrupts
+Wnt signalling; transcriptomic profiling was deposited as GEO series
+GSE157357 [9].
+
+\textbf{Limitation: model--data mismatch.}
+Boman's five-rule tissue code was developed for \emph{human large intestinal}
+crypts [2], while Stokes et al.\ used \emph{mouse small intestinal}
+organoids [8].
+Both the species difference (human vs.\ mouse) and the anatomical region
+difference (large vs.\ small intestine) are genuine limitations.
+Colon and small intestine differ in LGR5$^{+}$ stem cell density, villus
+structure, crypt length, and cancer susceptibility; and mouse and human crypt
+architecture, while broadly conserved, are not identical.
+The AR(2) fits below should therefore be read as a proof-of-concept
+demonstration of the method on the best available rhythmic organoid dataset,
+not as a validated quantitative test of Boman's human-colon model.
+Direct validation against a human large-intestinal, circadian time-series
+dataset remains an important open objective.
+
+For an illustrative PAR(2) analysis, consider phase-ordered expression of four
+crypt-relevant genes from GSE157357: \textit{Lgr5} (stem cell marker),
+\textit{Arntl} (Bmal1; core clock), \textit{Per2} (clock output), and
+\textit{Axin2} (Wnt pathway readout).
+Using a simple least-squares AR(2) fit to $z$-scored log-expression values
+ordered by circadian phase, I obtain the characteristic roots shown in
+Table~\ref{tab:ar2}.
+
+\begin{table}[h]
+\tbl{Illustrative AR(2) fits to selected genes in GSE157357 [8, 9].
+Complex-conjugate roots with modulus $|r|<1$ indicate stable, damped
+oscillations in the phase-ordered signal.
+Root magnitudes well below 1 correspond to strongly damped behaviour.}
+{\begin{tabular}{lccc}
+\toprule
+\textbf{Gene} & \textbf{Roots} & \textbf{Max $|r|$} & \textbf{Stability} \\
+\midrule
+\textit{Lgr5}  & $0.049 \pm 0.332j$ & 0.336 & Stable \\
+\textit{Arntl} & $0.017 \pm 0.061j$ & 0.063 & Stable \\
+\textit{Per2}  & $-0.092 \pm 0.513j$ & 0.521 & Stable \\
+\textit{Axin2} & $-0.008 \pm 0.464j$ & 0.464 & Stable \\
+\bottomrule
+\end{tabular}}
+\label{tab:ar2}
+\end{table}
+
+All four examples yield complex-conjugate roots with $|r| \ll 1$, indicating
+that the phase-ordered expression behaves as a damped oscillator around a mean
+level.
+Within the PAR(2) framework, these gene-level AR(2) fits are interpreted as
+projections of a lower-dimensional crypt-level oscillator into different
+observables.
+A natural next step would be to move from univariate AR(2) to multivariate
+VAR(2) models for panels of genes, fit phase-dependent coefficients, and test
+whether renewal-relevant composites cluster near a Fibonacci-consistent manifold
+under wild-type conditions and deviate under Bmal1 loss or environmental
+circadian disruption.
+
+%---------------------------------------------------------------------
+\section{Tuft Cells, Deep Crypt Secretory Cells, and Long-Lived Lineages}
+%---------------------------------------------------------------------
+
+The PAR(2) framework requires three specific inputs to be testable: (i) a
+rhythmic time-series dataset from crypt-relevant tissue, (ii) a long-lived
+cell type whose dynamics accumulate temporal perturbations over many cycles,
+and (iii) a niche-supporting cell type whose sustained signalling activity
+could implement the memory kernels $\alpha_1$ and $\alpha_2$.
+The GSE157357 organoid dataset [8, 9] is chosen because it is the only
+publicly available circadian time-series profiling crypt stem cell behaviour
+across wild-type and clock-disrupted conditions simultaneously, making it
+uniquely suited to test the PAR(2) kernel architecture.
+Tuft cells are chosen because they are among the longest-lived epithelial
+cells in the crypt (lifespan $\geq 28$ days vs.\ the 3--5 day average
+turnover), meaning they accumulate the effects of temporal perturbations
+across many renewal cycles and are therefore the most sensitive available
+readout of sustained eigenvalue shifts [10].
+DCS cells are chosen because their anatomical position at the crypt
+base---intermingled with LGR5$^{+}$ stem cells and providing continuous WNT,
+EGF and Notch ligand supply---makes them the natural physical implementors of
+the sustained memory kernels $\alpha_1$ (fast, NOTCH-mediated) and $\alpha_2$
+(slow, WNT/AXIN2-mediated) in the PAR(2) model [6, 7].
+Long-lived lineages more generally are those most likely to accumulate
+perturbations in AR(2) eigenvalues over many cell cycles and therefore provide
+the most sensitive readout of sustained temporal disruption.
+
+Tuft cells are rare chemosensory epithelial cells with important roles in
+immunity and disease.
+Westphalen et al.\ used lineage tracing to show that a DCLK1$^{+}$ tuft cell
+population in the intestine is long-lived, contributes to regeneration after
+injury, and can serve as a colon cancer-initiating cell following APC mutation
+and inflammatory insult [10].
+Subsequent work has expanded their role in antimicrobial and anti-parasitic
+defence and in shaping mucosal immunity [5].
+
+Within the colonic crypt, Nguyen, Lausten and Boman highlight tuft cells,
+M cells and enteroendocrine cells as important contributors to tumour
+heterogeneity and treatment resistance, particularly via
+epithelial--mesenchymal transition and cellular plasticity [6].
+Tuft cell expansion is noted as one component of tumour--immune crosstalk and
+microenvironmental disruption in colorectal cancer [6].
+
+DCS cells have been characterised as Reg4$^{+}$ niche-supporting cells
+intermingled with LGR5$^{+}$ stem cells at the crypt base [6, 7].
+Circadian control of stem cell niche components, including regulation of
+\textit{Lgr5} expression by BMAL1 and RNA-binding protein MEX3A [4], suggests
+that DCS cell function may be phase-modulated, consistent with a role as
+implementors of the PAR(2) slow memory kernel $\alpha_2$.
+
+From a tissue-code perspective, long-lived tuft cells and related DCS lineages
+sit at the intersection of division limits and lifespan (rules on how many
+times and how long cells persist), niche signals (for example, IL-25, microbial
+metabolites, Hippo/Wnt balance), and injury responses [5, 6, 10].
+
+Under perturbations known to affect tuft/DCS biology---for example, helminth
+infection, chronic inflammation, microbial changes, or deliberate timing
+interventions [5, 6, 10]---the PAR(2) model predicts systematic shifts in
+$(\varphi_1, \varphi_2)$ and therefore in root magnitudes and phases.
+
+%---------------------------------------------------------------------
+\section{Mapping Boman's Five Rules onto PAR(2) Dynamics}
+%---------------------------------------------------------------------
+
+Boman's five rules for colonic crypt organization can be mapped onto PAR(2)
+parameters at a coarse level.
+Rule~1 (spatial positioning of stem cells) constrains the effective pool size
+and interaction network feeding into $x_t$, narrowing the allowable region of
+$(\varphi_1, \varphi_2)$ and preventing runaway growth.
+Rule~2 (order and direction of divisions) specifies directed movement and
+differentiation of daughters along the crypt axis, appearing in
+phase-dependent coefficients $\varphi_1(\theta)$, $\varphi_2(\theta)$ that
+encode preferred advance directions.
+Rule~3 (division limits) places an upper bound on contributions from older
+generations, pushing the system toward low-order autoregressions with
+$|r| < 1$.
+Rule~4 (lifespan of differentiated cells) sets how quickly perturbations
+decay: shorter lifespans map to smaller $|r|$; extended lifespans push $|r|$
+toward 1.
+Rule~5 (crypt fission) corresponds to a branching event, which can be modelled
+as a change-point where coefficients switch regime or as a stochastic
+bifurcation when $|r|$ or innovation variance crosses a critical
+threshold [2].
+
+In this view, the five rules act as constraints that restrict which AR(2)
+parameter sets are allowed.
+Fibonacci structures identified by Boman emerge as special cases where the
+resulting dynamics stay near golden-ratio-consistent manifolds, both in space
+and time [1, 2].
+
+A critical clarification: the Fibonacci recurrence $x_n = x_{n-1}+x_{n-2}$
+corresponds to $(\varphi_1,\varphi_2)=(1,1)$, which lies \emph{outside} the
+AR(2) stationarity triangle with dominant root $|\lambda|\approx 1.618>1$.
+This means that exact Fibonacci dynamics would be explosive, not stable.
+Living tissues operate in the heavily damped interior of the stationarity
+triangle: the observed root magnitudes in Table~\ref{tab:ar2} range from
+$|r|=0.063$ (\textit{Arntl}) to $|r|=0.521$ (\textit{Per2}), far from the
+explosive boundary.
+The biological content of the Fibonacci analogy is therefore not that tissue
+renewal grows like the Fibonacci sequence---it does not---but that homeostatic
+regulation holds the AR(2) coefficients near the stable twin of the Fibonacci
+eigenvalue, $1/\varphi\approx 0.618$, which is well inside the admissible
+region.
+The five rules of Boman's tissue code are precisely the biological mechanisms
+that enforce this heavily damped, sub-unit-root regime.
+
+To make the Fibonacci-consistent manifold concrete: it corresponds to the
+subset of the stable AR(2) stationarity triangle---the biologically admissible
+parameter space---in which the coefficient pair $(\varphi_1, \varphi_2)$ lies
+close to the Fibonacci boundary landmark at $(1,1)$.
+In the $(\varphi_1, \varphi_2)$ plane, the Fibonacci point $(1,1)$ sits at the
+boundary of the stable region and serves as a geometric reference: pairs whose
+dominant root $|r|$ falls in a narrow band below unity, consistent with the
+observed damped-oscillator behaviour in Table~\ref{tab:ar2}, define the
+admissible neighbourhood.
+The exact extent of this neighbourhood is determined by the division limit
+(Rule~3) and lifespan (Rule~4) constraints of Boman's tissue code, which
+together bound $|r|$ from above and below.
+A formal characterisation and visualisation of this region is provided in the
+companion platform at \bburl{https://par2-discovery-engine.replit.app}
+(Root-Space Geometry page).
+
+%---------------------------------------------------------------------
+\section{Testable Predictions and Experimental Designs}
+%---------------------------------------------------------------------
+
+The PAR(2) framework is simple enough to support explicit, falsifiable
+predictions.
+For example, circadian disruption (for example, Bmal1 loss or environmental
+misalignment) should increase variance in $(\varphi_1, \varphi_2)$ across
+crypts and broaden the distribution of root magnitudes $|r|$ and phases
+$\arg(r)$, shifting the coefficient cloud away from a Fibonacci-consistent
+region [8].
+Long-lived DCLK1$^{+}$ tuft cells should exhibit a damped AR(2)-like overshoot
+after injury, with longer return times (larger $|r|$) in chronic inflammatory
+contexts [10].
+Chronotherapy that restores phase alignment should narrow dispersion in
+$(\varphi_1, \varphi_2)$, shrink the spread of $|r|$, and decrease
+inter-crypt variance in tuft/DCS observables.
+Finally, agent-based simulations implementing Boman's five rules could be used
+to generate synthetic time-series of crypt observables and verify that stable
+Fibonacci-like regimes produce complex roots with $|r| < 1$ and coherent
+phase, while perturbations to individual rules map to distinct deformations in
+AR(2) coefficient space [2].
+
+%---------------------------------------------------------------------
+\section{Discussion and Outlook}
+%---------------------------------------------------------------------
+
+Boman's contributions to Fibonacci biology and tissue organization provide a
+powerful framework for understanding how simple rules can generate complex,
+ordered patterns in tissues [1, 2].
+The Phase-Gated AR(2) model proposed here is intentionally modest: a
+low-dimensional time-domain representation whose parameters can be estimated
+from existing and future data, and which makes explicit contact with Fibonacci
+recurrences via its characteristic roots.
+The present work therefore sits at the intersection of Boman's tissue-renewal
+matrices [1, 2], the crypt-wide cellular and signalling landscape described by
+Nguyen, Lausten and Boman [6], and the Integrated Temporal-Spatial Oscillator
+Hypothesis for Crypt Renewal [11], specialising the latter to the specific case
+of colonic crypt dynamics and Fibonacci tissue codes.
+
+In Boman's Fibonacci Quarterly model, asymmetric division and maturation rules
+are encoded in a low-dimensional transition matrix whose eigenvalues generate
+Fibonacci sequences in time and stable cell-type ratios [1].
+In the present work, the proposed Phase-Gated AR(2)/VAR(2) framework plays an
+analogous role at the level of crypt observables: the AR/VAR coefficients form
+a companion matrix whose eigenvalues encode growth, decay and oscillation of
+renewal-related variables.
+Rather than demanding exact Fibonacci recurrences, Boman's solution is treated
+as a reference point in this eigenvalue space, and the question is whether
+homeostatic crypts lie near a ``Fibonacci-consistent'' region, with circadian
+disruption, injury or oncogenic mutation manifesting as systematic excursions
+away from that region.
+
+For a journal like \emph{The Fibonacci Quarterly}, the main message is that
+Fibonacci-like structure in tissues need not be confined to static spatial
+counts.
+It can also appear in the temporal structure of phase-aligned return dynamics,
+with golden-ratio-related constraints shaping the AR(2) coefficient space.
+Boman's five-rule tissue code can be viewed as defining a family of admissible
+PAR(2) models, with pathological states corresponding to excursions away from
+this family.
+The Fibonacci-consistent manifold has been defined above (Section~6) as the
+subset of the stable AR(2) stationarity triangle---the biologically admissible
+parameter space---in which the coefficient pair lies close to the Fibonacci
+boundary landmark at $(1,1)$, with the admissible neighbourhood bounded by the
+division-limit and lifespan constraints of Rules~3 and~4.
+Future work should apply multivariate PAR(2) and VAR(2) models to circadian and
+injury time-series from crypts and organoids, and integrate spatial Boman-style
+simulations with time-domain summaries to build a unified spatio-temporal
+Fibonacci framework in which the manifold boundary can be validated against
+experimental perturbations.
+
+%---------------------------------------------------------------------
+\section{Data Availability}
+%---------------------------------------------------------------------
+
+The Phase-Gated AR(2) / temporal-spatial oscillator framework is archived on
+Zenodo under DOI 10.5281/zenodo.17366927 [11].
+The organoid transcriptomic data re-analysed here are publicly available from
+the NCBI Gene Expression Omnibus under accession GSE157357 [9], as originally
+reported in Stokes et al.\ [8].
+No additional primary datasets were generated for this reply.
+
+%---------------------------------------------------------------------
+\section{AI Use Declaration}
+%---------------------------------------------------------------------
+
+In accordance with the Taylor \& Francis AI Policy, the author declares the
+following.
+Generative AI tools were used during the preparation of this manuscript.
+Specifically, ChatGPT (model: GPT-5.1 Thinking, OpenAI, 2025) was employed to
+assist with: (i) editing and refining the English prose for clarity, concision
+and consistency; (ii) \LaTeX{} and document structuring, equation typesetting,
+and consistency checks; (iii) support in formulating and refining the
+PAR(2)/VAR(2) mathematical framework, including notation, companion-matrix
+forms and explanatory text; and (iv) guidance on exploratory analysis of
+publicly available transcriptomic data (for example, structuring time-series
+inputs, suggesting AR(2) fitting strategies and summarising root behaviour)
+based on datasets and results specified by the author.
+These tools were used as aids to drafting, calculation and exposition rather
+than as independent scientific authors.
+All scientific hypotheses, modelling choices, and formal conclusions presented
+in this article were reviewed, curated and integrated by the human author, who
+has critically assessed all AI-assisted content and takes full responsibility
+for the accuracy, integrity and originality of the work.
+
+%---------------------------------------------------------------------
+% Disclosure statement — required by journal (added per editorial instruction)
+%---------------------------------------------------------------------
+\bigskip
+\noindent\textbf{Disclosure statement.}
+The author filed a UK patent application (GB2518973.9) related to the
+AR(2) eigenvalue methodology described in this work on 13 November 2025,
+three days prior to the original manuscript submission on 16 November 2025.
+The author declares no other conflicts of interest.
+
+%---------------------------------------------------------------------
+\begin{thebibliography}{11}
+%---------------------------------------------------------------------
+% References in alphabetical order by last name, Fibonacci Quarterly style.
+% Format: Author(s). Title. J. Abbrev. Volume(Issue):pages, Year. doi:...
+
+\bibitem{boman2017fibonacci}
+Boman, B.M., Dinh, T.Q., Decker, K., Emerick, B., Raymond, C., and
+Schleiniger, G.
+Why do Fibonacci numbers appear in patterns of growth in nature? A model for
+tissue renewal based on asymmetric cell division.
+Fibonacci Quart. 55(5):30--41, 2017.
+
+\bibitem{boman2025dynamic}
+Boman, B.M. et al.
+Dynamic organization of cells in colonic epithelium is encoded by five
+biological rules.
+Biol. Cell. 117(7):e70017, 2025.
+doi:10.1111/boc.70017.
+
+\bibitem{bormashenko2022fibonacci}
+Bormashenko, E.
+Fibonacci sequences, symmetry and order in biological patterns, their sources,
+information origin and the Landauer principle.
+Biophysica. 2(3):Art.\ 27, 2022.
+doi:10.3390/biophysica2030027.
+
+\bibitem{cheng2023bmal1}
+Cheng, L.-T. et al.
+Core clock gene BMAL1 and RNA-binding protein MEX3A collaboratively regulate
+Lgr5 expression in intestinal crypt cells.
+Sci. Rep. 13:17597, 2023.
+doi:10.1038/s41598-023-44997-5.
+
+\bibitem{hendel2022tuft}
+Hendel, S.K. et al.
+Tuft cells and their role in intestinal diseases.
+Front. Immunol. 13:822867, 2022.
+doi:10.3389/fimmu.2022.822867.
+
+\bibitem{nguyen2025colonic}
+Nguyen, A.L., Lausten, M.A., and Boman, B.M.
+The colonic crypt: cellular dynamics and signaling pathways in homeostasis and
+cancer.
+Cells. 14(18):1428, 2025.
+doi:10.3390/cells14181428.
+
+\bibitem{schumacher2023dcs}
+Schumacher, M.A.
+The emerging roles of deep crypt secretory cells in colonic physiology.
+Am. J. Physiol. Gastrointest. Liver Physiol. 325(6):G493--G500, 2023.
+doi:10.1152/ajpgi.00093.2023.
+
+\bibitem{stokes2021bmal1}
+Stokes, K. et al.
+The circadian clock gene, Bmal1, regulates intestinal stem cell signaling and
+represses tumor initiation.
+Cell. Mol. Gastroenterol. Hepatol. 12(5):1847--1872, 2021.
+doi:10.1016/j.jcmgh.2021.08.001.
+
+\bibitem{stokes2021geo}
+Stokes, K. et al.
+Transcript profiling dataset: The circadian clock gene, Bmal1, regulates
+intestinal stem cell signaling and represses tumor initiation.
+GEO accession GSE157357, NCBI, 2021.
+
+\bibitem{westphalen2014tuft}
+Westphalen, C.B. et al.
+Long-lived intestinal tuft cells serve as colon cancer-initiating cells.
+J. Clin. Invest. 124(3):1283--1295, 2014.
+doi:10.1172/JCI73434.
+
+\bibitem{whiteside2025integrated}
+Whiteside, M.
+Integrated temporal-spatial oscillator hypothesis for crypt renewal.
+Zenodo preprint, 2025.
+doi:10.5281/zenodo.17366927.
+
+\end{thebibliography}
+
+\end{document}
