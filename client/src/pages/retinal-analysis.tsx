@@ -448,8 +448,8 @@ export default function RetinalAnalysis() {
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                           <StatBox label="Clock median |λ|" value={pred.stats.clockMedian?.toFixed(4) ?? '—'} sub={`n=${pred.stats.nClock}`} />
                           <StatBox label="Target median |λ|" value={pred.stats.targetMedian?.toFixed(4) ?? '—'} sub={`n=${pred.stats.nTarget}`} />
-                          <StatBox label="Mann-Whitney p" value={pFormat(pred.stats.mannWhitneyP ?? 0)} sub="two-tailed" />
-                          <StatBox label="Permutation p" value={pFormat(pred.stats.permutationP ?? 0)} sub="10,000 iterations" />
+                          <StatBox label="Mann-Whitney p" value={pred.stats.mannWhitneyP != null ? pFormat(pred.stats.mannWhitneyP) : '—'} sub="two-tailed" />
+                          <StatBox label="Permutation p" value={pred.stats.permutationP != null ? pFormat(pred.stats.permutationP) : '—'} sub="10,000 iterations" />
                         </div>
                       )}
                       {pred.id === "P2" && (
@@ -470,14 +470,14 @@ export default function RetinalAnalysis() {
                           <StatBox label="Photo median |λ|" value={pred.stats.photoMedian?.toFixed(4) ?? '—'} sub={`n=${pred.stats.nPhoto}`} />
                           <StatBox label="Clock median |λ|" value={pred.stats.clockMedian?.toFixed(4) ?? '—'} sub="Retina" />
                           <StatBox label="Genome median |λ|" value={pred.stats.genomeMedian?.toFixed(4) ?? '—'} sub="n=20,350" />
-                          <StatBox label="Mann-Whitney p" value={pFormat(pred.stats.mannWhitneyP ?? 0)} sub="photo vs clock" />
+                          <StatBox label="Mann-Whitney p" value={pred.stats.mannWhitneyP != null ? pFormat(pred.stats.mannWhitneyP) : '—'} sub="photo vs clock" />
                         </div>
                       )}
                       {pred.id === "P4b" && (
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                           <StatBox label="CRX median |λ|" value={pred.stats.crxMedian?.toFixed(4) ?? '—'} sub={`n=${pred.stats.nCRX}`} />
-                          <StatBox label="p vs clock" value={pFormat(pred.stats.mannWhitneyP_vsClock ?? 0)} sub="Mann-Whitney" />
-                          <StatBox label="p vs canonical target" value={pFormat(pred.stats.mannWhitneyP_vsTarget ?? 0)} sub="Mann-Whitney" />
+                          <StatBox label="p vs clock" value={pred.stats.mannWhitneyP_vsClock != null ? pFormat(pred.stats.mannWhitneyP_vsClock) : '—'} sub="Mann-Whitney" />
+                          <StatBox label="p vs canonical target" value={pred.stats.mannWhitneyP_vsTarget != null ? pFormat(pred.stats.mannWhitneyP_vsTarget) : '—'} sub="Mann-Whitney" />
                         </div>
                       )}
                       {pred.id === "P5" && (
