@@ -343,7 +343,7 @@ export class DatabaseStorage implements IStorage {
   async getAnalyticsSummary(excludeSelf = false) {
     let allEvents = await db.select().from(analyticsEvents).orderBy(desc(analyticsEvents.createdAt));
     if (excludeSelf) {
-      allEvents = allEvents.filter(e => {
+      allEvents = allEvents.filter((e: typeof allEvents[number]) => {
         const ua = e.userAgent || '';
         const ref = e.referrer || '';
         if (ua.includes('HeadlessChrome')) return false;
@@ -600,6 +600,10 @@ export class InMemoryStorage implements IStorage {
       effectSizeInterpretation: hypothesis.effectSizeInterpretation ?? null,
       rSquaredChange: hypothesis.rSquaredChange ?? null,
       confidenceIntervals: hypothesis.confidenceIntervals ?? null,
+      beta1: hypothesis.beta1 ?? null,
+      beta2: hypothesis.beta2 ?? null,
+      eigenvalueModulus: hypothesis.eigenvalueModulus ?? null,
+      isComplexRoot: hypothesis.isComplexRoot ?? null,
       createdAt: new Date()
     };
     const existing = this.hypothesesMap.get(hypothesis.runId) || [];

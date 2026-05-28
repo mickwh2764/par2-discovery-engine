@@ -3,6 +3,7 @@
 **Temporal Persistence Analysis of Gene Expression via AR(2) Eigenvalue Modulus**
 
 [![Live Platform](https://img.shields.io/badge/Live-par2discovery.com-blue)](https://par2discovery.com)
+[![CI](https://github.com/mickwh2764/par2-discovery-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/mickwh2764/par2-discovery-engine/actions)
 
 ## Overview
 
@@ -16,15 +17,66 @@ The interactive companion platform is available at: [https://par2discovery.com](
 
 Every figure and table in the manuscripts can be explored interactively on the platform.
 
+## Quick Start
+
+### Prerequisites
+
+- Node.js 20+
+- PostgreSQL database (local, [Neon](https://neon.tech), or [Supabase](https://supabase.com))
+
+### Setup
+
+```bash
+git clone https://github.com/mickwh2764/par2-discovery-engine.git
+cd par2-discovery-engine
+npm install
+
+# Configure environment
+cp .env.example .env
+# Edit .env — set DATABASE_URL to your PostgreSQL connection string
+
+# Push database schema
+npm run db:push
+
+# Start development server
+npm run dev
+```
+
+The app will be available at `http://localhost:5000`.
+
+### Production Build
+
+```bash
+npm run build          # Builds client (Vite) + server (esbuild) into dist/
+npm run start          # Runs the production server from dist/
+```
+
+### Docker
+
+```bash
+cp .env.example .env   # Edit .env with your database credentials
+docker-compose up
+```
+
+### Environment Variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `DATABASE_URL` | Yes | PostgreSQL connection string |
+| `PORT` | No | Server port (default: 5000) |
+| `HOST` | No | Bind address (default: 0.0.0.0) |
+| `NODE_ENV` | No | `development` or `production` |
+| `DRAFT_PAPER_PASSWORD` | No | Password-protect draft manuscript downloads |
+
 ## Repository Structure
 
     client/                     React/TypeScript frontend (Vite)
     server/                     Node.js/Express backend
     shared/                     Shared types and schema
+    script/                     Build tooling
     paper-packages/             Manuscript LaTeX source and data
-      paper-a-core-methods/     Paper A: Core Methods (PLOS Comp Bio)
-      flagship-consolidated/    Flagship: Complete Framework
       paper-g-fibonacci-reply/  Paper G: Fibonacci Reply (FQ)
+    manuscripts/                Manuscript drafts, figures, and supplementary data
     reproducibility-package/    Standalone reproducibility code
     par2-python-package/        pip-installable Python package
 

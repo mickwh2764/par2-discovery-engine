@@ -322,10 +322,10 @@ function quantile(arr: number[], q: number): number {
 }
 
 // ─── Cache ──────────────────────────────────────────────────────────────────
-let cachedResult: ReturnType<typeof computeRigorousAnalysis> | null = null;
+let cachedResult: Record<string, unknown> | null = null;
 
 // ─── Main computation ───────────────────────────────────────────────────────
-export function computeRigorousAnalysis() {
+export function computeRigorousAnalysis(): Record<string, unknown> {
   if (cachedResult) return cachedResult;
 
   const datasetPath = path.join(process.cwd(), 'datasets', 'GSE54650_Liver_circadian.csv');

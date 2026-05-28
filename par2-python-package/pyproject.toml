@@ -31,7 +31,7 @@ full = ["scipy>=1.7", "matplotlib>=3.4"]
 par2 = "par2.cli:main"
 
 [project.urls]
-Homepage = "https://par-2-discovery--6tbwkcht9k.replit.app"
+Homepage = "https://par2discovery.com"
 Repository = "https://github.com/mickwh2764/par2-discovery-engine"
 Documentation = "https://github.com/mickwh2764/par2-discovery-engine/tree/main/par2-python-package"
 

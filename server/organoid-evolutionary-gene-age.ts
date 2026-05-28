@@ -171,7 +171,6 @@ export const ENSEMBL_SYMBOL_MAP: Record<string, string> = {
   'ENSMUSG00000024401': 'Il6',
   'ENSMUSG00000030751': 'Tnf',
   'ENSMUSG00000003380': 'Il10',
-  'ENSMUSG00000059552': 'Tp53',
 };
 
 // ─── Genotype file map ───────────────────────────────────────────────────────

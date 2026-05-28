@@ -914,8 +914,8 @@ export function registerDownloadRoutes(app: Express, upload: any): void {
           expression,
           normalizedExpression,
           isClockGene: clockGeneNames.some(c => gene.toLowerCase().includes(c.toLowerCase())),
-          pValue: hypothesis?.pValue,
-          eigenvalue: hypothesis?.eigenvalueModulus
+          pValue: hypothesis?.pValue ?? undefined,
+          eigenvalue: hypothesis?.eigenvalueModulus ?? undefined
         });
       }
       
