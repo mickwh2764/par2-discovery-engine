@@ -6,7 +6,7 @@ license: LicenseRef-Dual-Academic-Commercial
 version: 2.0.0
 date-released: 2026-02-08
 doi: 10.5281/zenodo.18730681
-url: https://par-2-discovery--6tbwkcht9k.replit.app
+url: https://par2discovery.com
 abstract: >-
   A statistical platform for analyzing circadian clock-target gene dynamics 
   using AR(2) autoregressive modeling. The eigenvalue modulus |lambda| 
