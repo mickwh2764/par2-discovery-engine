@@ -310,7 +310,7 @@ The `par2-python-package/` directory contains a standalone Python package (`par2
 - **Installation from source** (not yet on PyPI): `pip install ./par2-python-package`
 - **CLI interface**: `par2 data.csv -o results.csv`
 - **Python API**: `par2.fit_ar2_batch(df)` returning a DataFrame with |λ|, φ₁, φ₂, R², and root-type columns
-- **MIT licence**; includes examples and unit tests
+- **PolyForm Noncommercial licence** (free for noncommercial use; commercial use requires a separate licence); includes examples and unit tests
 - The package implements the identical pipeline to the TypeScript engine (mean-centring, OLS, eigenvalue computation) in a language accessible to the bioinformatics community
 
 The Python package enables researchers to apply AR(2) eigenvalue analysis to their own data without installing the full Node.js/React platform. It is the recommended entry point for new users who want to apply the method to a single dataset before exploring the full platform.

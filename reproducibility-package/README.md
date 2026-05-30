@@ -85,4 +85,7 @@ The dataset CSVs and full gene_lambdas.csv may not be present in the GitHub `rep
 
 ## License
 
-Data from NCBI GEO (public domain). Code: MIT License.
+Data from NCBI GEO (public domain). Code: PolyForm Noncommercial License 1.0.0 —
+free for noncommercial use; commercial use requires a separate commercial license
+(contact mickwh@msn.com). See the repository [LICENSE](../LICENSE) and
+[COMMERCIAL-LICENSE.md](../COMMERCIAL-LICENSE.md).
