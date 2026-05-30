@@ -127,7 +127,10 @@ See: Whiteside M (2026). "AR(2) eigenvalue modulus as a measure of temporal pers
 
 ## License
 
-MIT License. See [LICENSE](LICENSE) for details.
+PolyForm Noncommercial License 1.0.0 — free for noncommercial use. **Commercial
+use requires a separate commercial license** (contact mickwh@msn.com). See
+[LICENSE](LICENSE) for details. The PAR(2) methodology is the subject of a pending
+UK patent application, covering the methodology independently of this software license.
 
 If you use this software in academic work, please cite:
 

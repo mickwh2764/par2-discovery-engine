@@ -7,7 +7,8 @@ name = "par2-circadian"
 version = "1.1.0"
 description = "AR(2) eigenvalue analysis for gene expression time series"
 readme = "README.md"
-license = "MIT"
+license = "PolyForm-Noncommercial-1.0.0"
+license-files = ["LICENSE"]
 requires-python = ">=3.8"
 authors = [
     {name = "Michael Whiteside", email = "mickwh@msn.com"}

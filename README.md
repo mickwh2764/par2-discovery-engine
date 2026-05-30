@@ -135,4 +135,11 @@ Email: mickwh@msn.com
 
 ## License
 
-MIT License
+[PolyForm Noncommercial License 1.0.0](LICENSE) — free for noncommercial use
+(academic research, education, personal study, and noncommercial organizations).
+
+**Commercial use requires a separate commercial license.** See
+[COMMERCIAL-LICENSE.md](COMMERCIAL-LICENSE.md) or contact mickwh@msn.com.
+
+The PAR(2) methodology is the subject of a pending UK patent application; the
+patent covers the methodology independently of this software license.

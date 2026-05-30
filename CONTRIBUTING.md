@@ -39,7 +39,7 @@ Feature requests and scientific suggestions are welcome via GitHub Issues. Pleas
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the project's [dual license](LICENSE).
+By contributing, you agree that your contributions will be licensed under the project's [PolyForm Noncommercial License 1.0.0](LICENSE), and you grant the author (Michael Whiteside) the right to also license your contributions under separate commercial terms (see [COMMERCIAL-LICENSE.md](COMMERCIAL-LICENSE.md)). This dual-track arrangement keeps the project free for noncommercial use while allowing the author to offer commercial licenses.
 
 ## Contact
 
